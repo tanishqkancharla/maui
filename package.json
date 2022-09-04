@@ -33,7 +33,9 @@
 		"fs-extra": "^10.1.0",
 		"node-fetch": "^2.6.7",
 		"react": "^17.0.2",
+		"react-aria": "^3.19.0",
 		"react-dom": "^17.0.2",
+		"react-stately": "^3.17.0",
 		"remeda": "^0.0.32"
 	}
 }
