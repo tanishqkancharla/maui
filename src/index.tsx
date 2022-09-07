@@ -1,8 +1,7 @@
-import React, { useRef } from "react";
-import { useSwitch } from "react-aria";
+import React from "react";
 import ReactDOM from "react-dom";
-import { useToggleState } from "react-stately";
 import { ActionButton, Button } from "./Button";
+import { Switch } from "./Switch";
 
 export function add(x: number, y: number) {
 	return x + y;
@@ -26,20 +25,6 @@ function P(props: { children: string }) {
 
 function Label(props: { children: string }) {
 	return <label>{props.children}</label>;
-}
-
-function Switch(props: { label: string }) {
-	const state = useToggleState();
-	const ref = useRef(null);
-	const { inputProps } = useSwitch({}, state, ref);
-
-	return (
-		<label className="switch">
-			<input {...inputProps} className="switch-input" ref={ref} />
-			<span className="switch-toggle"></span>
-			<span className="switch-label">{props.label}</span>
-		</label>
-	);
 }
 
 type PaddingProps = {
