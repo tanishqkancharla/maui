@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useSwitch } from "react-aria";
 import ReactDOM from "react-dom";
 import { useToggleState } from "react-stately";
+import { ActionButton, Button } from "./Button";
 
 export function add(x: number, y: number) {
 	return x + y;
@@ -96,21 +97,19 @@ function Gap(props: GapProps) {
 	return <div style={props} />;
 }
 
-function Button(props: { children: React.ReactNode }) {
-	return <button>{props.children}</button>;
-}
-
 function Index() {
 	return (
 		<Flex column>
 			<Padding xy={10}>
 				<Flex row>
-					<Button>Action Button</Button>
+					<Button>Button</Button>
 					<Gap width={10} />
 					<Button>Some really long button</Button>
 					<Gap width={10} />
 					<Button>Button</Button>
 				</Flex>
+				<Gap height={10} />
+				<ActionButton>Action Button</ActionButton>
 				<H1>Heading 1</H1>
 				<H2>Heading 2</H2>
 				<H3>Heading 3</H3>
