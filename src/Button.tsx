@@ -8,6 +8,7 @@ const buttonClass = css`
 	padding: 6px 12px;
 	border-radius: 4px;
 	height: 28px;
+	width: fit-content;
 	font-weight: 400;
 	font-size: 12px;
 	border: none;
@@ -30,8 +31,8 @@ const buttonClass = css`
 	}
 
 	&:hover {
-		background: linear-gradient(var(--sand-4), var(--sand-3)),
-			radial-gradient(var(--sand-4), var(--sand-3));
+		background: linear-gradient(var(--sand-5), var(--sand-4)),
+			radial-gradient(var(--sand-5), var(--sand-4));
 
 		box-shadow: rgb(0 0 0 / 50%) 0px 0px 0px 0px inset,
 			rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset,
@@ -39,13 +40,20 @@ const buttonClass = css`
 	}
 
 	&:active {
-		background: linear-gradient(var(--sand-5), var(--sand-4)),
-			radial-gradient(var(--sand-5), var(--sand-4));
+		background: linear-gradient(var(--sand-6), var(--sand-4)),
+			radial-gradient(var(--sand-6), var(--sand-4));
 	}
 `;
 
-export function Button(props: { children: React.ReactNode }) {
-	return <button className={buttonClass}>{props.children}</button>;
+export function Button(props: {
+	children: React.ReactNode;
+	onClick?: () => void;
+}) {
+	return (
+		<button className={buttonClass} onClick={props.onClick}>
+			{props.children}
+		</button>
+	);
 }
 
 const actionButtonClass = css`
@@ -58,6 +66,7 @@ const actionButtonClass = css`
 	border-radius: 4px;
 	height: 28px;
 	font-weight: 400;
+	width: fit-content;
 	font-size: 12px;
 	border: none;
 	box-shadow: rgb(0 0 0 / 50%) 0px 0px 0px 0px inset,

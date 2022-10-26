@@ -1,114 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { ActionButton, Button } from "./Button";
+import { CliExperiment } from "./CliExperiment";
+import { Input } from "./Input";
+import { Listbox, MenuItem } from "./Menu";
 import { Switch } from "./Switch";
+import { Blockquote, H1, H2, H3, P } from "./Typography";
+import { Flex, Gap, Padding } from "./Utils";
 
-export function add(x: number, y: number) {
-	return x + y;
-}
-
-function H1(props: { children: string }) {
-	return <h1>{props.children}</h1>;
-}
-
-function H2(props: { children: string }) {
-	return <h2>{props.children}</h2>;
-}
-
-function H3(props: { children: string }) {
-	return <h3>{props.children}</h3>;
-}
-
-function P(props: { children: string }) {
-	return <p>{props.children}</p>;
-}
-
-function Label(props: { children: string }) {
-	return <label>{props.children}</label>;
-}
-
-type PaddingProps = {
-	top?: number;
-	left?: number;
-	right?: number;
-	bottom?: number;
-	x?: number;
-	y?: number;
-	xy?: number;
-	children?: React.ReactNode;
+type CheckboxProps = {
+	selected: boolean;
 };
 
-function Padding(props: PaddingProps) {
-	const paddingTop = props.top || props.y || props.xy || 0;
-	const paddingLeft = props.left || props.x || props.xy || 0;
-	const paddingRight = props.right || props.x || props.xy || 0;
-	const paddingBottom = props.bottom || props.y || props.xy || 0;
-
-	return (
-		<div style={{ paddingTop, paddingLeft, paddingRight, paddingBottom }}>
-			{props.children}
-		</div>
-	);
-}
-
-type FlexProps =
-	| {
-			row?: undefined;
-			column: boolean;
-			children: React.ReactNode;
-	  }
-	| {
-			row: boolean;
-			column?: undefined;
-			children: React.ReactNode;
-	  };
-
-function Flex(props: FlexProps) {
-	const direction = props.column ? "column" : "row";
-
-	return (
-		<div style={{ display: "flex", flexDirection: direction }}>
-			{props.children}
-		</div>
-	);
-}
-
-type GapProps = {
-	width?: number;
-	height?: number;
-};
-
-function Gap(props: GapProps) {
-	return <div style={props} />;
-}
+export function Checkbox(props: CheckboxProps) {}
 
 function Index() {
+	const [toggleState, setToggleState] = useState(false);
 	return (
-		<Flex column>
-			<Padding xy={10}>
-				<Flex row>
-					<Button>Button</Button>
-					<Gap width={10} />
-					<Button>Some really long button</Button>
-					<Gap width={10} />
-					<Button>Button</Button>
-				</Flex>
-				<Gap height={10} />
-				<ActionButton>Action Button</ActionButton>
-				<H1>Heading 1</H1>
-				<H2>Heading 2</H2>
-				<H3>Heading 3</H3>
-				<P>
-					There are 12 steps in each scale. Each step was designed for at least
-					one specific use case. This table is a simple overview of the most
-					common use case for each step. However, there are many exceptions and
-					caveats to factor in, which are covered in further detail below.
-				</P>
-				<div>
-					<Switch label="Switch" />
-				</div>
-			</Padding>
-		</Flex>
+		<Padding xy={30}>
+			<Flex row>
+				<Button>Button</Button>
+				<Gap width={10} />
+				<Button>Some really long button</Button>
+				<Gap width={10} />
+				<Button>Button</Button>
+			</Flex>
+			<Gap height={10} />
+			<ActionButton>Action Button</ActionButton>
+			<H1>Heading 1</H1>
+			<H2>Heading 2</H2>
+			<H3>Heading 3</H3>
+			<P>
+				There are 12 steps in each scale. Each step was designed for at least
+				one specific use case. This table is a simple overview of the most
+				common use case for each step. However, there are many exceptions and
+				caveats to factor in, which are covered in further detail below.
+			</P>
+			<Blockquote>
+				There are 12 steps in each scale. Each step was designed for at least
+				one specific use case. This table is a simple overview of the most
+				common use case for each step. However, there are many exceptions and
+				caveats to factor in, which are covered in further detail below.
+			</Blockquote>
+			<div>
+				<Switch
+					selected={toggleState}
+					onToggle={() => setToggleState(!toggleState)}
+					label="Switch"
+				/>
+			</div>
+			<H3>Input</H3>
+			<Input />
+			<H3>Cli</H3>
+			<CliExperiment />
+			<H3>Menu</H3>
+			<Listbox>
+				<MenuItem>Item 1</MenuItem>
+				<MenuItem>Item 2</MenuItem>
+				<MenuItem>Item 3</MenuItem>
+				<MenuItem>Item 4</MenuItem>
+				<MenuItem>Item 5</MenuItem>
+			</Listbox>
+		</Padding>
 	);
 }
 

@@ -1,7 +1,7 @@
 import { css } from "goober";
 import React, { useRef } from "react";
 import { useSwitch } from "react-aria";
-import { useToggleState } from "react-stately";
+import { ToggleState } from "react-stately";
 
 const switchClass = css`
 	display: flex;
@@ -73,10 +73,20 @@ const switchClass = css`
 	}
 `;
 
-export function Switch(props: { label: string }) {
-	const state = useToggleState();
+export function Switch(props: {
+	label: string;
+	selected: boolean;
+	onToggle: () => void;
+}) {
+	const { selected, onToggle } = props;
+	const state: ToggleState = {
+		isSelected: Boolean(selected),
+		setSelected: (newSelected) =>
+			newSelected === selected ? undefined : onToggle(),
+		toggle: onToggle,
+	};
 	const ref = useRef(null);
-	const { inputProps } = useSwitch({}, state, ref);
+	const { inputProps } = useSwitch({ onChange: onToggle }, state, ref);
 
 	return (
 		<label className={switchClass}>
