@@ -1,19 +1,24 @@
 import { css } from "goober";
 import React, { useRef } from "react";
 import { useSwitch } from "react-aria";
-import { ToggleState } from "react-stately";
+import { ToggleState, useToggleState } from "react-stately";
 
 const switchClass = css`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	position: relative;
+	width: fit-content;
+	padding: 6px;
 	gap: 6px;
 
 	& .switch-input {
-		width: 0;
-		height: 0;
 		position: absolute;
-		opacity: 0;
+		top: 0;
+		left: 0;
+		margin: 0;
+		padding: 0;
+		opacity: 0.0001;
 	}
 
 	& .switch-toggle {
@@ -73,20 +78,18 @@ const switchClass = css`
 	}
 `;
 
-export function Switch(props: {
+type SwitchProps = {
 	label: string;
 	selected: boolean;
-	onToggle: () => void;
-}) {
-	const { selected, onToggle } = props;
-	const state: ToggleState = {
-		isSelected: Boolean(selected),
-		setSelected: (newSelected) =>
-			newSelected === selected ? undefined : onToggle(),
-		toggle: onToggle,
-	};
+	onChange: (selected: boolean) => void;
+};
+
+export function Switch(props: SwitchProps) {
+	const { selected, onChange, label } = props;
+	const state: ToggleState = useToggleState({ isSelected: selected, onChange });
 	const ref = useRef(null);
-	const { inputProps } = useSwitch({ onChange: onToggle }, state, ref);
+
+	const { inputProps } = useSwitch({ "aria-label": label }, state, ref);
 
 	return (
 		<label className={switchClass}>

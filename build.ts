@@ -1,17 +1,20 @@
-import decache from "decache";
-import { build } from "estrella";
+import { build as esbuild } from "esbuild";
+import fs from "fs/promises";
 
 const buildIndex = async () => {
-	decache("./src/index");
-	build({
-		entry: ["./src/index.tsx", "./src/style.css"],
-		outdir: "dist",
-		sourceRoot: "src",
-		bundle: true,
-		minify: true,
+	await Promise.all([
+		esbuild({
+			entryPoints: ["./src/index.tsx", "./src/style.css"],
+			outdir: "dist",
+			sourceRoot: "src",
+			sourcemap: "inline",
+			sourcesContent: true,
+			bundle: true,
+			minify: false,
+		}),
 
-		tslint: "on",
-	}).catch(() => process.exit(1));
+		fs.copyFile("./src/index.html", "./dist/index.html"),
+	]);
 };
 
 buildIndex();

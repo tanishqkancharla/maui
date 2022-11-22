@@ -1,5 +1,6 @@
 import { css } from "goober";
-import React from "react";
+import React, { useRef } from "react";
+import { AriaTextFieldOptions, useTextField } from "react-aria";
 
 const inputClass = css`
 	background: var(--sand-3);
@@ -17,6 +18,7 @@ const inputClass = css`
 		"Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	letter-spacing: 0.01em;
 	line-height: 16px;
+	cursor: default;
 
 	transition: box-shadow 80ms ease-in-out;
 
@@ -25,6 +27,7 @@ const inputClass = css`
 			rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset,
 			var(--accent-color) 0px 0px 0px 1px inset;
 
+		cursor: text;
 		outline: none;
 	}
 
@@ -33,13 +36,12 @@ const inputClass = css`
 	}
 `;
 
-type InputProps = React.DetailedHTMLProps<
-	React.InputHTMLAttributes<HTMLInputElement>,
-	HTMLInputElement
->;
+type InputProps = AriaTextFieldOptions<"input">;
 
 export function Input(props: InputProps) {
-	return <input className={inputClass} {...props} />;
+	const ref = useRef(null);
+	const { inputProps } = useTextField({ ...props }, ref);
+	return <input className={inputClass} ref={ref} {...inputProps} />;
 }
 
 const quietInputClass = css`
@@ -63,5 +65,8 @@ const quietInputClass = css`
 `;
 
 export function QuietInput(props: InputProps) {
-	return <input className={quietInputClass} {...props} />;
+	const ref = useRef(null);
+	const { inputProps } = useTextField({ ...props }, ref);
+
+	return <input className={quietInputClass} {...inputProps} />;
 }

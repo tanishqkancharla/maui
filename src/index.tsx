@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { ActionButton, Button } from "./Button";
 import { CliExperiment } from "./CliExperiment";
-import { Input } from "./Input";
-import { Listbox, MenuItem } from "./Menu";
-import { Switch } from "./Switch";
-import { Blockquote, H1, H2, H3, P } from "./Typography";
-import { Flex, Gap, Padding } from "./Utils";
-
-type CheckboxProps = {
-	selected: boolean;
-};
-
-export function Checkbox(props: CheckboxProps) {}
+import { ActionButton, Button } from "./components/Button";
+import { Checkbox } from "./components/Checkbox";
+import { Input } from "./components/Input";
+import { Listbox, MenuItem } from "./components/Menu";
+import { Switch } from "./components/Switch";
+import { Blockquote, H1, H2, H3, P } from "./components/Typography";
+import { Flex, Gap, Padding } from "./components/Utils";
 
 function Index() {
-	const [toggleState, setToggleState] = useState(false);
+	const [switchState, setSwitchState] = useState(false);
+	const [checkboxState, setCheckboxState] = useState(false);
+
 	return (
 		<Padding xy={30}>
 			<Flex row>
@@ -44,13 +41,20 @@ function Index() {
 			</Blockquote>
 			<div>
 				<Switch
-					selected={toggleState}
-					onToggle={() => setToggleState(!toggleState)}
+					selected={switchState}
+					onChange={() => setSwitchState(!switchState)}
 					label="Switch"
 				/>
 			</div>
+			<Flex column>
+				<Checkbox
+					checked={checkboxState}
+					setChecked={setCheckboxState}
+					label="Checkbox"
+				/>
+			</Flex>
 			<H3>Input</H3>
-			<Input />
+			<Input aria-label="Example" />
 			<H3>Cli</H3>
 			<CliExperiment />
 			<H3>Menu</H3>
@@ -73,7 +77,5 @@ function run() {
 
 if (typeof window !== "undefined") {
 	// If in browser context
-	window.addEventListener("load", function () {
-		run();
-	});
+	run();
 }

@@ -6,7 +6,7 @@ import React, {
 	useMemo,
 	useState,
 } from "react";
-import { useFocus, useHover } from "react-aria";
+import { useHover } from "react-aria";
 import { randomString } from "remeda";
 import {
 	InMemoryTupleStorage,
@@ -17,11 +17,12 @@ import {
 	TupleTransactionApi,
 } from "tuple-database";
 import { useTupleDatabase } from "tuple-database/useTupleDatabase";
-import { Button } from "./Button";
-import { QuietInput } from "./Input";
+import { Button } from "./components/Button";
+import { Checkbox } from "./components/Checkbox";
+import { QuietInput } from "./components/Input";
+import { Flex, Gap, Spacer } from "./components/Utils";
 import { bodyFontStyles } from "./styles";
 import { useShortcut } from "./useShortcut";
-import { Flex, Gap } from "./Utils";
 
 type AppSchema = CommandSchema | CliSchema | UISchema;
 type ReadOnlyDb = ReadOnlyTupleDatabaseClientApi<AppSchema>;
@@ -147,7 +148,6 @@ const cliInputClass = css`
 function CliInput(props: { onSubmit: (command: string) => void }) {
 	const [value, setValue] = useState("");
 	const [focused, setFocused] = useState(false);
-	const { focusProps } = useFocus({ onFocusChange: setFocused });
 
 	const onSubmit = () => {
 		if (!focused) return;
@@ -161,10 +161,11 @@ function CliInput(props: { onSubmit: (command: string) => void }) {
 		<div className={cliCommandLineClass}>
 			<span className={cliPromptClass}>{">"}</span>
 			<QuietInput
-				{...focusProps}
+				aria-label="Command line interface input"
+				onFocusChange={setFocused}
 				placeholder="Type a command..."
 				value={value}
-				onChange={(e) => setValue(e.currentTarget.value)}
+				onChange={setValue}
 			/>
 		</div>
 	);
@@ -416,17 +417,14 @@ function Todo(props: { todo: Todo; index: number }) {
 			}}
 			{...hoverProps}
 		>
-			<input
-				type="checkbox"
-				checked={todo.checked}
-				onChange={() => onTodoToggle(index)}
-			/>
+			<Checkbox checked={todo.checked} setChecked={() => onTodoToggle(index)} />
 			<QuietInput
+				aria-label="Todo"
 				placeholder="Write a todo..."
 				value={todo.label}
-				onChange={(e) => onLabelChange(e.currentTarget.value)}
+				onChange={onLabelChange}
 			/>
-			<Gap />
+			<Spacer />
 		</div>
 	);
 }

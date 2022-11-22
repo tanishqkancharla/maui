@@ -1,0 +1,84 @@
+import { css } from "goober";
+import React, { useRef } from "react";
+import { useCheckbox } from "react-aria";
+import { useToggleState } from "react-stately";
+
+type CheckboxProps = {
+	label?: string;
+	checked: boolean;
+	setChecked: (checked: boolean) => void;
+};
+
+const checkboxClass = css`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	position: relative;
+	width: fit-content;
+	padding: 6px;
+	gap: 6px;
+
+	& .checkbox-input {
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 0;
+		padding: 0;
+		opacity: 0.0001;
+	}
+
+	& .checkbox-toggle {
+		pointer-events: none;
+		transition: all 130ms ease-in-out;
+		height: 14px;
+		width: 14px;
+		padding: 1px;
+		border-radius: 2px;
+		background-color: var(--sand-7);
+	}
+
+	& input[aria-checked="true"] + .checkbox-toggle {
+		background-color: var(--accent-color);
+	}
+
+	& .checkbox-toggle svg {
+		transition: all 130ms ease-in-out;
+	}
+
+	&:hover .checkbox-toggle {
+		background-color: var(--sand-8);
+	}
+`;
+
+export function Checkbox(props: CheckboxProps) {
+	const { label, checked, setChecked } = props;
+	const state = useToggleState({ isSelected: checked, onChange: setChecked });
+	const ref = useRef(null);
+	const { inputProps } = useCheckbox({ "aria-label": props.label }, state, ref);
+
+	return (
+		<label className={checkboxClass}>
+			<input type="checkbox" className="checkbox-input" {...inputProps} />
+			<span className="checkbox-toggle">
+				<svg
+					focusable="false"
+					aria-hidden="true"
+					role="img"
+					width={12}
+					height={12}
+					viewBox="0 0 11 11"
+					style={{
+						paddingLeft: 1,
+						paddingTop: 1,
+						opacity: checked ? 1 : 0,
+						transform: checked ? "scale(1)" : "scale(0)",
+						fill: "var(--sand-3)",
+					}}
+				>
+					<path d="M3.788 9A.999.999 0 0 1 3 8.615l-2.288-3a1 1 0 1 1 1.576-1.23l1.5 1.991 3.924-4.991a1 1 0 1 1 1.576 1.23l-4.712 6A.999.999 0 0 1 3.788 9z"></path>
+				</svg>
+			</span>
+			{label && <span className="checbox-label">{label}</span>}
+		</label>
+	);
+}

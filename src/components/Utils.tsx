@@ -48,11 +48,18 @@ export function Flex(props: FlexProps) {
 		</div>
 	);
 }
-type GapProps = {
-	width?: number;
-	height?: number;
-};
+type GapProps =
+	| {
+			width: number;
+	  }
+	| {
+			height: number;
+	  };
 
 export function Gap(props: GapProps) {
-	return <div style={{ ...props, flex: "1 1 auto" }} />;
+	return <div style={{ ...props }} />;
+}
+
+export function Spacer() {
+	return <div style={{ flex: "1 1 auto" }} />;
 }
