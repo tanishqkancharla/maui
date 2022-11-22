@@ -1,81 +1,102 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import { CliExperiment } from "./CliExperiment";
-import { ActionButton, Button } from "./components/Button";
-import { Checkbox } from "./components/Checkbox";
-import { Input } from "./components/Input";
-import { Listbox, MenuItem } from "./components/Menu";
-import { Switch } from "./components/Switch";
-import { Blockquote, H1, H2, H3, P } from "./components/Typography";
-import { Flex, Gap, Padding } from "./components/Utils";
+import { css } from "goober"
+import React, { useState } from "react"
+import ReactDOM from "react-dom"
+import { CliExperiment } from "./CliExperiment"
+import { FuzzyString } from "./components/FuzzyString"
+import { Input } from "./components/Input"
+import { Listbox, MenuItem } from "./components/Menu"
+import { Flex, Gap, Padding } from "./components/Utils"
+import { Maui } from "./Maui"
+import { fuzzyMatch } from "./utils/fuzzyMatch"
+
+type Page = { name: string; component: React.FunctionComponent }
+
+const pages: Page[] = [
+	{ name: "Maui", component: Maui },
+	{ name: "Command Line", component: CliExperiment },
+]
+
+const indexPageClass = css`
+	width: 100vw;
+	height: 100vh;
+`
+
+export function isDefined<T>(value: T | undefined): value is T {
+	return value !== undefined
+}
 
 function Index() {
-	const [switchState, setSwitchState] = useState(false);
-	const [checkboxState, setCheckboxState] = useState(false);
+	const [value, setValue] = useState("")
+	const [selectedPage, setSelectedPage] = useState<number | undefined>(
+		undefined
+	)
+	const filteredSearchResults = pages
+		.map((page, index) => {
+			const match = fuzzyMatch(value, page.name)
+			if (match) {
+				return [index, match] as const
+			}
+		})
+		.filter(isDefined)
 
 	return (
-		<Padding xy={30}>
-			<Flex row>
-				<Button>Button</Button>
-				<Gap width={10} />
-				<Button>Some really long button</Button>
-				<Gap width={10} />
-				<Button>Button</Button>
+		<div className={indexPageClass}>
+			<Flex row alignItems="start">
+				<Gap width={16} />
+				<div
+					style={{
+						paddingTop: "150px",
+						width: "250px",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "stretch",
+					}}
+				>
+					<Input
+						placeholder="Search for experiments..."
+						aria-label="Experiment Search"
+						value={value}
+						onChange={setValue}
+					/>
+					<Gap height={8} />
+					<Listbox
+						aria-label="Search Results"
+						selectionMode="single"
+						onSelectionChange={(keys) => {
+							if (keys === "all") return
+							setSelectedPage(keys.values().next().value)
+						}}
+					>
+						{filteredSearchResults.map(([index, match]) => (
+							<MenuItem key={index}>
+								<FuzzyString match={match} />
+							</MenuItem>
+						))}
+					</Listbox>
+				</div>
+				<ExperimentView index={selectedPage} />
 			</Flex>
-			<Gap height={10} />
-			<ActionButton>Action Button</ActionButton>
-			<H1>Heading 1</H1>
-			<H2>Heading 2</H2>
-			<H3>Heading 3</H3>
-			<P>
-				There are 12 steps in each scale. Each step was designed for at least
-				one specific use case. This table is a simple overview of the most
-				common use case for each step. However, there are many exceptions and
-				caveats to factor in, which are covered in further detail below.
-			</P>
-			<Blockquote>
-				There are 12 steps in each scale. Each step was designed for at least
-				one specific use case. This table is a simple overview of the most
-				common use case for each step. However, there are many exceptions and
-				caveats to factor in, which are covered in further detail below.
-			</Blockquote>
-			<div>
-				<Switch
-					selected={switchState}
-					onChange={() => setSwitchState(!switchState)}
-					label="Switch"
-				/>
-			</div>
-			<Flex column>
-				<Checkbox
-					checked={checkboxState}
-					setChecked={setCheckboxState}
-					label="Checkbox"
-				/>
-			</Flex>
-			<H3>Input</H3>
-			<Input aria-label="Example" />
-			<H3>Cli</H3>
-			<CliExperiment />
-			<H3>Menu</H3>
-			<Listbox>
-				<MenuItem>Item 1</MenuItem>
-				<MenuItem>Item 2</MenuItem>
-				<MenuItem>Item 3</MenuItem>
-				<MenuItem>Item 4</MenuItem>
-				<MenuItem>Item 5</MenuItem>
-			</Listbox>
-		</Padding>
-	);
+		</div>
+	)
+}
+
+function ExperimentView(props: { index: number | undefined }) {
+	return (
+		<div style={{ height: "100vh", overflowY: "auto", width: "80%" }}>
+			{props.index !== undefined && (
+				<Padding xy={32}>{pages[props.index].component({})}</Padding>
+			)}
+		</div>
+	)
 }
 
 function run() {
-	const container = document.createElement("main");
-	document.body.appendChild(container);
-	ReactDOM.render(<Index />, container);
+	const container = document.createElement("main")
+	document.body.appendChild(container)
+	ReactDOM.render(<Index />, container)
 }
 
 if (typeof window !== "undefined") {
 	// If in browser context
-	run();
+	run()
 }

@@ -1,7 +1,7 @@
 import { build as esbuild } from "esbuild";
 import fs from "fs/promises";
 
-const buildIndex = async () => {
+const buildSrc = async () => {
 	await Promise.all([
 		esbuild({
 			entryPoints: ["./src/index.tsx", "./src/style.css"],
@@ -17,4 +17,4 @@ const buildIndex = async () => {
 	]);
 };
 
-buildIndex();
+buildSrc();

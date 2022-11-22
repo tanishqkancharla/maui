@@ -20,6 +20,7 @@ const pClass = css`
 	font-family: system-ui, -apple-system;
 	letter-spacing: 0.015em;
 	line-height: 19px;
+	max-width: 500px;
 `;
 
 export function P(props: { children: string }) {
@@ -36,6 +37,7 @@ const blockquoteClass = css`
 	font-family: system-ui, -apple-system;
 	letter-spacing: 0.015em;
 	line-height: 19px;
+	max-width: 500px;
 `;
 
 export function Blockquote(props: { children: string }) {

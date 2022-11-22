@@ -1,13 +1,13 @@
-import { css } from "goober";
+import { css } from "goober"
 import React, {
 	createContext,
 	useContext,
 	useEffect,
 	useMemo,
 	useState,
-} from "react";
-import { useHover } from "react-aria";
-import { randomString } from "remeda";
+} from "react"
+import { useHover } from "react-aria"
+import { randomString } from "remeda"
 import {
 	InMemoryTupleStorage,
 	ReadOnlyTupleDatabaseClientApi,
@@ -15,31 +15,31 @@ import {
 	TupleDatabase,
 	TupleDatabaseClient,
 	TupleTransactionApi,
-} from "tuple-database";
-import { useTupleDatabase } from "tuple-database/useTupleDatabase";
-import { Button } from "./components/Button";
-import { Checkbox } from "./components/Checkbox";
-import { QuietInput } from "./components/Input";
-import { Flex, Gap, Spacer } from "./components/Utils";
-import { bodyFontStyles } from "./styles";
-import { useShortcut } from "./useShortcut";
+} from "tuple-database"
+import { useTupleDatabase } from "tuple-database/useTupleDatabase"
+import { Button } from "./components/Button"
+import { Checkbox } from "./components/Checkbox"
+import { QuietInput } from "./components/Input"
+import { Flex, Gap, Spacer } from "./components/Utils"
+import { bodyFontStyles } from "./styles"
+import { useShortcut } from "./useShortcut"
 
-type AppSchema = CommandSchema | CliSchema | UISchema;
-type ReadOnlyDb = ReadOnlyTupleDatabaseClientApi<AppSchema>;
+type AppSchema = CommandSchema | CliSchema | UISchema
+type ReadOnlyDb = ReadOnlyTupleDatabaseClientApi<AppSchema>
 
-const query = transactionalReadWrite<AppSchema>();
-const command = <Args extends any[]>(fn: CommandQuery<Args>) => query(fn);
+const query = transactionalReadWrite<AppSchema>()
+const command = <Args extends any[]>(fn: CommandQuery<Args>) => query(fn)
 
 type CommandQuery<Args extends any[]> = (
 	tx: TupleTransactionApi<AppSchema>,
 	...args: Args
-) => CommandResult;
+) => CommandResult
 
 const db = new TupleDatabaseClient<AppSchema>(
 	new TupleDatabase(new InMemoryTupleStorage())
-);
+)
 
-const DatabaseContext = createContext({ db });
+const DatabaseContext = createContext({ db })
 
 // ============================================================================
 // CLI
@@ -47,68 +47,68 @@ const DatabaseContext = createContext({ db });
 
 type CliItem =
 	| {
-			cmd: string;
-			type: "success";
-			value?: string | undefined;
+			cmd: string
+			type: "success"
+			value?: string | undefined
 	  }
 	| {
-			cmd: string;
-			type: "error";
-			error: string;
-	  };
+			cmd: string
+			type: "error"
+			error: string
+	  }
 
 type CliState = {
-	history: CliItem[];
-};
+	history: CliItem[]
+}
 
 type CliSchema = {
-	key: ["cli"];
-	value: CliState;
-};
+	key: ["cli"]
+	value: CliState
+}
 
 const cliQueries = {
 	init: query((tx) => {
-		tx.set(["cli"], { history: [] });
+		tx.set(["cli"], { history: [] })
 	}),
 	submitCmd: query((tx, cmd: string) => {
-		const lowercaseCmd = cmd.toLocaleLowerCase();
+		const lowercaseCmd = cmd.toLocaleLowerCase()
 		const matchingCommand = db
 			.scan({ prefix: ["command"] })
 			.filter(({ value }) => {
-				return value.cliName?.toLocaleLowerCase() === lowercaseCmd;
-			})[0];
+				return value.cliName?.toLocaleLowerCase() === lowercaseCmd
+			})[0]
 
 		if (matchingCommand) {
-			const id = matchingCommand.key[1];
-			commandQueries.execute(tx, id);
+			const id = matchingCommand.key[1]
+			commandQueries.execute(tx, id)
 		} else {
-			cliQueries.pushErrorItem(tx, cmd);
+			cliQueries.pushErrorItem(tx, cmd)
 		}
 	}),
 	pushErrorItem: query((tx, cmd: string) => {
-		const { history } = tx.get(["cli"])!;
+		const { history } = tx.get(["cli"])!
 		const result: CliItem = {
 			cmd,
 			type: "error",
 			error: `Unknown command: ${cmd}`,
-		};
-		tx.set(["cli"], { history: [result, ...history] });
+		}
+		tx.set(["cli"], { history: [result, ...history] })
 	}),
 	pushItem: query((tx, item: CliItem) => {
-		const { history } = tx.get(["cli"])!;
-		tx.set(["cli"], { history: [item, ...history] });
+		const { history } = tx.get(["cli"])!
+		tx.set(["cli"], { history: [item, ...history] })
 	}),
-};
+}
 
 const cliDividerClass = css`
 	border: none;
 	border-top: 1px solid rgb(62 62 58);
 	margin: 0;
 	width: 100%;
-`;
+`
 
 function CliDivider() {
-	return <hr className={cliDividerClass} />;
+	return <hr className={cliDividerClass} />
 }
 
 const cliCommandLineClass = css`
@@ -118,12 +118,12 @@ const cliCommandLineClass = css`
 	align-items: center;
 	gap: 6px;
 	${bodyFontStyles}
-`;
+`
 
 const cliPromptClass = css`
 	color: var(--accent-color);
 	flex: 0 0 auto;
-`;
+`
 
 const cliInputClass = css`
 	flex: 1 1 auto;
@@ -143,19 +143,19 @@ const cliInputClass = css`
 	&::placeholder {
 		color: var(--sand-8);
 	}
-`;
+`
 
 function CliInput(props: { onSubmit: (command: string) => void }) {
-	const [value, setValue] = useState("");
-	const [focused, setFocused] = useState(false);
+	const [value, setValue] = useState("")
+	const [focused, setFocused] = useState(false)
 
 	const onSubmit = () => {
-		if (!focused) return;
-		props.onSubmit(value);
-		setValue("");
-	};
+		if (!focused) return
+		props.onSubmit(value)
+		setValue("")
+	}
 
-	useShortcut("enter", onSubmit);
+	useShortcut("enter", onSubmit)
 
 	return (
 		<div className={cliCommandLineClass}>
@@ -168,7 +168,7 @@ function CliInput(props: { onSubmit: (command: string) => void }) {
 				onChange={setValue}
 			/>
 		</div>
-	);
+	)
 }
 
 const cliHistoryClass = css`
@@ -182,17 +182,17 @@ const cliHistoryClass = css`
 		0px -1.6px 1.8px -0.8px hsl(var(--shadow-color) / 0.36) inset,
 		0px -4px 4.5px -1.7px hsl(var(--shadow-color) / 0.36) inset,
 		0px -9.7px 10.9px -2.5px hsl(var(--shadow-color) / 0.36) inset;
-`;
+`
 
 const cliErrorClass = css`
 	${bodyFontStyles}
 	color: hsl(358 75% 59%);
 	margin: 0;
 	padding: 6px 10px;
-`;
+`
 
 function CliError(props: { children?: React.ReactNode }) {
-	return <p className={cliErrorClass}>{props.children}</p>;
+	return <p className={cliErrorClass}>{props.children}</p>
 }
 
 function CliHistory(props: { history: CliState["history"] }) {
@@ -214,7 +214,7 @@ function CliHistory(props: { history: CliState["history"] }) {
 				</React.Fragment>
 			))}
 		</div>
-	);
+	)
 }
 
 const cliClass = css`
@@ -225,25 +225,25 @@ const cliClass = css`
 	flex-direction: column;
 	border-radius: 4px;
 	max-width: 240px;
-`;
+`
 
 const cliInputLineClass = css`
 	position: relative;
 	z-index: 10;
-`;
+`
 
 function getCliState(db: ReadOnlyDb) {
-	return db.get(["cli"]);
+	return db.get(["cli"])
 }
 
 function Cli() {
-	const { db } = useContext(DatabaseContext);
-	useMemo(() => cliQueries.init(db), []);
-	const state = useTupleDatabase(db, getCliState, [])!;
+	const { db } = useContext(DatabaseContext)
+	useMemo(() => cliQueries.init(db), [])
+	const state = useTupleDatabase(db, getCliState, [])!
 
 	const submitCliCommand = (cmd: string) => {
-		cliQueries.submitCmd(db, cmd);
-	};
+		cliQueries.submitCmd(db, cmd)
+	}
 
 	return (
 		<div className={cliClass}>
@@ -253,7 +253,7 @@ function Cli() {
 				<CliInput onSubmit={submitCliCommand} />
 			</div>
 		</div>
-	);
+	)
 }
 
 // ============================================================================
@@ -262,149 +262,149 @@ function Cli() {
 
 type CommandResult =
 	| {
-			type: "success";
-			value?: string;
+			type: "success"
+			value?: string
 	  }
 	| {
-			type: "error";
-			error: string;
-	  };
+			type: "error"
+			error: string
+	  }
 
 type Command<Args extends any[] = any> = {
-	name: string;
-	cliName?: string;
-	execute: CommandQuery<Args>;
-};
+	name: string
+	cliName?: string
+	execute: CommandQuery<Args>
+}
 
 type CommandSchema = {
-	key: ["command", string];
-	value: Command<any[]>;
-};
+	key: ["command", string]
+	value: Command<any[]>
+}
 
 const commandQueries = {
 	execute: query((tx, id: string, ...args: any[]) => {
-		const command = tx.get(["command", id]);
-		if (!command) return;
-		const result = command.execute(tx, ...args);
-		console.log(`${command.name}`);
+		const command = tx.get(["command", id])
+		if (!command) return
+		const result = command.execute(tx, ...args)
+		console.log(`${command.name}`)
 
 		if (command.cliName !== undefined) {
 			const cliItem: CliItem = {
 				...result,
 				cmd: command.cliName,
-			};
+			}
 
-			cliQueries.pushItem(tx, cliItem);
+			cliQueries.pushItem(tx, cliItem)
 		}
 	}),
 	registerCommand: query((tx, id: string, command: Command<any>) => {
-		tx.set(["command", id], command);
+		tx.set(["command", id], command)
 	}),
 	unregisterCommand: query((tx, id: string) => {
-		tx.remove(["command", id]);
+		tx.remove(["command", id])
 	}),
-};
+}
 
 function useCommand<Args extends any[]>(command: Command<[]>) {
-	const { db } = useContext(DatabaseContext);
-	const id = useMemo(() => randomString(10), []);
+	const { db } = useContext(DatabaseContext)
+	const id = useMemo(() => randomString(10), [])
 
 	useEffect(() => {
-		commandQueries.registerCommand(db, id, command);
+		commandQueries.registerCommand(db, id, command)
 
-		return () => commandQueries.unregisterCommand(db, id);
-	}, [command.name, command.cliName]);
+		return () => commandQueries.unregisterCommand(db, id)
+	}, [command.name, command.cliName])
 
 	return (...args: Args) => {
-		commandQueries.execute(db, id, ...args);
-	};
+		commandQueries.execute(db, id, ...args)
+	}
 }
 
 type Todo = {
-	checked: boolean;
-	label: string;
-};
+	checked: boolean
+	label: string
+}
 
 type UIState = {
-	todos: Todo[];
-};
+	todos: Todo[]
+}
 
 type UISchema = {
-	key: ["ui"];
-	value: UIState;
-};
+	key: ["ui"]
+	value: UIState
+}
 
 const appCommands = {
 	init: query((tx) => {
-		tx.set(["ui"], { todos: [] });
+		tx.set(["ui"], { todos: [] })
 	}),
 	newTodo: command((tx): CommandResult => {
-		const { todos } = tx.get(["ui"])!;
-		const todo: Todo = { checked: false, label: "" };
+		const { todos } = tx.get(["ui"])!
+		const todo: Todo = { checked: false, label: "" }
 
-		tx.set(["ui"], { todos: [...todos, todo] });
+		tx.set(["ui"], { todos: [...todos, todo] })
 
 		return {
 			type: "success",
-		};
+		}
 	}),
 	toggleTodo: command((tx, index: number): CommandResult => {
-		const { todos } = tx.get(["ui"])!;
-		const todo = todos[index];
+		const { todos } = tx.get(["ui"])!
+		const todo = todos[index]
 		if (!todo) {
 			return {
 				type: "error",
 				error: `Could not find todo at index ${index}`,
-			};
+			}
 		}
-		const newTodo: Todo = { ...todo, checked: !todo.checked };
-		const newTodos = [...todos];
-		newTodos.splice(index, 1, newTodo);
-		tx.set(["ui"], { todos: newTodos });
+		const newTodo: Todo = { ...todo, checked: !todo.checked }
+		const newTodos = [...todos]
+		newTodos.splice(index, 1, newTodo)
+		tx.set(["ui"], { todos: newTodos })
 
 		return {
 			type: "success",
-		};
+		}
 	}),
 	updateTodoLabel: command((tx, index: number, label: string) => {
-		const { todos } = tx.get(["ui"])!;
-		const todo = todos[index];
+		const { todos } = tx.get(["ui"])!
+		const todo = todos[index]
 		if (!todo) {
 			return {
 				type: "error",
 				error: `Could not find todo at index ${index}`,
-			};
+			}
 		}
-		const newTodo: Todo = { ...todo, label };
-		const newTodos = [...todos];
-		newTodos.splice(index, 1, newTodo);
-		tx.set(["ui"], { todos: newTodos });
+		const newTodo: Todo = { ...todo, label }
+		const newTodos = [...todos]
+		newTodos.splice(index, 1, newTodo)
+		tx.set(["ui"], { todos: newTodos })
 
 		return {
 			type: "success",
-		};
+		}
 	}),
-};
+}
 
 function getUIState(db: ReadOnlyDb) {
-	return db.get(["ui"]);
+	return db.get(["ui"])
 }
 
 function Todo(props: { todo: Todo; index: number }) {
-	const { todo, index } = props;
-	const { hoverProps, isHovered } = useHover({});
+	const { todo, index } = props
+	const { hoverProps, isHovered } = useHover({})
 
-	const { db } = useContext(DatabaseContext);
+	const { db } = useContext(DatabaseContext)
 
 	const onTodoToggle = useCommand({
 		name: `Toggle Todo ${index}`,
 		cliName: `todo ${index} toggle`,
 		execute: command((tx) => appCommands.toggleTodo(tx, index)),
-	});
+	})
 
 	const onLabelChange = (label: string) => {
-		appCommands.updateTodoLabel(db, index, label);
-	};
+		appCommands.updateTodoLabel(db, index, label)
+	}
 
 	return (
 		<div
@@ -426,29 +426,29 @@ function Todo(props: { todo: Todo; index: number }) {
 			/>
 			<Spacer />
 		</div>
-	);
+	)
 }
 
 function App() {
-	const { db } = useContext(DatabaseContext);
-	useMemo(() => appCommands.init(db), []);
+	const { db } = useContext(DatabaseContext)
+	useMemo(() => appCommands.init(db), [])
 
 	const onClick = useCommand({
 		name: "New Todo",
 		cliName: "todo new",
 		execute: appCommands.newTodo,
-	});
+	})
 
-	const { todos } = useTupleDatabase(db, getUIState, [])!;
+	const { todos } = useTupleDatabase(db, getUIState, [])!
 
 	return (
 		<Flex column gap={12}>
 			{todos.map((todo, index) => {
-				return <Todo todo={todo} index={index} key={index} />;
+				return <Todo todo={todo} index={index} key={index} />
 			})}
 			<Button onClick={() => onClick()}>New Todo</Button>
 		</Flex>
-	);
+	)
 }
 
 export function CliExperiment() {
@@ -458,5 +458,5 @@ export function CliExperiment() {
 			<Gap width={20} />
 			<App />
 		</Flex>
-	);
+	)
 }

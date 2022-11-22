@@ -4,6 +4,7 @@ import { AriaTextFieldOptions, useTextField } from "react-aria";
 
 const inputClass = css`
 	background: var(--sand-3);
+	width: 100%;
 	color: white;
 	padding: 6px 8px;
 	border-radius: 4px;
@@ -34,6 +35,11 @@ const inputClass = css`
 	&:hover {
 		background: var(--sand-4);
 	}
+
+	&::placeholder {
+		font-style: italic;
+		color: var(--sand-8);
+	}
 `;
 
 type InputProps = AriaTextFieldOptions<"input">;
@@ -60,6 +66,7 @@ const quietInputClass = css`
 	padding: 0;
 
 	&::placeholder {
+		font-style: italic;
 		color: var(--sand-8);
 	}
 `;
