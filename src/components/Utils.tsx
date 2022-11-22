@@ -11,6 +11,7 @@ type PaddingProps = {
 	xy?: number
 	children?: React.ReactNode
 }
+
 export function Padding(props: PaddingProps) {
 	const paddingTop = props.top || props.y || props.xy || 0
 	const paddingLeft = props.left || props.x || props.xy || 0
@@ -23,28 +24,31 @@ export function Padding(props: PaddingProps) {
 		</div>
 	)
 }
-type FlexProps =
+
+type FlexProps = {
+	gap?: number
+	children?: React.ReactNode
+	alignItems?: React.CSSProperties["alignItems"]
+	style?: React.CSSProperties
+} & (
 	| {
 			row?: undefined
 			column: true
-			gap?: number
-			children?: React.ReactNode
-			alignItems?: React.CSSProperties["alignItems"]
 	  }
 	| {
 			row: true
 			column?: undefined
-			gap?: number
-			children?: React.ReactNode
-			alignItems?: React.CSSProperties["alignItems"]
 	  }
+)
 
 export function Flex(props: FlexProps) {
-	const { column, children, ...rest } = props
+	const { column, children, style, ...rest } = props
 	const direction = column ? "column" : "row"
 
 	return (
-		<div style={{ display: "flex", flexDirection: direction, ...rest }}>
+		<div
+			style={{ display: "flex", flexDirection: direction, ...rest, ...style }}
+		>
 			{children}
 		</div>
 	)

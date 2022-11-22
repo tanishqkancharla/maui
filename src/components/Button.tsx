@@ -1,5 +1,5 @@
-import { css } from "goober";
-import React from "react";
+import { css } from "goober"
+import React from "react"
 
 const buttonClass = css`
 	background: linear-gradient(var(--sand-3), var(--sand-2)),
@@ -18,7 +18,13 @@ const buttonClass = css`
 	font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
 		"Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	letter-spacing: 0.01em;
+
 	line-height: 16px;
+	-webkit-line-clamp: 1;
+	line-clamp: 1;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 
 	transition: box-shadow 80ms ease-in-out;
 
@@ -43,17 +49,14 @@ const buttonClass = css`
 		background: linear-gradient(var(--sand-6), var(--sand-4)),
 			radial-gradient(var(--sand-6), var(--sand-4));
 	}
-`;
+`
 
-export function Button(props: {
-	children: React.ReactNode;
-	onClick?: () => void;
-}) {
+export function Button(props: { children: string; onClick?: () => void }) {
 	return (
 		<button className={buttonClass} onClick={props.onClick}>
 			{props.children}
 		</button>
-	);
+	)
 }
 
 const actionButtonClass = css`
@@ -102,8 +105,8 @@ const actionButtonClass = css`
 			linear-gradient(var(--sand-5), var(--sand-4)),
 			radial-gradient(var(--sand-5), var(--sand-4));
 	}
-`;
+`
 
 export function ActionButton(props: { children: React.ReactNode }) {
-	return <button className={actionButtonClass}>{props.children}</button>;
+	return <button className={actionButtonClass}>{props.children}</button>
 }

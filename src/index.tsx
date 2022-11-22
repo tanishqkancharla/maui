@@ -5,10 +5,11 @@ import { FuzzyString } from "./components/FuzzyString"
 import { Input } from "./components/Input"
 import { Listbox, MenuItem } from "./components/Menu"
 import { H3, Link, P } from "./components/Typography"
-import { Flex, Gap, Padding } from "./components/Utils"
+import { Gap } from "./components/Utils"
 import { CliExperiment } from "./pages/CliExperiment"
 import { Maui } from "./pages/Maui"
 import { fuzzyMatch } from "./utils/fuzzyMatch"
+import { breakpoints } from "./utils/styles"
 
 type Page = { name: string; component: React.FunctionComponent }
 
@@ -35,11 +36,37 @@ const pages: Page[] = [
 const indexPageClass = css`
 	width: 100vw;
 	height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	padding: 24px;
+	gap: 16px;
+
+	${breakpoints.mobile} {
+		display: flex;
+		flex-direction: row;
+		align-items: start;
+		gap: 32px;
+		padding: 32px;
+	}
 `
 
 export function isDefined<T>(value: T | undefined): value is T {
 	return value !== undefined
 }
+
+const searchClass = css`
+	display: flex;
+	flex-direction: column;
+	padding-top: 27px;
+	width: 100%;
+
+	${breakpoints.mobile} {
+		max-width: 250px;
+		padding-top: 27px;
+	}
+`
 
 function Index() {
 	const [value, setValue] = useState("")
@@ -55,52 +82,49 @@ function Index() {
 
 	return (
 		<div className={indexPageClass}>
-			<Flex row alignItems="start">
-				<Gap width={16} />
-				<div
-					style={{
-						paddingTop: 59,
-						width: "250px",
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "stretch",
+			<div className={searchClass}>
+				<Input
+					placeholder="Search for experiments..."
+					aria-label="Experiment Search"
+					value={value}
+					onChange={setValue}
+				/>
+				<Gap height={8} />
+				<Listbox
+					aria-label="Search Results"
+					selectionMode="single"
+					onSelectionChange={(keys) => {
+						if (keys === "all") return
+						setSelectedPage(keys.values().next().value)
 					}}
+					selectedKeys={[selectedPage]}
 				>
-					<Input
-						placeholder="Search for experiments..."
-						aria-label="Experiment Search"
-						value={value}
-						onChange={setValue}
-					/>
-					<Gap height={8} />
-					<Listbox
-						aria-label="Search Results"
-						selectionMode="single"
-						onSelectionChange={(keys) => {
-							if (keys === "all") return
-							setSelectedPage(keys.values().next().value)
-						}}
-						selectedKeys={[selectedPage]}
-					>
-						{filteredSearchResults.map(([index, match]) => (
-							<MenuItem key={index}>
-								<FuzzyString match={match} />
-							</MenuItem>
-						))}
-					</Listbox>
-				</div>
-				<ExperimentView index={selectedPage} />
-			</Flex>
+					{filteredSearchResults.map(([index, match]) => (
+						<MenuItem key={index}>
+							<FuzzyString match={match} />
+						</MenuItem>
+					))}
+				</Listbox>
+			</div>
+			<ExperimentView index={selectedPage} />
 		</div>
 	)
 }
 
+const experimentViewClass = css`
+	width: 100%;
+
+	${breakpoints.mobile} {
+		height: 100vh;
+		overflow-y: "auto";
+		width: "80%";
+	}
+`
+
 function ExperimentView(props: { index: number | undefined }) {
 	return (
-		<div style={{ height: "100vh", overflowY: "auto", width: "80%" }}>
-			{props.index !== undefined && (
-				<Padding xy={32}>{pages[props.index].component({})}</Padding>
-			)}
+		<div className={experimentViewClass}>
+			{props.index !== undefined && pages[props.index].component({})}
 		</div>
 	)
 }
