@@ -1,6 +1,8 @@
 import { css } from "goober"
 import React from "react"
 
+export const typographyMaxWidth = "500px"
+
 export function H1(props: { children: string }) {
 	return <h1>{props.children}</h1>
 }
@@ -20,7 +22,7 @@ const pClass = css`
 	font-family: system-ui, -apple-system;
 	letter-spacing: 0.015em;
 	line-height: 1.26rem;
-	max-width: 500px;
+	max-width: ${typographyMaxWidth};
 `
 
 export function P(props: { children: React.ReactNode }) {
@@ -37,7 +39,7 @@ const blockquoteClass = css`
 	font-family: system-ui, -apple-system;
 	letter-spacing: 0.015em;
 	line-height: 19px;
-	max-width: 500px;
+	max-width: ${typographyMaxWidth};
 `
 
 export function Blockquote(props: { children: string }) {

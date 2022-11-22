@@ -7,6 +7,12 @@ export const bodyFontStyles = `
 	line-height: 16px;
 `
 
+export const breakpointSizes = {
+	mobile: 640,
+	tablet: 768,
+	desktop: 1024,
+}
+
 export const breakpoints = {
 	mobile: "@media only screen and (min-width: 640px)",
 	tablet: "@media only screen and (min-width: 768px)",

@@ -4,33 +4,21 @@ import ReactDOM from "react-dom"
 import { FuzzyString } from "./components/FuzzyString"
 import { Input } from "./components/Input"
 import { Listbox, MenuItem } from "./components/Menu"
-import { H3, Link, P } from "./components/Typography"
 import { Gap } from "./components/Utils"
+import { About } from "./pages/About"
 import { CliExperiment } from "./pages/CliExperiment"
+import { FluidCursorEditor } from "./pages/FluidCursorEditor"
 import { Maui } from "./pages/Maui"
 import { fuzzyMatch } from "./utils/fuzzyMatch"
 import { breakpoints } from "./utils/styles"
 
 type Page = { name: string; component: React.FunctionComponent }
 
-function About() {
-	return (
-		<>
-			<H3>About this</H3>
-			<P>
-				This is a collection of various UX experiments I've worked on. They vary
-				from a range of flexing my design skills to replicating UX I've found in
-				other apps. For my main website, please visit{" "}
-				<Link href="www.tanishqkancharla.dev">tanishqkancharla.dev</Link>
-			</P>
-		</>
-	)
-}
-
 const pages: Page[] = [
 	{ name: "About", component: About },
 	{ name: "Maui", component: Maui },
 	{ name: "Command Line", component: CliExperiment },
+	{ name: "Fluid Cursor Editor", component: FluidCursorEditor },
 ]
 
 const indexPageClass = css`
@@ -97,6 +85,7 @@ function Index() {
 						if (keys === "all") return
 						setSelectedPage(keys.values().next().value)
 					}}
+					disallowEmptySelection
 					selectedKeys={[selectedPage]}
 				>
 					{filteredSearchResults.map(([index, match]) => (
