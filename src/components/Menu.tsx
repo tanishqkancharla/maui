@@ -9,7 +9,7 @@ import {
 	useOption,
 } from "react-aria"
 import { Item, ListState, useListState } from "react-stately"
-import { bodyFontStyles } from "../styles"
+import { bodyFontStyles } from "../utils/styles"
 import { Icons } from "./Icons"
 import { Flex, Spacer } from "./Utils"
 

@@ -1,8 +1,7 @@
 {
-	"name": "boilerplate",
+	"name": "experiments",
 	"version": "0.0.1",
-	"description": "Tanishq Kancharla's website",
-	"main": "src/index.ts",
+	"description": "Tanishq Kancharla's experiments",
 	"scripts": {
 		"clear": "mkdir -p dist && rm -rf dist/*",
 		"build": "npm run clear && tsx build.ts",

@@ -1,11 +1,11 @@
 import React, { useState } from "react"
-import { ActionButton, Button } from "./components/Button"
-import { Checkbox } from "./components/Checkbox"
-import { Input } from "./components/Input"
-import { Listbox, MenuItem } from "./components/Menu"
-import { Switch } from "./components/Switch"
-import { Blockquote, H1, H2, H3, P } from "./components/Typography"
-import { Flex, Gap } from "./components/Utils"
+import { ActionButton, Button } from "../components/Button"
+import { Checkbox } from "../components/Checkbox"
+import { Input } from "../components/Input"
+import { Listbox, MenuItem } from "../components/Menu"
+import { Switch } from "../components/Switch"
+import { Blockquote, H1, H2, H3, Link, P } from "../components/Typography"
+import { Divider, Flex, Gap } from "../components/Utils"
 
 export function Maui(props: {}) {
 	const [switchState, setSwitchState] = useState(false)
@@ -13,6 +13,14 @@ export function Maui(props: {}) {
 
 	return (
 		<>
+			<H3>Maui</H3>
+			<P>
+				Maui is a growing design system of components I hope to reuse in my
+				"production" projects. The goal is to flesh out all{" "}
+				<Link href="https://open-ui.org">common component patterns</Link> while
+				learning about design and having fun poring over box-shadow.
+			</P>
+			<Divider />
 			<Flex row>
 				<Button>Button</Button>
 				<Gap width={10} />

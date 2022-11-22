@@ -17,12 +17,13 @@ import {
 	TupleTransactionApi,
 } from "tuple-database"
 import { useTupleDatabase } from "tuple-database/useTupleDatabase"
-import { Button } from "./components/Button"
-import { Checkbox } from "./components/Checkbox"
-import { QuietInput } from "./components/Input"
-import { Flex, Gap, Spacer } from "./components/Utils"
-import { bodyFontStyles } from "./styles"
-import { useShortcut } from "./useShortcut"
+import { Button } from "../components/Button"
+import { Checkbox } from "../components/Checkbox"
+import { QuietInput } from "../components/Input"
+import { H3, P } from "../components/Typography"
+import { Flex, Gap, Spacer } from "../components/Utils"
+import { bodyFontStyles } from "../utils/styles"
+import { useShortcut } from "../utils/useShortcut"
 
 type AppSchema = CommandSchema | CliSchema | UISchema
 type ReadOnlyDb = ReadOnlyTupleDatabaseClientApi<AppSchema>
@@ -453,10 +454,26 @@ function App() {
 
 export function CliExperiment() {
 	return (
-		<Flex row>
-			<Cli />
-			<Gap width={20} />
-			<App />
-		</Flex>
+		<div>
+			<H3>Command Line Experiment</H3>
+			<P>
+				This experiment is about trying to marry graphical and command line
+				input. It seems graphical interfaces are easier for beginner users, but
+				command lines are more efficient for "power" users. By mapping user
+				interface commands into command line commands, a user can discover
+				analogies between the interactions, making it easier for them to
+				transition from a beginner to an expert quickly.
+			</P>
+			<P>
+				Future work could include user "scripts", cli autocomplete, or cli
+				undo/redo
+			</P>
+
+			<Flex row>
+				<Cli />
+				<Gap width={20} />
+				<App />
+			</Flex>
+		</div>
 	)
 }
