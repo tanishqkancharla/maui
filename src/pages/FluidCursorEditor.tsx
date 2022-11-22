@@ -1,9 +1,10 @@
 import React from "react"
-import { Link, P, typographyMaxWidth } from "../components/Typography"
+import { H3, Link, P, typographyMaxWidth } from "../components/Typography"
 
 export function FluidCursorEditor() {
 	return (
 		<div>
+			<H3>Fluid Cursor Editor (Gem)</H3>
 			<P>
 				Gem is a text editor I built early into my experiments that features a
 				very minimal syntax and an animated cursor. Gem's goals are to be
