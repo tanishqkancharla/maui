@@ -8,6 +8,7 @@ import { Gap } from "./components/Utils"
 import { About } from "./pages/About"
 import { CliExperiment } from "./pages/CliExperiment"
 import { FluidCursorEditor } from "./pages/FluidCursorEditor"
+import { ManagedFocusDemo } from "./pages/ManagedFocusDemo"
 import { Maui } from "./pages/Maui"
 import { fuzzyMatch } from "./utils/fuzzyMatch"
 import { breakpoints } from "./utils/styles"
@@ -19,6 +20,7 @@ const pages: Page[] = [
 	{ name: "Maui", component: Maui },
 	{ name: "Command Line", component: CliExperiment },
 	{ name: "Fluid Cursor Editor", component: FluidCursorEditor },
+	{ name: "Managed Focus", component: ManagedFocusDemo },
 ]
 
 const indexPageClass = css`
