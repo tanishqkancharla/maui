@@ -1,8 +1,8 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { ActionButton, Button } from "../components/Button"
 import { Checkbox } from "../components/Checkbox"
-import { Input } from "../components/Input"
-import { Listbox, MenuItem } from "../components/Menu"
+import { TextField } from "../components/Input"
+import { ListBox, MenuItem } from "../components/Menu"
 import { Switch } from "../components/Switch"
 import { Blockquote, H1, H2, H3, Link, P } from "../components/Typography"
 import { Divider, Flex, Gap } from "../components/Utils"
@@ -61,16 +61,16 @@ export function Maui(props: {}) {
 			</Flex>
 			<H3>Input</H3>
 			<div style={{ maxWidth: "180px" }}>
-				<Input aria-label="Example" />
+				<TextField aria-label="Example" />
 			</div>
 			<H3>Menu</H3>
-			<Listbox>
+			<ListBox>
 				<MenuItem>Item 1</MenuItem>
 				<MenuItem>Item 2</MenuItem>
 				<MenuItem>Item 3</MenuItem>
 				<MenuItem>Item 4</MenuItem>
 				<MenuItem>Item 5</MenuItem>
-			</Listbox>
+			</ListBox>
 		</>
 	)
 }

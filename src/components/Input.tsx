@@ -1,6 +1,6 @@
-import { css } from "goober";
-import React, { useRef } from "react";
-import { AriaTextFieldOptions, useTextField } from "react-aria";
+import { css } from "goober"
+import { useRef } from "react"
+import { AriaTextFieldOptions, useTextField } from "react-aria"
 
 const inputClass = css`
 	background: var(--sand-3);
@@ -40,14 +40,14 @@ const inputClass = css`
 		font-style: italic;
 		color: var(--sand-8);
 	}
-`;
+`
 
-type InputProps = AriaTextFieldOptions<"input">;
+type InputProps = AriaTextFieldOptions<"input">
 
-export function Input(props: InputProps) {
-	const ref = useRef(null);
-	const { inputProps } = useTextField({ ...props }, ref);
-	return <input className={inputClass} ref={ref} {...inputProps} />;
+export function TextField(props: InputProps) {
+	const ref = useRef(null)
+	const { inputProps } = useTextField({ ...props }, ref)
+	return <input className={inputClass} ref={ref} {...inputProps} />
 }
 
 const quietInputClass = css`
@@ -69,11 +69,11 @@ const quietInputClass = css`
 		font-style: italic;
 		color: var(--sand-8);
 	}
-`;
+`
 
-export function QuietInput(props: InputProps) {
-	const ref = useRef(null);
-	const { inputProps } = useTextField({ ...props }, ref);
+export function QuietTextField(props: InputProps) {
+	const ref = useRef(null)
+	const { inputProps } = useTextField({ ...props }, ref)
 
-	return <input className={quietInputClass} {...inputProps} />;
+	return <input className={quietInputClass} {...inputProps} />
 }

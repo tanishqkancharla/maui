@@ -19,7 +19,7 @@ import {
 import { useTupleDatabase } from "tuple-database/useTupleDatabase"
 import { Button } from "../components/Button"
 import { Checkbox } from "../components/Checkbox"
-import { QuietInput } from "../components/Input"
+import { QuietTextField } from "../components/Input"
 import { H3, P } from "../components/Typography"
 import { Flex, Gap, Spacer } from "../components/Utils"
 import { bodyFontStyles } from "../utils/styles"
@@ -161,7 +161,7 @@ function CliInput(props: { onSubmit: (command: string) => void }) {
 	return (
 		<div className={cliCommandLineClass}>
 			<span className={cliPromptClass}>{">"}</span>
-			<QuietInput
+			<QuietTextField
 				aria-label="Command line interface input"
 				onFocusChange={setFocused}
 				placeholder="Type a command..."
@@ -419,7 +419,7 @@ function Todo(props: { todo: Todo; index: number }) {
 			{...hoverProps}
 		>
 			<Checkbox checked={todo.checked} setChecked={() => onTodoToggle(index)} />
-			<QuietInput
+			<QuietTextField
 				aria-label="Todo"
 				placeholder="Write a todo..."
 				value={todo.label}

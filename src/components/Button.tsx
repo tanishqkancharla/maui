@@ -1,5 +1,7 @@
 import { css } from "goober"
-import React from "react"
+import React, { useCallback, useId, useRef } from "react"
+import { useFocus } from "../hooks/useFocus"
+import { useRefCurrent } from "../hooks/useRefCurrent"
 
 const buttonClass = css`
 	background: linear-gradient(var(--sand-3), var(--sand-2)),
@@ -28,11 +30,8 @@ const buttonClass = css`
 
 	transition: box-shadow 80ms ease-in-out;
 
-	&:focus-visible {
-		box-shadow: var(--accent-color) 0px 0px 0px 0px inset,
-			rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset,
-			var(--accent-color) 0px 0px 0px 1px inset;
-
+	&:focus {
+		box-shadow: var(--accent-color) 0px 0px 0px 1px inset;
 		outline: none;
 	}
 
@@ -51,9 +50,44 @@ const buttonClass = css`
 	}
 `
 
-export function Button(props: { children: string; onClick?: () => void }) {
+type ButtonAttributes = React.DetailedHTMLProps<
+	React.ButtonHTMLAttributes<HTMLButtonElement>,
+	HTMLButtonElement
+>
+
+type ButtonData = {
+	id: string
+	focused: boolean
+}
+
+type ButtonProps = {
+	children: string | string[]
+	onClick?: () => void
+}
+
+export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
+	const ref = useRef<HTMLButtonElement>(null)
+	const id = useId()
+	const [focused, focusProps] = useFocus(id, ref)
+
+	const onClickRef = useRefCurrent(props.onClick)
+
+	const onClick = useCallback((event: React.SyntheticEvent) => {
+		focusProps.onFocus(event)
+		onClickRef.current?.()
+	}, [])
+
+	return [
+		{ focused, id },
+		{ ...focusProps, ref, onClick },
+	]
+}
+
+export function Button(props: ButtonProps) {
+	const [data, attributes] = useButton(props)
+
 	return (
-		<button className={buttonClass} onClick={props.onClick}>
+		<button className={buttonClass} {...attributes}>
 			{props.children}
 		</button>
 	)

@@ -1,84 +1,44 @@
-import React, { useCallback, useContext, useEffect, useMemo } from "react"
-import { equals } from "remeda"
-import { useTupleDatabase } from "tuple-database/useTupleDatabase"
-import { ReadOnlyUIDatabase, uiQuery, useUIDatabase } from "./UIDatabase"
+import { isEqual } from "radash"
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useId,
+	useMemo,
+} from "react"
+import {
+	focusActions,
+	FocusScopeProps,
+	FocusTreeKey,
+} from "../UIDatabase/Focus"
+import { useUIDatabase } from "../UIDatabase/UIDatabase"
+import { useTupleDatabase } from "./useTupleDatabase"
 
-export type UIFocusSchema =
-	| {
-			key: ["focusable", ...string[]]
-			value: null
-	  }
-	| {
-			key: ["focus"]
-			value: string[]
-	  }
-
-export const focusQueries = {
-	registerFocusable: uiQuery((tx, key: string[]) => {
-		if (tx.get(["focusable", ...key])) {
-			console.warn(`Focusable element with key ${key} already exists`)
-		}
-
-		tx.set(["focusable", ...key], null)
-	}),
-
-	unregisterFocusable: uiQuery((tx, key) => {
-		if (!tx.get(["focusable", ...key])) {
-			console.warn(`Focusable element with key ${key} doesn't exist`)
-		}
-
-		tx.remove(["focusable", ...key])
-	}),
-
-	focus: uiQuery((tx, key: string[]) => {
-		tx.set(["focus"], key)
-	}),
-
-	blur: uiQuery((tx, key: string[]) => {
-		if (equals(tx.get(["focus"]), key)) tx.remove(["focus"])
-	}),
-
-	moveToNextFocus: undefined,
-	moveToPreviousFocus: undefined,
-}
-
-function isElementFocused(db: ReadOnlyUIDatabase, key: string[]) {
-	return db.get(["focus"]) === key
-}
-
-export function useFocus(
-	key: string,
-	ref: React.MutableRefObject<HTMLElement | null>
-) {
+export function useFocus(id: string, ref: React.RefObject<HTMLElement>) {
 	const parentScope = useContext(FocusScopeContext)
 	const db = useUIDatabase()
 
-	const scope = useMemo(() => [...parentScope, key], [parentScope, key])
+	const elementKey = useMemo(
+		() => [...parentScope, id] as FocusTreeKey,
+		[parentScope, id]
+	)
 
 	useEffect(() => {
-		focusQueries.registerFocusable(db, scope)
-		return () => focusQueries.unregisterFocusable(db, scope)
-	}, [scope])
+		focusActions.registerFocusElement(db, elementKey)
+		return () => focusActions.unregisterFocusElement(db, elementKey)
+	}, [elementKey])
 
 	const onFocus = useCallback(
-		(event: React.FocusEvent) => {
+		(event: React.SyntheticEvent) => {
 			if (event.target !== event.currentTarget) return
 
-			focusQueries.focus(db, scope)
+			focusActions.focus(db, elementKey)
 		},
-		[scope]
+		[elementKey]
 	)
 
-	const onBlur = useCallback(
-		(event: React.FocusEvent) => {
-			if (event.target !== event.currentTarget) return
-
-			focusQueries.blur(db, scope)
-		},
-		[scope]
-	)
-
-	const focused = useTupleDatabase(db, isElementFocused, [scope])
+	const activeFocus = useTupleDatabase(db, ["activeFocus"]) as string[]
+	const focused = activeFocus && isEqual(activeFocus, elementKey)
 
 	useEffect(() => {
 		if (focused) ref.current?.focus()
@@ -86,25 +46,46 @@ export function useFocus(
 
 	const focusProps = {
 		onFocus,
-		onBlur,
 	} satisfies React.HTMLAttributes<HTMLElement>
 
 	return [focused, focusProps] as const
 }
 
-const FocusScopeContext = React.createContext<string[]>([])
+const FocusScopeContext = React.createContext<FocusTreeKey>(["focusTree"])
 
 export function FocusScope(props: {
-	scope: string
-	children: React.ReactNode
+	children?: React.ReactNode
+	/**
+	 * Auto-focus the first element mounted in this scope.
+	 * @default false
+	 */
+	autoFocus?: boolean
+	/**
+	 * Strategy to contain focus in scope
+	 * @default "no-contain"
+	 */
+	containBehavior?: FocusScopeProps["containBehavior"]
 }) {
-	const { scope, children } = props
-	const parentScope = useContext(FocusScopeContext)
+	const { children, autoFocus = false, containBehavior = "no-contain" } = props
+	const id = useId()
 
-	const fullScope = useMemo(() => [...parentScope, scope], [parentScope, scope])
+	const db = useUIDatabase()
+	const parentScope = useContext(FocusScopeContext)
+	const scope = useMemo(
+		() => [...parentScope, id] as FocusTreeKey,
+		[parentScope, id]
+	)
+
+	useEffect(() => {
+		focusActions.registerFocusScope(db, scope, {
+			autoFocus,
+			containBehavior,
+		})
+		return () => focusActions.unregisterFocusScope(db, scope)
+	}, [scope])
 
 	return (
-		<FocusScopeContext.Provider value={fullScope}>
+		<FocusScopeContext.Provider value={scope}>
 			{children}
 		</FocusScopeContext.Provider>
 	)

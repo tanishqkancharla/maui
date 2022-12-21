@@ -1,6 +1,6 @@
 import { CollectionChildren, Node } from "@react-types/shared"
 import { css } from "goober"
-import React, { useRef } from "react"
+import { useRef } from "react"
 import {
 	AriaListBoxOptions,
 	mergeProps,
@@ -23,7 +23,7 @@ type ListBoxProps<T> = {
 	children: CollectionChildren<T>
 } & AriaListBoxOptions<T>
 
-export function Listbox<T extends object>(props: ListBoxProps<T>) {
+export function ListBox<T extends object>(props: ListBoxProps<T>) {
 	const state = useListState(props)
 	const ref = useRef(null)
 	const { listBoxProps } = useListBox(props, state, ref)
@@ -31,7 +31,7 @@ export function Listbox<T extends object>(props: ListBoxProps<T>) {
 	return (
 		<ul {...listBoxProps} ref={ref} className={listboxClass}>
 			{[...state.collection].map((item) => (
-				<MenuOption key={item.key} item={item} state={state} />
+				<ListBoxOption key={item.key} item={item} state={state} />
 			))}
 		</ul>
 	)
@@ -61,7 +61,7 @@ type MenuOptionProps<T> = {
 	state: ListState<T>
 }
 
-function MenuOption<T extends object>({ item, state }: MenuOptionProps<T>) {
+function ListBoxOption<T extends object>({ item, state }: MenuOptionProps<T>) {
 	const ref = useRef(null)
 	const { optionProps, isSelected } = useOption({ key: item.key }, state, ref)
 

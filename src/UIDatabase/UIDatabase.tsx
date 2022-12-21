@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from "react"
+import React, { useContext, useMemo } from "react"
 import {
 	InMemoryTupleStorage,
 	ReadOnlyTupleDatabaseClientApi,
@@ -7,7 +7,7 @@ import {
 	TupleDatabaseClient,
 	TupleDatabaseClientApi,
 } from "tuple-database"
-import { UIFocusSchema } from "./useFocus"
+import { UIFocusSchema } from "./Focus"
 
 export type UIDatabaseSchema = UIFocusSchema
 
@@ -24,12 +24,12 @@ export function UIDatabaseProvider(props: { children: React.ReactNode }) {
 		)
 	}, [])
 
-	useEffect(() => {
-		;(window as any).db = db
-		db.subscribe({ prefix: [] }, (writes) => {
-			console.log(writes)
-		})
-	}, [])
+	// useEffect(() => {
+	// 	;(window as any).db = db
+	// 	db.subscribe({ prefix: [] }, (writes) => {
+	// 		console.log(writes)
+	// 	})
+	// }, [])
 
 	return (
 		<UIDatabaseContext.Provider value={db}>
