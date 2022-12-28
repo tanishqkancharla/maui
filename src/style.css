@@ -113,3 +113,8 @@ body {
 	margin: 0;
 	background-color: var(--sand-1);
 }
+
+button,
+[role="button"] {
+	cursor: default;
+}

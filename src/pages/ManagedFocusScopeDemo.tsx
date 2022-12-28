@@ -13,7 +13,11 @@ function ActiveFocusView() {
 	const db = useUIDatabase()
 	const currentFocus = useTupleDatabase(db, ["activeFocus"]) as string[]
 
-	return <P>Active Focus: [{currentFocus?.join(", ")}]</P>
+	return (
+		<div className="h-10 text-sand-12 font-sans text-sm">
+			Active Focus: [{currentFocus?.join(", ")}]
+		</div>
+	)
 }
 
 export function ManagedFocusScopesDemo() {
@@ -102,7 +106,7 @@ export function ManagedFocusScopesDemo() {
 				<Button onClick={() => setDialogOpen(true)}>Open Dialog</Button>
 				{dialogOpen && (
 					<Dialog onClickOutside={() => setDialogOpen(false)}>
-						<div style={{ display: "flex", flexDirection: "column" }}>
+						<div className="flex flex-col gap-2">
 							<Button>Button 1</Button>
 							<Button>Button 2</Button>
 							<Button>Button 3</Button>

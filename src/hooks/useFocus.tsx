@@ -1,11 +1,6 @@
 import { isEqual } from "radash"
-import React, {
-	useCallback,
-	useContext,
-	useEffect,
-	useId,
-	useMemo,
-} from "react"
+import React, { useCallback, useContext, useEffect, useMemo } from "react"
+import { useId } from "react-aria"
 import {
 	focusActions,
 	FocusScopeProps,

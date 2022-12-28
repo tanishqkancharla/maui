@@ -14,6 +14,18 @@ import { Maui } from "./pages/Maui"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
 import { fuzzyMatch } from "./utils/fuzzyMatch"
 
+Object.defineProperty(Array.prototype, "last", {
+	get() {
+		return this[this.length - 1]
+	},
+})
+
+Object.defineProperty(Array.prototype, "first", {
+	get() {
+		return this[0]
+	},
+})
+
 type Page = { name: string; component: React.FunctionComponent }
 
 const pages: Page[] = [

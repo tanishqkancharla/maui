@@ -51,12 +51,7 @@ export function Dialog(props: DialogProps) {
 
 	return (
 		<Overlay onClickOutside={props.onClickOutside}>
-			<FocusScope containBehavior="lock">
-				{/* <animated.div
-					className={dialogUnderlayStyle}
-					style={{ ...underlaySprings }}
-					onMouseDown={onMouseDown}
-				> */}
+			<FocusScope containBehavior="lock" autoFocus>
 				<animated.div
 					style={{
 						...dialogSprings,
@@ -65,7 +60,6 @@ export function Dialog(props: DialogProps) {
 				>
 					{props.children}
 				</animated.div>
-				{/* </animated.div> */}
 			</FocusScope>
 		</Overlay>
 	)

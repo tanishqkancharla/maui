@@ -1,5 +1,6 @@
 import { css } from "goober"
-import React, { useCallback, useId, useRef } from "react"
+import React, { useCallback, useRef } from "react"
+import { useId } from "react-aria"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
 
