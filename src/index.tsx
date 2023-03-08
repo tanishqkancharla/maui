@@ -6,6 +6,7 @@ import { TextField } from "./components/Input"
 import { ListBox } from "./components/Menu"
 import { Gap } from "./components/Utils"
 import { About } from "./pages/About"
+import { BreadcrumbsDemo } from "./pages/Breadcrumbs"
 import { CliExperiment } from "./pages/CliExperiment"
 import { FluidCursorEditor } from "./pages/FluidCursorEditor"
 import { ManagedFocusDemo } from "./pages/ManagedFocusDemo"
@@ -13,6 +14,8 @@ import { ManagedFocusScopesDemo } from "./pages/ManagedFocusScopeDemo"
 import { Maui } from "./pages/Maui"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
 import { fuzzyMatch } from "./utils/fuzzyMatch"
+import { createStyles, PurseProvider, useStyles } from "./utils/purse"
+import { baseStyles } from "./utils/styles.css"
 
 Object.defineProperty(Array.prototype, "last", {
 	get() {
@@ -35,10 +38,21 @@ const pages: Page[] = [
 	{ name: "Fluid Cursor Editor", component: FluidCursorEditor },
 	{ name: "Managed Focus", component: ManagedFocusDemo },
 	{ name: "Managed Focus Scopes", component: ManagedFocusScopesDemo },
+	{ name: "Breadcrumbs", component: BreadcrumbsDemo },
 ]
 export function isDefined<T>(value: T | undefined): value is T {
 	return value !== undefined
 }
+
+const indexStyles = createStyles({
+	width: "100vw",
+	height: "100vh",
+	display: "flex",
+	flexDirection: "column",
+	alignItems: "stretch",
+	padding: "24px",
+	gap: "1rem",
+})
 
 function Index() {
 	const [value, setValue] = useState("")
@@ -52,8 +66,12 @@ function Index() {
 		})
 		.filter(isDefined)
 
+	const indexClass = useStyles(indexStyles)
+
 	return (
-		<div className="w-screen h-screen flex flex-col items-stretch p-6 gap-4 sm:flex-row sm:items-start sm:gap-8 sm:p-8">
+		<div
+			className={`${indexClass} sm:flex-row sm:items-start sm:gap-8 sm:p-8 ${baseStyles.bodyText}`}
+		>
 			<div className="flex flex-col pt-[27px] w-full sm:max-w-[250px]">
 				<TextField
 					placeholder="Search for experiments..."
@@ -105,11 +123,16 @@ function run() {
 	if (!appRoot) {
 		throw new Error("Could not find body element in dom.")
 	}
+	const styleElement = document.createElement("style")
+	document.head.appendChild(styleElement)
+
 	const root = ReactDOM.createRoot(appRoot)
 
 	root.render(
 		<StrictMode>
-			<App />
+			<PurseProvider styleRef={{ current: styleElement }}>
+				<App />
+			</PurseProvider>
 		</StrictMode>
 	)
 }

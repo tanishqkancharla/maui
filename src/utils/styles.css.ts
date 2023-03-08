@@ -1,3 +1,16 @@
+import { style } from "@vanilla-extract/css"
+
+export const baseStyles = {
+	bodyText: style({
+		fontWeight: 400,
+		fontSize: 12,
+		fontFamily: `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;`,
+		letterSpacing: "0.01em",
+		lineHeight: 1,
+	}),
+}
+
 export const bodyFontStyles = `
 	font-weight: 400;
 	font-size: 12px;

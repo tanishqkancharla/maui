@@ -16,6 +16,20 @@ function CurrentFocusView() {
 export function ManagedFocusDemo() {
 	return (
 		<Padding xy={30}>
+			<P>
+				The demo here is a little lame, but it was more of a demonstration of a
+				specific kind of architecture around managing focus.
+			</P>
+			<P>
+				Each button, when mounted, registers itself as a focusable element into
+				the context. The context provider sets up a store to track these
+				elements and sets up global listeners for "tab" and "shift-tab" to cycle
+				through.
+			</P>
+			<P>
+				The next demo demonstrates how to extend this idea to incorporate common
+				focus management patterns.
+			</P>
 			<Flex column gap={8}>
 				<FocusScope>
 					<Button>Button 1</Button>

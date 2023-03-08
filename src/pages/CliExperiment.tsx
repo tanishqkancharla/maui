@@ -1,31 +1,40 @@
-import { css } from "goober"
 import React, {
 	createContext,
+	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
 	useState,
+	useSyncExternalStore,
 } from "react"
-import { useHover } from "react-aria"
 import { randomString } from "remeda"
 import {
 	InMemoryTupleStorage,
+	KeyValuePair,
 	ReadOnlyTupleDatabaseClientApi,
 	transactionalReadWrite,
 	TupleDatabase,
 	TupleDatabaseClient,
+	TupleDatabaseClientApi,
 	TupleTransactionApi,
 } from "tuple-database"
-import { useTupleDatabase } from "tuple-database/useTupleDatabase"
+import {
+	FilterTupleValuePairByPrefix,
+	TuplePrefix,
+	ValueForTuple,
+} from "tuple-database/database/typeHelpers"
 import { Button } from "../components/Button"
 import { Checkbox } from "../components/Checkbox"
 import { QuietTextField } from "../components/Input"
 import { H3, P } from "../components/Typography"
 import { Flex, Gap, Spacer } from "../components/Utils"
-import { bodyFontStyles } from "../utils/styles"
+import { useMemoShallowEqual } from "../utils/useMemoShallowEqual"
+import { useRerender } from "../utils/useRerender"
 import { useShortcut } from "../utils/useShortcut"
+import { cliExperimentStyles as styles } from "./CliExperiment.css"
 
 type AppSchema = CommandSchema | CliSchema | UISchema
+type Db = TupleDatabaseClientApi<AppSchema>
 type ReadOnlyDb = ReadOnlyTupleDatabaseClientApi<AppSchema>
 
 const query = transactionalReadWrite<AppSchema>()
@@ -36,11 +45,72 @@ type CommandQuery<Args extends any[]> = (
 	...args: Args
 ) => CommandResult
 
-const db = new TupleDatabaseClient<AppSchema>(
-	new TupleDatabase(new InMemoryTupleStorage())
-)
+const DatabaseContext = createContext<{ db: Db } | undefined>(undefined)
 
-const DatabaseContext = createContext({ db })
+function useDb() {
+	const context = useContext(DatabaseContext)
+
+	if (!context) {
+		throw new Error(`Database was undefined`)
+	}
+
+	return context.db
+}
+
+export type Callback<T> = (value: T) => void
+
+// Idk why the inference doesn't work properly without this overload
+export function useDatabase<Key extends AppSchema["key"]>(
+	db: TupleDatabaseClientApi<AppSchema>,
+	key: Readonly<Key>
+): ValueForTuple<AppSchema, Key> | undefined
+
+export function useDatabase<
+	Key extends Schema["key"],
+	Schema extends KeyValuePair
+>(
+	db: TupleDatabaseClientApi<Schema>,
+	key: Readonly<Key>
+): ValueForTuple<Schema, Key> | undefined {
+	const memoedKey = useMemoShallowEqual(key)
+
+	const subscribe = useCallback(
+		(callback: Callback<any>) => {
+			return db.subscribe({ prefix: key as any }, callback)
+		},
+		[memoedKey]
+	)
+
+	const getValue = useCallback(() => db.get(key), [memoedKey])
+
+	return useSyncExternalStore(subscribe, getValue)
+}
+
+export function useDatabaseScan<P extends TuplePrefix<AppSchema["key"]>>(
+	db: TupleDatabaseClient<AppSchema>,
+	prefix: P
+): FilterTupleValuePairByPrefix<AppSchema, P>[]
+
+export function useDatabaseScan<
+	P extends TuplePrefix<Schema["key"]>,
+	Schema extends KeyValuePair
+>(
+	db: TupleDatabaseClient<Schema>,
+	prefix: P
+): FilterTupleValuePairByPrefix<Schema, P>[] {
+	const memoedPrefix = useMemoShallowEqual(prefix)
+
+	const rerender = useRerender()
+	const value = db.scan({ prefix })
+
+	useEffect(() => {
+		const unsubscribe = db.subscribe({ prefix: memoedPrefix }, rerender)
+
+		return unsubscribe
+	}, [memoedPrefix])
+
+	return value
+}
 
 // ============================================================================
 // CLI
@@ -73,7 +143,7 @@ const cliQueries = {
 	}),
 	submitCmd: query((tx, cmd: string) => {
 		const lowercaseCmd = cmd.toLocaleLowerCase()
-		const matchingCommand = db
+		const matchingCommand = tx
 			.scan({ prefix: ["command"] })
 			.filter(({ value }) => {
 				return value.cliName?.toLocaleLowerCase() === lowercaseCmd
@@ -101,50 +171,9 @@ const cliQueries = {
 	}),
 }
 
-const cliDividerClass = css`
-	border: none;
-	border-top: 1px solid rgb(62 62 58);
-	margin: 0;
-	width: 100%;
-`
-
 function CliDivider() {
-	return <hr className={cliDividerClass} />
+	return <hr className={styles.divider} />
 }
-
-const cliCommandLineClass = css`
-	padding: 6px 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: 6px;
-	${bodyFontStyles}
-`
-
-const cliPromptClass = css`
-	color: var(--accent-color);
-	flex: 0 0 auto;
-`
-
-const cliInputClass = css`
-	flex: 1 1 auto;
-	background-color: transparent;
-	color: white;
-	font-weight: 400;
-	font-size: 12px;
-	border: none;
-	outline: none;
-	letter-spacing: 0.01em;
-	line-height: 16px;
-	font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-		"Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-
-	&::placeholder {
-		color: var(--sand-8);
-	}
-`
 
 function CliInput(props: { onSubmit: (command: string) => void }) {
 	const [value, setValue] = useState("")
@@ -159,8 +188,8 @@ function CliInput(props: { onSubmit: (command: string) => void }) {
 	useShortcut("enter", onSubmit)
 
 	return (
-		<div className={cliCommandLineClass}>
-			<span className={cliPromptClass}>{">"}</span>
+		<div className={styles.commandLine}>
+			<span className={styles.prompt}>{">"}</span>
 			<QuietTextField
 				aria-label="Command line interface input"
 				onFocusChange={setFocused}
@@ -172,33 +201,13 @@ function CliInput(props: { onSubmit: (command: string) => void }) {
 	)
 }
 
-const cliHistoryClass = css`
-	height: 180px;
-	display: flex;
-	flex-direction: column-reverse;
-	overflow-y: scroll;
-
-	--shadow-color: 0deg 0% 16%;
-	box-shadow: 0px -0.5px 0.6px hsl(var(--shadow-color) / 0.36) inset,
-		0px -1.6px 1.8px -0.8px hsl(var(--shadow-color) / 0.36) inset,
-		0px -4px 4.5px -1.7px hsl(var(--shadow-color) / 0.36) inset,
-		0px -9.7px 10.9px -2.5px hsl(var(--shadow-color) / 0.36) inset;
-`
-
-const cliErrorClass = css`
-	${bodyFontStyles}
-	color: hsl(358 75% 59%);
-	margin: 0;
-	padding: 6px 10px;
-`
-
 function CliError(props: { children?: React.ReactNode }) {
-	return <p className={cliErrorClass}>{props.children}</p>
+	return <p className={styles.error}>{props.children}</p>
 }
 
 function CliHistory(props: { history: CliState["history"] }) {
 	return (
-		<div className={cliHistoryClass}>
+		<div className={styles.history}>
 			{props.history.map((historyItem, index) => (
 				<React.Fragment key={index}>
 					{historyItem.type === "error" && (
@@ -207,9 +216,9 @@ function CliHistory(props: { history: CliState["history"] }) {
 							<CliDivider />
 						</>
 					)}
-					<div className={cliCommandLineClass}>
-						<span className={cliPromptClass}>{">"}</span>
-						<span className={cliInputClass}>{historyItem.cmd}</span>
+					<div className={styles.commandLine}>
+						<span className={styles.prompt}>{">"}</span>
+						<span className={styles.input}>{historyItem.cmd}</span>
 					</div>
 					<CliDivider />
 				</React.Fragment>
@@ -218,38 +227,19 @@ function CliHistory(props: { history: CliState["history"] }) {
 	)
 }
 
-const cliClass = css`
-	box-shadow: rgb(0 0 0 / 50%) 0px 0px 0px 0px inset,
-		rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset,
-		rgb(62 62 58) 0px 0px 0px 1px inset;
-	display: flex;
-	flex-direction: column;
-	border-radius: 4px;
-	max-width: 240px;
-`
-
-const cliInputLineClass = css`
-	position: relative;
-	z-index: 10;
-`
-
-function getCliState(db: ReadOnlyDb) {
-	return db.get(["cli"])
-}
-
 function Cli() {
-	const { db } = useContext(DatabaseContext)
+	const db = useDb()
 	useMemo(() => cliQueries.init(db), [])
-	const state = useTupleDatabase(db, getCliState, [])!
+	const state = useDatabase(db, ["cli"])!
 
 	const submitCliCommand = (cmd: string) => {
 		cliQueries.submitCmd(db, cmd)
 	}
 
 	return (
-		<div className={cliClass}>
+		<div className={styles.cli}>
 			<CliHistory history={state.history} />
-			<div className={cliInputLineClass}>
+			<div style={{ position: "relative", zIndex: 10 }}>
 				<CliDivider />
 				<CliInput onSubmit={submitCliCommand} />
 			</div>
@@ -287,7 +277,7 @@ const commandQueries = {
 		const command = tx.get(["command", id])
 		if (!command) return
 		const result = command.execute(tx, ...args)
-		console.log(`${command.name}`)
+		console.log({ command })
 
 		if (command.cliName !== undefined) {
 			const cliItem: CliItem = {
@@ -306,8 +296,8 @@ const commandQueries = {
 	}),
 }
 
-function useCommand<Args extends any[]>(command: Command<[]>) {
-	const { db } = useContext(DatabaseContext)
+function useCommand<Args extends any[]>(command: Command<Args>) {
+	const db = useDb()
 	const id = useMemo(() => randomString(10), [])
 
 	useEffect(() => {
@@ -316,9 +306,9 @@ function useCommand<Args extends any[]>(command: Command<[]>) {
 		return () => commandQueries.unregisterCommand(db, id)
 	}, [command.name, command.cliName])
 
-	return (...args: Args) => {
+	return useCallback((...args: Args) => {
 		commandQueries.execute(db, id, ...args)
-	}
+	}, [])
 }
 
 type Todo = {
@@ -393,14 +383,13 @@ function getUIState(db: ReadOnlyDb) {
 
 function Todo(props: { todo: Todo; index: number }) {
 	const { todo, index } = props
-	const { hoverProps, isHovered } = useHover({})
 
-	const { db } = useContext(DatabaseContext)
+	const db = useDb()
 
 	const onTodoToggle = useCommand({
 		name: `Toggle Todo ${index}`,
 		cliName: `todo ${index} toggle`,
-		execute: command((tx) => appCommands.toggleTodo(tx, index)),
+		execute: appCommands.toggleTodo,
 	})
 
 	const onLabelChange = (label: string) => {
@@ -416,7 +405,6 @@ function Todo(props: { todo: Todo; index: number }) {
 				alignItems: "center",
 				width: 300,
 			}}
-			{...hoverProps}
 		>
 			<Checkbox checked={todo.checked} setChecked={() => onTodoToggle(index)} />
 			<QuietTextField
@@ -431,7 +419,7 @@ function Todo(props: { todo: Todo; index: number }) {
 }
 
 function App() {
-	const { db } = useContext(DatabaseContext)
+	const db = useDb()
 	useMemo(() => appCommands.init(db), [])
 
 	const onClick = useCommand({
@@ -440,7 +428,7 @@ function App() {
 		execute: appCommands.newTodo,
 	})
 
-	const { todos } = useTupleDatabase(db, getUIState, [])!
+	const { todos } = useDatabase(db, ["ui"])!
 
 	return (
 		<Flex column gap={12}>
@@ -453,27 +441,36 @@ function App() {
 }
 
 export function CliExperiment() {
-	return (
-		<div>
-			<H3>Command Line Experiment</H3>
-			<P>
-				This experiment is about trying to marry graphical and command line
-				input. It seems graphical interfaces are easier for beginner users, but
-				command lines are more efficient for "power" users. By mapping user
-				interface commands into command line commands, a user can discover
-				analogies between the interactions, making it easier for them to
-				transition from a beginner to an expert quickly.
-			</P>
-			<P>
-				Future work could include user "scripts", cli autocomplete, or cli
-				undo/redo
-			</P>
+	const context = useMemo(() => {
+		const db: Db = new TupleDatabaseClient(
+			new TupleDatabase(new InMemoryTupleStorage())
+		)
 
-			<Flex row>
-				<Cli />
-				<Gap width={20} />
-				<App />
-			</Flex>
-		</div>
+		return { db }
+	}, [])
+
+	return (
+		<DatabaseContext.Provider value={context}>
+			<div>
+				<H3>Command Line Experiment</H3>
+				<P>
+					This experiment is about trying to marry graphical and command line
+					input. It seems graphical interfaces are easier for beginner users,
+					but command lines are more efficient for "power" users. By mapping
+					user interface commands into command line commands, a user can
+					discover analogies between the interactions, making it easier for them
+					to transition from a beginner to an expert quickly.
+				</P>
+				<P>
+					Future work could include user "scripts", cli autocomplete, or cli
+					undo/redo
+				</P>
+				<Flex row>
+					<Cli />
+					<Gap width={20} />
+					<App />
+				</Flex>
+			</div>
+		</DatabaseContext.Provider>
 	)
 }

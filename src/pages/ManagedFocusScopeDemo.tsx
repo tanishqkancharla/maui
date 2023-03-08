@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button } from "../components/Button"
 import { Dialog } from "../components/Dialog"
-import { P } from "../components/Typography"
+import { Link, P } from "../components/Typography"
 import { Flex, Gap } from "../components/Utils"
 import { useCommand } from "../hooks/useCommand"
 import { FocusScope } from "../hooks/useFocus"
@@ -40,6 +40,29 @@ export function ManagedFocusScopesDemo() {
 
 	return (
 		<Flex column gap={8}>
+			<P>
+				Like the previous demo, the demo here is not as impressive, but it
+				demonstrates how to extend the previous ideas to incorporate common
+				focus management patterns.
+			</P>
+			<P>
+				By using a global store for the focus element tree, with root nodes
+				being focusable elements, and parent nodes being "focus scopes" that
+				store parameters like their contain behavior, we can create handlers for
+				"tab" and "shift-tab" that will inspect the current focus scope and
+				based on it's contain behavior, set the focus state to the appropriate
+				element.
+			</P>
+			<P>
+				These semantics can be elegantly represented in
+				<Link href="https://github.com/ccorcos/tuple-database">
+					tuple-database
+				</Link>
+				. The active focus key below represents the actual key of that element
+				into the focus database. This representation lets us make efficient
+				scans for i.e. the first element in the current scope, or whether we are
+				the last element.
+			</P>
 			<ActiveFocusView />
 			<Gap height={8} />
 			<div
