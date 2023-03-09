@@ -1,3 +1,5 @@
+import { sandDark, violetDark } from "@radix-ui/colors"
+import dedent from "dedent"
 import React, {
 	createContext,
 	useCallback,
@@ -7,7 +9,6 @@ import React, {
 	useState,
 	useSyncExternalStore,
 } from "react"
-import { randomString } from "remeda"
 import {
 	InMemoryTupleStorage,
 	KeyValuePair,
@@ -28,10 +29,11 @@ import { Checkbox } from "../components/Checkbox"
 import { QuietTextField } from "../components/Input"
 import { H3, P } from "../components/Typography"
 import { Flex, Gap, Spacer } from "../components/Utils"
+import { baseStyles } from "../utils/purseStyles"
+import { style } from "../utils/styles"
 import { useMemoShallowEqual } from "../utils/useMemoShallowEqual"
 import { useRerender } from "../utils/useRerender"
 import { useShortcut } from "../utils/useShortcut"
-import { cliExperimentStyles as styles } from "./CliExperiment.css"
 
 type AppSchema = CommandSchema | CliSchema | UISchema
 type Db = TupleDatabaseClientApi<AppSchema>
@@ -171,9 +173,30 @@ const cliQueries = {
 	}),
 }
 
+const dividerStyle = style({
+	border: "none",
+	borderTop: "1px solid rgb(62 62 58)",
+	margin: 0,
+	width: "100%",
+})
+
 function CliDivider() {
-	return <hr className={styles.divider} />
+	return <hr className={dividerStyle} />
 }
+
+const commandLineStyles = style({
+	padding: "6px 10px",
+	display: "flex",
+	flexDirection: "row",
+	alignItems: "center",
+	gap: "6px",
+})
+
+const promptStyles = style({
+	color: violetDark.violet8,
+	paddingRight: "4px",
+	flex: "0 0 auto",
+})
 
 function CliInput(props: { onSubmit: (command: string) => void }) {
 	const [value, setValue] = useState("")
@@ -188,8 +211,8 @@ function CliInput(props: { onSubmit: (command: string) => void }) {
 	useShortcut("enter", onSubmit)
 
 	return (
-		<div className={styles.commandLine}>
-			<span className={styles.prompt}>{">"}</span>
+		<div className={commandLineStyles}>
+			<span className={promptStyles}>{">"}</span>
 			<QuietTextField
 				aria-label="Command line interface input"
 				onFocusChange={setFocused}
@@ -201,13 +224,51 @@ function CliInput(props: { onSubmit: (command: string) => void }) {
 	)
 }
 
+const errorStyle = style({
+	color: "hsl(358 75% 59%)",
+	margin: "0",
+	padding: "6px 10px",
+})
+
 function CliError(props: { children?: React.ReactNode }) {
-	return <p className={styles.error}>{props.children}</p>
+	return <p className={errorStyle}>{props.children}</p>
 }
+
+const shadows = {
+	medium: (hslShadowColor: string) =>
+		style({
+			boxShadow: dedent(`
+        0px -0.5px 0.6px hsl(${hslShadowColor} / 0.36) inset,
+        0px -1.6px 1.8px -0.8px hsl(${hslShadowColor} / 0.36) inset,
+        0px -4px 4.5px -1.7px hsl(${hslShadowColor} / 0.36) inset,
+        0px -9.7px 10.9px -2.5px hsl(${hslShadowColor} / 0.36) inset
+      `),
+		}),
+}
+
+const historyStyles = style(shadows.medium("0deg 0% 16%"), {
+	height: "180px",
+	display: "flex",
+	flexDirection: "column-reverse",
+	overflowY: "scroll",
+})
+
+const inputStyle = style(baseStyles.bodyText, {
+	flex: "1 1 auto",
+	backgroundColor: "transparent",
+	color: "white",
+	border: "none",
+	outline: "none",
+	margin: 0,
+	padding: 0,
+	"::placeholder": {
+		color: sandDark.sand8,
+	},
+})
 
 function CliHistory(props: { history: CliState["history"] }) {
 	return (
-		<div className={styles.history}>
+		<div className={historyStyles}>
 			{props.history.map((historyItem, index) => (
 				<React.Fragment key={index}>
 					{historyItem.type === "error" && (
@@ -216,9 +277,9 @@ function CliHistory(props: { history: CliState["history"] }) {
 							<CliDivider />
 						</>
 					)}
-					<div className={styles.commandLine}>
-						<span className={styles.prompt}>{">"}</span>
-						<span className={styles.input}>{historyItem.cmd}</span>
+					<div className={commandLineStyles}>
+						<span className={promptStyles}>{">  "}</span>
+						<span className={inputStyle}>{historyItem.cmd}</span>
 					</div>
 					<CliDivider />
 				</React.Fragment>
@@ -226,6 +287,14 @@ function CliHistory(props: { history: CliState["history"] }) {
 		</div>
 	)
 }
+
+const cliStyle = style({
+	border: "1px solid rgb(62 62 58)",
+	display: "flex",
+	flexDirection: "column",
+	borderRadius: "4px",
+	maxWidth: "240px",
+})
 
 function Cli() {
 	const db = useDb()
@@ -237,7 +306,7 @@ function Cli() {
 	}
 
 	return (
-		<div className={styles.cli}>
+		<div className={cliStyle}>
 			<CliHistory history={state.history} />
 			<div style={{ position: "relative", zIndex: 10 }}>
 				<CliDivider />
@@ -296,9 +365,13 @@ const commandQueries = {
 	}),
 }
 
+function randomString() {
+	return Math.random().toString().slice(3, 13)
+}
+
 function useCommand<Args extends any[]>(command: Command<Args>) {
 	const db = useDb()
-	const id = useMemo(() => randomString(10), [])
+	const id = useMemo(() => randomString(), [])
 
 	useEffect(() => {
 		commandQueries.registerCommand(db, id, command)
@@ -377,13 +450,8 @@ const appCommands = {
 	}),
 }
 
-function getUIState(db: ReadOnlyDb) {
-	return db.get(["ui"])
-}
-
 function Todo(props: { todo: Todo; index: number }) {
 	const { todo, index } = props
-
 	const db = useDb()
 
 	const onTodoToggle = useCommand({
@@ -401,9 +469,9 @@ function Todo(props: { todo: Todo; index: number }) {
 			style={{
 				display: "flex",
 				flexDirection: "row",
-				gap: 4,
 				alignItems: "center",
-				width: 300,
+				gap: "4px",
+				width: "300px",
 			}}
 		>
 			<Checkbox checked={todo.checked} setChecked={() => onTodoToggle(index)} />

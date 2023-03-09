@@ -14,8 +14,8 @@ import { ManagedFocusScopesDemo } from "./pages/ManagedFocusScopeDemo"
 import { Maui } from "./pages/Maui"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
 import { fuzzyMatch } from "./utils/fuzzyMatch"
-import { createStyles, PurseProvider, useStyles } from "./utils/purse"
-import { baseStyles } from "./utils/styles.css"
+import { baseStyles } from "./utils/purseStyles"
+import { style } from "./utils/styles"
 
 Object.defineProperty(Array.prototype, "last", {
 	get() {
@@ -40,18 +40,29 @@ const pages: Page[] = [
 	{ name: "Managed Focus Scopes", component: ManagedFocusScopesDemo },
 	{ name: "Breadcrumbs", component: BreadcrumbsDemo },
 ]
+
 export function isDefined<T>(value: T | undefined): value is T {
 	return value !== undefined
 }
 
-const indexStyles = createStyles({
-	width: "100vw",
-	height: "100vh",
+const indexStyles = style(
+	{
+		width: "100vw",
+		height: "100vh",
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "stretch",
+		padding: "24px",
+		gap: "1rem",
+	},
+	baseStyles.bodyText
+)
+
+const menuStyles = style({
 	display: "flex",
 	flexDirection: "column",
-	alignItems: "stretch",
-	padding: "24px",
-	gap: "1rem",
+	paddingTop: "27px",
+	width: "100vw",
 })
 
 function Index() {
@@ -61,18 +72,16 @@ function Index() {
 		.map((page, index) => {
 			const match = fuzzyMatch(value, page.name)
 			if (match) {
-				return [index, match] as const
+				return [index, match, value] as const
 			}
 		})
 		.filter(isDefined)
 
-	const indexClass = useStyles(indexStyles)
-
 	return (
 		<div
-			className={`${indexClass} sm:flex-row sm:items-start sm:gap-8 sm:p-8 ${baseStyles.bodyText}`}
+			className={`${indexStyles} sm:flex-row sm:items-start sm:gap-8 sm:p-8`}
 		>
-			<div className="flex flex-col pt-[27px] w-full sm:max-w-[250px]">
+			<div className={`sm:max-w-[250px] ${menuStyles}`}>
 				<TextField
 					placeholder="Search for experiments..."
 					aria-label="Experiment Search"
@@ -90,8 +99,8 @@ function Index() {
 					}}
 					disallowEmptySelection
 				>
-					{filteredSearchResults.map(([index, match]) => (
-						<Item key={index}>
+					{filteredSearchResults.map(([index, match, value]) => (
+						<Item key={index} textValue={value}>
 							<FuzzyString match={match} />
 						</Item>
 					))}
@@ -119,20 +128,16 @@ function App() {
 }
 
 function run() {
-	const appRoot = document.querySelector("body")
+	const appRoot = document.querySelector("#app")
 	if (!appRoot) {
-		throw new Error("Could not find body element in dom.")
+		throw new Error("Could not find #app element in dom.")
 	}
-	const styleElement = document.createElement("style")
-	document.head.appendChild(styleElement)
 
 	const root = ReactDOM.createRoot(appRoot)
 
 	root.render(
 		<StrictMode>
-			<PurseProvider styleRef={{ current: styleElement }}>
-				<App />
-			</PurseProvider>
+			<App />
 		</StrictMode>
 	)
 }

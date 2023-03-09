@@ -1,5 +1,5 @@
-import { css } from "goober"
 import React from "react"
+import { style } from "../utils/styles"
 
 export const typographyMaxWidth = "500px"
 
@@ -15,43 +15,47 @@ export function H3(props: { children: string }) {
 	return <h3>{props.children}</h3>
 }
 
-const pClass = css`
-	margin: 1.25em 0;
+const pClass = style({
+	/* margin: 1.25em 0;
 	color: var(--sand-11);
 	font-size: 0.9rem;
 	font-family: system-ui, -apple-system;
 	letter-spacing: 0.015em;
 	line-height: 1.26rem;
-	max-width: ${typographyMaxWidth};
-`
+	max-width: ${typographyMaxWidth}; */
+})
 
 export function P(props: { children: React.ReactNode }) {
 	return <p className={pClass}>{props.children}</p>
 }
 
-const blockquoteClass = css`
-	border-left: 2px solid var(--accent-color);
-	margin: 1.45em 0;
-	padding-left: 12px;
-	font-style: italic;
-	color: var(--sand-10);
-	font-size: 0.9rem;
-	font-family: system-ui, -apple-system;
-	letter-spacing: 0.015em;
-	line-height: 19px;
-	max-width: ${typographyMaxWidth};
-`
+const blockquoteClass = style({
+	//   `
+	// 	border-left: 2px solid var(--accent-color);
+	// 	margin: 1.45em 0;
+	// 	padding-left: 12px;
+	// 	font-style: italic;
+	// 	color: var(--sand-10);
+	// 	font-size: 0.9rem;
+	// 	font-family: system-ui, -apple-system;
+	// 	letter-spacing: 0.015em;
+	// 	line-height: 19px;
+	// 	max-width: ${typographyMaxWidth};
+	// `
+})
 
 export function Blockquote(props: { children: string }) {
 	return <blockquote className={blockquoteClass}>{props.children}</blockquote>
 }
 
-const aClass = css`
-	color: var(--sand-12);
-	font-family: system-ui, -apple-system;
-	letter-spacing: 0.015em;
-	line-height: 19px;
-`
+const aClass = style({
+	//   `
+	// 	color: var(--sand-12);
+	// 	font-family: system-ui, -apple-system;
+	// 	letter-spacing: 0.015em;
+	// 	line-height: 19px;
+	// `
+})
 
 export function Link(props: { children: string; href: string }) {
 	return (

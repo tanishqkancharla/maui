@@ -1,7 +1,7 @@
 import { animated, SpringConfig, useSpring } from "@react-spring/web"
-import { css } from "goober"
 import React from "react"
 import { FocusScope } from "../hooks/useFocus"
+import { style } from "../utils/styles"
 import { Overlay } from "./Overlay"
 
 type DialogProps = {
@@ -9,26 +9,16 @@ type DialogProps = {
 	onClickOutside?: () => void
 }
 
-const dialogStyle = css`
-	flex: 1;
-
-	border: 2px solid var(--sand-5);
-	border-radius: 4px;
-	background-color: var(--sand-2);
-
-	margin: 15vh 20vw;
-	padding: 32px;
-`
-
-const dialogUnderlayStyle = css`
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-	justify-items: center;
-	height: 100vh;
-	width: 100vw;
-	padding: 15vh 20vw;
-`
+const dialogStyle = style({
+	//   `
+	// 	flex: 1;
+	// 	border: 2px solid var(--sand-5);
+	// 	border-radius: 4px;
+	// 	background-color: var(--sand-2);
+	// 	margin: 15vh 20vw;
+	// 	padding: 32px;
+	// `
+})
 
 const springConfigs = {
 	big: {

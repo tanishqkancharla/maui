@@ -1,60 +1,57 @@
-import { css } from "goober";
-import React, { useRef } from "react";
-import { useCheckbox } from "react-aria";
-import { useToggleState } from "react-stately";
+import { useRef } from "react"
+import { useCheckbox } from "react-aria"
+import { useToggleState } from "react-stately"
+import { style } from "../utils/styles"
 
 type CheckboxProps = {
-	label?: string;
-	checked: boolean;
-	setChecked: (checked: boolean) => void;
-};
+	label?: string
+	checked: boolean
+	setChecked: (checked: boolean) => void
+}
 
-const checkboxClass = css`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	position: relative;
-	width: fit-content;
-	padding: 6px;
-	gap: 6px;
-
-	& .checkbox-input {
-		position: absolute;
-		top: 0;
-		left: 0;
-		margin: 0;
-		padding: 0;
-		opacity: 0.0001;
-	}
-
-	& .checkbox-toggle {
-		pointer-events: none;
-		transition: all 130ms ease-in-out;
-		height: 14px;
-		width: 14px;
-		padding: 1px;
-		border-radius: 2px;
-		background-color: var(--sand-7);
-	}
-
-	& input[aria-checked="true"] + .checkbox-toggle {
-		background-color: var(--accent-color);
-	}
-
-	& .checkbox-toggle svg {
-		transition: all 130ms ease-in-out;
-	}
-
-	&:hover .checkbox-toggle {
-		background-color: var(--sand-8);
-	}
-`;
+const checkboxClass = style({
+	//   `
+	// 	display: flex;
+	// 	flex-direction: row;
+	// 	align-items: center;
+	// 	position: relative;
+	// 	width: fit-content;
+	// 	padding: 6px;
+	// 	gap: 6px;
+	// 	& .checkbox-input {
+	// 		position: absolute;
+	// 		top: 0;
+	// 		left: 0;
+	// 		margin: 0;
+	// 		padding: 0;
+	// 		opacity: 0.0001;
+	// 	}
+	// 	& .checkbox-toggle {
+	// 		pointer-events: none;
+	// 		transition: all 130ms ease-in-out;
+	// 		height: 14px;
+	// 		width: 14px;
+	// 		padding: 1px;
+	// 		border-radius: 2px;
+	// 		background-color: var(--sand-7);
+	// 	}
+	// 	& input[aria-checked="true"] + .checkbox-toggle {
+	// 		background-color: var(--accent-color);
+	// 	}
+	// 	& .checkbox-toggle svg {
+	// 		transition: all 130ms ease-in-out;
+	// 	}
+	// 	&:hover .checkbox-toggle {
+	// 		background-color: var(--sand-8);
+	// 	}
+	// `
+})
 
 export function Checkbox(props: CheckboxProps) {
-	const { label, checked, setChecked } = props;
-	const state = useToggleState({ isSelected: checked, onChange: setChecked });
-	const ref = useRef(null);
-	const { inputProps } = useCheckbox({ "aria-label": props.label }, state, ref);
+	const { label, checked, setChecked } = props
+	const state = useToggleState({ isSelected: checked, onChange: setChecked })
+	const ref = useRef(null)
+	const { inputProps } = useCheckbox({ "aria-label": props.label }, state, ref)
 
 	return (
 		<label className={checkboxClass}>
@@ -80,5 +77,5 @@ export function Checkbox(props: CheckboxProps) {
 			</span>
 			{label && <span className="checbox-label">{label}</span>}
 		</label>
-	);
+	)
 }

@@ -1,5 +1,6 @@
-import { css } from "goober"
+import { sandDark } from "@radix-ui/colors"
 import React from "react"
+import { style } from "../utils/styles"
 
 type PaddingProps = {
 	top?: number
@@ -69,13 +70,13 @@ export function Spacer() {
 	return <div style={{ flex: "1 1 auto" }} />
 }
 
-const hrClass = css`
-	border: none;
-	border-top: 1.5px solid var(--sand-5);
-	margin-top: 1.5em;
-	margin-bottom: 1.5em;
-	width: 100%;
-`
+const hrClass = style({
+	border: "none",
+	borderTop: `1.5px solid ${sandDark.sand5}`,
+	marginTop: "1.5rem",
+	marginBottom: "1.5rem",
+	width: "100%",
+})
 
 export function Divider() {
 	return <hr className={hrClass} />

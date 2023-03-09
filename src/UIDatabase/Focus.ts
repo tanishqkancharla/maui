@@ -1,4 +1,4 @@
-import { isEqual } from "radash"
+import { isEqual } from "lodash"
 import { ReadOnlyUIDatabase, uiQuery } from "./UIDatabase"
 
 export type FocusScopeProps = {
