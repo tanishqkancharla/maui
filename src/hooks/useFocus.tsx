@@ -9,7 +9,7 @@ import {
 import { useUIDatabase } from "../UIDatabase/UIDatabase"
 import { useTupleDatabase } from "./useTupleDatabase"
 
-export function useFocus(id: string, ref: React.RefObject<HTMLElement>) {
+export function useFocus(id: string, ref: React.RefObject<HTMLElement | null>) {
 	const parentScope = useContext(FocusScopeContext)
 	const db = useUIDatabase()
 

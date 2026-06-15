@@ -1,8 +1,8 @@
 import { sandDark, violetDark } from "@radix-ui/colors"
 import { useRef } from "react"
 import { AriaTextFieldOptions, useTextField } from "react-aria"
+import { style, useStyles } from "purse-styles"
 import { baseStyles } from "../utils/purseStyles"
-import { style } from "../utils/styles"
 
 const inputClass = style(baseStyles.bodyText, {
 	background: sandDark.sand3,
@@ -13,15 +13,15 @@ const inputClass = style(baseStyles.bodyText, {
 	height: "28px",
 	border: `1px solid ${sandDark.sand6}`,
 	transition: "border-color 80ms ease-in-out",
-	":focus": {
+	"&:focus": {
 		border: `1px solid ${violetDark.violet8}`,
 		outline: "none",
 	},
-	":hover": {
+	"&:hover": {
 		background: sandDark.sand4,
 	},
 
-	"::placeholder": {
+	"&::placeholder": {
 		fontStyle: "italic",
 		color: sandDark.sand8,
 	},
@@ -32,7 +32,8 @@ type InputProps = AriaTextFieldOptions<"input">
 export function TextField(props: InputProps) {
 	const ref = useRef(null)
 	const { inputProps } = useTextField({ ...props }, ref)
-	return <input className={inputClass} ref={ref} {...inputProps} />
+	const className = useStyles(inputClass)
+	return <input className={className} ref={ref} {...inputProps} />
 }
 
 const quietInputClass = style(baseStyles.bodyText, {
@@ -43,7 +44,7 @@ const quietInputClass = style(baseStyles.bodyText, {
 	outline: "none",
 	margin: 0,
 	padding: 0,
-	"::placeholder": {
+	"&::placeholder": {
 		fontStyle: "italic",
 		color: sandDark.sand8,
 	},
@@ -52,6 +53,7 @@ const quietInputClass = style(baseStyles.bodyText, {
 export function QuietTextField(props: InputProps) {
 	const ref = useRef(null)
 	const { inputProps } = useTextField({ ...props }, ref)
+	const className = useStyles(quietInputClass)
 
-	return <input className={quietInputClass} {...inputProps} />
+	return <input className={className} {...inputProps} />
 }

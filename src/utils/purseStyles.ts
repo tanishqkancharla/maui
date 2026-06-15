@@ -1,4 +1,4 @@
-import { style } from "./styles"
+import { style } from "purse-styles"
 
 export const baseStyles = {
 	bodyText: style({

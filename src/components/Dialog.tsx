@@ -1,7 +1,7 @@
 import { animated, SpringConfig, useSpring } from "@react-spring/web"
+import { style, useStyles } from "purse-styles"
 import React from "react"
 import { FocusScope } from "../hooks/useFocus"
-import { style } from "../utils/styles"
 import { Overlay } from "./Overlay"
 
 type DialogProps = {
@@ -10,14 +10,12 @@ type DialogProps = {
 }
 
 const dialogStyle = style({
-	//   `
-	// 	flex: 1;
-	// 	border: 2px solid var(--sand-5);
-	// 	border-radius: 4px;
-	// 	background-color: var(--sand-2);
-	// 	margin: 15vh 20vw;
-	// 	padding: 32px;
-	// `
+	flex: 1,
+	border: "2px solid var(--sand-5)",
+	borderRadius: "4px",
+	backgroundColor: "var(--sand-2)",
+	margin: "15vh 20vw",
+	padding: "32px",
 })
 
 const springConfigs = {
@@ -30,6 +28,7 @@ const springConfigs = {
 } satisfies Record<string, SpringConfig>
 
 export function Dialog(props: DialogProps) {
+	const className = useStyles(dialogStyle)
 	const dialogSprings = useSpring({
 		config: springConfigs.big,
 		from: {
@@ -46,7 +45,7 @@ export function Dialog(props: DialogProps) {
 					style={{
 						...dialogSprings,
 					}}
-					className={dialogStyle}
+					className={className}
 				>
 					{props.children}
 				</animated.div>

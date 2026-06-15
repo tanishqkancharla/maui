@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import { useCheckbox } from "react-aria"
 import { useToggleState } from "react-stately"
-import { style } from "../utils/styles"
+import { style, useStyles } from "purse-styles"
 
 type CheckboxProps = {
 	label?: string
@@ -10,41 +10,39 @@ type CheckboxProps = {
 }
 
 const checkboxClass = style({
-	//   `
-	// 	display: flex;
-	// 	flex-direction: row;
-	// 	align-items: center;
-	// 	position: relative;
-	// 	width: fit-content;
-	// 	padding: 6px;
-	// 	gap: 6px;
-	// 	& .checkbox-input {
-	// 		position: absolute;
-	// 		top: 0;
-	// 		left: 0;
-	// 		margin: 0;
-	// 		padding: 0;
-	// 		opacity: 0.0001;
-	// 	}
-	// 	& .checkbox-toggle {
-	// 		pointer-events: none;
-	// 		transition: all 130ms ease-in-out;
-	// 		height: 14px;
-	// 		width: 14px;
-	// 		padding: 1px;
-	// 		border-radius: 2px;
-	// 		background-color: var(--sand-7);
-	// 	}
-	// 	& input[aria-checked="true"] + .checkbox-toggle {
-	// 		background-color: var(--accent-color);
-	// 	}
-	// 	& .checkbox-toggle svg {
-	// 		transition: all 130ms ease-in-out;
-	// 	}
-	// 	&:hover .checkbox-toggle {
-	// 		background-color: var(--sand-8);
-	// 	}
-	// `
+	display: "flex",
+	flexDirection: "row",
+	alignItems: "center",
+	position: "relative",
+	width: "fit-content",
+	padding: "6px",
+	gap: "6px",
+	"& .checkbox-input": {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		margin: 0,
+		padding: 0,
+		opacity: 0.0001,
+	},
+	"& .checkbox-toggle": {
+		pointerEvents: "none",
+		transition: "all 130ms ease-in-out",
+		height: "14px",
+		width: "14px",
+		padding: "1px",
+		borderRadius: "2px",
+		backgroundColor: "var(--sand-7)",
+	},
+	'& input[aria-checked="true"] + .checkbox-toggle': {
+		backgroundColor: "var(--accent-color)",
+	},
+	"& .checkbox-toggle svg": {
+		transition: "all 130ms ease-in-out",
+	},
+	"&:hover .checkbox-toggle": {
+		backgroundColor: "var(--sand-8)",
+	},
 })
 
 export function Checkbox(props: CheckboxProps) {
@@ -52,9 +50,10 @@ export function Checkbox(props: CheckboxProps) {
 	const state = useToggleState({ isSelected: checked, onChange: setChecked })
 	const ref = useRef(null)
 	const { inputProps } = useCheckbox({ "aria-label": props.label }, state, ref)
+	const className = useStyles(checkboxClass)
 
 	return (
-		<label className={checkboxClass}>
+		<label className={className}>
 			<input type="checkbox" className="checkbox-input" {...inputProps} />
 			<span className="checkbox-toggle">
 				<svg

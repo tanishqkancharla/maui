@@ -1,6 +1,6 @@
 import { sandDark } from "@radix-ui/colors"
+import { style, useStyles } from "purse-styles"
 import React from "react"
-import { style } from "../utils/styles"
 
 type PaddingProps = {
 	top?: number
@@ -79,5 +79,7 @@ const hrClass = style({
 })
 
 export function Divider() {
-	return <hr className={hrClass} />
+	const className = useStyles(hrClass)
+
+	return <hr className={className} />
 }
