@@ -34,7 +34,7 @@ const checkboxClass = style({
 		borderRadius: "2px",
 		backgroundColor: "var(--sand-7)",
 	},
-	'& input[aria-checked="true"] + .checkbox-toggle': {
+	"& input:checked + .checkbox-toggle": {
 		backgroundColor: "var(--accent-color)",
 	},
 	"& .checkbox-toggle svg": {
@@ -42,6 +42,9 @@ const checkboxClass = style({
 	},
 	"&:hover .checkbox-toggle": {
 		backgroundColor: "var(--sand-8)",
+	},
+	"&:hover input:checked + .checkbox-toggle": {
+		backgroundColor: "var(--accent-color)",
 	},
 })
 

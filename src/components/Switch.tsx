@@ -60,6 +60,9 @@ const switchClass = style({
 	"&:hover .switch-toggle::after": {
 		backgroundColor: "var(--sand-8)",
 	},
+	"&:hover .switch-input:checked + .switch-toggle::after": {
+		backgroundColor: "var(--accent-color)",
+	},
 	"&:focus-visible .switch-toggle::after": {
 		outline: "1px solid var(--accent-color)",
 	},
