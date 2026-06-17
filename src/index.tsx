@@ -20,13 +20,13 @@ Object.defineProperty(Array.prototype, "first", {
 const appStyles = style(
 	{
 		width: "100vw",
-		minHeight: "100vh",
+		height: "100vh",
 		padding: "32px",
 		margin: "0 auto",
 		maxWidth: "1040px",
 		background: "var(--sand-1)",
 		color: "white",
-		overflowY: "auto",
+		overflow: "hidden",
 	},
 	baseStyles.bodyText,
 )

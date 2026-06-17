@@ -59,20 +59,13 @@ function MauiContent() {
 	const [overlayOpen, setOverlayOpen] = useState(false)
 	const fuzzyDemo = fuzzyMatch("fz", "FuzzyString")
 	const shellClassName = useStyles(mauiShellClass)
+	const contentClassName = useStyles(contentClass)
 
 	return (
 		<div className={shellClassName}>
 			<MauiNavigation />
 
-			<div>
-				<H1>Maui</H1>
-				<P>
-					Maui is a growing design system of reusable components. This page is now
-					the main app surface and showcases the library from style tokens up.
-				</P>
-
-				<Divider />
-
+			<div className={contentClassName}>
 				<WouterSwitch>
 					<Route path="/">
 						<Redirect to="/style-tokens/color" />
@@ -94,7 +87,9 @@ function MauiContent() {
 								<Button>Button</Button>
 								<ActionButton>Action Button</ActionButton>
 								<Button onClick={() => setDialogOpen(true)}>Open Dialog</Button>
-								<Button onClick={() => setOverlayOpen(true)}>Open Overlay</Button>
+								<Button onClick={() => setOverlayOpen(true)}>
+									Open Overlay
+								</Button>
 							</Flex>
 						</Section>
 					</Route>
@@ -106,11 +101,14 @@ function MauiContent() {
 							<H3>Heading 3</H3>
 							<P>
 								Paragraph text supports inline links like{" "}
-								<TypographyLink href="https://open-ui.org">Open UI</TypographyLink>.
+								<TypographyLink href="https://open-ui.org">
+									Open UI
+								</TypographyLink>
+								.
 							</P>
 							<Blockquote>
-								A blockquote gives longer cited or emphasized text a calm, accented
-								presentation.
+								A blockquote gives longer cited or emphasized text a calm,
+								accented presentation.
 							</Blockquote>
 						</Section>
 					</Route>
@@ -299,11 +297,24 @@ const mauiShellClass = style({
 	gridTemplateColumns: "180px minmax(0, 1fr)",
 	gap: "32px",
 	alignItems: "start",
+	height: "100%",
+	minHeight: 0,
+	overflow: "hidden",
+})
+
+const contentClass = style({
+	height: "100%",
+	minHeight: 0,
+	overflowY: "auto",
 })
 
 const navClass = style({
-	position: "sticky",
-	top: "32px",
+	height: "100%",
+	minHeight: 0,
+	overflowY: "auto",
+	"& h2": {
+		marginTop: 0,
+	},
 	"& ul": {
 		listStyleType: "none",
 		padding: 0,
@@ -395,7 +406,9 @@ function MauiNavigation() {
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
-			<ul>
+			<H3>Maui</H3>
+			<Gap height={12} />
+			<ul style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
 				{navigation.map((group) => (
 					<li className={groupClassName} key={group.label}>
 						<div className={groupTitleClassName}>{group.label}</div>
@@ -467,8 +480,7 @@ const styleTokenPages = [
 	{
 		path: "/style-tokens/sizing",
 		title: "Sizing",
-		description:
-			"Common heights, widths, icon sizes, and content constraints.",
+		description: "Common heights, widths, icon sizes, and content constraints.",
 		example: `style(sizing.controlHeight, sizing.fullWidth)`,
 	},
 	{
@@ -546,8 +558,8 @@ function ColorTokens() {
 			<H2>Color Tokens</H2>
 			<P>
 				The main tokens are the solid accent and sand scales from
-				<code> src/style.css</code>. There are also alpha variants
-				(<code>--accent-A1</code> through <code>--accent-A12</code> and
+				<code> src/style.css</code>. There are also alpha variants (
+				<code>--accent-A1</code> through <code>--accent-A12</code> and
 				<code> --sand-A1</code> through <code>--sand-A12</code>) for overlays,
 				states, and subtle surfaces.
 			</P>
