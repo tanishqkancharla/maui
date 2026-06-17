@@ -23,7 +23,7 @@ const appStyles = style(
 		minHeight: "100vh",
 		padding: "32px",
 		margin: "0 auto",
-		maxWidth: "720px",
+		maxWidth: "1040px",
 		background: "var(--sand-1)",
 		color: "white",
 		overflowY: "auto",
