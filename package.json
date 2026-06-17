@@ -2,13 +2,12 @@
 	"name": "experiments",
 	"version": "0.0.1",
 	"description": "Tanishq Kancharla's experiments",
-	"source": "src/index.html",
 	"scripts": {
 		"tsc": "tsc --noEmit --watch",
 		"clear": "mkdir -p dist && rm -rf dist/*",
-		"dev": "parcel",
-		"build": "parcel build",
-		"serve": "parcel serve",
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview",
 		"deploy": "npx vercel deploy",
 		"test": "vitest"
 	},
@@ -20,13 +19,14 @@
 		"@types/node": "^25.9.2",
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^6.0.2",
 		"esbuild": "^0.28.0",
-		"parcel": "^2.16.4",
 		"process": "^0.11.10",
 		"serve": "^14.2.6",
 		"tsx": "^4.22.4",
 		"typescript": "^6.0.3",
 		"vercel": "^54.10.3",
+		"vite": "^8.0.16",
 		"vitest": "^4.1.8"
 	},
 	"dependencies": {
@@ -42,6 +42,7 @@
 		"react-dom": "^19.2.7",
 		"react-stately": "^3.47.0",
 		"tuple-database": "^2.2.4",
-		"use-state-dispatch": "^0.6.0"
+		"use-state-dispatch": "^0.6.0",
+		"wouter": "^3.10.0"
 	}
 }
