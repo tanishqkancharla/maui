@@ -59,11 +59,50 @@
 	--sand-A11: hsla(51, 97%, 97.8%, 0.597);
 	--sand-A12: hsla(60, 88.7%, 99.8%, 0.923);
 
-	--shadow-color: 60deg 6% 11%;
-	--shadow-elevation-medium: 0px -0.5px 0.6px hsl(var(--shadow-color) / 0.36),
-		0px -1.6px 1.8px -0.8px hsl(var(--shadow-color) / 0.36),
-		0px -4px 4.5px -1.7px hsl(var(--shadow-color) / 0.36),
-		0px -9.7px 10.9px -2.5px hsl(var(--shadow-color) / 0.36);
+	--foreground-rgb: 237, 236, 240;
+	--shadow-border-opacity: 0.15;
+	--shadow-blur-opacity: 0.12;
+	--shadow-thin: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(var(--foreground-rgb), 0.06) 0px 0px 0px 1px;
+	--shadow-minimal: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(var(--foreground-rgb), 0.06) 0px 0px 0px 1px,
+		rgba(0, 0, 0, var(--shadow-blur-opacity)) 0px 1px 1px -0.5px,
+		rgba(0, 0, 0, var(--shadow-blur-opacity)) 0px 3px 3px -1.5px;
+	--shadow-minimal-flat: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(var(--foreground-rgb), 0.06) 0px 0px 0px 1px;
+	--shadow-middle: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(var(--foreground-rgb), 0.06) 0px 0px 0px 1px,
+		rgba(0, 0, 0, var(--shadow-blur-opacity)) 0px 1px 1px -0.5px,
+		rgba(0, 0, 0, var(--shadow-blur-opacity)) 0px 3px 3px -1.5px,
+		rgba(0, 0, 0, var(--shadow-blur-opacity)) 0px 6px 6px -3px;
+	--shadow-strong: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(var(--foreground-rgb), 0.06) 0px 0px 0px 1px,
+		rgba(0, 0, 0, var(--shadow-blur-opacity)) 0px 1px 1px -0.5px,
+		rgba(0, 0, 0, var(--shadow-blur-opacity)) 0px 3px 3px -1.5px,
+		rgba(0, 0, 0, var(--shadow-blur-opacity)) 0px 6px 6px -3px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.67)) 0px 12px 12px -6px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.67)) 0px 24px 24px -12px;
+	--shadow-modal-small: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(var(--foreground-rgb), 0.06) 0px 0px 0px 1px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.67)) 0px 1px 1px -0.5px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.67)) 0px 3px 3px 0px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.33)) 0px 6px 6px 0px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.33)) 0px 12px 12px 0px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.33)) 0px 24px 24px 0px;
+	--shadow-panel-focused: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.67)) 0px 1px 1px -0.5px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.67)) 0px 3px 3px 1px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.5)) 0px 6px 6px 2px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.5)) 0px 12px 12px 3px,
+		rgba(0, 0, 0, calc(var(--shadow-blur-opacity) * 0.33)) 0px 24px 24px 4px;
 }
 
 h1 {
@@ -113,4 +152,45 @@ body {
 button,
 [role="button"] {
 	cursor: default;
+}
+
+pre {
+	line-height: 1.6;
+}
+
+.maui-example-panel {
+	padding: 32px;
+	border: 1px solid var(--sand-6);
+	border-radius: 8px;
+	background-color: var(--sand-2);
+	background-image: radial-gradient(var(--sand-A5) 1px, transparent 1px);
+	background-size: 12px 12px;
+}
+
+.shadow-thin {
+	box-shadow: var(--shadow-thin);
+}
+
+.shadow-minimal {
+	box-shadow: var(--shadow-minimal);
+}
+
+.shadow-minimal-flat {
+	box-shadow: var(--shadow-minimal-flat);
+}
+
+.shadow-middle {
+	box-shadow: var(--shadow-middle);
+}
+
+.shadow-strong {
+	box-shadow: var(--shadow-strong);
+}
+
+.shadow-modal-small {
+	box-shadow: var(--shadow-modal-small);
+}
+
+.shadow-panel-focused {
+	box-shadow: var(--shadow-panel-focused);
 }

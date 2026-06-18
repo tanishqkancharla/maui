@@ -15,13 +15,30 @@ export function H3(props: { children: string }) {
 	return <h3>{props.children}</h3>
 }
 
+const h4Class = style({
+	margin: "1.25em 0",
+	color: "var(--sand-12)",
+	fontWeight: 600,
+	fontSize: "0.9rem",
+	fontFamily: "system-ui, -apple-system",
+	letterSpacing: "0.015em",
+	lineHeight: 1.4,
+	maxWidth: typographyMaxWidth,
+})
+
+export function H4(props: { children: string }) {
+	const className = useStyles(h4Class)
+
+	return <h4 className={className}>{props.children}</h4>
+}
+
 const pClass = style({
 	margin: "1.25em 0",
 	color: "var(--sand-11)",
 	fontSize: "0.9rem",
 	fontFamily: "system-ui, -apple-system",
 	letterSpacing: "0.015em",
-	lineHeight: "1.26rem",
+	lineHeight: 1.4,
 	maxWidth: typographyMaxWidth,
 })
 
@@ -40,7 +57,7 @@ const blockquoteClass = style({
 	fontSize: "0.9rem",
 	fontFamily: "system-ui, -apple-system",
 	letterSpacing: "0.015em",
-	lineHeight: "19px",
+	lineHeight: 1.4,
 	maxWidth: typographyMaxWidth,
 })
 

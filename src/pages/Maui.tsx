@@ -36,6 +36,17 @@ import {
 } from "../components/Typography"
 import { Divider, Flex, Gap, Padding, Spacer } from "../components/Utils"
 import { fuzzyMatch } from "../utils/fuzzyMatch"
+import { BackgroundColorPage } from "./style-tokens/BackgroundColorPage"
+import { ColorPage } from "./style-tokens/ColorPage"
+import { CornerRadiusPage } from "./style-tokens/CornerRadiusPage"
+import { FlexPage } from "./style-tokens/FlexPage"
+import { FocusRingPage } from "./style-tokens/FocusRingPage"
+import { LayoutPage } from "./style-tokens/LayoutPage"
+import { MotionPage } from "./style-tokens/MotionPage"
+import { ShadowPage } from "./style-tokens/ShadowPage"
+import { SizingPage } from "./style-tokens/SizingPage"
+import { SpacingPage } from "./style-tokens/SpacingPage"
+import { TextColorPage } from "./style-tokens/TextColorPage"
 
 export function Maui() {
 	return (
@@ -72,14 +83,48 @@ function MauiContent() {
 					</Route>
 
 					<Route path="/style-tokens/color">
-						<ColorTokens />
+						<ColorPage />
 					</Route>
 
-					{styleTokenPages.map((page) => (
-						<Route key={page.path} path={page.path}>
-							<StyleTokenPage {...page} />
-						</Route>
-					))}
+					<Route path="/style-tokens/flex">
+						<FlexPage />
+					</Route>
+
+					<Route path="/style-tokens/text-color">
+						<TextColorPage />
+					</Route>
+
+					<Route path="/style-tokens/background-color">
+						<BackgroundColorPage />
+					</Route>
+
+					<Route path="/style-tokens/corner-radius">
+						<CornerRadiusPage />
+					</Route>
+
+					<Route path="/style-tokens/spacing">
+						<SpacingPage />
+					</Route>
+
+					<Route path="/style-tokens/sizing">
+						<SizingPage />
+					</Route>
+
+					<Route path="/style-tokens/shadows">
+						<ShadowPage />
+					</Route>
+
+					<Route path="/style-tokens/motion">
+						<MotionPage />
+					</Route>
+
+					<Route path="/style-tokens/focus-ring">
+						<FocusRingPage />
+					</Route>
+
+					<Route path="/style-tokens/layout">
+						<LayoutPage />
+					</Route>
 
 					<Route path="/components/buttons">
 						<Section title="Buttons">
@@ -100,7 +145,16 @@ function MauiContent() {
 							<H2>Heading 2</H2>
 							<H3>Heading 3</H3>
 							<P>
-								Paragraph text supports inline links like{" "}
+								The history of computing is a story of shrinking machinery and
+								expanding imagination. Early computers filled rooms, relied on vacuum
+								tubes and punch cards, and were operated by teams of specialists who
+								translated human problems into machine instructions. Over time,
+								transistors, integrated circuits, personal computers, networks, and
+								graphical interfaces moved computation from laboratories into offices,
+								homes, pockets, and everyday objects. Each generation made the machine
+								less visible and the medium more expressive, turning computing from a
+								tool for calculation into an environment for communication, design,
+								memory, and collaboration. Paragraph text supports inline links like{" "}
 								<TypographyLink href="https://open-ui.org">
 									Open UI
 								</TypographyLink>
@@ -438,161 +492,6 @@ function NavLink(props: { item: NavItem }) {
 				{props.item.label}
 			</WouterLink>
 		</li>
-	)
-}
-
-const styleTokenPages = [
-	{
-		path: "/style-tokens/flex",
-		title: "Flex",
-		description:
-			"Composable row and column layout primitives. This should cover the common flexbox cases without introducing a component wrapper.",
-		example: `style(flex.row({ alignItems: "center", gap: 8 }))`,
-	},
-	{
-		path: "/style-tokens/text-color",
-		title: "Text color",
-		description:
-			"Semantic foreground colors for primary, muted, subtle, accent, and stateful text.",
-		example: `style(textColor.foreground, textColor.muted)`,
-	},
-	{
-		path: "/style-tokens/background-color",
-		title: "Background color",
-		description:
-			"Semantic surfaces for canvas, panels, controls, hover states, and accent fills.",
-		example: `style(background.surface, background.surfaceHover)`,
-	},
-	{
-		path: "/style-tokens/corner-radius",
-		title: "Corner radius",
-		description:
-			"Named corners for controls, panels, round indicators, and fully rounded pills.",
-		example: `style(radius.control)`,
-	},
-	{
-		path: "/style-tokens/spacing",
-		title: "Spacing",
-		description:
-			"Reusable padding, margin, and gap choices for controls and layouts.",
-		example: `style(spacing.controlPadding, spacing.gap(8))`,
-	},
-	{
-		path: "/style-tokens/sizing",
-		title: "Sizing",
-		description: "Common heights, widths, icon sizes, and content constraints.",
-		example: `style(sizing.controlHeight, sizing.fullWidth)`,
-	},
-	{
-		path: "/style-tokens/shadows",
-		title: "Shadows",
-		description:
-			"Elevation and inset shadow recipes for controls, panels, overlays, and selected states.",
-		example: `style(shadow.control, shadow.elevated)`,
-	},
-	{
-		path: "/style-tokens/motion",
-		title: "Motion",
-		description:
-			"Durations and easing for state changes, plus the eventual reduced-motion behavior.",
-		example: `style(motion.fast)`,
-	},
-	{
-		path: "/style-tokens/focus-ring",
-		title: "Focus ring",
-		description:
-			"Shared keyboard focus treatment for controls and composite widgets.",
-		example: `style(focusRing.accent)`,
-	},
-	{
-		path: "/style-tokens/layout",
-		title: "Layout",
-		description:
-			"Larger page and responsive layout primitives. This is intentionally marked as later.",
-		example: `style(layout.page, layout.panel)`,
-	},
-] as const
-
-function StyleTokenPage(props: {
-	title: string
-	description: string
-	example: string
-}) {
-	return (
-		<Section title={props.title}>
-			<P>{props.description}</P>
-			<pre
-				style={{
-					background: "var(--sand-2)",
-					border: "1px solid var(--sand-6)",
-					borderRadius: "6px",
-					color: "var(--sand-12)",
-					padding: "12px",
-					overflowX: "auto",
-				}}
-			>
-				<code>{props.example}</code>
-			</pre>
-		</Section>
-	)
-}
-
-const colorTokenGroups = [
-	{
-		name: "Accent",
-		tokens: ["accent-color", ...rangeTokens("accent")],
-	},
-	{
-		name: "Sand",
-		tokens: rangeTokens("sand"),
-	},
-] as const
-
-function rangeTokens(prefix: string) {
-	return Array.from({ length: 12 }, (_, index) => `${prefix}-${index + 1}`)
-}
-
-function ColorTokens() {
-	return (
-		<section>
-			<H2>Color Tokens</H2>
-			<P>
-				The main tokens are the solid accent and sand scales from
-				<code> src/style.css</code>. There are also alpha variants (
-				<code>--accent-A1</code> through <code>--accent-A12</code> and
-				<code> --sand-A1</code> through <code>--sand-A12</code>) for overlays,
-				states, and subtle surfaces.
-			</P>
-
-			<Flex row gap={40} style={{ alignItems: "flex-start", flexWrap: "wrap" }}>
-				{colorTokenGroups.map((group) => (
-					<div key={group.name} style={{ minWidth: "180px" }}>
-						<H3>{group.name}</H3>
-						<Flex column gap={8}>
-							{group.tokens.map((token) => (
-								<ColorToken key={token} name={token} />
-							))}
-						</Flex>
-					</div>
-				))}
-			</Flex>
-		</section>
-	)
-}
-
-function ColorToken(props: { name: string }) {
-	return (
-		<div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-			<div
-				style={{
-					width: "18px",
-					height: "18px",
-					borderRadius: "3px",
-					background: `var(--${props.name})`,
-				}}
-			/>
-			<span>{`--${props.name}`}</span>
-		</div>
 	)
 }
 
