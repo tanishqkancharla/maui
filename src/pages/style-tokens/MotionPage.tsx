@@ -1,6 +1,23 @@
+import { useState } from "react"
+import { style, useStyles } from "purse-styles"
+import { Button } from "../../components/Button"
 import { H2, H3, P } from "../../components/Typography"
+import { motion } from "../../utils/motion"
+
+const animatedCardClass = style(
+	motion.standard("transform", "box-shadow", "background", "border-color"),
+	{
+		border: "1px solid",
+		borderRadius: "4px",
+		padding: "8px 12px",
+		width: "fit-content",
+	},
+)
 
 export function MotionPage() {
+	const [isActive, setIsActive] = useState(false)
+	const animatedCardClassName = useStyles(animatedCardClass)
+
 	return (
 		<section style={{ marginBottom: "32px" }}>
 			<H2>Motion</H2>
@@ -22,79 +39,59 @@ export function MotionPage() {
 				<tbody>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>motion.duration.fast</code>
+							<code>motion.standard(...properties)</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>80ms</code>
-						</td>
-						<td style={tableCellStyle}>Hover, focus, and press feedback.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>motion.easing.standard</code>
+							<code>{`style({ transition: "<property> 80ms ease-in-out" })`}</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>ease-in-out</code>
+							Builds a transition style object from the properties that should
+							animate.
 						</td>
-						<td style={tableCellStyle}>Default UI state transitions.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>motion.background</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>background 80ms ease-in-out</code>
-						</td>
-						<td style={tableCellStyle}>Control fill transitions.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>motion.borderColor</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>border-color 80ms ease-in-out</code>
-						</td>
-						<td style={tableCellStyle}>Inputs and outline changes.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>motion.shadow</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>box-shadow 80ms ease-in-out</code>
-						</td>
-						<td style={tableCellStyle}>Inset focus and hover rings.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>motion.interactive</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>
-								box-shadow 80ms ease-in-out, background 80ms ease-in-out
-							</code>
-						</td>
-						<td style={tableCellStyle}>Buttons and active controls.</td>
 					</tr>
 				</tbody>
 			</table>
 
 			<H3>Example</H3>
 			<pre style={codeBlockStyle}>
-				<code>{`const button = style(motion.interactive, background.element)
-const input = style(motion.borderColor, focusRing.borderAccent)`}</code>
+				<code>{`const [isActive, setIsActive] = useState(false)
+
+const animatedCard = style(
+	motion.standard("transform", "box-shadow", "background", "border-color"),
+	{
+		border: "1px solid",
+		borderRadius: "4px",
+		padding: "8px 12px",
+		width: "fit-content",
+	},
+)
+
+<Button onClick={() => setIsActive((value) => !value)}>Trigger motion</Button>
+<div
+	className={useStyles(animatedCard)}
+	style={{
+		transform: isActive ? "translateX(96px)" : "translateX(0)",
+		background: isActive ? "var(--accent-A4)" : "var(--sand-3)",
+		borderColor: isActive ? "var(--accent-8)" : "var(--sand-6)",
+		boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
+	}}
+/>`}</code>
 			</pre>
 
-			<div className="maui-example-panel">
+			<div
+				className="maui-example-panel"
+				style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+			>
+				<Button onClick={() => setIsActive((value) => !value)}>
+					Trigger motion
+				</Button>
 				<div
+					className={animatedCardClassName}
 					style={{
-						background: "var(--sand-3)",
-						border: "1px solid var(--sand-6)",
-						borderRadius: "4px",
-						padding: "8px 12px",
-						transition:
-							"box-shadow 80ms ease-in-out, background 80ms ease-in-out",
-						width: "fit-content",
+						background: isActive ? "var(--accent-A4)" : "var(--sand-3)",
+						borderColor: isActive ? "var(--accent-8)" : "var(--sand-6)",
+						boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
+						transform: isActive ? "translateX(96px)" : "translateX(0)",
 					}}
 				>
 					Fast interactive transition

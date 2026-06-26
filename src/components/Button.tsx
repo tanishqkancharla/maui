@@ -3,8 +3,9 @@ import { useId } from "react-aria"
 import { style, useStyles } from "purse-styles"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
+import { focusRing } from "../utils/focusRing"
 
-const buttonClass = style({
+const buttonClass = style(focusRing(), {
 	background:
 		"linear-gradient(var(--sand-3), var(--sand-2)), radial-gradient(var(--sand-3), var(--sand-2))",
 	color: "white",
@@ -25,10 +26,6 @@ const buttonClass = style({
 	overflow: "hidden",
 	whiteSpace: "nowrap",
 	transition: "box-shadow 80ms ease-in-out, background 80ms ease-in-out",
-	"&:focus": {
-		boxShadow: "var(--accent-color) 0px 0px 0px 1px inset",
-		outline: "none",
-	},
 	"&:hover": {
 		background:
 			"linear-gradient(var(--sand-5), var(--sand-4)), radial-gradient(var(--sand-5), var(--sand-4))",
@@ -85,7 +82,7 @@ export function Button(props: ButtonProps) {
 	)
 }
 
-const actionButtonClass = style({
+const actionButtonClass = style(focusRing(), {
 	background:
 		"linear-gradient(var(--accent-A8), var(--accent-A7)), linear-gradient(var(--sand-3), var(--sand-2)), radial-gradient(var(--sand-3), var(--sand-2))",
 	color: "white",
@@ -103,11 +100,6 @@ const actionButtonClass = style({
 	letterSpacing: "0.01em",
 	lineHeight: "16px",
 	transition: "box-shadow 80ms ease-in-out, background 80ms ease-in-out",
-	"&:focus-visible": {
-		boxShadow:
-			"var(--accent-color) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, var(--accent-color) 0px 0px 0px 1px inset",
-		outline: "none",
-	},
 	"&:hover": {
 		background:
 			"linear-gradient(var(--accent-A9), var(--accent-A8)), linear-gradient(var(--sand-4), var(--sand-3)), radial-gradient(var(--sand-4), var(--sand-3))",

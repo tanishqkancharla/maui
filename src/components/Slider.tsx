@@ -7,12 +7,13 @@ import {
 } from "react-aria"
 import { useSliderState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { focusRing } from "../utils/focusRing"
 
 type SliderProps = AriaSliderProps<number> & {
 	label: string
 }
 
-const sliderClass = style({
+const sliderClass = style(focusRing("& .slider-thumb:has(input:focus-visible)"), {
 	width: "240px",
 	"& .slider-label-row": {
 		display: "flex",
@@ -61,10 +62,6 @@ const sliderClass = style({
 	"& .slider-thumb[data-dragging='true']": {
 		background: "var(--accent-11)",
 	},
-	"& .slider-thumb[data-focused='true']": {
-		outline: "1.5px solid var(--accent-color)",
-		outlineOffset: "2px",
-	},
 	"& input": {
 		position: "absolute",
 		width: "100%",
@@ -87,7 +84,7 @@ export function Slider(props: SliderProps) {
 		state,
 		trackRef,
 	)
-	const { thumbProps, inputProps, isDragging, isFocused } = useSliderThumb(
+	const { thumbProps, inputProps, isDragging } = useSliderThumb(
 		{
 			index: 0,
 			trackRef,
@@ -109,7 +106,6 @@ export function Slider(props: SliderProps) {
 				<div
 					className="slider-thumb"
 					data-dragging={isDragging}
-					data-focused={isFocused}
 					style={{ left: `${percent}%` }}
 					{...thumbProps}
 				>

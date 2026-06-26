@@ -1,13 +1,14 @@
-import { H2, H3, P } from "../../components/Typography"
+import { useStyles } from "purse-styles"
+import { H2, H3, H4, P } from "../../components/Typography"
+import { spacing } from "../../utils/spacing"
 
 export function SpacingPage() {
 	return (
 		<section style={{ marginBottom: "32px" }}>
 			<H2>Spacing</H2>
 			<P>
-				Spacing tokens are for space between objects: gaps, margins, and
-				distance between layout regions. Padding is sizing, because it changes
-				an object's intrinsic size.
+				Spacing tokens are style objects for whitespace. Keep this layer small:
+				use gap for space between children and padding for space inside a box.
 			</P>
 
 			<H3>Values</H3>
@@ -20,120 +21,52 @@ export function SpacingPage() {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>spacing.1</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>2px</code>
-						</td>
-						<td style={tableCellStyle}>
-							Hairline separation between very small objects.
-						</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>spacing.2</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>4px</code>
-						</td>
-						<td style={tableCellStyle}>Tight inline object gaps.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>spacing.3</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>6px</code>
-						</td>
-						<td style={tableCellStyle}>Compact inline object gaps.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>spacing.4</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>8px</code>
-						</td>
-						<td style={tableCellStyle}>Default object gap.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>spacing.6</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>12px</code>
-						</td>
-						<td style={tableCellStyle}>Comfortable stack gap.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>spacing.8</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>16px</code>
-						</td>
-						<td style={tableCellStyle}>Distance between related groups.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>spacing.12</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>24px</code>
-						</td>
-						<td style={tableCellStyle}>Distance between sections.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>spacing.16</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>32px</code>
-						</td>
-						<td style={tableCellStyle}>Major page-region separation.</td>
-					</tr>
+					{spacingScale.map((token) => (
+						<tr key={token.name}>
+							<td style={tableCellStyle}>
+								<code>{token.name}</code>
+							</td>
+							<td style={tableCellStyle}>
+								<code>{token.value}</code>
+							</td>
+							<td style={tableCellStyle}>{token.use}</td>
+						</tr>
+					))}
 				</tbody>
 			</table>
 
 			<H3>Examples</H3>
+			<H4>Gap</H4>
 			<pre style={codeBlockStyle}>
-				<code>{`const inline = style(flex.row({ gap: spacing[4] }))
-const stack = style(flex.column({ gap: spacing[6] }))
-const section = style({ marginTop: spacing[12] })`}</code>
+				<code>{`const row = style(
+	{ display: "flex" },
+	spacing.gap[4],
+)`}</code>
 			</pre>
+			<div className="maui-example-panel">
+				<GapExample />
+			</div>
 
-			<div
-				className="maui-example-panel"
-				style={{ display: "grid", gap: "16px" }}
-			>
-				<SpacingDemo label="spacing.1" gap={2} />
-				<SpacingDemo label="spacing.2" gap={4} />
-				<SpacingDemo label="spacing.3" gap={6} />
-				<SpacingDemo label="spacing.4" gap={8} />
-				<SpacingDemo label="spacing.6" gap={12} />
-				<SpacingDemo label="spacing.8" gap={16} />
-				<SpacingDemo label="spacing.12" gap={24} />
-				<SpacingDemo label="spacing.16" gap={32} />
+			<H4>Padding</H4>
+			<pre style={codeBlockStyle}>
+				<code>{`const panel = style(
+	background.element,
+	spacing.padding[12],
+)`}</code>
+			</pre>
+			<div className="maui-example-panel">
+				<PaddingExample />
 			</div>
 		</section>
 	)
 }
 
-function SpacingDemo(props: { label: string; gap: number }) {
+function GapExample() {
+	const className = useStyles(rowClass, spacing.gap[4])
+
 	return (
 		<div style={exampleCardStyle}>
-			<code
-				style={{
-					color: "var(--sand-11)",
-					display: "block",
-					marginBottom: "8px",
-				}}
-			>
-				{props.label} / {props.gap}px
-			</code>
-			<div style={{ display: "flex", gap: props.gap, alignItems: "center" }}>
+			<div className={className}>
 				<div style={demoBlockStyle} />
 				<div style={demoBlockStyle} />
 				<div style={demoBlockStyle} />
@@ -141,6 +74,77 @@ function SpacingDemo(props: { label: string; gap: number }) {
 		</div>
 	)
 }
+
+function PaddingExample() {
+	const smallClassName = useStyles(chipClass, spacing.padding[3])
+	const mediumClassName = useStyles(chipClass, spacing.padding[6])
+	const largeClassName = useStyles(chipClass, spacing.padding[12])
+
+	return (
+		<div style={exampleCardStyle}>
+			<div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+				<div className={smallClassName} />
+				<div className={mediumClassName} />
+				<div className={largeClassName} />
+			</div>
+		</div>
+	)
+}
+
+const spacingScale = [
+	{
+		name: "spacing.gap[1] / padding[1]",
+		value: "2px",
+		use: "Tiny separation or padding.",
+	},
+	{
+		name: "spacing.gap[2] / padding[2]",
+		value: "4px",
+		use: "Tight separation or padding.",
+	},
+	{
+		name: "spacing.gap[3] / padding[3]",
+		value: "6px",
+		use: "Compact control whitespace.",
+	},
+	{
+		name: "spacing.gap[4] / padding[4]",
+		value: "8px",
+		use: "Default small whitespace.",
+	},
+	{
+		name: "spacing.gap[6] / padding[6]",
+		value: "12px",
+		use: "Default comfortable whitespace.",
+	},
+	{
+		name: "spacing.gap[8] / padding[8]",
+		value: "16px",
+		use: "Related group whitespace.",
+	},
+	{
+		name: "spacing.gap[12] / padding[12]",
+		value: "24px",
+		use: "Panel or section whitespace.",
+	},
+	{
+		name: "spacing.gap[16] / padding[16]",
+		value: "32px",
+		use: "Major region whitespace.",
+	},
+]
+
+const rowClass = {
+	display: "flex",
+	alignItems: "center",
+} as const
+
+const chipClass = {
+	width: "32px",
+	height: "20px",
+	background: "var(--accent-9)",
+	borderRadius: "4px",
+} as const
 
 const exampleCardStyle = {
 	background: "var(--sand-3)",

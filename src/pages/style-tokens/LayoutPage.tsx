@@ -1,13 +1,28 @@
-import { H2, H3, P } from "../../components/Typography"
+import { style, useStyles } from "purse-styles"
+import { H2, H3, H4, P } from "../../components/Typography"
+import { flex, flexItem, grid, gridItem } from "../../utils/layout"
+
+const flexExampleClass = style(flex({ align: "center", gap: 4 }))
+const flexFillItemClass = style(flexItem({ size: "fill" }))
+const gridExampleClass = style(grid({ columns: "sidebarContent", gap: 8 }))
+const gridSidebarClass = style(gridItem({ area: "sidebar" }))
+const gridContentClass = style(gridItem({ area: "content" }))
+const gridFullClass = style(gridItem({ span: "full" }))
 
 export function LayoutPage() {
+	const flexExampleClassName = useStyles(flexExampleClass)
+	const flexFillItemClassName = useStyles(flexFillItemClass)
+	const gridExampleClassName = useStyles(gridExampleClass)
+	const gridSidebarClassName = useStyles(gridSidebarClass)
+	const gridContentClassName = useStyles(gridContentClass)
+	const gridFullClassName = useStyles(gridFullClass)
+
 	return (
 		<section style={{ marginBottom: "32px" }}>
 			<H2>Layout</H2>
 			<P>
-				Layout tokens are intentionally later, but the Maui page already exposes
-				a few real layout decisions: the app shell, scroll panes, page gutters,
-				and content measures.
+				Layout tokens are semantic style-object builders for structure. Use flex
+				and grid for containers, then flexItem and gridItem for child behavior.
 			</P>
 
 			<H3>Values</H3>
@@ -15,99 +30,120 @@ export function LayoutPage() {
 				<thead>
 					<tr>
 						<th style={tableHeaderStyle}>Name</th>
-						<th style={tableHeaderStyle}>Value</th>
+						<th style={tableHeaderStyle}>Arguments</th>
 						<th style={tableHeaderStyle}>Use</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>layout.appShell</code>
+							<code>flex(options)</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>
-								grid-template-columns: 180px minmax(0, 1fr); gap: 32px
-							</code>
+							<code>direction, align, justify, gap, wrap</code>
 						</td>
-						<td style={tableCellStyle}>Maui documentation shell.</td>
+						<td style={tableCellStyle}>Rows, columns, toolbars, and stacks.</td>
 					</tr>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>layout.scrollPane</code>
+							<code>flexItem(options)</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>height: 100%; min-height: 0; overflow-y: auto</code>
+							<code>size, align, order</code>
 						</td>
 						<td style={tableCellStyle}>
-							Independent nav/content scroll areas.
+							Child sizing and alignment inside a flex container.
 						</td>
 					</tr>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>layout.pageGutter</code>
+							<code>grid(options)</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>32px</code>
+							<code>columns, align, justify, gap</code>
 						</td>
-						<td style={tableCellStyle}>Top-level app padding.</td>
+						<td style={tableCellStyle}>
+							Equal columns, responsive grids, and sidebar/content shells.
+						</td>
 					</tr>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>layout.textMeasure</code>
+							<code>gridItem(options)</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>max-width: 500px</code>
-						</td>
-						<td style={tableCellStyle}>Readable prose width.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>layout.formMeasure</code>
+							<code>area, span, align, justify</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>max-width: 240px</code>
+							Named areas, full-width spans, and child placement.
 						</td>
-						<td style={tableCellStyle}>Compact form examples.</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<H3>Example</H3>
+			<H3>Examples</H3>
+			<H4>Flex container and item</H4>
 			<pre style={codeBlockStyle}>
-				<code>{`const shell = style(layout.appShell)
-const content = style(layout.scrollPane, layout.textMeasure)`}</code>
+				<code>{`const toolbar = style(flex({ align: "center", gap: 4 }))
+const flexibleItem = style(flexItem({ size: "fill" }))`}</code>
 			</pre>
-
-			<div
-				className="maui-example-panel"
-				style={{
-					display: "grid",
-					gridTemplateColumns: "120px minmax(0, 1fr)",
-					gap: "16px",
-				}}
-			>
-				<div
-					style={{
-						background: "var(--sand-3)",
-						borderRadius: "4px",
-						padding: "8px",
-					}}
-				>
-					Nav pane
+			<div className="maui-example-panel">
+				<div style={exampleCardStyle}>
+					<div className={flexExampleClassName}>
+						<Pill>Left</Pill>
+						<div className={flexFillItemClassName}>
+							<div style={fillTrackStyle} />
+						</div>
+						<Pill>Action</Pill>
+					</div>
 				</div>
-				<div
-					style={{
-						background: "var(--sand-2)",
-						borderRadius: "4px",
-						padding: "8px",
-					}}
-				>
-					Content pane
+			</div>
+
+			<H4>Grid container and items</H4>
+			<pre style={codeBlockStyle}>
+				<code>{`const shell = style(grid({ columns: "sidebarContent", gap: 8 }))
+const sidebar = style(gridItem({ area: "sidebar" }))
+const content = style(gridItem({ area: "content" }))
+const footer = style(gridItem({ span: "full" }))`}</code>
+			</pre>
+			<div className="maui-example-panel">
+				<div className={gridExampleClassName}>
+					<div className={gridSidebarClassName} style={exampleCardStyle}>
+						Sidebar
+					</div>
+					<div className={gridContentClassName} style={exampleCardStyle}>
+						Content
+					</div>
+					<div className={gridFullClassName} style={exampleCardStyle}>
+						Full-width item
+					</div>
 				</div>
 			</div>
 		</section>
 	)
 }
+
+function Pill(props: { children: string }) {
+	return <span style={pillStyle}>{props.children}</span>
+}
+
+const pillStyle = {
+	background: "var(--sand-4)",
+	border: "1px solid var(--sand-6)",
+	borderRadius: "999px",
+	padding: "4px 8px",
+} as const
+
+const fillTrackStyle = {
+	height: "1px",
+	background: "var(--sand-8)",
+} as const
+
+const exampleCardStyle = {
+	background: "var(--sand-3)",
+	border: "1px solid var(--sand-6)",
+	borderRadius: "6px",
+	padding: "12px",
+} as const
 
 const tableHeaderStyle = {
 	color: "var(--sand-10)",
@@ -118,12 +154,14 @@ const tableHeaderStyle = {
 	textAlign: "left",
 	textTransform: "uppercase",
 } as const
+
 const tableCellStyle = {
 	borderTop: "1px solid var(--sand-5)",
 	color: "var(--sand-11)",
 	padding: "10px 12px 10px 0",
 	verticalAlign: "top",
 } as const
+
 const codeBlockStyle = {
 	background: "var(--sand-2)",
 	border: "1px solid var(--sand-6)",

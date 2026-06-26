@@ -1,28 +1,44 @@
 import { style, useStyles } from "purse-styles"
 import React from "react"
+import { text } from "../utils/text"
 
-export const typographyMaxWidth = "500px"
+export const typographyMaxWidth = "72ch"
+
+const h1Class = style(text("xl", 600, "highContrast"), {
+	marginTop: "1.5rem",
+	marginBottom: "0.5rem",
+})
 
 export function H1(props: { children: string }) {
-	return <h1>{props.children}</h1>
+	const className = useStyles(h1Class)
+
+	return <h1 className={className}>{props.children}</h1>
 }
+
+const h2Class = style(text("lg", 500, "highContrast"), {
+	marginTop: "1.5rem",
+	marginBottom: "0.5rem",
+})
 
 export function H2(props: { children: string }) {
-	return <h2>{props.children}</h2>
+	const className = useStyles(h2Class)
+
+	return <h2 className={className}>{props.children}</h2>
 }
+
+const h3Class = style(text("md", 500, "highContrast"), {
+	marginTop: "1.5rem",
+	marginBottom: "0.5rem",
+})
 
 export function H3(props: { children: string }) {
-	return <h3>{props.children}</h3>
+	const className = useStyles(h3Class)
+
+	return <h3 className={className}>{props.children}</h3>
 }
 
-const h4Class = style({
+const h4Class = style(text("sm", 600, "highContrast"), {
 	margin: "1.25em 0",
-	color: "var(--sand-12)",
-	fontWeight: 600,
-	fontSize: "0.9rem",
-	fontFamily: "system-ui, -apple-system",
-	letterSpacing: "0.015em",
-	lineHeight: 1.4,
 	maxWidth: typographyMaxWidth,
 })
 
@@ -32,13 +48,8 @@ export function H4(props: { children: string }) {
 	return <h4 className={className}>{props.children}</h4>
 }
 
-const pClass = style({
+const pClass = style(text("sm", 400, "lowContrast"), {
 	margin: "1.25em 0",
-	color: "var(--sand-11)",
-	fontSize: "0.9rem",
-	fontFamily: "system-ui, -apple-system",
-	letterSpacing: "0.015em",
-	lineHeight: 1.4,
 	maxWidth: typographyMaxWidth,
 })
 
@@ -48,16 +59,29 @@ export function P(props: { children: React.ReactNode }) {
 	return <p className={className}>{props.children}</p>
 }
 
-const blockquoteClass = style({
+const labelClass = style(text("xs", 400, "lowContrast"), {
+	userSelect: "none",
+})
+
+export function Label(
+	props: React.LabelHTMLAttributes<HTMLLabelElement> & {
+		children: React.ReactNode
+	},
+) {
+	const className = useStyles(labelClass)
+
+	return (
+		<label {...props} className={className}>
+			{props.children}
+		</label>
+	)
+}
+
+const blockquoteClass = style(text("sm", 400, "lowContrast"), {
 	borderLeft: "2px solid var(--accent-color)",
 	margin: "1.45em 0",
 	paddingLeft: "12px",
 	fontStyle: "italic",
-	color: "var(--sand-10)",
-	fontSize: "0.9rem",
-	fontFamily: "system-ui, -apple-system",
-	letterSpacing: "0.015em",
-	lineHeight: 1.4,
 	maxWidth: typographyMaxWidth,
 })
 
@@ -67,12 +91,7 @@ export function Blockquote(props: { children: string }) {
 	return <blockquote className={className}>{props.children}</blockquote>
 }
 
-const aClass = style({
-	color: "var(--sand-12)",
-	fontFamily: "system-ui, -apple-system",
-	letterSpacing: "0.015em",
-	lineHeight: "19px",
-})
+const aClass = text("sm", 400, "highContrast")
 
 export function Link(props: { children: string; href: string }) {
 	const className = useStyles(aClass)

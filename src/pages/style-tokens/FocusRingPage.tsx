@@ -1,12 +1,23 @@
+import { style, useStyles } from "purse-styles"
 import { H2, H3, P } from "../../components/Typography"
+import { focusRing } from "../../utils/focusRing"
+
+const focusedControlClass = style(focusRing(), {
+	background: "var(--sand-3)",
+	border: "1px solid var(--sand-6)",
+	borderRadius: "4px",
+	padding: "8px 12px",
+})
 
 export function FocusRingPage() {
+	const focusedControlClassName = useStyles(focusedControlClass)
+
 	return (
 		<section style={{ marginBottom: "32px" }}>
 			<H2>Focus ring</H2>
 			<P>
-				Focus tokens standardize keyboard-visible states. Each component can
-				choose outline, inset shadow, or border treatment depending on its shape.
+				Focus tokens standardize keyboard-visible states. Maui uses a single
+				accent outline treatment for every component, including slider thumbs.
 				Per the Radix scale, accent focus rings use step 8.
 			</P>
 
@@ -22,53 +33,15 @@ export function FocusRingPage() {
 				<tbody>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>focusRing.outlineAccent</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>outline: 1px solid var(--accent-8)</code>
-						</td>
-						<td style={tableCellStyle}>
-							Small internal buttons and composite widget parts.
-						</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>focusRing.insetAccent</code>
+							<code>focusRing()</code>
 						</td>
 						<td style={tableCellStyle}>
 							<code>
-								box-shadow: 0 0 0 1px inset var(--accent-8); outline: none
+								outline: 1px solid var(--accent-8); outline-offset: 1px
 							</code>
 						</td>
-						<td style={tableCellStyle}>Buttons and filled controls.</td>
-					</tr>
-					<tr>
 						<td style={tableCellStyle}>
-							<code>focusRing.borderAccent</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>border: 1px solid var(--accent-8); outline: none</code>
-						</td>
-						<td style={tableCellStyle}>Inputs with visible borders.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>focusRing.sliderThumb</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>outline: 1.5px solid var(--accent-8)</code>
-						</td>
-						<td style={tableCellStyle}>Slider thumb focus.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>focusRing.none</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>outline: none</code>
-						</td>
-						<td style={tableCellStyle}>
-							Only when another visible focus indicator is supplied.
+							The standard focus treatment for every focus-visible control.
 						</td>
 					</tr>
 				</tbody>
@@ -76,33 +49,23 @@ export function FocusRingPage() {
 
 			<H3>Example</H3>
 			<pre style={codeBlockStyle}>
-				<code>{`const button = style(focusRing.insetAccent, motion.shadow)
-const clearButton = style(focusRing.outlineAccent, radius.control)`}</code>
+				<code>{`const focusedControl = style(
+	focusRing(),
+	{
+		background: "var(--sand-3)",
+		border: "1px solid var(--sand-6)",
+		borderRadius: "4px",
+		padding: "8px 12px",
+	},
+)`}</code>
 			</pre>
 
 			<div
 				className="maui-example-panel"
 				style={{ display: "flex", gap: "12px", alignItems: "center" }}
 			>
-				<div
-					style={{
-						background: "var(--sand-3)",
-						borderRadius: "4px",
-						boxShadow: "0 0 0 1px inset var(--accent-8)",
-						padding: "8px 12px",
-					}}
-				>
-					Inset focus
-				</div>
-				<div
-					style={{
-						background: "var(--sand-3)",
-						borderRadius: "4px",
-						outline: "1px solid var(--accent-8)",
-						padding: "8px 12px",
-					}}
-				>
-					Outline focus
+				<div className={focusedControlClassName}>
+					Standard focus ring
 				</div>
 			</div>
 		</section>

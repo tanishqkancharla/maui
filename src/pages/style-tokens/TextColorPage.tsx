@@ -1,95 +1,152 @@
-import { H2, H3, P } from "../../components/Typography"
+import { useStyles } from "purse-styles"
+import { H2, H3, H4, P } from "../../components/Typography"
+import { text, type TextSize } from "../../utils/text"
 
 export function TextColorPage() {
 	return (
 		<section style={{ marginBottom: "32px" }}>
-			<H2>Text color</H2>
+			<H2>Text</H2>
 			<P>
-				Text color tokens should be semantic. Components should ask for
-				low-contrast, high-contrast, or accent text rather than reaching into the
-				scale directly.
+				The text token combines size, weight, and semantic color into one style
+				object. Use it anywhere text needs a consistent Maui type treatment.
 			</P>
 
 			<H3>Values</H3>
 			<table style={{ width: "100%", borderCollapse: "collapse" }}>
 				<thead>
 					<tr>
-						<th style={tableHeaderStyle}>Name</th>
-						<th style={tableHeaderStyle}>Value</th>
+						<th style={tableHeaderStyle}>Input</th>
+						<th style={tableHeaderStyle}>Values</th>
 						<th style={tableHeaderStyle}>Use</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>textColor.highContrast</code>
+							<code>size</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>var(--sand-12)</code>
+							<code>"2xs" | "xs" | "sm" | "md" | "lg" | "xl"</code>
 						</td>
-						<td style={tableCellStyle}>Primary readable text.</td>
+						<td style={tableCellStyle}>T-shirt text size presets.</td>
 					</tr>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>textColor.lowContrast</code>
+							<code>fontWeight</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>var(--sand-11)</code>
+							<code>400 | 500 | 600 | 700</code>
 						</td>
 						<td style={tableCellStyle}>
-							Paragraphs, labels, and secondary copy.
-						</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>textColor.accent</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>var(--accent-11)</code>
-						</td>
-						<td style={tableCellStyle}>
-							Selected text, links, and active affordances.
+							Regular, medium, semibold, and bold text.
 						</td>
 					</tr>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>textColor.onAccent</code>
+							<code>color</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>white</code>
+							<code>
+								"lowContrast" | "highContrast" | "accent" | "onAccent"
+							</code>
 						</td>
-						<td style={tableCellStyle}>
-							Text on solid accent or dark filled controls.
-						</td>
+						<td style={tableCellStyle}>Semantic text colors.</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<H3>Example</H3>
+			<H3>Examples</H3>
+			<H4>Sizes</H4>
 			<pre style={codeBlockStyle}>
-				<code>{`const label = style(text.label, textColor.lowContrast)
-const selectedItem = style(text.body, textColor.accent)`}</code>
+				<code>{`const tiny = text("2xs", 400, "highContrast")
+const label = text("xs", 400, "highContrast")
+const body = text("sm", 400, "highContrast")
+const heading3 = text("md", 400, "highContrast")
+const heading2 = text("lg", 400, "highContrast")
+const heading1 = text("xl", 400, "highContrast")`}</code>
 			</pre>
-
 			<div className="maui-example-panel">
-				<div
-					style={{
-						display: "grid",
-						gap: "8px",
-						background: "var(--sand-3)",
-						border: "1px solid var(--sand-6)",
-						borderRadius: "6px",
-						padding: "12px",
-					}}
-				>
-					<span style={{ color: "var(--sand-12)" }}>High-contrast text</span>
-					<span style={{ color: "var(--sand-11)" }}>Low-contrast text</span>
-					<span style={{ color: "var(--accent-11)" }}>Accent text</span>
+				<div style={{ display: "grid", gap: "12px" }}>
+					{sizeExamples.map((size) => (
+						<SizeExample key={size} size={size} />
+					))}
 				</div>
+			</div>
+
+			<H4>Weight</H4>
+			<pre style={codeBlockStyle}>
+				<code>{`const heading = text("lg", 600, "highContrast")`}</code>
+			</pre>
+			<div className="maui-example-panel">
+				<HeadingExample />
+			</div>
+
+			<H4>Accent text</H4>
+			<pre style={codeBlockStyle}>
+				<code>{`const active = text("sm", 500, "accent")`}</code>
+			</pre>
+			<div className="maui-example-panel">
+				<AccentExample />
 			</div>
 		</section>
 	)
 }
+
+const sizeExamples: TextSize[] = ["2xs", "xs", "sm", "md", "lg", "xl"]
+
+const textSizeDetails: Record<
+	TextSize,
+	{
+		fontSize: string
+		lineHeight: string
+	}
+> = {
+	"2xs": { fontSize: "0.6875rem", lineHeight: "1.45" },
+	xs: { fontSize: "0.75rem", lineHeight: "1.45" },
+	sm: { fontSize: "0.8125rem", lineHeight: "1.5" },
+	md: { fontSize: "0.9375rem", lineHeight: "1.5" },
+	lg: { fontSize: "1.125rem", lineHeight: "1.4" },
+	xl: { fontSize: "1.375rem", lineHeight: "1.3" },
+}
+
+const sampleParagraph =
+	"Computers started as room-sized machines. Today, they fit in pockets and help people write, draw, learn, and work together."
+
+function SizeExample(props: { size: TextSize }) {
+	const className = useStyles(
+		text(props.size, 400, "highContrast"),
+		exampleCardClass,
+	)
+
+	return (
+		<div style={{ display: "grid", gap: "6px" }}>
+			<code style={{ color: "var(--sand-10)" }}>
+				{props.size} · {textSizeDetails[props.size].fontSize} /{" "}
+				{textSizeDetails[props.size].lineHeight}
+			</code>
+			<div className={className}>{sampleParagraph}</div>
+		</div>
+	)
+}
+
+function HeadingExample() {
+	const className = useStyles(text("lg", 600, "highContrast"), exampleCardClass)
+
+	return <div className={className}>Readable heading</div>
+}
+
+function AccentExample() {
+	const className = useStyles(text("sm", 500, "accent"), exampleCardClass)
+
+	return <div className={className}>Selected navigation item</div>
+}
+
+const exampleCardClass = {
+	background: "var(--sand-3)",
+	border: "1px solid var(--sand-6)",
+	borderRadius: "6px",
+	padding: "12px",
+} as const
 
 const tableHeaderStyle = {
 	color: "var(--sand-10)",

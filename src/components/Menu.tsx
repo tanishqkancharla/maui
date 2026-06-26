@@ -9,8 +9,8 @@ import {
 } from "react-aria"
 import { Item, ListState, useListState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { Icons } from "./Icons"
 import { Flex, Spacer } from "./Utils"
+import { focusRing } from "../utils/focusRing"
 
 const listboxClass = style({
 	margin: 0,
@@ -42,7 +42,7 @@ export function ListBox<T extends object>(props: ListBoxProps<T>) {
 	)
 }
 
-const listboxOptionClass = style({
+const listboxOptionClass = style(focusRing(), {
 	margin: 0,
 	color: "white",
 	cursor: "default",
@@ -93,13 +93,11 @@ function ListBoxOption<T extends object>({
 			className={className}
 			style={{
 				background: isHovered ? "var(--sand-A4)" : undefined,
-				outline: "none",
 			}}
 		>
 			<Flex row alignItems="center">
 				{item.rendered}
 				<Spacer />
-				{isSelected && <Icons.Check />}
 			</Flex>
 		</li>
 	)

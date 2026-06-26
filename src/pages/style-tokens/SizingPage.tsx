@@ -1,13 +1,15 @@
-import { H2, H3, P } from "../../components/Typography"
+import { useStyles } from "purse-styles"
+import { Icons } from "../../components/Icons"
+import { H2, H3, H4, P } from "../../components/Typography"
+import { sizingTokens } from "../../utils/sizing"
 
 export function SizingPage() {
 	return (
 		<section style={{ marginBottom: "32px" }}>
 			<H2>Sizing</H2>
 			<P>
-				Sizing tokens describe how large objects are. Intrinsic sizing includes
-				padding and fixed component dimensions; extrinsic sizing includes widths
-				relative to a container.
+				Sizing tokens are style objects for dimensions and constraints. Keep the
+				set small: icon size, full-width layout, and readable content width.
 			</P>
 
 			<H3>Values</H3>
@@ -22,280 +24,128 @@ export function SizingPage() {
 				<tbody>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>sizing.controlPadding</code>
+							<code>sizingTokens.icon</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>6px 12px</code>
-						</td>
-						<td style={tableCellStyle}>Intrinsic button/control size.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.inputPadding</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>6px 8px</code>
-						</td>
-						<td style={tableCellStyle}>Intrinsic text input size.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.panelPadding</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>24px</code>
-						</td>
-						<td style={tableCellStyle}>Intrinsic panel/content size.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.controlHeight</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>28px</code>
-						</td>
-						<td style={tableCellStyle}>
-							Buttons, text fields, and compact controls.
-						</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.clearButton</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>20px</code>
-						</td>
-						<td style={tableCellStyle}>Search clear buttons.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.stepperWidth</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>24px</code>
-						</td>
-						<td style={tableCellStyle}>Number field stepper column.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.swatch</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>18px</code>
-						</td>
-						<td style={tableCellStyle}>Color token previews.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.icon</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>16px</code>
+							<code>width: 16px; height: 16px</code>
 						</td>
 						<td style={tableCellStyle}>Default inline icon size.</td>
 					</tr>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>sizing.fullWidth</code>
+							<code>sizingTokens.fullWidth</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>100%</code>
+							<code>width: 100%</code>
 						</td>
-						<td style={tableCellStyle}>Extrinsic fluid width.</td>
+						<td style={tableCellStyle}>Fill the available container width.</td>
 					</tr>
 					<tr>
 						<td style={tableCellStyle}>
-							<code>sizing.halfWidth</code>
+							<code>sizingTokens.contentWidth</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>50%</code>
+							<code>max-width: 72ch</code>
 						</td>
-						<td style={tableCellStyle}>Extrinsic half-container width.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.thirdWidth</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>33.333%</code>
-						</td>
-						<td style={tableCellStyle}>Extrinsic third-container width.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.controlMaxWidth</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>240px</code>
-						</td>
-						<td style={tableCellStyle}>Compact form examples.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.textMaxWidth</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>500px</code>
-						</td>
-						<td style={tableCellStyle}>Paragraph measure.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
-							<code>sizing.appMaxWidth</code>
-						</td>
-						<td style={tableCellStyle}>
-							<code>1040px</code>
-						</td>
-						<td style={tableCellStyle}>Maui app shell.</td>
+						<td style={tableCellStyle}>Readable prose and content measure.</td>
 					</tr>
 				</tbody>
 			</table>
 
 			<H3>Examples</H3>
-			<div style={sampleTitleStyle}>Intrinsic padding</div>
+			<H4>Icon</H4>
 			<pre style={codeBlockStyle}>
-				<code>{`const input = style({ padding: sizing.inputPadding })
-const button = style({ padding: sizing.controlPadding })
-const panel = style({ padding: sizing.panelPadding })`}</code>
+				<code>{`const icon = style(
+	sizingTokens.icon,
+	{ borderRadius: "999px" },
+)`}</code>
 			</pre>
 			<div className="maui-example-panel">
-				<div style={exampleCardStyle}>
-					<div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-						<div style={{ ...chipStyle, padding: "6px 8px" }} />
-						<div style={{ ...chipStyle, padding: "6px 12px" }} />
-						<div style={{ ...chipStyle, padding: "24px" }} />
-					</div>
-				</div>
+				<IconExample />
 			</div>
 
-			<div style={sampleTitleStyle}>Intrinsic dimensions</div>
+			<H4>Full width</H4>
 			<pre style={codeBlockStyle}>
-				<code>{`const control = style({ height: sizing.controlHeight })
-const clearButton = style({ width: sizing.clearButton, height: sizing.clearButton })
-const icon = style({ width: sizing.icon, height: sizing.icon })`}</code>
+				<code>{`const field = style(
+	sizingTokens.fullWidth,
+	background.element,
+)`}</code>
 			</pre>
 			<div className="maui-example-panel">
-				<div style={exampleCardStyle}>
-					<div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-						<div
-							style={{
-								...chipStyle,
-								height: "28px",
-								display: "flex",
-								alignItems: "center",
-								padding: "0 8px",
-							}}
-						/>
-						<div
-							style={{
-								width: "20px",
-								height: "20px",
-								borderRadius: "4px",
-								background: "var(--sand-4)",
-								border: "1px solid var(--sand-6)",
-							}}
-						/>
-						<div
-							style={{
-								width: "18px",
-								height: "18px",
-								borderRadius: "3px",
-								background: "var(--accent-9)",
-							}}
-						/>
-						<div
-							style={{
-								width: "16px",
-								height: "16px",
-								borderRadius: "999px",
-								background: "var(--sand-11)",
-							}}
-						/>
-					</div>
-				</div>
+				<FullWidthExample />
 			</div>
 
-			<div style={sampleTitleStyle}>Extrinsic widths</div>
+			<H4>Content width</H4>
 			<pre style={codeBlockStyle}>
-				<code>{`const full = style({ width: sizing.fullWidth })
-const half = style({ width: sizing.halfWidth })
-const third = style({ width: sizing.thirdWidth })`}</code>
+				<code>{`const content = style(
+	sizingTokens.contentWidth,
+	text.body,
+)`}</code>
 			</pre>
 			<div className="maui-example-panel">
-				<div style={exampleCardStyle}>
-					<div style={{ display: "grid", gap: "8px" }}>
-						<WidthBar label="100%" width="100%" />
-						<WidthBar label="50%" width="50%" />
-						<WidthBar label="33.333%" width="33.333%" />
-					</div>
-				</div>
-			</div>
-
-			<div style={sampleTitleStyle}>Measures</div>
-			<pre style={codeBlockStyle}>
-				<code>{`const controlMeasure = style({ maxWidth: sizing.controlMaxWidth })
-const textMeasure = style({ maxWidth: sizing.textMaxWidth })`}</code>
-			</pre>
-			<div className="maui-example-panel">
-				<div style={exampleCardStyle}>
-					<div style={{ display: "grid", gap: "8px" }}>
-						<div style={{ ...measureStyle, maxWidth: "240px" }} />
-						<div style={{ ...measureStyle, maxWidth: "500px" }} />
-					</div>
-				</div>
+				<ContentWidthExample />
 			</div>
 		</section>
 	)
 }
 
-function WidthBar(props: { label: string; width: string }) {
+function IconExample() {
+	const className = useStyles(sizingTokens.icon, iconClass)
+
 	return (
-		<div
-			style={{
-				background: "var(--sand-2)",
-				borderRadius: "4px",
-				overflow: "hidden",
-			}}
-		>
-			<div
-				style={{
-					width: props.width,
-					background: "var(--accent-9)",
-					color: "white",
-					padding: "4px 8px",
-				}}
-			>
-				{props.label}
+		<div style={exampleCardStyle}>
+			<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+				<Icons.Search className={className} />
+				<span style={{ color: "var(--sand-12)", lineHeight: 1.4 }}>
+					Icon aligns with text
+				</span>
 			</div>
 		</div>
 	)
 }
+
+function FullWidthExample() {
+	const className = useStyles(sizingTokens.fullWidth, fullWidthClass)
+
+	return (
+		<div style={exampleCardStyle}>
+			<div className={className} />
+		</div>
+	)
+}
+
+function ContentWidthExample() {
+	const className = useStyles(sizingTokens.contentWidth, contentWidthClass)
+
+	return (
+		<div style={exampleCardStyle}>
+			<div className={className} />
+		</div>
+	)
+}
+
+const iconClass = {
+	color: "var(--accent-11)",
+} as const
+
+const fullWidthClass = {
+	height: "28px",
+	background: "var(--accent-9)",
+	borderRadius: "4px",
+} as const
+
+const contentWidthClass = {
+	height: "28px",
+	background: "var(--sand-4)",
+	border: "1px solid var(--sand-6)",
+	borderRadius: "4px",
+} as const
 
 const exampleCardStyle = {
 	background: "var(--sand-3)",
 	border: "1px solid var(--sand-6)",
 	borderRadius: "6px",
 	padding: "12px",
-} as const
-
-const chipStyle = {
-	background: "var(--sand-4)",
-	border: "1px solid var(--sand-6)",
-	borderRadius: "4px",
-} as const
-
-const measureStyle = {
-	background: "var(--sand-4)",
-	border: "1px solid var(--sand-6)",
-	borderRadius: "4px",
-	padding: "6px 8px",
-} as const
-
-const sampleTitleStyle = {
-	color: "var(--sand-12)",
-	fontWeight: 600,
-	marginTop: "20px",
-	marginBottom: "8px",
 } as const
 
 const tableHeaderStyle = {

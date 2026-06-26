@@ -35,11 +35,11 @@ import {
 	P,
 } from "../components/Typography"
 import { Divider, Flex, Gap, Padding, Spacer } from "../components/Utils"
+import { focusRing } from "../utils/focusRing"
 import { fuzzyMatch } from "../utils/fuzzyMatch"
 import { BackgroundColorPage } from "./style-tokens/BackgroundColorPage"
 import { ColorPage } from "./style-tokens/ColorPage"
 import { CornerRadiusPage } from "./style-tokens/CornerRadiusPage"
-import { FlexPage } from "./style-tokens/FlexPage"
 import { FocusRingPage } from "./style-tokens/FocusRingPage"
 import { LayoutPage } from "./style-tokens/LayoutPage"
 import { MotionPage } from "./style-tokens/MotionPage"
@@ -84,10 +84,6 @@ function MauiContent() {
 
 					<Route path="/style-tokens/color">
 						<ColorPage />
-					</Route>
-
-					<Route path="/style-tokens/flex">
-						<FlexPage />
 					</Route>
 
 					<Route path="/style-tokens/text-color">
@@ -145,16 +141,15 @@ function MauiContent() {
 							<H2>Heading 2</H2>
 							<H3>Heading 3</H3>
 							<P>
-								The history of computing is a story of shrinking machinery and
-								expanding imagination. Early computers filled rooms, relied on vacuum
-								tubes and punch cards, and were operated by teams of specialists who
-								translated human problems into machine instructions. Over time,
-								transistors, integrated circuits, personal computers, networks, and
-								graphical interfaces moved computation from laboratories into offices,
-								homes, pockets, and everyday objects. Each generation made the machine
-								less visible and the medium more expressive, turning computing from a
-								tool for calculation into an environment for communication, design,
-								memory, and collaboration. Paragraph text supports inline links like{" "}
+								Early computers were huge machines that filled whole rooms. People used
+								punch cards and simple commands to help them solve math and business
+								problems.
+							</P>
+							<P>
+								Over time, computers became smaller, faster, and easier to use. They moved
+								from labs into homes, phones, and schools, and now help people write,
+								design, learn, and talk to each other. Paragraph text supports inline links
+								like{" "}
 								<TypographyLink href="https://open-ui.org">
 									Open UI
 								</TypographyLink>
@@ -292,8 +287,8 @@ function MauiContent() {
 									{fuzzyDemo && <FuzzyString match={fuzzyDemo} />}
 								</div>
 								<Flex row alignItems="center" gap={8}>
-									<Icons.Check />
-									<span>Icons.Check</span>
+									<Icons.Search />
+									<span>Icons.Search</span>
 								</Flex>
 							</Flex>
 						</Section>
@@ -395,12 +390,11 @@ const navChildrenClass = style({
 	paddingLeft: "12px !important",
 })
 
-const navLinkClass = style({
+const navLinkClass = style(focusRing(), {
 	display: "block",
 	padding: "3px 0",
 	color: "var(--sand-11)",
 	textDecoration: "none",
-	outline: "none",
 	"&:hover": {
 		color: "var(--sand-12)",
 	},
@@ -427,8 +421,7 @@ const navigation: NavGroup[] = [
 		label: "Style tokens",
 		children: [
 			{ label: "Color", path: "/style-tokens/color" },
-			{ label: "Flex", path: "/style-tokens/flex" },
-			{ label: "Text color", path: "/style-tokens/text-color" },
+			{ label: "Text", path: "/style-tokens/text-color" },
 			{ label: "Background color", path: "/style-tokens/background-color" },
 			{ label: "Corner radius", path: "/style-tokens/corner-radius" },
 			{ label: "Spacing", path: "/style-tokens/spacing" },

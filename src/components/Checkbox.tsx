@@ -2,6 +2,7 @@ import { useRef } from "react"
 import { useCheckbox } from "react-aria"
 import { useToggleState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { focusRing } from "../utils/focusRing"
 
 type CheckboxProps = {
 	label?: string
@@ -9,7 +10,7 @@ type CheckboxProps = {
 	setChecked: (checked: boolean) => void
 }
 
-const checkboxClass = style({
+const checkboxClass = style(focusRing("& .checkbox-input:focus-visible + .checkbox-toggle"), {
 	display: "flex",
 	flexDirection: "row",
 	alignItems: "center",

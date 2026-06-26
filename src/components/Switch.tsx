@@ -2,8 +2,9 @@ import { useRef } from "react"
 import { useSwitch } from "react-aria"
 import { ToggleState, useToggleState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { focusRing } from "../utils/focusRing"
 
-const switchClass = style({
+const switchClass = style(focusRing("& .switch-input:focus-visible + .switch-toggle::after"), {
 	display: "flex",
 	flexDirection: "row",
 	alignItems: "center",
@@ -62,9 +63,6 @@ const switchClass = style({
 	},
 	"&:hover .switch-input:checked + .switch-toggle::after": {
 		backgroundColor: "var(--accent-color)",
-	},
-	"&:focus-visible .switch-toggle::after": {
-		outline: "1px solid var(--accent-color)",
 	},
 })
 

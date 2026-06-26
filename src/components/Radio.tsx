@@ -2,6 +2,7 @@ import { useRef } from "react"
 import { AriaRadioGroupProps, useRadio, useRadioGroup } from "react-aria"
 import { RadioGroupState, useRadioGroupState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { focusRing } from "../utils/focusRing"
 
 type RadioOption = {
 	label: string
@@ -45,7 +46,7 @@ export function RadioGroup(props: RadioGroupProps) {
 	)
 }
 
-const radioClass = style({
+const radioClass = style(focusRing("& .radio-input:focus-visible + .radio-toggle"), {
 	display: "flex",
 	flexDirection: "row",
 	alignItems: "center",
@@ -93,9 +94,6 @@ const radioClass = style({
 	},
 	"&:hover input:checked + .radio-toggle": {
 		backgroundColor: "var(--accent-color)",
-	},
-	"& .radio-input:focus-visible + .radio-toggle": {
-		outline: "1px solid var(--accent-color)",
 	},
 })
 

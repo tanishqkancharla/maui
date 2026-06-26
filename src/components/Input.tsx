@@ -1,4 +1,4 @@
-import { sandDark, violetDark } from "@radix-ui/colors"
+import { sandDark } from "@radix-ui/colors"
 import { useRef } from "react"
 import {
 	AriaNumberFieldProps,
@@ -12,8 +12,9 @@ import {
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
 import { baseStyles } from "../utils/purseStyles"
+import { focusRing } from "../utils/focusRing"
 
-const inputClass = style(baseStyles.bodyText, {
+const inputClass = style(baseStyles.bodyText, focusRing(), {
 	background: sandDark.sand3,
 	width: "100%",
 	color: "white",
@@ -22,10 +23,6 @@ const inputClass = style(baseStyles.bodyText, {
 	height: "28px",
 	border: `1px solid ${sandDark.sand6}`,
 	transition: "border-color 80ms ease-in-out",
-	"&:focus": {
-		border: `1px solid ${violetDark.violet8}`,
-		outline: "none",
-	},
 	"&:hover": {
 		background: sandDark.sand4,
 	},
@@ -45,7 +42,7 @@ export function TextField(props: InputProps) {
 	return <input className={className} ref={ref} {...inputProps} />
 }
 
-const searchFieldClass = style({
+const searchFieldClass = style(focusRing("& button:focus-visible"), {
 	display: "flex",
 	alignItems: "center",
 	width: "100%",
@@ -66,9 +63,6 @@ const searchFieldClass = style({
 	},
 	"& button:hover": {
 		background: "var(--sand-7)",
-	},
-	"& button:focus-visible": {
-		outline: "1px solid var(--accent-color)",
 	},
 })
 
@@ -91,7 +85,7 @@ export function SearchField(props: AriaSearchFieldProps) {
 	)
 }
 
-const numberFieldClass = style({
+const numberFieldClass = style(focusRing("& button:focus-visible"), {
 	display: "flex",
 	alignItems: "center",
 	width: "100%",
@@ -128,9 +122,6 @@ const numberFieldClass = style({
 	"& button:disabled": {
 		color: "var(--sand-8)",
 	},
-	"& button:focus-visible": {
-		outline: "1px solid var(--accent-color)",
-	},
 })
 
 export function NumberField(props: AriaNumberFieldProps) {
@@ -157,12 +148,11 @@ export function NumberField(props: AriaNumberFieldProps) {
 	)
 }
 
-const quietInputClass = style(baseStyles.bodyText, {
+const quietInputClass = style(baseStyles.bodyText, focusRing(), {
 	flex: "1 1 auto",
 	backgroundColor: "transparent",
 	color: "white",
 	border: "none",
-	outline: "none",
 	margin: 0,
 	padding: 0,
 	"&::placeholder": {
