@@ -92,10 +92,19 @@ export function ShadowPage() {
 					</tr>
 					<tr>
 						<td style={tableCellStyle}>
+							<code>shadow.border</code>
+						</td>
+						<td style={tableCellStyle}>
+							<code>rgba(255, 255, 255, 0.055) 0px 0px 0px 1px</code>
+						</td>
+						<td style={tableCellStyle}>Shadow-based surface borders.</td>
+					</tr>
+					<tr>
+						<td style={tableCellStyle}>
 							<code>shadow.bottomBorder</code>
 						</td>
 						<td style={tableCellStyle}>
-							<code>inset 0 -1.5px 0 var(--sand-6)</code>
+							<code>inset 0 -1.5px 0 rgba(255, 255, 255, 0.055)</code>
 						</td>
 						<td style={tableCellStyle}>Shadow-based row/header separators.</td>
 					</tr>

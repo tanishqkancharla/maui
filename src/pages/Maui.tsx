@@ -21,7 +21,7 @@ import {
 	SearchField,
 	TextField,
 } from "../components/Input"
-import { ListBox, MenuItem } from "../components/Menu"
+import { ListBox, MenuItem, menuItem } from "../components/Menu"
 import { Overlay } from "../components/Overlay"
 import { RadioGroup } from "../components/Radio"
 import { Slider } from "../components/Slider"
@@ -31,12 +31,15 @@ import {
 	H1,
 	H2,
 	H3,
+	Label,
 	Link as TypographyLink,
 	P,
 } from "../components/Typography"
 import { Divider, Flex, Gap, Padding, Spacer } from "../components/Utils"
-import { focusRing } from "../utils/focusRing"
 import { fuzzyMatch } from "../utils/fuzzyMatch"
+import { flex, grid } from "../utils/layout"
+import { shadowTokens } from "../utils/shadows"
+import { spacing } from "../utils/spacing"
 import { BackgroundColorPage } from "./style-tokens/BackgroundColorPage"
 import { ColorPage } from "./style-tokens/ColorPage"
 import { CornerRadiusPage } from "./style-tokens/CornerRadiusPage"
@@ -71,6 +74,7 @@ function MauiContent() {
 	const fuzzyDemo = fuzzyMatch("fz", "FuzzyString")
 	const shellClassName = useStyles(mauiShellClass)
 	const contentClassName = useStyles(contentClass)
+	const menuPanelClassName = useStyles(menuPanelClass)
 
 	return (
 		<div className={shellClassName}>
@@ -140,6 +144,7 @@ function MauiContent() {
 							<H1>Heading 1</H1>
 							<H2>Heading 2</H2>
 							<H3>Heading 3</H3>
+							<Label>Field label</Label>
 							<P>
 								Early computers were huge machines that filled whole rooms. People used
 								punch cards and simple commands to help them solve math and business
@@ -239,7 +244,7 @@ function MauiContent() {
 
 					<Route path="/components/menu">
 						<Section title="Menu">
-							<div style={{ maxWidth: "240px" }}>
+							<div className={menuPanelClassName}>
 								<ListBox
 									aria-label="Example menu"
 									selectedKeys={[selectedMenuItem]}
@@ -341,17 +346,12 @@ function MauiContent() {
 	)
 }
 
-const mauiShellClass = style({
-	display: "grid",
-	gridTemplateColumns: "180px minmax(0, 1fr)",
-	gap: "32px",
-	alignItems: "start",
+const mauiShellClass = style(grid({ columns: "sidebarContent", align: "start" }), {
 	height: "100%",
 	minHeight: 0,
-	overflow: "hidden",
 })
 
-const contentClass = style({
+const contentClass = style(spacing.padding({ x: 16 }), {
 	height: "100%",
 	minHeight: 0,
 	overflowY: "auto",
@@ -364,46 +364,33 @@ const navClass = style({
 	"& h2": {
 		marginTop: 0,
 	},
-	"& ul": {
-		listStyleType: "none",
-		padding: 0,
-		margin: 0,
-	},
-	"& li": {
-		margin: 0,
-	},
 })
 
-const navGroupClass = style({
-	marginBottom: "20px",
+const menuPanelClass = style(shadowTokens.border, spacing.padding({ all: 2 }), {
+	maxWidth: "240px",
+	background: "var(--sand-1)",
+	borderRadius: "6px",
 })
 
-const navGroupTitleClass = style({
-	color: "var(--sand-10)",
-	fontSize: "11px",
-	letterSpacing: "0.04em",
-	textTransform: "uppercase",
-	marginBottom: "8px",
+const navListClass = style(flex({ direction: "column", gap: 8 }), {
+	listStyleType: "none",
+	padding: 0,
+	margin: 0,
+})
+
+const navGroupClass = style(flex({ direction: "column", gap: 4 }), {
+	margin: 0,
 })
 
 const navChildrenClass = style({
-	paddingLeft: "12px !important",
+	listStyleType: "none",
+	margin: 0,
+	padding: 0,
 })
 
-const navLinkClass = style(focusRing(), {
+const navLinkClass = style(menuItem, {
 	display: "block",
-	padding: "3px 0",
-	color: "var(--sand-11)",
 	textDecoration: "none",
-	"&:hover": {
-		color: "var(--sand-12)",
-	},
-	"&:focus-visible": {
-		color: "var(--accent-color)",
-	},
-	"&[aria-current='page']": {
-		color: "var(--accent-color)",
-	},
 })
 
 type NavGroup = {
@@ -447,18 +434,18 @@ const navigation: NavGroup[] = [
 
 function MauiNavigation() {
 	const navClassName = useStyles(navClass)
+	const navListClassName = useStyles(navListClass)
 	const groupClassName = useStyles(navGroupClass)
-	const groupTitleClassName = useStyles(navGroupTitleClass)
 	const childrenClassName = useStyles(navChildrenClass)
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
 			<H3>Maui</H3>
 			<Gap height={12} />
-			<ul style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+			<ul className={navListClassName}>
 				{navigation.map((group) => (
 					<li className={groupClassName} key={group.label}>
-						<div className={groupTitleClassName}>{group.label}</div>
+						<Label>{group.label}</Label>
 						<ul className={childrenClassName}>
 							{group.children.map((item) => (
 								<NavLink key={item.path} item={item} />

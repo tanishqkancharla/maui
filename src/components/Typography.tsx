@@ -59,7 +59,7 @@ export function P(props: { children: React.ReactNode }) {
 	return <p className={className}>{props.children}</p>
 }
 
-const labelClass = style(text("xs", 400, "lowContrast"), {
+const labelClass = style(text("sm", 500, "lowContrast"), {
 	userSelect: "none",
 })
 

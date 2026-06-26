@@ -11,8 +11,11 @@ import { Item, ListState, useListState } from "react-stately"
 import { style, useStyles } from "purse-styles"
 import { Flex, Spacer } from "./Utils"
 import { focusRing } from "../utils/focusRing"
+import { radius } from "../utils/radius"
+import { spacing } from "../utils/spacing"
+import { text } from "../utils/text"
 
-const listboxClass = style({
+export const menu = style({
 	margin: 0,
 	padding: 0,
 	listStyleType: "none",
@@ -26,7 +29,7 @@ export function ListBox<T extends object>(props: ListBoxProps<T>) {
 	const state = useListState(props)
 	const ref = useRef(null)
 	const { listBoxProps } = useListBox(props, state, ref)
-	const className = useStyles(listboxClass)
+	const className = useStyles(menu)
 
 	return (
 		<ul {...listBoxProps} ref={ref} className={className}>
@@ -42,23 +45,32 @@ export function ListBox<T extends object>(props: ListBoxProps<T>) {
 	)
 }
 
-const listboxOptionClass = style(focusRing(), {
-	margin: 0,
-	color: "white",
-	cursor: "default",
-	fontWeight: 400,
-	fontSize: "12px",
-	fontFamily:
-		'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif',
-	letterSpacing: "0.01em",
-	lineHeight: "16px",
-	padding: "4px 16px",
-	borderRadius: "2px",
-	userSelect: "none",
-	"&:active": {
-		backgroundColor: "var(--sand-A5)",
+export const menuItem = style(
+	text("sm", 400, "highContrast"),
+	focusRing(),
+	radius.control,
+	spacing.padding({ x: 8, y: 2 }),
+	{
+		margin: 0,
+		cursor: "default",
+		userSelect: "none",
+		"&:hover": {
+			backgroundColor: "var(--sand-A4)",
+		},
+		"&[data-hovered='true']": {
+			backgroundColor: "var(--sand-A4)",
+		},
+		"&[aria-current='page']": {
+			backgroundColor: "var(--sand-A5)",
+		},
+		"&[aria-selected='true']": {
+			backgroundColor: "var(--sand-A5)",
+		},
+		"&:active": {
+			backgroundColor: "var(--sand-A5)",
+		},
 	},
-})
+)
 
 type MenuOptionProps<T> = {
 	item: Node<T>
@@ -72,8 +84,8 @@ function ListBoxOption<T extends object>({
 	onAction,
 }: MenuOptionProps<T>) {
 	const ref = useRef(null)
-	const { optionProps, isSelected } = useOption({ key: item.key }, state, ref)
-	const className = useStyles(listboxOptionClass)
+	const { optionProps } = useOption({ key: item.key }, state, ref)
+	const className = useStyles(menuItem)
 
 	const { isHovered, hoverProps } = useHover({})
 
@@ -91,9 +103,7 @@ function ListBoxOption<T extends object>({
 			})}
 			ref={ref}
 			className={className}
-			style={{
-				background: isHovered ? "var(--sand-A4)" : undefined,
-			}}
+			data-hovered={isHovered || undefined}
 		>
 			<Flex row alignItems="center">
 				{item.rendered}
