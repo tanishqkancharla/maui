@@ -104,8 +104,8 @@ export function CornerRadiusPage() {
 
 			<H3>Example</H3>
 			<pre style={codeBlockStyle}>
-				<code>{`const input = style(radius.control, sizing.controlHeight)
-const dialog = style(radius.panel, spacing.padding(24))`}</code>
+				<code>{`const input = style(radius.control)
+const dialog = style(radius.panel, spacing.padding({ all: 12 }))`}</code>
 			</pre>
 
 			<div

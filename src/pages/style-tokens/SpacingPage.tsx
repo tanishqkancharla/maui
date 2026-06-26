@@ -51,7 +51,7 @@ export function SpacingPage() {
 			<pre style={codeBlockStyle}>
 				<code>{`const panel = style(
 	background.element,
-	spacing.padding[12],
+	spacing.padding({ all: 12 }),
 )`}</code>
 			</pre>
 			<div className="maui-example-panel">
@@ -76,9 +76,9 @@ function GapExample() {
 }
 
 function PaddingExample() {
-	const smallClassName = useStyles(chipClass, spacing.padding[3])
-	const mediumClassName = useStyles(chipClass, spacing.padding[6])
-	const largeClassName = useStyles(chipClass, spacing.padding[12])
+	const smallClassName = useStyles(chipClass, spacing.padding({ all: 3 }))
+	const mediumClassName = useStyles(chipClass, spacing.padding({ x: 6, y: 3 }))
+	const largeClassName = useStyles(chipClass, spacing.padding({ x: 12, y: 6 }))
 
 	return (
 		<div style={exampleCardStyle}>
@@ -93,44 +93,49 @@ function PaddingExample() {
 
 const spacingScale = [
 	{
-		name: "spacing.gap[1] / padding[1]",
+		name: "spacing.gap[1] / padding({ all: 1 })",
 		value: "2px",
 		use: "Tiny separation or padding.",
 	},
 	{
-		name: "spacing.gap[2] / padding[2]",
+		name: "spacing.gap[2] / padding({ all: 2 })",
 		value: "4px",
 		use: "Tight separation or padding.",
 	},
 	{
-		name: "spacing.gap[3] / padding[3]",
+		name: "spacing.gap[3] / padding({ all: 3 })",
 		value: "6px",
 		use: "Compact control whitespace.",
 	},
 	{
-		name: "spacing.gap[4] / padding[4]",
+		name: "spacing.gap[4] / padding({ all: 4 })",
 		value: "8px",
 		use: "Default small whitespace.",
 	},
 	{
-		name: "spacing.gap[6] / padding[6]",
+		name: "spacing.gap[6] / padding({ all: 6 })",
 		value: "12px",
 		use: "Default comfortable whitespace.",
 	},
 	{
-		name: "spacing.gap[8] / padding[8]",
+		name: "spacing.gap[8] / padding({ all: 8 })",
 		value: "16px",
 		use: "Related group whitespace.",
 	},
 	{
-		name: "spacing.gap[12] / padding[12]",
+		name: "spacing.gap[12] / padding({ all: 12 })",
 		value: "24px",
 		use: "Panel or section whitespace.",
 	},
 	{
-		name: "spacing.gap[16] / padding[16]",
+		name: "spacing.gap[16] / padding({ all: 16 })",
 		value: "32px",
 		use: "Major region whitespace.",
+	},
+	{
+		name: "spacing.padding({ x, y })",
+		value: "padding-inline / padding-block",
+		use: "Asymmetric control padding, like buttons and inputs.",
 	},
 ]
 

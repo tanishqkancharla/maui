@@ -4,28 +4,30 @@ import { style, useStyles } from "purse-styles"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
 import { focusRing } from "../utils/focusRing"
+import { motion } from "../utils/motion"
+import { spacing } from "../utils/spacing"
+import { text } from "../utils/text"
 
-const buttonClass = style(focusRing(), {
+const buttonBaseClass = style(
+	text("xs", 400, "onAccent"),
+	focusRing(),
+	motion.standard("box-shadow", "background"),
+	spacing.padding({ x: 6, y: 3 }),
+	{
+		borderRadius: "4px",
+		width: "fit-content",
+		border: "none",
+		textOverflow: "ellipsis",
+		overflow: "hidden",
+		whiteSpace: "nowrap",
+	},
+)
+
+const buttonClass = style(buttonBaseClass, {
 	background:
 		"linear-gradient(var(--sand-3), var(--sand-2)), radial-gradient(var(--sand-3), var(--sand-2))",
-	color: "white",
-	padding: "6px 12px",
-	borderRadius: "4px",
-	height: "28px",
-	width: "fit-content",
-	fontWeight: 400,
-	fontSize: "12px",
-	border: "none",
 	boxShadow:
 		"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, rgb(62 62 58) 0px 0px 0px 1px inset",
-	fontFamily:
-		'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif',
-	letterSpacing: "0.01em",
-	lineHeight: "16px",
-	textOverflow: "ellipsis",
-	overflow: "hidden",
-	whiteSpace: "nowrap",
-	transition: "box-shadow 80ms ease-in-out, background 80ms ease-in-out",
 	"&:hover": {
 		background:
 			"linear-gradient(var(--sand-5), var(--sand-4)), radial-gradient(var(--sand-5), var(--sand-4))",
@@ -82,24 +84,11 @@ export function Button(props: ButtonProps) {
 	)
 }
 
-const actionButtonClass = style(focusRing(), {
+const actionButtonClass = style(buttonBaseClass, {
 	background:
 		"linear-gradient(var(--accent-A8), var(--accent-A7)), linear-gradient(var(--sand-3), var(--sand-2)), radial-gradient(var(--sand-3), var(--sand-2))",
-	color: "white",
-	padding: "6px 12px",
-	borderRadius: "4px",
-	height: "28px",
-	fontWeight: 400,
-	width: "fit-content",
-	fontSize: "12px",
-	border: "none",
 	boxShadow:
 		"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, var(--accent-7) 0px 0px 0px 1px inset",
-	fontFamily:
-		'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif',
-	letterSpacing: "0.01em",
-	lineHeight: "16px",
-	transition: "box-shadow 80ms ease-in-out, background 80ms ease-in-out",
 	"&:hover": {
 		background:
 			"linear-gradient(var(--accent-A9), var(--accent-A8)), linear-gradient(var(--sand-4), var(--sand-3)), radial-gradient(var(--sand-4), var(--sand-3))",
