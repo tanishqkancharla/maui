@@ -17,7 +17,7 @@ export function FocusRingPage() {
 			<H2>Focus ring</H2>
 			<P>
 				Focus tokens standardize keyboard-visible states. Maui uses a single
-				accent outline treatment for every component, including slider thumbs.
+				accent shadow treatment for every component, including slider thumbs.
 				Per the Radix scale, accent focus rings use step 8.
 			</P>
 
@@ -37,7 +37,8 @@ export function FocusRingPage() {
 						</td>
 						<td style={tableCellStyle}>
 							<code>
-								outline: 1px solid var(--accent-8); outline-offset: 1px
+								box-shadow: 0 0 0 1px #0f89fd7f, 0 0 8px 1px #0077ff24;
+								position: relative; z-index: 1; outline: none
 							</code>
 						</td>
 						<td style={tableCellStyle}>
