@@ -77,7 +77,7 @@ function GapExample() {
 
 function PaddingExample() {
 	const smallClassName = useStyles(chipClass, spacing.padding({ all: 3 }))
-	const mediumClassName = useStyles(chipClass, spacing.padding({ x: 6, y: 3 }))
+	const mediumClassName = useStyles(chipClass, spacing.padding({ x: 6, y: 4 }))
 	const largeClassName = useStyles(chipClass, spacing.padding({ x: 12, y: 6 }))
 
 	return (
@@ -109,7 +109,7 @@ const spacingScale = [
 	},
 	{
 		name: "spacing.gap[4] / padding({ all: 4 })",
-		value: "8px",
+		value: "9px",
 		use: "Default small whitespace.",
 	},
 	{

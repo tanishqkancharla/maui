@@ -12,11 +12,12 @@ const buttonBaseClass = style(
 	text("xs", 400, "onAccent"),
 	focusRing(),
 	motion.standard("box-shadow", "background"),
-	spacing.padding({ x: 6, y: 3 }),
+	spacing.padding({ x: 6, y: 4 }),
 	{
 		borderRadius: "4px",
 		width: "fit-content",
 		border: "none",
+		textBox: "trim-both cap alphabetic",
 		textOverflow: "ellipsis",
 		overflow: "hidden",
 		whiteSpace: "nowrap",

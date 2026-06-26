@@ -37,7 +37,7 @@ const spaceValues: Record<Space, string> = {
 	1: "2px",
 	2: "4px",
 	3: "6px",
-	4: "8px",
+	4: "9px",
 	6: "12px",
 	8: "16px",
 	12: "24px",
