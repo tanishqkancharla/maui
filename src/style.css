@@ -154,8 +154,19 @@ button,
 	cursor: default;
 }
 
-pre {
-	line-height: 1.6;
+.maui-code-block .shiki {
+	background-color: transparent !important;
+}
+
+.maui-code-block .shiki code {
+	font: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	tab-size: inherit;
+}
+
+.maui-code-block .shiki span[style*="font-weight"] {
+	font-weight: 500 !important;
 }
 
 .maui-example-panel {

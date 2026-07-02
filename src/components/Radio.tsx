@@ -1,17 +1,14 @@
-import { useRef } from "react"
+import { createContext, useContext, useRef } from "react"
 import { AriaRadioGroupProps, useRadio, useRadioGroup } from "react-aria"
 import { RadioGroupState, useRadioGroupState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { focusRing } from "../utils/focusRing"
+import { focusRing } from "../tokens/focusRing"
 
-type RadioOption = {
-	label: string
-	value: string
-}
+const RadioOptionGroupContext = createContext<RadioGroupState | null>(null)
 
-type RadioGroupProps = AriaRadioGroupProps & {
+type RadioOptionGroupProps = AriaRadioGroupProps & {
 	label: string
-	options: RadioOption[]
+	children: React.ReactNode
 }
 
 const radioGroupClass = style({
@@ -27,22 +24,24 @@ const radioGroupClass = style({
 	},
 })
 
-export function RadioGroup(props: RadioGroupProps) {
-	const state = useRadioGroupState(props)
-	const { radioGroupProps, labelProps } = useRadioGroup(props, state)
+export function RadioOptionGroup(props: RadioOptionGroupProps) {
+	const { label, children, ...radioGroupProps } = props
+	const state = useRadioGroupState(radioGroupProps)
+	const { radioGroupProps: groupProps, labelProps } = useRadioGroup(
+		radioGroupProps,
+		state,
+	)
 	const className = useStyles(radioGroupClass)
 
 	return (
-		<div className={className} {...radioGroupProps}>
-			<span className="radio-group-label" {...labelProps}>
-				{props.label}
-			</span>
-			{props.options.map((option) => (
-				<Radio key={option.value} state={state} value={option.value}>
-					{option.label}
-				</Radio>
-			))}
-		</div>
+		<RadioOptionGroupContext.Provider value={state}>
+			<div className={className} {...groupProps}>
+				<span className="radio-group-label" {...labelProps}>
+					{label}
+				</span>
+				{children}
+			</div>
+		</RadioOptionGroupContext.Provider>
 	)
 }
 
@@ -52,7 +51,7 @@ const radioClass = style(focusRing("& .radio-input:focus-visible + .radio-toggle
 	alignItems: "center",
 	position: "relative",
 	width: "fit-content",
-	padding: "6px",
+	padding: "6px 0",
 	gap: "6px",
 	"& .radio-input": {
 		position: "absolute",
@@ -97,15 +96,19 @@ const radioClass = style(focusRing("& .radio-input:focus-visible + .radio-toggle
 	},
 })
 
-type RadioProps = {
-	children: string
-	state: RadioGroupState
+type RadioOptionProps = {
 	value: string
+	children: React.ReactNode
 }
 
-function Radio(props: RadioProps) {
+export function RadioOption(props: RadioOptionProps) {
+	const state = useContext(RadioOptionGroupContext)
+	if (!state) {
+		throw new Error("RadioOption must be used within a RadioOptionGroup")
+	}
+
 	const ref = useRef<HTMLInputElement>(null)
-	const { inputProps, labelProps } = useRadio(props, props.state, ref)
+	const { inputProps, labelProps } = useRadio(props, state, ref)
 	const className = useStyles(radioClass)
 
 	return (

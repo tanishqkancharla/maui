@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client"
 import { PurseProvider, style, useStyles } from "purse-styles"
 import { Maui } from "./pages/Maui"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
-import { baseStyles } from "./utils/purseStyles"
 
 Object.defineProperty(Array.prototype, "last", {
 	get() {
@@ -17,19 +16,16 @@ Object.defineProperty(Array.prototype, "first", {
 	},
 })
 
-const appStyles = style(
-	{
-		width: "100vw",
-		height: "100vh",
-		padding: "32px",
-		margin: "0 auto",
-		maxWidth: "1040px",
-		background: "var(--sand-1)",
-		color: "white",
-		overflow: "hidden",
-	},
-	baseStyles.bodyText,
-)
+const appStyles = style({
+	width: "100vw",
+	height: "100vh",
+	padding: "32px",
+	margin: "0 auto",
+	maxWidth: "1040px",
+	background: "var(--sand-1)",
+	color: "white",
+	overflow: "hidden",
+})
 
 function AppContent() {
 	const className = useStyles(appStyles)

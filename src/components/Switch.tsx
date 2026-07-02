@@ -2,7 +2,7 @@ import { useRef } from "react"
 import { useSwitch } from "react-aria"
 import { ToggleState, useToggleState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { focusRing } from "../utils/focusRing"
+import { focusRing } from "../tokens/focusRing"
 
 const switchClass = style(focusRing("& .switch-input:focus-visible + .switch-toggle::after"), {
 	display: "flex",
@@ -10,7 +10,6 @@ const switchClass = style(focusRing("& .switch-input:focus-visible + .switch-tog
 	alignItems: "center",
 	position: "relative",
 	width: "fit-content",
-	padding: "6px",
 	gap: "6px",
 	"& .switch-input": {
 		position: "absolute",

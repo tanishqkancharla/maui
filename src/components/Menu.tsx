@@ -10,10 +10,10 @@ import {
 import { Item, ListState, useListState } from "react-stately"
 import { style, useStyles } from "purse-styles"
 import { Flex, Spacer } from "./Utils"
-import { focusRing } from "../utils/focusRing"
-import { radius } from "../utils/radius"
-import { spacing } from "../utils/spacing"
-import { text } from "../utils/text"
+import { focusRing } from "../tokens/focusRing"
+import { radius } from "../tokens/radius"
+import { spacing } from "../tokens/spacing"
+import { text } from "../tokens/text"
 
 export const menu = style({
 	margin: 0,
@@ -46,7 +46,7 @@ export function ListBox<T extends object>(props: ListBoxProps<T>) {
 }
 
 export const menuItem = style(
-	text("sm", 400, "highContrast"),
+	text("md", 400, "highContrast"),
 	focusRing(),
 	radius.control,
 	spacing.padding({ x: 8, y: 2 }),

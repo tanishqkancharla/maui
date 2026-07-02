@@ -7,7 +7,7 @@ import {
 } from "react-aria"
 import { useSliderState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { focusRing } from "../utils/focusRing"
+import { focusRing } from "../tokens/focusRing"
 
 type SliderProps = AriaSliderProps<number> & {
 	label: string

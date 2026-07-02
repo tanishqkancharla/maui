@@ -1,4 +1,4 @@
-export const colorTokens = {
+export const colors = {
 	accent: {
 		1: "var(--accent-1)",
 		2: "var(--accent-2)",
@@ -56,5 +56,3 @@ export const colorTokens = {
 		12: "var(--sand-A12)",
 	},
 } as const
-
-export const colors = colorTokens

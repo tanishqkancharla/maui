@@ -41,6 +41,7 @@
 		"react-aria": "^3.49.0",
 		"react-dom": "^19.2.7",
 		"react-stately": "^3.47.0",
+		"shiki": "^4.3.0",
 		"tuple-database": "^2.2.4",
 		"use-state-dispatch": "^0.6.0",
 		"wouter": "^3.10.0"

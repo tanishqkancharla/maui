@@ -1,6 +1,8 @@
 import { style, useStyles } from "purse-styles"
-import { H2, H3, H4, P } from "../../components/Typography"
-import { flex, flexItem, grid, gridItem } from "../../utils/layout"
+import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { CodeBlock } from "../components/CodeBlock"
+import { H2, H3, H4, P } from "../components/Typography"
+import { flex, flexItem, grid, gridItem } from "../tokens/layout"
 
 const flexExampleClass = style(flex({ align: "center", gap: 4 }))
 const flexFillItemClass = style(flexItem({ size: "fill" }))
@@ -9,7 +11,7 @@ const gridSidebarClass = style(gridItem({ area: "sidebar" }))
 const gridContentClass = style(gridItem({ area: "content" }))
 const gridFullClass = style(gridItem({ span: "full" }))
 
-export function LayoutPage() {
+export function LayoutTokenPage() {
 	const flexExampleClassName = useStyles(flexExampleClass)
 	const flexFillItemClassName = useStyles(flexFillItemClass)
 	const gridExampleClassName = useStyles(gridExampleClass)
@@ -26,67 +28,65 @@ export function LayoutPage() {
 			</P>
 
 			<H3>Values</H3>
-			<table style={{ width: "100%", borderCollapse: "collapse" }}>
-				<thead>
-					<tr>
-						<th style={tableHeaderStyle}>Name</th>
-						<th style={tableHeaderStyle}>Arguments</th>
-						<th style={tableHeaderStyle}>Use</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style={tableCellStyle}>
+			<Table>
+				<TableHead>
+					<TableRow>
+						<TableHeaderCell>Name</TableHeaderCell>
+						<TableHeaderCell>Arguments</TableHeaderCell>
+						<TableHeaderCell>Use</TableHeaderCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					<TableRow>
+						<TableCell>
 							<code>flex(options)</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>direction, align, justify, gap, wrap</code>
-						</td>
-						<td style={tableCellStyle}>Rows, columns, toolbars, and stacks.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>Rows, columns, toolbars, and stacks.</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>flexItem(options)</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>size, align, order</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							Child sizing and alignment inside a flex container.
-						</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>grid(options)</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>columns, align, justify, gap</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							Equal columns, responsive grids, and sidebar/content shells.
-						</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>gridItem(options)</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>area, span, align, justify</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							Named areas, full-width spans, and child placement.
-						</td>
-					</tr>
-				</tbody>
-			</table>
+						</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
 
 			<H3>Examples</H3>
 			<H4>Flex container and item</H4>
-			<pre style={codeBlockStyle}>
-				<code>{`const toolbar = style(flex({ align: "center", gap: 4 }))
-const flexibleItem = style(flexItem({ size: "fill" }))`}</code>
-			</pre>
-			<div className="maui-example-panel">
+			<CodeBlock lang="typescript">{`const toolbar = style(flex({ align: "center", gap: 4 }))
+const flexibleItem = style(flexItem({ size: "fill" }))`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
 					<div className={flexExampleClassName}>
 						<Pill>Left</Pill>
@@ -99,13 +99,11 @@ const flexibleItem = style(flexItem({ size: "fill" }))`}</code>
 			</div>
 
 			<H4>Grid container and items</H4>
-			<pre style={codeBlockStyle}>
-				<code>{`const shell = style(grid({ columns: "sidebarContent", gap: 8 }))
+			<CodeBlock lang="typescript">{`const shell = style(grid({ columns: "sidebarContent", gap: 8 }))
 const sidebar = style(gridItem({ area: "sidebar" }))
 const content = style(gridItem({ area: "content" }))
-const footer = style(gridItem({ span: "full" }))`}</code>
-			</pre>
-			<div className="maui-example-panel">
+const footer = style(gridItem({ span: "full" }))`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<div className={gridExampleClassName}>
 					<div className={gridSidebarClassName} style={exampleCardStyle}>
 						Sidebar
@@ -145,28 +143,4 @@ const exampleCardStyle = {
 	padding: "12px",
 } as const
 
-const tableHeaderStyle = {
-	color: "var(--sand-10)",
-	fontSize: "11px",
-	fontWeight: 500,
-	letterSpacing: "0.04em",
-	padding: "0 12px 8px 0",
-	textAlign: "left",
-	textTransform: "uppercase",
-} as const
 
-const tableCellStyle = {
-	borderTop: "1px solid var(--sand-5)",
-	color: "var(--sand-11)",
-	padding: "10px 12px 10px 0",
-	verticalAlign: "top",
-} as const
-
-const codeBlockStyle = {
-	background: "var(--sand-2)",
-	border: "1px solid var(--sand-6)",
-	borderRadius: "6px",
-	color: "var(--sand-12)",
-	padding: "12px",
-	overflowX: "auto",
-} as const

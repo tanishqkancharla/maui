@@ -1,0 +1,144 @@
+import type { ThemeRegistration } from "shiki"
+
+// Adapted from rsms/sublime-theme (rsms-dark), remapped to Maui sand + accent.
+const colors = {
+	foreground: "#ecebe8", // --sand-12
+	foregroundMuted: "#9e9c97", // --sand-11
+	unimportant: "#6a6966", // ~35% sand-12
+	comment: "#6a6966",
+	keyword: "#8b8fd8", // desaturated accent
+	operator: "#d9a066", // rsms orange, softened
+	type: "#ecebe8",
+	typeRef: "#e8c9a0", // rsms typeRef, warm
+	string: "#6fbf9a", // rsms dataBase green
+	stringBright: "#8fd9b8",
+	function: "#ecebe8",
+	meta: "#8a9f94",
+	accent: "#a8a6f0", // --accent-color / brackets
+	invalid: "#e85d4f",
+} as const
+
+export const mauiThemeTokens = [
+	{ role: "Foreground", sublime: "fgBase", color: colors.foreground },
+	{ role: "Comment", sublime: "comment", color: colors.comment },
+	{ role: "Keyword", sublime: "keyword", color: colors.keyword },
+	{ role: "Operator", sublime: "keyword.operator", color: colors.operator },
+	{ role: "Type", sublime: "entity.name.type", color: colors.type },
+	{ role: "Type reference", sublime: "support.type", color: colors.typeRef },
+	{ role: "String / constant", sublime: "string, constant", color: colors.string },
+	{ role: "Function", sublime: "entity.name.function", color: colors.function },
+	{ role: "Punctuation", sublime: "punctuation", color: colors.unimportant },
+	{ role: "Bracket / accent", sublime: "brackets", color: colors.accent },
+] as const
+
+export const mauiShikiTheme: ThemeRegistration = {
+	name: "maui",
+	type: "dark",
+	colors: {
+		"editor.background": "#00000000",
+		"editor.foreground": colors.foreground,
+	},
+	tokenColors: [
+		{
+			settings: {
+				foreground: colors.foreground,
+			},
+		},
+		{
+			scope: ["comment", "punctuation.definition.comment"],
+			settings: { foreground: colors.comment, fontStyle: "italic" },
+		},
+		{
+			scope: ["meta.keyword", "meta.annotation"],
+			settings: { foreground: colors.meta },
+		},
+		{
+			scope: [
+				"punctuation.separator",
+				"punctuation.terminator",
+				"punctuation.accessor",
+				"punctuation.section",
+				"keyword.operator.type.annotation",
+			],
+			settings: { foreground: colors.unimportant },
+		},
+		{
+			scope: [
+				"entity.name.type",
+				"entity.name.class",
+				"entity.name.struct",
+				"entity.name.enum",
+				"meta.type.declaration entity.name.type",
+			],
+			settings: { foreground: colors.type, fontStyle: "bold" },
+		},
+		{
+			scope: [
+				"support.type",
+				"meta.type.annotation entity.name.type",
+				"entity.other.inherited-class",
+			],
+			settings: { foreground: colors.typeRef },
+		},
+		{
+			scope: [
+				"keyword",
+				"storage",
+				"storage.type.keyword",
+				"keyword.operator.new",
+				"keyword.operator.delete",
+			],
+			settings: { foreground: colors.keyword },
+		},
+		{
+			scope: ["keyword.operator"],
+			settings: { foreground: colors.operator },
+		},
+		{
+			scope: ["entity.name.function", "support.function"],
+			settings: { foreground: colors.function, fontStyle: "bold" },
+		},
+		{
+			scope: [
+				"string",
+				"constant",
+				"string punctuation.definition",
+				"constant punctuation.definition",
+				"constant.numeric",
+			],
+			settings: { foreground: colors.string },
+		},
+		{
+			scope: ["string constant"],
+			settings: { foreground: colors.stringBright },
+		},
+		{
+			scope: ["string variable", "variable", "variable.other"],
+			settings: { foreground: colors.foregroundMuted },
+		},
+		{
+			scope: ["meta.tag"],
+			settings: { foreground: colors.unimportant },
+		},
+		{
+			scope: ["meta.tag entity.name"],
+			settings: { foreground: colors.typeRef },
+		},
+		{
+			scope: ["meta.tag entity", "meta.tag.attributes"],
+			settings: { foreground: colors.foregroundMuted },
+		},
+		{
+			scope: ["entity.other.attribute-name"],
+			settings: { foreground: colors.typeRef },
+		},
+		{
+			scope: ["punctuation.definition.tag"],
+			settings: { foreground: colors.unimportant },
+		},
+		{
+			scope: ["invalid.illegal"],
+			settings: { foreground: colors.foreground, background: colors.invalid },
+		},
+	],
+}

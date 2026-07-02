@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { H2, H3, P } from "../../components/Typography"
-import { Flex } from "../../components/Utils"
-import { colorTokens } from "../../utils/colors"
+import { CodeBlock } from "../components/CodeBlock"
+import { H2, H3, P } from "../components/Typography"
+import { Flex } from "../components/Utils"
+import { colors } from "../tokens/colors"
 
 const colorTokenGroups = [
 	{
@@ -29,7 +30,7 @@ function rangeTokens(prefix: string, separator = "-") {
 	)
 }
 
-export function ColorPage() {
+export function ColorTokenPage() {
 	return (
 		<section>
 			<H2>Color Tokens</H2>
@@ -39,35 +40,24 @@ export function ColorPage() {
 				ring should compose these raw values in their own style-token modules.
 			</P>
 
-			<pre
-				style={{
-					background: "var(--sand-2)",
-					border: "1px solid var(--sand-6)",
-					borderRadius: "6px",
-					color: "var(--sand-12)",
-					padding: "12px",
-					overflowX: "auto",
-				}}
-			>
-				<code>{`style({
-	color: colorTokens.sand[12],
-	background: colorTokens.sand[2],
-	border: \`1px solid \${colorTokens.sand[6]}\`,
-	boxShadow: \`0 0 0 1px \${colorTokens.accent[8]} inset\`,
-})`}</code>
-			</pre>
+			<CodeBlock lang="typescript">{`style({
+	color: colors.sand[12],
+	background: colors.sand[2],
+	border: \`1px solid \${colors.sand[6]}\`,
+	boxShadow: \`0 0 0 1px \${colors.accent[8]} inset\`,
+})`}</CodeBlock>
 
 			<div
 				className="maui-example-panel"
-				style={{ marginBottom: "24px" }}
+				style={{ marginTop: "16px", marginBottom: "24px" }}
 			>
 				<div
 					style={{
-						background: colorTokens.sand[3],
-						border: `1px solid ${colorTokens.sand[6]}`,
+						background: colors.sand[3],
+						border: `1px solid ${colors.sand[6]}`,
 						borderRadius: "6px",
-						boxShadow: `0 0 0 1px ${colorTokens.accent[8]} inset`,
-						color: colorTokens.sand[12],
+						boxShadow: `0 0 0 1px ${colors.accent[8]} inset`,
+						color: colors.sand[12],
 						padding: "12px",
 					}}
 				>

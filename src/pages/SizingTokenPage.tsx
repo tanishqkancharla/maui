@@ -1,9 +1,11 @@
 import { useStyles } from "purse-styles"
-import { Icons } from "../../components/Icons"
-import { H2, H3, H4, P } from "../../components/Typography"
-import { sizingTokens } from "../../utils/sizing"
+import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Icons } from "../components/Icons"
+import { CodeBlock } from "../components/CodeBlock"
+import { H2, H3, H4, P } from "../components/Typography"
+import { sizingTokens } from "../tokens/sizing"
 
-export function SizingPage() {
+export function SizingTokenPage() {
 	return (
 		<section style={{ marginBottom: "32px" }}>
 			<H2>Sizing</H2>
@@ -13,76 +15,70 @@ export function SizingPage() {
 			</P>
 
 			<H3>Values</H3>
-			<table style={{ width: "100%", borderCollapse: "collapse" }}>
-				<thead>
-					<tr>
-						<th style={tableHeaderStyle}>Name</th>
-						<th style={tableHeaderStyle}>Value</th>
-						<th style={tableHeaderStyle}>Use</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style={tableCellStyle}>
+			<Table>
+				<TableHead>
+					<TableRow>
+						<TableHeaderCell>Name</TableHeaderCell>
+						<TableHeaderCell>Value</TableHeaderCell>
+						<TableHeaderCell>Use</TableHeaderCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					<TableRow>
+						<TableCell>
 							<code>sizingTokens.icon</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>width: 16px; height: 16px</code>
-						</td>
-						<td style={tableCellStyle}>Default inline icon size.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>Default inline icon size.</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>sizingTokens.fullWidth</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>width: 100%</code>
-						</td>
-						<td style={tableCellStyle}>Fill the available container width.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>Fill the available container width.</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>sizingTokens.contentWidth</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>max-width: 72ch</code>
-						</td>
-						<td style={tableCellStyle}>Readable prose and content measure.</td>
-					</tr>
-				</tbody>
-			</table>
+						</TableCell>
+						<TableCell>Readable prose and content measure.</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
 
 			<H3>Examples</H3>
 			<H4>Icon</H4>
-			<pre style={codeBlockStyle}>
-				<code>{`const icon = style(
+			<CodeBlock lang="typescript">{`const icon = style(
 	sizingTokens.icon,
 	{ borderRadius: "999px" },
-)`}</code>
-			</pre>
-			<div className="maui-example-panel">
+)`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<IconExample />
 			</div>
 
 			<H4>Full width</H4>
-			<pre style={codeBlockStyle}>
-				<code>{`const field = style(
+			<CodeBlock lang="typescript">{`const field = style(
 	sizingTokens.fullWidth,
 	background.element,
-)`}</code>
-			</pre>
-			<div className="maui-example-panel">
+)`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<FullWidthExample />
 			</div>
 
 			<H4>Content width</H4>
-			<pre style={codeBlockStyle}>
-				<code>{`const content = style(
+			<CodeBlock lang="typescript">{`const content = style(
 	sizingTokens.contentWidth,
 	text.body,
-)`}</code>
-			</pre>
-			<div className="maui-example-panel">
+)`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<ContentWidthExample />
 			</div>
 		</section>
@@ -148,26 +144,3 @@ const exampleCardStyle = {
 	padding: "12px",
 } as const
 
-const tableHeaderStyle = {
-	color: "var(--sand-10)",
-	fontSize: "11px",
-	fontWeight: 500,
-	letterSpacing: "0.04em",
-	padding: "0 12px 8px 0",
-	textAlign: "left",
-	textTransform: "uppercase",
-} as const
-const tableCellStyle = {
-	borderTop: "1px solid var(--sand-5)",
-	color: "var(--sand-11)",
-	padding: "10px 12px 10px 0",
-	verticalAlign: "top",
-} as const
-const codeBlockStyle = {
-	background: "var(--sand-2)",
-	border: "1px solid var(--sand-6)",
-	borderRadius: "6px",
-	color: "var(--sand-12)",
-	padding: "12px",
-	overflowX: "auto",
-} as const

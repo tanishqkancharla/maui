@@ -1,4 +1,5 @@
-import { style, type CSSProperties, type StyleElement } from "purse-styles"
+import { style } from "purse-styles"
+import { memoize } from "../utils/memoize"
 
 type Space = 0 | 1 | 2 | 3 | 4 | 6 | 8 | 12 | 16
 type Align = "start" | "center" | "end" | "stretch" | "baseline"
@@ -69,23 +70,8 @@ const gridColumns: Record<NonNullable<GridOptions["columns"]>, string> = {
 	sidebarContent: "180px minmax(0, 1fr)",
 }
 
-const cache = new Map<string, StyleElement>()
-
-function cached(name: string, options: unknown, build: () => CSSProperties) {
-	const key = `${name}:${JSON.stringify(options)}`
-	const cachedStyle = cache.get(key)
-
-	if (cachedStyle) {
-		return cachedStyle
-	}
-
-	const layoutStyle = style(build())
-	cache.set(key, layoutStyle)
-	return layoutStyle
-}
-
-export function flex(options: FlexOptions = {}) {
-	return cached("flex", options, () => ({
+export const flex = memoize((options: FlexOptions = {}) =>
+	style({
 		display: "flex",
 		flexDirection: options.direction ?? "row",
 		alignItems: options.align ? alignValues[options.align] : undefined,
@@ -94,11 +80,11 @@ export function flex(options: FlexOptions = {}) {
 			: undefined,
 		gap: options.gap === undefined ? undefined : spaceValues[options.gap],
 		flexWrap: options.wrap ? "wrap" : undefined,
-	}))
-}
+	}),
+)
 
-export function flexItem(options: FlexItemOptions = {}) {
-	return cached("flexItem", options, () => ({
+export const flexItem = memoize((options: FlexItemOptions = {}) =>
+	style({
 		flex:
 			options.size === "fill"
 				? "1 1 0"
@@ -109,11 +95,11 @@ export function flexItem(options: FlexItemOptions = {}) {
 						: undefined,
 		alignSelf: options.align ? alignValues[options.align] : undefined,
 		order: options.order,
-	}))
-}
+	}),
+)
 
-export function grid(options: GridOptions = {}) {
-	return cached("grid", options, () => ({
+export const grid = memoize((options: GridOptions = {}) =>
+	style({
 		display: "grid",
 		gridTemplateColumns: options.columns
 			? gridColumns[options.columns]
@@ -125,11 +111,11 @@ export function grid(options: GridOptions = {}) {
 			? justifyValues[options.justify]
 			: undefined,
 		gap: options.gap === undefined ? undefined : spaceValues[options.gap],
-	}))
-}
+	}),
+)
 
-export function gridItem(options: GridItemOptions = {}) {
-	return cached("gridItem", options, () => ({
+export const gridItem = memoize((options: GridItemOptions = {}) =>
+	style({
 		gridArea: options.area,
 		gridColumn:
 			options.span === "full"
@@ -139,5 +125,5 @@ export function gridItem(options: GridItemOptions = {}) {
 					: undefined,
 		alignSelf: options.align ? alignValues[options.align] : undefined,
 		justifySelf: options.justify ? alignValues[options.justify] : undefined,
-	}))
-}
+	}),
+)

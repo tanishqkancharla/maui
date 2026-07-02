@@ -1,4 +1,5 @@
-import { style, type CSSProperties, type StyleElement } from "purse-styles"
+import { style, type CSSProperties } from "purse-styles"
+import { memoize } from "../utils/memoize"
 
 const spacingValues = {
 	1: "2px",
@@ -23,17 +24,8 @@ type PaddingOptions = {
 	left?: Space
 }
 
-const paddingCache = new Map<string, StyleElement>()
-
-function padding(options: PaddingOptions) {
-	const key = JSON.stringify(options)
-	const cached = paddingCache.get(key)
-
-	if (cached) {
-		return cached
-	}
-
-	const paddingStyle = style({
+const padding = memoize((options: PaddingOptions) =>
+	style({
 		padding: options.all === undefined ? undefined : spacingValues[options.all],
 		paddingInline: options.x === undefined ? undefined : spacingValues[options.x],
 		paddingBlock: options.y === undefined ? undefined : spacingValues[options.y],
@@ -43,11 +35,8 @@ function padding(options: PaddingOptions) {
 		paddingBottom:
 			options.bottom === undefined ? undefined : spacingValues[options.bottom],
 		paddingLeft: options.left === undefined ? undefined : spacingValues[options.left],
-	} as CSSProperties)
-
-	paddingCache.set(key, paddingStyle)
-	return paddingStyle
-}
+	} as CSSProperties),
+)
 
 export const spacing = {
 	gap: {

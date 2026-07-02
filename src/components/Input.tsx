@@ -11,10 +11,12 @@ import {
 } from "react-aria"
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { baseStyles } from "../utils/purseStyles"
-import { focusRing } from "../utils/focusRing"
+import { text } from "../tokens/text"
+import { focusRing } from "../tokens/focusRing"
 
-const inputClass = style(baseStyles.bodyText, focusRing(), {
+const inputText = text("sm", 400, "highContrast")
+
+const inputClass = style(inputText, focusRing(), {
 	background: sandDark.sand3,
 	width: "100%",
 	color: "white",
@@ -148,13 +150,18 @@ export function NumberField(props: AriaNumberFieldProps) {
 	)
 }
 
-const quietInputClass = style(baseStyles.bodyText, focusRing(), {
-	flex: "1 1 auto",
-	backgroundColor: "transparent",
+const quietInputClass = style(inputText, focusRing(), {
+	width: "100%",
 	color: "white",
+	padding: "6px 8px",
+	borderRadius: "4px",
+	height: "28px",
+	background: "transparent",
 	border: "none",
-	margin: 0,
-	padding: 0,
+	transition: "background 80ms ease-in-out",
+	"&:hover": {
+		background: sandDark.sand3,
+	},
 	"&::placeholder": {
 		fontStyle: "italic",
 		color: sandDark.sand8,

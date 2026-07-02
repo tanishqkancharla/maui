@@ -81,8 +81,128 @@ function ArrowDown(props: React.SVGProps<SVGSVGElement>) {
 	)
 }
 
+function Star(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.8}
+				d="M12 4.75L14.16 9.13L19 9.83L15.5 13.24L16.33 18.06L12 15.78L7.67 18.06L8.5 13.24L5 9.83L9.84 9.13L12 4.75Z"
+			/>
+		</svg>
+	)
+}
+
+function Archive(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.8}
+				d="M5.25 8.75H18.75M7.25 8.75V18.25H16.75V8.75M6.25 5.75H17.75V8.75H6.25V5.75ZM9.75 12.25H14.25"
+			/>
+		</svg>
+	)
+}
+
+function Trash(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.8}
+				d="M8.75 8.75V18.25M12 8.75V18.25M15.25 8.75V18.25M5.75 6.75H18.25M9.25 6.75L10.25 4.75H13.75L14.75 6.75M7.25 6.75L7.85 19.25H16.15L16.75 6.75"
+			/>
+		</svg>
+	)
+}
+
+function Envelope(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.8}
+				d="M5.75 7.25H18.25V16.75H5.75V7.25ZM6.25 7.75L12 12.5L17.75 7.75"
+			/>
+		</svg>
+	)
+}
+
+function Clock(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.8}
+				d="M19.25 12C19.25 16.0041 16.0041 19.25 12 19.25C7.99594 19.25 4.75 16.0041 4.75 12C4.75 7.99594 7.99594 4.75 12 4.75C16.0041 4.75 19.25 7.99594 19.25 12ZM12 8.25V12.25L14.75 14"
+			/>
+		</svg>
+	)
+}
+
 export const Icons = {
 	Search,
 	DotsHorizontal,
 	ArrowDown,
+	Star,
+	Archive,
+	Trash,
+	Envelope,
+	Clock,
 }

@@ -1,5 +1,4 @@
 import type React from "react"
-import { useState } from "react"
 import {
 	Link as WouterLink,
 	Redirect,
@@ -10,46 +9,31 @@ import {
 } from "wouter"
 import { useHashLocation } from "wouter/use-hash-location"
 import { style, useStyles } from "purse-styles"
-import { ActionButton, Button } from "../components/Button"
-import { Checkbox } from "../components/Checkbox"
-import { Dialog } from "../components/Dialog"
-import { FuzzyString } from "../components/FuzzyString"
-import { Icons } from "../components/Icons"
-import {
-	NumberField,
-	QuietTextField,
-	SearchField,
-	TextField,
-} from "../components/Input"
-import { ListBox, MenuItem, menuItem } from "../components/Menu"
-import { Overlay } from "../components/Overlay"
-import { RadioGroup } from "../components/Radio"
-import { Slider } from "../components/Slider"
-import { Switch } from "../components/Switch"
-import {
-	Blockquote,
-	H1,
-	H2,
-	H3,
-	Label,
-	Link as TypographyLink,
-	P,
-} from "../components/Typography"
-import { Divider, Flex, Gap, Padding, Spacer } from "../components/Utils"
-import { fuzzyMatch } from "../utils/fuzzyMatch"
-import { flex, grid } from "../utils/layout"
-import { shadowTokens } from "../utils/shadows"
-import { spacing } from "../utils/spacing"
-import { BackgroundColorPage } from "./style-tokens/BackgroundColorPage"
-import { ColorPage } from "./style-tokens/ColorPage"
-import { CornerRadiusPage } from "./style-tokens/CornerRadiusPage"
-import { FocusRingPage } from "./style-tokens/FocusRingPage"
-import { LayoutPage } from "./style-tokens/LayoutPage"
-import { MotionPage } from "./style-tokens/MotionPage"
-import { ShadowPage } from "./style-tokens/ShadowPage"
-import { SizingPage } from "./style-tokens/SizingPage"
-import { SpacingPage } from "./style-tokens/SpacingPage"
-import { TextColorPage } from "./style-tokens/TextColorPage"
+import { H3, Label } from "../components/Typography"
+import { Gap } from "../components/Utils"
+import { flex, grid } from "../tokens/layout"
+import { menuItem } from "../components/Menu"
+import { spacing } from "../tokens/spacing"
+import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
+import { BordersTokenPage } from "./BordersTokenPage"
+import { ButtonsPage } from "./ButtonsPage"
+import { CodeBlockPage } from "./CodeBlockPage"
+import { ColorTokenPage } from "./ColorTokenPage"
+import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
+import { EmailClientPage } from "./EmailClientPage"
+import { FocusRingTokenPage } from "./FocusRingTokenPage"
+import { FormControlsPage } from "./FormControlsPage"
+import { FuzzyStringPage } from "./FuzzyStringPage"
+import { IconsPage } from "./IconsPage"
+import { LayoutTokenPage } from "./LayoutTokenPage"
+import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
+import { MenuPage } from "./MenuPage"
+import { MotionTokenPage } from "./MotionTokenPage"
+import { ShadowTokenPage } from "./ShadowTokenPage"
+import { SizingTokenPage } from "./SizingTokenPage"
+import { SpacingTokenPage } from "./SpacingTokenPage"
+import { TextTokenPage } from "./TextTokenPage"
+import { TypographyPage } from "./TypographyPage"
 
 export function Maui() {
 	return (
@@ -59,340 +43,6 @@ export function Maui() {
 	)
 }
 
-function MauiContent() {
-	const [switchState, setSwitchState] = useState(false)
-	const [checkboxState, setCheckboxState] = useState(false)
-	const [selectedMenuItem, setSelectedMenuItem] = useState("one")
-	const [textValue, setTextValue] = useState("")
-	const [searchValue, setSearchValue] = useState("")
-	const [numberValue, setNumberValue] = useState(3)
-	const [radioValue, setRadioValue] = useState("one")
-	const [sliderValue, setSliderValue] = useState(40)
-	const [quietTextValue, setQuietTextValue] = useState("")
-	const [dialogOpen, setDialogOpen] = useState(false)
-	const [overlayOpen, setOverlayOpen] = useState(false)
-	const fuzzyDemo = fuzzyMatch("fz", "FuzzyString")
-	const shellClassName = useStyles(mauiShellClass)
-	const contentClassName = useStyles(contentClass)
-	const menuPanelClassName = useStyles(menuPanelClass)
-
-	return (
-		<div className={shellClassName}>
-			<MauiNavigation />
-
-			<div className={contentClassName}>
-				<WouterSwitch>
-					<Route path="/">
-						<Redirect to="/style-tokens/color" />
-					</Route>
-
-					<Route path="/style-tokens/color">
-						<ColorPage />
-					</Route>
-
-					<Route path="/style-tokens/text-color">
-						<TextColorPage />
-					</Route>
-
-					<Route path="/style-tokens/background-color">
-						<BackgroundColorPage />
-					</Route>
-
-					<Route path="/style-tokens/corner-radius">
-						<CornerRadiusPage />
-					</Route>
-
-					<Route path="/style-tokens/spacing">
-						<SpacingPage />
-					</Route>
-
-					<Route path="/style-tokens/sizing">
-						<SizingPage />
-					</Route>
-
-					<Route path="/style-tokens/shadows">
-						<ShadowPage />
-					</Route>
-
-					<Route path="/style-tokens/motion">
-						<MotionPage />
-					</Route>
-
-					<Route path="/style-tokens/focus-ring">
-						<FocusRingPage />
-					</Route>
-
-					<Route path="/style-tokens/layout">
-						<LayoutPage />
-					</Route>
-
-					<Route path="/components/buttons">
-						<Section title="Buttons">
-							<Flex row alignItems="center" gap={10}>
-								<Button>Button</Button>
-								<ActionButton>Action Button</ActionButton>
-								<Button onClick={() => setDialogOpen(true)}>Open Dialog</Button>
-								<Button onClick={() => setOverlayOpen(true)}>
-									Open Overlay
-								</Button>
-							</Flex>
-						</Section>
-					</Route>
-
-					<Route path="/components/typography">
-						<Section title="Typography">
-							<H1>Heading 1</H1>
-							<H2>Heading 2</H2>
-							<H3>Heading 3</H3>
-							<Label>Field label</Label>
-							<P>
-								Early computers were huge machines that filled whole rooms. People used
-								punch cards and simple commands to help them solve math and business
-								problems.
-							</P>
-							<P>
-								Over time, computers became smaller, faster, and easier to use. They moved
-								from labs into homes, phones, and schools, and now help people write,
-								design, learn, and talk to each other. Paragraph text supports inline links
-								like{" "}
-								<TypographyLink href="https://open-ui.org">
-									Open UI
-								</TypographyLink>
-								.
-							</P>
-							<Blockquote>
-								A blockquote gives longer cited or emphasized text a calm,
-								accented presentation.
-							</Blockquote>
-						</Section>
-					</Route>
-
-					<Route path="/components/form-controls">
-						<Section title="Form controls">
-							<Flex column gap={12}>
-								<div style={{ maxWidth: "240px" }}>
-									<TextField
-										aria-label="Example text field"
-										placeholder="TextField"
-										value={textValue}
-										onChange={setTextValue}
-									/>
-								</div>
-								<div style={{ maxWidth: "240px" }}>
-									<SearchField
-										aria-label="Example search field"
-										placeholder="SearchField"
-										value={searchValue}
-										onChange={setSearchValue}
-									/>
-								</div>
-								<div style={{ maxWidth: "240px" }}>
-									<NumberField
-										aria-label="Example number field"
-										value={numberValue}
-										onChange={setNumberValue}
-										minValue={0}
-										maxValue={10}
-									/>
-								</div>
-								<div
-									style={{
-										maxWidth: "240px",
-										padding: "6px 8px",
-										borderRadius: "4px",
-										background: "var(--sand-3)",
-									}}
-								>
-									<QuietTextField
-										aria-label="Quiet text field"
-										placeholder="QuietTextField"
-										value={quietTextValue}
-										onChange={setQuietTextValue}
-									/>
-								</div>
-								<Switch
-									selected={switchState}
-									onChange={setSwitchState}
-									label="Switch"
-								/>
-								<Checkbox
-									checked={checkboxState}
-									setChecked={setCheckboxState}
-									label="Checkbox"
-								/>
-								<RadioGroup
-									label="Radio"
-									aria-label="Example radio group"
-									value={radioValue}
-									onChange={setRadioValue}
-									options={[
-										{ label: "Option 1", value: "one" },
-										{ label: "Option 2", value: "two" },
-										{ label: "Option 3", value: "three" },
-									]}
-								/>
-								<Slider
-									label="Slider"
-									value={sliderValue}
-									onChange={setSliderValue}
-									minValue={0}
-									maxValue={100}
-								/>
-							</Flex>
-						</Section>
-					</Route>
-
-					<Route path="/components/menu">
-						<Section title="Menu">
-							<div className={menuPanelClassName}>
-								<ListBox
-									aria-label="Example menu"
-									selectedKeys={[selectedMenuItem]}
-									selectionMode="single"
-									onAction={(key) => setSelectedMenuItem(String(key))}
-									disallowEmptySelection
-								>
-									<MenuItem key="one">Item 1</MenuItem>
-									<MenuItem key="two">Item 2</MenuItem>
-									<MenuItem key="three">Item 3</MenuItem>
-									<MenuItem key="four">Item 4</MenuItem>
-								</ListBox>
-							</div>
-						</Section>
-					</Route>
-
-					<Route path="/components/layout-utilities">
-						<Section title="Layout utilities">
-							<Padding xy={12}>
-								<div
-									style={{
-										border: "1px solid var(--sand-6)",
-										borderRadius: "6px",
-										padding: "12px",
-									}}
-								>
-									<Flex row alignItems="center">
-										<span>Flex</span>
-										<Gap width={12} />
-										<span>Gap</span>
-										<Spacer />
-										<span>Spacer</span>
-									</Flex>
-								</div>
-							</Padding>
-							<Divider />
-						</Section>
-					</Route>
-
-					<Route path="/components/utilities">
-						<Section title="Utility components">
-							<Flex column gap={12}>
-								<div>
-									<strong>FuzzyString: </strong>
-									{fuzzyDemo && <FuzzyString match={fuzzyDemo} />}
-								</div>
-								<Flex row alignItems="center" gap={8}>
-									<Icons.Search />
-									<span>Icons.Search</span>
-								</Flex>
-							</Flex>
-						</Section>
-					</Route>
-
-					<Route>
-						<Redirect to="/style-tokens/color" />
-					</Route>
-				</WouterSwitch>
-			</div>
-
-			{dialogOpen && (
-				<Dialog onClickOutside={() => setDialogOpen(false)}>
-					<H3>Dialog</H3>
-					<P>Dialog composes Overlay and FocusScope into a modal surface.</P>
-					<Button onClick={() => setDialogOpen(false)}>Close Dialog</Button>
-				</Dialog>
-			)}
-
-			{overlayOpen && (
-				<Overlay onClickOutside={() => setOverlayOpen(false)}>
-					<div
-						style={{
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-							width: "100%",
-							height: "100%",
-							background: "rgb(0 0 0 / 45%)",
-						}}
-					>
-						<div
-							style={{
-								background: "var(--sand-2)",
-								border: "1px solid var(--sand-6)",
-								borderRadius: "6px",
-								padding: "24px",
-							}}
-						>
-							<H3>Overlay</H3>
-							<P>Click outside this panel or press the button to dismiss it.</P>
-							<Button onClick={() => setOverlayOpen(false)}>
-								Close Overlay
-							</Button>
-						</div>
-					</div>
-				</Overlay>
-			)}
-		</div>
-	)
-}
-
-const mauiShellClass = style(grid({ columns: "sidebarContent", align: "start" }), {
-	height: "100%",
-	minHeight: 0,
-})
-
-const contentClass = style(spacing.padding({ x: 16 }), {
-	height: "100%",
-	minHeight: 0,
-	overflowY: "auto",
-})
-
-const navClass = style({
-	height: "100%",
-	minHeight: 0,
-	overflowY: "auto",
-	"& h2": {
-		marginTop: 0,
-	},
-})
-
-const menuPanelClass = style(shadowTokens.border, spacing.padding({ all: 2 }), {
-	maxWidth: "240px",
-	background: "var(--sand-1)",
-	borderRadius: "6px",
-})
-
-const navListClass = style(flex({ direction: "column", gap: 8 }), {
-	listStyleType: "none",
-	padding: 0,
-	margin: 0,
-})
-
-const navGroupClass = style(flex({ direction: "column", gap: 4 }), {
-	margin: 0,
-})
-
-const navChildrenClass = style({
-	listStyleType: "none",
-	margin: 0,
-	padding: 0,
-})
-
-const navLinkClass = style(menuItem, {
-	display: "block",
-	textDecoration: "none",
-})
-
 type NavGroup = {
 	label: string
 	children: NavItem[]
@@ -401,36 +51,111 @@ type NavGroup = {
 type NavItem = {
 	label: string
 	path: string
+	page: React.ComponentType
 }
 
 const navigation: NavGroup[] = [
 	{
-		label: "Style tokens",
+		label: "Tokens",
 		children: [
-			{ label: "Color", path: "/style-tokens/color" },
-			{ label: "Text", path: "/style-tokens/text-color" },
-			{ label: "Background color", path: "/style-tokens/background-color" },
-			{ label: "Corner radius", path: "/style-tokens/corner-radius" },
-			{ label: "Spacing", path: "/style-tokens/spacing" },
-			{ label: "Sizing", path: "/style-tokens/sizing" },
-			{ label: "Shadows", path: "/style-tokens/shadows" },
-			{ label: "Motion", path: "/style-tokens/motion" },
-			{ label: "Focus ring", path: "/style-tokens/focus-ring" },
-			{ label: "Layout", path: "/style-tokens/layout" },
+			{ label: "Color", path: "/tokens/color", page: ColorTokenPage },
+			{ label: "Text", path: "/tokens/text", page: TextTokenPage },
+			{
+				label: "Background color",
+				path: "/tokens/background-color",
+				page: BackgroundColorTokenPage,
+			},
+			{
+				label: "Corner radius",
+				path: "/tokens/corner-radius",
+				page: CornerRadiusTokenPage,
+			},
+			{ label: "Borders", path: "/tokens/borders", page: BordersTokenPage },
+			{ label: "Spacing", path: "/tokens/spacing", page: SpacingTokenPage },
+			{ label: "Sizing", path: "/tokens/sizing", page: SizingTokenPage },
+			{ label: "Shadows", path: "/tokens/shadows", page: ShadowTokenPage },
+			{ label: "Motion", path: "/tokens/motion", page: MotionTokenPage },
+			{
+				label: "Focus ring",
+				path: "/tokens/focus-ring",
+				page: FocusRingTokenPage,
+			},
+			{ label: "Layout", path: "/tokens/layout", page: LayoutTokenPage },
 		],
 	},
 	{
 		label: "Components",
 		children: [
-			{ label: "Buttons", path: "/components/buttons" },
-			{ label: "Typography", path: "/components/typography" },
-			{ label: "Form controls", path: "/components/form-controls" },
-			{ label: "Menu", path: "/components/menu" },
-			{ label: "Layout utilities", path: "/components/layout-utilities" },
-			{ label: "Utilities", path: "/components/utilities" },
+			{ label: "Buttons", path: "/components/buttons", page: ButtonsPage },
+			{
+				label: "Typography",
+				path: "/components/typography",
+				page: TypographyPage,
+			},
+			{
+				label: "Form controls",
+				path: "/components/form-controls",
+				page: FormControlsPage,
+			},
+			{ label: "Menu", path: "/components/menu", page: MenuPage },
+			{
+				label: "Layout utilities",
+				path: "/components/layout-utilities",
+				page: LayoutUtilitiesPage,
+			},
+			{
+				label: "FuzzyString",
+				path: "/components/fuzzy-string",
+				page: FuzzyStringPage,
+			},
+			{ label: "Icons", path: "/components/icons", page: IconsPage },
+			{
+				label: "CodeBlock",
+				path: "/components/code-block",
+				page: CodeBlockPage,
+			},
+		],
+	},
+	{
+		label: "Patterns",
+		children: [
+			{
+				label: "Email client",
+				path: "/patterns/email-client",
+				page: EmailClientPage,
+			},
 		],
 	},
 ]
+
+const defaultPath = navigation[0].children[0].path
+
+function MauiContent() {
+	const shellClassName = useStyles(mauiShellClass)
+	const contentClassName = useStyles(contentClass)
+
+	return (
+		<div className={shellClassName}>
+			<MauiNavigation />
+
+			<div className={contentClassName}>
+				<WouterSwitch>
+					{navigation.flatMap((group) =>
+						group.children.map((item) => (
+							<Route key={item.path} path={item.path}>
+								<item.page />
+							</Route>
+						)),
+					)}
+
+					<Route>
+						<Redirect to={defaultPath} />
+					</Route>
+				</WouterSwitch>
+			</div>
+		</div>
+	)
+}
 
 function MauiNavigation() {
 	const navClassName = useStyles(navClass)
@@ -475,11 +200,43 @@ function NavLink(props: { item: NavItem }) {
 	)
 }
 
-function Section(props: { title: string; children: React.ReactNode }) {
-	return (
-		<section style={{ marginBottom: "32px" }}>
-			<H2>{props.title}</H2>
-			{props.children}
-		</section>
-	)
-}
+const mauiShellClass = style(grid({ columns: "sidebarContent", align: "start" }), {
+	height: "100%",
+	minHeight: 0,
+})
+
+const contentClass = style(spacing.padding({ x: 16 }), {
+	height: "100%",
+	minHeight: 0,
+	overflowY: "auto",
+})
+
+const navClass = style({
+	height: "100%",
+	minHeight: 0,
+	overflowY: "auto",
+	"& h2": {
+		marginTop: 0,
+	},
+})
+
+const navListClass = style(flex({ direction: "column", gap: 8 }), {
+	listStyleType: "none",
+	padding: 0,
+	margin: 0,
+})
+
+const navGroupClass = style(flex({ direction: "column", gap: 4 }), {
+	margin: 0,
+})
+
+const navChildrenClass = style({
+	listStyleType: "none",
+	margin: 0,
+	padding: 0,
+})
+
+const navLinkClass = style(menuItem, {
+	display: "block",
+	textDecoration: "none",
+})

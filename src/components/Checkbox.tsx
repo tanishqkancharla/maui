@@ -2,7 +2,7 @@ import { useRef } from "react"
 import { useCheckbox } from "react-aria"
 import { useToggleState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { focusRing } from "../utils/focusRing"
+import { focusRing } from "../tokens/focusRing"
 
 type CheckboxProps = {
 	label?: string
@@ -16,7 +16,6 @@ const checkboxClass = style(focusRing("& .checkbox-input:focus-visible + .checkb
 	alignItems: "center",
 	position: "relative",
 	width: "fit-content",
-	padding: "6px",
 	gap: "6px",
 	"& .checkbox-input": {
 		position: "absolute",

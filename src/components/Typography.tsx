@@ -1,10 +1,10 @@
 import { style, useStyles } from "purse-styles"
 import React from "react"
-import { text } from "../utils/text"
+import { text } from "../tokens/text"
 
 export const typographyMaxWidth = "72ch"
 
-const h1Class = style(text("xl", 600, "highContrast"), {
+const h1Class = style(text("xl", 700, "highContrast"), {
 	marginTop: "1.5rem",
 	marginBottom: "0.5rem",
 })
@@ -15,7 +15,7 @@ export function H1(props: { children: string }) {
 	return <h1 className={className}>{props.children}</h1>
 }
 
-const h2Class = style(text("lg", 500, "highContrast"), {
+const h2Class = style(text("lg", 600, "highContrast"), {
 	marginTop: "1.5rem",
 	marginBottom: "0.5rem",
 })
@@ -26,7 +26,7 @@ export function H2(props: { children: string }) {
 	return <h2 className={className}>{props.children}</h2>
 }
 
-const h3Class = style(text("md", 500, "highContrast"), {
+const h3Class = style(text("md", 600, "highContrast"), {
 	marginTop: "1.5rem",
 	marginBottom: "0.5rem",
 })
@@ -37,7 +37,7 @@ export function H3(props: { children: string }) {
 	return <h3 className={className}>{props.children}</h3>
 }
 
-const h4Class = style(text("sm", 600, "highContrast"), {
+const h4Class = style(text("md", 600, "highContrast"), {
 	margin: "1.25em 0",
 	maxWidth: typographyMaxWidth,
 })
@@ -48,7 +48,7 @@ export function H4(props: { children: string }) {
 	return <h4 className={className}>{props.children}</h4>
 }
 
-const pClass = style(text("sm", 400, "lowContrast"), {
+const pClass = style(text("md", 400, "lowContrast"), {
 	margin: "1.25em 0",
 	maxWidth: typographyMaxWidth,
 })
@@ -59,7 +59,7 @@ export function P(props: { children: React.ReactNode }) {
 	return <p className={className}>{props.children}</p>
 }
 
-const labelClass = style(text("sm", 500, "lowContrast"), {
+export const labelText = style(text("xs", 500, "lowContrast"), {
 	userSelect: "none",
 })
 
@@ -68,7 +68,7 @@ export function Label(
 		children: React.ReactNode
 	},
 ) {
-	const className = useStyles(labelClass)
+	const className = useStyles(labelText)
 
 	return (
 		<label {...props} className={className}>
@@ -77,7 +77,7 @@ export function Label(
 	)
 }
 
-const blockquoteClass = style(text("sm", 400, "lowContrast"), {
+const blockquoteClass = style(text("md", 400, "lowContrast"), {
 	borderLeft: "2px solid var(--accent-color)",
 	margin: "1.45em 0",
 	paddingLeft: "12px",
@@ -91,7 +91,7 @@ export function Blockquote(props: { children: string }) {
 	return <blockquote className={className}>{props.children}</blockquote>
 }
 
-const aClass = text("sm", 400, "highContrast")
+const aClass = text("md", 400, "highContrast")
 
 export function Link(props: { children: string; href: string }) {
 	const className = useStyles(aClass)

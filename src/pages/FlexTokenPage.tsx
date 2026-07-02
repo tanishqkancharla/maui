@@ -1,7 +1,9 @@
-import { H2, H3, P } from "../../components/Typography"
-import { Flex } from "../../components/Utils"
+import { CodeBlock } from "../components/CodeBlock"
+import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { H2, H3, P } from "../components/Typography"
+import { Flex } from "../components/Utils"
 
-export function FlexPage() {
+export function FlexTokenPage() {
 	return (
 		<section style={{ marginBottom: "32px" }}>
 			<H2>Flex</H2>
@@ -12,64 +14,62 @@ export function FlexPage() {
 			</P>
 
 			<H3>Values</H3>
-			<table style={{ width: "100%", borderCollapse: "collapse" }}>
-				<thead>
-					<tr>
-						<th style={tableHeaderStyle}>Name</th>
-						<th style={tableHeaderStyle}>Value</th>
-						<th style={tableHeaderStyle}>Use</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style={tableCellStyle}>
+			<Table>
+				<TableHead>
+					<TableRow>
+						<TableHeaderCell>Name</TableHeaderCell>
+						<TableHeaderCell>Value</TableHeaderCell>
+						<TableHeaderCell>Use</TableHeaderCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					<TableRow>
+						<TableCell>
 							<code>flex.row()</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>display: flex; flex-direction: row</code>
-						</td>
-						<td style={tableCellStyle}>Horizontal groups and toolbars.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>Horizontal groups and toolbars.</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>flex.column()</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>display: flex; flex-direction: column</code>
-						</td>
-						<td style={tableCellStyle}>Vertical forms and stacked content.</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>Vertical forms and stacked content.</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>flex.center</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>align-items: center; justify-content: center</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							Centered icon buttons and empty states.
-						</td>
-					</tr>
-					<tr>
-						<td style={tableCellStyle}>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>flex.between</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>justify-content: space-between</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							Rows with leading content and trailing actions.
-						</td>
-					</tr>
-				</tbody>
-			</table>
+						</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
 
 			<H3>Examples</H3>
 			<div style={sampleTitleStyle}>Row</div>
-			<pre style={codeBlockStyle}>
-				<code>{`const row = style(flex.row({ alignItems: "center", gap: 8 }))`}</code>
-			</pre>
-			<div className="maui-example-panel">
+			<CodeBlock lang="typescript">{`const row = style(flex.row({ alignItems: "center", gap: 8 }))`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
 					<Flex row alignItems="center" gap={8}>
 						<Pill>One</Pill>
@@ -80,10 +80,8 @@ export function FlexPage() {
 			</div>
 
 			<div style={sampleTitleStyle}>Column</div>
-			<pre style={codeBlockStyle}>
-				<code>{`const column = style(flex.column({ gap: 8 }))`}</code>
-			</pre>
-			<div className="maui-example-panel">
+			<CodeBlock lang="typescript">{`const column = style(flex.column({ gap: 8 }))`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
 					<Flex column gap={8}>
 						<Pill>First</Pill>
@@ -94,10 +92,8 @@ export function FlexPage() {
 			</div>
 
 			<div style={sampleTitleStyle}>Centered</div>
-			<pre style={codeBlockStyle}>
-				<code>{`const centered = style(flex.row(), flex.center)`}</code>
-			</pre>
-			<div className="maui-example-panel">
+			<CodeBlock lang="typescript">{`const centered = style(flex.row(), flex.center)`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<div
 					style={{
 						...exampleCardStyle,
@@ -112,10 +108,8 @@ export function FlexPage() {
 			</div>
 
 			<div style={sampleTitleStyle}>Between</div>
-			<pre style={codeBlockStyle}>
-				<code>{`const toolbar = style(flex.row({ alignItems: "center" }), flex.between)`}</code>
-			</pre>
-			<div className="maui-example-panel">
+			<CodeBlock lang="typescript">{`const toolbar = style(flex.row({ alignItems: "center" }), flex.between)`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
 					<Flex row alignItems="center" gap={8}>
 						<span>between</span>
@@ -157,28 +151,4 @@ const sampleTitleStyle = {
 	marginBottom: "8px",
 } as const
 
-const tableHeaderStyle = {
-	color: "var(--sand-10)",
-	fontSize: "11px",
-	fontWeight: 500,
-	letterSpacing: "0.04em",
-	padding: "0 12px 8px 0",
-	textAlign: "left",
-	textTransform: "uppercase",
-} as const
 
-const tableCellStyle = {
-	borderTop: "1px solid var(--sand-5)",
-	color: "var(--sand-11)",
-	padding: "10px 12px 10px 0",
-	verticalAlign: "top",
-} as const
-
-const codeBlockStyle = {
-	background: "var(--sand-2)",
-	border: "1px solid var(--sand-6)",
-	borderRadius: "6px",
-	color: "var(--sand-12)",
-	padding: "12px",
-	overflowX: "auto",
-} as const

@@ -1,0 +1,314 @@
+import type React from "react"
+import { style, useStyles } from "purse-styles"
+import { Icons } from "../components/Icons"
+import { flex, flexItem } from "../tokens/layout"
+import { radius } from "../tokens/radius"
+import { shadowTokens } from "../tokens/shadows"
+import { spacing } from "../tokens/spacing"
+import { text } from "../tokens/text"
+
+type EmailThread = {
+	senders: string
+	subject: string
+	snippet: string
+	time: string
+	unread?: boolean
+}
+
+const emailThreads: EmailThread[] = [
+	{
+		senders: "billing@canopy.space",
+		subject: "Michael Kronovet Customer Receipt/Purchase Confirmation",
+		snippet:
+			"06/30/26 Dear Michael, Thank you for being a CANOPY member. Your payment of $425.00 has been processed.",
+		time: "4:15 PM",
+		unread: true,
+	},
+	{
+		senders: "Anthem Blue Cross Communications",
+		subject: "You have a new explanation of benefits",
+		snippet:
+			"Log in to review your claims details. View email in a browser Anthem Blue Cross and Blue Shield",
+		time: "Jun 29",
+		unread: true,
+	},
+	{
+		senders: "Chanhee from Aside",
+		subject: "This week in Aside: Pinned Tabs, New AI Providers, and more",
+		snippet:
+			"Tanishq, we shipped Pinned Tabs, added new AI providers, and improved memory search this week.",
+		time: "Jun 29",
+	},
+	{
+		senders: "Team Fathom",
+		subject: "Fathom Weekly Report",
+		snippet:
+			"Here is your weekly report for the sites below for Jun 22, 2026 to Jun 28, 2026. Total visits: 12,847.",
+		time: "Jun 29",
+		unread: true,
+	},
+	{
+		senders: "Cal.com, Inc.",
+		subject: "Your receipt from Cal.com, Inc. #2460-4809",
+		snippet:
+			"Receipt from Cal.com, Inc. Amount paid $12.00 Date paid Jun 28, 2026 Payment method Visa •••• 4242",
+		time: "Jun 29",
+	},
+	{
+		senders: "GitHub",
+		subject: "[saffron-health/libretto] PR #412: Add workflow retry backoff",
+		snippet:
+			"@tanishqkancharla requested your review on saffron-health/libretto pull request #412.",
+		time: "Jun 28",
+		unread: true,
+	},
+	{
+		senders: "Linear",
+		subject: "LIB-284 assigned to you: Fix session timeout on long-running jobs",
+		snippet:
+			"Karri assigned you a new issue in Libretto. Priority: High · Status: Todo · Project: Platform",
+		time: "Jun 28",
+	},
+	{
+		senders: "Stripe",
+		subject: "Your Stripe payout for Jun 24–Jun 30 is on the way",
+		snippet:
+			"A payout of $3,842.17 is on its way to your bank account ending in 9876. Expected arrival: Jul 1.",
+		time: "Jun 27",
+	},
+	{
+		senders: "Notion Team",
+		subject: "Your weekly digest: 3 pages edited, 2 comments",
+		snippet:
+			"Product roadmap, Q3 planning, and Libretto launch checklist had activity in your workspace this week.",
+		time: "Jun 27",
+		unread: true,
+	},
+]
+
+export function EmailClient() {
+	const listClassName = useStyles(threadListClass)
+
+	return (
+		<div className={listClassName} aria-label="Email threads">
+			{emailThreads.map((thread) => (
+				<EmailThreadRow
+					key={`${thread.senders}-${thread.time}`}
+					thread={thread}
+				/>
+			))}
+		</div>
+	)
+}
+
+function EmailThreadRow(props: { thread: EmailThread }) {
+	const rowClassName = useStyles(threadRowClass)
+	const senderClassName = useStyles(
+		props.thread.unread ? threadSenderUnreadClass : threadSenderClass,
+	)
+	const unreadDotClassName = useStyles(threadUnreadDotClass)
+	const unreadDotEmptyClassName = useStyles(threadUnreadDotEmptyClass)
+	const senderTextClassName = useStyles(threadSenderTextClass)
+	const contentClassName = useStyles(threadContentClass)
+	const subjectClassName = useStyles(
+		props.thread.unread ? threadSubjectUnreadClass : threadSubjectClass,
+	)
+	const snippetClassName = useStyles(threadSnippetClass)
+	const timeClassName = useStyles(threadTimeClass)
+	const toolbarClassName = useStyles(threadToolbarClass)
+	const actionClassName = useStyles(threadActionClass)
+
+	return (
+		<article className={rowClassName}>
+			<div className={senderClassName}>
+				<span
+					className={
+						props.thread.unread ? unreadDotClassName : unreadDotEmptyClassName
+					}
+					aria-hidden="true"
+				/>
+				<span className={senderTextClassName}>{props.thread.senders}</span>
+			</div>
+
+			<div className={contentClassName}>
+				<span className={subjectClassName}>{props.thread.subject}</span>
+				<span className={snippetClassName}>{props.thread.snippet}</span>
+			</div>
+
+			<time className={`${timeClassName} email-thread-row-time`}>
+				{props.thread.time}
+			</time>
+
+			<div className={`${toolbarClassName} email-thread-row-toolbar`}>
+				<ThreadAction label="Star thread">
+					<Icons.Star />
+				</ThreadAction>
+				<ThreadAction label="Archive thread">
+					<Icons.Archive />
+				</ThreadAction>
+				<ThreadAction label="Delete thread">
+					<Icons.Trash />
+				</ThreadAction>
+				<ThreadAction label="Mark unread">
+					<Icons.Envelope />
+				</ThreadAction>
+				<ThreadAction label="Snooze thread">
+					<Icons.Clock />
+				</ThreadAction>
+			</div>
+		</article>
+	)
+
+	function ThreadAction(props: { label: string; children: React.ReactNode }) {
+		return (
+			<button className={actionClassName} type="button" aria-label={props.label}>
+				{props.children}
+			</button>
+		)
+	}
+}
+
+const truncate = style({
+	overflow: "hidden",
+	textOverflow: "ellipsis",
+	whiteSpace: "nowrap",
+})
+
+const threadListClass = style({
+	marginTop: "20px",
+})
+
+const threadRowClass = style(
+	text("md", 400, "lowContrast"),
+	spacing.padding({ x: 3 }),
+	{
+		position: "relative",
+		display: "grid",
+		gridTemplateColumns: "minmax(180px, 24%) minmax(0, 1fr) 92px",
+		alignItems: "center",
+		minHeight: "40px",
+		userSelect: "none",
+		"&:hover": {
+			backgroundColor: "var(--sand-A2)",
+		},
+		"&:hover .email-thread-row-toolbar": {
+			opacity: 1,
+			pointerEvents: "auto",
+			transform: "translateY(-50%)",
+		},
+		"&:hover .email-thread-row-time": {
+			opacity: 0,
+		},
+	}
+)
+
+const threadSenderClass = style(
+	text("md", 400, "highContrast"),
+	flex({ align: "center", gap: 3 }),
+	{
+		minWidth: 0,
+	},
+)
+
+const threadSenderUnreadClass = style(
+	text("md", 500, "highContrast"),
+	flex({ align: "center", gap: 3 }),
+	{
+		minWidth: 0,
+	},
+)
+
+const threadSenderTextClass = style(
+	truncate,
+	flexItem({ size: "fill" }),
+	{
+		minWidth: 0,
+	},
+)
+
+const threadUnreadDotClass = style({
+	flexShrink: 0,
+	width: "6px",
+	height: "6px",
+	borderRadius: "50%",
+	backgroundColor: "var(--accent-9)",
+})
+
+const threadUnreadDotEmptyClass = style({
+	flexShrink: 0,
+	width: "6px",
+	height: "6px",
+})
+
+const threadContentClass = style(spacing.gap[3], {
+	display: "inline-flex",
+	minWidth: 0,
+	width: "100%",
+	maxWidth: "100%",
+	overflow: "hidden",
+	paddingRight: "16px",
+})
+
+const threadSubjectBaseClass = style(truncate, {
+	flex: "0 1 auto",
+	minWidth: 0,
+})
+
+const threadSubjectClass = style(threadSubjectBaseClass, text("md", 400, "highContrast"))
+
+const threadSubjectUnreadClass = style(
+	threadSubjectBaseClass,
+	text("md", 500, "highContrast"),
+)
+
+const threadSnippetClass = style(
+	truncate,
+	flexItem({ size: "fill" }),
+	text("md", 400, "lowContrast"),
+	{
+		minWidth: 0,
+	},
+)
+
+const threadTimeClass = style(text("md", 400, "lowContrast"), {
+	justifySelf: "end",
+})
+
+const threadToolbarClass = style(
+	shadowTokens.minimal,
+	radius.control,
+	flex({ align: "center", gap: 1 }),
+	spacing.padding({ all: 1 }),
+	{
+		position: "absolute",
+		top: "50%",
+		right: "6px",
+		zIndex: 1,
+		background: "var(--sand-3)",
+		opacity: 0,
+		pointerEvents: "none",
+		transform: "translateY(-50%)",
+	},
+)
+
+const threadActionClass = style(
+	text("md", 400, "lowContrast"),
+	radius.control,
+	{
+		display: "grid",
+		placeItems: "center",
+		width: "28px",
+		height: "28px",
+		padding: 0,
+		border: "none",
+		background: "transparent",
+		"& svg": {
+			width: "20px",
+			height: "20px",
+		},
+		"&:hover": {
+			backgroundColor: "var(--sand-A4)",
+			color: "var(--sand-12)",
+		},
+	},
+)

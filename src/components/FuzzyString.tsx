@@ -9,7 +9,7 @@ export function FuzzyString(props: { match: FuzzyMatch }) {
 			{match.map((item, i) => {
 				if ("match" in item) {
 					return (
-						<span style={{ fontWeight: "bold" }} key={i}>
+						<span style={{ fontWeight: 500 }} key={i}>
 							{item.match}
 						</span>
 					)

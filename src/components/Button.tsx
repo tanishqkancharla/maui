@@ -3,10 +3,10 @@ import { useId } from "react-aria"
 import { style, useStyles } from "purse-styles"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
-import { focusRing } from "../utils/focusRing"
-import { motion } from "../utils/motion"
-import { spacing } from "../utils/spacing"
-import { text } from "../utils/text"
+import { focusRing } from "../tokens/focusRing"
+import { motion } from "../tokens/motion"
+import { spacing } from "../tokens/spacing"
+import { text } from "../tokens/text"
 
 const buttonBaseClass = style(
 	text("xs", 400, "onAccent"),

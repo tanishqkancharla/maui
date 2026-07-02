@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { style, useStyles } from "purse-styles"
-import { Button } from "../../components/Button"
-import { H2, H3, P } from "../../components/Typography"
-import { motion } from "../../utils/motion"
+import { Button } from "../components/Button"
+import { CodeBlock } from "../components/CodeBlock"
+import { H2, H3, P } from "../components/Typography"
+import { motion } from "../tokens/motion"
 
 const animatedCardClass = style(
 	motion.standard("transform", "box-shadow", "background", "border-color"),
@@ -14,7 +16,7 @@ const animatedCardClass = style(
 	},
 )
 
-export function MotionPage() {
+export function MotionTokenPage() {
 	const [isActive, setIsActive] = useState(false)
 	const animatedCardClassName = useStyles(animatedCardClass)
 
@@ -28,33 +30,32 @@ export function MotionPage() {
 			</P>
 
 			<H3>Values</H3>
-			<table style={{ width: "100%", borderCollapse: "collapse" }}>
-				<thead>
-					<tr>
-						<th style={tableHeaderStyle}>Name</th>
-						<th style={tableHeaderStyle}>Value</th>
-						<th style={tableHeaderStyle}>Use</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style={tableCellStyle}>
+			<Table>
+				<TableHead>
+					<TableRow>
+						<TableHeaderCell>Name</TableHeaderCell>
+						<TableHeaderCell>Value</TableHeaderCell>
+						<TableHeaderCell>Use</TableHeaderCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					<TableRow>
+						<TableCell>
 							<code>motion.standard(...properties)</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							<code>{`style({ transition: "<property> 80ms ease-in-out" })`}</code>
-						</td>
-						<td style={tableCellStyle}>
+						</TableCell>
+						<TableCell>
 							Builds a transition style object from the properties that should
 							animate.
-						</td>
-					</tr>
-				</tbody>
-			</table>
+						</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
 
 			<H3>Example</H3>
-			<pre style={codeBlockStyle}>
-				<code>{`const [isActive, setIsActive] = useState(false)
+			<CodeBlock lang="tsx">{`const [isActive, setIsActive] = useState(false)
 
 const animatedCard = style(
 	motion.standard("transform", "box-shadow", "background", "border-color"),
@@ -75,12 +76,11 @@ const animatedCard = style(
 		borderColor: isActive ? "var(--accent-8)" : "var(--sand-6)",
 		boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
 	}}
-/>`}</code>
-			</pre>
+/>`}</CodeBlock>
 
 			<div
 				className="maui-example-panel"
-				style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+				style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "16px" }}
 			>
 				<Button onClick={() => setIsActive((value) => !value)}>
 					Trigger motion
@@ -101,26 +101,3 @@ const animatedCard = style(
 	)
 }
 
-const tableHeaderStyle = {
-	color: "var(--sand-10)",
-	fontSize: "11px",
-	fontWeight: 500,
-	letterSpacing: "0.04em",
-	padding: "0 12px 8px 0",
-	textAlign: "left",
-	textTransform: "uppercase",
-} as const
-const tableCellStyle = {
-	borderTop: "1px solid var(--sand-5)",
-	color: "var(--sand-11)",
-	padding: "10px 12px 10px 0",
-	verticalAlign: "top",
-} as const
-const codeBlockStyle = {
-	background: "var(--sand-2)",
-	border: "1px solid var(--sand-6)",
-	borderRadius: "6px",
-	color: "var(--sand-12)",
-	padding: "12px",
-	overflowX: "auto",
-} as const

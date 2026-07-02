@@ -1,8 +1,10 @@
 import { useStyles } from "purse-styles"
-import { H2, H3, H4, P } from "../../components/Typography"
-import { spacing } from "../../utils/spacing"
+import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { CodeBlock } from "../components/CodeBlock"
+import { H2, H3, H4, P } from "../components/Typography"
+import { spacing } from "../tokens/spacing"
 
-export function SpacingPage() {
+export function SpacingTokenPage() {
 	return (
 		<section style={{ marginBottom: "32px" }}>
 			<H2>Spacing</H2>
@@ -12,49 +14,45 @@ export function SpacingPage() {
 			</P>
 
 			<H3>Values</H3>
-			<table style={{ width: "100%", borderCollapse: "collapse" }}>
-				<thead>
-					<tr>
-						<th style={tableHeaderStyle}>Name</th>
-						<th style={tableHeaderStyle}>Value</th>
-						<th style={tableHeaderStyle}>Use</th>
-					</tr>
-				</thead>
-				<tbody>
+			<Table>
+				<TableHead>
+					<TableRow>
+						<TableHeaderCell>Name</TableHeaderCell>
+						<TableHeaderCell>Value</TableHeaderCell>
+						<TableHeaderCell>Use</TableHeaderCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
 					{spacingScale.map((token) => (
-						<tr key={token.name}>
-							<td style={tableCellStyle}>
+							<TableRow key={token.name}>
+							<TableCell>
 								<code>{token.name}</code>
-							</td>
-							<td style={tableCellStyle}>
+							</TableCell>
+							<TableCell>
 								<code>{token.value}</code>
-							</td>
-							<td style={tableCellStyle}>{token.use}</td>
-						</tr>
+							</TableCell>
+							<TableCell>{token.use}</TableCell>
+						</TableRow>
 					))}
-				</tbody>
-			</table>
+				</TableBody>
+			</Table>
 
 			<H3>Examples</H3>
 			<H4>Gap</H4>
-			<pre style={codeBlockStyle}>
-				<code>{`const row = style(
+			<CodeBlock lang="typescript">{`const row = style(
 	{ display: "flex" },
 	spacing.gap[4],
-)`}</code>
-			</pre>
-			<div className="maui-example-panel">
+)`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<GapExample />
 			</div>
 
 			<H4>Padding</H4>
-			<pre style={codeBlockStyle}>
-				<code>{`const panel = style(
+			<CodeBlock lang="typescript">{`const panel = style(
 	background.element,
 	spacing.padding({ all: 12 }),
-)`}</code>
-			</pre>
-			<div className="maui-example-panel">
+)`}</CodeBlock>
+			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<PaddingExample />
 			</div>
 		</section>
@@ -165,26 +163,3 @@ const demoBlockStyle = {
 	borderRadius: "4px",
 } as const
 
-const tableHeaderStyle = {
-	color: "var(--sand-10)",
-	fontSize: "11px",
-	fontWeight: 500,
-	letterSpacing: "0.04em",
-	padding: "0 12px 8px 0",
-	textAlign: "left",
-	textTransform: "uppercase",
-} as const
-const tableCellStyle = {
-	borderTop: "1px solid var(--sand-5)",
-	color: "var(--sand-11)",
-	padding: "10px 12px 10px 0",
-	verticalAlign: "top",
-} as const
-const codeBlockStyle = {
-	background: "var(--sand-2)",
-	border: "1px solid var(--sand-6)",
-	borderRadius: "6px",
-	color: "var(--sand-12)",
-	padding: "12px",
-	overflowX: "auto",
-} as const
