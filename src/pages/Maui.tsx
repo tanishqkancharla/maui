@@ -28,6 +28,7 @@ import { InboxPage } from "./InboxPage"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
 import { MenuPage } from "./MenuPage"
+import { MessageListPage } from "./MessageListPage"
 import { MotionTokenPage } from "./MotionTokenPage"
 import { ShadowTokenPage } from "./ShadowTokenPage"
 import { SidebarPage } from "./SidebarPage"
@@ -123,6 +124,11 @@ const navigation: NavGroup[] = [
 		label: "Patterns",
 		children: [
 			{ label: "Inbox", path: "/patterns/inbox", page: InboxPage },
+			{
+				label: "Message list",
+				path: "/patterns/message-list",
+				page: MessageListPage,
+			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
 		],
 	},

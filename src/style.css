@@ -174,7 +174,7 @@ button,
 	border: 1px solid var(--sand-6);
 	border-radius: 8px;
 	background-color: var(--sand-1);
-	background-image: radial-gradient(var(--sand-A5) 1px, transparent 1px);
+	background-image: radial-gradient(var(--sand-A3) 1px, transparent 1px);
 	background-size: 12px 12px;
 }
 
