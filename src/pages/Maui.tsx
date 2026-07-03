@@ -20,19 +20,21 @@ import { ButtonsPage } from "./ButtonsPage"
 import { CodeBlockPage } from "./CodeBlockPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
-import { EmailClientPage } from "./EmailClientPage"
 import { FocusRingTokenPage } from "./FocusRingTokenPage"
 import { FormControlsPage } from "./FormControlsPage"
 import { FuzzyStringPage } from "./FuzzyStringPage"
 import { IconsPage } from "./IconsPage"
+import { InboxPage } from "./InboxPage"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
 import { MenuPage } from "./MenuPage"
 import { MotionTokenPage } from "./MotionTokenPage"
 import { ShadowTokenPage } from "./ShadowTokenPage"
+import { SidebarPage } from "./SidebarPage"
 import { SizingTokenPage } from "./SizingTokenPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
 import { TextTokenPage } from "./TextTokenPage"
+import { TooltipPage } from "./TooltipPage"
 import { TypographyPage } from "./TypographyPage"
 
 export function Maui() {
@@ -98,6 +100,7 @@ const navigation: NavGroup[] = [
 				page: FormControlsPage,
 			},
 			{ label: "Menu", path: "/components/menu", page: MenuPage },
+			{ label: "Tooltip", path: "/components/tooltip", page: TooltipPage },
 			{
 				label: "Layout utilities",
 				path: "/components/layout-utilities",
@@ -119,11 +122,8 @@ const navigation: NavGroup[] = [
 	{
 		label: "Patterns",
 		children: [
-			{
-				label: "Email client",
-				path: "/patterns/email-client",
-				page: EmailClientPage,
-			},
+			{ label: "Inbox", path: "/patterns/inbox", page: InboxPage },
+			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
 		],
 	},
 ]

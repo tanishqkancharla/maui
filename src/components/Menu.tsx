@@ -48,7 +48,7 @@ export function ListBox<T extends object>(props: ListBoxProps<T>) {
 export const menuItem = style(
 	text("md", 400, "highContrast"),
 	focusRing(),
-	radius.control,
+	radius.sm,
 	spacing.padding({ x: 8, y: 2 }),
 	{
 		margin: 0,

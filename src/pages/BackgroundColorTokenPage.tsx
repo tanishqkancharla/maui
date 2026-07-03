@@ -91,7 +91,7 @@ export function BackgroundColorTokenPage() {
 			</Table>
 
 			<H3>Example</H3>
-			<CodeBlock lang="typescript">{`const panel = style(background.subtle, border([], "subtle"), radius.panel)
+			<CodeBlock lang="typescript">{`const panel = style(background.subtle, border([], "subtle"), radius.md)
 const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 
 			<div

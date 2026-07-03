@@ -128,7 +128,7 @@ export function BordersTokenPage() {
 			<CodeBlock lang="typescript">{`const panel = style(
 	background.subtle,
 	border([], "subtle"),
-	radius.panel,
+	radius.md,
 )
 
 const blockquote = style(
@@ -173,7 +173,7 @@ function BorderExample(props: {
 }) {
 	const className = useStyles(
 		border(props.sides, props.color, props.width),
-		radius.panel,
+		radius.md,
 		style({
 			background: "var(--sand-2)",
 			padding: "16px",

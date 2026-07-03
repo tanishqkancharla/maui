@@ -1,8 +1,10 @@
+import { useStyles } from "purse-styles"
 import { useMemo, useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { FuzzyString } from "../components/FuzzyString"
 import { SearchField } from "../components/Input"
 import { H2, H3, P } from "../components/Typography"
+import { text } from "../tokens/text"
 import { fuzzyMatch, fuzzyMatchScore } from "../utils/fuzzyMatch"
 
 const staticExamples = [
@@ -36,6 +38,7 @@ const searchableItems = [
 
 export function FuzzyStringPage() {
 	const [query, setQuery] = useState("em")
+	const resultTextClass = useStyles(text("md", 400, "highContrast"))
 
 	const filteredItems = useMemo(() => {
 		if (!query) {
@@ -114,13 +117,17 @@ export function FuzzyStringPage() {
 					}}
 				>
 					{filteredItems.length === 0 ? (
-						<li style={{ color: "var(--sand-10)", padding: "8px 12px" }}>
+						<li
+							className={resultTextClass}
+							style={{ color: "var(--sand-10)", padding: "8px 12px" }}
+						>
 							No matches
 						</li>
 					) : (
 						filteredItems.map((item) => (
 							<li
 								key={item.text}
+								className={resultTextClass}
 								style={{
 									padding: "8px 12px",
 									borderRadius: "4px",

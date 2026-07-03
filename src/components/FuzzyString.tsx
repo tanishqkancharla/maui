@@ -9,19 +9,12 @@ export function FuzzyString(props: { match: FuzzyMatch }) {
 			{match.map((item, i) => {
 				if ("match" in item) {
 					return (
-						<span style={{ fontWeight: 500 }} key={i}>
+						<span style={{ color: "var(--accent-11)" }} key={i}>
 							{item.match}
 						</span>
 					)
 				} else {
-					return (
-						<span
-							style={{ color: match.length > 1 ? "var(--sand-9)" : undefined }}
-							key={i}
-						>
-							{item.skip}
-						</span>
-					)
+					return <span key={i}>{item.skip}</span>
 				}
 			})}
 		</>

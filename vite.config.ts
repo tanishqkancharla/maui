@@ -4,6 +4,14 @@ import react from "@vitejs/plugin-react"
 export default defineConfig({
 	root: "src",
 	plugins: [react({})],
+	server: {
+		watch: {
+			// The native fsevents watcher silently misses file changes in this
+			// environment, breaking HMR. Polling is reliable.
+			usePolling: true,
+			interval: 150,
+		},
+	},
 	build: {
 		outDir: "../dist",
 		emptyOutDir: true,

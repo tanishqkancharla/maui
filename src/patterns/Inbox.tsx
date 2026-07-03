@@ -6,6 +6,7 @@ import { radius } from "../tokens/radius"
 import { shadowTokens } from "../tokens/shadows"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
+import { memoize } from "../utils/memoize"
 
 type EmailThread = {
 	senders: string
@@ -86,7 +87,7 @@ const emailThreads: EmailThread[] = [
 	},
 ]
 
-export function EmailClient() {
+export function Inbox() {
 	const listClassName = useStyles(threadListClass)
 
 	return (
@@ -103,30 +104,18 @@ export function EmailClient() {
 
 function EmailThreadRow(props: { thread: EmailThread }) {
 	const rowClassName = useStyles(threadRowClass)
-	const senderClassName = useStyles(
-		props.thread.unread ? threadSenderUnreadClass : threadSenderClass,
-	)
-	const unreadDotClassName = useStyles(threadUnreadDotClass)
-	const unreadDotEmptyClassName = useStyles(threadUnreadDotEmptyClass)
+	const senderClassName = useStyles(threadSenderClass)
 	const senderTextClassName = useStyles(threadSenderTextClass)
 	const contentClassName = useStyles(threadContentClass)
-	const subjectClassName = useStyles(
-		props.thread.unread ? threadSubjectUnreadClass : threadSubjectClass,
-	)
+	const subjectClassName = useStyles(threadSubjectClass)
 	const snippetClassName = useStyles(threadSnippetClass)
 	const timeClassName = useStyles(threadTimeClass)
 	const toolbarClassName = useStyles(threadToolbarClass)
-	const actionClassName = useStyles(threadActionClass)
 
 	return (
 		<article className={rowClassName}>
 			<div className={senderClassName}>
-				<span
-					className={
-						props.thread.unread ? unreadDotClassName : unreadDotEmptyClassName
-					}
-					aria-hidden="true"
-				/>
+				<UnreadDot unread={props.thread.unread} />
 				<span className={senderTextClassName}>{props.thread.senders}</span>
 			</div>
 
@@ -139,33 +128,56 @@ function EmailThreadRow(props: { thread: EmailThread }) {
 				{props.thread.time}
 			</time>
 
-			<div className={`${toolbarClassName} email-thread-row-toolbar`}>
-				<ThreadAction label="Star thread">
-					<Icons.Star />
-				</ThreadAction>
-				<ThreadAction label="Archive thread">
-					<Icons.Archive />
-				</ThreadAction>
-				<ThreadAction label="Delete thread">
-					<Icons.Trash />
-				</ThreadAction>
-				<ThreadAction label="Mark unread">
-					<Icons.Envelope />
-				</ThreadAction>
-				<ThreadAction label="Snooze thread">
-					<Icons.Clock />
-				</ThreadAction>
-			</div>
+			<ThreadHoverActions
+				className={`${toolbarClassName} email-thread-row-toolbar`}
+			/>
 		</article>
 	)
+}
 
-	function ThreadAction(props: { label: string; children: React.ReactNode }) {
-		return (
-			<button className={actionClassName} type="button" aria-label={props.label}>
-				{props.children}
-			</button>
-		)
-	}
+function ThreadHoverActions(props: { className: string }) {
+	const actionClassName = useStyles(threadActionClass)
+
+	return (
+		<div className={props.className}>
+			<ThreadAction actionClassName={actionClassName} label="Star thread">
+				<Icons.Star />
+			</ThreadAction>
+			<ThreadAction actionClassName={actionClassName} label="Archive thread">
+				<Icons.Archive />
+			</ThreadAction>
+			<ThreadAction actionClassName={actionClassName} label="Delete thread">
+				<Icons.Trash />
+			</ThreadAction>
+			<ThreadAction actionClassName={actionClassName} label="Mark unread">
+				<Icons.Envelope />
+			</ThreadAction>
+			<ThreadAction actionClassName={actionClassName} label="Snooze thread">
+				<Icons.Clock />
+			</ThreadAction>
+		</div>
+	)
+}
+
+function ThreadAction(props: {
+	actionClassName: string
+	label: string
+	children: React.ReactNode
+}) {
+	return (
+		<button className={props.actionClassName} type="button" aria-label={props.label}>
+			{props.children}
+		</button>
+	)
+}
+
+function UnreadDot(props: { unread?: boolean; align?: "start" }) {
+	const dotClassName = useStyles(
+		unreadDotStyle(!!props.unread),
+		...(props.align === "start" ? [unreadDotAlignStartClass] : []),
+	)
+
+	return <span className={dotClassName} aria-hidden="true" />
 }
 
 const truncate = style({
@@ -181,6 +193,7 @@ const threadListClass = style({
 const threadRowClass = style(
 	text("md", 400, "lowContrast"),
 	spacing.padding({ x: 3 }),
+	radius.md,
 	{
 		position: "relative",
 		display: "grid",
@@ -210,14 +223,6 @@ const threadSenderClass = style(
 	},
 )
 
-const threadSenderUnreadClass = style(
-	text("md", 500, "highContrast"),
-	flex({ align: "center", gap: 3 }),
-	{
-		minWidth: 0,
-	},
-)
-
 const threadSenderTextClass = style(
 	truncate,
 	flexItem({ size: "fill" }),
@@ -226,18 +231,18 @@ const threadSenderTextClass = style(
 	},
 )
 
-const threadUnreadDotClass = style({
-	flexShrink: 0,
-	width: "6px",
-	height: "6px",
-	borderRadius: "50%",
-	backgroundColor: "var(--accent-9)",
-})
+const unreadDotStyle = memoize((unread: boolean) =>
+	style({
+		flexShrink: 0,
+		width: "6px",
+		height: "6px",
+		borderRadius: "50%",
+		backgroundColor: unread ? "var(--accent-9)" : "transparent",
+	}),
+)
 
-const threadUnreadDotEmptyClass = style({
-	flexShrink: 0,
-	width: "6px",
-	height: "6px",
+const unreadDotAlignStartClass = style({
+	marginTop: "7px",
 })
 
 const threadContentClass = style(spacing.gap[3], {
@@ -256,11 +261,6 @@ const threadSubjectBaseClass = style(truncate, {
 
 const threadSubjectClass = style(threadSubjectBaseClass, text("md", 400, "highContrast"))
 
-const threadSubjectUnreadClass = style(
-	threadSubjectBaseClass,
-	text("md", 500, "highContrast"),
-)
-
 const threadSnippetClass = style(
 	truncate,
 	flexItem({ size: "fill" }),
@@ -276,7 +276,7 @@ const threadTimeClass = style(text("md", 400, "lowContrast"), {
 
 const threadToolbarClass = style(
 	shadowTokens.minimal,
-	radius.control,
+	radius.sm,
 	flex({ align: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),
 	{
@@ -293,7 +293,7 @@ const threadToolbarClass = style(
 
 const threadActionClass = style(
 	text("md", 400, "lowContrast"),
-	radius.control,
+	radius.sm,
 	{
 		display: "grid",
 		placeItems: "center",
@@ -312,3 +312,122 @@ const threadActionClass = style(
 		},
 	},
 )
+
+export function InboxMultiLine() {
+	const listClassName = useStyles(compactListClass)
+
+	return (
+		<div className={listClassName} aria-label="Email threads (multi-line)">
+			{emailThreads.map((thread) => (
+				<CompactThreadRow
+					key={`${thread.senders}-${thread.time}`}
+					thread={thread}
+				/>
+			))}
+		</div>
+	)
+}
+
+function CompactThreadRow(props: { thread: EmailThread }) {
+	const rowClassName = useStyles(compactRowClass)
+	const dividerClassName = useStyles(compactDividerClass)
+	const bodyClassName = useStyles(compactBodyClass)
+	const headerClassName = useStyles(compactHeaderClass)
+	const senderClassName = useStyles(compactSenderClass)
+	const timeClassName = useStyles(compactTimeClass)
+	const subjectClassName = useStyles(threadSubjectClass)
+	const snippetClassName = useStyles(compactSnippetClass)
+	const toolbarClassName = useStyles(compactToolbarClass)
+
+	return (
+		<div>
+			<article className={rowClassName}>
+				<UnreadDot unread={props.thread.unread} align="start" />
+
+				<div className={bodyClassName}>
+					<div className={headerClassName}>
+						<span className={senderClassName}>{props.thread.senders}</span>
+
+						<time className={`${timeClassName} email-thread-row-time`}>
+							{props.thread.time}
+						</time>
+					</div>
+
+					<span className={subjectClassName}>{props.thread.subject}</span>
+					<span className={snippetClassName}>{props.thread.snippet}</span>
+				</div>
+
+				<ThreadHoverActions
+					className={`${toolbarClassName} email-thread-row-toolbar`}
+				/>
+			</article>
+			<div className={dividerClassName} />
+		</div>
+	)
+}
+
+const compactListClass = style({
+	marginTop: "20px",
+})
+
+const compactRowClass = style(
+	spacing.padding({ y: 6, x: 4 }),
+	flex({ gap: 3 }),
+	radius.md,
+	{
+		position: "relative",
+		"&:hover": {
+			backgroundColor: "var(--sand-A2)",
+		},
+		"&:hover .email-thread-row-toolbar": {
+			opacity: 1,
+			pointerEvents: "auto",
+		},
+		"&:hover .email-thread-row-time": {
+			opacity: 0,
+		},
+	},
+)
+
+const compactBodyClass = style(flexItem({ size: "fill" }), {
+	display: "flex",
+	flexDirection: "column",
+	gap: "4px",
+	minWidth: 0,
+})
+
+const compactHeaderClass = flex({ align: "center", justify: "between", gap: 6 })
+
+const compactSenderClass = style(
+	truncate,
+	flexItem({ size: "fill" }),
+	text("md", 400, "highContrast"),
+	{
+		minWidth: 0,
+	},
+)
+
+const compactTimeClass = style(text("md", 400, "lowContrast"), {
+	flexShrink: 0,
+})
+
+const compactSnippetClass = style(
+	truncate,
+	text("md", 400, "lowContrast"),
+	{
+		display: "-webkit-box",
+		WebkitLineClamp: 2,
+		WebkitBoxOrient: "vertical",
+		whiteSpace: "normal",
+	},
+)
+
+const compactToolbarClass = style(threadToolbarClass, {
+	top: "8px",
+	transform: "none",
+})
+
+const compactDividerClass = style({
+	height: "1px",
+	backgroundColor: "var(--sand-4)",
+})

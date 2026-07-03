@@ -136,13 +136,13 @@ export function ShadowTokenPage() {
 			<H3>Examples</H3>
 			<CodeBlock lang="typescript">{`const control = style(
 	background.element,
-	radius.control,
+	radius.sm,
 	shadowTokens.minimal,
 )
 
 const popover = style(
 	background.subtle,
-	radius.panel,
+	radius.md,
 	shadowTokens.modalSmall,
 )`}</CodeBlock>
 

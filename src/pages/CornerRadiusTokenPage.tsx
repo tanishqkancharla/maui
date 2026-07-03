@@ -34,7 +34,7 @@ export function CornerRadiusTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.indicator</code>
+							<code>radius["2xs"]</code>
 						</TableCell>
 						<TableCell>
 							<code>2px</code>
@@ -45,7 +45,7 @@ export function CornerRadiusTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.swatch</code>
+							<code>radius.xs</code>
 						</TableCell>
 						<TableCell>
 							<code>3px</code>
@@ -54,7 +54,7 @@ export function CornerRadiusTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.control</code>
+							<code>radius.sm</code>
 						</TableCell>
 						<TableCell>
 							<code>4px</code>
@@ -63,7 +63,7 @@ export function CornerRadiusTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.panel</code>
+							<code>radius.md</code>
 						</TableCell>
 						<TableCell>
 							<code>6px</code>
@@ -74,7 +74,7 @@ export function CornerRadiusTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.switch</code>
+							<code>radius.lg</code>
 						</TableCell>
 						<TableCell>
 							<code>8px</code>
@@ -105,8 +105,8 @@ export function CornerRadiusTokenPage() {
 			</Table>
 
 			<H3>Example</H3>
-			<CodeBlock lang="typescript">{`const input = style(radius.control)
-const dialog = style(radius.panel, spacing.padding({ all: 12 }))`}</CodeBlock>
+			<CodeBlock lang="typescript">{`const input = style(radius.sm)
+const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 
 			<div
 				className="maui-example-panel"

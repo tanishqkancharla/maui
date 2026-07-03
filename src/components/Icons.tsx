@@ -196,6 +196,36 @@ function Clock(props: React.SVGProps<SVGSVGElement>) {
 	)
 }
 
+function Pin(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.8}
+				d="M14.83 4.34L19.66 9.17C20.44 9.95 20.44 11.22 19.66 12L17.83 13.83L10.17 6.17L12 4.34C12.78 3.56 14.05 3.56 14.83 4.34Z"
+			/>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.8}
+				d="M13.5 10.5L6 18M9.5 14.5L4.75 19.25"
+			/>
+		</svg>
+	)
+}
+
 export const Icons = {
 	Search,
 	DotsHorizontal,
@@ -205,4 +235,5 @@ export const Icons = {
 	Trash,
 	Envelope,
 	Clock,
+	Pin,
 }
