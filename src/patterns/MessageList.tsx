@@ -1,10 +1,12 @@
 import type React from "react"
 import { style, useStyles } from "purse-styles"
-import { flex, flexItem } from "../tokens/layout"
+import { Avatar } from "../components/Avatar"
+import { P } from "../components/Typography"
+import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
+import { shadowTokens } from "../tokens/shadows"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
-import { memoize } from "../utils/memoize"
 
 type MessageListProps = React.ComponentPropsWithoutRef<"div"> & {
 	"aria-label"?: string
@@ -32,25 +34,20 @@ export function MessageList({
 
 type MessageProps = {
 	sender: string
-	email?: string
 	timestamp: string
 	edited?: boolean
-	avatar?: string
 	children: React.ReactNode
 	className?: string
 }
 
 export function Message({
 	sender,
-	email,
 	timestamp,
 	edited,
-	avatar,
 	children,
 	className,
 }: MessageProps) {
 	const messageClassName = useStyles(messageClass)
-	const avatarClassName = useStyles(avatarClass(sender))
 	const headerClassName = useStyles(messageHeaderClass)
 	const senderClassName = useStyles(senderNameClass)
 	const metaClassName = useStyles(messageMetaClass)
@@ -59,118 +56,78 @@ export function Message({
 
 	return (
 		<article className={joinClassNames(messageClassName, className)}>
-			<div className={avatarClassName} aria-hidden="true">
-				{avatar ?? initials(sender)}
-			</div>
+			<header className={headerClassName}>
+				<Avatar name={sender} size="sm" />
+				<span className={senderClassName}>{sender}</span>
+				<time className={metaClassName} dateTime={timestamp}>
+					{timestamp}
+				</time>
+				{edited ? <span className={editedClassName}>(edited)</span> : null}
+			</header>
 
-			<div className={flexItem({ size: "fill" })}>
-				<header className={headerClassName}>
-					<span className={senderClassName}>{sender}</span>
-					{email ? <span className={metaClassName}>&lt;{email}&gt;</span> : null}
-					<time className={metaClassName} dateTime={timestamp}>
-						{timestamp}
-					</time>
-					{edited ? <span className={editedClassName}>(edited)</span> : null}
-				</header>
-
-				<div className={bodyClassName}>{children}</div>
-			</div>
+			<div className={bodyClassName}>{children}</div>
 		</article>
-	)
-}
-
-type MessageAttachmentProps = {
-	title: string
-	description?: string
-	meta?: string
-}
-
-export function MessageAttachment({
-	title,
-	description,
-	meta,
-}: MessageAttachmentProps) {
-	const cardClassName = useStyles(attachmentClass)
-	const titleClassName = useStyles(attachmentTitleClass)
-	const descriptionClassName = useStyles(attachmentDescriptionClass)
-	const metaClassName = useStyles(attachmentMetaClass)
-
-	return (
-		<aside className={cardClassName}>
-			<div className={titleClassName}>{title}</div>
-			{description ? (
-				<div className={descriptionClassName}>{description}</div>
-			) : null}
-			{meta ? <div className={metaClassName}>{meta}</div> : null}
-		</aside>
 	)
 }
 
 const emailThreadMessages = [
 	{
 		sender: "Maya Chen",
-		email: "maya.chen@northwind.io",
-		timestamp: "Jul 1, 9:14 AM",
+		timestamp: "Jul 1",
 		body: (
 			<>
-				<p>Hi team,</p>
-				<p>
+				<P>Hi team,</P>
+				<P>
 					I've attached the draft Q3 roadmap for review. The main themes are
 					platform reliability, onboarding improvements, and the new billing
 					workflow. Please leave comments inline by Friday so we can lock scope
 					for the sprint planning session next week.
-				</p>
-				<p>Thanks,</p>
-				<p>Maya</p>
+				</P>
+				<P>Thanks,</P>
+				<P>Maya</P>
 			</>
 		),
 	},
 	{
 		sender: "James Ortiz",
-		email: "james.ortiz@northwind.io",
-		timestamp: "Jul 1, 11:02 AM",
+		timestamp: "Jul 1",
 		body: (
 			<>
-				<p>Thanks Maya — this looks solid overall.</p>
-				<p>
+				<P>Thanks Maya — this looks solid overall.</P>
+				<P>
 					One concern on the migration timeline: can we push the auth rework to
 					August? The SSO changes are still blocked on the vendor sandbox, and
 					I'd rather not commit eng capacity until that's unblocked.
-				</p>
-				<p>— James</p>
+				</P>
+				<P>— James</P>
 			</>
 		),
 	},
 	{
 		sender: "Priya Sharma",
-		email: "priya.sharma@northwind.io",
-		timestamp: "Jul 1, 2:37 PM",
+		timestamp: "Jul 1",
 		edited: true,
 		body: (
 			<>
-				<p>+1 on deferring auth. I'll update the timeline section and add a note
-				about the vendor dependency.</p>
-				<p>
+				<P>
+					+1 on deferring auth. I'll update the timeline section and add a note
+					about the vendor dependency.
+				</P>
+				<P>
 					Also dropped a revised version of the roadmap doc with the August
 					slide and a clearer cut line for v1 vs. stretch goals.
-				</p>
-				<MessageAttachment
-					title="Q3 Product Roadmap — Draft v2"
-					description="Platform reliability, onboarding, billing workflow, and revised auth timeline."
-					meta="Google Docs · Updated 20 minutes ago"
-				/>
+				</P>
 			</>
 		),
 	},
 	{
 		sender: "Maya Chen",
-		email: "maya.chen@northwind.io",
-		timestamp: "Jul 1, 3:05 PM",
+		timestamp: "Jul 1",
 		body: (
-			<p>
+			<P>
 				Perfect — I'll circulate this version to leadership and use it as the
 				agenda doc for Monday's planning meeting.
-			</p>
+			</P>
 		),
 	},
 ] as const
@@ -182,7 +139,6 @@ export function EmailMessageThread() {
 				<Message
 					key={`${message.sender}-${message.timestamp}`}
 					sender={message.sender}
-					email={message.email}
 					timestamp={message.timestamp}
 					edited={"edited" in message ? message.edited : undefined}
 				>
@@ -193,79 +149,42 @@ export function EmailMessageThread() {
 	)
 }
 
-const avatarPalette = [
-	{ background: "var(--accent-4)", color: "var(--accent-11)" },
-	{ background: "hsl(160, 35%, 22%)", color: "hsl(160, 60%, 78%)" },
-	{ background: "hsl(24, 40%, 22%)", color: "hsl(24, 80%, 78%)" },
-	{ background: "hsl(320, 30%, 22%)", color: "hsl(320, 70%, 80%)" },
-] as const
-
-function initials(name: string) {
-	return name
-		.split(/\s+/)
-		.slice(0, 2)
-		.map((part) => part[0]?.toUpperCase() ?? "")
-		.join("")
-}
-
-function avatarColorIndex(seed: string) {
-	let hash = 0
-	for (let index = 0; index < seed.length; index += 1) {
-		hash = seed.charCodeAt(index) + ((hash << 5) - hash)
-	}
-	return Math.abs(hash) % avatarPalette.length
-}
-
-const avatarClass = memoize((seed: string) => {
-	const palette = avatarPalette[avatarColorIndex(seed)]
-
-	return style(
-		text("xs", 600, "highContrast"),
-		radius.circle,
-		{
-			display: "grid",
-			placeItems: "center",
-			flexShrink: 0,
-			width: "40px",
-			height: "40px",
-			backgroundColor: palette.background,
-			color: palette.color,
-		},
-	)
-})
-
 const messageListClass = style(
-	flex({ direction: "column", gap: 8 }),
+	flex({ direction: "column", gap: 6 }),
 	{
 		maxWidth: "760px",
 	}
 )
 
 const messageClass = style(
-	flex({ align: "start", gap: 4 }),
-	spacing.padding({ y: 2 }),
+	radius.lg,
+	shadowTokens.minimalFlat,
+	spacing.padding({ all: 8 }),
 	{
+		backgroundColor: "var(--sand-2)",
 		minWidth: 0,
 	}
 )
 
 const messageHeaderClass = style(
-	flex({ align: "baseline", gap: 2, wrap: true }),
+	flex({ align: "center", gap: 2, wrap: true }),
 	{
-		marginBottom: "2px",
+		marginBottom: "8px",
 	}
 )
 
-const senderNameClass = style(text("sm", 600, "highContrast"))
+const senderNameClass = style(text("sm", 500, "highContrast"))
 
-const messageMetaClass = style(text("xs", 400, "lowContrast"))
+const messageMetaClass = style(text("xs", 400, "lowContrast"), {
+	marginLeft: "2px",
+})
 
 const editedLabelClass = style(text("xs", 400, "lowContrast"), {
 	fontStyle: "italic",
 })
 
 const messageBodyClass = style(
-	text("sm", 400, "highContrast"),
+	text("md", 400, "highContrast"),
 	{
 		display: "flex",
 		flexDirection: "column",
@@ -276,27 +195,6 @@ const messageBodyClass = style(
 		},
 	}
 )
-
-const attachmentClass = style(
-	radius.lg,
-	spacing.padding({ all: 4 }),
-	{
-		marginTop: "4px",
-		maxWidth: "480px",
-		border: "1px solid var(--sand-6)",
-		backgroundColor: "var(--sand-2)",
-	}
-)
-
-const attachmentTitleClass = style(text("md", 600, "highContrast"), {
-	marginBottom: "4px",
-})
-
-const attachmentDescriptionClass = style(text("sm", 400, "lowContrast"), {
-	marginBottom: "6px",
-})
-
-const attachmentMetaClass = style(text("xs", 400, "lowContrast"))
 
 function joinClassNames(...classNames: Array<string | undefined>) {
 	return classNames.filter(Boolean).join(" ")

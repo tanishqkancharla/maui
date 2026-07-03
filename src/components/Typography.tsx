@@ -48,7 +48,7 @@ export function H4(props: { children: string }) {
 	return <h4 className={className}>{props.children}</h4>
 }
 
-const pClass = style(text("md", 400, "lowContrast"), {
+const pClass = style(text("md", 400, "highContrast"), {
 	margin: "1.25em 0",
 	maxWidth: typographyMaxWidth,
 })

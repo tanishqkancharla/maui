@@ -119,12 +119,12 @@ const textSizeDetails: Record<
 		lineHeight: string
 	}
 > = {
-	"2xs": { fontSize: "10px", lineHeight: "13px" },
-	xs: { fontSize: "12px", lineHeight: "16px" },
-	sm: { fontSize: "13px", lineHeight: "18px" },
-	md: { fontSize: "14px", lineHeight: "20px" },
-	lg: { fontSize: "16px", lineHeight: "22px" },
-	xl: { fontSize: "22px", lineHeight: "26px" },
+	"2xs": { fontSize: "10px", lineHeight: "14px" },
+	xs: { fontSize: "12px", lineHeight: "18px" },
+	sm: { fontSize: "13px", lineHeight: "20px" },
+	md: { fontSize: "14px", lineHeight: "22px" },
+	lg: { fontSize: "16px", lineHeight: "24px" },
+	xl: { fontSize: "22px", lineHeight: "30px" },
 }
 
 const sampleParagraph =

@@ -19,32 +19,32 @@ const textSizeStyles: Record<
 	"2xs": {
 		fontSize: "10px",
 		fontFamily,
-		lineHeight: "13px",
+		lineHeight: "14px",
 	},
 	xs: {
 		fontSize: "12px",
 		fontFamily,
-		lineHeight: "16px",
+		lineHeight: "18px",
 	},
 	sm: {
 		fontSize: "13px",
 		fontFamily,
-		lineHeight: "18px",
+		lineHeight: "20px",
 	},
 	md: {
 		fontSize: "14px",
 		fontFamily,
-		lineHeight: "20px",
+		lineHeight: "22px",
 	},
 	lg: {
 		fontSize: "16px",
 		fontFamily,
-		lineHeight: "22px",
+		lineHeight: "24px",
 	},
 	xl: {
 		fontSize: "22px",
 		fontFamily,
-		lineHeight: "26px",
+		lineHeight: "30px",
 	},
 }
 

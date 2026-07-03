@@ -10,8 +10,8 @@ export function MessageListPage() {
 			<H2>Message list</H2>
 			<P>
 				A vertical message thread pattern for reading email conversations. Each
-				entry shows an avatar, sender, timestamp, and message body with optional
-				attachment cards.
+				message sits in its own panel with an avatar, sender, timestamp, and
+				plain-text body.
 			</P>
 
 			<H3>Email thread</H3>
