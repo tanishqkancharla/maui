@@ -8,7 +8,8 @@ import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
 
-type EmailThread = {
+export type EmailThread = {
+	id: string
 	senders: string
 	subject: string
 	snippet: string
@@ -16,8 +17,16 @@ type EmailThread = {
 	unread?: boolean
 }
 
-const emailThreads: EmailThread[] = [
+type InboxProps = {
+	threads?: EmailThread[]
+	selectedId?: string
+	onSelectThread?: (id: string) => void
+	className?: string
+}
+
+const defaultEmailThreads: EmailThread[] = [
 	{
+		id: "canopy-receipt",
 		senders: "billing@canopy.space",
 		subject: "Michael Kronovet Customer Receipt/Purchase Confirmation",
 		snippet:
@@ -26,6 +35,7 @@ const emailThreads: EmailThread[] = [
 		unread: true,
 	},
 	{
+		id: "anthem-eob",
 		senders: "Anthem Blue Cross Communications",
 		subject: "You have a new explanation of benefits",
 		snippet:
@@ -34,6 +44,7 @@ const emailThreads: EmailThread[] = [
 		unread: true,
 	},
 	{
+		id: "aside-weekly",
 		senders: "Chanhee from Aside",
 		subject: "This week in Aside: Pinned Tabs, New AI Providers, and more",
 		snippet:
@@ -41,6 +52,7 @@ const emailThreads: EmailThread[] = [
 		time: "Jun 29",
 	},
 	{
+		id: "fathom-weekly",
 		senders: "Team Fathom",
 		subject: "Fathom Weekly Report",
 		snippet:
@@ -49,6 +61,7 @@ const emailThreads: EmailThread[] = [
 		unread: true,
 	},
 	{
+		id: "cal-receipt",
 		senders: "Cal.com, Inc.",
 		subject: "Your receipt from Cal.com, Inc. #2460-4809",
 		snippet:
@@ -56,6 +69,7 @@ const emailThreads: EmailThread[] = [
 		time: "Jun 29",
 	},
 	{
+		id: "github-pr",
 		senders: "GitHub",
 		subject: "[saffron-health/libretto] PR #412: Add workflow retry backoff",
 		snippet:
@@ -64,6 +78,7 @@ const emailThreads: EmailThread[] = [
 		unread: true,
 	},
 	{
+		id: "linear-issue",
 		senders: "Linear",
 		subject: "LIB-284 assigned to you: Fix session timeout on long-running jobs",
 		snippet:
@@ -71,6 +86,7 @@ const emailThreads: EmailThread[] = [
 		time: "Jun 28",
 	},
 	{
+		id: "stripe-payout",
 		senders: "Stripe",
 		subject: "Your Stripe payout for Jun 24–Jun 30 is on the way",
 		snippet:
@@ -78,6 +94,7 @@ const emailThreads: EmailThread[] = [
 		time: "Jun 27",
 	},
 	{
+		id: "notion-digest",
 		senders: "Notion Team",
 		subject: "Your weekly digest: 3 pages edited, 2 comments",
 		snippet:
@@ -87,23 +104,40 @@ const emailThreads: EmailThread[] = [
 	},
 ]
 
-export function Inbox() {
+export function Inbox({
+	threads = defaultEmailThreads,
+	selectedId,
+	onSelectThread,
+	className,
+}: InboxProps = {}) {
 	const listClassName = useStyles(threadListClass)
 
 	return (
-		<div className={listClassName} aria-label="Email threads">
-			{emailThreads.map((thread) => (
+		<div
+			className={joinClassNames(listClassName, className)}
+			aria-label="Email threads"
+		>
+			{threads.map((thread) => (
 				<EmailThreadRow
-					key={`${thread.senders}-${thread.time}`}
+					key={thread.id}
 					thread={thread}
+					selected={thread.id === selectedId}
+					onSelect={onSelectThread}
 				/>
 			))}
 		</div>
 	)
 }
 
-function EmailThreadRow(props: { thread: EmailThread }) {
-	const rowClassName = useStyles(threadRowClass)
+function EmailThreadRow(props: {
+	thread: EmailThread
+	selected?: boolean
+	onSelect?: (id: string) => void
+}) {
+	const rowClassName = useStyles(
+		threadRowClass,
+		...(props.selected ? [threadRowSelectedClass] : []),
+	)
 	const senderClassName = useStyles(threadSenderClass)
 	const senderTextClassName = useStyles(threadSenderTextClass)
 	const contentClassName = useStyles(threadContentClass)
@@ -113,7 +147,18 @@ function EmailThreadRow(props: { thread: EmailThread }) {
 	const toolbarClassName = useStyles(threadToolbarClass)
 
 	return (
-		<article className={rowClassName}>
+		<article
+			className={rowClassName}
+			onClick={
+				props.onSelect
+					? () => {
+							props.onSelect?.(props.thread.id)
+						}
+					: undefined
+			}
+			data-selected={props.selected ? true : undefined}
+			aria-current={props.selected ? "true" : undefined}
+		>
 			<div className={senderClassName}>
 				<UnreadDot unread={props.thread.unread} />
 				<span className={senderTextClassName}>{props.thread.senders}</span>
@@ -165,7 +210,14 @@ function ThreadAction(props: {
 	children: React.ReactNode
 }) {
 	return (
-		<button className={props.actionClassName} type="button" aria-label={props.label}>
+		<button
+			className={props.actionClassName}
+			type="button"
+			aria-label={props.label}
+			onClick={(event) => {
+				event.stopPropagation()
+			}}
+		>
 			{props.children}
 		</button>
 	)
@@ -188,6 +240,10 @@ const truncate = style({
 
 const threadListClass = style({
 	marginTop: "20px",
+})
+
+const threadRowSelectedClass = style({
+	backgroundColor: "var(--sand-A3)",
 })
 
 const threadRowClass = style(
@@ -313,23 +369,40 @@ const threadActionClass = style(
 	},
 )
 
-export function InboxMultiLine() {
+export function InboxMultiLine({
+	threads = defaultEmailThreads,
+	selectedId,
+	onSelectThread,
+	className,
+}: InboxProps = {}) {
 	const listClassName = useStyles(compactListClass)
 
 	return (
-		<div className={listClassName} aria-label="Email threads (multi-line)">
-			{emailThreads.map((thread) => (
+		<div
+			className={joinClassNames(listClassName, className)}
+			aria-label="Email threads (multi-line)"
+		>
+			{threads.map((thread) => (
 				<CompactThreadRow
-					key={`${thread.senders}-${thread.time}`}
+					key={thread.id}
 					thread={thread}
+					selected={thread.id === selectedId}
+					onSelect={onSelectThread}
 				/>
 			))}
 		</div>
 	)
 }
 
-function CompactThreadRow(props: { thread: EmailThread }) {
-	const rowClassName = useStyles(compactRowClass)
+function CompactThreadRow(props: {
+	thread: EmailThread
+	selected?: boolean
+	onSelect?: (id: string) => void
+}) {
+	const rowClassName = useStyles(
+		compactRowClass,
+		...(props.selected ? [threadRowSelectedClass] : []),
+	)
 	const dividerClassName = useStyles(compactDividerClass)
 	const bodyClassName = useStyles(compactBodyClass)
 	const headerClassName = useStyles(compactHeaderClass)
@@ -341,7 +414,18 @@ function CompactThreadRow(props: { thread: EmailThread }) {
 
 	return (
 		<div>
-			<article className={rowClassName}>
+			<article
+				className={rowClassName}
+				onClick={
+					props.onSelect
+						? () => {
+								props.onSelect?.(props.thread.id)
+							}
+						: undefined
+				}
+				data-selected={props.selected ? true : undefined}
+				aria-current={props.selected ? "true" : undefined}
+			>
 				<UnreadDot unread={props.thread.unread} align="start" />
 
 				<div className={bodyClassName}>
@@ -431,3 +515,7 @@ const compactDividerClass = style({
 	height: "1px",
 	backgroundColor: "var(--sand-4)",
 })
+
+function joinClassNames(...classNames: Array<string | undefined>) {
+	return classNames.filter(Boolean).join(" ")
+}

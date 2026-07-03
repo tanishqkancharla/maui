@@ -20,6 +20,7 @@ import { ButtonsPage } from "./ButtonsPage"
 import { CodeBlockPage } from "./CodeBlockPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
+import { EmailClientPage } from "./EmailClientPage"
 import { FocusRingTokenPage } from "./FocusRingTokenPage"
 import { FormControlsPage } from "./FormControlsPage"
 import { FuzzyStringPage } from "./FuzzyStringPage"
@@ -130,6 +131,16 @@ const navigation: NavGroup[] = [
 				page: MessageListPage,
 			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
+		],
+	},
+	{
+		label: "Apps",
+		children: [
+			{
+				label: "Email client",
+				path: "/apps/email-client",
+				page: EmailClientPage,
+			},
 		],
 	},
 ]
