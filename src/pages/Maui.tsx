@@ -28,6 +28,7 @@ import { IconsPage } from "./IconsPage"
 import { InboxPage } from "./InboxPage"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
+import { LoaderPage } from "./LoaderPage"
 import { MenuPage } from "./MenuPage"
 import { MessageListPage } from "./MessageListPage"
 import { MotionTokenPage } from "./MotionTokenPage"
@@ -131,6 +132,7 @@ const navigation: NavGroup[] = [
 				page: MessageListPage,
 			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
+			{ label: "Loader", path: "/patterns/loader", page: LoaderPage },
 		],
 	},
 	{
