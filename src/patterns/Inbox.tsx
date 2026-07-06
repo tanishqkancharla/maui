@@ -22,6 +22,7 @@ type InboxProps = {
 	selectedId?: string
 	onSelectThread?: (id: string) => void
 	className?: string
+	showDividers?: boolean
 }
 
 const defaultEmailThreads: EmailThread[] = [
@@ -374,6 +375,7 @@ export function InboxMultiLine({
 	selectedId,
 	onSelectThread,
 	className,
+	showDividers = true,
 }: InboxProps = {}) {
 	const listClassName = useStyles(compactListClass)
 
@@ -388,6 +390,7 @@ export function InboxMultiLine({
 					thread={thread}
 					selected={thread.id === selectedId}
 					onSelect={onSelectThread}
+					showDivider={showDividers}
 				/>
 			))}
 		</div>
@@ -398,6 +401,7 @@ function CompactThreadRow(props: {
 	thread: EmailThread
 	selected?: boolean
 	onSelect?: (id: string) => void
+	showDivider?: boolean
 }) {
 	const rowClassName = useStyles(
 		compactRowClass,
@@ -445,7 +449,7 @@ function CompactThreadRow(props: {
 					className={`${toolbarClassName} email-thread-row-toolbar`}
 				/>
 			</article>
-			<div className={dividerClassName} />
+			{props.showDivider ? <div className={dividerClassName} /> : null}
 		</div>
 	)
 }

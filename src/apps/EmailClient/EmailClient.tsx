@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { style, useStyles } from "purse-styles"
-import { H3 } from "../../components/Typography"
+import { H2 } from "../../components/Typography"
 import { InboxMultiLine } from "../../patterns/Inbox"
 import { Message, MessageList } from "../../patterns/MessageList"
 import { flex } from "../../tokens/layout"
@@ -28,7 +28,7 @@ export function EmailClient() {
 		<div className={shellClassName}>
 			<section className={inboxPaneClassName} aria-label="Inbox">
 				<header className={inboxHeaderClassName}>
-					<H3>Inbox</H3>
+					<H2>Inbox</H2>
 				</header>
 
 				<div className={inboxListClassName}>
@@ -37,6 +37,7 @@ export function EmailClient() {
 						selectedId={selectedThreadId}
 						onSelectThread={setSelectedThreadId}
 						className={inboxListResetClassName}
+						showDividers={false}
 					/>
 				</div>
 			</section>
@@ -94,7 +95,7 @@ const inboxPaneClass = style(paneBaseClass, {
 	overflow: "hidden",
 })
 
-const inboxListClass = style({
+const inboxListClass = style(spacing.padding({ x: 4 }), {
 	flex: 1,
 	minHeight: 0,
 	overflowY: "auto",
@@ -114,7 +115,7 @@ const readingPaneClass = style(
 )
 
 const inboxHeaderClass = style(spacing.padding({ x: 4, y: 4 }), {
-	"& h3": {
+	"& h2": {
 		margin: 0,
 	},
 })
