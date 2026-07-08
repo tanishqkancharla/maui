@@ -1,5 +1,6 @@
 import type React from "react"
 import { Icons } from "../components/Icons"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, P } from "../components/Typography"
 
@@ -18,7 +19,7 @@ export function IconsPage() {
 				stroke and fill.
 			</P>
 
-			<div className="maui-example-panel">
+			<Panel>
 				<div
 					style={{
 						display: "grid",
@@ -53,7 +54,7 @@ export function IconsPage() {
 						</div>
 					))}
 				</div>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

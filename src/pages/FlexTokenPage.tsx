@@ -1,4 +1,5 @@
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
@@ -70,7 +71,7 @@ export function FlexTokenPage() {
 			<H3>Examples</H3>
 			<div style={sampleTitleStyle}>Row</div>
 			<CodeBlock lang="typescript">{`const row = style(flex.row({ alignItems: "center", gap: 8 }))`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
 					<Flex row alignItems="center" gap={8}>
 						<Pill>One</Pill>
@@ -78,11 +79,11 @@ export function FlexTokenPage() {
 						<Pill>Three</Pill>
 					</Flex>
 				</div>
-			</div>
+			</Panel>
 
 			<div style={sampleTitleStyle}>Column</div>
 			<CodeBlock lang="typescript">{`const column = style(flex.column({ gap: 8 }))`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
 					<Flex column gap={8}>
 						<Pill>First</Pill>
@@ -90,11 +91,11 @@ export function FlexTokenPage() {
 						<Pill>Third</Pill>
 					</Flex>
 				</div>
-			</div>
+			</Panel>
 
 			<div style={sampleTitleStyle}>Centered</div>
 			<CodeBlock lang="typescript">{`const centered = style(flex.row(), flex.center)`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div
 					style={{
 						...exampleCardStyle,
@@ -106,11 +107,11 @@ export function FlexTokenPage() {
 				>
 					<Pill>center</Pill>
 				</div>
-			</div>
+			</Panel>
 
 			<div style={sampleTitleStyle}>Between</div>
 			<CodeBlock lang="typescript">{`const toolbar = style(flex.row({ alignItems: "center" }), flex.between)`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
 					<Flex row alignItems="center" gap={8}>
 						<span>between</span>
@@ -118,7 +119,7 @@ export function FlexTokenPage() {
 						<span style={{ color: "var(--accent-11)" }}>Action</span>
 					</Flex>
 				</div>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

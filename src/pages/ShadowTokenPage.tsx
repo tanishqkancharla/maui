@@ -1,6 +1,7 @@
 import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { shadowTokens } from "../tokens/shadows"
@@ -147,7 +148,7 @@ const popover = style(
 	shadowTokens.modalSmall,
 )`}</CodeBlock>
 
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div
 					style={{
 						display: "grid",
@@ -159,7 +160,7 @@ const popover = style(
 						<ShadowExample key={example.name} name={example.name} token={example.token} />
 					))}
 				</div>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

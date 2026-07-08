@@ -1,3 +1,4 @@
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import {
 	Blockquote,
@@ -5,8 +6,11 @@ import {
 	H2,
 	H3,
 	Label,
+	Li,
 	Link,
+	Ol,
 	P,
+	Ul,
 } from "../components/Typography"
 
 export function ProsePage() {
@@ -21,7 +25,7 @@ export function ProsePage() {
 			</P>
 
 			<H3>Example</H3>
-			<div className="maui-example-panel">
+			<Panel>
 				<Prose>
 					<H1>Heading 1</H1>
 					<H2>Heading 2</H2>
@@ -43,8 +47,61 @@ export function ProsePage() {
 						A blockquote gives longer cited or emphasized text a calm,
 						accented presentation.
 					</Blockquote>
+					<Ul>
+						<Li>Bullet lists group related points without implying order.</Li>
+						<Li>
+							List items can include inline links like{" "}
+							<Link href="https://open-ui.org">Open UI</Link>.
+						</Li>
+						<Li>
+							Nested lists work for sub-points:
+							<Ul>
+								<Li>First sub-point</Li>
+								<Li>Second sub-point</Li>
+							</Ul>
+						</Li>
+					</Ul>
+					<Ol>
+						<Li>Numbered lists communicate sequence or priority.</Li>
+						<Li>Each step gets a decimal marker.</Li>
+						<Li>Use them for instructions, rankings, or timelines.</Li>
+					</Ol>
 				</Prose>
-			</div>
+			</Panel>
+
+			<H3>Sizes</H3>
+			<P>
+				<code>Prose</code> takes a <code>size</code> prop that sets the reading
+				type scale for the typography inside it. Paragraph text is a step
+				larger than application text and defaults to <code>md</code>.
+			</P>
+			<Panel>
+				<Prose size="sm">
+					<Label>size=&quot;sm&quot;</Label>
+					<P>
+						Small prose sits at the size of dense application copy — useful
+						for compact cards or captions that still read as prose.
+					</P>
+				</Prose>
+			</Panel>
+			<Panel>
+				<Prose size="md">
+					<Label>size=&quot;md&quot; (default)</Label>
+					<P>
+						Medium is the default reading size: comfortably larger than UI
+						text, with line-height tuned for sustained reading.
+					</P>
+				</Prose>
+			</Panel>
+			<Panel>
+				<Prose size="lg">
+					<Label>size=&quot;lg&quot;</Label>
+					<P>
+						Large prose suits marketing or hero passages where the text is the
+						primary focus of the page.
+					</P>
+				</Prose>
+			</Panel>
 		</Prose>
 	)
 }

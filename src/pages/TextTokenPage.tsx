@@ -1,6 +1,7 @@
 import { useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { monospace, text, type TextSize } from "../tokens/text"
@@ -77,25 +78,25 @@ const compact = text("sm", 400, "highContrast")
 const body = text("md", 400, "highContrast")
 const title = text("lg", 400, "highContrast")
 const display = text("xl", 400, "highContrast")`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div style={{ display: "grid", gap: "12px" }}>
 					{sizeExamples.map((size) => (
 						<SizeExample key={size} size={size} />
 					))}
 				</div>
-			</div>
+			</Panel>
 
 			<H4>Weight</H4>
 			<CodeBlock lang="typescript">{`const heading = text("lg", 600, "highContrast")`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<HeadingExample />
-			</div>
+			</Panel>
 
 			<H4>Accent text</H4>
 			<CodeBlock lang="typescript">{`const active = text("sm", 500, "accent")`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<AccentExample />
-			</div>
+			</Panel>
 
 			<H4>Monospace</H4>
 			<P>
@@ -104,9 +105,9 @@ const display = text("xl", 400, "highContrast")`}</CodeBlock>
 				and color.
 			</P>
 			<CodeBlock lang="typescript">{`const codeLabel = style(text("xs", 400, "highContrast"), monospace)`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<MonoExample />
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

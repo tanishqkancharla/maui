@@ -21,6 +21,7 @@ import { CodeBlockPage } from "./CodeBlockPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
 import { EmailClientPage } from "./EmailClientPage"
+import { FileTreePage } from "./FileTreePage"
 import { FocusRingTokenPage } from "./FocusRingTokenPage"
 import { FormControlsPage } from "./FormControlsPage"
 import { FuzzyStringPage } from "./FuzzyStringPage"
@@ -132,6 +133,7 @@ const navigation: NavGroup[] = [
 				page: MessageListPage,
 			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
+			{ label: "File tree", path: "/patterns/file-tree", page: FileTreePage },
 			{ label: "Loader", path: "/patterns/loader", page: LoaderPage },
 		],
 	},

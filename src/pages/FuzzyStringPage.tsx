@@ -3,6 +3,7 @@ import { useMemo, useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { FuzzyString } from "../components/FuzzyString"
 import { SearchField } from "../components/Input"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { text } from "../tokens/text"
@@ -66,7 +67,7 @@ export function FuzzyStringPage() {
 			</P>
 
 			<H3>Examples</H3>
-			<div className="maui-example-panel">
+			<Panel>
 				<Table>
 					<TableHead>
 						<TableRow>
@@ -94,7 +95,7 @@ export function FuzzyStringPage() {
 						})}
 					</TableBody>
 				</Table>
-			</div>
+			</Panel>
 
 			<H3>Interactive search</H3>
 			<P>Type a query to filter the list below and see live highlighting.</P>
@@ -106,7 +107,7 @@ export function FuzzyStringPage() {
 					onChange={setQuery}
 				/>
 			</div>
-			<div className="maui-example-panel">
+			<Panel>
 				<ul
 					style={{
 						listStyle: "none",
@@ -145,7 +146,7 @@ export function FuzzyStringPage() {
 						))
 					)}
 				</ul>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

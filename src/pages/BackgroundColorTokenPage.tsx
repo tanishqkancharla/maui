@@ -1,4 +1,5 @@
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
@@ -95,8 +96,7 @@ export function BackgroundColorTokenPage() {
 			<CodeBlock lang="typescript">{`const panel = style(background.subtle, border([], "outline"), radius.md)
 const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 
-			<div
-				className="maui-example-panel"
+			<Panel
 				style={{
 					marginTop: "16px",
 					display: "grid",
@@ -134,7 +134,7 @@ const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 				>
 					Accent
 				</div>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

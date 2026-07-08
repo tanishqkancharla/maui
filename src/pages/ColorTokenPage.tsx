@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
@@ -48,10 +49,7 @@ export function ColorTokenPage() {
 	boxShadow: \`0 0 0 1px \${colors.accent[8]} inset\`,
 })`}</CodeBlock>
 
-			<div
-				className="maui-example-panel"
-				style={{ marginTop: "16px", marginBottom: "24px" }}
-			>
+			<Panel style={{ marginTop: "16px", marginBottom: "24px" }}>
 				<div
 					style={{
 						background: colors.gray[3],
@@ -64,7 +62,7 @@ export function ColorTokenPage() {
 				>
 					Using exported color tokens
 				</div>
-			</div>
+			</Panel>
 
 			<Flex row gap={40} style={{ alignItems: "flex-start", flexWrap: "wrap" }}>
 				{colorTokenGroups.map((group) => (

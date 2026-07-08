@@ -2,6 +2,7 @@ import { useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Badge } from "../components/Badge"
 import { Icons } from "../components/Icons"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Sidebar, SidebarItem, SidebarSection } from "../patterns/Sidebar"
@@ -32,7 +33,7 @@ export function SidebarPage() {
 			</P>
 
 			<H3>Example</H3>
-			<div className={`maui-example-panel ${shellClassName}`}>
+			<Panel className={shellClassName}>
 				<Sidebar aria-label="Project navigation">
 					<div className={sidebarBrandClassName}>
 						<div className={brandMarkClassName}>M</div>
@@ -111,7 +112,7 @@ export function SidebarPage() {
 				</Sidebar>
 
 				<main className={exampleContentClassName} aria-label="Example content area" />
-			</div>
+			</Panel>
 
 			<p className={noteClassName}>
 				This intentionally leaves out shadcn's provider, mobile sheet, rail,

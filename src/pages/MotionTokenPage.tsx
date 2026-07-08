@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } fro
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { motion } from "../tokens/motion"
@@ -79,8 +80,7 @@ const animatedCard = style(
 	}}
 />`}</CodeBlock>
 
-			<div
-				className="maui-example-panel"
+			<Panel
 				style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "16px" }}
 			>
 				<Button onClick={() => setIsActive((value) => !value)}>
@@ -97,7 +97,7 @@ const animatedCard = style(
 				>
 					Fast interactive transition
 				</div>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

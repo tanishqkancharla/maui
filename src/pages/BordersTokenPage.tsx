@@ -1,6 +1,7 @@
 import { style, useStyles, type CSSProperties } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { border, type BorderColor, type BorderSide } from "../tokens/borders"
@@ -121,7 +122,7 @@ const blockquote = style(
 	spacing.padding({ left: 12 }),
 )`}</CodeBlock>
 
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div
 					style={{
 						display: "grid",
@@ -139,13 +140,13 @@ const blockquote = style(
 						/>
 					))}
 				</div>
-			</div>
+			</Panel>
 
 			<H3>Single edge</H3>
 			<CodeBlock lang="typescript">{`const header = style(border(["bottom"], "border"))`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<SingleEdgeExample />
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

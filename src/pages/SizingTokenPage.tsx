@@ -2,6 +2,7 @@ import { useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { Icons } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { sizingTokens } from "../tokens/sizing"
@@ -61,27 +62,27 @@ export function SizingTokenPage() {
 	sizingTokens.icon,
 	{ borderRadius: "999px" },
 )`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<IconExample />
-			</div>
+			</Panel>
 
 			<H4>Full width</H4>
 			<CodeBlock lang="typescript">{`const field = style(
 	sizingTokens.fullWidth,
 	background.element,
 )`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<FullWidthExample />
-			</div>
+			</Panel>
 
 			<H4>Content width</H4>
 			<CodeBlock lang="typescript">{`const content = style(
 	sizingTokens.contentWidth,
 	text.body,
 )`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<ContentWidthExample />
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

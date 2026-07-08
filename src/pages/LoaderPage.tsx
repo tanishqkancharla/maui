@@ -1,4 +1,5 @@
 import { style, useStyles } from "purse-styles"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Loader } from "../patterns/Loader"
@@ -24,7 +25,7 @@ export function LoaderPage() {
 			</P>
 
 			<H3>Variants</H3>
-			<div className={`maui-example-panel ${columnClassName}`}>
+			<Panel className={columnClassName}>
 				<p className={inlineExampleClassName}>
 					<Loader size="0.8em" variant="primary" aria-label="Loading, primary" />
 					Loading your inbox, hang tight.
@@ -37,21 +38,21 @@ export function LoaderPage() {
 					<Loader size="0.8em" variant="muted" aria-label="Loading, muted" />
 					Fetching updates in the background.
 				</p>
-			</div>
+			</Panel>
 
 			<H3>Sizes</H3>
-			<div className={`maui-example-panel ${rowClassName}`}>
+			<Panel className={rowClassName}>
 				<Loader size="0.8em" aria-label="Loading, small" />
 				<Loader size="1.4em" aria-label="Loading, default" />
-			</div>
+			</Panel>
 
 			<H3>Inline with text</H3>
-			<div className="maui-example-panel">
+			<Panel>
 				<p className={inlineExampleClassName}>
 					<Loader size="0.8em" aria-label="Syncing" /> Syncing your mailbox,
 					hang tight.
 				</p>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

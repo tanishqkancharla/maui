@@ -1,6 +1,7 @@
 import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { focusRing } from "../tokens/focusRing"
@@ -62,14 +63,13 @@ export function FocusRingTokenPage() {
 	},
 )`}</CodeBlock>
 
-			<div
-				className="maui-example-panel"
+			<Panel
 				style={{ marginTop: "16px", display: "flex", gap: "12px", alignItems: "center" }}
 			>
 				<div className={focusedControlClassName}>
 					Standard focus ring
 				</div>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

@@ -1,4 +1,5 @@
 import { style, useStyles } from "purse-styles"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { EmailMessageThread } from "../patterns/MessageList"
@@ -16,9 +17,9 @@ export function MessageListPage() {
 			</P>
 
 			<H3>Email thread</H3>
-			<div className="maui-example-panel">
+			<Panel>
 				<EmailMessageThread />
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

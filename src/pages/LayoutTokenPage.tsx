@@ -1,6 +1,7 @@
 import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { flex, flexItem, grid, gridItem } from "../tokens/layout"
@@ -87,7 +88,7 @@ export function LayoutTokenPage() {
 			<H4>Flex container and item</H4>
 			<CodeBlock lang="typescript">{`const toolbar = style(flex({ align: "center", gap: 4 }))
 const flexibleItem = style(flexItem({ size: "fill" }))`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
 					<div className={flexExampleClassName}>
 						<Pill>Left</Pill>
@@ -97,14 +98,14 @@ const flexibleItem = style(flexItem({ size: "fill" }))`}</CodeBlock>
 						<Pill>Action</Pill>
 					</div>
 				</div>
-			</div>
+			</Panel>
 
 			<H4>Grid container and items</H4>
 			<CodeBlock lang="typescript">{`const shell = style(grid({ columns: "sidebarContent", gap: 8 }))
 const sidebar = style(gridItem({ area: "sidebar" }))
 const content = style(gridItem({ area: "content" }))
 const footer = style(gridItem({ span: "full" }))`}</CodeBlock>
-			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
+			<Panel style={{ marginTop: "16px" }}>
 				<div className={gridExampleClassName}>
 					<div className={gridSidebarClassName} style={exampleCardStyle}>
 						Sidebar
@@ -116,7 +117,7 @@ const footer = style(gridItem({ span: "full" }))`}</CodeBlock>
 						Full-width item
 					</div>
 				</div>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }

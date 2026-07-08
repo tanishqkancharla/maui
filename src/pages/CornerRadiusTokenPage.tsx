@@ -1,4 +1,5 @@
 import { CodeBlock } from "../components/CodeBlock"
+import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
@@ -109,8 +110,7 @@ export function CornerRadiusTokenPage() {
 			<CodeBlock lang="typescript">{`const input = style(radius.sm)
 const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 
-			<div
-				className="maui-example-panel"
+			<Panel
 				style={{
 					marginTop: "16px",
 					display: "flex",
@@ -155,7 +155,7 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						border: "1px solid var(--outline)",
 					}}
 				/>
-			</div>
+			</Panel>
 		</Prose>
 	)
 }
