@@ -1,12 +1,13 @@
 import { useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { monospace, text, type TextSize } from "../tokens/text"
 
 export function TextTokenPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Text</H2>
 			<P>
 				The text token combines size, weight, and semantic color into one style
@@ -106,7 +107,7 @@ const display = text("xl", 400, "highContrast")`}</CodeBlock>
 			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<MonoExample />
 			</div>
-		</section>
+		</Prose>
 	)
 }
 
@@ -171,7 +172,7 @@ function MonoExample() {
 
 const exampleCardClass = {
 	background: "var(--sand-3)",
-	border: "1px solid var(--sand-6)",
+	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",
 } as const

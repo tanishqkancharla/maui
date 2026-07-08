@@ -1,5 +1,6 @@
 import { style, useStyles } from "purse-styles"
 import type React from "react"
+import { border } from "../tokens/borders"
 import { text } from "../tokens/text"
 import { labelText } from "./Typography"
 
@@ -14,8 +15,7 @@ const tableHeaderCellClass = style(labelText, {
 	verticalAlign: "bottom",
 })
 
-const tableBodyCellClass = style(text("sm", 400, "lowContrast"), {
-	borderTop: "1px solid var(--sand-5)",
+const tableBodyCellClass = style(text("sm", 400, "lowContrast"), border(["top"], "border"), {
 	padding: "10px 12px 10px 0",
 	verticalAlign: "top",
 })
@@ -54,7 +54,7 @@ export function TableCell(props: {
 }) {
 	const className = useStyles(
 		tableBodyCellClass,
-		...(props.align === "middle" ? [tableBodyCellMiddleClass] : []),
+		props.align === "middle" && tableBodyCellMiddleClass,
 	)
 
 	return <td className={className}>{props.children}</td>

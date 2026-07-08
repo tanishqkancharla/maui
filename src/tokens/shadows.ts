@@ -8,11 +8,11 @@ export const shadowTokens = {
 	strong: style({ boxShadow: "var(--shadow-strong)" }),
 	modalSmall: style({ boxShadow: "var(--shadow-modal-small)" }),
 	panelFocused: style({ boxShadow: "var(--shadow-panel-focused)" }),
-	border: style({ boxShadow: "rgba(255, 255, 255, 0.055) 0px 0px 0px 1px" }),
+	border: style({ boxShadow: "0 0 0 1px var(--border)" }),
 	bottomBorder: style({
-		boxShadow: "inset 0 -1.5px 0 rgba(255, 255, 255, 0.055)",
+		boxShadow: "inset 0 -1.5px 0 var(--border)",
 	}),
 	bottomBorderThin: style({
-		boxShadow: "inset 0 -1px 0 rgba(255, 255, 255, 0.055)",
+		boxShadow: "inset 0 -1px 0 var(--border)",
 	}),
 } as const

@@ -23,7 +23,7 @@ const inputClass = style(inputText, focusRing(), {
 	padding: "6px 8px",
 	borderRadius: "4px",
 	height: "28px",
-	border: `1px solid ${sandDark.sand6}`,
+	border: "1px solid var(--outline)",
 	transition: "border-color 80ms ease-in-out",
 	"&:hover": {
 		background: sandDark.sand4,
@@ -103,7 +103,7 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 	"& button": {
 		width: "24px",
 		flex: "1 1 0",
-		border: `1px solid ${sandDark.sand6}`,
+		border: "1px solid var(--outline)",
 		borderLeft: "none",
 		background: "var(--sand-4)",
 		color: "var(--sand-12)",

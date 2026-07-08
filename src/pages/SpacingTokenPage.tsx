@@ -1,12 +1,13 @@
 import { useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { spacing } from "../tokens/spacing"
 
 export function SpacingTokenPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Spacing</H2>
 			<P>
 				Spacing tokens are style objects for whitespace. Keep this layer small:
@@ -55,7 +56,7 @@ export function SpacingTokenPage() {
 			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<PaddingExample />
 			</div>
-		</section>
+		</Prose>
 	)
 }
 
@@ -151,7 +152,7 @@ const chipClass = {
 
 const exampleCardStyle = {
 	background: "var(--sand-3)",
-	border: "1px solid var(--sand-6)",
+	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",
 } as const

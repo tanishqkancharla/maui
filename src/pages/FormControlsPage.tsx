@@ -7,6 +7,7 @@ import {
 	TextField,
 } from "../components/Input"
 import { RadioOption, RadioOptionGroup } from "../components/Radio"
+import { Prose } from "../components/Prose"
 import { Slider } from "../components/Slider"
 import { Switch } from "../components/Switch"
 import { H2 } from "../components/Typography"
@@ -23,7 +24,7 @@ export function FormControlsPage() {
 	const [quietTextValue, setQuietTextValue] = useState("")
 
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Form controls</H2>
 			<Flex column gap={12}>
 				<div style={{ maxWidth: "240px" }}>
@@ -87,6 +88,6 @@ export function FormControlsPage() {
 					maxValue={100}
 				/>
 			</Flex>
-		</section>
+		</Prose>
 	)
 }

@@ -190,9 +190,6 @@ const messageBodyClass = style(
 		flexDirection: "column",
 		gap: "10px",
 		minWidth: 0,
-		"& p": {
-			margin: 0,
-		},
 	}
 )
 

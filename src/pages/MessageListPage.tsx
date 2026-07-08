@@ -1,4 +1,5 @@
 import { style, useStyles } from "purse-styles"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { EmailMessageThread } from "../patterns/MessageList"
 
@@ -6,7 +7,7 @@ export function MessageListPage() {
 	const pageClassName = useStyles(pageClass)
 
 	return (
-		<section className={pageClassName}>
+		<Prose className={pageClassName}>
 			<H2>Message list</H2>
 			<P>
 				A vertical message thread pattern for reading email conversations. Each
@@ -18,7 +19,7 @@ export function MessageListPage() {
 			<div className="maui-example-panel">
 				<EmailMessageThread />
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

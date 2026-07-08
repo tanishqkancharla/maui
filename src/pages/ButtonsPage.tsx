@@ -2,6 +2,7 @@ import { useState } from "react"
 import { ActionButton, Button } from "../components/Button"
 import { Dialog } from "../components/Dialog"
 import { Overlay } from "../components/Overlay"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
@@ -10,7 +11,7 @@ export function ButtonsPage() {
 	const [overlayOpen, setOverlayOpen] = useState(false)
 
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Buttons</H2>
 			<Flex row alignItems="center" gap={10}>
 				<Button>Button</Button>
@@ -42,7 +43,7 @@ export function ButtonsPage() {
 						<div
 							style={{
 								background: "var(--sand-2)",
-								border: "1px solid var(--sand-6)",
+								border: "1px solid var(--outline)",
 								borderRadius: "6px",
 								padding: "24px",
 							}}
@@ -56,6 +57,6 @@ export function ButtonsPage() {
 					</div>
 				</Overlay>
 			)}
-		</section>
+		</Prose>
 	)
 }

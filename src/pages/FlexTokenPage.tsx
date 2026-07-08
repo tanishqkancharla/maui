@@ -1,11 +1,12 @@
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
 export function FlexTokenPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Flex</H2>
 			<P>
 				Flex tokens are layout primitives, not component wrappers. They should
@@ -118,7 +119,7 @@ export function FlexTokenPage() {
 					</Flex>
 				</div>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 
@@ -127,7 +128,7 @@ function Pill(props: { children: string }) {
 		<span
 			style={{
 				background: "var(--sand-4)",
-				border: "1px solid var(--sand-6)",
+				border: "1px solid var(--outline)",
 				borderRadius: "999px",
 				padding: "4px 8px",
 			}}
@@ -139,7 +140,7 @@ function Pill(props: { children: string }) {
 
 const exampleCardStyle = {
 	background: "var(--sand-3)",
-	border: "1px solid var(--sand-6)",
+	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",
 } as const

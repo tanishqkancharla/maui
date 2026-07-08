@@ -50,4 +50,9 @@ export const spacing = {
 		16: style({ gap: spacingValues[16] }),
 	},
 	padding,
+	/**
+	 * Raw pixel value for a scale step. Only meant for the rare case (like
+	 * `Prose`'s vertical rhythm) where neither gap nor padding applies.
+	 */
+	value: (step: Space) => spacingValues[step],
 } as const

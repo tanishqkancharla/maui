@@ -2,6 +2,7 @@ import { useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Badge } from "../components/Badge"
 import { Icons } from "../components/Icons"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Sidebar, SidebarItem, SidebarSection } from "../patterns/Sidebar"
 import { flex } from "../tokens/layout"
@@ -22,7 +23,7 @@ export function SidebarPage() {
 	const noteClassName = useStyles(noteClass)
 
 	return (
-		<section className={pageClassName}>
+		<Prose className={pageClassName}>
 			<H2>Sidebar</H2>
 			<P>
 				A static desktop sidebar pattern for app navigation. It keeps the
@@ -117,7 +118,7 @@ export function SidebarPage() {
 				collapse modes, and trigger. Those can be added later if Maui needs
 				stateful sidebar behavior.
 			</p>
-		</section>
+		</Prose>
 	)
 }
 

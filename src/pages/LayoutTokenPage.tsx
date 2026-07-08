@@ -1,6 +1,7 @@
 import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { flex, flexItem, grid, gridItem } from "../tokens/layout"
 
@@ -20,7 +21,7 @@ export function LayoutTokenPage() {
 	const gridFullClassName = useStyles(gridFullClass)
 
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Layout</H2>
 			<P>
 				Layout tokens are semantic style-object builders for structure. Use flex
@@ -116,7 +117,7 @@ const footer = style(gridItem({ span: "full" }))`}</CodeBlock>
 					</div>
 				</div>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 
@@ -126,7 +127,7 @@ function Pill(props: { children: string }) {
 
 const pillStyle = {
 	background: "var(--sand-4)",
-	border: "1px solid var(--sand-6)",
+	border: "1px solid var(--outline)",
 	borderRadius: "999px",
 	padding: "4px 8px",
 } as const
@@ -138,7 +139,7 @@ const fillTrackStyle = {
 
 const exampleCardStyle = {
 	background: "var(--sand-3)",
-	border: "1px solid var(--sand-6)",
+	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",
 } as const

@@ -4,10 +4,11 @@ import { text } from "../tokens/text"
 
 export const typographyMaxWidth = "72ch"
 
-const h1Class = style(text("xl", 700, "highContrast"), {
-	marginTop: "1.5rem",
-	marginBottom: "0.5rem",
-})
+// Typography components carry no margin. Vertical rhythm is a layout
+// concern, not a type concern: use gap (for app UI) or Prose (for
+// long-form/docs content) to control the space around these elements.
+
+const h1Class = text("xl", 700, "highContrast")
 
 export function H1(props: { children: string }) {
 	const className = useStyles(h1Class)
@@ -15,10 +16,7 @@ export function H1(props: { children: string }) {
 	return <h1 className={className}>{props.children}</h1>
 }
 
-const h2Class = style(text("lg", 600, "highContrast"), {
-	marginTop: "1.5rem",
-	marginBottom: "0.5rem",
-})
+const h2Class = text("lg", 600, "highContrast")
 
 export function H2(props: { children: string }) {
 	const className = useStyles(h2Class)
@@ -26,10 +24,7 @@ export function H2(props: { children: string }) {
 	return <h2 className={className}>{props.children}</h2>
 }
 
-const h3Class = style(text("md", 600, "highContrast"), {
-	marginTop: "1.5rem",
-	marginBottom: "0.5rem",
-})
+const h3Class = text("md", 600, "highContrast")
 
 export function H3(props: { children: string }) {
 	const className = useStyles(h3Class)
@@ -38,7 +33,6 @@ export function H3(props: { children: string }) {
 }
 
 const h4Class = style(text("md", 600, "highContrast"), {
-	margin: "1.25em 0",
 	maxWidth: typographyMaxWidth,
 })
 
@@ -49,7 +43,6 @@ export function H4(props: { children: string }) {
 }
 
 const pClass = style(text("md", 400, "highContrast"), {
-	margin: "1.25em 0",
 	maxWidth: typographyMaxWidth,
 })
 
@@ -79,10 +72,13 @@ export function Label(
 
 const blockquoteClass = style(text("md", 400, "lowContrast"), {
 	borderLeft: "2px solid var(--accent-color)",
-	margin: "1.45em 0",
 	paddingLeft: "12px",
 	fontStyle: "italic",
 	maxWidth: typographyMaxWidth,
+	// Browsers apply a default horizontal margin to <blockquote>; this is the
+	// one place a Typography component needs its own margin override, since
+	// it's correcting a user-agent default rather than opining on rhythm.
+	marginInline: 0,
 })
 
 export function Blockquote(props: { children: string }) {

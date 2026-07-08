@@ -1,8 +1,9 @@
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
-import { PurseProvider, style, useStyles } from "purse-styles"
+import { PurseProvider, style, useInjectGlobalStyles, useStyles } from "purse-styles"
 import { Maui } from "./pages/Maui"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
+import { baseTextStyle } from "./tokens/text"
 
 Object.defineProperty(Array.prototype, "last", {
 	get() {
@@ -27,6 +28,20 @@ const appStyles = style({
 	overflow: "hidden",
 })
 
+function GlobalStyles() {
+	useInjectGlobalStyles(
+		"html, body",
+		{
+			margin: 0,
+			backgroundColor: "var(--sand-1)",
+			...baseTextStyle,
+		},
+		[],
+	)
+
+	return null
+}
+
 function AppContent() {
 	const className = useStyles(appStyles)
 
@@ -40,6 +55,7 @@ function AppContent() {
 function App() {
 	return (
 		<PurseProvider>
+			<GlobalStyles />
 			<UIDatabaseProvider>
 				<AppContent />
 			</UIDatabaseProvider>

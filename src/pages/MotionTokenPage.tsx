@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } fro
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { motion } from "../tokens/motion"
 
@@ -21,7 +22,7 @@ export function MotionTokenPage() {
 	const animatedCardClassName = useStyles(animatedCardClass)
 
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Motion</H2>
 			<P>
 				Motion tokens keep interactive feedback consistent. Right now the system
@@ -73,7 +74,7 @@ const animatedCard = style(
 	style={{
 		transform: isActive ? "translateX(96px)" : "translateX(0)",
 		background: isActive ? "var(--accent-A4)" : "var(--sand-3)",
-		borderColor: isActive ? "var(--accent-8)" : "var(--sand-6)",
+		borderColor: isActive ? "var(--accent-8)" : "var(--outline)",
 		boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
 	}}
 />`}</CodeBlock>
@@ -89,7 +90,7 @@ const animatedCard = style(
 					className={animatedCardClassName}
 					style={{
 						background: isActive ? "var(--accent-A4)" : "var(--sand-3)",
-						borderColor: isActive ? "var(--accent-8)" : "var(--sand-6)",
+						borderColor: isActive ? "var(--accent-8)" : "var(--outline)",
 						boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
 						transform: isActive ? "translateX(96px)" : "translateX(0)",
 					}}
@@ -97,7 +98,7 @@ const animatedCard = style(
 					Fast interactive transition
 				</div>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

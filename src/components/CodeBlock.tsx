@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { highlightCode, isSupportedCodeLang } from "../utils/shiki"
+import { border } from "../tokens/borders"
 import { monospace, text } from "../tokens/text"
 
-const codeBlockClass = style(text("xs", 400, "highContrast"), monospace, {
+const codeBlockClass = style(text("xs", 400, "highContrast"), monospace, border([], "outline"), {
 	background: "var(--sand-2)",
-	border: "1px solid var(--sand-6)",
 	borderRadius: "6px",
 	color: "var(--sand-12)",
 	lineHeight: 1.6,

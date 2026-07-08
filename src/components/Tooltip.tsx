@@ -255,6 +255,6 @@ const tooltipClass = style(
 		zIndex: 1000,
 		maxWidth: "240px",
 		background: "var(--sand-3)",
-		boxShadow: "var(--shadow-middle), 0 0 0 1px var(--sand-6)",
+		boxShadow: "var(--shadow-middle), 0 0 0 1px var(--outline)",
 	},
 )

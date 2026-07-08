@@ -3,6 +3,7 @@ import { useMemo, useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { FuzzyString } from "../components/FuzzyString"
 import { SearchField } from "../components/Input"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { text } from "../tokens/text"
 import { fuzzyMatch, fuzzyMatchScore } from "../utils/fuzzyMatch"
@@ -57,7 +58,7 @@ export function FuzzyStringPage() {
 	}, [query])
 
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>FuzzyString</H2>
 			<P>
 				Matched segments use medium weight (500); skipped characters use muted
@@ -132,7 +133,7 @@ export function FuzzyStringPage() {
 									padding: "8px 12px",
 									borderRadius: "4px",
 									background: "var(--sand-1)",
-									border: "1px solid var(--sand-5)",
+									border: "1px solid var(--border)",
 								}}
 							>
 								{item.match ? (
@@ -145,7 +146,7 @@ export function FuzzyStringPage() {
 					)}
 				</ul>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

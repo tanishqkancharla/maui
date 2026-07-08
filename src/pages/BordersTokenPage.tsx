@@ -1,62 +1,54 @@
-import { style, useStyles } from "purse-styles"
+import { style, useStyles, type CSSProperties } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
-import { border, type BorderColor, type BorderSide, type BorderWidth } from "../tokens/borders"
+import { border, type BorderColor, type BorderSide } from "../tokens/borders"
 import { radius } from "../tokens/radius"
 
 const borderExamples = [
 	{
-		label: 'border([], "subtle")',
+		label: 'border([], "border")',
 		sides: [] as BorderSide[],
-		color: "subtle" as const,
-		width: 1 as const,
+		color: "border" as const,
+		use: "Section breaks, table rows, and pane dividers.",
+	},
+	{
+		label: 'border([], "outline")',
+		sides: [] as BorderSide[],
+		color: "outline" as const,
 		use: "Panels, inputs, cards, and example surfaces.",
-	},
-	{
-		label: 'border([], "divider")',
-		sides: [] as BorderSide[],
-		color: "divider" as const,
-		width: 1 as const,
-		use: "Lighter full borders and neutral outlines.",
-	},
-	{
-		label: 'border([], "divider", 2)',
-		sides: [] as BorderSide[],
-		color: "divider" as const,
-		width: 2 as const,
-		use: "Dialogs and surfaces that need a stronger edge.",
 	},
 	{
 		label: 'border([], "accent")',
 		sides: [] as BorderSide[],
 		color: "accent" as const,
-		width: 1 as const,
 		use: "Active or focused control outlines.",
 	},
 	{
-		label: 'border(["bottom"], "divider")',
+		label: 'border(["bottom"], "border")',
 		sides: ["bottom"] as BorderSide[],
-		color: "divider" as const,
-		width: 1 as const,
+		color: "border" as const,
 		use: "Pane headers and horizontal section breaks.",
 	},
 	{
-		label: 'border(["left"], "accent", 2)',
+		label: 'border(["left"], "accent") + borderLeftWidth',
 		sides: ["left"] as BorderSide[],
 		color: "accent" as const,
-		width: 2 as const,
+		edgeWidth: "2px",
 		use: "Blockquotes and left-edge emphasis bars.",
 	},
 ] as const
 
 export function BordersTokenPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Borders</H2>
 			<P>
-				The <code>border</code> token takes sides, a semantic color, and an
-				optional width. Pass an empty sides array for a full border.
+				The <code>border</code> token takes sides and a semantic color. Pass an
+				empty sides array for a full border. Border colors are derived from{" "}
+				<code>--foreground</code> at fixed opacities, matching the Craft Agents
+				approach.
 			</P>
 
 			<H3>Values</H3>
@@ -85,22 +77,14 @@ export function BordersTokenPage() {
 							<code>color</code>
 						</TableCell>
 						<TableCell>
-							<code>"subtle" | "divider" | "accent"</code>
+							<code>"border" | "outline" | "accent"</code>
 						</TableCell>
 						<TableCell>
-							<code>subtle</code> is <code>var(--sand-6)</code>,{" "}
-							<code>divider</code> is <code>var(--sand-5)</code>,{" "}
-							<code>accent</code> is <code>var(--accent-8)</code>.
+							<code>border</code> is <code>var(--border)</code> (foreground at
+							5%), <code>outline</code> is <code>var(--outline)</code>{" "}
+							(foreground at 10%), <code>accent</code> is{" "}
+							<code>var(--accent-8)</code>.
 						</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>width</code>
-						</TableCell>
-						<TableCell>
-							<code>1 | 2</code>
-						</TableCell>
-						<TableCell>Border width in pixels. Defaults to 1.</TableCell>
 					</TableRow>
 				</TableBody>
 			</Table>
@@ -127,12 +111,13 @@ export function BordersTokenPage() {
 
 			<CodeBlock lang="typescript">{`const panel = style(
 	background.subtle,
-	border([], "subtle"),
+	border([], "outline"),
 	radius.md,
 )
 
 const blockquote = style(
-	border(["left"], "accent", 2),
+	border(["left"], "accent"),
+	{ borderLeftWidth: "2px" },
 	spacing.padding({ left: 12 }),
 )`}</CodeBlock>
 
@@ -150,18 +135,18 @@ const blockquote = style(
 							label={example.label}
 							sides={example.sides}
 							color={example.color}
-							width={example.width}
+							edgeWidth={"edgeWidth" in example ? example.edgeWidth : undefined}
 						/>
 					))}
 				</div>
 			</div>
 
 			<H3>Single edge</H3>
-			<CodeBlock lang="typescript">{`const header = style(border(["bottom"], "divider"))`}</CodeBlock>
+			<CodeBlock lang="typescript">{`const header = style(border(["bottom"], "border"))`}</CodeBlock>
 			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<SingleEdgeExample />
 			</div>
-		</section>
+		</Prose>
 	)
 }
 
@@ -169,10 +154,19 @@ function BorderExample(props: {
 	label: string
 	sides: BorderSide[]
 	color: BorderColor
-	width: BorderWidth
+	edgeWidth?: string
 }) {
 	const className = useStyles(
-		border(props.sides, props.color, props.width),
+		border(props.sides, props.color),
+		props.edgeWidth &&
+			style(
+				Object.fromEntries(
+					props.sides.map((side) => [
+						`border${capitalize(side)}Width`,
+						props.edgeWidth,
+					]),
+				) as CSSProperties,
+			),
 		radius.md,
 		style({
 			background: "var(--sand-2)",
@@ -190,9 +184,13 @@ function BorderExample(props: {
 	)
 }
 
+function capitalize(value: string) {
+	return `${value[0].toUpperCase()}${value.slice(1)}`
+}
+
 function SingleEdgeExample() {
 	const className = useStyles(
-		border(["bottom"], "divider"),
+		border(["bottom"], "border"),
 		style({
 			background: "var(--sand-2)",
 			color: "var(--sand-12)",
@@ -202,4 +200,3 @@ function SingleEdgeExample() {
 
 	return <div className={className}>Section header</div>
 }
-

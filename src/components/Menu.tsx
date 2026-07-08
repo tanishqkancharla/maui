@@ -19,6 +19,9 @@ export const menu = style({
 	margin: 0,
 	padding: 0,
 	listStyleType: "none",
+	display: "flex",
+	flexDirection: "column",
+	gap: "1px",
 })
 
 type ListBoxProps<T> = {

@@ -1,4 +1,5 @@
 import { style, useStyles } from "purse-styles"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Loader } from "../patterns/Loader"
 import { flex } from "../tokens/layout"
@@ -7,10 +8,11 @@ import { text } from "../tokens/text"
 export function LoaderPage() {
 	const pageClassName = useStyles(pageClass)
 	const rowClassName = useStyles(rowClass)
+	const columnClassName = useStyles(columnClass)
 	const inlineExampleClassName = useStyles(inlineExampleClass)
 
 	return (
-		<section className={pageClassName}>
+		<Prose className={pageClassName}>
 			<H2>Loader</H2>
 			<P>
 				A tiny 3x3 dot grid loader, sized to sit inline with text. Each dot
@@ -20,6 +22,22 @@ export function LoaderPage() {
 				whenever it goes extinct or falls into a repeating loop, so it never
 				stops animating.
 			</P>
+
+			<H3>Variants</H3>
+			<div className={`maui-example-panel ${columnClassName}`}>
+				<p className={inlineExampleClassName}>
+					<Loader size="0.8em" variant="primary" aria-label="Loading, primary" />
+					Loading your inbox, hang tight.
+				</p>
+				<p className={inlineExampleClassName}>
+					<Loader size="0.8em" variant="accent" aria-label="Loading, accent" />
+					Syncing your mailbox, hang tight.
+				</p>
+				<p className={inlineExampleClassName}>
+					<Loader size="0.8em" variant="muted" aria-label="Loading, muted" />
+					Fetching updates in the background.
+				</p>
+			</div>
 
 			<H3>Sizes</H3>
 			<div className={`maui-example-panel ${rowClassName}`}>
@@ -34,7 +52,7 @@ export function LoaderPage() {
 					hang tight.
 				</p>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 
@@ -44,6 +62,8 @@ const pageClass = style({
 })
 
 const rowClass = style(flex({ align: "center", gap: 6 }))
+
+const columnClass = style(flex({ direction: "column", gap: 6 }))
 
 const inlineExampleClass = style(text("md", 400, "highContrast"), {
 	display: "flex",

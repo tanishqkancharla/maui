@@ -22,7 +22,6 @@ type InboxProps = {
 	selectedId?: string
 	onSelectThread?: (id: string) => void
 	className?: string
-	showDividers?: boolean
 }
 
 const defaultEmailThreads: EmailThread[] = [
@@ -239,8 +238,9 @@ const truncate = style({
 	whiteSpace: "nowrap",
 })
 
-const threadListClass = style({
+const threadListClass = style(flex({ direction: "column" }), {
 	marginTop: "20px",
+	gap: "1px",
 })
 
 const threadRowSelectedClass = style({
@@ -375,7 +375,6 @@ export function InboxMultiLine({
 	selectedId,
 	onSelectThread,
 	className,
-	showDividers = true,
 }: InboxProps = {}) {
 	const listClassName = useStyles(compactListClass)
 
@@ -390,7 +389,6 @@ export function InboxMultiLine({
 					thread={thread}
 					selected={thread.id === selectedId}
 					onSelect={onSelectThread}
-					showDivider={showDividers}
 				/>
 			))}
 		</div>
@@ -401,13 +399,11 @@ function CompactThreadRow(props: {
 	thread: EmailThread
 	selected?: boolean
 	onSelect?: (id: string) => void
-	showDivider?: boolean
 }) {
 	const rowClassName = useStyles(
 		compactRowClass,
-		...(props.selected ? [threadRowSelectedClass] : []),
+		props.selected && threadRowSelectedClass,
 	)
-	const dividerClassName = useStyles(compactDividerClass)
 	const bodyClassName = useStyles(compactBodyClass)
 	const headerClassName = useStyles(compactHeaderClass)
 	const senderClassName = useStyles(compactSenderClass)
@@ -417,45 +413,43 @@ function CompactThreadRow(props: {
 	const toolbarClassName = useStyles(compactToolbarClass)
 
 	return (
-		<div>
-			<article
-				className={rowClassName}
-				onClick={
-					props.onSelect
-						? () => {
-								props.onSelect?.(props.thread.id)
-							}
-						: undefined
-				}
-				data-selected={props.selected ? true : undefined}
-				aria-current={props.selected ? "true" : undefined}
-			>
-				<UnreadDot unread={props.thread.unread} align="start" />
+		<article
+			className={rowClassName}
+			onClick={
+				props.onSelect
+					? () => {
+							props.onSelect?.(props.thread.id)
+						}
+					: undefined
+			}
+			data-selected={props.selected ? true : undefined}
+			aria-current={props.selected ? "true" : undefined}
+		>
+			<UnreadDot unread={props.thread.unread} align="start" />
 
-				<div className={bodyClassName}>
-					<div className={headerClassName}>
-						<span className={senderClassName}>{props.thread.senders}</span>
+			<div className={bodyClassName}>
+				<div className={headerClassName}>
+					<span className={senderClassName}>{props.thread.senders}</span>
 
-						<time className={`${timeClassName} email-thread-row-time`}>
-							{props.thread.time}
-						</time>
-					</div>
-
-					<span className={subjectClassName}>{props.thread.subject}</span>
-					<span className={snippetClassName}>{props.thread.snippet}</span>
+					<time className={`${timeClassName} email-thread-row-time`}>
+						{props.thread.time}
+					</time>
 				</div>
 
-				<ThreadHoverActions
-					className={`${toolbarClassName} email-thread-row-toolbar`}
-				/>
-			</article>
-			{props.showDivider ? <div className={dividerClassName} /> : null}
-		</div>
+				<span className={subjectClassName}>{props.thread.subject}</span>
+				<span className={snippetClassName}>{props.thread.snippet}</span>
+			</div>
+
+			<ThreadHoverActions
+				className={`${toolbarClassName} email-thread-row-toolbar`}
+			/>
+		</article>
 	)
 }
 
-const compactListClass = style({
+const compactListClass = style(flex({ direction: "column" }), {
 	marginTop: "20px",
+	gap: "1px",
 })
 
 const compactRowClass = style(
@@ -464,6 +458,7 @@ const compactRowClass = style(
 	radius.md,
 	{
 		position: "relative",
+		userSelect: "none",
 		"&:hover": {
 			backgroundColor: "var(--sand-A2)",
 		},
@@ -513,11 +508,6 @@ const compactSnippetClass = style(
 const compactToolbarClass = style(threadToolbarClass, {
 	top: "8px",
 	transform: "none",
-})
-
-const compactDividerClass = style({
-	height: "1px",
-	backgroundColor: "var(--sand-4)",
 })
 
 function joinClassNames(...classNames: Array<string | undefined>) {

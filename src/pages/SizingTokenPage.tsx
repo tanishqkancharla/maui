@@ -2,12 +2,13 @@ import { useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { Icons } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { sizingTokens } from "../tokens/sizing"
 
 export function SizingTokenPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Sizing</H2>
 			<P>
 				Sizing tokens are style objects for dimensions and constraints. Keep the
@@ -81,7 +82,7 @@ export function SizingTokenPage() {
 			<div className="maui-example-panel" style={{ marginTop: "16px" }}>
 				<ContentWidthExample />
 			</div>
-		</section>
+		</Prose>
 	)
 }
 
@@ -133,13 +134,13 @@ const fullWidthClass = {
 const contentWidthClass = {
 	height: "28px",
 	background: "var(--sand-4)",
-	border: "1px solid var(--sand-6)",
+	border: "1px solid var(--outline)",
 	borderRadius: "4px",
 } as const
 
 const exampleCardStyle = {
 	background: "var(--sand-3)",
-	border: "1px solid var(--sand-6)",
+	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",
 } as const

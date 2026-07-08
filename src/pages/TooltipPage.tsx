@@ -2,6 +2,7 @@ import React from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Icons } from "../components/Icons"
+import { Prose } from "../components/Prose"
 import { Tooltip } from "../components/Tooltip"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
@@ -13,7 +14,7 @@ import { text } from "../tokens/text"
 
 export function TooltipPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Tooltip</H2>
 			<P>
 				Tooltips show after a short warmup delay on hover, or immediately on
@@ -50,7 +51,7 @@ export function TooltipPage() {
 				through the toolbar to see tooltips appear instantly on keyboard focus.
 			</P>
 			<Toolbar />
-		</section>
+		</Prose>
 	)
 }
 

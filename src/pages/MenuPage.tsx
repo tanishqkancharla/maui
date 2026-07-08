@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { ListBox, MenuItem } from "../components/Menu"
+import { Prose } from "../components/Prose"
 import { H2 } from "../components/Typography"
 import { shadowTokens } from "../tokens/shadows"
 import { spacing } from "../tokens/spacing"
@@ -10,7 +11,7 @@ export function MenuPage() {
 	const menuPanelClassName = useStyles(menuPanelClass)
 
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Menu</H2>
 			<div className={menuPanelClassName}>
 				<ListBox
@@ -26,7 +27,7 @@ export function MenuPage() {
 					<MenuItem key="four">Item 4</MenuItem>
 				</ListBox>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

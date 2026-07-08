@@ -1,10 +1,11 @@
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
 
 export function BackgroundColorTokenPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Background color</H2>
 			<P>
 				Background tokens describe surfaces and states. They should make it
@@ -91,7 +92,7 @@ export function BackgroundColorTokenPage() {
 			</Table>
 
 			<H3>Example</H3>
-			<CodeBlock lang="typescript">{`const panel = style(background.subtle, border([], "subtle"), radius.md)
+			<CodeBlock lang="typescript">{`const panel = style(background.subtle, border([], "outline"), radius.md)
 const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 
 			<div
@@ -106,7 +107,7 @@ const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 				<div
 					style={{
 						background: "var(--sand-2)",
-						border: "1px solid var(--sand-6)",
+						border: "1px solid var(--outline)",
 						borderRadius: "6px",
 						padding: "12px",
 					}}
@@ -116,7 +117,7 @@ const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 				<div
 					style={{
 						background: "var(--sand-3)",
-						border: "1px solid var(--sand-6)",
+						border: "1px solid var(--outline)",
 						borderRadius: "6px",
 						padding: "12px",
 					}}
@@ -134,7 +135,7 @@ const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 					Accent
 				</div>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

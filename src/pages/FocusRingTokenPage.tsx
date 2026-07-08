@@ -1,12 +1,13 @@
 import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { focusRing } from "../tokens/focusRing"
 
 const focusedControlClass = style(focusRing(), {
 	background: "var(--sand-3)",
-	border: "1px solid var(--sand-6)",
+	border: "1px solid var(--outline)",
 	borderRadius: "4px",
 	padding: "8px 12px",
 })
@@ -15,7 +16,7 @@ export function FocusRingTokenPage() {
 	const focusedControlClassName = useStyles(focusedControlClass)
 
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Focus ring</H2>
 			<P>
 				Focus tokens standardize keyboard-visible states. Maui uses a single
@@ -55,7 +56,7 @@ export function FocusRingTokenPage() {
 	focusRing(),
 	{
 		background: "var(--sand-3)",
-		border: "1px solid var(--sand-6)",
+		border: "1px solid var(--outline)",
 		borderRadius: "4px",
 		padding: "8px 12px",
 	},
@@ -69,7 +70,7 @@ export function FocusRingTokenPage() {
 					Standard focus ring
 				</div>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

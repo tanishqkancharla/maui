@@ -1,4 +1,5 @@
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, H4, Link, P } from "../components/Typography"
 import { mauiThemeTokens } from "../utils/mauiShikiTheme"
@@ -10,7 +11,7 @@ import { text, monospace } from "../tokens/text"
 const panel = style(
 	text("sm", 400, "highContrast"),
 	monospace,
-	border([], "subtle"),
+	border([], "outline"),
 )`
 
 const tsxExample = `export function Greeting(props: { name: string }) {
@@ -34,7 +35,7 @@ const jsonExample = `{
 
 export function CodeBlockPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>CodeBlock</H2>
 			<P>
 				<code>CodeBlock</code> renders syntax-highlighted snippets with Shiki
@@ -104,7 +105,7 @@ export function CodeBlockPage() {
 			<div style={{ marginTop: "16px" }}>
 				<CodeBlock lang="typescript">{typescriptExample}</CodeBlock>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

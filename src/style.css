@@ -46,6 +46,10 @@
 	--sand-11: hsl(50, 4%, 61.8%);
 	--sand-12: hsl(56, 4%, 92.8%);
 
+	--foreground: var(--sand-12);
+	--border: oklch(from var(--foreground) l c h / 0.05);
+	--outline: oklch(from var(--foreground) l c h / 0.1);
+
 	--sand-A1: hsla(0, 0%, 0%, 0);
 	--sand-A2: hsla(60, 89.8%, 91.4%, 0.026);
 	--sand-A3: hsla(60, 95.5%, 92.5%, 0.056);
@@ -171,7 +175,7 @@ button,
 
 .maui-example-panel {
 	padding: 32px;
-	border: 1px solid var(--sand-6);
+	border: 1px solid var(--outline);
 	border-radius: 8px;
 	background-color: var(--sand-1);
 	background-image: radial-gradient(var(--sand-A3) 1px, transparent 1px);

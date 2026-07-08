@@ -6,7 +6,7 @@ export type TextSize = "2xs" | "xs" | "sm" | "md" | "lg" | "xl"
 export type TextWeight = 400 | 500 | 600 | 700
 export type TextColor = "lowContrast" | "highContrast" | "accent" | "onAccent"
 
-const fontFamily =
+export const fontFamily =
 	'ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"'
 
 const monoFontFamily =
@@ -46,6 +46,15 @@ const textSizeStyles: Record<
 		fontFamily,
 		lineHeight: "30px",
 	},
+}
+
+export const baseTextStyle = {
+	...textSizeStyles.md,
+	fontWeight: 400,
+	color: "var(--sand-12)",
+} as const satisfies Omit<React.CSSProperties, "fontWeight" | "color"> & {
+	fontWeight: 400
+	color: "var(--sand-12)"
 }
 
 export const monospace = style({

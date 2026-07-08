@@ -112,10 +112,11 @@ const sectionLabelClass = style(
 	}
 )
 
-const sectionListClass = style({
+const sectionListClass = style(flex({ direction: "column" }), {
 	listStyleType: "none",
 	margin: 0,
 	padding: 0,
+	gap: "1px",
 })
 
 const itemClass = style(menuItem, {

@@ -1,4 +1,5 @@
 import { style, useStyles } from "purse-styles"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Inbox, InboxMultiLine } from "../patterns/Inbox"
 
@@ -6,7 +7,7 @@ export function InboxPage() {
 	const className = useStyles(pageClass)
 
 	return (
-		<section className={className}>
+		<Prose className={className}>
 			<H2>Inbox</H2>
 			<P>
 				Two thread-list formats built from the same data, using Maui spacing,
@@ -18,7 +19,7 @@ export function InboxPage() {
 
 			<H3>Multi-line</H3>
 			<InboxMultiLine />
-		</section>
+		</Prose>
 	)
 }
 

@@ -1,10 +1,11 @@
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
 
 export function CornerRadiusTokenPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Corner radius</H2>
 			<P>
 				Radius tokens capture component shape. The goal is to avoid scattered
@@ -124,7 +125,7 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						height: "40px",
 						borderRadius: "2px",
 						background: "var(--sand-3)",
-						border: "1px solid var(--sand-6)",
+						border: "1px solid var(--outline)",
 					}}
 				/>
 				<div
@@ -133,7 +134,7 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						height: "40px",
 						borderRadius: "4px",
 						background: "var(--sand-3)",
-						border: "1px solid var(--sand-6)",
+						border: "1px solid var(--outline)",
 					}}
 				/>
 				<div
@@ -142,7 +143,7 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						height: "40px",
 						borderRadius: "6px",
 						background: "var(--sand-3)",
-						border: "1px solid var(--sand-6)",
+						border: "1px solid var(--outline)",
 					}}
 				/>
 				<div
@@ -151,11 +152,11 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						height: "40px",
 						borderRadius: "999px",
 						background: "var(--sand-3)",
-						border: "1px solid var(--sand-6)",
+						border: "1px solid var(--outline)",
 					}}
 				/>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

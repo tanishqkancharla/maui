@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { colors } from "../tokens/colors"
@@ -32,7 +33,7 @@ function rangeTokens(prefix: string, separator = "-") {
 
 export function ColorTokenPage() {
 	return (
-		<section>
+		<Prose>
 			<H2>Color Tokens</H2>
 			<P>
 				The exported color tokens expose the raw accent, accent alpha, sand, and
@@ -77,7 +78,7 @@ export function ColorTokenPage() {
 					</div>
 				))}
 			</Flex>
-		</section>
+		</Prose>
 	)
 }
 
@@ -96,7 +97,7 @@ function ColorToken(props: { name: string }) {
 					width: "18px",
 					height: "18px",
 					borderRadius: "3px",
-					boxShadow: "0 0 0 1px var(--sand-6) inset",
+					boxShadow: "0 0 0 1px var(--outline) inset",
 					background: `var(--${props.name})`,
 				}}
 			/>

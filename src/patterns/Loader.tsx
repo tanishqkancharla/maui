@@ -58,8 +58,11 @@ function step(cells: Cells): Cells {
 	})
 }
 
+type LoaderVariant = "primary" | "accent" | "muted"
+
 type LoaderProps = {
 	size?: string
+	variant?: LoaderVariant
 	className?: string
 	"aria-label"?: string
 }
@@ -70,6 +73,7 @@ type LoaderProps = {
 // with a fresh random pattern to keep animating like a loading indicator.
 export function Loader({
 	size = "1em",
+	variant = "primary",
 	className,
 	"aria-label": ariaLabel = "Loading",
 }: LoaderProps) {
@@ -96,7 +100,7 @@ export function Loader({
 		return () => clearInterval(interval)
 	}, [])
 
-	const gridClassName = useStyles(gridClass)
+	const gridClassName = useStyles(gridClass, variantStyles[variant])
 	const dotClassName = useStyles(
 		dotClass,
 		motion.standard("opacity", "background-color"),
@@ -120,6 +124,18 @@ export function Loader({
 		</span>
 	)
 }
+
+const variantStyles = {
+	primary: style({
+		color: "currentColor",
+	}),
+	accent: style({
+		color: "var(--accent-color)",
+	}),
+	muted: style({
+		color: "var(--sand-11)",
+	}),
+} as const
 
 const gridClass = style({
 	display: "inline-grid",

@@ -1,6 +1,7 @@
 import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
+import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { shadowTokens } from "../tokens/shadows"
 
@@ -19,7 +20,7 @@ const shadowExamples = [
 
 export function ShadowTokenPage() {
 	return (
-		<section style={{ marginBottom: "32px" }}>
+		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Shadows</H2>
 			<P>
 				Shadow tokens are taken from Craft's shadow system: a foreground-colored
@@ -159,7 +160,7 @@ const popover = style(
 					))}
 				</div>
 			</div>
-		</section>
+		</Prose>
 	)
 }
 

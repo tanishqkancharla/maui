@@ -32,13 +32,13 @@ import { LoaderPage } from "./LoaderPage"
 import { MenuPage } from "./MenuPage"
 import { MessageListPage } from "./MessageListPage"
 import { MotionTokenPage } from "./MotionTokenPage"
+import { ProsePage } from "./ProsePage"
 import { ShadowTokenPage } from "./ShadowTokenPage"
 import { SidebarPage } from "./SidebarPage"
 import { SizingTokenPage } from "./SizingTokenPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
 import { TextTokenPage } from "./TextTokenPage"
 import { TooltipPage } from "./TooltipPage"
-import { TypographyPage } from "./TypographyPage"
 
 export function Maui() {
 	return (
@@ -93,9 +93,9 @@ const navigation: NavGroup[] = [
 		children: [
 			{ label: "Buttons", path: "/components/buttons", page: ButtonsPage },
 			{
-				label: "Typography",
-				path: "/components/typography",
-				page: TypographyPage,
+				label: "Prose",
+				path: "/components/prose",
+				page: ProsePage,
 			},
 			{
 				label: "Form controls",
@@ -234,9 +234,6 @@ const navClass = style({
 	height: "100%",
 	minHeight: 0,
 	overflowY: "auto",
-	"& h2": {
-		marginTop: 0,
-	},
 })
 
 const navListClass = style(flex({ direction: "column", gap: 8 }), {
@@ -249,10 +246,11 @@ const navGroupClass = style(flex({ direction: "column", gap: 4 }), {
 	margin: 0,
 })
 
-const navChildrenClass = style({
+const navChildrenClass = style(flex({ direction: "column" }), {
 	listStyleType: "none",
 	margin: 0,
 	padding: 0,
+	gap: "1px",
 })
 
 const navLinkClass = style(menuItem, {

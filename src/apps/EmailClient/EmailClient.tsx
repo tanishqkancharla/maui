@@ -37,7 +37,6 @@ export function EmailClient() {
 						selectedId={selectedThreadId}
 						onSelectThread={setSelectedThreadId}
 						className={inboxListResetClassName}
-						showDividers={false}
 					/>
 				</div>
 			</section>
@@ -114,11 +113,7 @@ const readingPaneClass = style(
 	}
 )
 
-const inboxHeaderClass = style(spacing.padding({ x: 4, y: 4 }), {
-	"& h2": {
-		margin: 0,
-	},
-})
+const inboxHeaderClass = style(spacing.padding({ x: 4, y: 4 }))
 
 const threadHeaderClass = style({
 	minWidth: 0,
