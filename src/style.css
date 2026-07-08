@@ -33,37 +33,37 @@
 	--accent-A11: hsla(250, 100%, 77.9%, 0.98);
 	--accent-A12: hsla(254, 100%, 97.5%, 0.98);
 
-	--sand-1: hsl(61, 2%, 8.3%);
-	--sand-2: hsl(60, 3.7%, 10.6%);
-	--sand-3: hsl(58, 3.7%, 13.1%);
-	--sand-4: hsl(57, 3.6%, 15.3%);
-	--sand-5: hsl(56, 3.7%, 17.4%);
-	--sand-6: hsl(55, 3.7%, 19.9%);
-	--sand-7: hsl(53, 3.7%, 23.6%);
-	--sand-8: hsl(50, 3.8%, 30.6%);
-	--sand-9: hsl(50, 4%, 42.7%);
-	--sand-10: hsl(52, 3.1%, 48.3%);
-	--sand-11: hsl(50, 4%, 61.8%);
-	--sand-12: hsl(56, 4%, 92.8%);
+	--gray-1: #111111;
+	--gray-2: #191919;
+	--gray-3: #222222;
+	--gray-4: #2a2a2a;
+	--gray-5: #313131;
+	--gray-6: #3a3a3a;
+	--gray-7: #484848;
+	--gray-8: #606060;
+	--gray-9: #6e6e6e;
+	--gray-10: #7b7b7b;
+	--gray-11: #b4b4b4;
+	--gray-12: #eeeeee;
 
-	--foreground: var(--sand-12);
+	--foreground: var(--gray-12);
 	--border: oklch(from var(--foreground) l c h / 0.05);
 	--outline: oklch(from var(--foreground) l c h / 0.1);
 
-	--sand-A1: hsla(0, 0%, 0%, 0);
-	--sand-A2: hsla(60, 89.8%, 91.4%, 0.026);
-	--sand-A3: hsla(60, 95.5%, 92.5%, 0.056);
-	--sand-A4: hsla(60, 75.6%, 96.4%, 0.078);
-	--sand-A5: hsla(60, 81.9%, 95.2%, 0.104);
-	--sand-A6: hsla(41, 87.6%, 94.8%, 0.134);
-	--sand-A7: hsla(60, 95.4%, 96.2%, 0.172);
-	--sand-A8: hsla(49, 93.5%, 95.7%, 0.254);
-	--sand-A9: hsla(52, 97.3%, 96.2%, 0.391);
-	--sand-A10: hsla(52, 97.8%, 96.7%, 0.451);
-	--sand-A11: hsla(51, 97%, 97.8%, 0.597);
-	--sand-A12: hsla(60, 88.7%, 99.8%, 0.923);
+	--gray-A1: #00000000;
+	--gray-A2: #ffffff09;
+	--gray-A3: #ffffff12;
+	--gray-A4: #ffffff1b;
+	--gray-A5: #ffffff22;
+	--gray-A6: #ffffff2c;
+	--gray-A7: #ffffff3b;
+	--gray-A8: #ffffff55;
+	--gray-A9: #ffffff64;
+	--gray-A10: #ffffff72;
+	--gray-A11: #ffffffaf;
+	--gray-A12: #ffffffed;
 
-	--foreground-rgb: 237, 236, 240;
+	--foreground-rgb: 238, 238, 238;
 	--shadow-border-opacity: 0.15;
 	--shadow-blur-opacity: 0.12;
 	--shadow-thin: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
@@ -110,7 +110,7 @@
 }
 
 h1 {
-	color: var(--sand-12);
+	color: var(--gray-12);
 	font-weight: 600;
 	font-size: 1.8rem;
 	font-family: "SF Pro Display", system-ui, -apple-system;
@@ -120,7 +120,7 @@ h1 {
 }
 
 h2 {
-	color: var(--sand-12);
+	color: var(--gray-12);
 	font-weight: 500;
 	font-size: 1.5rem;
 	font-family: "SF Pro Display", system-ui, -apple-system;
@@ -130,7 +130,7 @@ h2 {
 }
 
 h3 {
-	color: var(--sand-12);
+	color: var(--gray-12);
 	font-weight: 500;
 	font-size: 1.2rem;
 	font-family: "SF Pro Display", system-ui, -apple-system;
@@ -140,7 +140,7 @@ h3 {
 }
 
 label {
-	color: var(--sand-11);
+	color: var(--gray-11);
 	font-size: 0.75rem;
 	font-family: system-ui, -apple-system;
 	letter-spacing: 0.02em;
@@ -150,7 +150,7 @@ label {
 
 body {
 	margin: 0;
-	background-color: var(--sand-1);
+	background-color: var(--gray-1);
 }
 
 button,
@@ -177,8 +177,8 @@ button,
 	padding: 32px;
 	border: 1px solid var(--outline);
 	border-radius: 8px;
-	background-color: var(--sand-1);
-	background-image: radial-gradient(var(--sand-A3) 1px, transparent 1px);
+	background-color: var(--gray-1);
+	background-image: radial-gradient(var(--gray-A3) 1px, transparent 1px);
 	background-size: 12px 12px;
 }
 

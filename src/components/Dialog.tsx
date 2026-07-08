@@ -13,7 +13,7 @@ type DialogProps = {
 const dialogStyle = style(border([], "border"), {
 	flex: 1,
 	borderRadius: "4px",
-	backgroundColor: "var(--sand-2)",
+	backgroundColor: "var(--gray-2)",
 	margin: "15vh 20vw",
 	padding: "32px",
 })

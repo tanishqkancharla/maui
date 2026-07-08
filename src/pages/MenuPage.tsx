@@ -33,6 +33,6 @@ export function MenuPage() {
 
 const menuPanelClass = style(shadowTokens.border, spacing.padding({ all: 2 }), {
 	maxWidth: "240px",
-	background: "var(--sand-1)",
+	background: "var(--gray-1)",
 	borderRadius: "6px",
 })

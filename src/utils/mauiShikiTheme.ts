@@ -1,11 +1,11 @@
 import type { ThemeRegistration } from "shiki"
 
-// Adapted from rsms/sublime-theme (rsms-dark), remapped to Maui sand + accent.
+// Adapted from rsms/sublime-theme (rsms-dark), remapped to Maui gray + accent.
 const colors = {
-	foreground: "#ecebe8", // --sand-12
-	foregroundMuted: "#9e9c97", // --sand-11
-	unimportant: "#6a6966", // ~35% sand-12
-	comment: "#6a6966",
+	foreground: "#eeeeee", // --gray-12
+	foregroundMuted: "#b4b4b4", // --gray-11
+	unimportant: "#6e6e6e", // --gray-9
+	comment: "#6e6e6e",
 	keyword: "#8b8fd8", // desaturated accent
 	operator: "#d9a066", // rsms orange, softened
 	type: "#ecebe8",

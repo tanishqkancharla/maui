@@ -58,19 +58,19 @@ export const menuItem = style(
 		cursor: "default",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: "var(--sand-A4)",
+			backgroundColor: "var(--gray-A4)",
 		},
 		"&[data-hovered='true']": {
-			backgroundColor: "var(--sand-A4)",
+			backgroundColor: "var(--gray-A4)",
 		},
 		"&[aria-current='page']": {
-			backgroundColor: "var(--sand-A5)",
+			backgroundColor: "var(--gray-A5)",
 		},
 		"&[aria-selected='true']": {
-			backgroundColor: "var(--sand-A5)",
+			backgroundColor: "var(--gray-A5)",
 		},
 		"&:active": {
-			backgroundColor: "var(--sand-A5)",
+			backgroundColor: "var(--gray-A5)",
 		},
 	},
 )

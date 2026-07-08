@@ -26,18 +26,18 @@ const buttonBaseClass = style(
 
 const buttonClass = style(buttonBaseClass, {
 	background:
-		"linear-gradient(var(--sand-3), var(--sand-2)), radial-gradient(var(--sand-3), var(--sand-2))",
+		"linear-gradient(var(--gray-3), var(--gray-2)), radial-gradient(var(--gray-3), var(--gray-2))",
 	boxShadow:
 		"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, rgb(62 62 58) 0px 0px 0px 1px inset",
 	"&:hover": {
 		background:
-			"linear-gradient(var(--sand-5), var(--sand-4)), radial-gradient(var(--sand-5), var(--sand-4))",
+			"linear-gradient(var(--gray-5), var(--gray-4)), radial-gradient(var(--gray-5), var(--gray-4))",
 		boxShadow:
 			"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, hsl(50, 3.8%, 30.6%) 0px 0px 0px 1px inset",
 	},
 	"&:active": {
 		background:
-			"linear-gradient(var(--sand-6), var(--sand-4)), radial-gradient(var(--sand-6), var(--sand-4))",
+			"linear-gradient(var(--gray-6), var(--gray-4)), radial-gradient(var(--gray-6), var(--gray-4))",
 	},
 })
 
@@ -87,18 +87,18 @@ export function Button(props: ButtonProps) {
 
 const actionButtonClass = style(buttonBaseClass, {
 	background:
-		"linear-gradient(var(--accent-A8), var(--accent-A7)), linear-gradient(var(--sand-3), var(--sand-2)), radial-gradient(var(--sand-3), var(--sand-2))",
+		"linear-gradient(var(--accent-A8), var(--accent-A7)), linear-gradient(var(--gray-3), var(--gray-2)), radial-gradient(var(--gray-3), var(--gray-2))",
 	boxShadow:
 		"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, var(--accent-7) 0px 0px 0px 1px inset",
 	"&:hover": {
 		background:
-			"linear-gradient(var(--accent-A9), var(--accent-A8)), linear-gradient(var(--sand-4), var(--sand-3)), radial-gradient(var(--sand-4), var(--sand-3))",
+			"linear-gradient(var(--accent-A9), var(--accent-A8)), linear-gradient(var(--gray-4), var(--gray-3)), radial-gradient(var(--gray-4), var(--gray-3))",
 		boxShadow:
 			"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, var(--accent-8) 0px 0px 0px 1px inset",
 	},
 	"&:active": {
 		background:
-			"linear-gradient(var(--accent-A10), var(--accent-A9)), linear-gradient(var(--sand-5), var(--sand-4)), radial-gradient(var(--sand-5), var(--sand-4))",
+			"linear-gradient(var(--accent-A10), var(--accent-A9)), linear-gradient(var(--gray-5), var(--gray-4)), radial-gradient(var(--gray-5), var(--gray-4))",
 	},
 })
 

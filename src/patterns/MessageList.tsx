@@ -1,6 +1,7 @@
 import type React from "react"
 import { style, useStyles } from "purse-styles"
 import { Avatar } from "../components/Avatar"
+import { Prose } from "../components/Prose"
 import { P } from "../components/Typography"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
@@ -65,7 +66,7 @@ export function Message({
 				{edited ? <span className={editedClassName}>(edited)</span> : null}
 			</header>
 
-			<div className={bodyClassName}>{children}</div>
+			<Prose className={bodyClassName}>{children}</Prose>
 		</article>
 	)
 }
@@ -161,7 +162,7 @@ const messageClass = style(
 	shadowTokens.minimalFlat,
 	spacing.padding({ all: 8 }),
 	{
-		backgroundColor: "var(--sand-2)",
+		backgroundColor: "var(--gray-2)",
 		minWidth: 0,
 	}
 )
@@ -183,15 +184,9 @@ const editedLabelClass = style(text("xs", 400, "lowContrast"), {
 	fontStyle: "italic",
 })
 
-const messageBodyClass = style(
-	text("md", 400, "highContrast"),
-	{
-		display: "flex",
-		flexDirection: "column",
-		gap: "10px",
-		minWidth: 0,
-	}
-)
+const messageBodyClass = style({
+	minWidth: 0,
+})
 
 function joinClassNames(...classNames: Array<string | undefined>) {
 	return classNames.filter(Boolean).join(" ")

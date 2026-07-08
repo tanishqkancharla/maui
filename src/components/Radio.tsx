@@ -16,7 +16,7 @@ const radioGroupClass = style({
 	flexDirection: "column",
 	gap: "6px",
 	"& .radio-group-label": {
-		color: "var(--sand-11)",
+		color: "var(--gray-11)",
 		fontSize: "0.75rem",
 		fontFamily: "system-ui, -apple-system",
 		letterSpacing: "0.02em",
@@ -67,7 +67,7 @@ const radioClass = style(focusRing("& .radio-input:focus-visible + .radio-toggle
 		height: "14px",
 		width: "14px",
 		borderRadius: "100%",
-		backgroundColor: "var(--sand-7)",
+		backgroundColor: "var(--gray-7)",
 		transition: "all 130ms ease-in-out",
 	},
 	"& .radio-toggle::after": {
@@ -78,7 +78,7 @@ const radioClass = style(focusRing("& .radio-input:focus-visible + .radio-toggle
 		width: "6px",
 		height: "6px",
 		borderRadius: "100%",
-		background: "var(--sand-3)",
+		background: "var(--gray-3)",
 		transform: "scale(0)",
 		transition: "transform 130ms ease-in-out",
 	},
@@ -89,7 +89,7 @@ const radioClass = style(focusRing("& .radio-input:focus-visible + .radio-toggle
 		transform: "scale(1)",
 	},
 	"&:hover .radio-toggle": {
-		backgroundColor: "var(--sand-8)",
+		backgroundColor: "var(--gray-8)",
 	},
 	"&:hover input:checked + .radio-toggle": {
 		backgroundColor: "var(--accent-color)",

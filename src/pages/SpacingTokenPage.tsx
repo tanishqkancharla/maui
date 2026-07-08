@@ -151,7 +151,7 @@ const chipClass = {
 } as const
 
 const exampleCardStyle = {
-	background: "var(--sand-3)",
+	background: "var(--gray-3)",
 	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",

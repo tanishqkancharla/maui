@@ -169,11 +169,11 @@ function BorderExample(props: {
 			),
 		radius.md,
 		style({
-			background: "var(--sand-2)",
+			background: "var(--gray-2)",
 			padding: "16px",
 			textAlign: "center",
 			fontSize: "12px",
-			color: "var(--sand-11)",
+			color: "var(--gray-11)",
 		}),
 	)
 
@@ -192,8 +192,8 @@ function SingleEdgeExample() {
 	const className = useStyles(
 		border(["bottom"], "border"),
 		style({
-			background: "var(--sand-2)",
-			color: "var(--sand-12)",
+			background: "var(--gray-2)",
+			color: "var(--gray-12)",
 			padding: "16px",
 		}),
 	)

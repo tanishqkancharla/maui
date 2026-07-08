@@ -173,7 +173,7 @@ function ShadowExample({
 }) {
 	const className = useStyles(
 		style(token, {
-			background: "var(--sand-2)",
+			background: "var(--gray-2)",
 			borderRadius: "6px",
 			padding: "16px",
 			textAlign: "center",

@@ -6,7 +6,7 @@ import { H2, H3, P } from "../components/Typography"
 import { focusRing } from "../tokens/focusRing"
 
 const focusedControlClass = style(focusRing(), {
-	background: "var(--sand-3)",
+	background: "var(--gray-3)",
 	border: "1px solid var(--outline)",
 	borderRadius: "4px",
 	padding: "8px 12px",
@@ -55,7 +55,7 @@ export function FocusRingTokenPage() {
 			<CodeBlock lang="typescript">{`const focusedControl = style(
 	focusRing(),
 	{
-		background: "var(--sand-3)",
+		background: "var(--gray-3)",
 		border: "1px solid var(--outline)",
 		borderRadius: "4px",
 		padding: "8px 12px",

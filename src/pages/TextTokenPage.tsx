@@ -139,7 +139,7 @@ function SizeExample(props: { size: TextSize }) {
 
 	return (
 		<div style={{ display: "grid", gap: "6px" }}>
-			<code style={{ color: "var(--sand-10)" }}>
+			<code style={{ color: "var(--gray-10)" }}>
 				{props.size} · {textSizeDetails[props.size].fontSize} /{" "}
 				{textSizeDetails[props.size].lineHeight}
 			</code>
@@ -171,7 +171,7 @@ function MonoExample() {
 }
 
 const exampleCardClass = {
-	background: "var(--sand-3)",
+	background: "var(--gray-3)",
 	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",

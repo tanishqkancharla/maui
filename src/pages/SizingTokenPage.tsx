@@ -93,7 +93,7 @@ function IconExample() {
 		<div style={exampleCardStyle}>
 			<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
 				<Icons.Search className={className} />
-				<span style={{ color: "var(--sand-12)", lineHeight: 1.4 }}>
+				<span style={{ color: "var(--gray-12)", lineHeight: 1.4 }}>
 					Icon aligns with text
 				</span>
 			</div>
@@ -133,13 +133,13 @@ const fullWidthClass = {
 
 const contentWidthClass = {
 	height: "28px",
-	background: "var(--sand-4)",
+	background: "var(--gray-4)",
 	border: "1px solid var(--outline)",
 	borderRadius: "4px",
 } as const
 
 const exampleCardStyle = {
-	background: "var(--sand-3)",
+	background: "var(--gray-3)",
 	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",

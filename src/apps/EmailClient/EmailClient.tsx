@@ -77,15 +77,15 @@ const shellClass = style(
 		gap: "1px",
 		minHeight: "640px",
 		overflow: "hidden",
-		backgroundColor: "var(--sand-4)",
-		border: "1px solid var(--sand-4)",
+		backgroundColor: "var(--gray-4)",
+		border: "1px solid var(--gray-4)",
 	}
 )
 
 const paneBaseClass = style({
 	minWidth: 0,
 	minHeight: 0,
-	backgroundColor: "var(--sand-1)",
+	backgroundColor: "var(--gray-1)",
 })
 
 const inboxPaneClass = style(paneBaseClass, {

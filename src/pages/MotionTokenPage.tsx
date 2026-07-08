@@ -73,7 +73,7 @@ const animatedCard = style(
 	className={useStyles(animatedCard)}
 	style={{
 		transform: isActive ? "translateX(96px)" : "translateX(0)",
-		background: isActive ? "var(--accent-A4)" : "var(--sand-3)",
+		background: isActive ? "var(--accent-A4)" : "var(--gray-3)",
 		borderColor: isActive ? "var(--accent-8)" : "var(--outline)",
 		boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
 	}}
@@ -89,7 +89,7 @@ const animatedCard = style(
 				<div
 					className={animatedCardClassName}
 					style={{
-						background: isActive ? "var(--accent-A4)" : "var(--sand-3)",
+						background: isActive ? "var(--accent-A4)" : "var(--gray-3)",
 						borderColor: isActive ? "var(--accent-8)" : "var(--outline)",
 						boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
 						transform: isActive ? "translateX(96px)" : "translateX(0)",

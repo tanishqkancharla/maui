@@ -244,7 +244,7 @@ const threadListClass = style(flex({ direction: "column" }), {
 })
 
 const threadRowSelectedClass = style({
-	backgroundColor: "var(--sand-A3)",
+	backgroundColor: "var(--gray-A3)",
 })
 
 const threadRowClass = style(
@@ -259,7 +259,7 @@ const threadRowClass = style(
 		minHeight: "40px",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: "var(--sand-A2)",
+			backgroundColor: "var(--gray-A2)",
 		},
 		"&:hover .email-thread-row-toolbar": {
 			opacity: 1,
@@ -341,7 +341,7 @@ const threadToolbarClass = style(
 		top: "50%",
 		right: "6px",
 		zIndex: 1,
-		background: "var(--sand-3)",
+		background: "var(--gray-3)",
 		opacity: 0,
 		pointerEvents: "none",
 		transform: "translateY(-50%)",
@@ -364,8 +364,8 @@ const threadActionClass = style(
 			height: "20px",
 		},
 		"&:hover": {
-			backgroundColor: "var(--sand-A4)",
-			color: "var(--sand-12)",
+			backgroundColor: "var(--gray-A4)",
+			color: "var(--gray-12)",
 		},
 	},
 )
@@ -460,7 +460,7 @@ const compactRowClass = style(
 		position: "relative",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: "var(--sand-A2)",
+			backgroundColor: "var(--gray-A2)",
 		},
 		"&:hover .email-thread-row-toolbar": {
 			opacity: 1,

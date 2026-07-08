@@ -126,7 +126,7 @@ function Pill(props: { children: string }) {
 }
 
 const pillStyle = {
-	background: "var(--sand-4)",
+	background: "var(--gray-4)",
 	border: "1px solid var(--outline)",
 	borderRadius: "999px",
 	padding: "4px 8px",
@@ -134,11 +134,11 @@ const pillStyle = {
 
 const fillTrackStyle = {
 	height: "1px",
-	background: "var(--sand-8)",
+	background: "var(--gray-8)",
 } as const
 
 const exampleCardStyle = {
-	background: "var(--sand-3)",
+	background: "var(--gray-3)",
 	border: "1px solid var(--outline)",
 	borderRadius: "6px",
 	padding: "12px",

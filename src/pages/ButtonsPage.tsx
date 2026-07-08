@@ -42,7 +42,7 @@ export function ButtonsPage() {
 					>
 						<div
 							style={{
-								background: "var(--sand-2)",
+								background: "var(--gray-2)",
 								border: "1px solid var(--outline)",
 								borderRadius: "6px",
 								padding: "24px",

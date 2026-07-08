@@ -15,12 +15,12 @@ const colorTokenGroups = [
 		tokens: rangeTokens("accent-A", ""),
 	},
 	{
-		name: "Sand",
-		tokens: rangeTokens("sand"),
+		name: "Gray",
+		tokens: rangeTokens("gray"),
 	},
 	{
-		name: "Sand alpha",
-		tokens: rangeTokens("sand-A", ""),
+		name: "Gray alpha",
+		tokens: rangeTokens("gray-A", ""),
 	},
 ] as const
 
@@ -36,15 +36,15 @@ export function ColorTokenPage() {
 		<Prose>
 			<H2>Color Tokens</H2>
 			<P>
-				The exported color tokens expose the raw accent, accent alpha, sand, and
-				sand alpha scales. Semantic roles like text, background, border, and focus
+				The exported color tokens expose the raw accent, accent alpha, gray, and
+				gray alpha scales. Semantic roles like text, background, border, and focus
 				ring should compose these raw values in their own style-token modules.
 			</P>
 
 			<CodeBlock lang="typescript">{`style({
-	color: colors.sand[12],
-	background: colors.sand[2],
-	border: \`1px solid \${colors.sand[6]}\`,
+	color: colors.gray[12],
+	background: colors.gray[2],
+	border: \`1px solid \${colors.gray[6]}\`,
 	boxShadow: \`0 0 0 1px \${colors.accent[8]} inset\`,
 })`}</CodeBlock>
 
@@ -54,11 +54,11 @@ export function ColorTokenPage() {
 			>
 				<div
 					style={{
-						background: colors.sand[3],
-						border: `1px solid ${colors.sand[6]}`,
+						background: colors.gray[3],
+						border: `1px solid ${colors.gray[6]}`,
 						borderRadius: "6px",
 						boxShadow: `0 0 0 1px ${colors.accent[8]} inset`,
-						color: colors.sand[12],
+						color: colors.gray[12],
 						padding: "12px",
 					}}
 				>
@@ -102,7 +102,7 @@ function ColorToken(props: { name: string }) {
 				}}
 			/>
 			<code>{`--${props.name}`}</code>
-			<code style={{ color: "var(--sand-10)", overflowWrap: "anywhere" }}>
+			<code style={{ color: "var(--gray-10)", overflowWrap: "anywhere" }}>
 				<CSSVariableValue name={props.name} />
 			</code>
 		</div>

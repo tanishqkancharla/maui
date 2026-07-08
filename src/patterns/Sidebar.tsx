@@ -97,7 +97,7 @@ const sidebarClass = style(
 	{
 		width: "240px",
 		minWidth: "240px",
-		backgroundColor: "var(--sand-2)",
+		backgroundColor: "var(--gray-2)",
 		boxShadow: "var(--shadow-minimal-flat)",
 	}
 )
@@ -135,7 +135,7 @@ const itemClass = style(menuItem, {
 	textAlign: "left",
 	backgroundColor: "transparent",
 	"&[aria-pressed='true']": {
-		backgroundColor: "var(--sand-A5)",
+		backgroundColor: "var(--gray-A5)",
 		color: "var(--accent-11)",
 	},
 })
@@ -144,7 +144,7 @@ const iconWrapClass = style(radius.sm, {
 	display: "grid",
 	placeItems: "center",
 	flexShrink: 0,
-	color: "var(--sand-11)",
+	color: "var(--gray-11)",
 	width: "20px",
 	height: "20px",
 	marginBlock: "-2px",

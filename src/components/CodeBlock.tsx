@@ -5,9 +5,9 @@ import { border } from "../tokens/borders"
 import { monospace, text } from "../tokens/text"
 
 const codeBlockClass = style(text("xs", 400, "highContrast"), monospace, border([], "outline"), {
-	background: "var(--sand-2)",
+	background: "var(--gray-2)",
 	borderRadius: "6px",
-	color: "var(--sand-12)",
+	color: "var(--gray-12)",
 	lineHeight: 1.6,
 	margin: 0,
 	overflowX: "auto",

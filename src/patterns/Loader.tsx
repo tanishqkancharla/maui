@@ -133,7 +133,7 @@ const variantStyles = {
 		color: "var(--accent-color)",
 	}),
 	muted: style({
-		color: "var(--sand-11)",
+		color: "var(--gray-11)",
 	}),
 } as const
 

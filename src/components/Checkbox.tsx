@@ -32,7 +32,7 @@ const checkboxClass = style(focusRing("& .checkbox-input:focus-visible + .checkb
 		width: "14px",
 		padding: "1px",
 		borderRadius: "2px",
-		backgroundColor: "var(--sand-7)",
+		backgroundColor: "var(--gray-7)",
 	},
 	"& input:checked + .checkbox-toggle": {
 		backgroundColor: "var(--accent-color)",
@@ -41,7 +41,7 @@ const checkboxClass = style(focusRing("& .checkbox-input:focus-visible + .checkb
 		transition: "all 130ms ease-in-out",
 	},
 	"&:hover .checkbox-toggle": {
-		backgroundColor: "var(--sand-8)",
+		backgroundColor: "var(--gray-8)",
 	},
 	"&:hover input:checked + .checkbox-toggle": {
 		backgroundColor: "var(--accent-color)",
@@ -71,7 +71,7 @@ export function Checkbox(props: CheckboxProps) {
 						paddingTop: 1,
 						opacity: checked ? 1 : 0,
 						transform: checked ? "scale(1)" : "scale(0)",
-						fill: "var(--sand-3)",
+						fill: "var(--gray-3)",
 					}}
 				>
 					<path d="M3.788 9A.999.999 0 0 1 3 8.615l-2.288-3a1 1 0 1 1 1.576-1.23l1.5 1.991 3.924-4.991a1 1 0 1 1 1.576 1.23l-4.712 6A.999.999 0 0 1 3.788 9z"></path>

@@ -111,7 +111,7 @@ const toolbarClass = style(
 	spacing.padding({ all: 1 }),
 	{
 		width: "fit-content",
-		background: "var(--sand-3)",
+		background: "var(--gray-3)",
 	},
 )
 
@@ -119,7 +119,7 @@ const toolbarDividerClass = style({
 	width: "1px",
 	height: "18px",
 	marginInline: "4px",
-	background: "var(--sand-6)",
+	background: "var(--gray-6)",
 })
 
 const toolbarButtonClass = style(text("md", 400, "lowContrast"), radius.sm, {
@@ -135,7 +135,7 @@ const toolbarButtonClass = style(text("md", 400, "lowContrast"), radius.sm, {
 		height: "20px",
 	},
 	"&:hover": {
-		backgroundColor: "var(--sand-A4)",
-		color: "var(--sand-12)",
+		backgroundColor: "var(--gray-A4)",
+		color: "var(--gray-12)",
 	},
 })

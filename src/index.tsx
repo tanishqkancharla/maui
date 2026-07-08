@@ -23,7 +23,7 @@ const appStyles = style({
 	padding: "32px",
 	margin: "0 auto",
 	maxWidth: "1040px",
-	background: "var(--sand-1)",
+	background: "var(--gray-1)",
 	color: "white",
 	overflow: "hidden",
 })
@@ -33,7 +33,7 @@ function GlobalStyles() {
 		"html, body",
 		{
 			margin: 0,
-			backgroundColor: "var(--sand-1)",
+			backgroundColor: "var(--gray-1)",
 			...baseTextStyle,
 		},
 		[],

@@ -124,7 +124,7 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "2px",
-						background: "var(--sand-3)",
+						background: "var(--gray-3)",
 						border: "1px solid var(--outline)",
 					}}
 				/>
@@ -133,7 +133,7 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "4px",
-						background: "var(--sand-3)",
+						background: "var(--gray-3)",
 						border: "1px solid var(--outline)",
 					}}
 				/>
@@ -142,7 +142,7 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "6px",
-						background: "var(--sand-3)",
+						background: "var(--gray-3)",
 						border: "1px solid var(--outline)",
 					}}
 				/>
@@ -151,7 +151,7 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "999px",
-						background: "var(--sand-3)",
+						background: "var(--gray-3)",
 						border: "1px solid var(--outline)",
 					}}
 				/>

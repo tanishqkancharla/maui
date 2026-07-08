@@ -21,8 +21,8 @@ const badgeClass = style(radius.pill, {
 	minWidth: "20px",
 	height: "18px",
 	paddingInline: "4px",
-	backgroundColor: "var(--sand-A4)",
-	color: "var(--sand-11)",
+	backgroundColor: "var(--gray-A4)",
+	color: "var(--gray-11)",
 	fontFamily:
 		'"SF Compact", "SF Compact Text", "SF Pro Text", system-ui, sans-serif',
 	fontSize: "12px",

@@ -1,4 +1,4 @@
-import { sandDark } from "@radix-ui/colors"
+import { grayDark } from "@radix-ui/colors"
 import { useRef } from "react"
 import {
 	AriaNumberFieldProps,
@@ -17,7 +17,7 @@ import { focusRing } from "../tokens/focusRing"
 const inputText = text("sm", 400, "highContrast")
 
 const inputClass = style(inputText, focusRing(), {
-	background: sandDark.sand3,
+	background: grayDark.gray3,
 	width: "100%",
 	color: "white",
 	padding: "6px 8px",
@@ -26,12 +26,12 @@ const inputClass = style(inputText, focusRing(), {
 	border: "1px solid var(--outline)",
 	transition: "border-color 80ms ease-in-out",
 	"&:hover": {
-		background: sandDark.sand4,
+		background: grayDark.gray4,
 	},
 
 	"&::placeholder": {
 		fontStyle: "italic",
-		color: sandDark.sand8,
+		color: grayDark.gray8,
 	},
 })
 
@@ -58,13 +58,13 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 		height: "20px",
 		border: "none",
 		borderRadius: "4px",
-		background: "var(--sand-6)",
-		color: "var(--sand-12)",
+		background: "var(--gray-6)",
+		color: "var(--gray-12)",
 		lineHeight: "18px",
 		padding: 0,
 	},
 	"& button:hover": {
-		background: "var(--sand-7)",
+		background: "var(--gray-7)",
 	},
 })
 
@@ -105,8 +105,8 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 		flex: "1 1 0",
 		border: "1px solid var(--outline)",
 		borderLeft: "none",
-		background: "var(--sand-4)",
-		color: "var(--sand-12)",
+		background: "var(--gray-4)",
+		color: "var(--gray-12)",
 		fontSize: "9px",
 		lineHeight: "10px",
 		padding: 0,
@@ -119,10 +119,10 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 		borderBottomRightRadius: "4px",
 	},
 	"& button:hover": {
-		background: "var(--sand-5)",
+		background: "var(--gray-5)",
 	},
 	"& button:disabled": {
-		color: "var(--sand-8)",
+		color: "var(--gray-8)",
 	},
 })
 
@@ -160,11 +160,11 @@ const quietInputClass = style(inputText, focusRing(), {
 	border: "none",
 	transition: "background 80ms ease-in-out",
 	"&:hover": {
-		background: sandDark.sand3,
+		background: grayDark.gray3,
 	},
 	"&::placeholder": {
 		fontStyle: "italic",
-		color: sandDark.sand8,
+		color: grayDark.gray8,
 	},
 })
 

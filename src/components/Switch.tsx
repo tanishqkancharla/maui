@@ -39,7 +39,7 @@ const switchClass = style(focusRing("& .switch-input:focus-visible + .switch-tog
 		transition: "all 130ms ease-in-out",
 	},
 	"&:hover .switch-toggle::before": {
-		backgroundColor: "var(--sand-2)",
+		backgroundColor: "var(--gray-2)",
 	},
 	"& .switch-input:checked + .switch-toggle::before": {
 		left: "15px",
@@ -54,11 +54,11 @@ const switchClass = style(focusRing("& .switch-input:focus-visible + .switch-tog
 		width: "26px",
 		height: "14px",
 		borderRadius: "8px",
-		backgroundColor: "var(--sand-7)",
+		backgroundColor: "var(--gray-7)",
 		transition: "all 130ms ease-in-out",
 	},
 	"&:hover .switch-toggle::after": {
-		backgroundColor: "var(--sand-8)",
+		backgroundColor: "var(--gray-8)",
 	},
 	"&:hover .switch-input:checked + .switch-toggle::after": {
 		backgroundColor: "var(--accent-color)",

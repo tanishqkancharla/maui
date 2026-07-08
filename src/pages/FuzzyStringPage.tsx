@@ -120,7 +120,7 @@ export function FuzzyStringPage() {
 					{filteredItems.length === 0 ? (
 						<li
 							className={resultTextClass}
-							style={{ color: "var(--sand-10)", padding: "8px 12px" }}
+							style={{ color: "var(--gray-10)", padding: "8px 12px" }}
 						>
 							No matches
 						</li>
@@ -132,7 +132,7 @@ export function FuzzyStringPage() {
 								style={{
 									padding: "8px 12px",
 									borderRadius: "4px",
-									background: "var(--sand-1)",
+									background: "var(--gray-1)",
 									border: "1px solid var(--border)",
 								}}
 							>

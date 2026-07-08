@@ -51,10 +51,10 @@ const textSizeStyles: Record<
 export const baseTextStyle = {
 	...textSizeStyles.md,
 	fontWeight: 400,
-	color: "var(--sand-12)",
+	color: "var(--gray-12)",
 } as const satisfies Omit<React.CSSProperties, "fontWeight" | "color"> & {
 	fontWeight: 400
-	color: "var(--sand-12)"
+	color: "var(--gray-12)"
 }
 
 export const monospace = style({
@@ -65,8 +65,8 @@ export const monospace = style({
 })
 
 const textColorStyles: Record<TextColor, React.CSSProperties["color"]> = {
-	lowContrast: "var(--sand-11)",
-	highContrast: "var(--sand-12)",
+	lowContrast: "var(--gray-11)",
+	highContrast: "var(--gray-12)",
 	accent: "var(--accent-11)",
 	onAccent: "white",
 }

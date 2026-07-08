@@ -28,7 +28,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.app</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--sand-1)</code>
+							<code>var(--gray-1)</code>
 						</TableCell>
 						<TableCell>App/page background.</TableCell>
 					</TableRow>
@@ -37,7 +37,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.subtle</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--sand-2)</code>
+							<code>var(--gray-2)</code>
 						</TableCell>
 						<TableCell>Dialogs, cards, and panels.</TableCell>
 					</TableRow>
@@ -46,7 +46,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.element</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--sand-3)</code>
+							<code>var(--gray-3)</code>
 						</TableCell>
 						<TableCell>Inputs and slightly raised controls.</TableCell>
 					</TableRow>
@@ -55,7 +55,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.elementHover</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--sand-4)</code>
+							<code>var(--gray-4)</code>
 						</TableCell>
 						<TableCell>Neutral hover state.</TableCell>
 					</TableRow>
@@ -64,7 +64,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.elementActive</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--sand-5)</code>
+							<code>var(--gray-5)</code>
 						</TableCell>
 						<TableCell>Selected rows and menu items.</TableCell>
 					</TableRow>
@@ -106,7 +106,7 @@ const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 			>
 				<div
 					style={{
-						background: "var(--sand-2)",
+						background: "var(--gray-2)",
 						border: "1px solid var(--outline)",
 						borderRadius: "6px",
 						padding: "12px",
@@ -116,7 +116,7 @@ const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 				</div>
 				<div
 					style={{
-						background: "var(--sand-3)",
+						background: "var(--gray-3)",
 						border: "1px solid var(--outline)",
 						borderRadius: "6px",
 						padding: "12px",

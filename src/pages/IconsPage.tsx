@@ -37,14 +37,14 @@ export function IconsPage() {
 								padding: "16px 12px",
 								borderRadius: "6px",
 								border: "1px solid var(--outline)",
-								background: "var(--sand-1)",
+								background: "var(--gray-1)",
 							}}
 						>
-							<Icon style={{ color: "var(--sand-12)" }} />
+							<Icon style={{ color: "var(--gray-12)" }} />
 							<code
 								style={{
 									fontSize: "11px",
-									color: "var(--sand-11)",
+									color: "var(--gray-11)",
 									textAlign: "center",
 								}}
 							>

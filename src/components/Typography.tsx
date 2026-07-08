@@ -44,6 +44,7 @@ export function H4(props: { children: string }) {
 
 const pClass = style(text("md", 400, "highContrast"), {
 	maxWidth: typographyMaxWidth,
+	margin: 0,
 })
 
 export function P(props: { children: React.ReactNode }) {
