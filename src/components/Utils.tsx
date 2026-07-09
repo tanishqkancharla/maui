@@ -1,4 +1,3 @@
-import { grayDark } from "@radix-ui/colors"
 import { style, useStyles } from "purse-styles"
 import React from "react"
 
@@ -72,7 +71,7 @@ export function Spacer() {
 
 const hrClass = style({
 	border: "none",
-	borderTop: `1.5px solid ${grayDark.gray5}`,
+	borderTop: "1.5px solid var(--gray-5)",
 	marginTop: "1.5rem",
 	marginBottom: "1.5rem",
 	width: "100%",

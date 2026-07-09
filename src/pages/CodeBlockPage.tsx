@@ -1,7 +1,15 @@
 import { CodeBlock } from "../components/CodeBlock"
 import { Prose } from "../components/Prose"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeaderCell,
+	TableRow,
+} from "../components/Table"
 import { H2, H3, H4, Link, P } from "../components/Typography"
+import { useTheme } from "../theme/ThemeContext"
 import { mauiThemeTokens } from "../utils/mauiShikiTheme"
 
 const typescriptExample = `import { style } from "purse-styles"
@@ -27,13 +35,15 @@ const cssExample = `.maui-code-block .shiki {
 	tab-size: 2;
 }`
 
-const jsonExample = `{
+const jsonExample = (theme: "light" | "dark") => `{
 	"name": "maui",
-	"type": "dark",
-	"foreground": "#ecebe8"
+	"type": "${theme}"
 }`
 
 export function CodeBlockPage() {
+	const { resolvedTheme } = useTheme()
+	const themeTokens = mauiThemeTokens[resolvedTheme]
+
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>CodeBlock</H2>
@@ -57,7 +67,7 @@ export function CodeBlockPage() {
 			<CodeBlock lang="css">{cssExample}</CodeBlock>
 
 			<H4>JSON</H4>
-			<CodeBlock lang="json">{jsonExample}</CodeBlock>
+			<CodeBlock lang="json">{jsonExample(resolvedTheme)}</CodeBlock>
 
 			<H3>Maui Shiki theme</H3>
 			<P>
@@ -78,7 +88,7 @@ export function CodeBlockPage() {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{mauiThemeTokens.map((token) => (
+					{themeTokens.map((token) => (
 						<TableRow key={token.role}>
 							<TableCell align="middle">{token.role}</TableCell>
 							<TableCell align="middle">
@@ -108,4 +118,3 @@ export function CodeBlockPage() {
 		</Prose>
 	)
 }
-

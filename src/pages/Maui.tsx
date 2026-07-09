@@ -14,6 +14,11 @@ import { Gap } from "../components/Utils"
 import { flex, grid } from "../tokens/layout"
 import { menuItem } from "../components/Menu"
 import { spacing } from "../tokens/spacing"
+import { text } from "../tokens/text"
+import { focusRing } from "../tokens/focusRing"
+import { type ThemePreference, useTheme } from "../theme/ThemeContext"
+import { AvatarPage } from "./AvatarPage"
+import { BadgePage } from "./BadgePage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
 import { BordersTokenPage } from "./BordersTokenPage"
 import { ButtonsPage } from "./ButtonsPage"
@@ -92,6 +97,8 @@ const navigation: NavGroup[] = [
 	{
 		label: "Components",
 		children: [
+			{ label: "Avatar", path: "/components/avatar", page: AvatarPage },
+			{ label: "Badge", path: "/components/badge", page: BadgePage },
 			{ label: "Buttons", path: "/components/buttons", page: ButtonsPage },
 			{
 				label: "Prose",
@@ -183,10 +190,29 @@ function MauiNavigation() {
 	const navListClassName = useStyles(navListClass)
 	const groupClassName = useStyles(navGroupClass)
 	const childrenClassName = useStyles(navChildrenClass)
+	const themeControlClassName = useStyles(themeControlClass)
+	const themeSelectClassName = useStyles(themeSelectClass)
+	const { preference, setPreference } = useTheme()
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
 			<H3>Maui</H3>
+			<Gap height={12} />
+			<div className={themeControlClassName}>
+				<Label htmlFor="theme-preference">Theme</Label>
+				<select
+					id="theme-preference"
+					className={themeSelectClassName}
+					value={preference}
+					onChange={(event) =>
+						setPreference(event.target.value as ThemePreference)
+					}
+				>
+					<option value="system">System</option>
+					<option value="light">Light</option>
+					<option value="dark">Dark</option>
+				</select>
+			</div>
 			<Gap height={12} />
 			<ul className={navListClassName}>
 				{navigation.map((group) => (
@@ -221,10 +247,13 @@ function NavLink(props: { item: NavItem }) {
 	)
 }
 
-const mauiShellClass = style(grid({ columns: "sidebarContent", align: "start" }), {
-	height: "100%",
-	minHeight: 0,
-})
+const mauiShellClass = style(
+	grid({ columns: "sidebarContent", align: "start" }),
+	{
+		height: "100%",
+		minHeight: 0,
+	},
+)
 
 const contentClass = style(spacing.padding({ x: 16 }), {
 	height: "100%",
@@ -242,6 +271,18 @@ const navListClass = style(flex({ direction: "column", gap: 8 }), {
 	listStyleType: "none",
 	padding: 0,
 	margin: 0,
+})
+
+const themeControlClass = style(flex({ direction: "column", gap: 4 }))
+
+const themeSelectClass = style(text("xs", 400, "highContrast"), focusRing(), {
+	width: "100%",
+	height: "28px",
+	padding: "4px 8px",
+	border: "1px solid var(--outline)",
+	borderRadius: "4px",
+	backgroundColor: "var(--gray-3)",
+	color: "var(--gray-12)",
 })
 
 const navGroupClass = style(flex({ direction: "column", gap: 4 }), {

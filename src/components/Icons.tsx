@@ -23,6 +23,83 @@ function Search(props: React.SVGProps<SVGSVGElement>) {
 	)
 }
 
+function CircleX(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<circle cx="12" cy="12" r="9" fill="currentColor" />
+			<path
+				stroke="var(--gray-3)"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={2}
+				d="M9 9L15 15M15 9L9 15"
+			/>
+		</svg>
+	)
+}
+
+function Plus(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M12 5.75V18.25"
+			/>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M18.25 12H5.75"
+			/>
+		</svg>
+	)
+}
+
+function Minus(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M18.25 12.25H5.75"
+			/>
+		</svg>
+	)
+}
+
 function DotsHorizontal(props: React.SVGProps<SVGSVGElement>) {
 	return (
 		<svg
@@ -228,6 +305,9 @@ function Pin(props: React.SVGProps<SVGSVGElement>) {
 
 export const Icons = {
 	Search,
+	CircleX,
+	Plus,
+	Minus,
 	DotsHorizontal,
 	ArrowDown,
 	Star,

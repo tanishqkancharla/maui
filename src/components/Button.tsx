@@ -9,7 +9,7 @@ import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
 const buttonBaseClass = style(
-	text("xs", 400, "onAccent"),
+	text("xs", 400, "highContrast"),
 	focusRing(),
 	motion.standard("box-shadow", "background"),
 	spacing.padding({ x: 6, y: 4 }),
@@ -28,12 +28,12 @@ const buttonClass = style(buttonBaseClass, {
 	background:
 		"linear-gradient(var(--gray-3), var(--gray-2)), radial-gradient(var(--gray-3), var(--gray-2))",
 	boxShadow:
-		"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, rgb(62 62 58) 0px 0px 0px 1px inset",
+		"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, var(--gray-A3) 0px 0.5px 0px 0px inset, var(--gray-7) 0px 0px 0px 1px inset",
 	"&:hover": {
 		background:
 			"linear-gradient(var(--gray-5), var(--gray-4)), radial-gradient(var(--gray-5), var(--gray-4))",
 		boxShadow:
-			"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, hsl(50, 3.8%, 30.6%) 0px 0px 0px 1px inset",
+			"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, var(--gray-A3) 0px 0.5px 0px 0px inset, var(--gray-8) 0px 0px 0px 1px inset",
 	},
 	"&:active": {
 		background:
@@ -86,6 +86,7 @@ export function Button(props: ButtonProps) {
 }
 
 const actionButtonClass = style(buttonBaseClass, {
+	color: "white",
 	background:
 		"linear-gradient(var(--accent-A8), var(--accent-A7)), linear-gradient(var(--gray-3), var(--gray-2)), radial-gradient(var(--gray-3), var(--gray-2))",
 	boxShadow:

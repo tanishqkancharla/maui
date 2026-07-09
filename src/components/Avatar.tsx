@@ -24,9 +24,18 @@ export function Avatar({ name, size = "sm", className }: AvatarProps) {
 
 const avatarPalette = [
 	{ background: "var(--accent-4)", color: "var(--accent-11)" },
-	{ background: "hsl(160, 35%, 22%)", color: "hsl(160, 60%, 78%)" },
-	{ background: "hsl(24, 40%, 22%)", color: "hsl(24, 80%, 78%)" },
-	{ background: "hsl(320, 30%, 22%)", color: "hsl(320, 70%, 80%)" },
+	{
+		background: "var(--avatar-green-background)",
+		color: "var(--avatar-green-foreground)",
+	},
+	{
+		background: "var(--avatar-orange-background)",
+		color: "var(--avatar-orange-foreground)",
+	},
+	{
+		background: "var(--avatar-pink-background)",
+		color: "var(--avatar-pink-foreground)",
+	},
 ] as const
 
 // Avatar dimensions correspond to the text-size scale, so an avatar sits

@@ -5,6 +5,9 @@ export default defineConfig({
 	root: "src",
 	plugins: [react({})],
 	server: {
+		host: "127.0.0.1",
+		port: 5173,
+		strictPort: true,
 		watch: {
 			// The native fsevents watcher silently misses file changes in this
 			// environment, breaking HMR. Polling is reliable.

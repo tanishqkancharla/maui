@@ -1,7 +1,13 @@
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
-import { PurseProvider, style, useInjectGlobalStyles, useStyles } from "purse-styles"
+import {
+	PurseProvider,
+	style,
+	useInjectGlobalStyles,
+	useStyles,
+} from "purse-styles"
 import { Maui } from "./pages/Maui"
+import { ThemeProvider } from "./theme/ThemeContext"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
 import { baseTextStyle } from "./tokens/text"
 
@@ -24,7 +30,7 @@ const appStyles = style({
 	margin: "0 auto",
 	maxWidth: "1040px",
 	background: "var(--gray-1)",
-	color: "white",
+	color: "var(--gray-12)",
 	overflow: "hidden",
 })
 
@@ -54,12 +60,14 @@ function AppContent() {
 
 function App() {
 	return (
-		<PurseProvider>
-			<GlobalStyles />
-			<UIDatabaseProvider>
-				<AppContent />
-			</UIDatabaseProvider>
-		</PurseProvider>
+		<ThemeProvider>
+			<PurseProvider>
+				<GlobalStyles />
+				<UIDatabaseProvider>
+					<AppContent />
+				</UIDatabaseProvider>
+			</PurseProvider>
+		</ThemeProvider>
 	)
 }
 

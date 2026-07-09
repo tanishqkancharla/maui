@@ -1,7 +1,8 @@
 import { createHighlighterCore } from "shiki/core"
 import { createOnigurumaEngine } from "shiki/engine/oniguruma"
 import type { HighlighterCore } from "shiki"
-import { mauiShikiTheme } from "./mauiShikiTheme"
+import type { ResolvedTheme } from "../theme/ThemeContext"
+import { mauiShikiThemeDark, mauiShikiThemeLight } from "./mauiShikiTheme"
 
 export const supportedCodeLangs = [
 	"typescript",
@@ -19,7 +20,7 @@ let highlighterPromise: Promise<HighlighterCore> | null = null
 function getHighlighter() {
 	if (!highlighterPromise) {
 		highlighterPromise = createHighlighterCore({
-			themes: [mauiShikiTheme],
+			themes: [mauiShikiThemeDark, mauiShikiThemeLight],
 			langs: [
 				import("@shikijs/langs/typescript"),
 				import("@shikijs/langs/javascript"),
@@ -39,17 +40,22 @@ export function isSupportedCodeLang(lang: string): lang is SupportedCodeLang {
 	return supportedCodeLangs.includes(lang as SupportedCodeLang)
 }
 
-export async function highlightCode(code: string, lang: SupportedCodeLang) {
+export async function highlightCode(
+	code: string,
+	lang: SupportedCodeLang,
+	theme: ResolvedTheme,
+) {
 	const highlighter = await getHighlighter()
 
 	return highlighter.codeToHtml(code.trimEnd(), {
 		lang,
-		theme: "maui",
+		theme: `maui-${theme}`,
 		transformers: [
 			{
 				pre(node) {
 					node.properties.class = "shiki maui-shiki"
-					node.properties.style = "background-color: transparent; margin: 0; padding: 0;"
+					node.properties.style =
+						"background-color: transparent; margin: 0; padding: 0;"
 				},
 			},
 		],

@@ -3,16 +3,22 @@ import { style, useStyles } from "purse-styles"
 import { highlightCode, isSupportedCodeLang } from "../utils/shiki"
 import { border } from "../tokens/borders"
 import { monospace, text } from "../tokens/text"
+import { useTheme } from "../theme/ThemeContext"
 
-const codeBlockClass = style(text("xs", 400, "highContrast"), monospace, border([], "outline"), {
-	background: "var(--gray-2)",
-	borderRadius: "6px",
-	color: "var(--gray-12)",
-	lineHeight: 1.6,
-	margin: 0,
-	overflowX: "auto",
-	padding: "12px",
-})
+const codeBlockClass = style(
+	text("xs", 400, "highContrast"),
+	monospace,
+	border([], "outline"),
+	{
+		background: "var(--gray-2)",
+		borderRadius: "6px",
+		color: "var(--gray-12)",
+		lineHeight: 1.6,
+		margin: 0,
+		overflowX: "auto",
+		padding: "12px",
+	},
+)
 
 const codeClass = style({
 	font: "inherit",
@@ -22,6 +28,7 @@ export function CodeBlock(props: { children: string; lang: string }) {
 	const className = useStyles(codeBlockClass)
 	const codeClassName = useStyles(codeClass)
 	const [html, setHtml] = useState<string | null>(null)
+	const { resolvedTheme } = useTheme()
 
 	useEffect(() => {
 		if (!isSupportedCodeLang(props.lang)) {
@@ -31,7 +38,7 @@ export function CodeBlock(props: { children: string; lang: string }) {
 
 		let cancelled = false
 
-		highlightCode(props.children, props.lang).then((result) => {
+		highlightCode(props.children, props.lang, resolvedTheme).then((result) => {
 			if (!cancelled) {
 				setHtml(result)
 			}
@@ -40,7 +47,7 @@ export function CodeBlock(props: { children: string; lang: string }) {
 		return () => {
 			cancelled = true
 		}
-	}, [props.children, props.lang])
+	}, [props.children, props.lang, resolvedTheme])
 
 	if (!html) {
 		return (

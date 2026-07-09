@@ -4,6 +4,7 @@ import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
+import { useTheme } from "../theme/ThemeContext"
 import { colors } from "../tokens/colors"
 
 const colorTokenGroups = [
@@ -38,8 +39,9 @@ export function ColorTokenPage() {
 			<H2>Color Tokens</H2>
 			<P>
 				The exported color tokens expose the raw accent, accent alpha, gray, and
-				gray alpha scales. Semantic roles like text, background, border, and focus
-				ring should compose these raw values in their own style-token modules.
+				gray alpha scales. Semantic roles like text, background, border, and
+				focus ring should compose these raw values in their own style-token
+				modules.
 			</P>
 
 			<CodeBlock lang="typescript">{`style({
@@ -109,6 +111,7 @@ function ColorToken(props: { name: string }) {
 
 function CSSVariableValue(props: { name: string }) {
 	const [value, setValue] = useState(`var(--${props.name})`)
+	const { resolvedTheme } = useTheme()
 
 	useEffect(() => {
 		const nextValue = getComputedStyle(document.documentElement)
@@ -118,7 +121,7 @@ function CSSVariableValue(props: { name: string }) {
 		if (nextValue) {
 			setValue(nextValue)
 		}
-	}, [props.name])
+	}, [props.name, resolvedTheme])
 
 	return value
 }

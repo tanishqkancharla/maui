@@ -9,6 +9,7 @@ import {
 import { RadioOption, RadioOptionGroup } from "../components/Radio"
 import { Prose } from "../components/Prose"
 import { Slider } from "../components/Slider"
+import { Select, SelectItem } from "../components/Select"
 import { Switch } from "../components/Switch"
 import { H2 } from "../components/Typography"
 import { Flex } from "../components/Utils"
@@ -22,6 +23,7 @@ export function FormControlsPage() {
 	const [radioValue, setRadioValue] = useState("one")
 	const [sliderValue, setSliderValue] = useState(40)
 	const [quietTextValue, setQuietTextValue] = useState("")
+	const [selectValue, setSelectValue] = useState<string | number | null>(null)
 
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -59,6 +61,20 @@ export function FormControlsPage() {
 						value={quietTextValue}
 						onChange={setQuietTextValue}
 					/>
+				</div>
+				<div style={{ maxWidth: "240px" }}>
+					<Select
+						label="Fruit"
+						placeholder="Choose a fruit"
+						value={selectValue}
+						onChange={setSelectValue}
+					>
+						<SelectItem id="apple">Apple</SelectItem>
+						<SelectItem id="banana">Banana</SelectItem>
+						<SelectItem id="orange">Orange</SelectItem>
+						<SelectItem id="pear">Pear</SelectItem>
+						<SelectItem id="strawberry">Strawberry</SelectItem>
+					</Select>
 				</div>
 				<Switch
 					selected={switchState}

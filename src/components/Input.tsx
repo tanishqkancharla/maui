@@ -1,9 +1,9 @@
-import { grayDark } from "@radix-ui/colors"
 import { useRef } from "react"
 import {
 	AriaNumberFieldProps,
 	AriaSearchFieldProps,
 	AriaTextFieldOptions,
+	useButton,
 	useLocale,
 	useNumberField,
 	useSearchField,
@@ -13,25 +13,26 @@ import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
 import { text } from "../tokens/text"
 import { focusRing } from "../tokens/focusRing"
+import { Icons } from "./Icons"
 
 const inputText = text("sm", 400, "highContrast")
 
 const inputClass = style(inputText, focusRing(), {
-	background: grayDark.gray3,
+	background: "var(--gray-3)",
 	width: "100%",
-	color: "white",
+	color: "var(--gray-12)",
 	padding: "6px 8px",
 	borderRadius: "4px",
 	height: "28px",
 	border: "1px solid var(--outline)",
 	transition: "border-color 80ms ease-in-out",
 	"&:hover": {
-		background: grayDark.gray4,
+		background: "var(--gray-4)",
 	},
 
 	"&::placeholder": {
 		fontStyle: "italic",
-		color: grayDark.gray8,
+		color: "var(--gray-8)",
 	},
 })
 
@@ -45,33 +46,45 @@ export function TextField(props: InputProps) {
 }
 
 const searchFieldClass = style(focusRing("& button:focus-visible"), {
-	display: "flex",
-	alignItems: "center",
+	position: "relative",
 	width: "100%",
-	gap: "6px",
 	"& input": {
-		flex: "1 1 auto",
-		minWidth: 0,
+		paddingRight: "30px",
+		appearance: "none",
+	},
+	'& input::-webkit-search-cancel-button': {
+		appearance: "none",
 	},
 	"& button": {
-		width: "20px",
-		height: "20px",
+		position: "absolute",
+		top: "50%",
+		right: "6px",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		width: "16px",
+		height: "16px",
+		transform: "translateY(-50%)",
+		zIndex: 2,
 		border: "none",
-		borderRadius: "4px",
-		background: "var(--gray-6)",
-		color: "var(--gray-12)",
-		lineHeight: "18px",
+		borderRadius: "50%",
+		background: "transparent",
+		color: "var(--gray-9)",
 		padding: 0,
 	},
+	"& button svg": {
+		width: "16px",
+		height: "16px",
+	},
 	"& button:hover": {
-		background: "var(--gray-7)",
+		color: "var(--gray-12)",
 	},
 })
 
 export function SearchField(props: AriaSearchFieldProps) {
 	const ref = useRef<HTMLInputElement>(null)
 	const state = useSearchFieldState(props)
-	const { inputProps, clearButtonProps } = useSearchField(props, state, ref)
+	const { inputProps } = useSearchField(props, state, ref)
 	const inputClassName = useStyles(inputClass)
 	const searchClassName = useStyles(searchFieldClass)
 
@@ -79,8 +92,13 @@ export function SearchField(props: AriaSearchFieldProps) {
 		<div className={searchClassName}>
 			<input className={inputClassName} ref={ref} {...inputProps} />
 			{state.value !== "" && (
-				<button {...clearButtonProps} type="button">
-					×
+				<button
+					aria-label="Clear search"
+					type="button"
+					onMouseDown={(event) => event.preventDefault()}
+					onClick={() => state.setValue("")}
+				>
+					<Icons.CircleX />
 				</button>
 			)}
 		</div>
@@ -97,26 +115,27 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 	},
 	"& .number-stepper": {
 		display: "flex",
-		flexDirection: "column",
 		height: "28px",
 	},
 	"& button": {
 		width: "24px",
-		flex: "1 1 0",
 		border: "1px solid var(--outline)",
 		borderLeft: "none",
 		background: "var(--gray-4)",
 		color: "var(--gray-12)",
-		fontSize: "9px",
-		lineHeight: "10px",
 		padding: 0,
 	},
 	"& button:first-child": {
-		borderTopRightRadius: "4px",
-		borderBottom: "none",
+		borderRadius: 0,
 	},
 	"& button:last-child": {
+		borderTopRightRadius: "4px",
 		borderBottomRightRadius: "4px",
+	},
+	"& button svg": {
+		width: "14px",
+		height: "14px",
+		verticalAlign: "middle",
 	},
 	"& button:hover": {
 		background: "var(--gray-5)",
@@ -128,10 +147,20 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 
 export function NumberField(props: AriaNumberFieldProps) {
 	const ref = useRef<HTMLInputElement>(null)
+	const incrementRef = useRef<HTMLButtonElement>(null)
+	const decrementRef = useRef<HTMLButtonElement>(null)
 	const { locale } = useLocale()
 	const state = useNumberFieldState({ ...props, locale })
 	const { inputProps, groupProps, incrementButtonProps, decrementButtonProps } =
 		useNumberField(props, state, ref)
+	const { buttonProps: incrementProps } = useButton(
+		incrementButtonProps,
+		incrementRef,
+	)
+	const { buttonProps: decrementProps } = useButton(
+		decrementButtonProps,
+		decrementRef,
+	)
 	const inputClassName = useStyles(inputClass)
 	const numberClassName = useStyles(numberFieldClass)
 
@@ -139,11 +168,11 @@ export function NumberField(props: AriaNumberFieldProps) {
 		<div className={numberClassName} {...groupProps}>
 			<input className={inputClassName} ref={ref} {...inputProps} />
 			<div className="number-stepper">
-				<button {...incrementButtonProps} type="button">
-					▲
+				<button {...decrementProps} ref={decrementRef} type="button">
+					<Icons.Minus />
 				</button>
-				<button {...decrementButtonProps} type="button">
-					▼
+				<button {...incrementProps} ref={incrementRef} type="button">
+					<Icons.Plus />
 				</button>
 			</div>
 		</div>
@@ -152,7 +181,7 @@ export function NumberField(props: AriaNumberFieldProps) {
 
 const quietInputClass = style(inputText, focusRing(), {
 	width: "100%",
-	color: "white",
+	color: "var(--gray-12)",
 	padding: "6px 8px",
 	borderRadius: "4px",
 	height: "28px",
@@ -160,11 +189,11 @@ const quietInputClass = style(inputText, focusRing(), {
 	border: "none",
 	transition: "background 80ms ease-in-out",
 	"&:hover": {
-		background: grayDark.gray3,
+		background: "var(--gray-3)",
 	},
 	"&::placeholder": {
 		fontStyle: "italic",
-		color: grayDark.gray8,
+		color: "var(--gray-8)",
 	},
 })
 
