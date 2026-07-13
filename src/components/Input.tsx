@@ -120,11 +120,14 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 		height: "28px",
 	},
 	"& button": {
+		display: "flex",
+		placeItems: "center",
+		justifyContent: "center",
 		width: "24px",
 		border: "1px solid var(--outline)",
 		borderLeft: "none",
-		background: "var(--gray-4)",
-		color: "var(--gray-12)",
+		background: "var(--gray-3)",
+		color: "var(--gray-11)",
 		padding: 0,
 	},
 	"& button:first-child": {
@@ -137,10 +140,9 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 	"& button svg": {
 		width: "14px",
 		height: "14px",
-		verticalAlign: "middle",
 	},
 	"& button:hover": {
-		background: "var(--gray-5)",
+		background: "var(--gray-4)",
 	},
 	"& button:disabled": {
 		color: "var(--gray-8)",
