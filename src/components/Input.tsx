@@ -29,7 +29,6 @@ const inputClass = style(inputText, focusRing(), {
 	"&:hover": {
 		background: "var(--gray-4)",
 	},
-
 	"&::placeholder": {
 		fontStyle: "italic",
 		color: "var(--gray-8)",
@@ -51,6 +50,9 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 	"& input": {
 		paddingRight: "30px",
 		appearance: "none",
+	},
+	"&:hover input": {
+		background: "var(--gray-4)",
 	},
 	'& input::-webkit-search-cancel-button': {
 		appearance: "none",

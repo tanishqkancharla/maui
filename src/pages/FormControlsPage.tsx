@@ -11,7 +11,7 @@ import { Prose } from "../components/Prose"
 import { Slider } from "../components/Slider"
 import { Select, SelectItem } from "../components/Select"
 import { Switch } from "../components/Switch"
-import { H2 } from "../components/Typography"
+import { H2, Label } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
 export function FormControlsPage() {
@@ -29,42 +29,46 @@ export function FormControlsPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Form controls</H2>
 			<Flex column gap={12}>
-				<div style={{ maxWidth: "240px" }}>
+				<Flex column gap={4} style={{ maxWidth: "240px" }}>
+					<Label htmlFor="text-field">Text field</Label>
 					<TextField
-						aria-label="Example text field"
+						id="text-field"
 						placeholder="TextField"
 						value={textValue}
 						onChange={setTextValue}
 					/>
-				</div>
-				<div style={{ maxWidth: "240px" }}>
+				</Flex>
+				<Flex column gap={4} style={{ maxWidth: "240px" }}>
+					<Label htmlFor="search-field">Search field</Label>
 					<SearchField
-						aria-label="Example search field"
+						id="search-field"
 						placeholder="SearchField"
 						value={searchValue}
 						onChange={setSearchValue}
 					/>
-				</div>
-				<div style={{ maxWidth: "240px" }}>
+				</Flex>
+				<Flex column gap={4} style={{ maxWidth: "240px" }}>
+					<Label htmlFor="number-field">Number field</Label>
 					<NumberField
-						aria-label="Example number field"
+						id="number-field"
 						value={numberValue}
 						onChange={setNumberValue}
 						minValue={0}
 						maxValue={10}
 					/>
-				</div>
-				<div style={{ maxWidth: "240px" }}>
+				</Flex>
+				<Flex column gap={4} style={{ maxWidth: "240px" }}>
+					<Label htmlFor="quiet-text-field">Quiet text field</Label>
 					<QuietTextField
-						aria-label="Quiet text field"
+						id="quiet-text-field"
 						placeholder="QuietTextField"
 						value={quietTextValue}
 						onChange={setQuietTextValue}
 					/>
-				</div>
+				</Flex>
 				<div style={{ maxWidth: "240px" }}>
 					<Select
-						label="Fruit"
+						label="Select field"
 						placeholder="Choose a fruit"
 						value={selectValue}
 						onChange={setSelectValue}
