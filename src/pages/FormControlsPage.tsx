@@ -7,7 +7,6 @@ import {
 	TextField,
 } from "../components/Input"
 import { RadioOption, RadioOptionGroup } from "../components/Radio"
-import { Prose } from "../components/Prose"
 import { Slider } from "../components/Slider"
 import { Select, SelectItem } from "../components/Select"
 import { Switch } from "../components/Switch"
@@ -26,7 +25,7 @@ export function FormControlsPage() {
 	const [selectValue, setSelectValue] = useState<string | number | null>(null)
 
 	return (
-		<Prose style={{ marginBottom: "32px" }}>
+		<Flex column gap={12} style={{ marginBottom: "32px" }}>
 			<H2>Form controls</H2>
 			<Flex column gap={12}>
 				<Flex column gap={4} style={{ maxWidth: "240px" }}>
@@ -83,7 +82,7 @@ export function FormControlsPage() {
 				<Switch
 					selected={switchState}
 					onChange={setSwitchState}
-					label="Switch"
+					label="Enable notifications"
 				/>
 				<Checkbox
 					checked={checkboxState}
@@ -108,6 +107,6 @@ export function FormControlsPage() {
 					maxValue={100}
 				/>
 			</Flex>
-		</Prose>
+		</Flex>
 	)
 }

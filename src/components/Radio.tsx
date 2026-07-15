@@ -2,7 +2,13 @@ import { createContext, useContext, useRef } from "react"
 import { AriaRadioGroupProps, useRadio, useRadioGroup } from "react-aria"
 import { RadioGroupState, useRadioGroupState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { flex } from "../tokens/layout"
+import { motion } from "../tokens/motion"
+import { radius } from "../tokens/radius"
+import { visuallyHidden } from "../tokens/visuallyHidden"
+import { Label, P } from "./Typography"
 
 const RadioOptionGroupContext = createContext<RadioGroupState | null>(null)
 
@@ -11,18 +17,7 @@ type RadioOptionGroupProps = AriaRadioGroupProps & {
 	children: React.ReactNode
 }
 
-const radioGroupClass = style({
-	display: "flex",
-	flexDirection: "column",
-	gap: "6px",
-	"& .radio-group-label": {
-		color: "var(--gray-11)",
-		fontSize: "0.75rem",
-		fontFamily: "system-ui, -apple-system",
-		letterSpacing: "0.02em",
-		lineHeight: "16px",
-	},
-})
+const radioGroupClass = style(flex({ direction: "column", gap: 3 }))
 
 export function RadioOptionGroup(props: RadioOptionGroupProps) {
 	const { label, children, ...radioGroupProps } = props
@@ -36,65 +31,56 @@ export function RadioOptionGroup(props: RadioOptionGroupProps) {
 	return (
 		<RadioOptionGroupContext.Provider value={state}>
 			<div className={className} {...groupProps}>
-				<span className="radio-group-label" {...labelProps}>
-					{label}
-				</span>
+				<Label {...labelProps}>{label}</Label>
 				{children}
 			</div>
 		</RadioOptionGroupContext.Provider>
 	)
 }
 
-const radioClass = style(focusRing("& .radio-input:focus-visible + .radio-toggle"), {
-	display: "flex",
-	flexDirection: "row",
-	alignItems: "center",
-	position: "relative",
-	width: "fit-content",
-	padding: "6px 0",
-	gap: "6px",
-	"& .radio-input": {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		margin: 0,
-		padding: 0,
-		opacity: 0.0001,
+const radioClass = style(
+	flex({ align: "center", gap: 3 }),
+	focusRing("& .radio-input:focus-visible + .radio-toggle"),
+	{
+		position: "relative",
+		width: "fit-content",
+		"&:hover .radio-toggle": {
+			backgroundColor: colors.gray[8],
+		},
+		"& .radio-input:checked + .radio-toggle": {
+			backgroundColor: colors.accent[9],
+		},
+		"& .radio-input:checked + .radio-toggle .radio-dot": {
+			transform: "scale(1)",
+		},
 	},
-	"& .radio-toggle": {
+)
+
+const radioToggleClass = style(
+	radius.circle,
+	motion.standard("background-color"),
+	{
 		pointerEvents: "none",
 		position: "relative",
-		height: "14px",
 		width: "14px",
-		borderRadius: "100%",
-		backgroundColor: "var(--gray-7)",
-		transition: "all 130ms ease-in-out",
+		height: "14px",
+		backgroundColor: colors.gray[7],
 	},
-	"& .radio-toggle::after": {
-		content: '""',
+)
+
+const radioDotClass = style(
+	radius.circle,
+	motion.standard("transform"),
+	{
 		position: "absolute",
 		top: "4px",
 		left: "4px",
 		width: "6px",
 		height: "6px",
-		borderRadius: "100%",
-		background: "var(--gray-3)",
+		backgroundColor: colors.gray[3],
 		transform: "scale(0)",
-		transition: "transform 130ms ease-in-out",
 	},
-	"& input:checked + .radio-toggle": {
-		backgroundColor: "var(--accent-color)",
-	},
-	"& input:checked + .radio-toggle::after": {
-		transform: "scale(1)",
-	},
-	"&:hover .radio-toggle": {
-		backgroundColor: "var(--gray-8)",
-	},
-	"&:hover input:checked + .radio-toggle": {
-		backgroundColor: "var(--accent-color)",
-	},
-})
+)
 
 type RadioOptionProps = {
 	value: string
@@ -110,12 +96,21 @@ export function RadioOption(props: RadioOptionProps) {
 	const ref = useRef<HTMLInputElement>(null)
 	const { inputProps, labelProps } = useRadio(props, state, ref)
 	const className = useStyles(radioClass)
+	const inputClassName = useStyles(visuallyHidden)
+	const toggleClassName = useStyles(radioToggleClass)
+	const dotClassName = useStyles(radioDotClass)
 
 	return (
 		<label className={className} {...labelProps}>
-			<input className="radio-input" ref={ref} {...inputProps} />
-			<span className="radio-toggle" />
-			<span>{props.children}</span>
+			<input
+				{...inputProps}
+				className={`${inputClassName} radio-input`}
+				ref={ref}
+			/>
+			<span className={`${toggleClassName} radio-toggle`}>
+				<span className={`${dotClassName} radio-dot`} />
+			</span>
+			<P>{props.children}</P>
 		</label>
 	)
 }

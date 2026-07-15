@@ -2,69 +2,56 @@ import { useRef } from "react"
 import { useSwitch } from "react-aria"
 import { ToggleState, useToggleState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { flex } from "../tokens/layout"
+import { motion } from "../tokens/motion"
+import { radius } from "../tokens/radius"
+import { visuallyHidden } from "../tokens/visuallyHidden"
+import { labelText } from "./Typography"
 
 const switchClass = style(
-	focusRing("& .switch-input:focus-visible + .switch-toggle::after"),
+	flex({ align: "center", gap: 3 }),
+	focusRing("& .switch-input:focus-visible + .switch-toggle"),
 	{
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
 		position: "relative",
 		width: "fit-content",
-		gap: "6px",
-		"& .switch-input": {
-			position: "absolute",
-			top: 0,
-			left: 0,
-			margin: 0,
-			padding: 0,
-			opacity: 0.0001,
+		"&:hover .switch-thumb": {
+			backgroundColor: colors.gray[2],
 		},
-		"& .switch-toggle": {
-			position: "relative",
-			width: "26px",
-			height: "16px",
-			padding: "1px",
+		"&:hover .switch-toggle": {
+			backgroundColor: colors.gray[8],
 		},
-		"& .switch-toggle::before": {
-			content: '""',
-			zIndex: 2,
-			position: "absolute",
-			top: "3.5px",
-			left: "4px",
-			display: "block",
-			width: "9px",
-			height: "9px",
-			borderRadius: "100%",
-			backgroundColor: "var(--gray-1)",
-			transition: "all 130ms ease-in-out",
+		"& .switch-input:checked + .switch-toggle": {
+			backgroundColor: colors.accent[9],
 		},
-		"&:hover .switch-toggle::before": {
-			backgroundColor: "var(--gray-2)",
+		"& .switch-input:checked + .switch-toggle .switch-thumb": {
+			transform: "translateX(10px)",
 		},
-		"& .switch-input:checked + .switch-toggle::before": {
-			left: "15px",
-		},
-		"& .switch-input:checked + .switch-toggle::after": {
-			backgroundColor: "var(--accent-color)",
-		},
-		"& .switch-toggle::after": {
-			content: '""',
-			position: "absolute",
-			display: "block",
-			width: "26px",
-			height: "14px",
-			borderRadius: "8px",
-			backgroundColor: "var(--gray-7)",
-			transition: "all 130ms ease-in-out",
-		},
-		"&:hover .switch-toggle::after": {
-			backgroundColor: "var(--gray-8)",
-		},
-		"&:hover .switch-input:checked + .switch-toggle::after": {
-			backgroundColor: "var(--accent-color)",
-		},
+	},
+)
+
+const switchToggleClass = style(
+	radius.pill,
+	motion.standard("background-color"),
+	{
+		position: "relative",
+		width: "24px",
+		height: "14px",
+		backgroundColor: colors.gray[7],
+	},
+)
+
+const switchThumbClass = style(
+	radius.circle,
+	motion.standard("background-color", "transform"),
+	{
+		position: "absolute",
+		top: "2px",
+		left: "2px",
+		width: "10px",
+		height: "10px",
+		backgroundColor: colors.gray[1],
 	},
 )
 
@@ -81,12 +68,22 @@ export function Switch(props: SwitchProps) {
 
 	const { inputProps } = useSwitch({ "aria-label": label }, state, ref)
 	const className = useStyles(switchClass)
+	const inputClassName = useStyles(visuallyHidden)
+	const toggleClassName = useStyles(switchToggleClass)
+	const thumbClassName = useStyles(switchThumbClass)
+	const labelClassName = useStyles(labelText)
 
 	return (
 		<label className={className}>
-			<input {...inputProps} className="switch-input" ref={ref} />
-			<span className="switch-toggle"></span>
-			<span className="switch-label">{props.label}</span>
+			<input
+				{...inputProps}
+				className={`${inputClassName} switch-input`}
+				ref={ref}
+			/>
+			<span className={`${toggleClassName} switch-toggle`}>
+				<span className={`${thumbClassName} switch-thumb`} />
+			</span>
+			<span className={labelClassName}>{label}</span>
 		</label>
 	)
 }
