@@ -1,5 +1,6 @@
 import { style, type CSSProperties } from "purse-styles"
 import { memoize } from "../utils/memoize"
+import { colors } from "./colors"
 
 export type BorderSide = "top" | "right" | "bottom" | "left"
 export type BorderColor = "border" | "outline" | "accent"
@@ -7,7 +8,7 @@ export type BorderColor = "border" | "outline" | "accent"
 const borderColorValues: Record<BorderColor, string> = {
 	border: "var(--border)",
 	outline: "var(--outline)",
-	accent: "var(--accent-8)",
+	accent: colors.accent[8],
 }
 
 export const border = memoize((sides: BorderSide[], color: BorderColor) => {

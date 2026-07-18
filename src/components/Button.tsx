@@ -3,6 +3,7 @@ import { useId } from "react-aria"
 import { style, useStyles } from "purse-styles"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
+import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { spacing } from "../tokens/spacing"
@@ -26,18 +27,18 @@ const buttonBaseClass = style(
 
 const buttonClass = style(buttonBaseClass, {
 	background:
-		"linear-gradient(var(--gray-3), var(--gray-2)), radial-gradient(var(--gray-3), var(--gray-2))",
+		`linear-gradient(${colors.gray[3]}, ${colors.gray[2]}), radial-gradient(${colors.gray[3]}, ${colors.gray[2]})`,
 	boxShadow:
-		"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, var(--gray-A3) 0px 0.5px 0px 0px inset, var(--gray-7) 0px 0px 0px 1px inset",
+		`rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, ${colors.grayAlpha[3]} 0px 0.5px 0px 0px inset, ${colors.gray[7]} 0px 0px 0px 1px inset`,
 	"&:hover": {
 		background:
-			"linear-gradient(var(--gray-5), var(--gray-4)), radial-gradient(var(--gray-5), var(--gray-4))",
+			`linear-gradient(${colors.gray[5]}, ${colors.gray[4]}), radial-gradient(${colors.gray[5]}, ${colors.gray[4]})`,
 		boxShadow:
-			"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, var(--gray-A3) 0px 0.5px 0px 0px inset, var(--gray-8) 0px 0px 0px 1px inset",
+			`rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, ${colors.grayAlpha[3]} 0px 0.5px 0px 0px inset, ${colors.gray[8]} 0px 0px 0px 1px inset`,
 	},
 	"&:active": {
 		background:
-			"linear-gradient(var(--gray-6), var(--gray-4)), radial-gradient(var(--gray-6), var(--gray-4))",
+			`linear-gradient(${colors.gray[6]}, ${colors.gray[4]}), radial-gradient(${colors.gray[6]}, ${colors.gray[4]})`,
 	},
 })
 
@@ -88,18 +89,18 @@ export function Button(props: ButtonProps) {
 const actionButtonClass = style(buttonBaseClass, {
 	color: "white",
 	background:
-		"linear-gradient(var(--accent-A8), var(--accent-A7)), linear-gradient(var(--gray-3), var(--gray-2)), radial-gradient(var(--gray-3), var(--gray-2))",
+		`linear-gradient(${colors.accentAlpha[8]}, ${colors.accentAlpha[7]}), linear-gradient(${colors.gray[3]}, ${colors.gray[2]}), radial-gradient(${colors.gray[3]}, ${colors.gray[2]})`,
 	boxShadow:
-		"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, var(--accent-7) 0px 0px 0px 1px inset",
+		`rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, ${colors.accent[7]} 0px 0px 0px 1px inset`,
 	"&:hover": {
 		background:
-			"linear-gradient(var(--accent-A9), var(--accent-A8)), linear-gradient(var(--gray-4), var(--gray-3)), radial-gradient(var(--gray-4), var(--gray-3))",
+			`linear-gradient(${colors.accentAlpha[9]}, ${colors.accentAlpha[8]}), linear-gradient(${colors.gray[4]}, ${colors.gray[3]}), radial-gradient(${colors.gray[4]}, ${colors.gray[3]})`,
 		boxShadow:
-			"rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, var(--accent-8) 0px 0px 0px 1px inset",
+			`rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, ${colors.accent[8]} 0px 0px 0px 1px inset`,
 	},
 	"&:active": {
 		background:
-			"linear-gradient(var(--accent-A10), var(--accent-A9)), linear-gradient(var(--gray-5), var(--gray-4)), radial-gradient(var(--gray-5), var(--gray-4))",
+			`linear-gradient(${colors.accentAlpha[10]}, ${colors.accentAlpha[9]}), linear-gradient(${colors.gray[5]}, ${colors.gray[4]}), radial-gradient(${colors.gray[5]}, ${colors.gray[4]})`,
 	},
 })
 

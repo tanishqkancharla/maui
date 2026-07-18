@@ -1,5 +1,6 @@
 import React from "react"
 import { FuzzyMatch } from "../utils/fuzzyMatch"
+import { colors } from "../tokens/colors"
 
 export function FuzzyString(props: { match: FuzzyMatch }) {
 	const { match } = props
@@ -9,7 +10,7 @@ export function FuzzyString(props: { match: FuzzyMatch }) {
 			{match.map((item, i) => {
 				if ("match" in item) {
 					return (
-						<span style={{ color: "var(--accent-11)" }} key={i}>
+						<span style={{ color: colors.accent[11] }} key={i}>
 							{item.match}
 						</span>
 					)

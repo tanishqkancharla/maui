@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { motion } from "../tokens/motion"
 
 const GRID_SIZE = 3
@@ -133,7 +134,7 @@ const variantStyles = {
 		color: "var(--accent-color)",
 	}),
 	muted: style({
-		color: "var(--gray-11)",
+		color: colors.gray[11],
 	}),
 } as const
 

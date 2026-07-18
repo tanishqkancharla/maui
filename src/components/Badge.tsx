@@ -1,5 +1,6 @@
 import type React from "react"
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { radius } from "../tokens/radius"
 
 type BadgeProps = React.HTMLAttributes<HTMLSpanElement>
@@ -21,8 +22,8 @@ const badgeClass = style(radius.pill, {
 	minWidth: "20px",
 	height: "18px",
 	paddingInline: "6px",
-	backgroundColor: "var(--gray-A3)",
-	color: "var(--gray-11)",
+	backgroundColor: colors.grayAlpha[3],
+	color: colors.gray[11],
 	fontFamily:
 		'"SF Compact", "SF Compact Text", "SF Pro Text", system-ui, sans-serif',
 	fontSize: "12px",

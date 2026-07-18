@@ -1,4 +1,5 @@
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { radius } from "../tokens/radius"
 import { text, type TextSize } from "../tokens/text"
 import { memoize } from "../utils/memoize"
@@ -23,7 +24,7 @@ export function Avatar({ name, size = "sm", className }: AvatarProps) {
 }
 
 const avatarPalette = [
-	{ background: "var(--accent-4)", color: "var(--accent-11)" },
+	{ background: colors.accent[4], color: colors.accent[11] },
 	{
 		background: "var(--avatar-green-background)",
 		color: "var(--avatar-green-foreground)",

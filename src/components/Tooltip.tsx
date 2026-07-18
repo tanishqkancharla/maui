@@ -9,6 +9,7 @@ import {
 } from "react-aria"
 import { TooltipTriggerState, useTooltipTriggerState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { radius } from "../tokens/radius"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
@@ -254,7 +255,7 @@ const tooltipClass = style(
 	{
 		zIndex: 1000,
 		maxWidth: "240px",
-		background: "var(--gray-3)",
+		background: colors.gray[3],
 		boxShadow: "var(--shadow-middle), 0 0 0 1px var(--outline)",
 	},
 )

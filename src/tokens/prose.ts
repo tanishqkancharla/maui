@@ -1,5 +1,6 @@
 import { style } from "purse-styles"
 import { memoize } from "../utils/memoize"
+import { colors } from "./colors"
 import { fontFamily } from "./text"
 
 /**
@@ -78,9 +79,9 @@ const metrics: Record<ProseSize, ProseMetric> = {
 
 // Heading weights follow Tailwind's descending scale, capped at Maui's
 // heaviest weight (700).
-const headingColor = "var(--gray-12)"
-const bodyColor = "var(--gray-12)"
-const quoteColor = "var(--gray-11)"
+const headingColor = colors.gray[12]
+const bodyColor = colors.gray[12]
+const quoteColor = colors.gray[11]
 
 const px = (value: number) => `${value}px`
 

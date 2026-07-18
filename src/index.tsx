@@ -9,6 +9,7 @@ import {
 import { Maui } from "./pages/Maui"
 import { ThemeProvider } from "./theme/ThemeContext"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
+import { colors } from "./tokens/colors"
 import { baseTextStyle } from "./tokens/text"
 
 Object.defineProperty(Array.prototype, "last", {
@@ -29,8 +30,8 @@ const appStyles = style({
 	padding: "32px",
 	margin: "0 auto",
 	maxWidth: "1040px",
-	background: "var(--gray-1)",
-	color: "var(--gray-12)",
+	background: colors.gray[1],
+	color: colors.gray[12],
 	overflow: "hidden",
 })
 
@@ -39,7 +40,7 @@ function GlobalStyles() {
 		"html, body",
 		{
 			margin: 0,
-			backgroundColor: "var(--gray-1)",
+			backgroundColor: colors.gray[1],
 			...baseTextStyle,
 		},
 		[],

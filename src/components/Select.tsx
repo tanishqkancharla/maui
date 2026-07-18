@@ -14,6 +14,7 @@ import {
 	type ValidationResult,
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
@@ -41,18 +42,18 @@ const triggerClass = style(
 		minWidth: 0,
 		padding: "6px 8px",
 		border: "1px solid var(--outline)",
-		background: "var(--gray-3)",
-		color: "var(--gray-12)",
+		background: colors.gray[3],
+		color: colors.gray[12],
 		textAlign: "left",
 		"&:hover": {
-			background: "var(--gray-4)",
+			background: colors.gray[4],
 		},
 		"&[data-pressed]": {
-			background: "var(--gray-5)",
+			background: colors.gray[5],
 		},
 		"&[data-disabled]": {
-			color: "var(--gray-8)",
-			background: "var(--gray-2)",
+			color: colors.gray[8],
+			background: colors.gray[2],
 		},
 		"&[data-invalid]": {
 			borderColor: "light-dark(#ce2c31, #e5484d)",
@@ -67,7 +68,7 @@ const valueClass = style({
 	textOverflow: "ellipsis",
 	whiteSpace: "nowrap",
 	"&[data-placeholder]": {
-		color: "var(--gray-8)",
+		color: colors.gray[8],
 		fontStyle: "italic",
 	},
 })
@@ -77,7 +78,7 @@ const chevronClass = style(motion.standard("transform"), {
 	width: "14px",
 	height: "14px",
 	marginLeft: "6px",
-	color: "var(--gray-10)",
+	color: colors.gray[10],
 	"[data-open] &": {
 		transform: "rotate(180deg)",
 	},
@@ -87,7 +88,7 @@ const popoverClass = style(radius.sm, {
 	minWidth: "var(--trigger-width)",
 	maxHeight: "280px",
 	overflow: "hidden",
-	background: "var(--gray-2)",
+	background: colors.gray[2],
 	boxShadow: "var(--shadow-strong), 0 0 0 1px var(--outline)",
 })
 
@@ -102,26 +103,26 @@ const itemClass = style(menuItem, {
 	paddingRight: "28px",
 	outline: "none",
 	"&[data-focused]": {
-		background: "var(--gray-A4)",
+		background: colors.grayAlpha[4],
 	},
 	"&[data-pressed]": {
-		background: "var(--gray-A5)",
+		background: colors.grayAlpha[5],
 	},
 	"&[data-selected]": {
-		background: "var(--accent-A4)",
+		background: colors.accentAlpha[4],
 	},
 	"&[data-selected][data-focused]": {
-		background: "var(--accent-A5)",
+		background: colors.accentAlpha[5],
 	},
 	"&[data-selected]::after": {
 		content: '"✓"',
 		position: "absolute",
 		right: "8px",
-		color: "var(--accent-11)",
+		color: colors.accent[11],
 		fontWeight: 600,
 	},
 	"&[data-disabled]": {
-		color: "var(--gray-8)",
+		color: colors.gray[8],
 	},
 })
 

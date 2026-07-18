@@ -1,6 +1,7 @@
 import type React from "react"
 import { style } from "purse-styles"
 import { memoize } from "../utils/memoize"
+import { colors } from "./colors"
 
 export type TextSize = "2xs" | "xs" | "sm" | "md" | "lg" | "xl"
 export type TextWeight = 400 | 500 | 600 | 700
@@ -50,11 +51,8 @@ const textSizeStyles: Record<
 
 export const baseTextStyle = {
 	...textSizeStyles.md,
-	fontWeight: 400,
-	color: "var(--gray-12)",
-} as const satisfies Omit<React.CSSProperties, "fontWeight" | "color"> & {
-	fontWeight: 400
-	color: "var(--gray-12)"
+	fontWeight: 400 as const,
+	color: colors.gray[12],
 }
 
 export const monospace = style({
@@ -65,9 +63,9 @@ export const monospace = style({
 })
 
 const textColorStyles: Record<TextColor, React.CSSProperties["color"]> = {
-	lowContrast: "var(--gray-11)",
-	highContrast: "var(--gray-12)",
-	accent: "var(--accent-11)",
+	lowContrast: colors.gray[11],
+	highContrast: colors.gray[12],
+	accent: colors.accent[11],
 	onAccent: "white",
 }
 

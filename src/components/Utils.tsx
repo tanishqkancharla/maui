@@ -1,5 +1,6 @@
 import { style, useStyles } from "purse-styles"
 import React from "react"
+import { colors } from "../tokens/colors"
 
 type PaddingProps = {
 	top?: number
@@ -71,7 +72,7 @@ export function Spacer() {
 
 const hrClass = style({
 	border: "none",
-	borderTop: "1.5px solid var(--gray-5)",
+	borderTop: `1.5px solid ${colors.gray[5]}`,
 	marginTop: "1.5rem",
 	marginBottom: "1.5rem",
 	width: "100%",

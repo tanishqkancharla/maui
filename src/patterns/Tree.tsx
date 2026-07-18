@@ -9,6 +9,7 @@ import {
 	type TreeProps,
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { radius } from "../tokens/radius"
 import { text } from "../tokens/text"
@@ -220,7 +221,7 @@ function Connector({
 		>
 			<path
 				d={`${trunk} ${diagonal} ${tail}`}
-				stroke="var(--gray-7)"
+				stroke={colors.gray[7]}
 				strokeWidth={1}
 				strokeLinejoin="round"
 				strokeLinecap="round"
@@ -290,14 +291,14 @@ const treeItemClass = style(focusRing(), radius.sm, {
 	outline: "none",
 	cursor: "default",
 	"&[data-selected='true']": {
-		backgroundColor: "var(--gray-A4)",
-		color: "var(--accent-11)",
+		backgroundColor: colors.grayAlpha[4],
+		color: colors.accent[11],
 	},
 	"&[data-focus-visible='true']": {
-		backgroundColor: "var(--gray-A3)",
+		backgroundColor: colors.grayAlpha[3],
 	},
 	"&[data-hovered='true']": {
-		backgroundColor: "var(--gray-A3)",
+		backgroundColor: colors.grayAlpha[3],
 	},
 })
 
@@ -318,7 +319,7 @@ const ancestorCellClass = style({
 		top: 0,
 		bottom: 0,
 		left: "50%",
-		borderLeft: "1px solid var(--gray-7)",
+		borderLeft: `1px solid ${colors.gray[7]}`,
 	},
 })
 

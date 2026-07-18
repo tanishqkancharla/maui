@@ -1,5 +1,6 @@
 import { style, useStyles } from "purse-styles"
 import React from "react"
+import { colors } from "../tokens/colors"
 import { prose } from "../tokens/prose"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
@@ -136,7 +137,7 @@ export function Ol(props: { children: React.ReactNode }) {
 
 const liClass = style({
 	"&::marker": {
-		color: "var(--gray-11)",
+		color: colors.gray[11],
 	},
 })
 

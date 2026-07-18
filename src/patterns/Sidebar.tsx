@@ -2,6 +2,7 @@ import type React from "react"
 import { useId } from "react"
 import { style, useStyles } from "purse-styles"
 import { menuItem } from "../components/Menu"
+import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { spacing } from "../tokens/spacing"
@@ -97,7 +98,7 @@ const sidebarClass = style(
 	{
 		width: "240px",
 		minWidth: "240px",
-		backgroundColor: "var(--gray-2)",
+		backgroundColor: colors.gray[2],
 		boxShadow: "var(--shadow-minimal-flat)",
 	}
 )
@@ -135,8 +136,8 @@ const itemClass = style(menuItem, {
 	textAlign: "left",
 	backgroundColor: "transparent",
 	"&[aria-pressed='true']": {
-		backgroundColor: "var(--gray-A5)",
-		color: "var(--accent-11)",
+		backgroundColor: colors.grayAlpha[5],
+		color: colors.accent[11],
 	},
 })
 
@@ -144,7 +145,7 @@ const iconWrapClass = style(radius.sm, {
 	display: "grid",
 	placeItems: "center",
 	flexShrink: 0,
-	color: "var(--gray-11)",
+	color: colors.gray[11],
 	width: "20px",
 	height: "20px",
 	marginBlock: "-2px",
@@ -152,7 +153,7 @@ const iconWrapClass = style(radius.sm, {
 })
 
 const iconWrapActiveClass = style({
-	color: "var(--accent-11)",
+	color: colors.accent[11],
 })
 
 const iconClass = style({

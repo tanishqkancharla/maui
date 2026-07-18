@@ -1,4 +1,5 @@
 import React from "react"
+import { colors } from "../tokens/colors"
 
 function Search(props: React.SVGProps<SVGSVGElement>) {
 	return (
@@ -37,7 +38,7 @@ function CircleX(props: React.SVGProps<SVGSVGElement>) {
 		>
 			<circle cx="12" cy="12" r="9" fill="currentColor" />
 			<path
-				stroke="var(--gray-3)"
+				stroke={colors.gray[3]}
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				strokeWidth={2}

@@ -3,6 +3,7 @@ import { style, useStyles } from "purse-styles"
 import { Avatar } from "../components/Avatar"
 import { Prose } from "../components/Prose"
 import { P } from "../components/Typography"
+import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { shadowTokens } from "../tokens/shadows"
@@ -162,7 +163,7 @@ const messageClass = style(
 	shadowTokens.minimalFlat,
 	spacing.padding({ all: 8 }),
 	{
-		backgroundColor: "var(--gray-2)",
+		backgroundColor: colors.gray[2],
 		minWidth: 0,
 	}
 )
