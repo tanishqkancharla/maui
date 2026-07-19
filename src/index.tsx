@@ -9,6 +9,7 @@ import {
 import { Maui } from "./pages/Maui"
 import { ThemeProvider } from "./theme/ThemeContext"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
+import { background } from "./tokens/background"
 import { colors } from "./tokens/colors"
 import { baseTextStyle } from "./tokens/text"
 
@@ -24,13 +25,12 @@ Object.defineProperty(Array.prototype, "first", {
 	},
 })
 
-const appStyles = style({
+const appStyles = style(background.app, {
 	width: "100vw",
 	height: "100vh",
 	padding: "32px",
 	margin: "0 auto",
 	maxWidth: "1040px",
-	background: colors.gray[1],
 	color: colors.gray[12],
 	overflow: "hidden",
 })

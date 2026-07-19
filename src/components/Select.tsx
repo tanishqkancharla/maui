@@ -15,6 +15,7 @@ import {
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
 import { colors } from "../tokens/colors"
+import { border, borderColor } from "../tokens/borders"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
@@ -34,6 +35,7 @@ const triggerClass = style(
 	focusRing(),
 	motion.standard("background", "border-color"),
 	radius.sm,
+	border([], "outline"),
 	{
 		display: "flex",
 		alignItems: "center",
@@ -41,7 +43,6 @@ const triggerClass = style(
 		height: "28px",
 		minWidth: 0,
 		padding: "6px 8px",
-		border: "1px solid var(--outline)",
 		background: colors.gray[3],
 		color: colors.gray[12],
 		textAlign: "left",
@@ -89,7 +90,7 @@ const popoverClass = style(radius.sm, {
 	maxHeight: "280px",
 	overflow: "hidden",
 	background: colors.gray[2],
-	boxShadow: "var(--shadow-strong), 0 0 0 1px var(--outline)",
+	boxShadow: `var(--shadow-strong), 0 0 0 1px ${borderColor.outline}`,
 })
 
 const listBoxClass = style(menu, {

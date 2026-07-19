@@ -1,4 +1,5 @@
 import { style } from "purse-styles"
+import { borderColor } from "./borders"
 
 export const shadowTokens = {
 	thin: style({ boxShadow: "var(--shadow-thin)" }),
@@ -8,11 +9,11 @@ export const shadowTokens = {
 	strong: style({ boxShadow: "var(--shadow-strong)" }),
 	modalSmall: style({ boxShadow: "var(--shadow-modal-small)" }),
 	panelFocused: style({ boxShadow: "var(--shadow-panel-focused)" }),
-	border: style({ boxShadow: "0 0 0 1px var(--border)" }),
+	border: style({ boxShadow: `0 0 0 1px ${borderColor.border}` }),
 	bottomBorder: style({
-		boxShadow: "inset 0 -1.5px 0 var(--border)",
+		boxShadow: `inset 0 -1.5px 0 ${borderColor.border}`,
 	}),
 	bottomBorderThin: style({
-		boxShadow: "inset 0 -1px 0 var(--border)",
+		boxShadow: `inset 0 -1px 0 ${borderColor.border}`,
 	}),
 } as const

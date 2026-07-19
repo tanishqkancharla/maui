@@ -11,21 +11,21 @@ import {
 } from "react-aria"
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { border, borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { text } from "../tokens/text"
 import { focusRing } from "../tokens/focusRing"
+import { text } from "../tokens/text"
 import { Icons } from "./Icons"
 
 const inputText = text("sm", 400, "highContrast")
 
-const inputClass = style(inputText, focusRing(), {
+const inputClass = style(inputText, focusRing(), border([], "outline"), {
 	background: colors.gray[3],
 	width: "100%",
 	color: colors.gray[12],
 	padding: "6px 8px",
 	borderRadius: "4px",
 	height: "28px",
-	border: "1px solid var(--outline)",
 	transition: "border-color 80ms ease-in-out",
 	"&:hover": {
 		background: colors.gray[4],
@@ -125,7 +125,7 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 		placeItems: "center",
 		justifyContent: "center",
 		width: "24px",
-		border: "1px solid var(--outline)",
+		border: `1px solid ${borderColor.outline}`,
 		borderLeft: "none",
 		background: colors.gray[3],
 		color: colors.gray[11],
