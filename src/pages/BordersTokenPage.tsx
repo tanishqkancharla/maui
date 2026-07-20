@@ -7,6 +7,7 @@ import { H2, H3, P } from "../components/Typography"
 import { border, type BorderColor, type BorderSide } from "../tokens/borders"
 import { radius } from "../tokens/radius"
 
+import { colors } from "../tokens/colors"
 const borderExamples = [
 	{
 		label: 'border([], "border")',
@@ -81,10 +82,10 @@ export function BordersTokenPage() {
 							<code>"border" | "outline" | "accent"</code>
 						</TableCell>
 						<TableCell>
-							<code>border</code> is <code>var(--border)</code> (foreground at
-							5%), <code>outline</code> is <code>var(--outline)</code>{" "}
-							(foreground at 10%), <code>accent</code> is{" "}
-							<code>var(--accent-8)</code>.
+							<code>border</code> is <code>borderColor.border</code>{" "}
+							(foreground at 5%), <code>outline</code> is{" "}
+							<code>borderColor.outline</code> (foreground at 10%),{" "}
+							<code>accent</code> is <code>colors.accent[8]</code>.
 						</TableCell>
 					</TableRow>
 				</TableBody>
@@ -170,11 +171,11 @@ function BorderExample(props: {
 			),
 		radius.md,
 		style({
-			background: "var(--gray-2)",
+			background: colors.gray[2],
 			padding: "16px",
 			textAlign: "center",
 			fontSize: "12px",
-			color: "var(--gray-11)",
+			color: colors.gray[11],
 		}),
 	)
 
@@ -193,8 +194,8 @@ function SingleEdgeExample() {
 	const className = useStyles(
 		border(["bottom"], "border"),
 		style({
-			background: "var(--gray-2)",
-			color: "var(--gray-12)",
+			background: colors.gray[2],
+			color: colors.gray[12],
 			padding: "16px",
 		}),
 	)

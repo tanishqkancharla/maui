@@ -6,6 +6,7 @@ import { H2 } from "../components/Typography"
 import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 
+import { colors } from "../tokens/colors"
 export function MenuPage() {
 	const [selectedMenuItem, setSelectedMenuItem] = useState("one")
 	const menuPanelClassName = useStyles(menuPanelClass)
@@ -33,6 +34,6 @@ export function MenuPage() {
 
 const menuPanelClass = style(shadow.border, spacing.padding({ all: 2 }), {
 	maxWidth: "240px",
-	background: "var(--gray-1)",
+	background: colors.gray[1],
 	borderRadius: "6px",
 })

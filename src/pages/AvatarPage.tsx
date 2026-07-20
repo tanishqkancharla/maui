@@ -5,6 +5,7 @@ import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import type { TextSize } from "../tokens/text"
 
+import { colors } from "../tokens/colors"
 const sizes: TextSize[] = ["2xs", "xs", "sm", "md", "lg", "xl"]
 const names = ["Maya Chen", "Noah Williams", "Sofia Patel", "Liam Garcia"]
 
@@ -26,7 +27,7 @@ export function AvatarPage() {
 							column
 							gap={6}
 							alignItems="center"
-							style={{ color: "var(--gray-11)" }}
+							style={{ color: colors.gray[11] }}
 						>
 							<Avatar name="Maya Chen" size={size} />
 							<code>{size}</code>

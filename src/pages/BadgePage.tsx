@@ -4,6 +4,7 @@ import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
+import { colors } from "../tokens/colors"
 export function BadgePage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -28,8 +29,8 @@ export function BadgePage() {
 			<Panel>
 				<Badge
 					style={{
-						backgroundColor: "var(--accent-4)",
-						color: "var(--accent-11)",
+						backgroundColor: colors.accent[4],
+						color: colors.accent[11],
 					}}
 				>
 					Featured

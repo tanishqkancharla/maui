@@ -2,6 +2,7 @@ import { Prose } from "../components/Prose"
 import { H2 } from "../components/Typography"
 import { Divider, Flex, Gap, Padding, Spacer } from "../components/Utils"
 
+import { borderColor } from "../tokens/borders"
 export function LayoutUtilitiesPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -9,7 +10,7 @@ export function LayoutUtilitiesPage() {
 			<Padding xy={12}>
 				<div
 					style={{
-						border: "1px solid var(--outline)",
+						border: `1px solid ${borderColor.outline}`,
 						borderRadius: "6px",
 						padding: "12px",
 					}}

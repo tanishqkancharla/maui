@@ -9,6 +9,8 @@ import { H2, H3, P } from "../components/Typography"
 import { motion } from "../tokens/motion"
 import { shadowVars } from "../tokens/shadow"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 const animatedCardClass = style(
 	motion.standard("transform", "box-shadow", "background", "border-color"),
 	{
@@ -75,8 +77,8 @@ const animatedCard = style(
 	className={useStyles(animatedCard)}
 	style={{
 		transform: isActive ? "translateX(96px)" : "translateX(0)",
-		background: isActive ? "var(--accent-A4)" : "var(--gray-3)",
-		borderColor: isActive ? "var(--accent-8)" : "var(--outline)",
+		background: isActive ? colors.accentAlpha[4] : colors.gray[3],
+		borderColor: isActive ? colors.accent[8] : borderColor.outline,
 		boxShadow: isActive ? shadowVars.middle : shadowVars.thin,
 	}}
 />`}</CodeBlock>
@@ -90,8 +92,8 @@ const animatedCard = style(
 				<div
 					className={animatedCardClassName}
 					style={{
-						background: isActive ? "var(--accent-A4)" : "var(--gray-3)",
-						borderColor: isActive ? "var(--accent-8)" : "var(--outline)",
+						background: isActive ? colors.accentAlpha[4] : colors.gray[3],
+						borderColor: isActive ? colors.accent[8] : borderColor.outline,
 						boxShadow: isActive ? shadowVars.middle : shadowVars.thin,
 						transform: isActive ? "translateX(96px)" : "translateX(0)",
 					}}

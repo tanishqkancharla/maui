@@ -6,6 +6,8 @@ import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 export function ButtonsPage() {
 	const [dialogOpen, setDialogOpen] = useState(false)
 	const [overlayOpen, setOverlayOpen] = useState(false)
@@ -42,8 +44,8 @@ export function ButtonsPage() {
 					>
 						<div
 							style={{
-								background: "var(--gray-2)",
-								border: "1px solid var(--outline)",
+								background: colors.gray[2],
+								border: `1px solid ${borderColor.outline}`,
 								borderRadius: "6px",
 								padding: "24px",
 							}}

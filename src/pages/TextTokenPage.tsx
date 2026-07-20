@@ -6,6 +6,8 @@ import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { monospace, text, type TextSize } from "../tokens/text"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 export function TextTokenPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -140,7 +142,7 @@ function SizeExample(props: { size: TextSize }) {
 
 	return (
 		<div style={{ display: "grid", gap: "6px" }}>
-			<code style={{ color: "var(--gray-10)" }}>
+			<code style={{ color: colors.gray[10] }}>
 				{props.size} · {textSizeDetails[props.size].fontSize} /{" "}
 				{textSizeDetails[props.size].lineHeight}
 			</code>
@@ -172,8 +174,8 @@ function MonoExample() {
 }
 
 const exampleCardClass = {
-	background: "var(--gray-3)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[3],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
 } as const

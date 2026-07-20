@@ -5,6 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } fro
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 export function FlexTokenPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -116,7 +118,7 @@ export function FlexTokenPage() {
 					<Flex row alignItems="center" gap={8}>
 						<span>between</span>
 						<div style={{ flex: "1 1 auto" }} />
-						<span style={{ color: "var(--accent-11)" }}>Action</span>
+						<span style={{ color: colors.accent[11] }}>Action</span>
 					</Flex>
 				</div>
 			</Panel>
@@ -128,8 +130,8 @@ function Pill(props: { children: string }) {
 	return (
 		<span
 			style={{
-				background: "var(--gray-4)",
-				border: "1px solid var(--outline)",
+				background: colors.gray[4],
+				border: `1px solid ${borderColor.outline}`,
 				borderRadius: "999px",
 				padding: "4px 8px",
 			}}
@@ -140,14 +142,14 @@ function Pill(props: { children: string }) {
 }
 
 const exampleCardStyle = {
-	background: "var(--gray-3)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[3],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
 } as const
 
 const sampleTitleStyle = {
-	color: "var(--gray-12)",
+	color: colors.gray[12],
 	fontWeight: 600,
 	marginTop: "20px",
 	marginBottom: "8px",

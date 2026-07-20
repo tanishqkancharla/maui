@@ -49,7 +49,7 @@ const sliderClass = style(focusRing("& .slider-thumb:has(input:focus-visible)"),
 		left: 0,
 		height: "4px",
 		borderRadius: "999px",
-		background: "var(--accent-color)",
+		background: `var(--accent-color)`,
 	},
 	"& .slider-thumb": {
 		position: "absolute",

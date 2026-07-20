@@ -86,7 +86,7 @@ export function Label(
 // Structural blockquote styling (border, padding, margin reset) is shared;
 // only the type scale differs between app and prose treatments.
 const blockquoteFrameClass = style({
-	borderLeft: "2px solid var(--accent-color)",
+	borderLeft: `2px solid var(--accent-color)`,
 	paddingLeft: "12px",
 	fontStyle: "italic",
 	// Browsers apply a default horizontal margin to <blockquote>; this is the

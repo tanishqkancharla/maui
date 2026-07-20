@@ -12,6 +12,7 @@ import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
+import { colors } from "../tokens/colors"
 export function TooltipPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -111,7 +112,7 @@ const toolbarClass = style(
 	spacing.padding({ all: 1 }),
 	{
 		width: "fit-content",
-		background: "var(--gray-3)",
+		background: colors.gray[3],
 	},
 )
 
@@ -119,7 +120,7 @@ const toolbarDividerClass = style({
 	width: "1px",
 	height: "18px",
 	marginInline: "4px",
-	background: "var(--gray-6)",
+	background: colors.gray[6],
 })
 
 const toolbarButtonClass = style(text("md", 400, "lowContrast"), radius.sm, {
@@ -135,7 +136,7 @@ const toolbarButtonClass = style(text("md", 400, "lowContrast"), radius.sm, {
 		height: "20px",
 	},
 	"&:hover": {
-		backgroundColor: "var(--gray-A4)",
-		color: "var(--gray-12)",
+		backgroundColor: colors.grayAlpha[4],
+		color: colors.gray[12],
 	},
 })

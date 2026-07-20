@@ -6,9 +6,11 @@ import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { focusRing } from "../tokens/focusRing"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 const focusedControlClass = style(focusRing(), {
-	background: "var(--gray-3)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[3],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "4px",
 	padding: "8px 12px",
 })
@@ -56,8 +58,8 @@ export function FocusRingTokenPage() {
 			<CodeBlock lang="typescript">{`const focusedControl = style(
 	focusRing(),
 	{
-		background: "var(--gray-3)",
-		border: "1px solid var(--outline)",
+		background: colors.gray[3],
+		border: "1px solid ${borderColor.outline}",
 		borderRadius: "4px",
 		padding: "8px 12px",
 	},

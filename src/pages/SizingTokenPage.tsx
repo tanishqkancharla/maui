@@ -7,6 +7,8 @@ import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { sizingTokens } from "../tokens/sizing"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 export function SizingTokenPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -94,7 +96,7 @@ function IconExample() {
 		<div style={exampleCardStyle}>
 			<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
 				<Icons.Search className={className} />
-				<span style={{ color: "var(--gray-12)", lineHeight: 1.4 }}>
+				<span style={{ color: colors.gray[12], lineHeight: 1.4 }}>
 					Icon aligns with text
 				</span>
 			</div>
@@ -123,25 +125,25 @@ function ContentWidthExample() {
 }
 
 const iconClass = {
-	color: "var(--accent-11)",
+	color: colors.accent[11],
 } as const
 
 const fullWidthClass = {
 	height: "28px",
-	background: "var(--accent-9)",
+	background: colors.accent[9],
 	borderRadius: "4px",
 } as const
 
 const contentWidthClass = {
 	height: "28px",
-	background: "var(--gray-4)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[4],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "4px",
 } as const
 
 const exampleCardStyle = {
-	background: "var(--gray-3)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[3],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
 } as const
