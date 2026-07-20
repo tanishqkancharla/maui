@@ -1,12 +1,11 @@
 import { defineVars, style } from "purse-styles"
+import { DARK_THEME } from "../theme/dataTheme"
 import { borderColor } from "./borders"
-
-const DARK = "@media (prefers-color-scheme: dark)"
 
 const shadowParams = defineVars({
 	foregroundRgb: {
 		default: "32, 32, 32",
-		[DARK]: "238, 238, 238",
+		[DARK_THEME]: "238, 238, 238",
 	},
 	blurOpacity: "0.12",
 })

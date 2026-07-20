@@ -1,12 +1,11 @@
 import { defineVars, style } from "purse-styles"
+import { DARK_THEME } from "../theme/dataTheme"
 import { colors } from "./colors"
-
-const DARK = "@media (prefers-color-scheme: dark)"
 
 export const backgroundColor = defineVars({
 	app: {
 		default: "#ffffff",
-		[DARK]: colors.gray[1],
+		[DARK_THEME]: colors.gray[1],
 	},
 })
 
