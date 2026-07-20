@@ -20,12 +20,12 @@ export function AvatarPage() {
 
 			<H3>Sizes</H3>
 			<Panel>
-				<Flex row alignItems="center" gap={16}>
+				<Flex row alignItems="center" gap={8}>
 					{sizes.map((size) => (
 						<Flex
 							key={size}
 							column
-							gap={6}
+							gap={3}
 							alignItems="center"
 							style={{ color: colors.gray[11] }}
 						>
@@ -38,9 +38,9 @@ export function AvatarPage() {
 
 			<H3>Name colors</H3>
 			<Panel>
-				<Flex row alignItems="center" gap={20} style={{ flexWrap: "wrap" }}>
+				<Flex row alignItems="center" gap={12} style={{ flexWrap: "wrap" }}>
 					{names.map((name) => (
-						<Flex key={name} row alignItems="center" gap={8}>
+						<Flex key={name} row alignItems="center" gap={4}>
 							<Avatar name={name} size="lg" />
 							<span>{name}</span>
 						</Flex>

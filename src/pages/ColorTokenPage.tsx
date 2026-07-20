@@ -52,11 +52,11 @@ export function ColorTokenPage() {
 				</div>
 			</Panel>
 
-			<Flex row gap={40} style={{ alignItems: "flex-start", flexWrap: "wrap" }}>
+			<Flex row gap={16} style={{ alignItems: "flex-start", flexWrap: "wrap" }}>
 				{colorTokenGroups.map((group) => (
 					<div key={group.name} style={{ minWidth: "260px" }}>
 						<H3>{group.name}</H3>
-						<Flex column gap={8}>
+						<Flex column gap={4}>
 							{scaleSteps.map((step) => (
 								<ColorToken
 									key={`${group.scale}-${step}`}

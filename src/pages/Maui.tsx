@@ -198,7 +198,7 @@ function MauiNavigation() {
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
 			<H3>Maui</H3>
-			<Gap height={12} />
+			<Gap height={6} />
 			<Select
 				label="Theme"
 				aria-label="Theme"
@@ -213,7 +213,7 @@ function MauiNavigation() {
 				<SelectItem id="light">Light</SelectItem>
 				<SelectItem id="dark">Dark</SelectItem>
 			</Select>
-			<Gap height={12} />
+			<Gap height={6} />
 			<ul className={navListClassName}>
 				{navigation.map((group) => (
 					<li className={groupClassName} key={group.label}>

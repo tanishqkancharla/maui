@@ -1,5 +1,5 @@
 import { Prose } from "../components/Prose"
-import { H2 } from "../components/Typography"
+import { H2, P } from "../components/Typography"
 import { Divider, Flex, Gap, Padding, Spacer } from "../components/Utils"
 import { borderColor } from "../tokens/borders"
 
@@ -7,7 +7,11 @@ export function LayoutUtilitiesPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Layout utilities</H2>
-			<Padding xy={12}>
+			<P>
+				<code>Padding</code>, <code>Flex</code>, and <code>Gap</code> take
+				spacing scale steps (<code>1</code>–<code>16</code>), not raw pixels.
+			</P>
+			<Padding xy={6}>
 				<div
 					style={{
 						border: `1px solid ${borderColor.outline}`,
@@ -17,7 +21,7 @@ export function LayoutUtilitiesPage() {
 				>
 					<Flex row alignItems="center">
 						<span>Flex</span>
-						<Gap width={12} />
+						<Gap width={6} />
 						<span>Gap</span>
 						<Spacer />
 						<span>Spacer</span>

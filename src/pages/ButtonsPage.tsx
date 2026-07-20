@@ -15,7 +15,7 @@ export function ButtonsPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Buttons</H2>
-			<Flex row alignItems="center" gap={10}>
+			<Flex row alignItems="center" gap={4}>
 				<Button>Button</Button>
 				<ActionButton>Action Button</ActionButton>
 				<Button onClick={() => setDialogOpen(true)}>Open Dialog</Button>

@@ -16,7 +16,7 @@ export function BadgePage() {
 
 			<H3>Examples</H3>
 			<Panel>
-				<Flex row alignItems="center" gap={12}>
+				<Flex row alignItems="center" gap={6}>
 					<Badge>1</Badge>
 					<Badge>12</Badge>
 					<Badge>999+</Badge>

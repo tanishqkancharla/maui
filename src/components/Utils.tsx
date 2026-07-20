@@ -1,33 +1,35 @@
 import { style, useStyles } from "purse-styles"
 import React from "react"
 import { colors } from "../tokens/colors"
+import { flex } from "../tokens/layout"
+import { spacing, type Space } from "../tokens/spacing"
 
 type PaddingProps = {
-	top?: number
-	left?: number
-	right?: number
-	bottom?: number
-	x?: number
-	y?: number
-	xy?: number
+	top?: Space
+	left?: Space
+	right?: Space
+	bottom?: Space
+	x?: Space
+	y?: Space
+	xy?: Space
 	children?: React.ReactNode
 }
 
 export function Padding(props: PaddingProps) {
-	const paddingTop = props.top || props.y || props.xy || 0
-	const paddingLeft = props.left || props.x || props.xy || 0
-	const paddingRight = props.right || props.x || props.xy || 0
-	const paddingBottom = props.bottom || props.y || props.xy || 0
-
-	return (
-		<div style={{ paddingTop, paddingLeft, paddingRight, paddingBottom }}>
-			{props.children}
-		</div>
+	const className = useStyles(
+		spacing.padding({
+			top: props.top ?? props.y ?? props.xy,
+			bottom: props.bottom ?? props.y ?? props.xy,
+			left: props.left ?? props.x ?? props.xy,
+			right: props.right ?? props.x ?? props.xy,
+		}),
 	)
+
+	return <div className={className}>{props.children}</div>
 }
 
 type FlexProps = {
-	gap?: number
+	gap?: Space
 	children?: React.ReactNode
 	alignItems?: React.CSSProperties["alignItems"]
 	style?: React.CSSProperties
@@ -43,31 +45,44 @@ type FlexProps = {
 )
 
 export function Flex(props: FlexProps) {
-	const { column, children, style, ...rest } = props
-	const direction = column ? "column" : "row"
+	const { column, children, style: styleProp, gap, alignItems } = props
+	const className = useStyles(
+		flex({
+			direction: column ? "column" : "row",
+			gap,
+		}),
+		alignItems === undefined ? undefined : style({ alignItems }),
+	)
 
 	return (
-		<div
-			style={{ display: "flex", flexDirection: direction, ...rest, ...style }}
-		>
+		<div className={className} style={styleProp}>
 			{children}
 		</div>
 	)
 }
+
 type GapProps =
 	| {
-			width: number
+			width: Space
 	  }
 	| {
-			height: number
+			height: Space
 	  }
 
 export function Gap(props: GapProps) {
-	return <div style={{ ...props }} />
+	const className = useStyles(
+		"width" in props
+			? style({ width: spacing.value(props.width), flexShrink: 0 })
+			: style({ height: spacing.value(props.height), flexShrink: 0 }),
+	)
+
+	return <div className={className} />
 }
 
 export function Spacer() {
-	return <div style={{ flex: "1 1 auto" }} />
+	const className = useStyles(style({ flex: "1 1 auto" }))
+
+	return <div className={className} />
 }
 
 const hrClass = style({

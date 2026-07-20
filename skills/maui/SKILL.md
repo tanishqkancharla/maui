@@ -23,3 +23,7 @@ Maui resolves System / Light / Dark onto `data-theme` on `<html>`. Token modules
 ## Focus
 
 `focusRing()` applies a theme-aware accent shadow (`accentAlpha[8]` hard edge + `accentAlpha[5]` glow). Do not hand-roll a competing outline or box-shadow for keyboard focus.
+
+## Layout utilities
+
+`Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px.

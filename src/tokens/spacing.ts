@@ -12,7 +12,7 @@ const spacingValues = {
 	16: "32px",
 } as const
 
-type Space = keyof typeof spacingValues
+export type Space = keyof typeof spacingValues
 
 type PaddingOptions = {
 	all?: Space

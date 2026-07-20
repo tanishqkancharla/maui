@@ -21,7 +21,7 @@ export function TooltipPage() {
 				Tooltips show after a short warmup delay on hover, or immediately on
 				keyboard focus. Press Escape to dismiss.
 			</P>
-			<Flex row alignItems="center" gap={10}>
+			<Flex row alignItems="center" gap={4}>
 				<Tooltip content="Shown above the trigger" placement="top">
 					<Button>Top</Button>
 				</Tooltip>
