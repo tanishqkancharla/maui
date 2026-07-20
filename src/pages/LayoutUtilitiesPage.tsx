@@ -1,8 +1,8 @@
 import { Prose } from "../components/Prose"
 import { H2 } from "../components/Typography"
 import { Divider, Flex, Gap, Padding, Spacer } from "../components/Utils"
-
 import { borderColor } from "../tokens/borders"
+
 export function LayoutUtilitiesPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
