@@ -6,7 +6,7 @@ import { P } from "../components/Typography"
 import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
-import { shadowTokens } from "../tokens/shadows"
+import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
@@ -160,7 +160,7 @@ const messageListClass = style(
 
 const messageClass = style(
 	radius.lg,
-	shadowTokens.minimalFlat,
+	shadow.minimalFlat,
 	spacing.padding({ all: 8 }),
 	{
 		backgroundColor: colors.gray[2],

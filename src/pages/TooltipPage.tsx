@@ -8,7 +8,7 @@ import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
-import { shadowTokens } from "../tokens/shadows"
+import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
@@ -105,7 +105,7 @@ function ToolbarButton(props: { action: ToolbarAction }) {
 }
 
 const toolbarClass = style(
-	shadowTokens.minimal,
+	shadow.minimal,
 	radius.sm,
 	flex({ align: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),

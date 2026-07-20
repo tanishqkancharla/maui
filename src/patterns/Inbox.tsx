@@ -4,7 +4,7 @@ import { Icons } from "../components/Icons"
 import { colors } from "../tokens/colors"
 import { flex, flexItem } from "../tokens/layout"
 import { radius } from "../tokens/radius"
-import { shadowTokens } from "../tokens/shadows"
+import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
@@ -333,7 +333,7 @@ const threadTimeClass = style(text("md", 400, "lowContrast"), {
 })
 
 const threadToolbarClass = style(
-	shadowTokens.minimal,
+	shadow.minimal,
 	radius.sm,
 	flex({ align: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),

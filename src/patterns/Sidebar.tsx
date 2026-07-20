@@ -5,6 +5,7 @@ import { menuItem } from "../components/Menu"
 import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
+import { shadowVars } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
@@ -99,7 +100,7 @@ const sidebarClass = style(
 		width: "240px",
 		minWidth: "240px",
 		backgroundColor: colors.gray[2],
-		boxShadow: "var(--shadow-minimal-flat)",
+		boxShadow: shadowVars.minimalFlat,
 	}
 )
 

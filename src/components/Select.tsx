@@ -15,10 +15,11 @@ import {
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
 import { colors } from "../tokens/colors"
-import { border, borderColor } from "../tokens/borders"
+import { border } from "../tokens/borders"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
+import { shadow } from "../tokens/shadow"
 import { text } from "../tokens/text"
 import { menu, menuItem } from "./Menu"
 import { labelText } from "./Typography"
@@ -85,12 +86,11 @@ const chevronClass = style(motion.standard("transform"), {
 	},
 })
 
-const popoverClass = style(radius.sm, {
+const popoverClass = style(radius.sm, shadow.strong, {
 	minWidth: "var(--trigger-width)",
 	maxHeight: "280px",
 	overflow: "hidden",
 	background: colors.gray[2],
-	boxShadow: `var(--shadow-strong), 0 0 0 1px ${borderColor.outline}`,
 })
 
 const listBoxClass = style(menu, {

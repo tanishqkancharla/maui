@@ -7,6 +7,7 @@ import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { motion } from "../tokens/motion"
+import { shadowVars } from "../tokens/shadow"
 
 const animatedCardClass = style(
 	motion.standard("transform", "box-shadow", "background", "border-color"),
@@ -76,7 +77,7 @@ const animatedCard = style(
 		transform: isActive ? "translateX(96px)" : "translateX(0)",
 		background: isActive ? "var(--accent-A4)" : "var(--gray-3)",
 		borderColor: isActive ? "var(--accent-8)" : "var(--outline)",
-		boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
+		boxShadow: isActive ? shadowVars.middle : shadowVars.thin,
 	}}
 />`}</CodeBlock>
 
@@ -91,7 +92,7 @@ const animatedCard = style(
 					style={{
 						background: isActive ? "var(--accent-A4)" : "var(--gray-3)",
 						borderColor: isActive ? "var(--accent-8)" : "var(--outline)",
-						boxShadow: isActive ? "var(--shadow-middle)" : "var(--shadow-thin)",
+						boxShadow: isActive ? shadowVars.middle : shadowVars.thin,
 						transform: isActive ? "translateX(96px)" : "translateX(0)",
 					}}
 				>
