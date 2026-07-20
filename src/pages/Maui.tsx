@@ -9,13 +9,12 @@ import {
 } from "wouter"
 import { useHashLocation } from "wouter/use-hash-location"
 import { style, useStyles } from "purse-styles"
+import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
 import { Gap } from "../components/Utils"
-import { flex, grid } from "../tokens/layout"
 import { menuItem } from "../components/Menu"
+import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
-import { text } from "../tokens/text"
-import { focusRing } from "../tokens/focusRing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
 import { AvatarPage } from "./AvatarPage"
 import { BadgePage } from "./BadgePage"
@@ -185,34 +184,35 @@ function MauiContent() {
 	)
 }
 
+function isThemePreference(value: unknown): value is ThemePreference {
+	return value === "system" || value === "light" || value === "dark"
+}
+
 function MauiNavigation() {
 	const navClassName = useStyles(navClass)
 	const navListClassName = useStyles(navListClass)
 	const groupClassName = useStyles(navGroupClass)
 	const childrenClassName = useStyles(navChildrenClass)
-	const themeControlClassName = useStyles(themeControlClass)
-	const themeSelectClassName = useStyles(themeSelectClass)
 	const { preference, setPreference } = useTheme()
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
 			<H3>Maui</H3>
 			<Gap height={12} />
-			<div className={themeControlClassName}>
-				<Label htmlFor="theme-preference">Theme</Label>
-				<select
-					id="theme-preference"
-					className={themeSelectClassName}
-					value={preference}
-					onChange={(event) =>
-						setPreference(event.target.value as ThemePreference)
+			<Select
+				label="Theme"
+				aria-label="Theme"
+				selectedKey={preference}
+				onSelectionChange={(key) => {
+					if (isThemePreference(key)) {
+						setPreference(key)
 					}
-				>
-					<option value="system">System</option>
-					<option value="light">Light</option>
-					<option value="dark">Dark</option>
-				</select>
-			</div>
+				}}
+			>
+				<SelectItem id="system">System</SelectItem>
+				<SelectItem id="light">Light</SelectItem>
+				<SelectItem id="dark">Dark</SelectItem>
+			</Select>
 			<Gap height={12} />
 			<ul className={navListClassName}>
 				{navigation.map((group) => (
@@ -271,18 +271,6 @@ const navListClass = style(flex({ direction: "column", gap: 8 }), {
 	listStyleType: "none",
 	padding: 0,
 	margin: 0,
-})
-
-const themeControlClass = style(flex({ direction: "column", gap: 4 }))
-
-const themeSelectClass = style(text("xs", 400, "highContrast"), focusRing(), {
-	width: "100%",
-	height: "28px",
-	padding: "4px 8px",
-	border: "1px solid var(--outline)",
-	borderRadius: "4px",
-	backgroundColor: "var(--gray-3)",
-	color: "var(--gray-12)",
 })
 
 const navGroupClass = style(flex({ direction: "column", gap: 4 }), {
