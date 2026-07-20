@@ -1,4 +1,5 @@
 import { style, useStyles } from "purse-styles"
+import { avatar } from "../tokens/avatar"
 import { colors } from "../tokens/colors"
 import { radius } from "../tokens/radius"
 import { text, type TextSize } from "../tokens/text"
@@ -26,16 +27,16 @@ export function Avatar({ name, size = "sm", className }: AvatarProps) {
 const avatarPalette = [
 	{ background: colors.accent[4], color: colors.accent[11] },
 	{
-		background: "var(--avatar-green-background)",
-		color: "var(--avatar-green-foreground)",
+		background: avatar.green.background,
+		color: avatar.green.foreground,
 	},
 	{
-		background: "var(--avatar-orange-background)",
-		color: "var(--avatar-orange-foreground)",
+		background: avatar.orange.background,
+		color: avatar.orange.foreground,
 	},
 	{
-		background: "var(--avatar-pink-background)",
-		color: "var(--avatar-pink-foreground)",
+		background: avatar.pink.background,
+		color: avatar.pink.foreground,
 	},
 ] as const
 

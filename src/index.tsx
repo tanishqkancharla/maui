@@ -37,11 +37,25 @@ const appStyles = style(background.app, {
 
 function GlobalStyles() {
 	useInjectGlobalStyles(
+		"*, *::after, *::before",
+		{
+			boxSizing: "border-box",
+		},
+		[],
+	)
+	useInjectGlobalStyles(
 		"html, body",
 		{
 			margin: 0,
 			backgroundColor: backgroundColor.app,
 			...baseTextStyle,
+		},
+		[],
+	)
+	useInjectGlobalStyles(
+		'button, [role="button"]',
+		{
+			cursor: "default",
 		},
 		[],
 	)

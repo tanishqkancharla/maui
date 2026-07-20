@@ -43,8 +43,8 @@ export function FocusRingTokenPage() {
 						</TableCell>
 						<TableCell>
 							<code>
-								box-shadow: 0 0 0 1px #0f89fd7f, 0 0 8px 1px #0077ff24;
-								position: relative; z-index: 1; outline: none
+								box-shadow: 0 0 0 1px accentAlpha[8], 0 0 8px 1px
+								accentAlpha[5]; position: relative; z-index: 1; outline: none
 							</code>
 						</TableCell>
 						<TableCell>

@@ -18,6 +18,18 @@ const codeBlockClass = style(
 		margin: 0,
 		overflowX: "auto",
 		padding: "12px",
+		"& .shiki": {
+			backgroundColor: "transparent !important",
+		},
+		"& .shiki code": {
+			font: "inherit",
+			fontSize: "inherit",
+			lineHeight: "inherit",
+			tabSize: "inherit",
+		},
+		'& .shiki span[style*="font-weight"]': {
+			fontWeight: "500 !important",
+		},
 	},
 )
 

@@ -131,7 +131,7 @@ const variantStyles = {
 		color: "currentColor",
 	}),
 	accent: style({
-		color: `var(--accent-color)`,
+		color: colors.accent[10],
 	}),
 	muted: style({
 		color: colors.gray[11],
