@@ -53,9 +53,9 @@ export function BackgroundColorTokenPage() {
 							<code>background.app</code>
 						</TableCell>
 						<TableCell>
-							<code>colors.gray[1]</code>
+							<code>#ffffff</code> / <code>colors.gray[1]</code>
 						</TableCell>
-						<TableCell>App/page background.</TableCell>
+						<TableCell>App/page background (white in light, gray 1 in dark).</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>

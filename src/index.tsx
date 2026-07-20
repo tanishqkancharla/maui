@@ -9,7 +9,7 @@ import {
 import { Maui } from "./pages/Maui"
 import { ThemeProvider } from "./theme/ThemeContext"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
-import { background } from "./tokens/background"
+import { background, backgroundColor } from "./tokens/background"
 import { colors } from "./tokens/colors"
 import { baseTextStyle } from "./tokens/text"
 
@@ -40,7 +40,7 @@ function GlobalStyles() {
 		"html, body",
 		{
 			margin: 0,
-			backgroundColor: colors.gray[1],
+			backgroundColor: backgroundColor.app,
 			...baseTextStyle,
 		},
 		[],
