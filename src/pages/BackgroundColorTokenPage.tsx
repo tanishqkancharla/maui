@@ -80,16 +80,16 @@ export function BackgroundColorTokenPage() {
 							<code>background.elementHover</code>
 						</TableCell>
 						<TableCell>
-							<code>colors.gray[4]</code>
+							<code>color-mix(… gray[12] 5%, gray[3])</code>
 						</TableCell>
-						<TableCell>Neutral hover state.</TableCell>
+						<TableCell>Neutral hover — light foreground wash on element.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
 							<code>background.elementActive</code>
 						</TableCell>
 						<TableCell>
-							<code>colors.gray[5]</code>
+							<code>color-mix(… gray[12] 10%, gray[3])</code>
 						</TableCell>
 						<TableCell>Selected rows and menu items.</TableCell>
 					</TableRow>
