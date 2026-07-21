@@ -3,6 +3,7 @@ import { style, useStyles } from "purse-styles"
 import React from "react"
 import { FocusScope } from "../hooks/useFocus"
 import { border } from "../tokens/borders"
+import { colors } from "../tokens/colors"
 import { Overlay } from "./Overlay"
 
 type DialogProps = {
@@ -13,7 +14,7 @@ type DialogProps = {
 const dialogStyle = style(border([], "border"), {
 	flex: 1,
 	borderRadius: "4px",
-	backgroundColor: "var(--gray-2)",
+	backgroundColor: colors.gray[2],
 	margin: "15vh 20vw",
 	padding: "32px",
 })

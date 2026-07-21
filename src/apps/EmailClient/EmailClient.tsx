@@ -3,6 +3,7 @@ import { style, useStyles } from "purse-styles"
 import { H2 } from "../../components/Typography"
 import { InboxMultiLine } from "../../patterns/Inbox"
 import { Message, MessageList } from "../../patterns/MessageList"
+import { colors } from "../../tokens/colors"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
 import { spacing } from "../../tokens/spacing"
@@ -77,15 +78,15 @@ const shellClass = style(
 		gap: "1px",
 		minHeight: "640px",
 		overflow: "hidden",
-		backgroundColor: "var(--gray-4)",
-		border: "1px solid var(--gray-4)",
+		backgroundColor: colors.gray[4],
+		border: `1px solid ${colors.gray[4]}`,
 	}
 )
 
 const paneBaseClass = style({
 	minWidth: 0,
 	minHeight: 0,
-	backgroundColor: "var(--gray-1)",
+	backgroundColor: colors.gray[1],
 })
 
 const inboxPaneClass = style(paneBaseClass, {

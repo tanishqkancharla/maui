@@ -7,6 +7,7 @@ import {
 } from "react-aria"
 import { useSliderState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 
 type SliderProps = AriaSliderProps<number> & {
@@ -22,7 +23,7 @@ const sliderClass = style(focusRing("& .slider-thumb:has(input:focus-visible)"),
 		marginBottom: "10px",
 	},
 	"& label, & output": {
-		color: "var(--gray-11)",
+		color: colors.gray[11],
 		fontSize: "0.75rem",
 		fontFamily: "system-ui, -apple-system",
 		letterSpacing: "0.02em",
@@ -40,7 +41,7 @@ const sliderClass = style(focusRing("& .slider-thumb:has(input:focus-visible)"),
 		right: 0,
 		height: "4px",
 		borderRadius: "999px",
-		background: "var(--gray-6)",
+		background: colors.gray[6],
 	},
 	"& .slider-fill": {
 		position: "absolute",
@@ -48,7 +49,7 @@ const sliderClass = style(focusRing("& .slider-thumb:has(input:focus-visible)"),
 		left: 0,
 		height: "4px",
 		borderRadius: "999px",
-		background: "var(--accent-color)",
+		background: colors.accent[10],
 	},
 	"& .slider-thumb": {
 		position: "absolute",
@@ -56,11 +57,11 @@ const sliderClass = style(focusRing("& .slider-thumb:has(input:focus-visible)"),
 		width: "12px",
 		height: "12px",
 		borderRadius: "100%",
-		background: "var(--gray-12)",
+		background: colors.gray[12],
 		transform: "translateX(-50%)",
 	},
 	"& .slider-thumb[data-dragging='true']": {
-		background: "var(--accent-11)",
+		background: colors.accent[11],
 	},
 	"& input": {
 		position: "absolute",

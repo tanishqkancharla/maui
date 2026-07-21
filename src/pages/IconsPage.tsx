@@ -4,6 +4,8 @@ import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, P } from "../components/Typography"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 const iconEntries = Object.entries(Icons) as [
 	keyof typeof Icons,
 	React.ComponentType<React.SVGProps<SVGSVGElement>>,
@@ -37,15 +39,15 @@ export function IconsPage() {
 								gap: "10px",
 								padding: "16px 12px",
 								borderRadius: "6px",
-								border: "1px solid var(--outline)",
-								background: "var(--gray-1)",
+								border: `1px solid ${borderColor.outline}`,
+								background: colors.gray[1],
 							}}
 						>
-							<Icon style={{ color: "var(--gray-12)" }} />
+							<Icon style={{ color: colors.gray[12] }} />
 							<code
 								style={{
 									fontSize: "11px",
-									color: "var(--gray-11)",
+									color: colors.gray[11],
 									textAlign: "center",
 								}}
 							>

@@ -11,27 +11,28 @@ import {
 } from "react-aria"
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { text } from "../tokens/text"
+import { border, borderColor } from "../tokens/borders"
+import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { text } from "../tokens/text"
 import { Icons } from "./Icons"
 
 const inputText = text("sm", 400, "highContrast")
 
-const inputClass = style(inputText, focusRing(), {
-	background: "var(--gray-3)",
+const inputClass = style(inputText, focusRing(), border([], "outline"), {
+	background: colors.gray[3],
 	width: "100%",
-	color: "var(--gray-12)",
+	color: colors.gray[12],
 	padding: "6px 8px",
 	borderRadius: "4px",
 	height: "28px",
-	border: "1px solid var(--outline)",
 	transition: "border-color 80ms ease-in-out",
 	"&:hover": {
-		background: "var(--gray-4)",
+		background: colors.gray[4],
 	},
 	"&::placeholder": {
 		fontStyle: "italic",
-		color: "var(--gray-8)",
+		color: colors.gray[8],
 	},
 })
 
@@ -52,7 +53,7 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 		appearance: "none",
 	},
 	"&:hover input": {
-		background: "var(--gray-4)",
+		background: colors.gray[4],
 	},
 	'& input::-webkit-search-cancel-button': {
 		appearance: "none",
@@ -71,7 +72,7 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 		border: "none",
 		borderRadius: "50%",
 		background: "transparent",
-		color: "var(--gray-9)",
+		color: colors.gray[9],
 		padding: 0,
 	},
 	"& button svg": {
@@ -79,7 +80,7 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 		height: "16px",
 	},
 	"& button:hover": {
-		color: "var(--gray-12)",
+		color: colors.gray[12],
 	},
 })
 
@@ -124,10 +125,10 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 		placeItems: "center",
 		justifyContent: "center",
 		width: "24px",
-		border: "1px solid var(--outline)",
+		border: `1px solid ${borderColor.outline}`,
 		borderLeft: "none",
-		background: "var(--gray-3)",
-		color: "var(--gray-11)",
+		background: colors.gray[3],
+		color: colors.gray[11],
 		padding: 0,
 	},
 	"& button:first-child": {
@@ -142,10 +143,10 @@ const numberFieldClass = style(focusRing("& button:focus-visible"), {
 		height: "14px",
 	},
 	"& button:hover": {
-		background: "var(--gray-4)",
+		background: colors.gray[4],
 	},
 	"& button:disabled": {
-		color: "var(--gray-8)",
+		color: colors.gray[8],
 	},
 })
 
@@ -185,7 +186,7 @@ export function NumberField(props: AriaNumberFieldProps) {
 
 const quietInputClass = style(inputText, focusRing(), {
 	width: "100%",
-	color: "var(--gray-12)",
+	color: colors.gray[12],
 	padding: "6px 8px",
 	borderRadius: "4px",
 	height: "28px",
@@ -193,11 +194,11 @@ const quietInputClass = style(inputText, focusRing(), {
 	border: "none",
 	transition: "background 80ms ease-in-out",
 	"&:hover": {
-		background: "var(--gray-3)",
+		background: colors.gray[3],
 	},
 	"&::placeholder": {
 		fontStyle: "italic",
-		color: "var(--gray-8)",
+		color: colors.gray[8],
 	},
 })
 

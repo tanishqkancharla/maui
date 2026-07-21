@@ -1,5 +1,6 @@
 import { style } from "purse-styles"
 import { memoize } from "../utils/memoize"
+import { spacing } from "./spacing"
 
 type Space = 0 | 1 | 2 | 3 | 4 | 6 | 8 | 12 | 16
 type Align = "start" | "center" | "end" | "stretch" | "baseline"
@@ -35,14 +36,14 @@ type GridItemOptions = {
 
 const spaceValues: Record<Space, string> = {
 	0: "0",
-	1: "2px",
-	2: "4px",
-	3: "6px",
-	4: "9px",
-	6: "12px",
-	8: "16px",
-	12: "24px",
-	16: "32px",
+	1: spacing.value(1),
+	2: spacing.value(2),
+	3: spacing.value(3),
+	4: spacing.value(4),
+	6: spacing.value(6),
+	8: spacing.value(8),
+	12: spacing.value(12),
+	16: spacing.value(16),
 }
 
 const alignValues: Record<Align, string> = {

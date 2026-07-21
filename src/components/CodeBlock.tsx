@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { highlightCode, isSupportedCodeLang } from "../utils/shiki"
 import { border } from "../tokens/borders"
+import { colors } from "../tokens/colors"
 import { monospace, text } from "../tokens/text"
 import { useTheme } from "../theme/ThemeContext"
 
@@ -10,13 +11,25 @@ const codeBlockClass = style(
 	monospace,
 	border([], "outline"),
 	{
-		background: "var(--gray-2)",
+		background: colors.gray[2],
 		borderRadius: "6px",
-		color: "var(--gray-12)",
+		color: colors.gray[12],
 		lineHeight: 1.6,
 		margin: 0,
 		overflowX: "auto",
 		padding: "12px",
+		"& .shiki": {
+			backgroundColor: "transparent !important",
+		},
+		"& .shiki code": {
+			font: "inherit",
+			fontSize: "inherit",
+			lineHeight: "inherit",
+			tabSize: "inherit",
+		},
+		'& .shiki span[style*="font-weight"]': {
+			fontWeight: "500 !important",
+		},
 	},
 )
 

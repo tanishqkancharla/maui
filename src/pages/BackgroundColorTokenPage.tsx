@@ -1,10 +1,34 @@
+import { useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
+import { background } from "../tokens/background"
+import { border } from "../tokens/borders"
+import { radius } from "../tokens/radius"
+import { text } from "../tokens/text"
 
 export function BackgroundColorTokenPage() {
+	const subtleClassName = useStyles(
+		background.subtle,
+		border([], "outline"),
+		radius.md,
+		{ padding: "12px" },
+	)
+	const elementClassName = useStyles(
+		background.element,
+		border([], "outline"),
+		radius.md,
+		{ padding: "12px" },
+	)
+	const accentClassName = useStyles(
+		background.accent,
+		radius.md,
+		text("sm", 400, "onAccent"),
+		{ padding: "12px" },
+	)
+
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Background color</H2>
@@ -29,16 +53,16 @@ export function BackgroundColorTokenPage() {
 							<code>background.app</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--gray-1)</code>
+							<code>#ffffff</code> / <code>colors.gray[1]</code>
 						</TableCell>
-						<TableCell>App/page background.</TableCell>
+						<TableCell>App/page background (white in light, gray 1 in dark).</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
 							<code>background.subtle</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--gray-2)</code>
+							<code>colors.gray[2]</code>
 						</TableCell>
 						<TableCell>Dialogs, cards, and panels.</TableCell>
 					</TableRow>
@@ -47,7 +71,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.element</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--gray-3)</code>
+							<code>colors.gray[3]</code>
 						</TableCell>
 						<TableCell>Inputs and slightly raised controls.</TableCell>
 					</TableRow>
@@ -56,7 +80,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.elementHover</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--gray-4)</code>
+							<code>colors.gray[4]</code>
 						</TableCell>
 						<TableCell>Neutral hover state.</TableCell>
 					</TableRow>
@@ -65,7 +89,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.elementActive</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--gray-5)</code>
+							<code>colors.gray[5]</code>
 						</TableCell>
 						<TableCell>Selected rows and menu items.</TableCell>
 					</TableRow>
@@ -74,7 +98,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.accent</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--accent-9)</code>
+							<code>colors.accent[9]</code>
 						</TableCell>
 						<TableCell>
 							Primary fills and selected indicators.
@@ -85,7 +109,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.accentHover</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--accent-10)</code>
+							<code>colors.accent[10]</code>
 						</TableCell>
 						<TableCell>Hovered solid accent background.</TableCell>
 					</TableRow>
@@ -94,7 +118,7 @@ export function BackgroundColorTokenPage() {
 
 			<H3>Example</H3>
 			<CodeBlock lang="typescript">{`const panel = style(background.subtle, border([], "outline"), radius.md)
-const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
+const primary = style(background.accent, text("sm", 400, "onAccent"))`}</CodeBlock>
 
 			<Panel
 				style={{
@@ -104,36 +128,9 @@ const primary = style(background.accent, textColor.onAccent)`}</CodeBlock>
 					gap: "12px",
 				}}
 			>
-				<div
-					style={{
-						background: "var(--gray-2)",
-						border: "1px solid var(--outline)",
-						borderRadius: "6px",
-						padding: "12px",
-					}}
-				>
-					Surface
-				</div>
-				<div
-					style={{
-						background: "var(--gray-3)",
-						border: "1px solid var(--outline)",
-						borderRadius: "6px",
-						padding: "12px",
-					}}
-				>
-					Raised
-				</div>
-				<div
-					style={{
-						background: "var(--accent-9)",
-						borderRadius: "6px",
-						color: "white",
-						padding: "12px",
-					}}
-				>
-					Accent
-				</div>
+				<div className={subtleClassName}>Surface</div>
+				<div className={elementClassName}>Raised</div>
+				<div className={accentClassName}>Accent</div>
 			</Panel>
 		</Prose>
 	)

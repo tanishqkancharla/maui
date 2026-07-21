@@ -5,33 +5,19 @@ import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { useTheme } from "../theme/ThemeContext"
+import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 
-const colorTokenGroups = [
-	{
-		name: "Accent",
-		tokens: rangeTokens("accent"),
-	},
-	{
-		name: "Accent alpha",
-		tokens: rangeTokens("accent-A", ""),
-	},
-	{
-		name: "Gray",
-		tokens: rangeTokens("gray"),
-	},
-	{
-		name: "Gray alpha",
-		tokens: rangeTokens("gray-A", ""),
-	},
-] as const
+type ScaleName = "accent" | "accentAlpha" | "gray" | "grayAlpha"
 
-function rangeTokens(prefix: string, separator = "-") {
-	return Array.from(
-		{ length: 12 },
-		(_, index) => `${prefix}${separator}${index + 1}`,
-	)
-}
+const colorTokenGroups: { name: string; scale: ScaleName }[] = [
+	{ name: "Accent", scale: "accent" },
+	{ name: "Accent alpha", scale: "accentAlpha" },
+	{ name: "Gray", scale: "gray" },
+	{ name: "Gray alpha", scale: "grayAlpha" },
+]
+
+const scaleSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const
 
 export function ColorTokenPage() {
 	return (
@@ -66,13 +52,17 @@ export function ColorTokenPage() {
 				</div>
 			</Panel>
 
-			<Flex row gap={40} style={{ alignItems: "flex-start", flexWrap: "wrap" }}>
+			<Flex row gap={16} style={{ alignItems: "flex-start", flexWrap: "wrap" }}>
 				{colorTokenGroups.map((group) => (
 					<div key={group.name} style={{ minWidth: "260px" }}>
 						<H3>{group.name}</H3>
-						<Flex column gap={8}>
-							{group.tokens.map((token) => (
-								<ColorToken key={token} name={token} />
+						<Flex column gap={4}>
+							{scaleSteps.map((step) => (
+								<ColorToken
+									key={`${group.scale}-${step}`}
+									scale={group.scale}
+									step={step}
+								/>
 							))}
 						</Flex>
 					</div>
@@ -82,12 +72,15 @@ export function ColorTokenPage() {
 	)
 }
 
-function ColorToken(props: { name: string }) {
+function ColorToken(props: { scale: ScaleName; step: (typeof scaleSteps)[number] }) {
+	const value = colors[props.scale][props.step]
+	const label = `colors.${props.scale}[${props.step}]`
+
 	return (
 		<div
 			style={{
 				display: "grid",
-				gridTemplateColumns: "18px 86px minmax(0, 1fr)",
+				gridTemplateColumns: "18px 140px minmax(0, 1fr)",
 				alignItems: "center",
 				gap: "10px",
 			}}
@@ -97,31 +90,37 @@ function ColorToken(props: { name: string }) {
 					width: "18px",
 					height: "18px",
 					borderRadius: "3px",
-					boxShadow: "0 0 0 1px var(--outline) inset",
-					background: `var(--${props.name})`,
+					boxShadow: `0 0 0 1px ${borderColor.outline} inset`,
+					background: value,
 				}}
 			/>
-			<code>{`--${props.name}`}</code>
-			<code style={{ color: "var(--gray-10)", overflowWrap: "anywhere" }}>
-				<CSSVariableValue name={props.name} />
+			<code>{label}</code>
+			<code style={{ color: colors.gray[10], overflowWrap: "anywhere" }}>
+				<ResolvedColorValue cssVar={value} />
 			</code>
 		</div>
 	)
 }
 
-function CSSVariableValue(props: { name: string }) {
-	const [value, setValue] = useState(`var(--${props.name})`)
+function ResolvedColorValue(props: { cssVar: string }) {
+	const [value, setValue] = useState(props.cssVar)
 	const { resolvedTheme } = useTheme()
 
 	useEffect(() => {
+		const match = /^var\((--[^)]+)\)$/.exec(props.cssVar)
+		if (!match) {
+			setValue(props.cssVar)
+			return
+		}
+
 		const nextValue = getComputedStyle(document.documentElement)
-			.getPropertyValue(`--${props.name}`)
+			.getPropertyValue(match[1])
 			.trim()
 
 		if (nextValue) {
 			setValue(nextValue)
 		}
-	}, [props.name, resolvedTheme])
+	}, [props.cssVar, resolvedTheme])
 
 	return value
 }

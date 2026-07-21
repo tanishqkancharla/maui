@@ -9,6 +9,8 @@ import { H2, H3, P } from "../components/Typography"
 import { text } from "../tokens/text"
 import { fuzzyMatch, fuzzyMatchScore } from "../utils/fuzzyMatch"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 const staticExamples = [
 	{ query: "fz", text: "FuzzyString" },
 	{ query: "em", text: "Email client" },
@@ -121,7 +123,7 @@ export function FuzzyStringPage() {
 					{filteredItems.length === 0 ? (
 						<li
 							className={resultTextClass}
-							style={{ color: "var(--gray-10)", padding: "8px 12px" }}
+							style={{ color: colors.gray[10], padding: "8px 12px" }}
 						>
 							No matches
 						</li>
@@ -133,8 +135,8 @@ export function FuzzyStringPage() {
 								style={{
 									padding: "8px 12px",
 									borderRadius: "4px",
-									background: "var(--gray-1)",
-									border: "1px solid var(--border)",
+									background: colors.gray[1],
+									border: `1px solid ${borderColor.border}`,
 								}}
 							>
 								{item.match ? (

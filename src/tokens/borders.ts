@@ -1,13 +1,19 @@
-import { style, type CSSProperties } from "purse-styles"
+import { defineVars, style, type CSSProperties } from "purse-styles"
 import { memoize } from "../utils/memoize"
+import { colors } from "./colors"
 
 export type BorderSide = "top" | "right" | "bottom" | "left"
 export type BorderColor = "border" | "outline" | "accent"
 
+export const borderColor = defineVars({
+	border: `oklch(from ${colors.gray[12]} l c h / 0.05)`,
+	outline: `oklch(from ${colors.gray[12]} l c h / 0.1)`,
+})
+
 const borderColorValues: Record<BorderColor, string> = {
-	border: "var(--border)",
-	outline: "var(--outline)",
-	accent: "var(--accent-8)",
+	border: borderColor.border,
+	outline: borderColor.outline,
+	accent: colors.accent[8],
 }
 
 export const border = memoize((sides: BorderSide[], color: BorderColor) => {

@@ -5,6 +5,7 @@ import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import type { TextSize } from "../tokens/text"
 
+import { colors } from "../tokens/colors"
 const sizes: TextSize[] = ["2xs", "xs", "sm", "md", "lg", "xl"]
 const names = ["Maya Chen", "Noah Williams", "Sofia Patel", "Liam Garcia"]
 
@@ -19,14 +20,14 @@ export function AvatarPage() {
 
 			<H3>Sizes</H3>
 			<Panel>
-				<Flex row alignItems="center" gap={16}>
+				<Flex row alignItems="center" gap={8}>
 					{sizes.map((size) => (
 						<Flex
 							key={size}
 							column
-							gap={6}
+							gap={3}
 							alignItems="center"
-							style={{ color: "var(--gray-11)" }}
+							style={{ color: colors.gray[11] }}
 						>
 							<Avatar name="Maya Chen" size={size} />
 							<code>{size}</code>
@@ -37,9 +38,9 @@ export function AvatarPage() {
 
 			<H3>Name colors</H3>
 			<Panel>
-				<Flex row alignItems="center" gap={20} style={{ flexWrap: "wrap" }}>
+				<Flex row alignItems="center" gap={12} style={{ flexWrap: "wrap" }}>
 					{names.map((name) => (
-						<Flex key={name} row alignItems="center" gap={8}>
+						<Flex key={name} row alignItems="center" gap={4}>
 							<Avatar name={name} size="lg" />
 							<span>{name}</span>
 						</Flex>

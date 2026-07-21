@@ -4,19 +4,20 @@ import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
-import { shadowTokens } from "../tokens/shadows"
+import { colors } from "../tokens/colors"
+import { shadow } from "../tokens/shadow"
 
 const shadowExamples = [
-	{ name: "thin", token: shadowTokens.thin },
-	{ name: "minimalFlat", token: shadowTokens.minimalFlat },
-	{ name: "minimal", token: shadowTokens.minimal },
-	{ name: "middle", token: shadowTokens.middle },
-	{ name: "strong", token: shadowTokens.strong },
-	{ name: "modalSmall", token: shadowTokens.modalSmall },
-	{ name: "panelFocused", token: shadowTokens.panelFocused },
-	{ name: "border", token: shadowTokens.border },
-	{ name: "bottomBorder", token: shadowTokens.bottomBorder },
-	{ name: "bottomBorderThin", token: shadowTokens.bottomBorderThin },
+	{ name: "thin", token: shadow.thin },
+	{ name: "minimalFlat", token: shadow.minimalFlat },
+	{ name: "minimal", token: shadow.minimal },
+	{ name: "middle", token: shadow.middle },
+	{ name: "strong", token: shadow.strong },
+	{ name: "modalSmall", token: shadow.modalSmall },
+	{ name: "panelFocused", token: shadow.panelFocused },
+	{ name: "border", token: shadow.border },
+	{ name: "bottomBorder", token: shadow.bottomBorder },
+	{ name: "bottomBorderThin", token: shadow.bottomBorderThin },
 ] as const
 
 export function ShadowTokenPage() {
@@ -43,7 +44,7 @@ export function ShadowTokenPage() {
 							<code>shadow.thin</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--shadow-thin)</code>
+							<code>shadowVars.thin</code>
 						</TableCell>
 						<TableCell>Border-ring only, no blur.</TableCell>
 					</TableRow>
@@ -52,7 +53,7 @@ export function ShadowTokenPage() {
 							<code>shadow.minimalFlat</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--shadow-minimal-flat)</code>
+							<code>shadowVars.minimalFlat</code>
 						</TableCell>
 						<TableCell>Minimal ring-only surface treatment.</TableCell>
 					</TableRow>
@@ -61,7 +62,7 @@ export function ShadowTokenPage() {
 							<code>shadow.minimal</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--shadow-minimal)</code>
+							<code>shadowVars.minimal</code>
 						</TableCell>
 						<TableCell>
 							Small controls and low-elevation surfaces.
@@ -72,7 +73,7 @@ export function ShadowTokenPage() {
 							<code>shadow.middle</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--shadow-middle)</code>
+							<code>shadowVars.middle</code>
 						</TableCell>
 						<TableCell>Floating panels with moderate depth.</TableCell>
 					</TableRow>
@@ -81,7 +82,7 @@ export function ShadowTokenPage() {
 							<code>shadow.strong</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--shadow-strong)</code>
+							<code>shadowVars.strong</code>
 						</TableCell>
 						<TableCell>Higher-elevation floating panels.</TableCell>
 					</TableRow>
@@ -90,7 +91,7 @@ export function ShadowTokenPage() {
 							<code>shadow.modalSmall</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--shadow-modal-small)</code>
+							<code>shadowVars.modalSmall</code>
 						</TableCell>
 						<TableCell>Popovers, toasts, and small modals.</TableCell>
 					</TableRow>
@@ -99,7 +100,7 @@ export function ShadowTokenPage() {
 							<code>shadow.panelFocused</code>
 						</TableCell>
 						<TableCell>
-							<code>var(--shadow-panel-focused)</code>
+							<code>shadowVars.panelFocused</code>
 						</TableCell>
 						<TableCell>Focused panel depth treatment.</TableCell>
 					</TableRow>
@@ -108,7 +109,7 @@ export function ShadowTokenPage() {
 							<code>shadow.border</code>
 						</TableCell>
 						<TableCell>
-							<code>rgba(255, 255, 255, 0.055) 0px 0px 0px 1px</code>
+							<code>0 0 0 1px borderColor.border</code>
 						</TableCell>
 						<TableCell>Shadow-based surface borders.</TableCell>
 					</TableRow>
@@ -117,7 +118,7 @@ export function ShadowTokenPage() {
 							<code>shadow.bottomBorder</code>
 						</TableCell>
 						<TableCell>
-							<code>inset 0 -1.5px 0 rgba(255, 255, 255, 0.055)</code>
+							<code>inset 0 -1.5px 0 borderColor.border</code>
 						</TableCell>
 						<TableCell>Shadow-based row/header separators.</TableCell>
 					</TableRow>
@@ -126,7 +127,7 @@ export function ShadowTokenPage() {
 							<code>shadow.bottomBorderThin</code>
 						</TableCell>
 						<TableCell>
-							<code>inset 0 -1px 0 rgba(255, 255, 255, 0.055)</code>
+							<code>inset 0 -1px 0 borderColor.border</code>
 						</TableCell>
 						<TableCell>
 							Thinner shadow-based row/header separators.
@@ -139,13 +140,13 @@ export function ShadowTokenPage() {
 			<CodeBlock lang="typescript">{`const control = style(
 	background.element,
 	radius.sm,
-	shadowTokens.minimal,
+	shadow.minimal,
 )
 
 const popover = style(
 	background.subtle,
 	radius.md,
-	shadowTokens.modalSmall,
+	shadow.modalSmall,
 )`}</CodeBlock>
 
 			<Panel style={{ marginTop: "16px" }}>
@@ -165,26 +166,23 @@ const popover = style(
 	)
 }
 
-function ShadowExample({
-	name,
-	token,
-}: {
+function ShadowExample(props: {
 	name: string
 	token: (typeof shadowExamples)[number]["token"]
 }) {
 	const className = useStyles(
-		style(token, {
-			background: "var(--gray-2)",
-			borderRadius: "6px",
+		props.token,
+		style({
+			background: colors.gray[2],
+			borderRadius: "8px",
 			padding: "16px",
-			textAlign: "center",
+			minHeight: "72px",
 		}),
 	)
 
 	return (
-		<div>
-			<div className={className}>{name}</div>
+		<div className={className}>
+			<code>{props.name}</code>
 		</div>
 	)
 }
-

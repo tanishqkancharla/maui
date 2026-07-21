@@ -10,6 +10,7 @@ import {
 import { Item, ListState, useListState } from "react-stately"
 import { style, useStyles } from "purse-styles"
 import { Flex, Spacer } from "./Utils"
+import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { radius } from "../tokens/radius"
 import { spacing } from "../tokens/spacing"
@@ -58,19 +59,19 @@ export const menuItem = style(
 		cursor: "default",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: "var(--gray-A4)",
+			backgroundColor: colors.grayAlpha[4],
 		},
 		"&[data-hovered='true']": {
-			backgroundColor: "var(--gray-A4)",
+			backgroundColor: colors.grayAlpha[4],
 		},
 		"&[aria-current='page']": {
-			backgroundColor: "var(--gray-A5)",
+			backgroundColor: colors.grayAlpha[5],
 		},
 		"&[aria-selected='true']": {
-			backgroundColor: "var(--gray-A5)",
+			backgroundColor: colors.grayAlpha[5],
 		},
 		"&:active": {
-			backgroundColor: "var(--gray-A5)",
+			backgroundColor: colors.grayAlpha[5],
 		},
 	},
 )

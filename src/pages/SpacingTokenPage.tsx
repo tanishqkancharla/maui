@@ -6,6 +6,8 @@ import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { spacing } from "../tokens/spacing"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 export function SpacingTokenPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -147,13 +149,13 @@ const rowClass = {
 const chipClass = {
 	width: "32px",
 	height: "20px",
-	background: "var(--accent-9)",
+	background: colors.accent[9],
 	borderRadius: "4px",
 } as const
 
 const exampleCardStyle = {
-	background: "var(--gray-3)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[3],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
 } as const
@@ -161,7 +163,7 @@ const exampleCardStyle = {
 const demoBlockStyle = {
 	width: "32px",
 	height: "20px",
-	background: "var(--accent-9)",
+	background: colors.accent[9],
 	borderRadius: "4px",
 } as const
 

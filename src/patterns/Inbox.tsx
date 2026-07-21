@@ -1,9 +1,10 @@
 import type React from "react"
 import { style, useStyles } from "purse-styles"
 import { Icons } from "../components/Icons"
+import { colors } from "../tokens/colors"
 import { flex, flexItem } from "../tokens/layout"
 import { radius } from "../tokens/radius"
-import { shadowTokens } from "../tokens/shadows"
+import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
@@ -244,7 +245,7 @@ const threadListClass = style(flex({ direction: "column" }), {
 })
 
 const threadRowSelectedClass = style({
-	backgroundColor: "var(--gray-A3)",
+	backgroundColor: colors.grayAlpha[3],
 })
 
 const threadRowClass = style(
@@ -259,7 +260,7 @@ const threadRowClass = style(
 		minHeight: "40px",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: "var(--gray-A2)",
+			backgroundColor: colors.grayAlpha[2],
 		},
 		"&:hover .email-thread-row-toolbar": {
 			opacity: 1,
@@ -294,7 +295,7 @@ const unreadDotStyle = memoize((unread: boolean) =>
 		width: "6px",
 		height: "6px",
 		borderRadius: "50%",
-		backgroundColor: unread ? "var(--accent-9)" : "transparent",
+		backgroundColor: unread ? colors.accent[9] : "transparent",
 	}),
 )
 
@@ -332,7 +333,7 @@ const threadTimeClass = style(text("md", 400, "lowContrast"), {
 })
 
 const threadToolbarClass = style(
-	shadowTokens.minimal,
+	shadow.minimal,
 	radius.sm,
 	flex({ align: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),
@@ -341,7 +342,7 @@ const threadToolbarClass = style(
 		top: "50%",
 		right: "6px",
 		zIndex: 1,
-		background: "var(--gray-3)",
+		background: colors.gray[3],
 		opacity: 0,
 		pointerEvents: "none",
 		transform: "translateY(-50%)",
@@ -364,8 +365,8 @@ const threadActionClass = style(
 			height: "20px",
 		},
 		"&:hover": {
-			backgroundColor: "var(--gray-A4)",
-			color: "var(--gray-12)",
+			backgroundColor: colors.grayAlpha[4],
+			color: colors.gray[12],
 		},
 	},
 )
@@ -460,7 +461,7 @@ const compactRowClass = style(
 		position: "relative",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: "var(--gray-A2)",
+			backgroundColor: colors.grayAlpha[2],
 		},
 		"&:hover .email-thread-row-toolbar": {
 			opacity: 1,

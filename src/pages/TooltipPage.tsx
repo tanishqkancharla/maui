@@ -8,10 +8,11 @@ import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
-import { shadowTokens } from "../tokens/shadows"
+import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
+import { colors } from "../tokens/colors"
 export function TooltipPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -20,7 +21,7 @@ export function TooltipPage() {
 				Tooltips show after a short warmup delay on hover, or immediately on
 				keyboard focus. Press Escape to dismiss.
 			</P>
-			<Flex row alignItems="center" gap={10}>
+			<Flex row alignItems="center" gap={4}>
 				<Tooltip content="Shown above the trigger" placement="top">
 					<Button>Top</Button>
 				</Tooltip>
@@ -105,13 +106,13 @@ function ToolbarButton(props: { action: ToolbarAction }) {
 }
 
 const toolbarClass = style(
-	shadowTokens.minimal,
+	shadow.minimal,
 	radius.sm,
 	flex({ align: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),
 	{
 		width: "fit-content",
-		background: "var(--gray-3)",
+		background: colors.gray[3],
 	},
 )
 
@@ -119,7 +120,7 @@ const toolbarDividerClass = style({
 	width: "1px",
 	height: "18px",
 	marginInline: "4px",
-	background: "var(--gray-6)",
+	background: colors.gray[6],
 })
 
 const toolbarButtonClass = style(text("md", 400, "lowContrast"), radius.sm, {
@@ -135,7 +136,7 @@ const toolbarButtonClass = style(text("md", 400, "lowContrast"), radius.sm, {
 		height: "20px",
 	},
 	"&:hover": {
-		backgroundColor: "var(--gray-A4)",
-		color: "var(--gray-12)",
+		backgroundColor: colors.grayAlpha[4],
+		color: colors.gray[12],
 	},
 })

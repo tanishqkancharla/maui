@@ -11,6 +11,7 @@ import { radius } from "../tokens/radius"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
+import { colors } from "../tokens/colors"
 export function SidebarPage() {
 	const [selectedItem, setSelectedItem] = useState("overview")
 	const pageClassName = useStyles(pageClass)
@@ -151,7 +152,7 @@ const brandMarkClass = style(
 		placeItems: "center",
 		width: "28px",
 		height: "28px",
-		backgroundColor: "var(--accent-9)",
+		backgroundColor: colors.accent[9],
 	}
 )
 

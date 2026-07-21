@@ -4,6 +4,8 @@ import { Prose } from "../components/Prose"
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 export function CornerRadiusTokenPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -124,8 +126,8 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "2px",
-						background: "var(--gray-3)",
-						border: "1px solid var(--outline)",
+						background: colors.gray[3],
+						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 				<div
@@ -133,8 +135,8 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "4px",
-						background: "var(--gray-3)",
-						border: "1px solid var(--outline)",
+						background: colors.gray[3],
+						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 				<div
@@ -142,8 +144,8 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "6px",
-						background: "var(--gray-3)",
-						border: "1px solid var(--outline)",
+						background: colors.gray[3],
+						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 				<div
@@ -151,8 +153,8 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "999px",
-						background: "var(--gray-3)",
-						border: "1px solid var(--outline)",
+						background: colors.gray[3],
+						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 			</Panel>

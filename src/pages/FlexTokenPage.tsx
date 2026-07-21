@@ -5,14 +5,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } fro
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 export function FlexTokenPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Flex</H2>
 			<P>
-				Flex tokens are layout primitives, not component wrappers. They should
-				make the common row and column cases read clearly at the call site while
-				still allowing local alignment choices.
+				<code>Flex</code> is a small layout wrapper around the spacing scale.
+				Pass <code>row</code> or <code>column</code>, and use scale steps for{" "}
+				<code>gap</code> (not raw pixels). For style-object composition, prefer{" "}
+				<code>flex()</code> from layout tokens.
 			</P>
 
 			<H3>Values</H3>
@@ -27,53 +30,53 @@ export function FlexTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>flex.row()</code>
+							<code>row</code>
 						</TableCell>
 						<TableCell>
-							<code>display: flex; flex-direction: row</code>
+							<code>flex-direction: row</code>
 						</TableCell>
 						<TableCell>Horizontal groups and toolbars.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>flex.column()</code>
+							<code>column</code>
 						</TableCell>
 						<TableCell>
-							<code>display: flex; flex-direction: column</code>
+							<code>flex-direction: column</code>
 						</TableCell>
 						<TableCell>Vertical forms and stacked content.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>flex.center</code>
+							<code>gap</code>
 						</TableCell>
 						<TableCell>
-							<code>align-items: center; justify-content: center</code>
+							<code>1 | 2 | 3 | 4 | 6 | 8 | 12 | 16</code>
 						</TableCell>
 						<TableCell>
-							Centered icon buttons and empty states.
+							Space between children from the spacing scale.
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>flex.between</code>
+							<code>alignItems</code>
 						</TableCell>
 						<TableCell>
-							<code>justify-content: space-between</code>
+							<code>align-items</code> CSS value
 						</TableCell>
-						<TableCell>
-							Rows with leading content and trailing actions.
-						</TableCell>
+						<TableCell>Cross-axis alignment for the group.</TableCell>
 					</TableRow>
 				</TableBody>
 			</Table>
 
 			<H3>Examples</H3>
 			<div style={sampleTitleStyle}>Row</div>
-			<CodeBlock lang="typescript">{`const row = style(flex.row({ alignItems: "center", gap: 8 }))`}</CodeBlock>
+			<CodeBlock lang="typescript">{`<Flex row alignItems="center" gap={4}>
+	…
+</Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
-					<Flex row alignItems="center" gap={8}>
+					<Flex row alignItems="center" gap={4}>
 						<Pill>One</Pill>
 						<Pill>Two</Pill>
 						<Pill>Three</Pill>
@@ -82,10 +85,12 @@ export function FlexTokenPage() {
 			</Panel>
 
 			<div style={sampleTitleStyle}>Column</div>
-			<CodeBlock lang="typescript">{`const column = style(flex.column({ gap: 8 }))`}</CodeBlock>
+			<CodeBlock lang="typescript">{`<Flex column gap={4}>
+	…
+</Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
-					<Flex column gap={8}>
+					<Flex column gap={4}>
 						<Pill>First</Pill>
 						<Pill>Second</Pill>
 						<Pill>Third</Pill>
@@ -94,7 +99,9 @@ export function FlexTokenPage() {
 			</Panel>
 
 			<div style={sampleTitleStyle}>Centered</div>
-			<CodeBlock lang="typescript">{`const centered = style(flex.row(), flex.center)`}</CodeBlock>
+			<CodeBlock lang="typescript">{`<Flex row alignItems="center" style={{ justifyContent: "center", height: 112 }}>
+	…
+</Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div
 					style={{
@@ -110,13 +117,17 @@ export function FlexTokenPage() {
 			</Panel>
 
 			<div style={sampleTitleStyle}>Between</div>
-			<CodeBlock lang="typescript">{`const toolbar = style(flex.row({ alignItems: "center" }), flex.between)`}</CodeBlock>
+			<CodeBlock lang="typescript">{`<Flex row alignItems="center" gap={4}>
+	<span>between</span>
+	<Spacer />
+	<span>Action</span>
+</Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
-					<Flex row alignItems="center" gap={8}>
+					<Flex row alignItems="center" gap={4}>
 						<span>between</span>
 						<div style={{ flex: "1 1 auto" }} />
-						<span style={{ color: "var(--accent-11)" }}>Action</span>
+						<span style={{ color: colors.accent[11] }}>Action</span>
 					</Flex>
 				</div>
 			</Panel>
@@ -128,8 +139,8 @@ function Pill(props: { children: string }) {
 	return (
 		<span
 			style={{
-				background: "var(--gray-4)",
-				border: "1px solid var(--outline)",
+				background: colors.gray[4],
+				border: `1px solid ${borderColor.outline}`,
 				borderRadius: "999px",
 				padding: "4px 8px",
 			}}
@@ -140,14 +151,14 @@ function Pill(props: { children: string }) {
 }
 
 const exampleCardStyle = {
-	background: "var(--gray-3)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[3],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
 } as const
 
 const sampleTitleStyle = {
-	color: "var(--gray-12)",
+	color: colors.gray[12],
 	fontWeight: 600,
 	marginTop: "20px",
 	marginBottom: "8px",

@@ -6,6 +6,8 @@ import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { flex, flexItem, grid, gridItem } from "../tokens/layout"
 
+import { colors } from "../tokens/colors"
+import { borderColor } from "../tokens/borders"
 const flexExampleClass = style(flex({ align: "center", gap: 4 }))
 const flexFillItemClass = style(flexItem({ size: "fill" }))
 const gridExampleClass = style(grid({ columns: "sidebarContent", gap: 8 }))
@@ -127,20 +129,20 @@ function Pill(props: { children: string }) {
 }
 
 const pillStyle = {
-	background: "var(--gray-4)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[4],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "999px",
 	padding: "4px 8px",
 } as const
 
 const fillTrackStyle = {
 	height: "1px",
-	background: "var(--gray-8)",
+	background: colors.gray[8],
 } as const
 
 const exampleCardStyle = {
-	background: "var(--gray-3)",
-	border: "1px solid var(--outline)",
+	background: colors.gray[3],
+	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
 } as const
