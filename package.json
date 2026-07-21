@@ -1,7 +1,11 @@
 {
-	"name": "experiments",
+	"name": "maui",
 	"version": "0.0.1",
-	"description": "Tanishq Kancharla's experiments",
+	"description": "Maui design system",
+	"exports": {
+		".": "./src/maui.ts"
+	},
+	"types": "./src/maui.ts",
 	"scripts": {
 		"tsc": "tsc --noEmit --watch",
 		"clear": "mkdir -p dist && rm -rf dist/*",

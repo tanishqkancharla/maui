@@ -5,20 +5,39 @@ description: Conventions for consuming the Maui design system. Use when building
 
 # Maui
 
-TypeScript-first design system styled with `purse-styles`. Import tokens and components from the Maui package and compose with `style` / `useStyles`.
+TypeScript-first design system styled with `purse-styles`. Wrap the app in `MauiProvider`, then import tokens and components from `"maui"`.
 
 ```ts
 import { style } from "purse-styles"
-import { background, border, colors, radius, shadow } from "maui"
+import {
+	MauiProvider,
+	background,
+	border,
+	colors,
+	radius,
+	shadow,
+} from "maui"
+
+function App() {
+	return (
+		<MauiProvider>
+			{/* … */}
+		</MauiProvider>
+	)
+}
 ```
+
+`MauiProvider` sets up theme (`data-theme` / `color-scheme`), `PurseProvider`, design-system globals, and the focus UI database used by Button/Dialog.
+
+## Theme FOUC
+
+Put the exported `themeFoucScript` string in a classic inline `<script>` in `<head>` (before React boots) so `data-theme` is correct on first paint. The gallery `src/index.html` uses the same script.
+
+Use `useTheme()` for preference / resolved theme. Token dark values use the `DARK_THEME` selector (`:root[data-theme="dark"]`). Prefer semantic tokens (`colors`, `background`, `avatar`, `focusRing()`) over bespoke CSS variables.
 
 ## Shadows
 
 Elevation shadows (`shadow.thin`, `shadow.minimal`, `shadow.middle`, `shadow.strong`, etc.) already include a 1px ring. Do not also apply `border()`, `borderColor.outline`, or an extra `0 0 0 1px` ring on the same element — use the shadow alone.
-
-## Theme
-
-Maui resolves System / Light / Dark onto `data-theme` on `<html>`. Token modules use purse `defineVars` with the `DARK_THEME` selector condition (`:root[data-theme="dark"]`). Prefer semantic tokens (`colors`, `background`, `avatar`, `focusRing()`) over bespoke CSS variables.
 
 ## Focus
 

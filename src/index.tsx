@@ -1,17 +1,10 @@
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
-import {
-	PurseProvider,
-	style,
-	useInjectGlobalStyles,
-	useStyles,
-} from "purse-styles"
+import { style, useStyles } from "purse-styles"
+import { MauiProvider } from "./MauiProvider"
 import { Maui } from "./pages/Maui"
-import { ThemeProvider } from "./theme/ThemeContext"
-import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
-import { background, backgroundColor } from "./tokens/background"
+import { background } from "./tokens/background"
 import { colors } from "./tokens/colors"
-import { baseTextStyle } from "./tokens/text"
 
 Object.defineProperty(Array.prototype, "last", {
 	get() {
@@ -35,34 +28,6 @@ const appStyles = style(background.app, {
 	overflow: "hidden",
 })
 
-function GlobalStyles() {
-	useInjectGlobalStyles(
-		"*, *::after, *::before",
-		{
-			boxSizing: "border-box",
-		},
-		[],
-	)
-	useInjectGlobalStyles(
-		"html, body",
-		{
-			margin: 0,
-			backgroundColor: backgroundColor.app,
-			...baseTextStyle,
-		},
-		[],
-	)
-	useInjectGlobalStyles(
-		'button, [role="button"]',
-		{
-			cursor: "default",
-		},
-		[],
-	)
-
-	return null
-}
-
 function AppContent() {
 	const className = useStyles(appStyles)
 
@@ -75,14 +40,9 @@ function AppContent() {
 
 function App() {
 	return (
-		<ThemeProvider>
-			<PurseProvider>
-				<GlobalStyles />
-				<UIDatabaseProvider>
-					<AppContent />
-				</UIDatabaseProvider>
-			</PurseProvider>
-		</ThemeProvider>
+		<MauiProvider>
+			<AppContent />
+		</MauiProvider>
 	)
 }
 
