@@ -2,6 +2,7 @@ import type React from "react"
 import { useId } from "react"
 import { style, useStyles } from "purse-styles"
 import { menuItem } from "../components/Menu"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
@@ -137,7 +138,7 @@ const itemClass = style(menuItem, {
 	textAlign: "left",
 	backgroundColor: "transparent",
 	"&[aria-pressed='true']": {
-		backgroundColor: colors.grayAlpha[5],
+		backgroundColor: backgroundColor.elementActive,
 		color: colors.accent[11],
 	},
 })
