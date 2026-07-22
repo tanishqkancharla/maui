@@ -333,7 +333,7 @@ const threadTimeClass = style(text("md", 400, "lowContrast"), {
 })
 
 const threadToolbarClass = style(
-	shadow.minimal,
+	shadow.subtle,
 	radius.sm,
 	flex({ align: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),

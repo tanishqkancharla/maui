@@ -253,7 +253,7 @@ const tooltipClass = style(
 	text("xs", 400, "highContrast"),
 	radius.sm,
 	spacing.padding({ x: 3, y: 2 }),
-	shadow.middle,
+	shadow.medium,
 	{
 		zIndex: 1000,
 		maxWidth: "240px",

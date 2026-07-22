@@ -1,23 +1,23 @@
 import { style, useStyles } from "purse-styles"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeaderCell,
+	TableRow,
+} from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
 import { colors } from "../tokens/colors"
 import { shadow } from "../tokens/shadow"
 
 const shadowExamples = [
-	{ name: "thin", token: shadow.thin },
-	{ name: "minimalFlat", token: shadow.minimalFlat },
-	{ name: "minimal", token: shadow.minimal },
-	{ name: "middle", token: shadow.middle },
+	{ name: "subtle", token: shadow.subtle },
+	{ name: "medium", token: shadow.medium },
 	{ name: "strong", token: shadow.strong },
-	{ name: "modalSmall", token: shadow.modalSmall },
-	{ name: "panelFocused", token: shadow.panelFocused },
-	{ name: "border", token: shadow.border },
-	{ name: "bottomBorder", token: shadow.bottomBorder },
-	{ name: "bottomBorderThin", token: shadow.bottomBorderThin },
 ] as const
 
 export function ShadowTokenPage() {
@@ -25,8 +25,9 @@ export function ShadowTokenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Shadows</H2>
 			<P>
-				Shadow tokens are taken from Craft's shadow system: a foreground-colored
-				1px ring plus black blur layers controlled by shared opacity variables.
+				Shadows use Craft&apos;s three-level elevation stack: a
+				foreground-colored 1px ring plus progressively deeper black blur layers.
+				Blur opacity is 0.06 in light mode and 0.12 in dark mode.
 			</P>
 
 			<H3>Values</H3>
@@ -41,41 +42,23 @@ export function ShadowTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>shadow.thin</code>
+							<code>shadow.subtle</code>
 						</TableCell>
 						<TableCell>
-							<code>shadowVars.thin</code>
-						</TableCell>
-						<TableCell>Border-ring only, no blur.</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>shadow.minimalFlat</code>
+							<code>shadowVars.subtle</code>
 						</TableCell>
 						<TableCell>
-							<code>shadowVars.minimalFlat</code>
-						</TableCell>
-						<TableCell>Minimal ring-only surface treatment.</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>shadow.minimal</code>
-						</TableCell>
-						<TableCell>
-							<code>shadowVars.minimal</code>
-						</TableCell>
-						<TableCell>
-							Small controls and low-elevation surfaces.
+							Controls, cards, and ordinary low-elevation surfaces.
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>shadow.middle</code>
+							<code>shadow.medium</code>
 						</TableCell>
 						<TableCell>
-							<code>shadowVars.middle</code>
+							<code>shadowVars.medium</code>
 						</TableCell>
-						<TableCell>Floating panels with moderate depth.</TableCell>
+						<TableCell>Tooltips and larger floating panels.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
@@ -84,69 +67,22 @@ export function ShadowTokenPage() {
 						<TableCell>
 							<code>shadowVars.strong</code>
 						</TableCell>
-						<TableCell>Higher-elevation floating panels.</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>shadow.modalSmall</code>
-						</TableCell>
-						<TableCell>
-							<code>shadowVars.modalSmall</code>
-						</TableCell>
-						<TableCell>Popovers, toasts, and small modals.</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>shadow.panelFocused</code>
-						</TableCell>
-						<TableCell>
-							<code>shadowVars.panelFocused</code>
-						</TableCell>
-						<TableCell>Focused panel depth treatment.</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>shadow.border</code>
-						</TableCell>
-						<TableCell>
-							<code>0 0 0 1px borderColor.border</code>
-						</TableCell>
-						<TableCell>Shadow-based surface borders.</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>shadow.bottomBorder</code>
-						</TableCell>
-						<TableCell>
-							<code>inset 0 -1.5px 0 borderColor.border</code>
-						</TableCell>
-						<TableCell>Shadow-based row/header separators.</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>shadow.bottomBorderThin</code>
-						</TableCell>
-						<TableCell>
-							<code>inset 0 -1px 0 borderColor.border</code>
-						</TableCell>
-						<TableCell>
-							Thinner shadow-based row/header separators.
-						</TableCell>
+						<TableCell>Dropdowns, popovers, and dominant overlays.</TableCell>
 					</TableRow>
 				</TableBody>
 			</Table>
 
-			<H3>Examples</H3>
+			<H3>Example</H3>
 			<CodeBlock lang="typescript">{`const control = style(
 	background.element,
 	radius.sm,
-	shadow.minimal,
+	shadow.subtle,
 )
 
 const popover = style(
 	background.subtle,
 	radius.md,
-	shadow.modalSmall,
+	shadow.strong,
 )`}</CodeBlock>
 
 			<Panel style={{ marginTop: "16px" }}>
@@ -158,7 +94,11 @@ const popover = style(
 					}}
 				>
 					{shadowExamples.map((example) => (
-						<ShadowExample key={example.name} name={example.name} token={example.token} />
+						<ShadowExample
+							key={example.name}
+							name={example.name}
+							token={example.token}
+						/>
 					))}
 				</div>
 			</Panel>

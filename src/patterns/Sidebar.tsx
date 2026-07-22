@@ -6,7 +6,7 @@ import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
-import { shadowVars } from "../tokens/shadow"
+import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
@@ -101,8 +101,8 @@ const sidebarClass = style(
 		width: "240px",
 		minWidth: "240px",
 		backgroundColor: colors.gray[2],
-		boxShadow: shadowVars.minimalFlat,
-	}
+	},
+	shadow.subtle,
 )
 
 const sectionClass = style(flex({ direction: "column", gap: 4 }))
