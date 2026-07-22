@@ -45,6 +45,10 @@ Use the three-level elevation scale:
 
 All three already include a 1px ring. Do not also apply `border()`, `borderColor.outline`, or another ring on the same element.
 
+Buttons and form-control surfaces use `shadow.subtle` by default. For compound
+controls, apply it once to the outer control boundary rather than to every
+internal button or segment.
+
 ## Focus
 
 `focusRing()` applies a theme-aware accent shadow (`accentAlpha[8]` hard edge + `accentAlpha[5]` glow). Do not hand-roll a competing outline or box-shadow for keyboard focus.

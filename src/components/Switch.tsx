@@ -7,6 +7,7 @@ import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
+import { shadow } from "../tokens/shadow"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { labelText } from "./Typography"
 
@@ -34,6 +35,7 @@ const switchClass = style(
 const switchToggleClass = style(
 	radius.pill,
 	motion.standard("background-color"),
+	shadow.subtle,
 	{
 		position: "relative",
 		width: "24px",

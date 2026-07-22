@@ -9,6 +9,7 @@ import { useSliderState } from "react-stately"
 import { style, useStyles } from "purse-styles"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { shadowVars } from "../tokens/shadow"
 
 type SliderProps = AriaSliderProps<number> & {
 	label: string
@@ -58,6 +59,7 @@ const sliderClass = style(focusRing("& .slider-thumb:has(input:focus-visible)"),
 		height: "12px",
 		borderRadius: "100%",
 		background: colors.gray[12],
+		boxShadow: shadowVars.subtle,
 		transform: "translateX(-50%)",
 	},
 	"& .slider-thumb[data-dragging='true']": {

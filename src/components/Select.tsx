@@ -15,7 +15,6 @@ import {
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
 import { colors } from "../tokens/colors"
-import { border } from "../tokens/borders"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
@@ -36,7 +35,7 @@ const triggerClass = style(
 	focusRing(),
 	motion.standard("background", "border-color"),
 	radius.sm,
-	border([], "outline"),
+	shadow.subtle,
 	{
 		display: "flex",
 		alignItems: "center",
@@ -46,6 +45,7 @@ const triggerClass = style(
 		padding: "6px 8px",
 		background: colors.gray[3],
 		color: colors.gray[12],
+		border: "none",
 		textAlign: "left",
 		"&:hover": {
 			background: colors.gray[4],
@@ -58,7 +58,8 @@ const triggerClass = style(
 			background: colors.gray[2],
 		},
 		"&[data-invalid]": {
-			borderColor: "light-dark(#ce2c31, #e5484d)",
+			outline: "1px solid light-dark(#ce2c31, #e5484d)",
+			outlineOffset: "-1px",
 		},
 	},
 )

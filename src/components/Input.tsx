@@ -11,18 +11,20 @@ import {
 } from "react-aria"
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { border, borderColor } from "../tokens/borders"
+import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { shadow } from "../tokens/shadow"
 import { text } from "../tokens/text"
 import { Icons } from "./Icons"
 
 const inputText = text("sm", 400, "highContrast")
 
-const inputClass = style(inputText, focusRing(), border([], "outline"), {
+const inputClass = style(inputText, focusRing(), shadow.subtle, {
 	background: colors.gray[3],
 	width: "100%",
 	color: colors.gray[12],
+	border: "none",
 	padding: "6px 8px",
 	borderRadius: "4px",
 	height: "28px",
@@ -108,47 +110,52 @@ export function SearchField(props: AriaSearchFieldProps) {
 	)
 }
 
-const numberFieldClass = style(focusRing("& button:focus-visible"), {
-	display: "flex",
-	alignItems: "center",
-	width: "100%",
-	"& input": {
-		borderTopRightRadius: 0,
-		borderBottomRightRadius: 0,
-	},
-	"& .number-stepper": {
+const numberFieldClass = style(
+	focusRing("& button:focus-visible"),
+	shadow.subtle,
+	{
 		display: "flex",
-		height: "28px",
+		alignItems: "center",
+		width: "100%",
+		"& input": {
+			borderTopRightRadius: 0,
+			borderBottomRightRadius: 0,
+			boxShadow: "none",
+		},
+		"& .number-stepper": {
+			display: "flex",
+			height: "28px",
+		},
+		"& button": {
+			display: "flex",
+			placeItems: "center",
+			justifyContent: "center",
+			width: "24px",
+			border: "none",
+			borderLeft: `1px solid ${borderColor.border}`,
+			background: colors.gray[3],
+			color: colors.gray[11],
+			padding: 0,
+		},
+		"& button:first-child": {
+			borderRadius: 0,
+		},
+		"& button:last-child": {
+			borderTopRightRadius: "4px",
+			borderBottomRightRadius: "4px",
+		},
+		"& button svg": {
+			width: "14px",
+			height: "14px",
+		},
+		"& button:hover": {
+			background: colors.gray[4],
+		},
+		"& button:disabled": {
+			color: colors.gray[8],
+		},
 	},
-	"& button": {
-		display: "flex",
-		placeItems: "center",
-		justifyContent: "center",
-		width: "24px",
-		border: `1px solid ${borderColor.outline}`,
-		borderLeft: "none",
-		background: colors.gray[3],
-		color: colors.gray[11],
-		padding: 0,
-	},
-	"& button:first-child": {
-		borderRadius: 0,
-	},
-	"& button:last-child": {
-		borderTopRightRadius: "4px",
-		borderBottomRightRadius: "4px",
-	},
-	"& button svg": {
-		width: "14px",
-		height: "14px",
-	},
-	"& button:hover": {
-		background: colors.gray[4],
-	},
-	"& button:disabled": {
-		color: colors.gray[8],
-	},
-})
+)
 
 export function NumberField(props: AriaNumberFieldProps) {
 	const ref = useRef<HTMLInputElement>(null)
@@ -184,7 +191,7 @@ export function NumberField(props: AriaNumberFieldProps) {
 	)
 }
 
-const quietInputClass = style(inputText, focusRing(), {
+const quietInputClass = style(inputText, focusRing(), shadow.subtle, {
 	width: "100%",
 	color: colors.gray[12],
 	padding: "6px 8px",

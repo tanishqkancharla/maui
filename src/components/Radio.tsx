@@ -7,6 +7,7 @@ import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
+import { shadow } from "../tokens/shadow"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { Label, P } from "./Typography"
 
@@ -59,6 +60,7 @@ const radioClass = style(
 const radioToggleClass = style(
 	radius.circle,
 	motion.standard("background-color"),
+	shadow.subtle,
 	{
 		pointerEvents: "none",
 		position: "relative",

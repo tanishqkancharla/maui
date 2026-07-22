@@ -7,6 +7,7 @@ import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
+import { shadow } from "../tokens/shadow"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { labelText } from "./Typography"
 
@@ -39,6 +40,7 @@ const checkboxToggleClass = style(
 	flex({ align: "center", justify: "center" }),
 	radius["2xs"],
 	motion.standard("background-color"),
+	shadow.subtle,
 	{
 		pointerEvents: "none",
 		width: "14px",
