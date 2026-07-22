@@ -43,7 +43,7 @@ const triggerClass = style(
 		height: "28px",
 		minWidth: 0,
 		padding: "6px 8px",
-		background: colors.gray[3],
+		background: "transparent",
 		color: colors.gray[12],
 		border: "none",
 		textAlign: "left",

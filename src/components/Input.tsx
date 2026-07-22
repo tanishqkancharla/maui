@@ -14,6 +14,7 @@ import { style, useStyles } from "purse-styles"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { text } from "../tokens/text"
 import { Icons } from "./Icons"
@@ -21,7 +22,7 @@ import { Icons } from "./Icons"
 const inputText = text("sm", 400, "highContrast")
 
 const inputClass = style(inputText, focusRing(), shadow.subtle, {
-	background: colors.gray[3],
+	background: "transparent",
 	width: "100%",
 	color: colors.gray[12],
 	border: "none",
@@ -112,6 +113,7 @@ export function SearchField(props: AriaSearchFieldProps) {
 
 const numberFieldClass = style(
 	focusRing("& button:focus-visible"),
+	radius.sm,
 	shadow.subtle,
 	{
 		display: "flex",
@@ -133,7 +135,7 @@ const numberFieldClass = style(
 			width: "24px",
 			border: "none",
 			borderLeft: `1px solid ${borderColor.border}`,
-			background: colors.gray[3],
+			background: "transparent",
 			color: colors.gray[11],
 			padding: 0,
 		},
@@ -191,7 +193,7 @@ export function NumberField(props: AriaNumberFieldProps) {
 	)
 }
 
-const quietInputClass = style(inputText, focusRing(), shadow.subtle, {
+const quietInputClass = style(inputText, focusRing(), {
 	width: "100%",
 	color: colors.gray[12],
 	padding: "6px 8px",
