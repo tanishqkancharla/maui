@@ -11,6 +11,7 @@ import {
 } from "react-aria"
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { backgroundColor } from "../tokens/background"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
@@ -31,7 +32,7 @@ const inputClass = style(inputText, focusRing(), shadow.subtle, {
 	height: "28px",
 	transition: "border-color 80ms ease-in-out",
 	"&:hover": {
-		background: colors.gray[4],
+		background: backgroundColor.elementHover,
 	},
 	"&::placeholder": {
 		fontStyle: "italic",
@@ -56,7 +57,7 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 		appearance: "none",
 	},
 	"&:hover input": {
-		background: colors.gray[4],
+		background: backgroundColor.elementHover,
 	},
 	'& input::-webkit-search-cancel-button': {
 		appearance: "none",
@@ -151,7 +152,7 @@ const numberFieldClass = style(
 			height: "14px",
 		},
 		"& button:hover": {
-			background: colors.gray[4],
+			background: backgroundColor.elementHover,
 		},
 		"& button:disabled": {
 			color: colors.gray[8],
@@ -203,7 +204,7 @@ const quietInputClass = style(inputText, focusRing(), {
 	border: "none",
 	transition: "background 80ms ease-in-out",
 	"&:hover": {
-		background: colors.gray[3],
+		background: backgroundColor.elementHover,
 	},
 	"&::placeholder": {
 		fontStyle: "italic",

@@ -14,6 +14,7 @@ import {
 	type ValidationResult,
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
@@ -48,10 +49,10 @@ const triggerClass = style(
 		border: "none",
 		textAlign: "left",
 		"&:hover": {
-			background: colors.gray[4],
+			background: backgroundColor.elementHover,
 		},
 		"&[data-pressed]": {
-			background: colors.gray[5],
+			background: backgroundColor.elementActive,
 		},
 		"&[data-disabled]": {
 			color: colors.gray[8],
