@@ -83,7 +83,7 @@ export function BackgroundColorTokenPage() {
 							<code>backgroundColor.elementHover</code>
 						</TableCell>
 						<TableCell>
-							Menu/nav hover — 5% gray[12] mixed into element.
+							5% gray[12] into app canvas (white / gray[1]).
 						</TableCell>
 					</TableRow>
 					<TableRow>
@@ -94,7 +94,7 @@ export function BackgroundColorTokenPage() {
 							<code>backgroundColor.elementActive</code>
 						</TableCell>
 						<TableCell>
-							Selected menu/nav items — 10% gray[12] mixed into element.
+							10% gray[12] into app canvas (white / gray[1]).
 						</TableCell>
 					</TableRow>
 					<TableRow>

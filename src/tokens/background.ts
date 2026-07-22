@@ -2,20 +2,25 @@ import { defineVars, style } from "purse-styles"
 import { DARK_THEME } from "../theme/dataTheme"
 import { colors } from "./colors"
 
-// Hover/active follow Craft: mix a little foreground into the element surface
-// instead of jumping a full gray step (gray 4 / 5).
-const elementHover = `color-mix(in oklch, ${colors.gray[12]} 5%, ${colors.gray[3]})`
-const elementActive = `color-mix(in oklch, ${colors.gray[12]} 10%, ${colors.gray[3]})`
-
-export const backgroundColor = defineVars({
+const appSurface = defineVars({
 	app: {
 		default: "#ffffff",
 		[DARK_THEME]: colors.gray[1],
 	},
-	element: colors.gray[3],
-	elementHover,
-	elementActive,
 })
+
+// Hover/active: Craft-style foreground wash into the app canvas
+// (white in light, gray[1] in dark) — not into gray[3].
+const elementSurface = defineVars({
+	element: colors.gray[3],
+	elementHover: `color-mix(in oklch, ${colors.gray[12]} 5%, ${appSurface.app})`,
+	elementActive: `color-mix(in oklch, ${colors.gray[12]} 10%, ${appSurface.app})`,
+})
+
+export const backgroundColor = {
+	...appSurface,
+	...elementSurface,
+}
 
 export const background = {
 	app: style({ backgroundColor: backgroundColor.app }),
