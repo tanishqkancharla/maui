@@ -16,29 +16,34 @@ import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { radius } from "../tokens/radius"
-import { shadow } from "../tokens/shadow"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { text } from "../tokens/text"
 import { Icons } from "./Icons"
 
 const inputText = text("sm", 400, "highContrast")
 
-const inputClass = style(inputText, focusRing(), shadow.subtle, {
-	background: "transparent",
-	width: "100%",
-	color: colors.gray[12],
-	border: "none",
-	padding: "6px 8px",
-	borderRadius: "4px",
-	height: "28px",
-	transition: "border-color 80ms ease-in-out",
-	"&:hover": {
-		background: backgroundColor.elementHover,
+const inputClass = style(
+	inputText,
+	focusRing("&:focus-visible", shadowVars.subtle),
+	shadow.subtle,
+	{
+		background: "transparent",
+		width: "100%",
+		color: colors.gray[12],
+		border: "none",
+		padding: "6px 8px",
+		borderRadius: "4px",
+		height: "28px",
+		transition: "background 80ms ease-in-out",
+		"&:hover": {
+			background: backgroundColor.elementHover,
+		},
+		"&::placeholder": {
+			fontStyle: "italic",
+			color: colors.gray[8],
+		},
 	},
-	"&::placeholder": {
-		fontStyle: "italic",
-		color: colors.gray[8],
-	},
-})
+)
 
 type InputProps = AriaTextFieldOptions<"input">
 

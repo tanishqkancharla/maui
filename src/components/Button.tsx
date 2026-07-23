@@ -6,13 +6,13 @@ import { useRefCurrent } from "../hooks/useRefCurrent"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
-import { shadow } from "../tokens/shadow"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
 const buttonBaseClass = style(
 	text("xs", 400, "highContrast"),
-	focusRing(),
+	focusRing("&:focus-visible", shadowVars.subtle),
 	motion.standard("box-shadow", "background"),
 	shadow.subtle,
 	spacing.padding({ x: 6, y: 4 }),

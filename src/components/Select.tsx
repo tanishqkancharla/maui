@@ -19,7 +19,7 @@ import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
-import { shadow } from "../tokens/shadow"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { text } from "../tokens/text"
 import { menu, menuItem } from "./Menu"
 import { labelText } from "./Typography"
@@ -33,7 +33,7 @@ const selectClass = style({
 
 const triggerClass = style(
 	text("sm", 400, "highContrast"),
-	focusRing(),
+	focusRing("&:focus-visible", shadowVars.subtle),
 	motion.standard("background", "border-color"),
 	radius.sm,
 	shadow.subtle,
@@ -58,9 +58,8 @@ const triggerClass = style(
 			color: colors.gray[8],
 			background: colors.gray[2],
 		},
-		"&[data-invalid]": {
-			outline: "1px solid light-dark(#ce2c31, #e5484d)",
-			outlineOffset: "-1px",
+		"&[data-invalid]:not(:focus-visible)": {
+			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.subtle}`,
 		},
 	},
 )
@@ -106,10 +105,10 @@ const itemClass = style(menuItem, {
 	paddingRight: "28px",
 	outline: "none",
 	"&[data-focused]": {
-		background: colors.grayAlpha[4],
+		background: backgroundColor.elementHover,
 	},
 	"&[data-pressed]": {
-		background: colors.grayAlpha[5],
+		background: backgroundColor.elementActive,
 	},
 	"&[data-selected]": {
 		background: colors.accentAlpha[4],

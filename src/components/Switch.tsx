@@ -7,13 +7,16 @@ import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
-import { shadow } from "../tokens/shadow"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { labelText } from "./Typography"
 
 const switchClass = style(
 	flex({ align: "center", gap: 3 }),
-	focusRing("& .switch-input:focus-visible + .switch-toggle"),
+	focusRing(
+		"& .switch-input:focus-visible + .switch-toggle",
+		shadowVars.subtle,
+	),
 	{
 		position: "relative",
 		width: "fit-content",

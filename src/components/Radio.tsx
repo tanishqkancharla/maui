@@ -7,7 +7,7 @@ import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
-import { shadow } from "../tokens/shadow"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { Label, P } from "./Typography"
 
@@ -41,7 +41,10 @@ export function RadioOptionGroup(props: RadioOptionGroupProps) {
 
 const radioClass = style(
 	flex({ align: "center", gap: 3 }),
-	focusRing("& .radio-input:focus-visible + .radio-toggle"),
+	focusRing(
+		"& .radio-input:focus-visible + .radio-toggle",
+		shadowVars.subtle,
+	),
 	{
 		position: "relative",
 		width: "fit-content",
