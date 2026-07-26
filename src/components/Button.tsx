@@ -6,13 +6,15 @@ import { useRefCurrent } from "../hooks/useRefCurrent"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
 const buttonBaseClass = style(
 	text("xs", 400, "highContrast"),
-	focusRing(),
+	focusRing("&:focus-visible", shadowVars.subtle),
 	motion.standard("box-shadow", "background"),
+	shadow.subtle,
 	spacing.padding({ x: 6, y: 4 }),
 	{
 		borderRadius: "4px",
@@ -28,13 +30,9 @@ const buttonBaseClass = style(
 const buttonClass = style(buttonBaseClass, {
 	background:
 		`linear-gradient(${colors.gray[3]}, ${colors.gray[2]}), radial-gradient(${colors.gray[3]}, ${colors.gray[2]})`,
-	boxShadow:
-		`rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, ${colors.grayAlpha[3]} 0px 0.5px 0px 0px inset, ${colors.gray[7]} 0px 0px 0px 1px inset`,
 	"&:hover": {
 		background:
 			`linear-gradient(${colors.gray[5]}, ${colors.gray[4]}), radial-gradient(${colors.gray[5]}, ${colors.gray[4]})`,
-		boxShadow:
-			`rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, ${colors.grayAlpha[3]} 0px 0.5px 0px 0px inset, ${colors.gray[8]} 0px 0px 0px 1px inset`,
 	},
 	"&:active": {
 		background:
@@ -90,13 +88,9 @@ const actionButtonClass = style(buttonBaseClass, {
 	color: "white",
 	background:
 		`linear-gradient(${colors.accentAlpha[8]}, ${colors.accentAlpha[7]}), linear-gradient(${colors.gray[3]}, ${colors.gray[2]}), radial-gradient(${colors.gray[3]}, ${colors.gray[2]})`,
-	boxShadow:
-		`rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, ${colors.accent[7]} 0px 0px 0px 1px inset`,
 	"&:hover": {
 		background:
 			`linear-gradient(${colors.accentAlpha[9]}, ${colors.accentAlpha[8]}), linear-gradient(${colors.gray[4]}, ${colors.gray[3]}), radial-gradient(${colors.gray[4]}, ${colors.gray[3]})`,
-		boxShadow:
-			`rgb(0 0 0 / 50%) 0px 0px 0px 0px inset, rgb(255 255 255 / 5%) 0px 0.5px 0px 0px inset, ${colors.accent[8]} 0px 0px 0px 1px inset`,
 	},
 	"&:active": {
 		background:

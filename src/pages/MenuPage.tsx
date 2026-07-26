@@ -32,7 +32,7 @@ export function MenuPage() {
 	)
 }
 
-const menuPanelClass = style(shadow.border, spacing.padding({ all: 2 }), {
+const menuPanelClass = style(shadow.subtle, spacing.padding({ all: 2 }), {
 	maxWidth: "240px",
 	background: colors.gray[1],
 	borderRadius: "6px",

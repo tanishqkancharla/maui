@@ -79,7 +79,7 @@ const animatedCard = style(
 		transform: isActive ? "translateX(96px)" : "translateX(0)",
 		background: isActive ? colors.accentAlpha[4] : colors.gray[3],
 		borderColor: isActive ? colors.accent[8] : borderColor.outline,
-		boxShadow: isActive ? shadowVars.middle : shadowVars.thin,
+		boxShadow: isActive ? shadowVars.medium : shadowVars.subtle,
 	}}
 />`}</CodeBlock>
 
@@ -94,7 +94,7 @@ const animatedCard = style(
 					style={{
 						background: isActive ? colors.accentAlpha[4] : colors.gray[3],
 						borderColor: isActive ? colors.accent[8] : borderColor.outline,
-						boxShadow: isActive ? shadowVars.middle : shadowVars.thin,
+						boxShadow: isActive ? shadowVars.medium : shadowVars.subtle,
 						transform: isActive ? "translateX(96px)" : "translateX(0)",
 					}}
 				>

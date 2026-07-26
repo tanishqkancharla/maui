@@ -160,7 +160,7 @@ const messageListClass = style(
 
 const messageClass = style(
 	radius.lg,
-	shadow.minimalFlat,
+	shadow.subtle,
 	spacing.padding({ all: 8 }),
 	{
 		backgroundColor: colors.gray[2],

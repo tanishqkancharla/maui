@@ -11,30 +11,39 @@ import {
 } from "react-aria"
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { border, borderColor } from "../tokens/borders"
+import { backgroundColor } from "../tokens/background"
+import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { radius } from "../tokens/radius"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { text } from "../tokens/text"
 import { Icons } from "./Icons"
 
 const inputText = text("sm", 400, "highContrast")
 
-const inputClass = style(inputText, focusRing(), border([], "outline"), {
-	background: colors.gray[3],
-	width: "100%",
-	color: colors.gray[12],
-	padding: "6px 8px",
-	borderRadius: "4px",
-	height: "28px",
-	transition: "border-color 80ms ease-in-out",
-	"&:hover": {
-		background: colors.gray[4],
+const inputClass = style(
+	inputText,
+	focusRing("&:focus-visible", shadowVars.subtle),
+	shadow.subtle,
+	{
+		background: "transparent",
+		width: "100%",
+		color: colors.gray[12],
+		border: "none",
+		padding: "6px 8px",
+		borderRadius: "4px",
+		height: "28px",
+		transition: "background 80ms ease-in-out",
+		"&:hover": {
+			background: backgroundColor.elementHover,
+		},
+		"&::placeholder": {
+			fontStyle: "italic",
+			color: colors.gray[8],
+		},
 	},
-	"&::placeholder": {
-		fontStyle: "italic",
-		color: colors.gray[8],
-	},
-})
+)
 
 type InputProps = AriaTextFieldOptions<"input">
 
@@ -53,7 +62,7 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 		appearance: "none",
 	},
 	"&:hover input": {
-		background: colors.gray[4],
+		background: backgroundColor.elementHover,
 	},
 	'& input::-webkit-search-cancel-button': {
 		appearance: "none",
@@ -108,47 +117,53 @@ export function SearchField(props: AriaSearchFieldProps) {
 	)
 }
 
-const numberFieldClass = style(focusRing("& button:focus-visible"), {
-	display: "flex",
-	alignItems: "center",
-	width: "100%",
-	"& input": {
-		borderTopRightRadius: 0,
-		borderBottomRightRadius: 0,
-	},
-	"& .number-stepper": {
+const numberFieldClass = style(
+	focusRing("& button:focus-visible"),
+	radius.sm,
+	shadow.subtle,
+	{
 		display: "flex",
-		height: "28px",
+		alignItems: "center",
+		width: "100%",
+		"& input": {
+			borderTopRightRadius: 0,
+			borderBottomRightRadius: 0,
+			boxShadow: "none",
+		},
+		"& .number-stepper": {
+			display: "flex",
+			height: "28px",
+		},
+		"& button": {
+			display: "flex",
+			placeItems: "center",
+			justifyContent: "center",
+			width: "24px",
+			border: "none",
+			borderLeft: `1px solid ${borderColor.border}`,
+			background: "transparent",
+			color: colors.gray[11],
+			padding: 0,
+		},
+		"& button:first-child": {
+			borderRadius: 0,
+		},
+		"& button:last-child": {
+			borderTopRightRadius: "4px",
+			borderBottomRightRadius: "4px",
+		},
+		"& button svg": {
+			width: "14px",
+			height: "14px",
+		},
+		"& button:hover": {
+			background: backgroundColor.elementHover,
+		},
+		"& button:disabled": {
+			color: colors.gray[8],
+		},
 	},
-	"& button": {
-		display: "flex",
-		placeItems: "center",
-		justifyContent: "center",
-		width: "24px",
-		border: `1px solid ${borderColor.outline}`,
-		borderLeft: "none",
-		background: colors.gray[3],
-		color: colors.gray[11],
-		padding: 0,
-	},
-	"& button:first-child": {
-		borderRadius: 0,
-	},
-	"& button:last-child": {
-		borderTopRightRadius: "4px",
-		borderBottomRightRadius: "4px",
-	},
-	"& button svg": {
-		width: "14px",
-		height: "14px",
-	},
-	"& button:hover": {
-		background: colors.gray[4],
-	},
-	"& button:disabled": {
-		color: colors.gray[8],
-	},
-})
+)
 
 export function NumberField(props: AriaNumberFieldProps) {
 	const ref = useRef<HTMLInputElement>(null)
@@ -194,7 +209,7 @@ const quietInputClass = style(inputText, focusRing(), {
 	border: "none",
 	transition: "background 80ms ease-in-out",
 	"&:hover": {
-		background: colors.gray[3],
+		background: backgroundColor.elementHover,
 	},
 	"&::placeholder": {
 		fontStyle: "italic",

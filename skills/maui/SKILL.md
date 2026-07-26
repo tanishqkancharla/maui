@@ -37,7 +37,17 @@ Use `useTheme()` for preference / resolved theme. Token dark values use the `DAR
 
 ## Shadows
 
-Elevation shadows (`shadow.thin`, `shadow.minimal`, `shadow.middle`, `shadow.strong`, etc.) already include a 1px ring. Do not also apply `border()`, `borderColor.outline`, or an extra `0 0 0 1px` ring on the same element — use the shadow alone.
+Use the three-level elevation scale:
+
+- `shadow.subtle` — controls, cards, and ordinary raised surfaces
+- `shadow.medium` — tooltips and larger floating panels
+- `shadow.strong` — dropdowns, popovers, and dominant overlays
+
+All three already include a 1px ring. Do not also apply `border()`, `borderColor.outline`, or another ring on the same element.
+
+Buttons and form-control surfaces use `shadow.subtle` by default. For compound
+controls, apply it once to the outer control boundary rather than to every
+internal button or segment.
 
 ## Focus
 

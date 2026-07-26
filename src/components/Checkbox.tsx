@@ -7,6 +7,7 @@ import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { labelText } from "./Typography"
 
@@ -18,7 +19,10 @@ type CheckboxProps = {
 
 const checkboxClass = style(
 	flex({ align: "center", gap: 3 }),
-	focusRing("& .checkbox-input:focus-visible + .checkbox-toggle"),
+	focusRing(
+		"& .checkbox-input:focus-visible + .checkbox-toggle",
+		shadowVars.subtle,
+	),
 	{
 		position: "relative",
 		width: "fit-content",
@@ -39,6 +43,7 @@ const checkboxToggleClass = style(
 	flex({ align: "center", justify: "center" }),
 	radius["2xs"],
 	motion.standard("background-color"),
+	shadow.subtle,
 	{
 		pointerEvents: "none",
 		width: "14px",

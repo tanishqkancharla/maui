@@ -71,7 +71,7 @@ export function BackgroundColorTokenPage() {
 							<code>background.element</code>
 						</TableCell>
 						<TableCell>
-							<code>colors.gray[3]</code>
+							<code>backgroundColor.element</code>
 						</TableCell>
 						<TableCell>Inputs and slightly raised controls.</TableCell>
 					</TableRow>
@@ -80,18 +80,22 @@ export function BackgroundColorTokenPage() {
 							<code>background.elementHover</code>
 						</TableCell>
 						<TableCell>
-							<code>colors.gray[4]</code>
+							<code>backgroundColor.elementHover</code>
 						</TableCell>
-						<TableCell>Neutral hover state.</TableCell>
+						<TableCell>
+							5% gray[12] into app canvas (white / gray[1]).
+						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
 							<code>background.elementActive</code>
 						</TableCell>
 						<TableCell>
-							<code>colors.gray[5]</code>
+							<code>backgroundColor.elementActive</code>
 						</TableCell>
-						<TableCell>Selected rows and menu items.</TableCell>
+						<TableCell>
+							10% gray[12] into app canvas (white / gray[1]).
+						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
