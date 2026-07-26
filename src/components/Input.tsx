@@ -12,31 +12,40 @@ import {
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { style, useStyles } from "purse-styles"
 import { backgroundColor } from "../tokens/background"
-import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
+import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { Icons } from "./Icons"
 
 const inputText = text("sm", 400, "highContrast")
+const numberFieldDivider = `color-mix(in oklch, ${colors.gray[12]} 5%, ${backgroundColor.element})`
 
 const inputClass = style(
 	inputText,
 	focusRing("&:focus-visible", shadowVars.subtle),
+	motion.standard("background", "border-color"),
+	radius.sm,
+	spacing.padding({ x: 4, y: 2 }),
 	shadow.subtle,
 	{
-		background: "transparent",
 		width: "100%",
+		minWidth: 0,
 		color: colors.gray[12],
 		border: "none",
-		padding: "6px 8px",
-		borderRadius: "4px",
-		height: "28px",
-		transition: "background 80ms ease-in-out",
-		"&:hover": {
+		background: backgroundColor.element,
+		"&:hover:not(:disabled)": {
 			background: backgroundColor.elementHover,
+		},
+		"&:disabled": {
+			color: colors.gray[8],
+			background: colors.gray[2],
+		},
+		"&[aria-invalid='true']:not(:focus-visible)": {
+			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.subtle}`,
 		},
 		"&::placeholder": {
 			fontStyle: "italic",
@@ -61,10 +70,7 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 		paddingRight: "30px",
 		appearance: "none",
 	},
-	"&:hover input": {
-		background: backgroundColor.elementHover,
-	},
-	'& input::-webkit-search-cancel-button': {
+	"& input::-webkit-search-cancel-button": {
 		appearance: "none",
 	},
 	"& button": {
@@ -118,21 +124,28 @@ export function SearchField(props: AriaSearchFieldProps) {
 }
 
 const numberFieldClass = style(
-	focusRing("& button:focus-visible"),
+	focusRing("&:has(:focus-visible)", shadowVars.subtle),
+	motion.standard("background", "border-color"),
 	radius.sm,
 	shadow.subtle,
 	{
 		display: "flex",
 		alignItems: "center",
 		width: "100%",
-		"& input": {
-			borderTopRightRadius: 0,
-			borderBottomRightRadius: 0,
-			boxShadow: "none",
+		height: "28px",
+		overflow: "hidden",
+		color: colors.gray[12],
+		background: backgroundColor.element,
+		"&:has(input:disabled)": {
+			color: colors.gray[8],
+			background: colors.gray[2],
+		},
+		"&:has(input[aria-invalid='true']):not(:has(:focus-visible))": {
+			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.subtle}`,
 		},
 		"& .number-stepper": {
 			display: "flex",
-			height: "28px",
+			alignSelf: "stretch",
 		},
 		"& button": {
 			display: "flex",
@@ -140,7 +153,7 @@ const numberFieldClass = style(
 			justifyContent: "center",
 			width: "24px",
 			border: "none",
-			borderLeft: `1px solid ${borderColor.border}`,
+			borderLeft: `1px solid ${numberFieldDivider}`,
 			background: "transparent",
 			color: colors.gray[11],
 			padding: 0,
@@ -156,10 +169,34 @@ const numberFieldClass = style(
 			width: "14px",
 			height: "14px",
 		},
-		"& button:hover": {
+		"& button:hover:not(:disabled)": {
+			background: backgroundColor.elementHover,
+		},
+		"& button:active:not(:disabled)": {
 			background: backgroundColor.elementHover,
 		},
 		"& button:disabled": {
+			color: colors.gray[8],
+		},
+	},
+)
+
+const numberInputClass = style(
+	inputText,
+	spacing.padding({ x: 4, y: 2 }),
+	{
+		flex: "1 1 auto",
+		width: "100%",
+		minWidth: 0,
+		color: "inherit",
+		border: "none",
+		outline: "none",
+		background: "transparent",
+		"&:hover:not(:disabled)": {
+			background: backgroundColor.elementHover,
+		},
+		"&::placeholder": {
+			fontStyle: "italic",
 			color: colors.gray[8],
 		},
 	},
@@ -181,7 +218,7 @@ export function NumberField(props: AriaNumberFieldProps) {
 		decrementButtonProps,
 		decrementRef,
 	)
-	const inputClassName = useStyles(inputClass)
+	const inputClassName = useStyles(numberInputClass)
 	const numberClassName = useStyles(numberFieldClass)
 
 	return (
@@ -199,23 +236,34 @@ export function NumberField(props: AriaNumberFieldProps) {
 	)
 }
 
-const quietInputClass = style(inputText, focusRing(), {
-	width: "100%",
-	color: colors.gray[12],
-	padding: "6px 8px",
-	borderRadius: "4px",
-	height: "28px",
-	background: "transparent",
-	border: "none",
-	transition: "background 80ms ease-in-out",
-	"&:hover": {
-		background: backgroundColor.elementHover,
+const quietInputClass = style(
+	inputText,
+	focusRing(),
+	motion.standard("background", "border-color"),
+	radius.sm,
+	spacing.padding({ x: 4, y: 2 }),
+	{
+		width: "100%",
+		minWidth: 0,
+		color: colors.gray[12],
+		background: "transparent",
+		border: "none",
+		"&:hover:not(:disabled)": {
+			background: backgroundColor.elementHover,
+		},
+		"&:disabled": {
+			color: colors.gray[8],
+			background: colors.gray[2],
+		},
+		"&[aria-invalid='true']:not(:focus-visible)": {
+			boxShadow: "0 0 0 1px light-dark(#ce2c31, #e5484d)",
+		},
+		"&::placeholder": {
+			fontStyle: "italic",
+			color: colors.gray[8],
+		},
 	},
-	"&::placeholder": {
-		fontStyle: "italic",
-		color: colors.gray[8],
-	},
-})
+)
 
 export function QuietTextField(props: InputProps) {
 	const ref = useRef(null)

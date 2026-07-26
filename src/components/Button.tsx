@@ -3,6 +3,7 @@ import { useId } from "react-aria"
 import { style, useStyles } from "purse-styles"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
@@ -13,32 +14,69 @@ import { text } from "../tokens/text"
 const buttonBaseClass = style(
 	text("xs", 400, "highContrast"),
 	focusRing("&:focus-visible", shadowVars.subtle),
-	motion.standard("box-shadow", "background"),
+	motion.standard("box-shadow", "background-color", "color"),
 	shadow.subtle,
 	spacing.padding({ x: 6, y: 4 }),
 	{
+		display: "inline-flex",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: spacing.value(3),
 		borderRadius: "4px",
 		width: "fit-content",
 		border: "none",
-		textBox: "trim-both cap alphabetic",
 		textOverflow: "ellipsis",
 		overflow: "hidden",
 		whiteSpace: "nowrap",
+		"& > svg": {
+			width: "16px",
+			height: "16px",
+			flexShrink: 0,
+		},
+		"&:has(> svg)": {
+			paddingBlock: spacing.value(3),
+		},
+		"&:has(> svg:first-child:not(:only-child))": {
+			paddingInlineStart: spacing.value(4),
+		},
+		"&:has(> svg:last-child:not(:only-child))": {
+			paddingInlineEnd: spacing.value(4),
+		},
+		"&:has(> svg:only-child)": {
+			paddingInline: spacing.value(3),
+		},
 	},
 )
 
+const buttonTextClass = style({
+	display: "block",
+	minWidth: 0,
+	textBox: "trim-both cap alphabetic",
+})
+
 const buttonClass = style(buttonBaseClass, {
-	background:
-		`linear-gradient(${colors.gray[3]}, ${colors.gray[2]}), radial-gradient(${colors.gray[3]}, ${colors.gray[2]})`,
+	backgroundColor: backgroundColor.element,
 	"&:hover": {
-		background:
-			`linear-gradient(${colors.gray[5]}, ${colors.gray[4]}), radial-gradient(${colors.gray[5]}, ${colors.gray[4]})`,
+		backgroundColor: backgroundColor.elementHover,
 	},
 	"&:active": {
-		background:
-			`linear-gradient(${colors.gray[6]}, ${colors.gray[4]}), radial-gradient(${colors.gray[6]}, ${colors.gray[4]})`,
+		backgroundColor: backgroundColor.elementActive,
 	},
 })
+
+const quietButtonClass = style(
+	buttonBaseClass,
+	focusRing("&:focus-visible"),
+	{
+		color: colors.gray[11],
+		backgroundColor: "transparent",
+		boxShadow: "none",
+		"&:hover": {
+			color: colors.gray[12],
+			backgroundColor: backgroundColor.elementHover,
+		},
+	},
+)
 
 type ButtonAttributes = React.DetailedHTMLProps<
 	React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -50,9 +88,9 @@ type ButtonData = {
 	focused: boolean
 }
 
-type ButtonProps = {
-	children: string | string[]
-	onClick?: () => void
+type ButtonProps = Omit<ButtonAttributes, "children" | "ref"> & {
+	children: React.ReactNode
+	variant?: "default" | "quiet"
 }
 
 export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
@@ -61,45 +99,77 @@ export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
 	const [focused, focusProps] = useFocus(id, ref)
 
 	const onClickRef = useRefCurrent(props.onClick)
+	const onFocusRef = useRefCurrent(props.onFocus)
 
-	const onClick = useCallback((event: React.SyntheticEvent) => {
+	const onClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
 		focusProps.onFocus(event)
-		onClickRef.current?.()
+		onClickRef.current?.(event)
+	}, [])
+	const onFocus = useCallback((event: React.FocusEvent<HTMLButtonElement>) => {
+		focusProps.onFocus(event)
+		onFocusRef.current?.(event)
 	}, [])
 
 	return [
 		{ focused, id },
-		{ ...focusProps, ref, onClick },
+		{ ref, onClick, onFocus },
 	]
 }
 
 export function Button(props: ButtonProps) {
-	const [data, attributes] = useButton(props)
-	const className = useStyles(buttonClass)
+	const {
+		children,
+		className: classNameProp,
+		onClick,
+		onFocus,
+		type = "button",
+		variant = "default",
+		...buttonProps
+	} = props
+	const [data, attributes] = useButton({ children, onClick, onFocus })
+	const className = useStyles(
+		variant === "quiet" ? quietButtonClass : buttonClass,
+	)
+	const textClassName = useStyles(buttonTextClass)
+	const mergedClassName = [className, classNameProp].filter(Boolean).join(" ")
 
 	return (
-		<button className={className} {...attributes}>
-			{props.children}
+		<button
+			{...buttonProps}
+			{...attributes}
+			type={type}
+			className={mergedClassName}
+		>
+			{renderButtonChildren(children, textClassName)}
 		</button>
 	)
 }
 
-const actionButtonClass = style(buttonBaseClass, {
-	color: "white",
-	background:
-		`linear-gradient(${colors.accentAlpha[8]}, ${colors.accentAlpha[7]}), linear-gradient(${colors.gray[3]}, ${colors.gray[2]}), radial-gradient(${colors.gray[3]}, ${colors.gray[2]})`,
-	"&:hover": {
-		background:
-			`linear-gradient(${colors.accentAlpha[9]}, ${colors.accentAlpha[8]}), linear-gradient(${colors.gray[4]}, ${colors.gray[3]}), radial-gradient(${colors.gray[4]}, ${colors.gray[3]})`,
-	},
-	"&:active": {
-		background:
-			`linear-gradient(${colors.accentAlpha[10]}, ${colors.accentAlpha[9]}), linear-gradient(${colors.gray[5]}, ${colors.gray[4]}), radial-gradient(${colors.gray[5]}, ${colors.gray[4]})`,
-	},
-})
+function renderButtonChildren(children: React.ReactNode, className: string) {
+	const rendered: React.ReactNode[] = []
+	let textRun: (string | number)[] = []
 
-export function ActionButton(props: { children: React.ReactNode }) {
-	const className = useStyles(actionButtonClass)
+	const flushTextRun = () => {
+		if (textRun.length === 0) return
 
-	return <button className={className}>{props.children}</button>
+		rendered.push(
+			<span className={className} key={`text-${rendered.length}`}>
+				{textRun}
+			</span>,
+		)
+		textRun = []
+	}
+
+	for (const child of React.Children.toArray(children)) {
+		if (typeof child === "string" || typeof child === "number") {
+			textRun.push(child)
+			continue
+		}
+
+		flushTextRun()
+		rendered.push(child)
+	}
+
+	flushTextRun()
+	return rendered
 }

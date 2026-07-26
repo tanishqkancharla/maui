@@ -36,7 +36,7 @@ export { visuallyHidden } from "./tokens/visuallyHidden"
 // Components
 export { Avatar } from "./components/Avatar"
 export { Badge } from "./components/Badge"
-export { Button, ActionButton, useButton } from "./components/Button"
+export { Button, useButton } from "./components/Button"
 export { Checkbox } from "./components/Checkbox"
 export { Switch } from "./components/Switch"
 export { Slider } from "./components/Slider"
@@ -47,7 +47,12 @@ export {
 	NumberField,
 	QuietTextField,
 } from "./components/Input"
-export { Select, SelectItem } from "./components/Select"
+export {
+	Select,
+	SelectItem,
+	type SelectProps,
+	type SelectItemProps,
+} from "./components/Select"
 export { Dialog } from "./components/Dialog"
 export { Tooltip } from "./components/Tooltip"
 export { Overlay } from "./components/Overlay"
@@ -62,7 +67,20 @@ export {
 } from "./components/Table"
 export { Prose, useProseSize, proseMaxWidth } from "./components/Prose"
 export { Icons } from "./components/Icons"
-export { ListBox, MenuItem, menu, menuItem } from "./components/Menu"
+export {
+	ListBox,
+	ListBoxItem,
+	type ListBoxProps,
+	type ListBoxItemProps,
+} from "./components/ListBox"
+export {
+	MenuTrigger,
+	Menu,
+	MenuItem,
+	type MenuTriggerProps,
+	type MenuProps,
+	type MenuItemProps,
+} from "./components/Menu"
 export { FuzzyString } from "./components/FuzzyString"
 export { Flex, Padding, Gap, Spacer, Divider } from "./components/Utils"
 export {

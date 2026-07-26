@@ -1,7 +1,8 @@
 import type React from "react"
 import { useId } from "react"
 import { style, useStyles } from "purse-styles"
-import { menuItem } from "../components/Menu"
+import { Button } from "../components/Button"
+import { navigationItem } from "../components/navigationItem"
 import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
@@ -49,8 +50,8 @@ export function SidebarSection(props: SidebarSectionProps) {
 }
 
 type SidebarItemProps = Omit<
-	React.ButtonHTMLAttributes<HTMLButtonElement>,
-	"children" | "type"
+	React.ComponentProps<typeof Button>,
+	"children" | "type" | "variant"
 > & {
 	active?: boolean
 	children: React.ReactNode
@@ -77,9 +78,10 @@ export function SidebarItem({
 
 	return (
 		<li>
-			<button
+			<Button
 				{...props}
 				type="button"
+				variant="quiet"
 				aria-pressed={active ? true : props["aria-pressed"]}
 				className={joinClassNames(itemClassName, className)}
 			>
@@ -87,8 +89,10 @@ export function SidebarItem({
 					{Icon ? <Icon className={iconClassName} /> : null}
 				</span>
 				<span className={labelClassName}>{children}</span>
-				{trailing ? <span className={trailingClassName}>{trailing}</span> : null}
-			</button>
+				{trailing ? (
+					<span className={trailingClassName}>{trailing}</span>
+				) : null}
+			</Button>
 		</li>
 	)
 }
@@ -112,7 +116,7 @@ const sectionLabelClass = style(
 	spacing.padding({ x: 3 }),
 	{
 		letterSpacing: "0.02em",
-	}
+	},
 )
 
 const sectionListClass = style(flex({ direction: "column" }), {
@@ -122,7 +126,7 @@ const sectionListClass = style(flex({ direction: "column" }), {
 	gap: "1px",
 })
 
-const itemClass = style(menuItem, {
+const itemClass = style(navigationItem, {
 	display: "grid",
 	gridTemplateColumns: "16px minmax(0, 1fr) auto",
 	alignItems: "center",

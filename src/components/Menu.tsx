@@ -1,120 +1,68 @@
-import { CollectionChildren, Node } from "@react-types/shared"
-import { useRef } from "react"
+import { Children, type ReactElement } from "react"
 import {
-	AriaListBoxOptions,
-	mergeProps,
-	useHover,
-	useListBox,
-	useOption,
-} from "react-aria"
-import { Item, ListState, useListState } from "react-stately"
+	Menu as AriaMenu,
+	MenuItem as AriaMenuItem,
+	MenuTrigger as AriaMenuTrigger,
+	type MenuItemProps as AriaMenuItemProps,
+	type MenuProps as AriaMenuProps,
+	type MenuTriggerProps as AriaMenuTriggerProps,
+	type PopoverProps,
+} from "react-aria-components"
 import { style, useStyles } from "purse-styles"
-import { Flex, Spacer } from "./Utils"
-import { backgroundColor } from "../tokens/background"
-import { focusRing } from "../tokens/focusRing"
-import { radius } from "../tokens/radius"
-import { spacing } from "../tokens/spacing"
-import { text } from "../tokens/text"
+import { CollectionPopover } from "./CollectionPopover"
+import { listBoxItemStyle, listBoxStyle } from "./ListBox"
 
-export const menu = style({
-	margin: 0,
-	padding: 0,
-	listStyleType: "none",
-	display: "flex",
-	flexDirection: "column",
-	gap: "1px",
+const menuStyle = style(listBoxStyle, {
+	minWidth: "140px",
 })
 
-type ListBoxProps<T> = {
-	children: CollectionChildren<T>
-} & AriaListBoxOptions<T>
-
-export function ListBox<T extends object>(props: ListBoxProps<T>) {
-	const state = useListState(props)
-	const ref = useRef(null)
-	const { listBoxProps } = useListBox(props, state, ref)
-	const className = useStyles(menu)
-
-	return (
-		<ul {...listBoxProps} ref={ref} className={className}>
-			{[...state.collection].map((item) => (
-				<ListBoxOption
-					key={item.key}
-					item={item}
-					state={state}
-					onAction={props.onAction}
-				/>
-			))}
-		</ul>
-	)
-}
-
-export const menuItem = style(
-	text("md", 400, "highContrast"),
-	focusRing(),
-	radius.sm,
-	spacing.padding({ x: 8, y: 2 }),
-	{
-		margin: 0,
-		cursor: "default",
-		userSelect: "none",
-		"&:hover": {
-			backgroundColor: backgroundColor.elementHover,
-		},
-		"&[data-hovered='true']": {
-			backgroundColor: backgroundColor.elementHover,
-		},
-		"&[aria-current='page']": {
-			backgroundColor: backgroundColor.elementActive,
-		},
-		"&[aria-selected='true']": {
-			backgroundColor: backgroundColor.elementActive,
-		},
-		"&:active": {
-			backgroundColor: backgroundColor.elementActive,
-		},
+const menuItemStyle = style(listBoxItemStyle, {
+	"&[data-has-submenu]": {
+		paddingRight: "28px",
 	},
-)
+})
 
-type MenuOptionProps<T> = {
-	item: Node<T>
-	state: ListState<T>
-	onAction?: AriaListBoxOptions<T>["onAction"]
+export interface MenuTriggerProps extends AriaMenuTriggerProps {
+	children: [ReactElement, ReactElement]
+	placement?: PopoverProps["placement"]
 }
 
-function ListBoxOption<T extends object>({
-	item,
-	state,
-	onAction,
-}: MenuOptionProps<T>) {
-	const ref = useRef(null)
-	const { optionProps } = useOption({ key: item.key }, state, ref)
-	const className = useStyles(menuItem)
-
-	const { isHovered, hoverProps } = useHover({})
+export function MenuTrigger({
+	children,
+	placement = "bottom start",
+	...props
+}: MenuTriggerProps) {
+	const [trigger, menu] = Children.toArray(children) as [
+		ReactElement,
+		ReactElement,
+	]
 
 	return (
-		<li
-			{...mergeProps(optionProps, hoverProps, {
-				onPointerDown: () => onAction?.(item.key),
-				onMouseDown: () => onAction?.(item.key),
-				onClick: () => onAction?.(item.key),
-				onKeyDown: (event: React.KeyboardEvent) => {
-					if (event.key === "Enter" || event.key === " ") {
-						onAction?.(item.key)
-					}
-				},
-			})}
-			ref={ref}
-			className={className}
-			data-hovered={isHovered || undefined}
-		>
-			<Flex row alignItems="center">
-				{item.rendered}
-				<Spacer />
-			</Flex>
-		</li>
+		<AriaMenuTrigger {...props}>
+			{trigger}
+			<CollectionPopover placement={placement}>
+				{menu}
+			</CollectionPopover>
+		</AriaMenuTrigger>
 	)
 }
 
-export const MenuItem = Item
+export interface MenuProps<T> extends Omit<AriaMenuProps<T>, "className"> {}
+
+export function Menu<T>(props: MenuProps<T>) {
+	const className = useStyles(menuStyle)
+
+	return <AriaMenu {...props} className={className} />
+}
+
+export interface MenuItemProps<T = object>
+	extends Omit<AriaMenuItemProps<T>, "className"> {}
+
+export function MenuItem<T extends object = object>(props: MenuItemProps<T>) {
+	const className = useStyles(menuItemStyle)
+	const textValue =
+		props.textValue ??
+		(typeof props.children === "string" ? props.children : undefined)
+
+	return <AriaMenuItem {...props} textValue={textValue} className={className} />
+}

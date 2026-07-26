@@ -1,5 +1,6 @@
 import type React from "react"
 import { style, useStyles } from "purse-styles"
+import { Button } from "../components/Button"
 import { Icons } from "../components/Icons"
 import { colors } from "../tokens/colors"
 import { flex, flexItem } from "../tokens/layout"
@@ -81,7 +82,8 @@ const defaultEmailThreads: EmailThread[] = [
 	{
 		id: "linear-issue",
 		senders: "Linear",
-		subject: "LIB-284 assigned to you: Fix session timeout on long-running jobs",
+		subject:
+			"LIB-284 assigned to you: Fix session timeout on long-running jobs",
 		snippet:
 			"Karri assigned you a new issue in Libretto. Priority: High · Status: Todo · Project: Platform",
 		time: "Jun 28",
@@ -182,23 +184,21 @@ function EmailThreadRow(props: {
 }
 
 function ThreadHoverActions(props: { className: string }) {
-	const actionClassName = useStyles(threadActionClass)
-
 	return (
 		<div className={props.className}>
-			<ThreadAction actionClassName={actionClassName} label="Star thread">
+			<ThreadAction label="Star thread">
 				<Icons.Star />
 			</ThreadAction>
-			<ThreadAction actionClassName={actionClassName} label="Archive thread">
+			<ThreadAction label="Archive thread">
 				<Icons.Archive />
 			</ThreadAction>
-			<ThreadAction actionClassName={actionClassName} label="Delete thread">
+			<ThreadAction label="Delete thread">
 				<Icons.Trash />
 			</ThreadAction>
-			<ThreadAction actionClassName={actionClassName} label="Mark unread">
+			<ThreadAction label="Mark unread">
 				<Icons.Envelope />
 			</ThreadAction>
-			<ThreadAction actionClassName={actionClassName} label="Snooze thread">
+			<ThreadAction label="Snooze thread">
 				<Icons.Clock />
 			</ThreadAction>
 		</div>
@@ -206,21 +206,19 @@ function ThreadHoverActions(props: { className: string }) {
 }
 
 function ThreadAction(props: {
-	actionClassName: string
 	label: string
 	children: React.ReactNode
 }) {
 	return (
-		<button
-			className={props.actionClassName}
-			type="button"
+		<Button
+			variant="quiet"
 			aria-label={props.label}
 			onClick={(event) => {
 				event.stopPropagation()
 			}}
 		>
 			{props.children}
-		</button>
+		</Button>
 	)
 }
 
@@ -270,7 +268,7 @@ const threadRowClass = style(
 		"&:hover .email-thread-row-time": {
 			opacity: 0,
 		},
-	}
+	},
 )
 
 const threadSenderClass = style(
@@ -281,13 +279,9 @@ const threadSenderClass = style(
 	},
 )
 
-const threadSenderTextClass = style(
-	truncate,
-	flexItem({ size: "fill" }),
-	{
-		minWidth: 0,
-	},
-)
+const threadSenderTextClass = style(truncate, flexItem({ size: "fill" }), {
+	minWidth: 0,
+})
 
 const unreadDotStyle = memoize((unread: boolean) =>
 	style({
@@ -317,7 +311,10 @@ const threadSubjectBaseClass = style(truncate, {
 	minWidth: 0,
 })
 
-const threadSubjectClass = style(threadSubjectBaseClass, text("md", 400, "highContrast"))
+const threadSubjectClass = style(
+	threadSubjectBaseClass,
+	text("md", 400, "highContrast"),
+)
 
 const threadSnippetClass = style(
 	truncate,
@@ -342,32 +339,10 @@ const threadToolbarClass = style(
 		top: "50%",
 		right: "6px",
 		zIndex: 1,
-		background: colors.gray[3],
+		background: "white",
 		opacity: 0,
 		pointerEvents: "none",
 		transform: "translateY(-50%)",
-	},
-)
-
-const threadActionClass = style(
-	text("md", 400, "lowContrast"),
-	radius.sm,
-	{
-		display: "grid",
-		placeItems: "center",
-		width: "28px",
-		height: "28px",
-		padding: 0,
-		border: "none",
-		background: "transparent",
-		"& svg": {
-			width: "20px",
-			height: "20px",
-		},
-		"&:hover": {
-			backgroundColor: colors.grayAlpha[4],
-			color: colors.gray[12],
-		},
 	},
 )
 
@@ -495,16 +470,12 @@ const compactTimeClass = style(text("md", 400, "lowContrast"), {
 	flexShrink: 0,
 })
 
-const compactSnippetClass = style(
-	truncate,
-	text("md", 400, "lowContrast"),
-	{
-		display: "-webkit-box",
-		WebkitLineClamp: 2,
-		WebkitBoxOrient: "vertical",
-		whiteSpace: "normal",
-	},
-)
+const compactSnippetClass = style(truncate, text("md", 400, "lowContrast"), {
+	display: "-webkit-box",
+	WebkitLineClamp: 2,
+	WebkitBoxOrient: "vertical",
+	whiteSpace: "normal",
+})
 
 const compactToolbarClass = style(threadToolbarClass, {
 	top: "8px",

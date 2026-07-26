@@ -3,13 +3,9 @@ import {
 	Button,
 	FieldError,
 	Label,
-	ListBox,
-	ListBoxItem,
-	Popover,
 	Select as AriaSelect,
 	SelectValue,
 	Text,
-	type ListBoxItemProps,
 	type SelectProps as AriaSelectProps,
 	type ValidationResult,
 } from "react-aria-components"
@@ -20,8 +16,10 @@ import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
+import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
-import { menu, menuItem } from "./Menu"
+import { CollectionPopover } from "./CollectionPopover"
+import { ListBox, ListBoxItem, type ListBoxItemProps } from "./ListBox"
 import { labelText } from "./Typography"
 
 const selectClass = style({
@@ -36,23 +34,22 @@ const triggerClass = style(
 	focusRing("&:focus-visible", shadowVars.subtle),
 	motion.standard("background", "border-color"),
 	radius.sm,
+	spacing.padding({ x: 4, y: 2 }),
 	shadow.subtle,
+
 	{
 		display: "flex",
 		alignItems: "center",
-		width: "100%",
-		height: "28px",
 		minWidth: 0,
-		padding: "6px 8px",
-		background: "transparent",
 		color: colors.gray[12],
 		border: "none",
 		textAlign: "left",
+		background: backgroundColor.element,
 		"&:hover": {
 			background: backgroundColor.elementHover,
 		},
 		"&[data-pressed]": {
-			background: backgroundColor.elementActive,
+			background: backgroundColor.elementHover,
 		},
 		"&[data-disabled]": {
 			color: colors.gray[8],
@@ -87,47 +84,6 @@ const chevronClass = style(motion.standard("transform"), {
 	},
 })
 
-const popoverClass = style(radius.sm, shadow.strong, {
-	minWidth: "var(--trigger-width)",
-	maxHeight: "280px",
-	overflow: "hidden",
-	background: colors.gray[2],
-})
-
-const listBoxClass = style(menu, {
-	maxHeight: "inherit",
-	overflowY: "auto",
-	outline: "none",
-})
-
-const itemClass = style(menuItem, {
-	position: "relative",
-	paddingRight: "28px",
-	outline: "none",
-	"&[data-focused]": {
-		background: backgroundColor.elementHover,
-	},
-	"&[data-pressed]": {
-		background: backgroundColor.elementActive,
-	},
-	"&[data-selected]": {
-		background: colors.accentAlpha[4],
-	},
-	"&[data-selected][data-focused]": {
-		background: colors.accentAlpha[5],
-	},
-	"&[data-selected]::after": {
-		content: '"✓"',
-		position: "absolute",
-		right: "8px",
-		color: colors.accent[11],
-		fontWeight: 600,
-	},
-	"&[data-disabled]": {
-		color: colors.gray[8],
-	},
-})
-
 const supportingTextClass = style(text("xs", 400, "lowContrast"), {
 	margin: 0,
 })
@@ -136,8 +92,10 @@ const errorClass = style(text("xs", 400, "highContrast"), {
 	color: "light-dark(#ce2c31, #e5484d)",
 })
 
-export interface SelectProps<T, M extends "single" | "multiple" = "single">
-	extends Omit<AriaSelectProps<T, M>, "children" | "className"> {
+export interface SelectProps<
+	T,
+	M extends "single" | "multiple" = "single",
+> extends Omit<AriaSelectProps<T, M>, "children" | "className"> {
 	label?: string
 	description?: string
 	errorMessage?: string | ((validation: ValidationResult) => string)
@@ -158,8 +116,6 @@ export function Select<T, M extends "single" | "multiple" = "single">({
 	const triggerClassName = useStyles(triggerClass)
 	const valueClassName = useStyles(valueClass)
 	const chevronClassName = useStyles(chevronClass)
-	const popoverClassName = useStyles(popoverClass)
-	const listBoxClassName = useStyles(listBoxClass)
 	const supportingTextClassName = useStyles(supportingTextClass)
 	const errorClassName = useStyles(errorClass)
 
@@ -176,20 +132,16 @@ export function Select<T, M extends "single" | "multiple" = "single">({
 				</Text>
 			)}
 			<FieldError className={errorClassName}>{errorMessage}</FieldError>
-			<Popover className={popoverClassName} placement="bottom start">
-				<ListBox items={items} className={listBoxClassName}>
-					{children}
-				</ListBox>
-			</Popover>
+			<CollectionPopover>
+				<ListBox items={items}>{children}</ListBox>
+			</CollectionPopover>
 		</AriaSelect>
 	)
 }
 
-export function SelectItem(props: Omit<ListBoxItemProps, "className">) {
-	const className = useStyles(itemClass)
+export type SelectItemProps<T = object> = ListBoxItemProps<T>
 
-	return <ListBoxItem {...props} className={className} />
-}
+export const SelectItem = ListBoxItem
 
 function ChevronDown(props: React.SVGProps<SVGSVGElement>) {
 	return (

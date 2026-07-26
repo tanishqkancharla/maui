@@ -30,7 +30,7 @@ export type TreeGuideGeometry = {
 	labelPaddingLeft: number
 }
 
-// Row height matches a menu item: text("md") line-height (22px) + padding y:2
+// Row height matches the compact navigation rows used elsewhere in the gallery.
 // (4px top/bottom) = 30px.
 export const defaultTreeGuideGeometry: TreeGuideGeometry = {
 	guideCell: 20,

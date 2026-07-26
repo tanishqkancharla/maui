@@ -14,6 +14,7 @@ import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
+import { background } from "../maui"
 
 type TooltipPlacement = "top" | "bottom" | "left" | "right"
 
@@ -29,7 +30,13 @@ type TooltipProps = {
 }
 
 export function Tooltip(props: TooltipProps) {
-	const { content, children, placement = "top", delay = 500, isDisabled } = props
+	const {
+		content,
+		children,
+		placement = "top",
+		delay = 500,
+		isDisabled,
+	} = props
 
 	const state = useTooltipTriggerState({ delay, isDisabled })
 	const triggerRef = useRef<HTMLSpanElement>(null)
@@ -254,9 +261,9 @@ const tooltipClass = style(
 	radius.sm,
 	spacing.padding({ x: 3, y: 2 }),
 	shadow.medium,
+	background.element,
 	{
 		zIndex: 1000,
 		maxWidth: "240px",
-		background: colors.gray[3],
 	},
 )

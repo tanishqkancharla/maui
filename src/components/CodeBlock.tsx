@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { highlightCode, isSupportedCodeLang } from "../utils/shiki"
-import { border } from "../tokens/borders"
 import { colors } from "../tokens/colors"
+import { shadow } from "../tokens/shadow"
 import { monospace, text } from "../tokens/text"
 import { useTheme } from "../theme/ThemeContext"
 
 const codeBlockClass = style(
 	text("xs", 400, "highContrast"),
 	monospace,
-	border([], "outline"),
+	shadow.subtle,
 	{
-		background: colors.gray[2],
 		borderRadius: "6px",
 		color: colors.gray[12],
 		lineHeight: 1.6,

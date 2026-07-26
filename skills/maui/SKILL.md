@@ -51,7 +51,7 @@ internal button or segment.
 
 ## Focus
 
-`focusRing()` applies a theme-aware accent shadow (`accentAlpha[8]` hard edge + `accentAlpha[5]` glow). Do not hand-roll a competing outline or box-shadow for keyboard focus.
+`focusRing()` applies a theme-aware Radix blue shadow (`blueAlpha[8]` hard edge + `blueAlpha[5]` glow). Do not hand-roll a competing outline or box-shadow for keyboard focus.
 
 ## Layout utilities
 

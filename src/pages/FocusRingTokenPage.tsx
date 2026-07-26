@@ -23,8 +23,8 @@ export function FocusRingTokenPage() {
 			<H2>Focus ring</H2>
 			<P>
 				Focus tokens standardize keyboard-visible states. Maui uses a single
-				accent shadow treatment for every component, including slider thumbs.
-				Per the Radix scale, accent focus rings use step 8.
+				blue shadow treatment for every component, including slider thumbs.
+				Per the Radix scale, focus rings use step 8.
 			</P>
 
 			<H3>Values</H3>
@@ -43,8 +43,8 @@ export function FocusRingTokenPage() {
 						</TableCell>
 						<TableCell>
 							<code>
-								box-shadow: 0 0 0 1px accentAlpha[8], 0 0 8px 1px
-								accentAlpha[5]; position: relative; z-index: 1; outline: none
+								box-shadow: 0 0 0 1px blueAlpha[8], 0 0 6px
+								blueAlpha[5]; position: relative; z-index: 1; outline: none
 							</code>
 						</TableCell>
 						<TableCell>
@@ -75,4 +75,3 @@ export function FocusRingTokenPage() {
 		</Prose>
 	)
 }
-

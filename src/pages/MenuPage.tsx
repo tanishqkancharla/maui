@@ -1,39 +1,49 @@
 import { useState } from "react"
+import { Button } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
-import { ListBox, MenuItem } from "../components/Menu"
+import { Menu, MenuItem, MenuTrigger } from "../components/Menu"
 import { Prose } from "../components/Prose"
-import { H2 } from "../components/Typography"
-import { shadow } from "../tokens/shadow"
+import { H2, P } from "../components/Typography"
+import { backgroundColor } from "../tokens/background"
+import { focusRing } from "../tokens/focusRing"
+import { radius } from "../tokens/radius"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
+import { text } from "../tokens/text"
 
-import { colors } from "../tokens/colors"
 export function MenuPage() {
-	const [selectedMenuItem, setSelectedMenuItem] = useState("one")
-	const menuPanelClassName = useStyles(menuPanelClass)
+	const [lastAction, setLastAction] = useState<string>()
+	const triggerClassName = useStyles(triggerStyle)
 
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Menu</H2>
-			<div className={menuPanelClassName}>
-				<ListBox
-					aria-label="Example menu"
-					selectedKeys={[selectedMenuItem]}
-					selectionMode="single"
-					onAction={(key) => setSelectedMenuItem(String(key))}
-					disallowEmptySelection
-				>
-					<MenuItem key="one">Item 1</MenuItem>
-					<MenuItem key="two">Item 2</MenuItem>
-					<MenuItem key="three">Item 3</MenuItem>
-					<MenuItem key="four">Item 4</MenuItem>
-				</ListBox>
-			</div>
+			<P>A triggered collection of actions that opens in a popover.</P>
+			<MenuTrigger>
+				<Button className={triggerClassName}>Actions</Button>
+				<Menu onAction={(key) => setLastAction(String(key))}>
+					<MenuItem id="rename">Rename</MenuItem>
+					<MenuItem id="duplicate">Duplicate</MenuItem>
+					<MenuItem id="archive">Archive</MenuItem>
+					<MenuItem id="delete">Delete</MenuItem>
+				</Menu>
+			</MenuTrigger>
+			{lastAction ? <P>Last action: {lastAction}</P> : null}
 		</Prose>
 	)
 }
 
-const menuPanelClass = style(shadow.subtle, spacing.padding({ all: 2 }), {
-	maxWidth: "240px",
-	background: colors.gray[1],
-	borderRadius: "6px",
-})
+const triggerStyle = style(
+	text("sm", 400, "highContrast"),
+	focusRing("&:focus-visible", shadowVars.subtle),
+	radius.sm,
+	spacing.padding({ x: 4, y: 2 }),
+	shadow.subtle,
+	{
+		border: "none",
+		background: "transparent",
+		"&:hover, &[data-pressed]": {
+			background: backgroundColor.elementHover,
+		},
+	},
+)

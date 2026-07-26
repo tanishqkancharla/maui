@@ -12,7 +12,7 @@ import { style, useStyles } from "purse-styles"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
 import { Gap } from "../components/Utils"
-import { menuItem } from "../components/Menu"
+import { navigationItem } from "../components/navigationItem"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
@@ -32,6 +32,7 @@ import { IconsPage } from "./IconsPage"
 import { InboxPage } from "./InboxPage"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
+import { ListBoxPage } from "./ListBoxPage"
 import { LoaderPage } from "./LoaderPage"
 import { MenuPage } from "./MenuPage"
 import { MessageListPage } from "./MessageListPage"
@@ -40,6 +41,7 @@ import { ProsePage } from "./ProsePage"
 import { ShadowTokenPage } from "./ShadowTokenPage"
 import { SidebarPage } from "./SidebarPage"
 import { SizingTokenPage } from "./SizingTokenPage"
+import { SelectPage } from "./SelectPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
 import { TextTokenPage } from "./TextTokenPage"
 import { TooltipPage } from "./TooltipPage"
@@ -108,6 +110,12 @@ const navigation: NavGroup[] = [
 				label: "Form controls",
 				path: "/components/form-controls",
 				page: FormControlsPage,
+			},
+			{ label: "Select", path: "/components/select", page: SelectPage },
+			{
+				label: "List box",
+				path: "/components/list-box",
+				page: ListBoxPage,
 			},
 			{ label: "Menu", path: "/components/menu", page: MenuPage },
 			{ label: "Tooltip", path: "/components/tooltip", page: TooltipPage },
@@ -261,7 +269,7 @@ const contentClass = style(spacing.padding({ x: 16 }), {
 	overflowY: "auto",
 })
 
-const navClass = style({
+const navClass = style(spacing.padding({ all: 2 }), {
 	height: "100%",
 	minHeight: 0,
 	overflowY: "auto",
@@ -284,7 +292,7 @@ const navChildrenClass = style(flex({ direction: "column" }), {
 	gap: "1px",
 })
 
-const navLinkClass = style(menuItem, {
+const navLinkClass = style(navigationItem, {
 	display: "block",
 	textDecoration: "none",
 })

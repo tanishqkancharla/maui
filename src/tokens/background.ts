@@ -9,17 +9,23 @@ const appSurface = defineVars({
 	},
 })
 
-// Hover/active: Craft-style foreground wash into the app canvas
-// (white in light, gray[1] in dark) — not into gray[3].
 const elementSurface = defineVars({
-	element: colors.gray[3],
-	elementHover: `color-mix(in oklch, ${colors.gray[12]} 5%, ${appSurface.app})`,
-	elementActive: `color-mix(in oklch, ${colors.gray[12]} 10%, ${appSurface.app})`,
+	element: {
+		default: "#ffffff",
+		[DARK_THEME]: colors.gray[2],
+	},
+})
+
+// Craft-style foreground wash over the element's own surface.
+const elementStates = defineVars({
+	elementHover: `color-mix(in oklch, ${colors.gray[12]} 3.5%, ${elementSurface.element})`,
+	elementActive: `color-mix(in oklch, ${colors.gray[12]} 7%, ${elementSurface.element})`,
 })
 
 export const backgroundColor = {
 	...appSurface,
 	...elementSurface,
+	...elementStates,
 }
 
 export const background = {

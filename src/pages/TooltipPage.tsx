@@ -10,9 +10,9 @@ import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
-import { text } from "../tokens/text"
 
 import { colors } from "../tokens/colors"
+import { background } from "../maui"
 export function TooltipPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -80,7 +80,11 @@ function Toolbar() {
 	const dividerClassName = useStyles(toolbarDividerClass)
 
 	return (
-		<div role="toolbar" aria-label="Thread actions" className={toolbarClassName}>
+		<div
+			role="toolbar"
+			aria-label="Thread actions"
+			className={toolbarClassName}
+		>
 			{messageActions.map((action) => (
 				<ToolbarButton key={action.label} action={action} />
 			))}
@@ -94,13 +98,12 @@ function Toolbar() {
 
 function ToolbarButton(props: { action: ToolbarAction }) {
 	const { label, icon: Icon } = props.action
-	const className = useStyles(toolbarButtonClass)
 
 	return (
 		<Tooltip content={label} placement="bottom" delay={400}>
-			<button type="button" className={className} aria-label={label}>
+			<Button variant="quiet" aria-label={label}>
 				<Icon />
-			</button>
+			</Button>
 		</Tooltip>
 	)
 }
@@ -110,9 +113,9 @@ const toolbarClass = style(
 	radius.sm,
 	flex({ align: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),
+	background.element,
 	{
 		width: "fit-content",
-		background: colors.gray[3],
 	},
 )
 
@@ -121,22 +124,4 @@ const toolbarDividerClass = style({
 	height: "18px",
 	marginInline: "4px",
 	background: colors.gray[6],
-})
-
-const toolbarButtonClass = style(text("md", 400, "lowContrast"), radius.sm, {
-	display: "grid",
-	placeItems: "center",
-	width: "28px",
-	height: "28px",
-	padding: 0,
-	border: "none",
-	background: "transparent",
-	"& svg": {
-		width: "20px",
-		height: "20px",
-	},
-	"&:hover": {
-		backgroundColor: colors.grayAlpha[4],
-		color: colors.gray[12],
-	},
 })
