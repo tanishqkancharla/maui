@@ -23,6 +23,38 @@ function MauiGlobalStyles() {
 		[],
 	)
 	useInjectGlobalStyles(
+		"html",
+		{
+			WebkitTextSizeAdjust: "100%",
+			textSizeAdjust: "100%",
+		},
+		[],
+	)
+	useInjectGlobalStyles(
+		"body",
+		{
+			WebkitFontSmoothing: "antialiased",
+			MozOsxFontSmoothing: "grayscale",
+			fontSynthesis: "none",
+			textRendering: "optimizeLegibility",
+		},
+		[],
+	)
+	useInjectGlobalStyles(
+		"h1, h2, h3, h4, h5, h6, p, blockquote, figure, pre, dl, dd",
+		{
+			margin: 0,
+		},
+		[],
+	)
+	useInjectGlobalStyles(
+		"button, input, select, textarea",
+		{
+			font: "inherit",
+		},
+		[],
+	)
+	useInjectGlobalStyles(
 		'button, [role="button"]',
 		{
 			cursor: "default",
