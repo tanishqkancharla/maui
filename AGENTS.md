@@ -26,8 +26,8 @@ Follow [libretto.sh/start.md](https://libretto.sh/start.md) and the project skil
 
 - Dev dependency: `libretto`
 - Setup: `npx libretto setup` (also run from Cloud Agent `install`)
-- Smoke workflow: `npx libretto run src/workflows/scrape-page.ts --headless`
 - Session state under `.libretto/` is gitignored except `.gitignore`
+- Prefer CLI `open` / `snapshot` / `exec` for ad-hoc UI checks; only add workflows when asked
 
 ### Libretto Browser Tools MCP
 

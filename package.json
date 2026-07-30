@@ -26,8 +26,7 @@
 		"serve": "vite preview",
 		"deploy": "npx vercel deploy",
 		"test": "vitest",
-		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs",
-		"libretto:smoke": "libretto run src/workflows/scrape-page.ts --headless"
+		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs"
 	},
 	"author": "Tanishq Kancharla",
 	"license": "MIT",
@@ -48,8 +47,7 @@
 		"typescript": "^6.0.3",
 		"vercel": "^54.10.3",
 		"vite": "^8.0.16",
-		"vitest": "^4.1.8",
-		"zod": "^4.4.3"
+		"vitest": "^4.1.8"
 	},
 	"dependencies": {
 		"@radix-ui/colors": "^3.0.0",
