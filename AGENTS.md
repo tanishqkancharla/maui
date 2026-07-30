@@ -19,3 +19,28 @@ Non-obvious notes:
 
 - `vite.config.ts` enables `server.watch.usePolling` because native file-watching misses changes in this environment; HMR relies on polling.
 - Vite dep-optimization excludes `shiki`/`shiki/wasm` (WASM syntax highlighter); the production build emits a large `wasm` chunk and a >500 kB chunk-size warning, which is expected.
+
+### Libretto Browser Tools MCP
+
+Prefer the **libretto-browser-tools** MCP ([docs](https://libretto.sh/browser-tools)) for browser verification instead of ad-hoc Playwright scripts when the server is available.
+
+Repo wiring:
+
+- `.cursor/mcp.json` — project MCP config (Cursor IDE / Agent Window)
+- `.cursor/libretto-browser-mcp.mjs` — stdio MCP server (`LocalBrowserProvider`, headless)
+- `.cursor/environment.json` — `install` runs `npm install` and `npx playwright install chromium` so the stdio server can launch Chromium in Cloud Agent VMs
+- Dev deps: `libretto-browser-tools`, `@modelcontextprotocol/sdk`
+
+Tools: `browser_open`, `browser_connect`, `browser_snapshot`, `browser_exec`, `browser_status`, `browser_close`. Always pass `sessionId` from `browser_open` / `browser_connect` into later calls. Close with `browser_close` when done.
+
+**Cloud Agents:** project `.cursor/mcp.json` is for the IDE. Enable the same stdio server for cloud runs via the MCP dropdown on [cursor.com/agents](https://cursor.com/agents) (or team **Dashboard → Integrations & MCP**). Use:
+
+```json
+{
+  "command": "node",
+  "args": [".cursor/libretto-browser-mcp.mjs"],
+  "env": { "LIBRETTO_BROWSER_HEADLESS": "1" }
+}
+```
+
+Then start a new agent (MCP servers are not hot-reloaded mid-run).

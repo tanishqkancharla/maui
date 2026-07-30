@@ -1,0 +1,11 @@
+{
+	"mcpServers": {
+		"libretto-browser-tools": {
+			"command": "node",
+			"args": ["${workspaceFolder}/.cursor/libretto-browser-mcp.mjs"],
+			"env": {
+				"LIBRETTO_BROWSER_HEADLESS": "1"
+			}
+		}
+	}
+}
