@@ -16,7 +16,8 @@ export default defineConfig({
 		},
 	},
 	build: {
-		outDir: "../dist",
+		// Gallery site output — keep separate from the library package `dist/`.
+		outDir: "../site",
 		emptyOutDir: true,
 	},
 	optimizeDeps: {

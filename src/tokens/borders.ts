@@ -24,7 +24,7 @@ export const border = memoize((sides: BorderSide[], color: BorderColor) => {
 		: style(
 				Object.fromEntries(
 					sides.map((side) => [`border${capitalize(side)}`, borderValue]),
-				) as CSSProperties,
+				) as unknown as CSSProperties,
 			)
 })
 

@@ -25,5 +25,5 @@ export const focusRing = memoize(
 					? `${focusShadow}, ${existingShadow}`
 					: focusShadow,
 			},
-		} as CSSProperties),
+		} as unknown as CSSProperties),
 )
