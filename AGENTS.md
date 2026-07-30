@@ -4,7 +4,7 @@
 
 This repo (`experiments`) is a **client-only** Vite 8 + React 19 + TypeScript SPA — a design-system gallery called "Maui" with embedded demos (including an Email client app). There is **no backend, database, auth, or external API**; all state is in-memory (`tuple-database`) and there are no environment variables/secrets to configure.
 
-Dependencies are installed automatically by the startup update script (`npm install`). `.npmrc` sets `legacy-peer-deps=true`, so plain `npm install` is the correct install command.
+Dependencies are installed automatically by the Cloud Agent install script (`.cursor/environment.json`): `npm install && npx libretto setup`. That installs Playwright Chromium and syncs Libretto agent skills. `.npmrc` sets `legacy-peer-deps=true`, so plain `npm install` is the correct install command.
 
 Standard commands (see `package.json` `scripts`):
 
@@ -20,16 +20,25 @@ Non-obvious notes:
 - `vite.config.ts` enables `server.watch.usePolling` because native file-watching misses changes in this environment; HMR relies on polling.
 - Vite dep-optimization excludes `shiki`/`shiki/wasm` (WASM syntax highlighter); the production build emits a large `wasm` chunk and a >500 kB chunk-size warning, which is expected.
 
+### Libretto CLI
+
+Follow [libretto.sh/start.md](https://libretto.sh/start.md) and the project skill at `.agents/skills/libretto/SKILL.md` for browser automation workflows.
+
+- Dev dependency: `libretto`
+- Setup: `npx libretto setup` (also run from Cloud Agent `install`)
+- Smoke workflow: `npx libretto run src/workflows/scrape-page.ts --headless`
+- Session state under `.libretto/` is gitignored except `.gitignore`
+
 ### Libretto Browser Tools MCP
 
-Prefer the **libretto-browser-tools** MCP ([docs](https://libretto.sh/browser-tools)) for browser verification instead of ad-hoc Playwright scripts when the server is available.
+Prefer the **libretto-browser-tools** MCP ([docs](https://libretto.sh/browser-tools)) for ad-hoc browser verification when the server is available; use the Libretto CLI for reusable workflows.
 
 Repo wiring:
 
 - `.cursor/mcp.json` — project MCP config (Cursor IDE / Agent Window)
 - `.cursor/libretto-browser-mcp.mjs` — stdio MCP server (`LocalBrowserProvider`, headless)
-- `.cursor/environment.json` — `install` runs `npm install` and `npx playwright install chromium` so the stdio server can launch Chromium in Cloud Agent VMs
-- Dev deps: `libretto-browser-tools`, `@modelcontextprotocol/sdk`
+- `.cursor/environment.json` — `npm install && npx libretto setup` (Chromium + skills)
+- Dev deps: `libretto`, `libretto-browser-tools`, `@modelcontextprotocol/sdk`
 
 Tools: `browser_open`, `browser_connect`, `browser_snapshot`, `browser_exec`, `browser_status`, `browser_close`. Always pass `sessionId` from `browser_open` / `browser_connect` into later calls. Close with `browser_close` when done.
 
