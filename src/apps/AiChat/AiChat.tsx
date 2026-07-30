@@ -4,10 +4,12 @@ import { Button } from "../../components/Button"
 import { Loader } from "../../patterns/Loader"
 import { AssistantMessage } from "../../patterns/AssistantMessage"
 import { Editor } from "../../patterns/Editor"
+import { backgroundColor } from "../../tokens/background"
 import { border } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
+import { shadow } from "../../tokens/shadow"
 import { spacing } from "../../tokens/spacing"
 import { text } from "../../tokens/text"
 
@@ -241,9 +243,10 @@ const userRowClass = style(flex({ justify: "end" }), {
 const userBubbleClass = style(
 	text("md", 400, "highContrast"),
 	radius.md,
+	shadow.subtle,
 	spacing.padding({ x: 4, y: 2 }),
 	{
-		backgroundColor: colors.gray[3],
+		backgroundColor: backgroundColor.app,
 		whiteSpace: "pre-wrap",
 		maxWidth: "80%",
 	},

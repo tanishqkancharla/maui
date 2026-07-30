@@ -4,6 +4,7 @@ import type { HighlighterCore } from "shiki"
 import type { ResolvedTheme } from "../theme/ThemeContext"
 import { mauiShikiThemeDark, mauiShikiThemeLight } from "./mauiShikiTheme"
 
+/** Canonical Shiki language ids loaded into the highlighter. */
 export const supportedCodeLangs = [
 	"typescript",
 	"javascript",
@@ -14,6 +15,20 @@ export const supportedCodeLangs = [
 ] as const
 
 export type SupportedCodeLang = (typeof supportedCodeLangs)[number]
+
+/** Common fence aliases → loaded Shiki language. */
+const codeLangAliases: Record<string, SupportedCodeLang> = {
+	ts: "typescript",
+	tsx: "tsx",
+	js: "javascript",
+	javascript: "javascript",
+	typescript: "typescript",
+	css: "css",
+	json: "json",
+	bash: "bash",
+	sh: "bash",
+	shell: "bash",
+}
 
 let highlighterPromise: Promise<HighlighterCore> | null = null
 
@@ -36,19 +51,28 @@ function getHighlighter() {
 	return highlighterPromise
 }
 
-export function isSupportedCodeLang(lang: string): lang is SupportedCodeLang {
-	return supportedCodeLangs.includes(lang as SupportedCodeLang)
+export function resolveCodeLang(lang: string): SupportedCodeLang | null {
+	return codeLangAliases[lang.toLowerCase()] ?? null
+}
+
+export function isSupportedCodeLang(lang: string): boolean {
+	return resolveCodeLang(lang) !== null
 }
 
 export async function highlightCode(
 	code: string,
-	lang: SupportedCodeLang,
+	lang: string,
 	theme: ResolvedTheme,
 ) {
+	const resolved = resolveCodeLang(lang)
+	if (!resolved) {
+		throw new Error(`Unsupported code language: ${lang}`)
+	}
+
 	const highlighter = await getHighlighter()
 
 	return highlighter.codeToHtml(code.trimEnd(), {
-		lang,
+		lang: resolved,
 		theme: `maui-${theme}`,
 		transformers: [
 			{
