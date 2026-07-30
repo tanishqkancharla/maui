@@ -1,3 +1,4 @@
+import type React from "react"
 import { useEffect } from "react"
 import { Markdown } from "@tiptap/markdown"
 import Placeholder from "@tiptap/extension-placeholder"
@@ -6,9 +7,9 @@ import StarterKit from "@tiptap/starter-kit"
 import { style, useStyles } from "purse-styles"
 import { proseMaxWidth } from "../components/Prose"
 import { useRefCurrent } from "../hooks/useRefCurrent"
-import { border } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { flex } from "../tokens/layout"
 import { proseHtml, type ProseSize } from "../tokens/prose"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
@@ -26,6 +27,8 @@ type EditorProps = {
 	className?: string
 	"aria-label"?: string
 	onSubmit?: () => void
+	/** Optional actions rendered inside the editor shell (e.g. Send). */
+	actions?: React.ReactNode
 }
 
 /**
@@ -41,8 +44,10 @@ export function Editor({
 	className,
 	"aria-label": ariaLabel = "Message editor",
 	onSubmit,
+	actions,
 }: EditorProps) {
 	const shellClassName = useStyles(editorShellClass)
+	const actionsClassName = useStyles(editorActionsClass)
 	const proseClassName = useStyles(proseHtml(size))
 	const onChangeRef = useRefCurrent(onChange)
 	const onSubmitRef = useRefCurrent(onSubmit)
@@ -112,6 +117,7 @@ export function Editor({
 	return (
 		<div className={joinClassNames(shellClassName, className)}>
 			<EditorContent editor={editor} />
+			{actions ? <div className={actionsClassName}>{actions}</div> : null}
 		</div>
 	)
 }
@@ -142,18 +148,18 @@ Type \`**bold**\` or start a line with \`-\` for a list.
 `
 
 const editorShellClass = style(
-	border([], "outline"),
 	radius.lg,
 	shadow.subtle,
-	spacing.padding({ x: 8, y: 6 }),
+	spacing.padding({ x: 6, y: 4 }),
 	focusRing("&:focus-within", shadowVars.subtle),
+	flex({ direction: "column", gap: 3 }),
 	{
 		backgroundColor: colors.gray[1],
 		maxWidth: proseMaxWidth,
 		minWidth: 0,
 		"& .ProseMirror": {
 			outline: "none",
-			minHeight: "4.5em",
+			minHeight: "2.75em",
 		},
 		"& .ProseMirror p.is-editor-empty:first-child::before": {
 			color: colors.gray[9],
@@ -164,6 +170,8 @@ const editorShellClass = style(
 		},
 	},
 )
+
+const editorActionsClass = style(flex({ align: "center", justify: "end", gap: 3 }))
 
 const hintClass = style(text("sm", 400, "lowContrast"), {
 	margin: "0 0 12px",

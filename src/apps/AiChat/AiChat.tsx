@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../../components/Button"
-import { Avatar } from "../../components/Avatar"
 import { Loader } from "../../patterns/Loader"
 import { AssistantMessage } from "../../patterns/AssistantMessage"
 import { Editor } from "../../patterns/Editor"
@@ -83,12 +82,13 @@ export function AiChat() {
 
 	const shellClassName = useStyles(shellClass)
 	const feedClassName = useStyles(feedClass)
-	const rowClassName = useStyles(rowClass)
-	const metaClassName = useStyles(metaClass)
+	const assistantRowClassName = useStyles(assistantRowClass)
+	const assistantMessageClassName = useStyles(assistantMessageClass)
+	const userRowClassName = useStyles(userRowClass)
 	const userBubbleClassName = useStyles(userBubbleClass)
 	const composerClassName = useStyles(composerClass)
-	const composerActionsClassName = useStyles(composerActionsClass)
-	const hintClassName = useStyles(hintClass)
+	const composerEditorClassName = useStyles(composerEditorClass)
+	const thinkingClassName = useStyles(thinkingClass)
 
 	useEffect(() => {
 		return () => cancelStreamRef.current?.()
@@ -154,38 +154,29 @@ export function AiChat() {
 			>
 				{messages.map((message) =>
 					message.role === "user" ? (
-						<div key={message.id} className={rowClassName}>
-							<Avatar name="You" size="sm" />
-							<div>
-								<div className={metaClassName}>You</div>
-								<div className={userBubbleClassName}>{message.content}</div>
-							</div>
+						<div key={message.id} className={userRowClassName}>
+							<div className={userBubbleClassName}>{message.content}</div>
 						</div>
 					) : (
-						<div key={message.id} className={rowClassName}>
-							<Avatar name="Maui" size="sm" />
-							<div>
-								<div className={metaClassName}>
-									Assistant
-									{message.streaming ? (
-										<>
-											{" "}
-											<Loader
-												size="0.75em"
-												variant="muted"
-												aria-label="Generating"
-											/>
-										</>
-									) : null}
-								</div>
-								{message.content ? (
-									<AssistantMessage isAnimating={Boolean(message.streaming)}>
-										{message.content}
-									</AssistantMessage>
-								) : (
-									<span className={hintClassName}>Thinking…</span>
-								)}
-							</div>
+						<div key={message.id} className={assistantRowClassName}>
+							{message.content ? (
+								<AssistantMessage
+									size="sm"
+									className={assistantMessageClassName}
+									isAnimating={Boolean(message.streaming)}
+								>
+									{message.content}
+								</AssistantMessage>
+							) : (
+								<span className={thinkingClassName}>
+									<Loader
+										size="0.75em"
+										variant="muted"
+										aria-label="Generating"
+									/>
+									Thinking…
+								</span>
+							)}
 						</div>
 					),
 				)}
@@ -200,37 +191,30 @@ export function AiChat() {
 					placeholder="Message the assistant…"
 					aria-label="Compose message"
 					size="sm"
+					className={composerEditorClassName}
+					actions={
+						<Button onClick={send} disabled={streaming || !draft.trim()}>
+							{streaming ? "Streaming…" : "Send"}
+						</Button>
+					}
 				/>
-				<div className={composerActionsClassName}>
-					<span className={hintClassName}>⌘/Ctrl+Enter to send</span>
-					<Button
-						onClick={send}
-						disabled={streaming || !draft.trim()}
-					>
-						{streaming ? "Streaming…" : "Send"}
-					</Button>
-				</div>
 			</div>
 		</div>
 	)
 }
 
-const shellClass = style(
-	border([], "outline"),
-	radius.lg,
-	{
-		display: "flex",
-		flexDirection: "column",
-		minHeight: "560px",
-		maxHeight: "720px",
-		overflow: "hidden",
-		backgroundColor: colors.gray[1],
-	},
-)
+const shellClass = style(border([], "outline"), radius.lg, {
+	display: "flex",
+	flexDirection: "column",
+	minHeight: "560px",
+	maxHeight: "720px",
+	overflow: "hidden",
+	backgroundColor: colors.gray[1],
+})
 
 const feedClass = style(
 	spacing.padding({ x: 8, y: 6 }),
-	flex({ direction: "column", gap: 8 }),
+	flex({ direction: "column", gap: 6 }),
 	{
 		flex: 1,
 		minHeight: 0,
@@ -238,38 +222,43 @@ const feedClass = style(
 	},
 )
 
-const rowClass = style(flex({ align: "start", gap: 4 }), {
+const assistantRowClass = style({
 	minWidth: 0,
+	width: "100%",
+	alignSelf: "stretch",
 })
 
-const metaClass = style(
-	text("xs", 500, "lowContrast"),
-	flex({ align: "center", gap: 2 }),
-	{
-		marginBottom: "6px",
-	},
-)
+const assistantMessageClass = style({
+	maxWidth: "none",
+	width: "100%",
+})
+
+const userRowClass = style(flex({ justify: "end" }), {
+	minWidth: 0,
+	alignSelf: "stretch",
+})
 
 const userBubbleClass = style(
-	text("md", 400, "highContrast"),
+	text("sm", 400, "highContrast"),
 	radius.md,
-	spacing.padding({ x: 6, y: 4 }),
+	spacing.padding({ x: 4, y: 2 }),
 	{
 		backgroundColor: colors.gray[3],
 		whiteSpace: "pre-wrap",
-		maxWidth: "64ch",
+		maxWidth: "80%",
 	},
 )
 
-const composerClass = style(
-	border(["top"], "border"),
-	spacing.padding({ x: 6, y: 4 }),
-	flex({ direction: "column", gap: 4 }),
-	{
-		backgroundColor: colors.gray[2],
-	},
+const composerClass = style(spacing.padding({ x: 6, y: 4 }), {
+	backgroundColor: "transparent",
+})
+
+const composerEditorClass = style({
+	maxWidth: "none",
+	width: "100%",
+})
+
+const thinkingClass = style(
+	text("xs", 400, "lowContrast"),
+	flex({ align: "center", gap: 2 }),
 )
-
-const composerActionsClass = style(flex({ align: "center", justify: "between" }))
-
-const hintClass = style(text("xs", 400, "lowContrast"))
