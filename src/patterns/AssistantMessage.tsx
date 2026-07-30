@@ -1,10 +1,14 @@
+import type React from "react"
 import type { Components } from "streamdown"
-import { Streamdown } from "streamdown"
+import { Streamdown, useIsCodeFenceIncomplete } from "streamdown"
 import { code } from "@streamdown/code"
 import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
 import { proseMaxWidth } from "../components/Prose"
+import { colors } from "../tokens/colors"
 import { proseHtml, type ProseSize } from "../tokens/prose"
+import { radius } from "../tokens/radius"
+import { shadow } from "../tokens/shadow"
 import { isSupportedCodeLang } from "../utils/shiki"
 import "streamdown/styles.css"
 
@@ -16,9 +20,49 @@ type AssistantMessageProps = {
 	className?: string
 }
 
+function extractText(node: React.ReactNode): string {
+	if (node == null || typeof node === "boolean") return ""
+	if (typeof node === "string" || typeof node === "number") return String(node)
+	if (Array.isArray(node)) return node.map(extractText).join("")
+	if (typeof node === "object" && "props" in node) {
+		return extractText(
+			(node as React.ReactElement<{ children?: React.ReactNode }>).props
+				.children,
+		)
+	}
+	return ""
+}
+
+function MauiFencedCode({
+	className,
+	children,
+	node: _node,
+	...props
+}: React.ComponentPropsWithoutRef<"code"> & { node?: unknown }) {
+	const isIncomplete = useIsCodeFenceIncomplete()
+	const pendingClassName = useStyles(pendingCodeShellClass)
+	const language = /language-([\w-]+)/.exec(className ?? "")?.[1] ?? "text"
+	const text = extractText(children).replace(/\n$/, "")
+
+	// While the fence is still open, keep plain text so Streamdown can keep
+	// updating without remounting a highlighter on every chunk.
+	if (isIncomplete || !isSupportedCodeLang(language)) {
+		return (
+			<pre className={pendingClassName}>
+				<code className={className} {...props}>
+					{text}
+				</code>
+			</pre>
+		)
+	}
+
+	return <CodeBlock lang={language}>{text}</CodeBlock>
+}
+
 /**
  * Plain element overrides so Streamdown's Tailwind utility classes are not
- * required — Maui `proseHtml` styles the tree instead.
+ * required — Maui `proseHtml` styles the tree instead. Keep `children` intact
+ * so Streamdown's animate spans stay in the tree.
  */
 const streamdownComponents: Components = {
 	h1: ({ node: _node, ...props }) => <h1 {...props} />,
@@ -37,22 +81,7 @@ const streamdownComponents: Components = {
 	inlineCode: ({ node: _node, children, ...props }) => (
 		<code {...props}>{children}</code>
 	),
-	code: ({ className, children, node: _node, ...props }) => {
-		const language = /language-([\w-]+)/.exec(className ?? "")?.[1] ?? "text"
-		const text = String(children).replace(/\n$/, "")
-
-		if (isSupportedCodeLang(language)) {
-			return <CodeBlock lang={language}>{text}</CodeBlock>
-		}
-
-		return (
-			<pre>
-				<code className={className} {...props}>
-					{children}
-				</code>
-			</pre>
-		)
-	},
+	code: MauiFencedCode,
 }
 
 /**
@@ -65,7 +94,8 @@ export function AssistantMessage({
 	size = "md",
 	className,
 }: AssistantMessageProps) {
-	const rootClassName = useStyles(assistantMessageClass, proseHtml(size))
+	const rootClassName = useStyles(assistantMessageClass)
+	const streamdownClassName = useStyles(proseHtml(size), streamdownRootClass)
 
 	return (
 		<div
@@ -74,11 +104,15 @@ export function AssistantMessage({
 			aria-busy={isAnimating || undefined}
 		>
 			<Streamdown
+				className={streamdownClassName}
 				components={streamdownComponents}
 				plugins={{ code }}
+				// `animated` must stay stably enabled; only `isAnimating` toggles.
+				// Flipping `animated`/`mode` with the stream resets stagger state and
+				// makes new blocks (blockquotes, lists) pop in out of order.
+				animated
 				isAnimating={isAnimating}
-				animated={isAnimating}
-				mode={isAnimating ? "streaming" : "static"}
+				mode="streaming"
 				controls={false}
 				lineNumbers={false}
 			>
@@ -113,11 +147,19 @@ export function AssistantMessageDemo() {
 const assistantMessageClass = style({
 	maxWidth: proseMaxWidth,
 	minWidth: 0,
-	// Streamdown's root uses Tailwind `space-y-*` which we don't ship; apply
-	// rhythm to its direct children instead.
-	"& > div > * + *": {
-		marginTop: "1.25em",
-	},
+})
+
+// Drop Streamdown's Tailwind `space-y-*` dependency; Maui `proseHtml` owns gaps.
+const streamdownRootClass = style({
+	display: "block",
+	whiteSpace: "normal",
+})
+
+const pendingCodeShellClass = style(radius.md, shadow.subtle, {
+	backgroundColor: colors.gray[2],
+	margin: 0,
+	overflowX: "auto",
+	padding: "12px",
 })
 
 function joinClassNames(...classNames: Array<string | undefined>) {

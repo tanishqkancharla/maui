@@ -165,11 +165,17 @@ export const proseRhythm = memoize((size: ProseSize) => {
 
 /**
  * Element styles + vertical rhythm for HTML rendered outside React typography
- * components (TipTap's ProseMirror tree, Streamdown markdown output). Apply to
- * a container whose direct children are block elements (`p`, `h1`–`h4`, lists…).
+ * components (TipTap's ProseMirror tree, Streamdown markdown output).
+ *
+ * Rhythm uses adjacent-sibling selectors among block tags (not `& > *`), so it
+ * still works when Streamdown nests blocks under its own root `div`.
  */
 export const proseHtml = memoize((size: ProseSize) => {
 	const m = metrics[size]
+	const blocks =
+		":where(p, h1, h2, h3, h4, ul, ol, blockquote, pre, hr, table, .maui-code-block)"
+	const notHeadingBlocks =
+		":where(p, ul, ol, blockquote, pre, hr, table, .maui-code-block)"
 
 	return style({
 		"& p": {
@@ -247,18 +253,21 @@ export const proseHtml = memoize((size: ProseSize) => {
 		"& hr": {
 			border: "none",
 			borderTop: `1px solid ${colors.gray[6]}`,
-			marginBlock: px(m.blockGap),
+			marginBlock: 0,
 		},
-		"& > * + *": {
+		// Default gap between consecutive prose blocks.
+		[`& ${blocks} + ${blocks}`]: {
 			marginTop: px(m.blockGap),
 		},
-		"& > h1 + *": { marginTop: px(m.h1.marginBottom) },
-		"& > h2 + *": { marginTop: px(m.h2.marginBottom) },
-		"& > h3 + *": { marginTop: px(m.h3.marginBottom) },
-		"& > h4 + *": { marginTop: px(m.h4.marginBottom) },
-		[`& > ${notHeading} + h1`]: { marginTop: px(m.h1.marginTop) },
-		[`& > ${notHeading} + h2`]: { marginTop: px(m.h2.marginTop) },
-		[`& > ${notHeading} + h3`]: { marginTop: px(m.h3.marginTop) },
-		[`& > ${notHeading} + h4`]: { marginTop: px(m.h4.marginTop) },
+		// Gap after a heading: hug it to the content that follows.
+		[`& h1 + ${blocks}`]: { marginTop: px(m.h1.marginBottom) },
+		[`& h2 + ${blocks}`]: { marginTop: px(m.h2.marginBottom) },
+		[`& h3 + ${blocks}`]: { marginTop: px(m.h3.marginBottom) },
+		[`& h4 + ${blocks}`]: { marginTop: px(m.h4.marginBottom) },
+		// Break before a heading (only when it opens a new section).
+		[`& ${notHeadingBlocks} + h1`]: { marginTop: px(m.h1.marginTop) },
+		[`& ${notHeadingBlocks} + h2`]: { marginTop: px(m.h2.marginTop) },
+		[`& ${notHeadingBlocks} + h3`]: { marginTop: px(m.h3.marginTop) },
+		[`& ${notHeadingBlocks} + h4`]: { marginTop: px(m.h4.marginTop) },
 	})
 })
