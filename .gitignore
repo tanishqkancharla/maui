@@ -1,6 +1,6 @@
 tmp/
 /dist
-/site
+/website
 /node_modules
 
 .DS_Store
