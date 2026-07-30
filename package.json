@@ -25,11 +25,13 @@
 		"prepare": "npm run build:lib",
 		"serve": "vite preview",
 		"deploy": "npx vercel deploy",
-		"test": "vitest"
+		"test": "vitest",
+		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs"
 	},
 	"author": "Tanishq Kancharla",
 	"license": "MIT",
 	"devDependencies": {
+		"@modelcontextprotocol/sdk": "^1.30.0",
 		"@types/dedent": "^0.7.2",
 		"@types/lodash": "^4.17.24",
 		"@types/node": "^25.9.2",
@@ -37,6 +39,7 @@
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.2",
 		"esbuild": "^0.28.0",
+		"libretto-browser-tools": "^0.1.2",
 		"process": "^0.11.10",
 		"serve": "^14.2.6",
 		"tsx": "^4.22.4",
@@ -48,6 +51,12 @@
 	"dependencies": {
 		"@radix-ui/colors": "^3.0.0",
 		"@react-spring/web": "^10.1.0",
+		"@streamdown/code": "^1.1.1",
+		"@tiptap/extension-placeholder": "^3.29.2",
+		"@tiptap/markdown": "^3.29.2",
+		"@tiptap/pm": "^3.29.2",
+		"@tiptap/react": "^3.29.2",
+		"@tiptap/starter-kit": "^3.29.2",
 		"@types/inline-style-prefixer": "^5.0.3",
 		"dedent": "^1.7.2",
 		"inline-style-prefixer": "^7.0.1",
@@ -60,6 +69,7 @@
 		"react-dom": "^19.2.7",
 		"react-stately": "^3.47.0",
 		"shiki": "^4.3.0",
+		"streamdown": "^2.5.0",
 		"tuple-database": "^2.2.4",
 		"use-state-dispatch": "^0.6.0",
 		"wouter": "^3.10.0"

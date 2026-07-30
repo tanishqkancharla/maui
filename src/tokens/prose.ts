@@ -162,3 +162,132 @@ export const proseRhythm = memoize((size: ProseSize) => {
 		[`& > ${notHeading} + h4`]: { marginTop: px(m.h4.marginTop) },
 	})
 })
+
+/**
+ * Element styles + vertical rhythm for HTML rendered outside React typography
+ * components (TipTap's ProseMirror tree, Streamdown markdown output).
+ *
+ * Uses a flex column + `gap` stack so spacing doesn't depend on fragile
+ * adjacent-sibling matching across Streamdown's memoized blocks.
+ */
+export const proseHtml = memoize((size: ProseSize) => {
+	const m = metrics[size]
+
+	return style({
+		display: "flex",
+		flexDirection: "column",
+		gap: px(m.blockGap),
+		"& p": {
+			...block(m.paragraph),
+			fontWeight: 400,
+			color: bodyColor,
+			margin: 0,
+		},
+		"& h1": {
+			...block(m.h1),
+			fontWeight: 700,
+			color: headingColor,
+			margin: 0,
+		},
+		"& h2": {
+			...block(m.h2),
+			fontWeight: 700,
+			color: headingColor,
+			margin: 0,
+		},
+		"& h3": {
+			...block(m.h3),
+			fontWeight: 600,
+			color: headingColor,
+			margin: 0,
+		},
+		"& h4": {
+			...block(m.h4),
+			fontWeight: 600,
+			color: headingColor,
+			margin: 0,
+		},
+		"& a": {
+			fontWeight: 500,
+			color: headingColor,
+			textDecoration: "underline",
+		},
+		"& blockquote": {
+			...block(m.paragraph),
+			fontWeight: 500,
+			fontStyle: "italic",
+			color: quoteColor,
+			borderLeft: `2px solid ${colors.accent[10]}`,
+			paddingLeft: "12px",
+			margin: 0,
+		},
+		"& ul, & ol": {
+			...block(m.paragraph),
+			fontWeight: 400,
+			color: bodyColor,
+			paddingInlineStart: px(m.listPadding),
+			margin: 0,
+			listStyleType: "none",
+		},
+		"& ol": {
+			counterReset: "maui-ol",
+		},
+		"& ul > li, & ol > li": {
+			position: "relative",
+		},
+		"& ul > li::before": {
+			content: '"•"',
+			position: "absolute",
+			left: px(-m.listPadding),
+			width: px(m.listPadding),
+			color: colors.gray[11],
+			textAlign: "center",
+		},
+		"& ol > li": {
+			counterIncrement: "maui-ol",
+		},
+		"& ol > li::before": {
+			content: 'counter(maui-ol) "."',
+			position: "absolute",
+			left: px(-m.listPadding),
+			width: px(m.listPadding),
+			color: colors.gray[11],
+			textAlign: "right",
+			paddingRight: "0.4em",
+			boxSizing: "border-box",
+		},
+		"& ul > li + li, & ol > li + li": {
+			marginTop: px(m.listItemGap),
+		},
+		"& li > ul, & li > ol": {
+			marginTop: px(m.listNestedGap),
+		},
+		"& strong": { fontWeight: 600 },
+		"& em": { fontStyle: "italic" },
+		"& code": {
+			fontFamily:
+				'ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace',
+			fontSize: "0.875em",
+		},
+		"& pre, & .maui-code-block": {
+			margin: 0,
+			overflowX: "auto",
+			minWidth: 0,
+		},
+		"& hr": {
+			border: "none",
+			borderTop: `1px solid ${colors.gray[6]}`,
+			margin: 0,
+		},
+		"& table": {
+			margin: 0,
+		},
+	})
+})
+
+/** Fade list markers in with Streamdown word animation while streaming. */
+export const proseStreamingMarkers = style({
+	"& li::before": {
+		animation: "sd-fadeIn 150ms ease both",
+	},
+})
