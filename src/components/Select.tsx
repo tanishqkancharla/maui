@@ -9,7 +9,7 @@ import {
 	type SelectProps as AriaSelectProps,
 	type ValidationResult,
 } from "react-aria-components"
-import { style, useStyles } from "purse-styles"
+import { style, useStyles, type CSSProperties } from "purse-styles"
 import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
@@ -79,9 +79,11 @@ const chevronClass = style(motion.standard("transform"), {
 	height: "14px",
 	marginLeft: "6px",
 	color: colors.gray[10],
-	"[data-open] &": {
-		transform: "rotate(180deg)",
-	},
+	...({
+		"[data-open] &": {
+			transform: "rotate(180deg)",
+		},
+	} as CSSProperties),
 })
 
 const supportingTextClass = style(text("xs", 400, "lowContrast"), {

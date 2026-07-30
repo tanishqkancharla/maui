@@ -160,15 +160,16 @@ function BorderExample(props: {
 }) {
 	const className = useStyles(
 		border(props.sides, props.color),
-		props.edgeWidth &&
-			style(
-				Object.fromEntries(
-					props.sides.map((side) => [
-						`border${capitalize(side)}Width`,
-						props.edgeWidth,
-					]),
-				) as CSSProperties,
-			),
+		props.edgeWidth
+			? style(
+					Object.fromEntries(
+						props.sides.map((side) => [
+							`border${capitalize(side)}Width`,
+							props.edgeWidth,
+						]),
+					) as unknown as CSSProperties,
+				)
+			: undefined,
 		radius.md,
 		style({
 			background: colors.gray[2],

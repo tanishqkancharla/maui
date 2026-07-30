@@ -2,15 +2,27 @@
 	"name": "maui",
 	"version": "0.0.1",
 	"description": "Maui design system",
+	"type": "module",
+	"main": "./dist/maui.js",
+	"types": "./dist/maui.d.ts",
+	"source": "./src/maui.ts",
+	"files": [
+		"dist",
+		"src"
+	],
 	"exports": {
-		".": "./src/maui.ts"
+		".": {
+			"types": "./dist/maui.d.ts",
+			"import": "./dist/maui.js"
+		}
 	},
-	"types": "./src/maui.ts",
 	"scripts": {
 		"tsc": "tsc --noEmit --watch",
 		"clear": "mkdir -p dist && rm -rf dist/*",
 		"dev": "vite",
 		"build": "vite build",
+		"build:lib": "tsc -p tsconfig.lib.json",
+		"prepare": "npm run build:lib",
 		"serve": "vite preview",
 		"deploy": "npx vercel deploy",
 		"test": "vitest"
