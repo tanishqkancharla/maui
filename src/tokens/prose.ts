@@ -162,3 +162,103 @@ export const proseRhythm = memoize((size: ProseSize) => {
 		[`& > ${notHeading} + h4`]: { marginTop: px(m.h4.marginTop) },
 	})
 })
+
+/**
+ * Element styles + vertical rhythm for HTML rendered outside React typography
+ * components (TipTap's ProseMirror tree, Streamdown markdown output). Apply to
+ * a container whose direct children are block elements (`p`, `h1`–`h4`, lists…).
+ */
+export const proseHtml = memoize((size: ProseSize) => {
+	const m = metrics[size]
+
+	return style({
+		"& p": {
+			...block(m.paragraph),
+			fontWeight: 400,
+			color: bodyColor,
+			margin: 0,
+		},
+		"& h1": {
+			...block(m.h1),
+			fontWeight: 700,
+			color: headingColor,
+			margin: 0,
+		},
+		"& h2": {
+			...block(m.h2),
+			fontWeight: 700,
+			color: headingColor,
+			margin: 0,
+		},
+		"& h3": {
+			...block(m.h3),
+			fontWeight: 600,
+			color: headingColor,
+			margin: 0,
+		},
+		"& h4": {
+			...block(m.h4),
+			fontWeight: 600,
+			color: headingColor,
+			margin: 0,
+		},
+		"& a": {
+			fontWeight: 500,
+			color: headingColor,
+			textDecoration: "underline",
+		},
+		"& blockquote": {
+			...block(m.paragraph),
+			fontWeight: 500,
+			fontStyle: "italic",
+			color: quoteColor,
+			borderLeft: `2px solid ${colors.accent[10]}`,
+			paddingLeft: "12px",
+			marginInline: 0,
+			marginBlock: 0,
+		},
+		"& ul, & ol": {
+			...block(m.paragraph),
+			fontWeight: 400,
+			color: bodyColor,
+			paddingInlineStart: px(m.listPadding),
+			margin: 0,
+		},
+		"& ul": { listStyleType: "disc" },
+		"& ol": { listStyleType: "decimal" },
+		"& li::marker": { color: colors.gray[11] },
+		"& ul > li + li, & ol > li + li": {
+			marginTop: px(m.listItemGap),
+		},
+		"& li > ul, & li > ol": {
+			marginTop: px(m.listNestedGap),
+		},
+		"& strong": { fontWeight: 600 },
+		"& em": { fontStyle: "italic" },
+		"& code": {
+			fontFamily:
+				'ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace',
+			fontSize: "0.875em",
+		},
+		"& pre": {
+			margin: 0,
+			overflowX: "auto",
+		},
+		"& hr": {
+			border: "none",
+			borderTop: `1px solid ${colors.gray[6]}`,
+			marginBlock: px(m.blockGap),
+		},
+		"& > * + *": {
+			marginTop: px(m.blockGap),
+		},
+		"& > h1 + *": { marginTop: px(m.h1.marginBottom) },
+		"& > h2 + *": { marginTop: px(m.h2.marginBottom) },
+		"& > h3 + *": { marginTop: px(m.h3.marginBottom) },
+		"& > h4 + *": { marginTop: px(m.h4.marginBottom) },
+		[`& > ${notHeading} + h1`]: { marginTop: px(m.h1.marginTop) },
+		[`& > ${notHeading} + h2`]: { marginTop: px(m.h2.marginTop) },
+		[`& > ${notHeading} + h3`]: { marginTop: px(m.h3.marginTop) },
+		[`& > ${notHeading} + h4`]: { marginTop: px(m.h4.marginTop) },
+	})
+})
