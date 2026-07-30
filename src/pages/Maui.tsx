@@ -16,6 +16,8 @@ import { navigationItem } from "../components/navigationItem"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
+import { AiChatPage } from "./AiChatPage"
+import { AssistantMessagePage } from "./AssistantMessagePage"
 import { AvatarPage } from "./AvatarPage"
 import { BadgePage } from "./BadgePage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
@@ -24,6 +26,7 @@ import { ButtonsPage } from "./ButtonsPage"
 import { CodeBlockPage } from "./CodeBlockPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
+import { EditorPage } from "./EditorPage"
 import { EmailClientPage } from "./EmailClientPage"
 import { FocusRingTokenPage } from "./FocusRingTokenPage"
 import { FormControlsPage } from "./FormControlsPage"
@@ -146,6 +149,12 @@ const navigation: NavGroup[] = [
 				path: "/patterns/message-list",
 				page: MessageListPage,
 			},
+			{ label: "Editor", path: "/patterns/editor", page: EditorPage },
+			{
+				label: "Assistant message",
+				path: "/patterns/assistant-message",
+				page: AssistantMessagePage,
+			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
 			{ label: "Tree", path: "/patterns/tree", page: TreePage },
 			{ label: "Loader", path: "/patterns/loader", page: LoaderPage },
@@ -159,6 +168,7 @@ const navigation: NavGroup[] = [
 				path: "/apps/email-client",
 				page: EmailClientPage,
 			},
+			{ label: "AI chat", path: "/apps/ai-chat", page: AiChatPage },
 		],
 	},
 ]

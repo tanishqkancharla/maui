@@ -30,7 +30,7 @@ export {
 export { avatar } from "./tokens/avatar"
 export { motion } from "./tokens/motion"
 export { sizingTokens as sizing } from "./tokens/sizing"
-export { prose, proseRhythm, type ProseSize } from "./tokens/prose"
+export { prose, proseRhythm, proseHtml, type ProseSize } from "./tokens/prose"
 export { visuallyHidden } from "./tokens/visuallyHidden"
 
 // Components
@@ -102,3 +102,5 @@ export {
 export { Sidebar, SidebarSection, SidebarItem } from "./patterns/Sidebar"
 export { Tree, defaultTreeGuideGeometry, type TreeNode, type TreeGuideGeometry } from "./patterns/Tree"
 export { Loader } from "./patterns/Loader"
+export { Editor } from "./patterns/Editor"
+export { AssistantMessage } from "./patterns/AssistantMessage"
