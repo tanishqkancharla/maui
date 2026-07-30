@@ -39,7 +39,6 @@
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.2",
 		"esbuild": "^0.28.0",
-		"libretto": "^0.6.39",
 		"libretto-browser-tools": "^0.1.2",
 		"process": "^0.11.10",
 		"serve": "^14.2.6",
