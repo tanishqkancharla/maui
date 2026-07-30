@@ -239,7 +239,7 @@ const userRowClass = style(flex({ justify: "end" }), {
 })
 
 const userBubbleClass = style(
-	text("sm", 400, "highContrast"),
+	text("md", 400, "highContrast"),
 	radius.md,
 	spacing.padding({ x: 4, y: 2 }),
 	{

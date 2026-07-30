@@ -6,7 +6,7 @@ import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
 import { proseMaxWidth } from "../components/Prose"
 import { colors } from "../tokens/colors"
-import { proseHtml, type ProseSize } from "../tokens/prose"
+import { proseHtml, proseStreamingMarkers, type ProseSize } from "../tokens/prose"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { isSupportedCodeLang } from "../utils/shiki"
@@ -61,24 +61,29 @@ function MauiFencedCode({
 
 /**
  * Plain element overrides so Streamdown's Tailwind utility classes are not
- * required — Maui `proseHtml` styles the tree instead. Keep `children` intact
- * so Streamdown's animate spans stay in the tree.
+ * required — Maui `proseHtml` styles the tree instead. Drop incoming
+ * `className` (Streamdown's `list-inside` / spacing utilities) so markers and
+ * gaps stay under Maui control. Keep `children` intact for animate spans.
  */
 const streamdownComponents: Components = {
-	h1: ({ node: _node, ...props }) => <h1 {...props} />,
-	h2: ({ node: _node, ...props }) => <h2 {...props} />,
-	h3: ({ node: _node, ...props }) => <h3 {...props} />,
-	h4: ({ node: _node, ...props }) => <h4 {...props} />,
-	p: ({ node: _node, ...props }) => <p {...props} />,
-	ul: ({ node: _node, ...props }) => <ul {...props} />,
-	ol: ({ node: _node, ...props }) => <ol {...props} />,
-	li: ({ node: _node, ...props }) => <li {...props} />,
-	a: ({ node: _node, ...props }) => <a {...props} />,
-	blockquote: ({ node: _node, ...props }) => <blockquote {...props} />,
-	strong: ({ node: _node, ...props }) => <strong {...props} />,
-	em: ({ node: _node, ...props }) => <em {...props} />,
-	hr: ({ node: _node, ...props }) => <hr {...props} />,
-	inlineCode: ({ node: _node, children, ...props }) => (
+	h1: ({ node: _node, className: _className, ...props }) => <h1 {...props} />,
+	h2: ({ node: _node, className: _className, ...props }) => <h2 {...props} />,
+	h3: ({ node: _node, className: _className, ...props }) => <h3 {...props} />,
+	h4: ({ node: _node, className: _className, ...props }) => <h4 {...props} />,
+	p: ({ node: _node, className: _className, ...props }) => <p {...props} />,
+	ul: ({ node: _node, className: _className, ...props }) => <ul {...props} />,
+	ol: ({ node: _node, className: _className, ...props }) => <ol {...props} />,
+	li: ({ node: _node, className: _className, ...props }) => <li {...props} />,
+	a: ({ node: _node, className: _className, ...props }) => <a {...props} />,
+	blockquote: ({ node: _node, className: _className, ...props }) => (
+		<blockquote {...props} />
+	),
+	strong: ({ node: _node, className: _className, ...props }) => (
+		<strong {...props} />
+	),
+	em: ({ node: _node, className: _className, ...props }) => <em {...props} />,
+	hr: ({ node: _node, className: _className, ...props }) => <hr {...props} />,
+	inlineCode: ({ node: _node, className: _className, children, ...props }) => (
 		<code {...props}>{children}</code>
 	),
 	code: MauiFencedCode,
@@ -95,7 +100,11 @@ export function AssistantMessage({
 	className,
 }: AssistantMessageProps) {
 	const rootClassName = useStyles(assistantMessageClass)
-	const streamdownClassName = useStyles(proseHtml(size), streamdownRootClass)
+	const streamdownClassName = useStyles(
+		proseHtml(size),
+		streamdownRootClass,
+		isAnimating ? proseStreamingMarkers : undefined,
+	)
 
 	return (
 		<div
@@ -151,8 +160,14 @@ const assistantMessageClass = style({
 
 // Drop Streamdown's Tailwind `space-y-*` dependency; Maui `proseHtml` owns gaps.
 const streamdownRootClass = style({
-	display: "block",
+	display: "flex",
+	flexDirection: "column",
 	whiteSpace: "normal",
+	// Whitespace-only Streamdown blocks can show up as empty nodes; don't let
+	// them create extra flex gaps.
+	"& > :empty": {
+		display: "none",
+	},
 })
 
 const pendingCodeShellClass = style(radius.md, shadow.subtle, {

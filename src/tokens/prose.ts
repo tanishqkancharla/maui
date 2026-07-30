@@ -167,17 +167,16 @@ export const proseRhythm = memoize((size: ProseSize) => {
  * Element styles + vertical rhythm for HTML rendered outside React typography
  * components (TipTap's ProseMirror tree, Streamdown markdown output).
  *
- * Rhythm uses adjacent-sibling selectors among block tags (not `& > *`), so it
- * still works when Streamdown nests blocks under its own root `div`.
+ * Uses a flex column + `gap` stack so spacing doesn't depend on fragile
+ * adjacent-sibling matching across Streamdown's memoized blocks.
  */
 export const proseHtml = memoize((size: ProseSize) => {
 	const m = metrics[size]
-	const blocks =
-		":where(p, h1, h2, h3, h4, ul, ol, blockquote, pre, hr, table, .maui-code-block)"
-	const notHeadingBlocks =
-		":where(p, ul, ol, blockquote, pre, hr, table, .maui-code-block)"
 
 	return style({
+		display: "flex",
+		flexDirection: "column",
+		gap: px(m.blockGap),
 		"& p": {
 			...block(m.paragraph),
 			fontWeight: 400,
@@ -220,8 +219,7 @@ export const proseHtml = memoize((size: ProseSize) => {
 			color: quoteColor,
 			borderLeft: `2px solid ${colors.accent[10]}`,
 			paddingLeft: "12px",
-			marginInline: 0,
-			marginBlock: 0,
+			margin: 0,
 		},
 		"& ul, & ol": {
 			...block(m.paragraph),
@@ -229,10 +227,35 @@ export const proseHtml = memoize((size: ProseSize) => {
 			color: bodyColor,
 			paddingInlineStart: px(m.listPadding),
 			margin: 0,
+			listStyleType: "none",
 		},
-		"& ul": { listStyleType: "disc" },
-		"& ol": { listStyleType: "decimal" },
-		"& li::marker": { color: colors.gray[11] },
+		"& ol": {
+			counterReset: "maui-ol",
+		},
+		"& ul > li, & ol > li": {
+			position: "relative",
+		},
+		"& ul > li::before": {
+			content: '"•"',
+			position: "absolute",
+			left: px(-m.listPadding),
+			width: px(m.listPadding),
+			color: colors.gray[11],
+			textAlign: "center",
+		},
+		"& ol > li": {
+			counterIncrement: "maui-ol",
+		},
+		"& ol > li::before": {
+			content: 'counter(maui-ol) "."',
+			position: "absolute",
+			left: px(-m.listPadding),
+			width: px(m.listPadding),
+			color: colors.gray[11],
+			textAlign: "right",
+			paddingRight: "0.4em",
+			boxSizing: "border-box",
+		},
 		"& ul > li + li, & ol > li + li": {
 			marginTop: px(m.listItemGap),
 		},
@@ -246,28 +269,25 @@ export const proseHtml = memoize((size: ProseSize) => {
 				'ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace',
 			fontSize: "0.875em",
 		},
-		"& pre": {
+		"& pre, & .maui-code-block": {
 			margin: 0,
 			overflowX: "auto",
+			minWidth: 0,
 		},
 		"& hr": {
 			border: "none",
 			borderTop: `1px solid ${colors.gray[6]}`,
-			marginBlock: 0,
+			margin: 0,
 		},
-		// Default gap between consecutive prose blocks.
-		[`& ${blocks} + ${blocks}`]: {
-			marginTop: px(m.blockGap),
+		"& table": {
+			margin: 0,
 		},
-		// Gap after a heading: hug it to the content that follows.
-		[`& h1 + ${blocks}`]: { marginTop: px(m.h1.marginBottom) },
-		[`& h2 + ${blocks}`]: { marginTop: px(m.h2.marginBottom) },
-		[`& h3 + ${blocks}`]: { marginTop: px(m.h3.marginBottom) },
-		[`& h4 + ${blocks}`]: { marginTop: px(m.h4.marginBottom) },
-		// Break before a heading (only when it opens a new section).
-		[`& ${notHeadingBlocks} + h1`]: { marginTop: px(m.h1.marginTop) },
-		[`& ${notHeadingBlocks} + h2`]: { marginTop: px(m.h2.marginTop) },
-		[`& ${notHeadingBlocks} + h3`]: { marginTop: px(m.h3.marginTop) },
-		[`& ${notHeadingBlocks} + h4`]: { marginTop: px(m.h4.marginTop) },
 	})
+})
+
+/** Fade list markers in with Streamdown word animation while streaming. */
+export const proseStreamingMarkers = style({
+	"& li::before": {
+		animation: "sd-fadeIn 150ms ease both",
+	},
 })
