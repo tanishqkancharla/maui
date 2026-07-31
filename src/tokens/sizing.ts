@@ -19,28 +19,11 @@ export const iconSizeValues: Record<IconSize, string> = {
 	xl: "24px",
 }
 
-/** Gap between an icon and adjacent label at each t-shirt size. */
-export const iconGapValues: Record<IconSize, string> = {
-	"2xs": "2px",
-	xs: "2px",
-	sm: "4px",
-	md: "4px",
-	lg: "6px",
-	xl: "6px",
-}
-
 export const icon = memoize((size: IconSize) =>
 	style({
 		width: iconSizeValues[size],
 		height: iconSizeValues[size],
 		flexShrink: 0,
-	}),
-)
-
-/** Flex row gap for icon + text pairs at the matching size. */
-export const iconGap = memoize((size: IconSize) =>
-	style({
-		gap: iconGapValues[size],
 	}),
 )
 

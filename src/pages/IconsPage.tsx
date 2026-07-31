@@ -7,7 +7,7 @@ import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { icon, iconGap, iconGapValues, iconSizeValues, type IconSize } from "../tokens/sizing"
+import { icon, iconSizeValues, type IconSize } from "../tokens/sizing"
 import { text, type TextSize } from "../tokens/text"
 
 const iconEntries = Object.entries(Icons) as [
@@ -16,6 +16,16 @@ const iconEntries = Object.entries(Icons) as [
 ][]
 
 const iconSizes: IconSize[] = ["2xs", "xs", "sm", "md", "lg", "xl"]
+
+/** Preview-only gap between icon and label — scales with size. */
+const previewGap: Record<IconSize, string> = {
+	"2xs": "2px",
+	xs: "2px",
+	sm: "4px",
+	md: "4px",
+	lg: "6px",
+	xl: "6px",
+}
 
 export function IconsPage() {
 	return (
@@ -34,10 +44,10 @@ export function IconsPage() {
 				Pair each icon size with the matching text size so labels and icons
 				share one scale.
 			</P>
-			<CodeBlock lang="typescript">{`import { icon, iconGap } from "maui"
+			<CodeBlock lang="typescript">{`import { icon } from "maui"
 import { text } from "maui"
 
-const row = style(text("sm", 400, "highContrast"), iconGap("sm"))
+const label = text("sm", 400, "highContrast")
 // <Icons.Search className={icon("sm")} /> Search mail`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={{ display: "grid", gap: "12px" }}>
@@ -72,7 +82,6 @@ const row = style(text("sm", 400, "highContrast"), iconGap("sm"))
 
 function SizePreview(props: { size: IconSize }) {
 	const iconClassName = useStyles(icon(props.size), iconColorClass)
-	const rowClassName = useStyles(iconGap(props.size), sizePreviewClass)
 	const labelClassName = useStyles(
 		text(props.size as TextSize, 400, "highContrast"),
 	)
@@ -81,10 +90,15 @@ function SizePreview(props: { size: IconSize }) {
 	return (
 		<div style={sizeRowStyle}>
 			<code className={metaClassName}>
-				{props.size} · icon {iconSizeValues[props.size]} · gap{" "}
-				{iconGapValues[props.size]} · text {textSizeDetails[props.size]}
+				{props.size} · icon {iconSizeValues[props.size]} · text{" "}
+				{textSizeDetails[props.size]}
 			</code>
-			<div className={rowClassName}>
+			<div
+				style={{
+					...sizePreviewStyle,
+					gap: previewGap[props.size],
+				}}
+			>
 				<Icons.Search className={iconClassName} />
 				<span className={labelClassName}>Search mail</span>
 			</div>
@@ -97,12 +111,16 @@ function CatalogTile(props: {
 	Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
 }) {
 	const iconClassName = useStyles(icon("sm"), iconColorClass)
-	const rowClassName = useStyles(iconGap("sm"), catalogPreviewClass)
 	const labelClassName = useStyles(text("sm", 400, "lowContrast"))
 
 	return (
 		<div style={catalogTileStyle}>
-			<div className={rowClassName}>
+			<div
+				style={{
+					...catalogPreviewStyle,
+					gap: previewGap.sm,
+				}}
+			>
 				<props.Icon className={iconClassName} />
 				<span className={labelClassName}>{props.name}</span>
 			</div>
@@ -128,7 +146,7 @@ const sizeRowStyle = {
 	gap: "6px",
 } as const
 
-const sizePreviewClass = {
+const sizePreviewStyle = {
 	display: "flex",
 	alignItems: "center",
 	padding: "12px",
@@ -144,7 +162,7 @@ const catalogTileStyle = {
 	background: colors.gray[1],
 } as const
 
-const catalogPreviewClass = {
+const catalogPreviewStyle = {
 	display: "flex",
 	alignItems: "center",
 	minWidth: 0,
