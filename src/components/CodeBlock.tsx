@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { highlightCode, isSupportedCodeLang } from "../utils/shiki"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { shadow } from "../tokens/shadow"
 import { monospace, text } from "../tokens/text"
@@ -11,6 +12,7 @@ const codeBlockClass = style(
 	monospace,
 	shadow.subtle,
 	{
+		backgroundColor: backgroundColor.app,
 		borderRadius: "6px",
 		color: colors.gray[12],
 		lineHeight: 1.6,

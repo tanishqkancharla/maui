@@ -5,7 +5,7 @@ import { code } from "@streamdown/code"
 import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
 import { proseMaxWidth } from "../components/Prose"
-import { colors } from "../tokens/colors"
+import { backgroundColor } from "../tokens/background"
 import { proseHtml, proseStreamingMarkers, type ProseSize } from "../tokens/prose"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
@@ -171,7 +171,7 @@ const streamdownRootClass = style({
 })
 
 const pendingCodeShellClass = style(radius.md, shadow.subtle, {
-	backgroundColor: colors.gray[2],
+	backgroundColor: backgroundColor.app,
 	margin: 0,
 	overflowX: "auto",
 	padding: "12px",
