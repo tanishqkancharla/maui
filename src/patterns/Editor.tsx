@@ -7,6 +7,7 @@ import StarterKit from "@tiptap/starter-kit"
 import { style, useStyles } from "purse-styles"
 import { proseMaxWidth } from "../components/Prose"
 import { useRefCurrent } from "../hooks/useRefCurrent"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -150,11 +151,11 @@ Type \`**bold**\` or start a line with \`-\` for a list.
 const editorShellClass = style(
 	radius.lg,
 	shadow.subtle,
-	spacing.padding({ x: 6, y: 4 }),
+	spacing.padding({ x: 3, y: 2 }),
 	focusRing("&:focus-within", shadowVars.subtle),
-	flex({ direction: "column", gap: 3 }),
+	flex({ direction: "column", gap: 2 }),
 	{
-		backgroundColor: colors.gray[1],
+		backgroundColor: backgroundColor.app,
 		maxWidth: proseMaxWidth,
 		minWidth: 0,
 		"& .ProseMirror": {
