@@ -31,6 +31,8 @@ export { avatar } from "./tokens/avatar"
 export { motion } from "./tokens/motion"
 export {
 	icon,
+	iconGap,
+	iconGapValues,
 	iconSizeValues,
 	sizingTokens as sizing,
 	type IconSize,

@@ -14,7 +14,14 @@ import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { icon, iconSizeValues, sizingTokens, type IconSize } from "../tokens/sizing"
+import {
+	icon,
+	iconGap,
+	iconGapValues,
+	iconSizeValues,
+	sizingTokens,
+	type IconSize,
+} from "../tokens/sizing"
 import { text } from "../tokens/text"
 
 const iconSizes: IconSize[] = ["2xs", "xs", "sm", "md", "lg", "xl"]
@@ -52,6 +59,17 @@ export function SizingTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
+							<code>iconGap(size)</code>
+						</TableCell>
+						<TableCell>
+							<code>2xs/xs 2px · sm/md 4px · lg/xl 6px</code>
+						</TableCell>
+						<TableCell>
+							Gap between icon and label at the matching size.
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>sizing.icon</code>
 						</TableCell>
 						<TableCell>
@@ -83,7 +101,8 @@ export function SizingTokenPage() {
 			<H3>Examples</H3>
 			<H4>Icon sizes</H4>
 			<CodeBlock lang="typescript">{`const leading = icon("sm")
-// <Icons.Search className={leading} /> next to text("sm", …)`}</CodeBlock>
+const row = style(iconGap("sm"), text("sm", 400, "highContrast"))
+// <Icons.Search className={leading} /> next to label`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={{ display: "grid", gap: "10px" }}>
 					{iconSizes.map((size) => (
@@ -115,15 +134,17 @@ export function SizingTokenPage() {
 
 function IconSizeExample(props: { size: IconSize }) {
 	const iconClassName = useStyles(icon(props.size), iconClass)
+	const rowClassName = useStyles(iconGap(props.size), iconRowClass)
 	const labelClassName = useStyles(text(props.size, 400, "highContrast"))
 	const metaClassName = useStyles(text("xs", 400, "lowContrast"))
 
 	return (
 		<div style={exampleCardStyle}>
 			<code className={metaClassName}>
-				{props.size} · {iconSizeValues[props.size]}
+				{props.size} · {iconSizeValues[props.size]} · gap{" "}
+				{iconGapValues[props.size]}
 			</code>
-			<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+			<div className={rowClassName}>
 				<Icons.Search className={iconClassName} />
 				<span className={labelClassName}>Icon aligns with text</span>
 			</div>
@@ -153,6 +174,11 @@ function ContentWidthExample() {
 
 const iconClass = {
 	color: colors.accent[11],
+} as const
+
+const iconRowClass = {
+	display: "flex",
+	alignItems: "center",
 } as const
 
 const fullWidthClass = {
