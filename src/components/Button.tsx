@@ -69,6 +69,8 @@ const quietButtonClass = style(
 		color: colors.gray[11],
 		backgroundColor: "transparent",
 		boxShadow: "none",
+		// Instant hover — no fade on background/color from buttonBaseClass.
+		transition: "none",
 		"&:hover": {
 			color: colors.gray[12],
 			backgroundColor: backgroundColor.elementHover,

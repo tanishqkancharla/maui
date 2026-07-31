@@ -6,6 +6,7 @@ import { colors } from "../tokens/colors"
 import { flex, flexItem } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
+import { icon } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
@@ -184,22 +185,24 @@ function EmailThreadRow(props: {
 }
 
 function ThreadHoverActions(props: { className: string }) {
+	const iconClassName = useStyles(icon("sm"))
+
 	return (
 		<div className={props.className}>
 			<ThreadAction label="Star thread">
-				<Icons.Star />
+				<Icons.Star className={iconClassName} />
 			</ThreadAction>
 			<ThreadAction label="Archive thread">
-				<Icons.Archive />
+				<Icons.Archive className={iconClassName} />
 			</ThreadAction>
 			<ThreadAction label="Delete thread">
-				<Icons.Trash />
+				<Icons.Trash className={iconClassName} />
 			</ThreadAction>
 			<ThreadAction label="Mark unread">
-				<Icons.Envelope />
+				<Icons.Envelope className={iconClassName} />
 			</ThreadAction>
 			<ThreadAction label="Snooze thread">
-				<Icons.Clock />
+				<Icons.Clock className={iconClassName} />
 			</ThreadAction>
 		</div>
 	)
