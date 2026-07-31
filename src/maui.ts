@@ -29,7 +29,12 @@ export {
 } from "./tokens/text"
 export { avatar } from "./tokens/avatar"
 export { motion } from "./tokens/motion"
-export { sizingTokens as sizing } from "./tokens/sizing"
+export {
+	icon,
+	iconSizeValues,
+	sizingTokens as sizing,
+	type IconSize,
+} from "./tokens/sizing"
 export { prose, proseRhythm, proseHtml, type ProseSize } from "./tokens/prose"
 export { visuallyHidden } from "./tokens/visuallyHidden"
 

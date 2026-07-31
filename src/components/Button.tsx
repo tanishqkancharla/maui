@@ -29,8 +29,6 @@ const buttonBaseClass = style(
 		overflow: "hidden",
 		whiteSpace: "nowrap",
 		"& > svg": {
-			width: "16px",
-			height: "16px",
 			flexShrink: 0,
 		},
 		"&:has(> svg)": {

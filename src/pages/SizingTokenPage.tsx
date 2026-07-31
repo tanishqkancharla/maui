@@ -1,21 +1,40 @@
 import { useStyles } from "purse-styles"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeaderCell,
+	TableRow,
+} from "../components/Table"
 import { Icons } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
-import { sizingTokens } from "../tokens/sizing"
-
-import { colors } from "../tokens/colors"
 import { borderColor } from "../tokens/borders"
+import { colors } from "../tokens/colors"
+import { icon, iconSizeValues, sizingTokens, type IconSize } from "../tokens/sizing"
+import { text } from "../tokens/text"
+
+const iconSizes: IconSize[] = ["2xs", "xs", "sm", "md", "lg", "xl"]
+
+const previewGap: Record<IconSize, string> = {
+	"2xs": "2px",
+	xs: "2px",
+	sm: "4px",
+	md: "4px",
+	lg: "6px",
+	xl: "6px",
+}
+
 export function SizingTokenPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Sizing</H2>
 			<P>
-				Sizing tokens are style objects for dimensions and constraints. Keep the
-				set small: icon size, full-width layout, and readable content width.
+				Sizing tokens cover icon dimensions (same t-shirt scale as text),
+				full-width layout, and readable content width.
 			</P>
 
 			<H3>Values</H3>
@@ -30,16 +49,28 @@ export function SizingTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>sizingTokens.icon</code>
+							<code>icon(size)</code>
 						</TableCell>
 						<TableCell>
-							<code>width: 16px; height: 16px</code>
+							<code>"2xs" | "xs" | "sm" | "md" | "lg" | "xl"</code>
 						</TableCell>
-						<TableCell>Default inline icon size.</TableCell>
+						<TableCell>
+							T-shirt icon box sizes, paired with{" "}
+							<code>text(size, …)</code>.
+						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>sizingTokens.fullWidth</code>
+							<code>sizing.icon</code>
+						</TableCell>
+						<TableCell>
+							<code>icon("sm")</code> → 16×16
+						</TableCell>
+						<TableCell>Default inline icon size alias.</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<code>sizing.fullWidth</code>
 						</TableCell>
 						<TableCell>
 							<code>width: 100%</code>
@@ -48,7 +79,7 @@ export function SizingTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>sizingTokens.contentWidth</code>
+							<code>sizing.contentWidth</code>
 						</TableCell>
 						<TableCell>
 							<code>max-width: 72ch</code>
@@ -59,13 +90,15 @@ export function SizingTokenPage() {
 			</Table>
 
 			<H3>Examples</H3>
-			<H4>Icon</H4>
-			<CodeBlock lang="typescript">{`const icon = style(
-	sizingTokens.icon,
-	{ borderRadius: "999px" },
-)`}</CodeBlock>
+			<H4>Icon sizes</H4>
+			<CodeBlock lang="typescript">{`const leading = icon("sm")
+// <Icons.Search className={leading} /> next to text("sm", …)`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
-				<IconExample />
+				<div style={{ display: "grid", gap: "10px" }}>
+					{iconSizes.map((size) => (
+						<IconSizeExample key={size} size={size} />
+					))}
+				</div>
 			</Panel>
 
 			<H4>Full width</H4>
@@ -89,16 +122,25 @@ export function SizingTokenPage() {
 	)
 }
 
-function IconExample() {
-	const className = useStyles(sizingTokens.icon, iconClass)
+function IconSizeExample(props: { size: IconSize }) {
+	const iconClassName = useStyles(icon(props.size), iconClass)
+	const labelClassName = useStyles(text(props.size, 400, "highContrast"))
+	const metaClassName = useStyles(text("xs", 400, "lowContrast"))
 
 	return (
 		<div style={exampleCardStyle}>
-			<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-				<Icons.Search className={className} />
-				<span style={{ color: colors.gray[12], lineHeight: 1.4 }}>
-					Icon aligns with text
-				</span>
+			<code className={metaClassName}>
+				{props.size} · {iconSizeValues[props.size]}
+			</code>
+			<div
+				style={{
+					display: "flex",
+					alignItems: "center",
+					gap: previewGap[props.size],
+				}}
+			>
+				<Icons.Search className={iconClassName} />
+				<span className={labelClassName}>Icon aligns with text</span>
 			</div>
 		</div>
 	)
@@ -146,5 +188,6 @@ const exampleCardStyle = {
 	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
+	display: "grid",
+	gap: "6px",
 } as const
-
