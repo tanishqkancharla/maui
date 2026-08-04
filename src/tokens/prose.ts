@@ -1,7 +1,7 @@
 import { style } from "purse-styles"
 import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
-import { motionDurationMs, motionEasing } from "./motion"
+import { motionEasing, motionStreamDurationMs } from "./motion"
 import { fontFamily } from "./text"
 
 /**
@@ -289,6 +289,6 @@ export const proseHtml = memoize((size: ProseSize) => {
 /** Fade list markers in with Streamdown word animation while streaming. */
 export const proseStreamingMarkers = style({
 	"& li::before": {
-		animation: `sd-fadeIn ${motionDurationMs}ms ${motionEasing} both`,
+		animation: `sd-fadeIn ${motionStreamDurationMs}ms ${motionEasing} both`,
 	},
 })

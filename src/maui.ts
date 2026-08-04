@@ -28,7 +28,12 @@ export {
 	type TextColor,
 } from "./tokens/text"
 export { avatar } from "./tokens/avatar"
-export { motion, motionDurationMs, motionEasing } from "./tokens/motion"
+export {
+	motion,
+	motionDurationMs,
+	motionEasing,
+	motionStreamDurationMs,
+} from "./tokens/motion"
 export {
 	icon,
 	iconSizeValues,

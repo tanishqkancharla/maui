@@ -11,7 +11,7 @@ import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
 import { proseMaxWidth } from "../components/Prose"
 import { backgroundColor } from "../tokens/background"
-import { motionDurationMs, motionEasing } from "../tokens/motion"
+import { motionEasing, motionStreamDurationMs } from "../tokens/motion"
 import { proseHtml, proseStreamingMarkers, type ProseSize } from "../tokens/prose"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
@@ -182,13 +182,13 @@ export function AssistantMessageDemo() {
 	return <AssistantMessage>{sampleMarkdown}</AssistantMessage>
 }
 
-/** Word fade-in tuned to Maui's standard interactive motion timing. */
+/** Snappy word fade-in for streaming tokens (faster than UI hover motion). */
 const streamdownAnimate = {
 	animation: "fadeIn" as const,
-	duration: motionDurationMs,
+	duration: motionStreamDurationMs,
 	easing: motionEasing,
 	sep: "word" as const,
-	stagger: 20,
+	stagger: 10,
 }
 
 const assistantMessageClass = style({

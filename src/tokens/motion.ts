@@ -3,6 +3,8 @@ import { memoize } from "../utils/memoize"
 
 /** Maui standard interactive transition timing. */
 export const motionDurationMs = 80
+/** Faster entrance for streaming token reveals (Streamdown word fade). */
+export const motionStreamDurationMs = 40
 export const motionEasing = "ease-in-out"
 
 const standardDuration = `${motionDurationMs}ms`
