@@ -51,9 +51,15 @@ function streamText(
 	full: string,
 	onChunk: (text: string) => void,
 	onDone: () => void,
+	options?: { delayMs?: number },
 ) {
 	let index = 0
+	let timeoutId = 0
+	let cancelled = false
+	const delayMs = options?.delayMs ?? 0
+
 	const tick = () => {
+		if (cancelled) return
 		// Variable-sized chunks feel more like token streaming than char-by-char.
 		const step = 2 + Math.floor(Math.random() * 6)
 		index = Math.min(full.length, index + step)
@@ -65,9 +71,14 @@ function streamText(
 		timeoutId = window.setTimeout(tick, 16 + Math.floor(Math.random() * 28))
 	}
 
-	let timeoutId = window.setTimeout(tick, 40)
-	return () => window.clearTimeout(timeoutId)
+	timeoutId = window.setTimeout(tick, delayMs)
+	return () => {
+		cancelled = true
+		window.clearTimeout(timeoutId)
+	}
 }
+
+const THINKING_DELAY_MS = 3000
 
 /**
  * Mock AI chat composed from the Editor and AssistantMessage patterns.
@@ -142,6 +153,7 @@ export function AiChat() {
 				)
 				cancelStreamRef.current = null
 			},
+			{ delayMs: THINKING_DELAY_MS },
 		)
 	}
 
@@ -161,6 +173,16 @@ export function AiChat() {
 						</div>
 					) : (
 						<div key={message.id} className={assistantRowClassName}>
+							{message.streaming ? (
+								<span className={thinkingClassName}>
+									<Loader
+										size="0.75em"
+										variant="muted"
+										aria-label="Thinking"
+									/>
+									Thinking
+								</span>
+							) : null}
 							{message.content ? (
 								<AssistantMessage
 									size="sm"
@@ -169,16 +191,7 @@ export function AiChat() {
 								>
 									{message.content}
 								</AssistantMessage>
-							) : (
-								<span className={thinkingClassName}>
-									<Loader
-										size="0.75em"
-										variant="muted"
-										aria-label="Generating"
-									/>
-									Thinking…
-								</span>
-							)}
+							) : null}
 						</div>
 					),
 				)}
@@ -224,7 +237,7 @@ const feedClass = style(
 	},
 )
 
-const assistantRowClass = style({
+const assistantRowClass = style(flex({ direction: "column", gap: 3 }), {
 	minWidth: 0,
 	width: "100%",
 	alignSelf: "stretch",
