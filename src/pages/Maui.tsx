@@ -13,6 +13,7 @@ import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
 import { Gap } from "../components/Utils"
 import { navigationItem } from "../components/navigationItem"
+import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
@@ -211,11 +212,16 @@ function MauiNavigation() {
 	const navListClassName = useStyles(navListClass)
 	const groupClassName = useStyles(navGroupClass)
 	const childrenClassName = useStyles(navChildrenClass)
+	const brandClassName = useStyles(navBrandClass)
+	const markClassName = useStyles(navMarkClass)
 	const { preference, setPreference } = useTheme()
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
-			<H3>Maui</H3>
+			<div className={brandClassName}>
+				<span className={markClassName} aria-hidden="true" />
+				<H3>Maui</H3>
+			</div>
 			<Gap height={6} />
 			<Select
 				label="Theme"
@@ -283,6 +289,17 @@ const navClass = style(spacing.padding({ all: 2 }), {
 	height: "100%",
 	minHeight: 0,
 	overflowY: "auto",
+})
+
+const navBrandClass = style(flex({ direction: "column", gap: 3 }), {
+	paddingTop: spacing.value(4),
+})
+
+const navMarkClass = style({
+	width: "12px",
+	height: "12px",
+	borderRadius: "999px",
+	backgroundColor: colors.accent[9],
 })
 
 const navListClass = style(flex({ direction: "column", gap: 8 }), {
