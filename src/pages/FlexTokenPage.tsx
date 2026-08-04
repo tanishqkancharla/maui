@@ -51,7 +51,16 @@ export function FlexTokenPage() {
 							<code>gap</code>
 						</TableCell>
 						<TableCell>
-							<code>1 | 2 | 3 | 4 | 6 | 8 | 12 | 16</code>
+							<code style={unionCodeStyle}>
+								{`1
+| 2
+| 3
+| 4
+| 6
+| 8
+| 12
+| 16`}
+							</code>
 						</TableCell>
 						<TableCell>
 							Space between children from the spacing scale.
@@ -155,6 +164,10 @@ const exampleCardStyle = {
 	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
+} as const
+
+const unionCodeStyle = {
+	whiteSpace: "pre",
 } as const
 
 const sampleTitleStyle = {

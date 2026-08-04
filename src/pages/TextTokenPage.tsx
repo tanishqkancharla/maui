@@ -32,7 +32,14 @@ export function TextTokenPage() {
 							<code>size</code>
 						</TableCell>
 						<TableCell>
-							<code>"2xs" | "xs" | "sm" | "md" | "lg" | "xl"</code>
+							<code style={unionCodeStyle}>
+								{`"2xs"
+| "xs"
+| "sm"
+| "md"
+| "lg"
+| "xl"`}
+							</code>
 						</TableCell>
 						<TableCell>T-shirt text size presets.</TableCell>
 					</TableRow>
@@ -41,7 +48,12 @@ export function TextTokenPage() {
 							<code>fontWeight</code>
 						</TableCell>
 						<TableCell>
-							<code>400 | 500 | 600 | 700</code>
+							<code style={unionCodeStyle}>
+								{`400
+| 500
+| 600
+| 700`}
+							</code>
 						</TableCell>
 						<TableCell>
 							Regular, medium, semibold, and bold text.
@@ -52,8 +64,11 @@ export function TextTokenPage() {
 							<code>color</code>
 						</TableCell>
 						<TableCell>
-							<code>
-								"lowContrast" | "highContrast" | "accent" | "onAccent"
+							<code style={unionCodeStyle}>
+								{`"lowContrast"
+| "highContrast"
+| "accent"
+| "onAccent"`}
 							</code>
 						</TableCell>
 						<TableCell>Semantic text colors.</TableCell>
@@ -178,5 +193,9 @@ const exampleCardClass = {
 	border: `1px solid ${borderColor.outline}`,
 	borderRadius: "6px",
 	padding: "12px",
+} as const
+
+const unionCodeStyle = {
+	whiteSpace: "pre",
 } as const
 

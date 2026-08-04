@@ -11,8 +11,8 @@ import { useHashLocation } from "wouter/use-hash-location"
 import { style, useStyles } from "purse-styles"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
-import { Gap } from "../components/Utils"
 import { navigationItem } from "../components/navigationItem"
+import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
@@ -211,12 +211,16 @@ function MauiNavigation() {
 	const navListClassName = useStyles(navListClass)
 	const groupClassName = useStyles(navGroupClass)
 	const childrenClassName = useStyles(navChildrenClass)
+	const brandClassName = useStyles(navBrandClass)
+	const markClassName = useStyles(navMarkClass)
 	const { preference, setPreference } = useTheme()
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
-			<H3>Maui</H3>
-			<Gap height={6} />
+			<div className={brandClassName}>
+				<span className={markClassName} aria-hidden="true" />
+				<H3>Maui</H3>
+			</div>
 			<Select
 				label="Theme"
 				aria-label="Theme"
@@ -231,7 +235,6 @@ function MauiNavigation() {
 				<SelectItem id="light">Light</SelectItem>
 				<SelectItem id="dark">Dark</SelectItem>
 			</Select>
-			<Gap height={6} />
 			<ul className={navListClassName}>
 				{navigation.map((group) => (
 					<li className={groupClassName} key={group.label}>
@@ -279,10 +282,25 @@ const contentClass = style(spacing.padding({ x: 16 }), {
 	overflowY: "auto",
 })
 
-const navClass = style(spacing.padding({ all: 2 }), {
-	height: "100%",
-	minHeight: 0,
-	overflowY: "auto",
+const navClass = style(
+	flex({ direction: "column", gap: 8 }),
+	spacing.padding({ all: 2 }),
+	{
+		height: "100%",
+		minHeight: 0,
+		overflowY: "auto",
+	},
+)
+
+const navBrandClass = style(flex({ direction: "column", gap: 12 }), {
+	paddingTop: spacing.value(6),
+})
+
+const navMarkClass = style({
+	width: "12px",
+	height: "12px",
+	borderRadius: "999px",
+	backgroundColor: colors.accent[9],
 })
 
 const navListClass = style(flex({ direction: "column", gap: 8 }), {
@@ -291,7 +309,7 @@ const navListClass = style(flex({ direction: "column", gap: 8 }), {
 	margin: 0,
 })
 
-const navGroupClass = style(flex({ direction: "column", gap: 4 }), {
+const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	margin: 0,
 })
 
