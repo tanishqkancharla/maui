@@ -222,7 +222,6 @@ function MauiNavigation() {
 				<span className={markClassName} aria-hidden="true" />
 				<H3>Maui</H3>
 			</div>
-			<Gap height={6} />
 			<Select
 				label="Theme"
 				aria-label="Theme"
@@ -237,7 +236,6 @@ function MauiNavigation() {
 				<SelectItem id="light">Light</SelectItem>
 				<SelectItem id="dark">Dark</SelectItem>
 			</Select>
-			<Gap height={6} />
 			<ul className={navListClassName}>
 				{navigation.map((group) => (
 					<li className={groupClassName} key={group.label}>
@@ -285,13 +283,17 @@ const contentClass = style(spacing.padding({ x: 16 }), {
 	overflowY: "auto",
 })
 
-const navClass = style(spacing.padding({ all: 2 }), {
-	height: "100%",
-	minHeight: 0,
-	overflowY: "auto",
-})
+const navClass = style(
+	flex({ direction: "column", gap: 12 }),
+	spacing.padding({ all: 2 }),
+	{
+		height: "100%",
+		minHeight: 0,
+		overflowY: "auto",
+	},
+)
 
-const navBrandClass = style(flex({ direction: "column", gap: 4 }), {
+const navBrandClass = style(flex({ direction: "column", gap: 12 }), {
 	paddingTop: spacing.value(6),
 })
 
@@ -302,13 +304,13 @@ const navMarkClass = style({
 	backgroundColor: colors.accent[9],
 })
 
-const navListClass = style(flex({ direction: "column", gap: 8 }), {
+const navListClass = style(flex({ direction: "column", gap: 12 }), {
 	listStyleType: "none",
 	padding: 0,
 	margin: 0,
 })
 
-const navGroupClass = style(flex({ direction: "column", gap: 4 }), {
+const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	margin: 0,
 })
 
