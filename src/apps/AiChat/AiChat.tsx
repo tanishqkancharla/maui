@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../../components/Button"
+import { Icons } from "../../components/Icons"
 import { Loader } from "../../patterns/Loader"
 import { AssistantMessage } from "../../patterns/AssistantMessage"
 import { Editor } from "../../patterns/Editor"
@@ -101,6 +102,7 @@ export function AiChat() {
 	const userBubbleClassName = useStyles(userBubbleClass)
 	const composerClassName = useStyles(composerClass)
 	const composerEditorClassName = useStyles(composerEditorClass)
+	const sendButtonClassName = useStyles(sendButtonClass)
 	const thinkingClassName = useStyles(thinkingClass)
 
 	useEffect(() => {
@@ -208,8 +210,13 @@ export function AiChat() {
 					size="sm"
 					className={composerEditorClassName}
 					actions={
-						<Button onClick={send} disabled={streaming || !draft.trim()}>
-							{streaming ? "Streaming…" : "Send"}
+						<Button
+							aria-label={streaming ? "Streaming" : "Send"}
+							className={sendButtonClassName}
+							disabled={streaming || !draft.trim()}
+							onClick={send}
+						>
+							<Icons.ArrowUp />
 						</Button>
 					}
 				/>
@@ -272,6 +279,11 @@ const composerClass = style(spacing.padding({ x: 6, y: 4 }), {
 const composerEditorClass = style({
 	maxWidth: "none",
 	width: "100%",
+})
+
+/** Filled circular send control — icon-only Button without the default shadow. */
+const sendButtonClass = style(radius.circle, {
+	boxShadow: "none",
 })
 
 const thinkingClass = style(
