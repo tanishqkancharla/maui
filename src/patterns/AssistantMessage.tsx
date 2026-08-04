@@ -182,13 +182,13 @@ export function AssistantMessageDemo() {
 	return <AssistantMessage>{sampleMarkdown}</AssistantMessage>
 }
 
-/** Snappy word fade-in for streaming tokens (faster than UI hover motion). */
+/** Snappy word fade-in for streaming tokens. */
 const streamdownAnimate = {
 	animation: "fadeIn" as const,
 	duration: motionStreamDurationMs,
 	easing: motionEasing,
 	sep: "word" as const,
-	stagger: 10,
+	stagger: 16,
 }
 
 const assistantMessageClass = style({

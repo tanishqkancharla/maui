@@ -173,6 +173,15 @@ export function AiChat() {
 						</div>
 					) : (
 						<div key={message.id} className={assistantRowClassName}>
+							{message.content ? (
+								<AssistantMessage
+									size="sm"
+									className={assistantMessageClassName}
+									isAnimating={Boolean(message.streaming)}
+								>
+									{message.content}
+								</AssistantMessage>
+							) : null}
 							{message.streaming ? (
 								<span className={thinkingClassName}>
 									<Loader
@@ -182,15 +191,6 @@ export function AiChat() {
 									/>
 									Thinking
 								</span>
-							) : null}
-							{message.content ? (
-								<AssistantMessage
-									size="sm"
-									className={assistantMessageClassName}
-									isAnimating={Boolean(message.streaming)}
-								>
-									{message.content}
-								</AssistantMessage>
 							) : null}
 						</div>
 					),
@@ -276,5 +276,5 @@ const composerEditorClass = style({
 
 const thinkingClass = style(
 	text("xs", 400, "lowContrast"),
-	flex({ align: "center", gap: 2 }),
+	flex({ align: "center", gap: 3 }),
 )
