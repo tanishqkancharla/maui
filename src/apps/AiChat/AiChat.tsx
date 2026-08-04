@@ -11,6 +11,7 @@ import { colors } from "../../tokens/colors"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
 import { shadow } from "../../tokens/shadow"
+import { icon } from "../../tokens/sizing"
 import { spacing } from "../../tokens/spacing"
 import { text } from "../../tokens/text"
 
@@ -103,6 +104,7 @@ export function AiChat() {
 	const composerClassName = useStyles(composerClass)
 	const composerEditorClassName = useStyles(composerEditorClass)
 	const sendButtonClassName = useStyles(sendButtonClass)
+	const sendIconClassName = useStyles(icon("sm"))
 	const thinkingClassName = useStyles(thinkingClass)
 
 	useEffect(() => {
@@ -216,7 +218,7 @@ export function AiChat() {
 							disabled={streaming || !draft.trim()}
 							onClick={send}
 						>
-							<Icons.ArrowUp />
+							<Icons.ArrowUp className={sendIconClassName} />
 						</Button>
 					}
 				/>

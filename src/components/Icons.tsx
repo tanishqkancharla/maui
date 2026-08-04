@@ -176,14 +176,14 @@ function ArrowUp(props: React.SVGProps<SVGSVGElement>) {
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				strokeWidth={1.5}
-				d="M6.75 10.25L12 4.75L17.25 10.25"
+				d="M17.25 10.25L12 4.75L6.75 10.25"
 			/>
 			<path
 				stroke="currentColor"
 				strokeLinecap="round"
 				strokeLinejoin="round"
 				strokeWidth={1.5}
-				d="M12 5.75V19.25"
+				d="M12 19.25V5.75"
 			/>
 		</svg>
 	)
