@@ -276,5 +276,5 @@ const composerEditorClass = style({
 
 const thinkingClass = style(
 	text("xs", 400, "lowContrast"),
-	flex({ align: "center", gap: 3 }),
+	flex({ align: "center", gap: 4 }),
 )
