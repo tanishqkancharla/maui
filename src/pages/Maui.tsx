@@ -283,7 +283,7 @@ const contentClass = style(spacing.padding({ x: 16 }), {
 })
 
 const navClass = style(
-	flex({ direction: "column", gap: 12 }),
+	flex({ direction: "column", gap: 8 }),
 	spacing.padding({ all: 2 }),
 	{
 		height: "100%",
@@ -303,7 +303,7 @@ const navMarkClass = style({
 	backgroundColor: colors.accent[9],
 })
 
-const navListClass = style(flex({ direction: "column", gap: 12 }), {
+const navListClass = style(flex({ direction: "column", gap: 8 }), {
 	listStyleType: "none",
 	padding: 0,
 	margin: 0,

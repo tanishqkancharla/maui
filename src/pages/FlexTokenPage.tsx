@@ -166,6 +166,10 @@ const exampleCardStyle = {
 	padding: "12px",
 } as const
 
+const unionCodeStyle = {
+	whiteSpace: "pre",
+} as const
+
 const sampleTitleStyle = {
 	color: colors.gray[12],
 	fontWeight: 600,
