@@ -10,7 +10,7 @@ import { border } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
-import { shadow } from "../../tokens/shadow"
+import { shadow, shadowVars } from "../../tokens/shadow"
 import { icon } from "../../tokens/sizing"
 import { spacing } from "../../tokens/spacing"
 import { text } from "../../tokens/text"
@@ -281,6 +281,12 @@ const composerClass = style(spacing.padding({ x: 6, y: 4 }), {
 const composerEditorClass = style({
 	maxWidth: "none",
 	width: "100%",
+	// Keep the editor's subtle elevation on focus; drop the blue focus ring.
+	"&:focus-within": {
+		outline: "none",
+		boxShadow: shadowVars.subtle,
+		zIndex: "auto",
+	},
 })
 
 /** Filled circular send control — icon-only Button without the default shadow. */
