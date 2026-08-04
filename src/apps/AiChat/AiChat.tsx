@@ -284,6 +284,15 @@ const composerEditorClass = style({
 /** Filled circular send control — icon-only Button without the default shadow. */
 const sendButtonClass = style(radius.circle, {
 	boxShadow: "none",
+	// Editor shell is also `background.app` white; a light wash keeps the circle
+	// readable once the default Button shadow is removed.
+	backgroundColor: colors.gray[3],
+	"&:hover": {
+		backgroundColor: colors.gray[4],
+	},
+	"&:active": {
+		backgroundColor: colors.gray[5],
+	},
 })
 
 const thinkingClass = style(
