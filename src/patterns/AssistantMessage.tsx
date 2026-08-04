@@ -6,6 +6,7 @@ import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
 import { proseMaxWidth } from "../components/Prose"
 import { backgroundColor } from "../tokens/background"
+import { motionDurationMs, motionEasing } from "../tokens/motion"
 import { proseHtml, proseStreamingMarkers, type ProseSize } from "../tokens/prose"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
@@ -119,7 +120,7 @@ export function AssistantMessage({
 				// `animated` must stay stably enabled; only `isAnimating` toggles.
 				// Flipping `animated`/`mode` with the stream resets stagger state and
 				// makes new blocks (blockquotes, lists) pop in out of order.
-				animated
+				animated={streamdownAnimate}
 				isAnimating={isAnimating}
 				mode="streaming"
 				controls={false}
@@ -151,6 +152,15 @@ function greet(name: string) {
 /** Static demo of an assistant reply with prose + code. */
 export function AssistantMessageDemo() {
 	return <AssistantMessage>{sampleMarkdown}</AssistantMessage>
+}
+
+/** Word fade-in tuned to Maui's standard interactive motion timing. */
+const streamdownAnimate = {
+	animation: "fadeIn" as const,
+	duration: motionDurationMs,
+	easing: motionEasing,
+	sep: "word" as const,
+	stagger: 20,
 }
 
 const assistantMessageClass = style({

@@ -6,7 +6,7 @@ import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
-import { motion } from "../tokens/motion"
+import { motion, motionDurationMs, motionEasing } from "../tokens/motion"
 import { shadowVars } from "../tokens/shadow"
 
 import { colors } from "../tokens/colors"
@@ -49,7 +49,7 @@ export function MotionTokenPage() {
 							<code>motion.standard(...properties)</code>
 						</TableCell>
 						<TableCell>
-							<code>{`style({ transition: "<property> 80ms ease-in-out" })`}</code>
+							<code>{`style({ transition: "<property> ${motionDurationMs}ms ${motionEasing}" })`}</code>
 						</TableCell>
 						<TableCell>
 							Builds a transition style object from the properties that should
