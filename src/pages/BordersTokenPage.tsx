@@ -68,7 +68,13 @@ export function BordersTokenPage() {
 							<code>sides</code>
 						</TableCell>
 						<TableCell>
-							<code>[] | ("top" | "right" | "bottom" | "left")[]</code>
+							<code style={unionCodeStyle}>
+								{`[]
+| ("top"
+  | "right"
+  | "bottom"
+  | "left")[]`}
+							</code>
 						</TableCell>
 						<TableCell>
 							Empty applies to all sides. Otherwise only the listed edges.
@@ -79,7 +85,11 @@ export function BordersTokenPage() {
 							<code>color</code>
 						</TableCell>
 						<TableCell>
-							<code>"border" | "outline" | "accent"</code>
+							<code style={unionCodeStyle}>
+								{`"border"
+| "outline"
+| "accent"`}
+							</code>
 						</TableCell>
 						<TableCell>
 							<code>border</code> is <code>borderColor.border</code>{" "}
@@ -203,3 +213,7 @@ function SingleEdgeExample() {
 
 	return <div className={className}>Section header</div>
 }
+
+const unionCodeStyle = {
+	whiteSpace: "pre",
+} as const
