@@ -291,8 +291,8 @@ const navClass = style(spacing.padding({ all: 2 }), {
 	overflowY: "auto",
 })
 
-const navBrandClass = style(flex({ direction: "column", gap: 3 }), {
-	paddingTop: spacing.value(4),
+const navBrandClass = style(flex({ direction: "column", gap: 4 }), {
+	paddingTop: spacing.value(6),
 })
 
 const navMarkClass = style({
