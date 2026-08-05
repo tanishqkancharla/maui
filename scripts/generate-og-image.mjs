@@ -1,8 +1,11 @@
 /**
- * Generate Maui Open Graph images (light + dark) with Satori + resvg.
+ * Generate Maui brand assets (OG images + favicon PNGs) with Satori + resvg.
  *
  * Usage: node scripts/generate-og-image.mjs
- * Output: src/public/og-light.png, src/public/og-dark.png, src/public/og.png (light)
+ * Output:
+ *   src/public/og-light.png, og-dark.png, og.png (light)
+ *   src/public/favicon-light.png, favicon-dark.png
+ *   src/public/apple-touch-icon.png
  */
 import { readFile, writeFile, mkdir } from "node:fs/promises"
 import { dirname, join } from "node:path"
@@ -17,6 +20,8 @@ const publicDir = join(root, "src/public")
 
 const WIDTH = 1200
 const HEIGHT = 630
+const FAVICON_SIZE = 32
+const APPLE_TOUCH_SIZE = 180
 
 // Match Maui light / dark tokens (Radix teal → violet accent, gray scale).
 const themes = {
@@ -96,6 +101,15 @@ function layout(theme) {
 	)
 }
 
+function renderDotPng(accent, size) {
+	const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="${accent}"/></svg>`
+	return new Resvg(svg, {
+		fitTo: { mode: "width", value: size },
+	})
+		.render()
+		.asPng()
+}
+
 async function renderPng(theme, fonts) {
 	const svg = await satori(layout(theme), {
 		width: WIDTH,
@@ -133,21 +147,33 @@ async function main() {
 
 	const lightPng = await renderPng(themes.light, fonts)
 	const darkPng = await renderPng(themes.dark, fonts)
+	const faviconLight = renderDotPng(themes.light.accent, FAVICON_SIZE)
+	const faviconDark = renderDotPng(themes.dark.accent, FAVICON_SIZE)
+	const appleTouch = renderDotPng(themes.light.accent, APPLE_TOUCH_SIZE)
 
 	const lightPath = join(publicDir, "og-light.png")
 	const darkPath = join(publicDir, "og-dark.png")
 	const canonicalPath = join(publicDir, "og.png")
+	const faviconLightPath = join(publicDir, "favicon-light.png")
+	const faviconDarkPath = join(publicDir, "favicon-dark.png")
+	const appleTouchPath = join(publicDir, "apple-touch-icon.png")
 
 	await Promise.all([
 		writeFile(lightPath, lightPng),
 		writeFile(darkPath, darkPng),
 		// Canonical social URL stays light (scrapers pick one image).
 		writeFile(canonicalPath, lightPng),
+		writeFile(faviconLightPath, faviconLight),
+		writeFile(faviconDarkPath, faviconDark),
+		writeFile(appleTouchPath, appleTouch),
 	])
 
 	console.log(`Wrote ${lightPath} (${lightPng.byteLength} bytes)`)
 	console.log(`Wrote ${darkPath} (${darkPng.byteLength} bytes)`)
 	console.log(`Wrote ${canonicalPath} (${lightPng.byteLength} bytes)`)
+	console.log(`Wrote ${faviconLightPath} (${faviconLight.byteLength} bytes)`)
+	console.log(`Wrote ${faviconDarkPath} (${faviconDark.byteLength} bytes)`)
+	console.log(`Wrote ${appleTouchPath} (${appleTouch.byteLength} bytes)`)
 }
 
 main().catch((error) => {
