@@ -151,7 +151,7 @@ Type \`**bold**\` or start a line with \`-\` for a list.
 const editorShellClass = style(
 	radius.lg,
 	shadow.subtle,
-	spacing.padding({ x: 4, y: 3 }),
+	spacing.padding({ x: 4, top: 3, bottom: 4 }),
 	focusRing("&:focus-within", shadowVars.subtle),
 	flex({ direction: "column", gap: 2 }),
 	{
