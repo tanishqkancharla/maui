@@ -189,7 +189,7 @@
 				font-family: Inter, system-ui, sans-serif;
 				display: flex;
 				flex-direction: column;
-				justify-content: center;
+				justify-content: flex-start;
 				align-items: flex-start;
 			}
 
@@ -242,14 +242,14 @@
 
 				<label>
 					<span class="row"
-						>Padding Y <output id="out-paddingY">64</output></span
+						>Padding Y <output id="out-paddingY">48</output></span
 					>
-					<input id="paddingY" type="range" min="24" max="160" step="4" value="64" />
+					<input id="paddingY" type="range" min="24" max="160" step="4" value="48" />
 				</label>
 
 				<label>
 					<span class="row"
-						>Padding X <output id="out-paddingX">112</output></span
+						>Padding X <output id="out-paddingX">116</output></span
 					>
 					<input
 						id="paddingX"
@@ -257,20 +257,20 @@
 						min="40"
 						max="200"
 						step="4"
-						value="112"
+						value="116"
 					/>
 				</label>
 
 				<label>
-					<span class="row">Gap <output id="out-gap">32</output></span>
-					<input id="gap" type="range" min="8" max="80" step="2" value="32" />
+					<span class="row">Gap <output id="out-gap">72</output></span>
+					<input id="gap" type="range" min="8" max="120" step="2" value="72" />
 				</label>
 
 				<label>
 					<span class="row"
-						>Circle size <output id="out-circle">56</output></span
+						>Circle size <output id="out-circle">52</output></span
 					>
-					<input id="circle" type="range" min="24" max="120" step="2" value="56" />
+					<input id="circle" type="range" min="24" max="120" step="2" value="52" />
 				</label>
 
 				<label>
@@ -341,10 +341,10 @@
 
 			const defaults = {
 				theme: "light",
-				paddingY: 64,
-				paddingX: 112,
-				gap: 32,
-				circle: 56,
+				paddingY: 48,
+				paddingX: 116,
+				gap: 72,
+				circle: 52,
 				fontSize: 40,
 				lineHeight: 1.3,
 			}
