@@ -328,7 +328,6 @@ const shellClass = style(border([], "outline"), radius.lg, {
 	minHeight: "560px",
 	maxHeight: "720px",
 	overflow: "hidden",
-	backgroundColor: colors.gray[1],
 })
 
 const feedClass = style(

@@ -155,7 +155,7 @@ const editorShellClass = style(
 	focusRing("&:focus-within", shadowVars.subtle),
 	flex({ direction: "column", gap: 2 }),
 	{
-		backgroundColor: backgroundColor.app,
+		backgroundColor: backgroundColor.element,
 		maxWidth: proseMaxWidth,
 		minWidth: 0,
 		"& .ProseMirror": {
