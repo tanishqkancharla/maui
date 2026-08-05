@@ -72,10 +72,9 @@ function layout(theme) {
 				"div",
 				{
 					style: {
-						fontSize: 88,
+						fontSize: 40,
 						fontWeight: 600,
-						lineHeight: 1.05,
-						letterSpacing: "-0.03em",
+						lineHeight: 1.3,
 						color: theme.title,
 					},
 				},
