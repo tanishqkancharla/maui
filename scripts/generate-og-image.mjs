@@ -45,29 +45,29 @@ function layout(theme) {
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "flex-start",
-				padding: "96px 112px",
+				padding: "64px 112px",
 				backgroundColor: theme.background,
 				fontFamily: "Inter",
 			},
 		},
-		h("div", {
-			style: {
-				width: 56,
-				height: 56,
-				borderRadius: 9999,
-				backgroundColor: theme.accent,
-				marginBottom: 48,
-			},
-		}),
 		h(
 			"div",
 			{
 				style: {
 					display: "flex",
 					flexDirection: "column",
-					gap: 16,
+					alignItems: "flex-start",
+					gap: 32,
 				},
 			},
+			h("div", {
+				style: {
+					width: 56,
+					height: 56,
+					borderRadius: 9999,
+					backgroundColor: theme.accent,
+				},
+			}),
 			h(
 				"div",
 				{
