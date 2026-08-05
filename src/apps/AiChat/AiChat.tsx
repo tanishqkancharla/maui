@@ -46,21 +46,13 @@ const toolCallsFor = (prompt: string): ToolCall[] => {
 		.slice(0, 24)
 
 	return [
-		{ id: "read-editor", kind: "read", path: "src/patterns/Editor.tsx" },
-		{
-			id: "read-assistant",
-			kind: "read",
-			path: "src/patterns/AssistantMessage.tsx",
-		},
-		{
-			id: "shell-tsc",
-			kind: "shell",
-			command: "npx tsc --noEmit",
-		},
+		{ id: "read-editor", kind: "read", path: "Editor.tsx" },
+		{ id: "read-assistant", kind: "read", path: "AssistantMessage.tsx" },
+		{ id: "shell-tsc", kind: "shell", command: "npx tsc --noEmit" },
 		{
 			id: "wrote-aichat",
 			kind: "wrote",
-			path: `src/apps/AiChat/${slug || "reply"}.tsx`,
+			path: `${slug || "reply"}.tsx`,
 		},
 	]
 }
@@ -164,7 +156,7 @@ export function AiChat() {
 	const assistantMessageClassName = useStyles(assistantMessageClass)
 	const toolCallsClassName = useStyles(toolCallsClass)
 	const toolCallClassName = useStyles(toolCallClass)
-	const toolPathClassName = useStyles(toolPathClass)
+	const toolShellClassName = useStyles(toolShellClass)
 	const userRowClassName = useStyles(userRowClass)
 	const userBubbleClassName = useStyles(userBubbleClass)
 	const composerClassName = useStyles(composerClass)
@@ -265,19 +257,14 @@ export function AiChat() {
 									{message.toolCalls.map((call) => (
 										<div key={call.id} className={toolCallClassName}>
 											{call.kind === "read" ? (
-												<>
-													Read <span className={toolPathClassName}>{call.path}</span>
-												</>
+												<>Read {call.path}</>
 											) : call.kind === "wrote" ? (
-												<>
-													Wrote{" "}
-													<span className={toolPathClassName}>{call.path}</span>
-												</>
+												<>Wrote {call.path}</>
 											) : (
 												<>
 													{"$ "}
-													<span className={toolPathClassName}>
-														{`\`${call.command}\``}
+													<span className={toolShellClassName}>
+														{call.command}
 													</span>
 												</>
 											)}
@@ -365,20 +352,18 @@ const assistantMessageClass = style({
 	width: "100%",
 })
 
-const toolCallsClass = style(flex({ direction: "column", gap: 1 }), {
+const toolCallsClass = style(flex({ direction: "column", gap: 2 }), {
 	minWidth: 0,
 })
 
-const toolCallClass = style(text("xs", 400, "lowContrast"), monospace, {
+const toolCallClass = style(text("xs", 400, "lowContrast"), {
 	minWidth: 0,
 	overflow: "hidden",
 	textOverflow: "ellipsis",
 	whiteSpace: "nowrap",
 })
 
-const toolPathClass = style({
-	color: colors.gray[12],
-})
+const toolShellClass = style(monospace)
 
 const userRowClass = style(flex({ justify: "end" }), {
 	minWidth: 0,
