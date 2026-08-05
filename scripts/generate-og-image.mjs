@@ -101,10 +101,15 @@ function layout(theme) {
 	)
 }
 
-function renderDotPng(accent, size) {
-	const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="${accent}"/></svg>`
+function renderDotPng(accent, size, { background } = {}) {
+	const bg =
+		background != null
+			? `<rect width="${size}" height="${size}" fill="${background}"/>`
+			: ""
+	const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${bg}<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="${accent}"/></svg>`
 	return new Resvg(svg, {
 		fitTo: { mode: "width", value: size },
+		background: background ?? "rgba(0,0,0,0)",
 	})
 		.render()
 		.asPng()
@@ -149,7 +154,10 @@ async function main() {
 	const darkPng = await renderPng(themes.dark, fonts)
 	const faviconLight = renderDotPng(themes.light.accent, FAVICON_SIZE)
 	const faviconDark = renderDotPng(themes.dark.accent, FAVICON_SIZE)
-	const appleTouch = renderDotPng(themes.light.accent, APPLE_TOUCH_SIZE)
+	// Opaque white behind the dot — iOS fills transparent apple-touch corners with black.
+	const appleTouch = renderDotPng(themes.light.accent, APPLE_TOUCH_SIZE, {
+		background: themes.light.background,
+	})
 
 	const lightPath = join(publicDir, "og-light.png")
 	const darkPath = join(publicDir, "og-dark.png")
