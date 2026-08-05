@@ -1,14 +1,24 @@
 import type React from "react"
+import { useMemo } from "react"
 import type { Components } from "streamdown"
-import { Streamdown, useIsCodeFenceIncomplete } from "streamdown"
+import {
+	Streamdown,
+	defaultRehypePlugins,
+	useIsCodeFenceIncomplete,
+} from "streamdown"
 import { code } from "@streamdown/code"
 import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
 import { proseMaxWidth } from "../components/Prose"
 import { backgroundColor } from "../tokens/background"
+import { motionEasing, motionStreamDurationMs } from "../tokens/motion"
 import { proseHtml, proseStreamingMarkers, type ProseSize } from "../tokens/prose"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
+import {
+	inlineCodeAnimateTag,
+	rehypeInlineCodeAnimate,
+} from "../utils/rehypeInlineCodeAnimate"
 import { isSupportedCodeLang } from "../utils/shiki"
 import "streamdown/styles.css"
 
@@ -86,8 +96,22 @@ const streamdownComponents: Components = {
 	inlineCode: ({ node: _node, className: _className, children, ...props }) => (
 		<code {...props}>{children}</code>
 	),
+	// Retagged inline code while streaming (see rehypeInlineCodeAnimate).
+	[inlineCodeAnimateTag]: ({
+		node: _node,
+		className: _className,
+		...props
+	}: React.ComponentPropsWithoutRef<"code"> & { node?: unknown }) => (
+		<code {...props} />
+	),
 	code: MauiFencedCode,
 }
+
+/** Defaults + inline-code retag so animate can stagger inline code with prose. */
+const streamingRehypePlugins = [
+	...Object.values(defaultRehypePlugins),
+	rehypeInlineCodeAnimate,
+]
 
 /**
  * Streaming-friendly assistant message. Renders markdown with Streamdown and
@@ -105,6 +129,10 @@ export function AssistantMessage({
 		streamdownRootClass,
 		isAnimating ? proseStreamingMarkers : undefined,
 	)
+	const rehypePlugins = useMemo(
+		() => (isAnimating ? streamingRehypePlugins : undefined),
+		[isAnimating],
+	)
 
 	return (
 		<div
@@ -116,10 +144,11 @@ export function AssistantMessage({
 				className={streamdownClassName}
 				components={streamdownComponents}
 				plugins={{ code }}
+				rehypePlugins={rehypePlugins}
 				// `animated` must stay stably enabled; only `isAnimating` toggles.
 				// Flipping `animated`/`mode` with the stream resets stagger state and
 				// makes new blocks (blockquotes, lists) pop in out of order.
-				animated
+				animated={streamdownAnimate}
 				isAnimating={isAnimating}
 				mode="streaming"
 				controls={false}
@@ -151,6 +180,15 @@ function greet(name: string) {
 /** Static demo of an assistant reply with prose + code. */
 export function AssistantMessageDemo() {
 	return <AssistantMessage>{sampleMarkdown}</AssistantMessage>
+}
+
+/** Snappy word fade-in for streaming tokens. */
+const streamdownAnimate = {
+	animation: "fadeIn" as const,
+	duration: motionStreamDurationMs,
+	easing: motionEasing,
+	sep: "word" as const,
+	stagger: 16,
 }
 
 const assistantMessageClass = style({

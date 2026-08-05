@@ -8,13 +8,19 @@
 	"source": "./src/maui.ts",
 	"files": [
 		"dist",
-		"src"
+		"src",
+		"skills"
 	],
 	"exports": {
 		".": {
 			"types": "./dist/maui.d.ts",
 			"import": "./dist/maui.js"
-		}
+		},
+		"./src": "./src/maui.ts",
+		"./src/*": "./src/*",
+		"./skills/maui": "./skills/maui/SKILL.md",
+		"./skills/maui/*": "./skills/maui/*",
+		"./package.json": "./package.json"
 	},
 	"scripts": {
 		"tsc": "tsc --noEmit --watch",

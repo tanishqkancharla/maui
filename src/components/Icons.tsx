@@ -159,6 +159,36 @@ function ArrowDown(props: React.SVGProps<SVGSVGElement>) {
 	)
 }
 
+function ArrowUp(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M17.25 10.25L12 4.75L6.75 10.25"
+			/>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M12 19.25V5.75"
+			/>
+		</svg>
+	)
+}
+
 function Star(props: React.SVGProps<SVGSVGElement>) {
 	return (
 		<svg
@@ -311,6 +341,7 @@ export const Icons = {
 	Minus,
 	DotsHorizontal,
 	ArrowDown,
+	ArrowUp,
 	Star,
 	Archive,
 	Trash,

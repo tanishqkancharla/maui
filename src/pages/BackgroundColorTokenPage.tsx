@@ -71,9 +71,12 @@ export function BackgroundColorTokenPage() {
 							<code>background.element</code>
 						</TableCell>
 						<TableCell>
-							<code>backgroundColor.element</code>
+							<code>#ffffff</code> / <code>colors.gray[2]</code>
 						</TableCell>
-						<TableCell>Inputs and slightly raised controls.</TableCell>
+						<TableCell>
+							Inputs and slightly raised controls. Matches app white in
+							light; one step lighter than the canvas in dark.
+						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>

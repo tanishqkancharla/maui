@@ -28,14 +28,25 @@ export {
 	type TextColor,
 } from "./tokens/text"
 export { avatar } from "./tokens/avatar"
-export { motion } from "./tokens/motion"
+export {
+	motion,
+	motionDurationMs,
+	motionEasing,
+	motionStreamDurationMs,
+} from "./tokens/motion"
 export {
 	icon,
 	iconSizeValues,
 	sizingTokens as sizing,
 	type IconSize,
 } from "./tokens/sizing"
-export { prose, proseRhythm, proseHtml, type ProseSize } from "./tokens/prose"
+export {
+	prose,
+	proseRhythm,
+	proseHtml,
+	proseStreamingMarkers,
+	type ProseSize,
+} from "./tokens/prose"
 export { visuallyHidden } from "./tokens/visuallyHidden"
 
 // Components
@@ -102,10 +113,9 @@ export {
 	Li,
 	Link,
 } from "./components/Typography"
-
-// Patterns
-export { Sidebar, SidebarSection, SidebarItem } from "./patterns/Sidebar"
-export { Tree, defaultTreeGuideGeometry, type TreeNode, type TreeGuideGeometry } from "./patterns/Tree"
-export { Loader } from "./patterns/Loader"
-export { Editor } from "./patterns/Editor"
-export { AssistantMessage } from "./patterns/AssistantMessage"
+export { CodeBlock } from "./components/CodeBlock"
+export {
+	CollectionPopover,
+	type CollectionPopoverProps,
+} from "./components/CollectionPopover"
+export { navigationItem } from "./components/navigationItem"
