@@ -14,6 +14,7 @@ import { shadow, shadowVars } from "../../tokens/shadow"
 import { icon } from "../../tokens/sizing"
 import { spacing } from "../../tokens/spacing"
 import { monospace, text } from "../../tokens/text"
+import { prose } from "../../tokens/prose"
 
 type ToolCall =
 	| { id: string; kind: "read"; path: string }
@@ -355,7 +356,8 @@ const toolCallsClass = style(flex({ direction: "column", gap: 2 }), {
 	minWidth: 0,
 })
 
-const toolCallClass = style(text("xs", 400, "lowContrast"), {
+const toolCallClass = style(prose("sm").paragraph, {
+	color: colors.gray[11],
 	minWidth: 0,
 	overflow: "hidden",
 	textOverflow: "ellipsis",
@@ -370,12 +372,12 @@ const userRowClass = style(flex({ justify: "end" }), {
 })
 
 const userBubbleClass = style(
-	text("md", 400, "highContrast"),
+	prose("sm").paragraph,
 	radius.md,
 	shadow.subtle,
 	spacing.padding({ x: 4, y: 2 }),
 	{
-		backgroundColor: backgroundColor.app,
+		backgroundColor: backgroundColor.element,
 		whiteSpace: "pre-wrap",
 		maxWidth: "80%",
 	},
