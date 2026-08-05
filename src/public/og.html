@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Maui OG playground</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				color-scheme: light dark;
+				--page-bg: #f4f4f4;
+				--page-fg: #202020;
+				--panel: #ffffff;
+				--muted: #646464;
+				--border: #e0e0e0;
+				--accent: #12a594;
+			}
+
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--page-bg: #111111;
+					--page-fg: #eeeeee;
+					--panel: #1a1a1a;
+					--muted: #b4b4b4;
+					--border: #2e2e2e;
+					--accent: #6e56cf;
+				}
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				font-family: Inter, system-ui, sans-serif;
+				background: var(--page-bg);
+				color: var(--page-fg);
+				min-height: 100vh;
+			}
+
+			.shell {
+				display: grid;
+				grid-template-columns: minmax(240px, 320px) 1fr;
+				min-height: 100vh;
+			}
+
+			@media (max-width: 900px) {
+				.shell {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			.controls {
+				padding: 24px;
+				border-right: 1px solid var(--border);
+				background: var(--panel);
+				display: flex;
+				flex-direction: column;
+				gap: 20px;
+			}
+
+			h1 {
+				margin: 0;
+				font-size: 18px;
+				font-weight: 600;
+			}
+
+			.hint {
+				margin: 0;
+				font-size: 13px;
+				line-height: 1.4;
+				color: var(--muted);
+			}
+
+			label {
+				display: flex;
+				flex-direction: column;
+				gap: 6px;
+				font-size: 13px;
+				font-weight: 500;
+			}
+
+			label span.row {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+			}
+
+			label output {
+				font-variant-numeric: tabular-nums;
+				color: var(--muted);
+				font-weight: 400;
+			}
+
+			input[type="range"] {
+				width: 100%;
+				accent-color: var(--accent);
+			}
+
+			.themes {
+				display: flex;
+				gap: 8px;
+			}
+
+			.themes button {
+				flex: 1;
+				border: 1px solid var(--border);
+				background: transparent;
+				color: inherit;
+				border-radius: 8px;
+				padding: 8px 10px;
+				font: inherit;
+				font-size: 13px;
+				cursor: pointer;
+			}
+
+			.themes button[aria-pressed="true"] {
+				border-color: var(--accent);
+				background: color-mix(in oklab, var(--accent) 14%, transparent);
+			}
+
+			.config {
+				margin: 0;
+				padding: 12px;
+				border-radius: 8px;
+				border: 1px solid var(--border);
+				background: color-mix(in oklab, var(--page-bg) 70%, var(--panel));
+				font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+				font-size: 11px;
+				line-height: 1.45;
+				white-space: pre-wrap;
+				overflow: auto;
+				max-height: 220px;
+			}
+
+			.actions {
+				display: flex;
+				gap: 8px;
+			}
+
+			.actions button {
+				flex: 1;
+				border: 1px solid var(--border);
+				background: var(--page-fg);
+				color: var(--page-bg);
+				border-radius: 8px;
+				padding: 10px 12px;
+				font: inherit;
+				font-size: 13px;
+				font-weight: 600;
+				cursor: pointer;
+			}
+
+			.actions button.secondary {
+				background: transparent;
+				color: inherit;
+			}
+
+			.stage {
+				padding: 32px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 16px;
+				overflow: auto;
+			}
+
+			.frame-wrap {
+				width: min(100%, 900px);
+				aspect-ratio: 1200 / 630;
+				border-radius: 4px;
+				overflow: hidden;
+				box-shadow:
+					0 0 0 1px color-mix(in oklab, var(--page-fg) 8%, transparent),
+					0 18px 40px color-mix(in oklab, #000 18%, transparent);
+			}
+
+			.frame {
+				width: 1200px;
+				height: 630px;
+				transform-origin: top left;
+				font-family: Inter, system-ui, sans-serif;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: flex-start;
+			}
+
+			.stack {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.dot {
+				border-radius: 9999px;
+				flex-shrink: 0;
+			}
+
+			.title {
+				font-weight: 600;
+				margin: 0;
+			}
+
+			.subtitle {
+				font-weight: 400;
+				margin: 0;
+			}
+
+			.meta {
+				font-size: 12px;
+				color: var(--muted);
+				font-variant-numeric: tabular-nums;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="shell">
+			<aside class="controls">
+				<div>
+					<h1>OG playground</h1>
+					<p class="hint">
+						Live CSS stand-in for the Satori layout. Tweak values, then copy the
+						config into
+						<code>scripts/generate-og-image.mjs</code>.
+					</p>
+				</div>
+
+				<div class="themes" role="group" aria-label="Theme">
+					<button type="button" id="theme-light" aria-pressed="true">
+						Light
+					</button>
+					<button type="button" id="theme-dark" aria-pressed="false">Dark</button>
+				</div>
+
+				<label>
+					<span class="row"
+						>Padding Y <output id="out-paddingY">116</output></span
+					>
+					<input id="paddingY" type="range" min="24" max="160" step="4" value="116" />
+				</label>
+
+				<label>
+					<span class="row"
+						>Padding X <output id="out-paddingX">116</output></span
+					>
+					<input
+						id="paddingX"
+						type="range"
+						min="40"
+						max="200"
+						step="4"
+						value="116"
+					/>
+				</label>
+
+				<label>
+					<span class="row">Gap <output id="out-gap">72</output></span>
+					<input id="gap" type="range" min="8" max="120" step="2" value="72" />
+				</label>
+
+				<label>
+					<span class="row"
+						>Circle size <output id="out-circle">52</output></span
+					>
+					<input id="circle" type="range" min="24" max="120" step="2" value="52" />
+				</label>
+
+				<label>
+					<span class="row"
+						>Font size <output id="out-fontSize">40</output></span
+					>
+					<input
+						id="fontSize"
+						type="range"
+						min="24"
+						max="96"
+						step="1"
+						value="40"
+					/>
+				</label>
+
+				<label>
+					<span class="row"
+						>Line height <output id="out-lineHeight">1.3</output></span
+					>
+					<input
+						id="lineHeight"
+						type="range"
+						min="1"
+						max="1.8"
+						step="0.05"
+						value="1.3"
+					/>
+				</label>
+
+				<pre class="config" id="config"></pre>
+
+				<div class="actions">
+					<button type="button" id="copy">Copy config</button>
+					<button type="button" class="secondary" id="reset">Reset</button>
+				</div>
+			</aside>
+
+			<main class="stage">
+				<div class="frame-wrap" id="frame-wrap">
+					<div class="frame" id="frame">
+						<div class="stack" id="stack">
+							<div class="dot" id="dot"></div>
+							<p class="title" id="title">Maui</p>
+							<p class="subtitle" id="subtitle">A design system</p>
+						</div>
+					</div>
+				</div>
+				<div class="meta" id="meta">1200 × 630</div>
+			</main>
+		</div>
+
+		<script>
+			const themes = {
+				light: {
+					background: "#ffffff",
+					title: "#202020",
+					subtitle: "#646464",
+					accent: "#12a594",
+				},
+				dark: {
+					background: "#111111",
+					title: "#eeeeee",
+					subtitle: "#b4b4b4",
+					accent: "#6e56cf",
+				},
+			}
+
+			const defaults = {
+				theme: "light",
+				paddingY: 116,
+				paddingX: 116,
+				gap: 72,
+				circle: 52,
+				fontSize: 40,
+				lineHeight: 1.3,
+			}
+
+			const state = { ...defaults }
+
+			const els = {
+				frameWrap: document.getElementById("frame-wrap"),
+				frame: document.getElementById("frame"),
+				stack: document.getElementById("stack"),
+				dot: document.getElementById("dot"),
+				title: document.getElementById("title"),
+				subtitle: document.getElementById("subtitle"),
+				config: document.getElementById("config"),
+				meta: document.getElementById("meta"),
+				themeLight: document.getElementById("theme-light"),
+				themeDark: document.getElementById("theme-dark"),
+				copy: document.getElementById("copy"),
+				reset: document.getElementById("reset"),
+			}
+
+			const inputs = [
+				"paddingY",
+				"paddingX",
+				"gap",
+				"circle",
+				"fontSize",
+				"lineHeight",
+			]
+
+			function scaleFrame() {
+				const wrap = els.frameWrap.getBoundingClientRect()
+				const scale = wrap.width / 1200
+				els.frame.style.transform = `scale(${scale})`
+				els.meta.textContent = `1200 × 630 · preview ×${scale.toFixed(2)}`
+			}
+
+			function configText() {
+				return [
+					`padding: "${state.paddingY}px ${state.paddingX}px"`,
+					`gap: ${state.gap}`,
+					`circle: ${state.circle}`,
+					`fontSize: ${state.fontSize}`,
+					`lineHeight: ${state.lineHeight}`,
+					`theme: "${state.theme}"`,
+				].join("\n")
+			}
+
+			function render() {
+				const theme = themes[state.theme]
+				els.frame.style.padding = `${state.paddingY}px ${state.paddingX}px`
+				els.frame.style.backgroundColor = theme.background
+				els.stack.style.gap = `${state.gap}px`
+				els.dot.style.width = `${state.circle}px`
+				els.dot.style.height = `${state.circle}px`
+				els.dot.style.backgroundColor = theme.accent
+				for (const el of [els.title, els.subtitle]) {
+					el.style.fontSize = `${state.fontSize}px`
+					el.style.lineHeight = String(state.lineHeight)
+				}
+				els.title.style.color = theme.title
+				els.subtitle.style.color = theme.subtitle
+				els.config.textContent = configText()
+				els.themeLight.setAttribute(
+					"aria-pressed",
+					state.theme === "light" ? "true" : "false",
+				)
+				els.themeDark.setAttribute(
+					"aria-pressed",
+					state.theme === "dark" ? "true" : "false",
+				)
+				for (const id of inputs) {
+					const input = document.getElementById(id)
+					const out = document.getElementById(`out-${id}`)
+					input.value = String(state[id])
+					out.textContent =
+						id === "lineHeight" ? Number(state[id]).toFixed(2) : String(state[id])
+				}
+				scaleFrame()
+			}
+
+			for (const id of inputs) {
+				document.getElementById(id).addEventListener("input", (event) => {
+					const value = Number(event.target.value)
+					state[id] = value
+					render()
+				})
+			}
+
+			els.themeLight.addEventListener("click", () => {
+				state.theme = "light"
+				render()
+			})
+			els.themeDark.addEventListener("click", () => {
+				state.theme = "dark"
+				render()
+			})
+
+			els.reset.addEventListener("click", () => {
+				Object.assign(state, defaults)
+				render()
+			})
+
+			els.copy.addEventListener("click", async () => {
+				const text = configText()
+				try {
+					await navigator.clipboard.writeText(text)
+					els.copy.textContent = "Copied"
+					setTimeout(() => {
+						els.copy.textContent = "Copy config"
+					}, 1200)
+				} catch {
+					els.copy.textContent = "Copy failed"
+					setTimeout(() => {
+						els.copy.textContent = "Copy config"
+					}, 1200)
+				}
+			})
+
+			window.addEventListener("resize", scaleFrame)
+			render()
+		</script>
+	</body>
+</html>
