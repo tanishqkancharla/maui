@@ -27,6 +27,12 @@ function App() {
 }
 ```
 
+The published package exposes:
+
+- `"maui"` — built barrel (`dist/`) of provider, theme, tokens, and components
+- `"maui/src/*"` — TypeScript source for deep imports
+- `"maui/skills/maui"` — this skill file
+
 `MauiProvider` sets up theme (`data-theme` / `color-scheme`), `PurseProvider`, design-system globals, and the focus UI database used by Button/Dialog.
 
 ## Theme FOUC
@@ -56,3 +62,26 @@ internal button or segment.
 ## Layout utilities
 
 `Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px.
+
+## Reference: patterns and apps
+
+Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them as in-repo reference implementations (also available via `"maui/src/..."` when the package ships source):
+
+### Patterns — `src/patterns/`
+
+| Path | Role |
+| --- | --- |
+| `src/patterns/AssistantMessage.tsx` | Streaming markdown reply (Streamdown + Maui prose) |
+| `src/patterns/Editor.tsx` | TipTap markdown composer |
+| `src/patterns/Loader.tsx` | Game-of-life loader |
+| `src/patterns/Sidebar.tsx` | App sidebar chrome |
+| `src/patterns/Tree.tsx` | Nested tree navigation |
+| `src/patterns/Inbox.tsx` | Mail inbox layout |
+| `src/patterns/MessageList.tsx` | Message list rows |
+
+### Apps — `src/apps/`
+
+| Path | Role |
+| --- | --- |
+| `src/apps/AiChat/` | Mock streaming AI chat (Editor + AssistantMessage) |
+| `src/apps/EmailClient/` | Email client demo composing inbox patterns |
