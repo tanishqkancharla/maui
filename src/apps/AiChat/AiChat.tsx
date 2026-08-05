@@ -382,7 +382,7 @@ const userBubbleClass = style(
 	},
 )
 
-const composerClass = style(spacing.padding({ x: 6, y: 4 }), {
+const composerClass = style(spacing.padding({ x: 6, top: 4, bottom: 6 }), {
 	backgroundColor: "transparent",
 })
 
