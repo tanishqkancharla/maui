@@ -13,11 +13,22 @@ import { radius } from "../../tokens/radius"
 import { shadow, shadowVars } from "../../tokens/shadow"
 import { icon } from "../../tokens/sizing"
 import { spacing } from "../../tokens/spacing"
-import { text } from "../../tokens/text"
+import { monospace, text } from "../../tokens/text"
+
+type ToolCall =
+	| { id: string; kind: "read"; path: string }
+	| { id: string; kind: "wrote"; path: string }
+	| { id: string; kind: "shell"; command: string }
 
 type ChatMessage =
 	| { id: string; role: "user"; content: string }
-	| { id: string; role: "assistant"; content: string; streaming?: boolean }
+	| {
+			id: string
+			role: "assistant"
+			content: string
+			toolCalls?: ToolCall[]
+			streaming?: boolean
+	  }
 
 const welcomeMarkdown = `## Hello
 
@@ -25,6 +36,34 @@ I'm a **mock** assistant — replies are canned and streamed locally so you can
 try TipTap + Streamdown together.
 
 Ask about Maui patterns, or just say hi.`
+
+const toolCallsFor = (prompt: string): ToolCall[] => {
+	const slug = prompt
+		.trim()
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-|-$/g, "")
+		.slice(0, 24)
+
+	return [
+		{ id: "read-editor", kind: "read", path: "src/patterns/Editor.tsx" },
+		{
+			id: "read-assistant",
+			kind: "read",
+			path: "src/patterns/AssistantMessage.tsx",
+		},
+		{
+			id: "shell-tsc",
+			kind: "shell",
+			command: "npx tsc --noEmit",
+		},
+		{
+			id: "wrote-aichat",
+			kind: "wrote",
+			path: `src/apps/AiChat/${slug || "reply"}.tsx`,
+		},
+	]
+}
 
 const replyFor = (prompt: string) => {
 	const trimmed = prompt.trim()
@@ -49,31 +88,55 @@ type Turn = {
 `
 }
 
-function streamText(
-	full: string,
+function streamAssistantTurn(
+	toolCalls: ToolCall[],
+	markdown: string,
+	onToolCalls: (calls: ToolCall[]) => void,
 	onChunk: (text: string) => void,
 	onDone: () => void,
-	options?: { delayMs?: number },
+	options?: { delayMs?: number; toolGapMs?: number },
 ) {
-	let index = 0
 	let timeoutId = 0
 	let cancelled = false
 	const delayMs = options?.delayMs ?? 0
+	const toolGapMs = options?.toolGapMs ?? 420
+	let toolIndex = 0
+	let textIndex = 0
 
-	const tick = () => {
+	const tickText = () => {
 		if (cancelled) return
-		// Variable-sized chunks feel more like token streaming than char-by-char.
 		const step = 2 + Math.floor(Math.random() * 6)
-		index = Math.min(full.length, index + step)
-		onChunk(full.slice(0, index))
-		if (index >= full.length) {
+		textIndex = Math.min(markdown.length, textIndex + step)
+		onChunk(markdown.slice(0, textIndex))
+		if (textIndex >= markdown.length) {
 			onDone()
 			return
 		}
-		timeoutId = window.setTimeout(tick, 16 + Math.floor(Math.random() * 28))
+		timeoutId = window.setTimeout(
+			tickText,
+			16 + Math.floor(Math.random() * 28),
+		)
 	}
 
-	timeoutId = window.setTimeout(tick, delayMs)
+	const tickTools = () => {
+		if (cancelled) return
+		toolIndex += 1
+		onToolCalls(toolCalls.slice(0, toolIndex))
+		if (toolIndex >= toolCalls.length) {
+			timeoutId = window.setTimeout(tickText, 180)
+			return
+		}
+		timeoutId = window.setTimeout(tickTools, toolGapMs)
+	}
+
+	timeoutId = window.setTimeout(() => {
+		if (toolCalls.length === 0) {
+			tickText()
+			return
+		}
+		tickTools()
+	}, delayMs)
+
 	return () => {
 		cancelled = true
 		window.clearTimeout(timeoutId)
@@ -84,7 +147,7 @@ const THINKING_DELAY_MS = 3000
 
 /**
  * Mock AI chat composed from the Editor and AssistantMessage patterns.
- * Submitting a message streams a canned markdown reply through Streamdown.
+ * Submitting a message streams tool calls, then a canned markdown reply.
  */
 export function AiChat() {
 	const [messages, setMessages] = useState<ChatMessage[]>([
@@ -99,6 +162,9 @@ export function AiChat() {
 	const feedClassName = useStyles(feedClass)
 	const assistantRowClassName = useStyles(assistantRowClass)
 	const assistantMessageClassName = useStyles(assistantMessageClass)
+	const toolCallsClassName = useStyles(toolCallsClass)
+	const toolCallClassName = useStyles(toolCallClass)
+	const toolPathClassName = useStyles(toolPathClass)
 	const userRowClassName = useStyles(userRowClass)
 	const userBubbleClassName = useStyles(userBubbleClass)
 	const composerClassName = useStyles(composerClass)
@@ -126,17 +192,34 @@ export function AiChat() {
 		const userId = `user-${Date.now()}`
 		const assistantId = `assistant-${Date.now()}`
 		const fullReply = replyFor(prompt)
+		const plannedTools = toolCallsFor(prompt)
 
 		setDraft("")
 		setStreaming(true)
 		setMessages((prev) => [
 			...prev,
 			{ id: userId, role: "user", content: prompt },
-			{ id: assistantId, role: "assistant", content: "", streaming: true },
+			{
+				id: assistantId,
+				role: "assistant",
+				content: "",
+				toolCalls: [],
+				streaming: true,
+			},
 		])
 
-		cancelStreamRef.current = streamText(
+		cancelStreamRef.current = streamAssistantTurn(
+			plannedTools,
 			fullReply,
+			(toolCalls) => {
+				setMessages((prev) =>
+					prev.map((message) =>
+						message.id === assistantId
+							? { ...message, toolCalls, streaming: true }
+							: message,
+					),
+				)
+			},
 			(text) => {
 				setMessages((prev) =>
 					prev.map((message) =>
@@ -177,6 +260,31 @@ export function AiChat() {
 						</div>
 					) : (
 						<div key={message.id} className={assistantRowClassName}>
+							{message.toolCalls && message.toolCalls.length > 0 ? (
+								<div className={toolCallsClassName} aria-label="Tool calls">
+									{message.toolCalls.map((call) => (
+										<div key={call.id} className={toolCallClassName}>
+											{call.kind === "read" ? (
+												<>
+													Read <span className={toolPathClassName}>{call.path}</span>
+												</>
+											) : call.kind === "wrote" ? (
+												<>
+													Wrote{" "}
+													<span className={toolPathClassName}>{call.path}</span>
+												</>
+											) : (
+												<>
+													{"$ "}
+													<span className={toolPathClassName}>
+														{`\`${call.command}\``}
+													</span>
+												</>
+											)}
+										</div>
+									))}
+								</div>
+							) : null}
 							{message.content ? (
 								<AssistantMessage
 									size="sm"
@@ -255,6 +363,21 @@ const assistantRowClass = style(flex({ direction: "column", gap: 3 }), {
 const assistantMessageClass = style({
 	maxWidth: "none",
 	width: "100%",
+})
+
+const toolCallsClass = style(flex({ direction: "column", gap: 1 }), {
+	minWidth: 0,
+})
+
+const toolCallClass = style(text("xs", 400, "lowContrast"), monospace, {
+	minWidth: 0,
+	overflow: "hidden",
+	textOverflow: "ellipsis",
+	whiteSpace: "nowrap",
+})
+
+const toolPathClass = style({
+	color: colors.gray[12],
 })
 
 const userRowClass = style(flex({ justify: "end" }), {
