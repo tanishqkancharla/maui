@@ -50,7 +50,7 @@ function layout(theme) {
 				flexDirection: "column",
 				justifyContent: "flex-start",
 				alignItems: "flex-start",
-				padding: "48px 116px",
+				padding: "116px 116px",
 				backgroundColor: theme.background,
 				fontFamily: "Inter",
 			},
