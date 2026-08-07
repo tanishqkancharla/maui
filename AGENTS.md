@@ -14,6 +14,17 @@ Standard commands (see `package.json` `scripts`):
 - Preview built website: `npm run serve`.
 - Type-check: `npm run tsc` runs `tsc --noEmit --watch` (watch mode). For a one-shot check use `npx tsc --noEmit`.
 - Tests: `npm test` (Vitest). Note: there are currently **no test files**, so Vitest exits with code 1 and "No test files found" — this is expected, not a failure.
+- Release to npm: `npm run release` → `build:lib` + `npm publish` for `@tanishqkancharla/maui` (scoped; unscoped `maui` is taken). Requires being logged in to npm (`npm whoami`). Prefer bumping `package.json` / lockfile version in the same change as the release.
+
+### npm release process
+
+Published package: [`@tanishqkancharla/maui`](https://www.npmjs.com/package/@tanishqkancharla/maui).
+
+1. Bump `version` in `package.json` and `package-lock.json`.
+2. Merge to `main`.
+3. Publish either:
+   - **Locally:** `npm run release` (needs `npm login`).
+   - **CI:** Create a GitHub Release / publish an existing draft. `.github/workflows/publish.yml` runs `npm publish` via [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/) (OIDC). One-time setup on npm: package → Settings → Trusted Publisher → GitHub `tanishqkancharla/maui`, workflow `publish.yml`. Do not add an `NPM_TOKEN` secret for this path.
 
 Non-obvious notes:
 

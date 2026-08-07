@@ -1,6 +1,6 @@
 {
-	"name": "maui",
-	"version": "0.0.1",
+	"name": "@tanishqkancharla/maui",
+	"version": "0.0.2",
 	"description": "Maui design system",
 	"type": "module",
 	"main": "./dist/maui.js",
@@ -22,6 +22,13 @@
 		"./skills/maui/*": "./skills/maui/*",
 		"./package.json": "./package.json"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tanishqkancharla/maui.git"
+	},
 	"scripts": {
 		"tsc": "tsc --noEmit --watch",
 		"clear": "mkdir -p dist && rm -rf dist/*",
@@ -33,7 +40,8 @@
 		"serve": "vite preview",
 		"deploy": "npx vercel deploy",
 		"test": "vitest",
-		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs"
+		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs",
+		"release": "npm run build:lib && npm publish"
 	},
 	"author": "Tanishq Kancharla",
 	"license": "MIT",
