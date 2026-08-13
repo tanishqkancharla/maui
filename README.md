@@ -1,6 +1,55 @@
-Frontend app boilerplate built with esbuild, typescript, vercel.
+# Maui
 
+TypeScript-first design system styled with [`purse-styles`](https://www.npmjs.com/package/purse-styles). This repo is the published package and a gallery of tokens, components, patterns, and demo apps.
+
+**Gallery:** [maui.tanishqkancharla.dev](https://maui.tanishqkancharla.dev)
+**Package:** [`@tanishqkancharla/maui`](https://www.npmjs.com/package/@tanishqkancharla/maui)
+
+## Install
+
+```bash
+npm install @tanishqkancharla/maui
 ```
+
+Wrap the app in `MauiProvider`, then import tokens and components:
+
+```tsx
+import { MauiProvider, Button } from "@tanishqkancharla/maui"
+
+function App() {
+	return (
+		<MauiProvider>
+			<Button>Hello</Button>
+		</MauiProvider>
+	)
+}
+```
+
+Put the exported `themeFoucScript` in a classic inline `<script>` in `<head>` so `data-theme` is correct on first paint.
+
+## Develop
+
+```bash
+npm install
 npm run dev
-npm run build
 ```
+
+Vite serves the gallery at [http://localhost:5173/](http://localhost:5173/).
+
+| Script | What it does |
+| --- | --- |
+| `npm run dev` | Gallery dev server |
+| `npm run build` | Static gallery → `website/` |
+| `npm run build:lib` | Package ESM + types → `dist/` |
+| `npm run serve` | Preview the gallery build |
+| `npx tsc --noEmit` | Type-check |
+
+## Package
+
+Published as [`@tanishqkancharla/maui`](https://www.npmjs.com/package/@tanishqkancharla/maui). The barrel exports the provider, theme, tokens, and components. Patterns and demo apps in this repo are reference implementations, not part of the package barrel.
+
+Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
+
+## License
+
+MIT
