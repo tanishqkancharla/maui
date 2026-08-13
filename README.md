@@ -3,6 +3,7 @@
 TypeScript-first design system styled with [`purse-styles`](https://www.npmjs.com/package/purse-styles). This repo is the published package and a gallery of tokens, components, patterns, and demo apps.
 
 **Gallery:** [experiments.tanishqkancharla.dev](https://experiments.tanishqkancharla.dev)
+**Package:** [`@tanishqkancharla/maui`](https://www.npmjs.com/package/@tanishqkancharla/maui)
 
 ## Install
 
