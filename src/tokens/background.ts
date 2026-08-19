@@ -30,7 +30,6 @@ export const backgroundColor = {
 
 export const background = {
 	app: style({ backgroundColor: backgroundColor.app }),
-	subtle: style({ backgroundColor: colors.gray[2] }),
 	element: style({ backgroundColor: backgroundColor.element }),
 	elementHover: style({ backgroundColor: backgroundColor.elementHover }),
 	elementActive: style({ backgroundColor: backgroundColor.elementActive }),

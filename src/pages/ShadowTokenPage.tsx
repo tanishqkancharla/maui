@@ -80,7 +80,7 @@ export function ShadowTokenPage() {
 )
 
 const popover = style(
-	background.subtle,
+	background.element,
 	radius.md,
 	shadow.strong,
 )`}</CodeBlock>

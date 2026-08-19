@@ -10,8 +10,8 @@ import { radius } from "../tokens/radius"
 import { text } from "../tokens/text"
 
 export function BackgroundColorTokenPage() {
-	const subtleClassName = useStyles(
-		background.subtle,
+	const appClassName = useStyles(
+		background.app,
 		border([], "outline"),
 		radius.md,
 		{ padding: "12px" },
@@ -56,15 +56,6 @@ export function BackgroundColorTokenPage() {
 							<code>#ffffff</code> / <code>colors.gray[1]</code>
 						</TableCell>
 						<TableCell>App/page background (white in light, gray 1 in dark).</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>background.subtle</code>
-						</TableCell>
-						<TableCell>
-							<code>colors.gray[2]</code>
-						</TableCell>
-						<TableCell>Dialogs, cards, and panels.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
@@ -124,7 +115,7 @@ export function BackgroundColorTokenPage() {
 			</Table>
 
 			<H3>Example</H3>
-			<CodeBlock lang="typescript">{`const panel = style(background.subtle, border([], "outline"), radius.md)
+			<CodeBlock lang="typescript">{`const panel = style(background.element, border([], "outline"), radius.md)
 const primary = style(background.accent, text("sm", 400, "onAccent"))`}</CodeBlock>
 
 			<Panel
@@ -135,7 +126,7 @@ const primary = style(background.accent, text("sm", 400, "onAccent"))`}</CodeBlo
 					gap: "12px",
 				}}
 			>
-				<div className={subtleClassName}>Surface</div>
+				<div className={appClassName}>App</div>
 				<div className={elementClassName}>Raised</div>
 				<div className={accentClassName}>Accent</div>
 			</Panel>

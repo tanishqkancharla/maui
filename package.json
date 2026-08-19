@@ -41,6 +41,7 @@
 		"deploy": "npx vercel deploy",
 		"test": "vitest",
 		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs",
+		"mcp:agentation": "node .cursor/agentation-mcp.mjs",
 		"release": "npm run build:lib && npm publish"
 	},
 	"author": "Tanishq Kancharla",
@@ -54,6 +55,8 @@
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.2",
+		"agentation": "^3.0.2",
+		"agentation-mcp": "^1.2.0",
 		"esbuild": "^0.28.0",
 		"libretto-browser-tools": "^0.1.2",
 		"process": "^0.11.10",

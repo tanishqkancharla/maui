@@ -24,6 +24,7 @@ const buttonBaseClass = style(
 		gap: spacing.value(3),
 		borderRadius: "4px",
 		width: "fit-content",
+		height: "28px",
 		border: "none",
 		textOverflow: "ellipsis",
 		overflow: "hidden",

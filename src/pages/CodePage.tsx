@@ -1,3 +1,4 @@
+import { Code, Kbd } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Prose } from "../components/Prose"
 import {
@@ -9,6 +10,7 @@ import {
 	TableRow,
 } from "../components/Table"
 import { H2, H3, H4, Link, P } from "../components/Typography"
+import { Flex } from "../components/Utils"
 import { useTheme } from "../theme/ThemeContext"
 import { mauiThemeTokens } from "../utils/mauiShikiTheme"
 
@@ -40,23 +42,51 @@ const jsonExample = (theme: "light" | "dark") => `{
 	"type": "${theme}"
 }`
 
-export function CodeBlockPage() {
+export function CodePage() {
 	const { resolvedTheme } = useTheme()
 	const themeTokens = mauiThemeTokens[resolvedTheme]
 
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
-			<H2>CodeBlock</H2>
+			<H2>Code</H2>
 			<P>
-				<code>CodeBlock</code> renders syntax-highlighted snippets with Shiki
-				using the Maui theme. Pass a <code>lang</code> prop for the language id
-				and plain text as children.
+				Inline <Code>Code</Code>, keyboard <Code>Kbd</Code>, and syntax-highlighted{" "}
+				<Code>CodeBlock</Code> snippets. Marks use <Code>colors.gray[3]</Code> and{" "}
+				<Code>radius.sm</Code>.
 			</P>
 
-			<H3>Usage</H3>
+			<H3>Inline code</H3>
+			<P>
+				<Code>Code</Code> is one type size smaller than surrounding text.
+				Import <Code>style</Code> from purse-styles, then compose{" "}
+				<Code>text("sm", 400, "highContrast")</Code> with layout tokens.
+			</P>
+			<CodeBlock lang="tsx">{`<Code>background.element</Code>`}</CodeBlock>
+
+			<H3>Keyboard</H3>
+			<P>
+				<Code>Kbd</Code> uses <Code>text("xs", 400, "lowContrast")</Code> and{" "}
+				<Code>3px</Code> inline padding.
+			</P>
+			<Flex row alignItems="center" gap={4}>
+				<Kbd>⌘</Kbd>
+				<Kbd>K</Kbd>
+				<Kbd>T</Kbd>
+				<Kbd>←</Kbd>
+				<Kbd>→</Kbd>
+				<Kbd>Esc</Kbd>
+			</Flex>
+			<CodeBlock lang="tsx">{`<Kbd>⌘</Kbd>
+<Kbd>K</Kbd>`}</CodeBlock>
+
+			<H3>Code block</H3>
+			<P>
+				<Code>CodeBlock</Code> renders syntax-highlighted snippets with Shiki
+				using the Maui theme. Pass a <Code>lang</Code> prop for the language id
+				and plain text as children.
+			</P>
 			<CodeBlock lang="tsx">{`<CodeBlock lang="typescript">{\`const x = 1\`}</CodeBlock>`}</CodeBlock>
 
-			<H3>Examples</H3>
 			<H4>TypeScript</H4>
 			<CodeBlock lang="typescript">{typescriptExample}</CodeBlock>
 
@@ -92,10 +122,10 @@ export function CodeBlockPage() {
 						<TableRow key={token.role}>
 							<TableCell align="middle">{token.role}</TableCell>
 							<TableCell align="middle">
-								<code>{token.sublime}</code>
+								<Code>{token.sublime}</Code>
 							</TableCell>
 							<TableCell align="middle">
-								<code>{token.color}</code>
+								<Code>{token.color}</Code>
 							</TableCell>
 							<TableCell align="middle">
 								<span

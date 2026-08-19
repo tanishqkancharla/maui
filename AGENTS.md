@@ -55,3 +55,30 @@ Tools: `browser_open`, `browser_connect`, `browser_snapshot`, `browser_exec`, `b
 ```
 
 Then start a new agent (MCP servers are not hot-reloaded mid-run).
+
+### Agentation (dev annotation toolbar + MCP)
+
+[Agentation](https://www.agentation.com/install) adds a desktop-only annotation toolbar in **development** so you can click UI and sync feedback to the agent. It is not part of the published `@tanishqkancharla/maui` package.
+
+Repo wiring:
+
+- `src/dev/AgentationDev.tsx` — mounts `<Agentation endpoint="http://localhost:4747" />` from `src/index.tsx` when `import.meta.env.DEV` is true (omitted from `npm run build`)
+- `.cursor/mcp.json` — `agentation` server (`node .cursor/agentation-mcp.mjs`)
+- `.cursor/agentation-mcp.mjs` — runs the local `agentation-mcp` CLI (HTTP **4747** + stdio MCP, shared store)
+- Dev deps: `agentation`, `agentation-mcp`
+- Script: `npm run mcp:agentation`
+
+Tools (when the MCP server is connected): `agentation_list_sessions`, `agentation_get_session`, `agentation_get_pending`, `agentation_get_all_pending`, `agentation_acknowledge`, `agentation_resolve`, `agentation_dismiss`, `agentation_reply`, `agentation_watch_annotations`.
+
+Reload Cursor MCP after pulling this config. In the gallery (`npm run dev`), click the Agentation icon (bottom-right) to annotate; with MCP connected you can skip copy-paste and ask the agent to address pending annotations.
+
+**Cloud Agents:** project `.cursor/mcp.json` is for the IDE. Enable the same stdio server for cloud runs via the MCP dropdown on [cursor.com/agents](https://cursor.com/agents) (or team **Dashboard → Integrations & MCP**). Use:
+
+```json
+{
+  "command": "node",
+  "args": [".cursor/agentation-mcp.mjs"]
+}
+```
+
+The toolbar talks to `localhost:4747` on the machine running the Vite app. Cloud agents see annotations only when that HTTP server (started by this MCP process) and the browser session share a host. Servers are not hot-reloaded mid-run — start a new agent after enabling MCP.

@@ -84,3 +84,4 @@ Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them
 | --- | --- |
 | `src/apps/AiChat/` | Mock streaming AI chat (Editor + AssistantMessage) |
 | `src/apps/EmailClient/` | Email client demo composing inbox patterns |
+| `src/apps/Calendar/` | Three-pane schedule (mini month, week grid, event details) |
