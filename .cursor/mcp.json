@@ -6,6 +6,10 @@
 			"env": {
 				"LIBRETTO_BROWSER_HEADLESS": "1"
 			}
+		},
+		"agentation": {
+			"command": "node",
+			"args": ["${workspaceFolder}/.cursor/agentation-mcp.mjs"]
 		}
 	}
 }
