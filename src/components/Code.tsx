@@ -7,7 +7,7 @@ import { monospace, text } from "../tokens/text"
 
 type CodeProps = React.HTMLAttributes<HTMLElement>
 
-const markClass = style(
+const codeClass = style(
 	text("xs", 400, "highContrast"),
 	monospace,
 	radius.sm,
@@ -20,21 +20,36 @@ const markClass = style(
 	},
 )
 
+const kbdClass = style(
+	text("sm", 400, "lowContrast"),
+	radius.sm,
+	{
+		backgroundColor: colors.gray[3],
+		boxDecorationBreak: "clone",
+		display: "inline-flex",
+		alignItems: "center",
+		justifyContent: "center",
+		paddingInline: 3,
+		paddingBlock: 0,
+		whiteSpace: "nowrap",
+	},
+)
+
 export function Code({ className, children, ...props }: CodeProps) {
-	const markClassName = useStyles(markClass)
+	const codeClassName = useStyles(codeClass)
 
 	return (
-		<code {...props} className={joinClassNames(markClassName, className)}>
+		<code {...props} className={joinClassNames(codeClassName, className)}>
 			{children}
 		</code>
 	)
 }
 
 export function Kbd({ className, children, ...props }: CodeProps) {
-	const markClassName = useStyles(markClass)
+	const kbdClassName = useStyles(kbdClass)
 
 	return (
-		<kbd {...props} className={joinClassNames(markClassName, className)}>
+		<kbd {...props} className={joinClassNames(kbdClassName, className)}>
 			{children}
 		</kbd>
 	)

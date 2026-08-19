@@ -63,6 +63,10 @@ export function CodePage() {
 			<CodeBlock lang="tsx">{`<Code>background.element</Code>`}</CodeBlock>
 
 			<H3>Keyboard</H3>
+			<P>
+				<Code>Kbd</Code> uses <Code>text("sm", 400, "lowContrast")</Code> and{" "}
+				<Code>3px</Code> inline padding.
+			</P>
 			<Flex row alignItems="center" gap={4}>
 				<Kbd>⌘</Kbd>
 				<Kbd>K</Kbd>
