@@ -13,7 +13,7 @@ const markClass = style(
 	radius.sm,
 	spacing.padding({ x: 2, y: 1 }),
 	{
-		backgroundColor: colors.gray[1],
+		backgroundColor: colors.gray[3],
 		display: "inline",
 		boxDecorationBreak: "clone",
 		whiteSpace: "nowrap",

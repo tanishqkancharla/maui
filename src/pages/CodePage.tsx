@@ -51,7 +51,7 @@ export function CodePage() {
 			<H2>Code</H2>
 			<P>
 				Inline <Code>Code</Code>, keyboard <Code>Kbd</Code>, and syntax-highlighted{" "}
-				<Code>CodeBlock</Code> snippets. Marks use <Code>colors.gray[1]</Code> and{" "}
+				<Code>CodeBlock</Code> snippets. Marks use <Code>colors.gray[3]</Code> and{" "}
 				<Code>radius.sm</Code>.
 			</P>
 
