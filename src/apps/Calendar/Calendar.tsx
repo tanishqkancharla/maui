@@ -10,7 +10,7 @@ import { style, useStyles } from "purse-styles"
 import { Avatar } from "../../components/Avatar"
 import { Button } from "../../components/Button"
 import { Icons } from "../../components/Icons"
-import { QuietSearchField, QuietTextField } from "../../components/Input"
+import { SearchField, TextField } from "../../components/Input"
 import { Select, SelectItem } from "../../components/Select"
 import { Tooltip } from "../../components/Tooltip"
 import { FuzzyString } from "../../components/FuzzyString"
@@ -489,7 +489,7 @@ function CalendarSidebar(props: {
 				onSelectDate={props.onSelectDate}
 			/>
 
-			<QuietTextField
+			<TextField
 				aria-label="Meet with"
 				placeholder="Meet with..."
 				value={props.meetWith}
@@ -971,7 +971,7 @@ function DetailsPanel(props: {
 
 	return (
 		<aside className={detailsClassName} aria-label="Event details">
-			<QuietSearchField
+			<SearchField
 				aria-label="Search events"
 				placeholder="Search events"
 				value={props.searchQuery}

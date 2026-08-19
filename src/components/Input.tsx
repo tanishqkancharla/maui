@@ -100,14 +100,11 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 	},
 })
 
-function SearchFieldBase(
-	props: AriaSearchFieldProps & { quiet?: boolean },
-) {
-	const { quiet = false, ...fieldProps } = props
+export function SearchField(props: AriaSearchFieldProps) {
 	const ref = useRef<HTMLInputElement>(null)
-	const state = useSearchFieldState(fieldProps)
-	const { inputProps } = useSearchField(fieldProps, state, ref)
-	const inputClassName = useStyles(quiet ? quietInputClass : inputClass)
+	const state = useSearchFieldState(props)
+	const { inputProps } = useSearchField(props, state, ref)
+	const inputClassName = useStyles(inputClass)
 	const searchClassName = useStyles(searchFieldClass)
 
 	return (
@@ -125,14 +122,6 @@ function SearchFieldBase(
 			)}
 		</div>
 	)
-}
-
-export function SearchField(props: AriaSearchFieldProps) {
-	return <SearchFieldBase {...props} />
-}
-
-export function QuietSearchField(props: AriaSearchFieldProps) {
-	return <SearchFieldBase {...props} quiet />
 }
 
 const numberFieldClass = style(

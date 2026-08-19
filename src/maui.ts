@@ -60,7 +60,6 @@ export { RadioOptionGroup, RadioOption } from "./components/Radio"
 export {
 	TextField,
 	SearchField,
-	QuietSearchField,
 	NumberField,
 	QuietTextField,
 } from "./components/Input"
