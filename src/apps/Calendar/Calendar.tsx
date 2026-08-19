@@ -22,7 +22,6 @@ import { SearchField, TextField } from "../../components/Input"
 import { Select, SelectItem } from "../../components/Select"
 import { Tooltip } from "../../components/Tooltip"
 import { FuzzyString } from "../../components/FuzzyString"
-import { avatar } from "../../tokens/avatar"
 import { background, backgroundColor } from "../../tokens/background"
 import { borderColor } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
@@ -679,9 +678,6 @@ function WeekGrid(props: {
 	const timedEvents = props.events.filter(
 		(event) => !event.allDay && event.kind !== "ooo",
 	)
-	const oooDates = new Set(
-		props.events.filter((event) => event.kind === "ooo").map((event) => event.date),
-	)
 	const hourOffsets = DISPLAY_TIME_ZONES.map((zone) =>
 		hourOffsetFromPrimary(props.days[0] ?? new Date(), zone),
 	)
@@ -753,7 +749,6 @@ function WeekGrid(props: {
 							key={dateKey(day)}
 							day={day}
 							isToday={dateKey(day) === props.todayKey}
-							ooo={oooDates.has(dateKey(day))}
 							events={timedEvents.filter((event) => event.date === dateKey(day))}
 							selectedEventId={props.selectedEventId}
 							nowMinutes={props.nowMinutes}
@@ -821,7 +816,6 @@ function TimezoneColumn(props: { offset: number; showPeriod: boolean }) {
 function DayColumn(props: {
 	day: Date
 	isToday: boolean
-	ooo: boolean
 	events: CalendarEvent[]
 	selectedEventId: string | null
 	nowMinutes: number
@@ -829,7 +823,6 @@ function DayColumn(props: {
 	onCreateEvent: (date: Date, startMinutes: number) => void
 }) {
 	const className = useStyles(dayColumnClass, props.isToday && dayColumnTodayClass)
-	const oooClassName = useStyles(oooOverlayClass)
 	const nowLineClassName = useStyles(nowLineClass)
 	const nowDotClassName = useStyles(nowDotClass)
 
@@ -847,8 +840,6 @@ function DayColumn(props: {
 				props.onCreateEvent(props.day, startMinutes)
 			}}
 		>
-			{props.ooo ? <div className={oooClassName} aria-hidden="true" /> : null}
-
 			{props.events.map((event) => (
 				<TimedEventBlock
 					key={event.id}
@@ -879,6 +870,7 @@ function EventChip(props: {
 		chipClass,
 		eventColorClass(calendar?.color ?? "accent"),
 		props.selected && eventSelectedColorClass(calendar?.color ?? "accent"),
+		props.selected && chipExpandedClass,
 	)
 
 	return (
@@ -1579,6 +1571,9 @@ const dayHeaderLabelTodayClass = style(text("2xs", 400, "accent"))
 const allDayRowClass = style({
 	display: "grid",
 	alignItems: "start",
+	position: "relative",
+	zIndex: 2,
+	overflow: "visible",
 	borderBottom: `1px solid ${borderColor.border}`,
 	minHeight: "36px",
 })
@@ -1587,7 +1582,8 @@ const allDayLabelClass = style(text("2xs", 500, "lowContrast"), spacing.padding(
 
 const allDayCellClass = style(flex({ direction: "column", gap: 1 }), spacing.padding({ all: 2 }), {
 	minWidth: 0,
-	borderLeft: `1px solid ${borderColor.border}`,
+	overflow: "visible",
+	position: "relative",
 })
 
 const weekScrollClass = style({
@@ -1624,7 +1620,6 @@ const tzHourClass = style(text("2xs", 400, "lowContrast"), monospace, {
 const dayColumnClass = style({
 	position: "relative",
 	height: GRID_HEIGHT,
-	borderLeft: `1px solid ${borderColor.border}`,
 	backgroundImage: `repeating-linear-gradient(to bottom, ${borderColor.border} 0 1px, transparent 1px ${HOUR_HEIGHT}px)`,
 	cursor: "default",
 })
@@ -1632,14 +1627,6 @@ const dayColumnClass = style({
 const dayColumnTodayClass = style({
 	backgroundColor: colors.accentAlpha[2],
 	backgroundImage: `repeating-linear-gradient(to bottom, ${borderColor.border} 0 1px, transparent 1px ${HOUR_HEIGHT}px)`,
-})
-
-const oooOverlayClass = style({
-	position: "absolute",
-	inset: 0,
-	pointerEvents: "none",
-	opacity: 0.55,
-	backgroundImage: `repeating-linear-gradient(-45deg, ${avatar.orange.background} 0 6px, transparent 6px 12px)`,
 })
 
 const nowLineClass = style({
@@ -1667,16 +1654,27 @@ const chipClass = style(
 	spacing.padding({ x: 3, y: 1 }),
 	focusRing(),
 	{
-		display: "block",
+		display: "-webkit-box",
+		position: "relative",
+		zIndex: 1,
 		width: "100%",
+		maxWidth: "100%",
 		overflow: "hidden",
 		overflowWrap: "anywhere",
-		whiteSpace: "normal",
+		WebkitBoxOrient: "vertical",
+		WebkitLineClamp: 3,
 		border: "none",
 		textAlign: "left",
 		cursor: "default",
 	},
 )
+
+const chipExpandedClass = style({
+	display: "block",
+	WebkitLineClamp: "unset",
+	overflow: "visible",
+	zIndex: 6,
+})
 
 const timedEventClass = style(
 	text("xs", 500, "highContrast"),
