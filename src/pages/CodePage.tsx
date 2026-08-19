@@ -57,8 +57,8 @@ export function CodePage() {
 
 			<H3>Inline code</H3>
 			<P>
-				<Code>Code</Code> inherits the surrounding font size. Import{" "}
-				<Code>style</Code> from purse-styles, then compose{" "}
+				<Code>Code</Code> is one type size smaller than surrounding text.
+				Import <Code>style</Code> from purse-styles, then compose{" "}
 				<Code>text("sm", 400, "highContrast")</Code> with layout tokens.
 			</P>
 			<CodeBlock lang="tsx">{`<Code>background.element</Code>`}</CodeBlock>

@@ -16,6 +16,7 @@ const codeClass = style(
 		color: colors.gray[12],
 		display: "inline",
 		boxDecorationBreak: "clone",
+		fontSize: "0.875em",
 		whiteSpace: "nowrap",
 	},
 )
