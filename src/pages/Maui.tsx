@@ -23,6 +23,7 @@ import { BadgePage } from "./BadgePage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
 import { BordersTokenPage } from "./BordersTokenPage"
 import { ButtonsPage } from "./ButtonsPage"
+import { CalendarPage } from "./CalendarPage"
 import { CodeBlockPage } from "./CodeBlockPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
@@ -156,6 +157,7 @@ const navigation: NavGroup[] = [
 				page: AssistantMessagePage,
 			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
+			{ label: "Calendar", path: "/patterns/calendar", page: CalendarPage },
 			{ label: "Tree", path: "/patterns/tree", page: TreePage },
 			{ label: "Loader", path: "/patterns/loader", page: LoaderPage },
 		],

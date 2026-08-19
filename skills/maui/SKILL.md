@@ -78,6 +78,7 @@ Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them
 | `src/patterns/Tree.tsx` | Nested tree navigation |
 | `src/patterns/Inbox.tsx` | Mail inbox layout |
 | `src/patterns/MessageList.tsx` | Message list rows |
+| `src/patterns/Calendar.tsx` | Three-pane schedule (mini month, week grid, event details) |
 
 ### Apps — `src/apps/`
 

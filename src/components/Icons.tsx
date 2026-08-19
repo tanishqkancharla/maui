@@ -334,6 +334,111 @@ function Pin(props: React.SVGProps<SVGSVGElement>) {
 	)
 }
 
+function ChevronLeft(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M14.25 5.75L8.75 12L14.25 18.25"
+			/>
+		</svg>
+	)
+}
+
+function ChevronRight(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M9.75 5.75L15.25 12L9.75 18.25"
+			/>
+		</svg>
+	)
+}
+
+function Eye(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M3.75 12C5.5 8.75 8.4 6.75 12 6.75C15.6 6.75 18.5 8.75 20.25 12C18.5 15.25 15.6 17.25 12 17.25C8.4 17.25 5.5 15.25 3.75 12Z"
+			/>
+			<circle
+				cx="12"
+				cy="12"
+				r="2.25"
+				stroke="currentColor"
+				strokeWidth={1.5}
+			/>
+		</svg>
+	)
+}
+
+function Sidebar(props: React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			focusable="false"
+			aria-hidden="true"
+			role="img"
+			width={24}
+			height={24}
+			fill="none"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth={1.5}
+				d="M5.75 5.75H18.25V18.25H5.75V5.75Z"
+			/>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeWidth={1.5}
+				d="M9.25 5.75V18.25"
+			/>
+		</svg>
+	)
+}
+
 export const Icons = {
 	Search,
 	CircleX,
@@ -348,4 +453,8 @@ export const Icons = {
 	Envelope,
 	Clock,
 	Pin,
+	ChevronLeft,
+	ChevronRight,
+	Eye,
+	Sidebar,
 }
