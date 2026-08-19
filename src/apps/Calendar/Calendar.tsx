@@ -17,6 +17,7 @@ import {
 } from "@radix-ui/colors"
 import { Avatar } from "../../components/Avatar"
 import { Button } from "../../components/Button"
+import { Kbd } from "../../components/Code"
 import { Icons } from "../../components/Icons"
 import { SearchField, TextField } from "../../components/Input"
 import { Select, SelectItem } from "../../components/Select"
@@ -1055,16 +1056,11 @@ function ShortcutRow(props: { action: string; keys: string[] }) {
 			<span>{props.action}</span>
 			<span className={keysClassName}>
 				{props.keys.map((key) => (
-					<Keycap key={key} label={key} />
+					<Kbd key={key}>{key}</Kbd>
 				))}
 			</span>
 		</div>
 	)
-}
-
-function Keycap(props: { label: string }) {
-	const className = useStyles(keycapClass)
-	return <kbd className={className}>{props.label}</kbd>
 }
 
 function useCalendarHotkeys(handlers: {
@@ -1776,11 +1772,3 @@ const shortcutRowClass = style(
 )
 
 const shortcutKeysClass = style(flex({ align: "center", gap: 1 }))
-
-const keycapClass = style(
-	text("2xs", 500, "lowContrast"),
-	radius.xs,
-	background.element,
-	spacing.padding({ x: 2, y: 1 }),
-	monospace,
-)

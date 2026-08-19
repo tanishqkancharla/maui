@@ -24,7 +24,7 @@ import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
 import { BordersTokenPage } from "./BordersTokenPage"
 import { ButtonsPage } from "./ButtonsPage"
 import { CalendarPage } from "./CalendarPage"
-import { CodeBlockPage } from "./CodeBlockPage"
+import { CodePage } from "./CodePage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
 import { EditorPage } from "./EditorPage"
@@ -135,9 +135,9 @@ const navigation: NavGroup[] = [
 			},
 			{ label: "Icons", path: "/components/icons", page: IconsPage },
 			{
-				label: "CodeBlock",
-				path: "/components/code-block",
-				page: CodeBlockPage,
+				label: "Code",
+				path: "/components/code",
+				page: CodePage,
 			},
 		],
 	},
@@ -201,6 +201,9 @@ function MauiContent() {
 
 					<Route path="/patterns/calendar">
 						<Redirect to="/apps/calendar" />
+					</Route>
+					<Route path="/components/code-block">
+						<Redirect to="/components/code" />
 					</Route>
 
 					<Route>
