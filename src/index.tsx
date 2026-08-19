@@ -1,10 +1,18 @@
-import { StrictMode } from "react"
+import { StrictMode, lazy, Suspense } from "react"
 import ReactDOM from "react-dom/client"
 import { style, useStyles } from "purse-styles"
 import { MauiProvider } from "./MauiProvider"
 import { Maui } from "./pages/Maui"
 import { background } from "./tokens/background"
 import { colors } from "./tokens/colors"
+
+const AgentationDev = import.meta.env.DEV
+	? lazy(() =>
+			import("./dev/AgentationDev").then((module) => ({
+				default: module.AgentationDev,
+			})),
+		)
+	: () => null
 
 Object.defineProperty(Array.prototype, "last", {
 	get() {
@@ -42,6 +50,11 @@ function App() {
 	return (
 		<MauiProvider>
 			<AppContent />
+			{import.meta.env.DEV && (
+				<Suspense fallback={null}>
+					<AgentationDev />
+				</Suspense>
+			)}
 		</MauiProvider>
 	)
 }
