@@ -59,7 +59,7 @@ export type CalendarEvent = {
 const HOUR_HEIGHT = 52
 const HOURS = 24
 const GRID_HEIGHT = HOUR_HEIGHT * HOURS
-const TZ_COL_WIDTH = 30
+const TZ_COL_WIDTH = 22
 const GRID_TIME_ZONE = "America/Chicago"
 const DISPLAY_TIME_ZONES = [
 	"America/Chicago",
@@ -1329,23 +1329,25 @@ const eventColorClass = memoize((color: EventColor) =>
 
 const shellClass = style(radius.lg, shadow.subtle, {
 	display: "grid",
+	width: "100%",
+	minWidth: 0,
 	minHeight: "640px",
-	height: "min(780px, calc(100vh - 140px))",
+	height: "min(720px, calc(100vh - 220px))",
 	overflow: "hidden",
 	backgroundColor: backgroundColor.app,
 })
 
 const shellWithSidebarClass = style({
-	gridTemplateColumns: "248px minmax(0, 1fr) 280px",
+	gridTemplateColumns: "196px minmax(0, 1fr) minmax(200px, 220px)",
 })
 
 const shellWithoutSidebarClass = style({
-	gridTemplateColumns: "minmax(0, 1fr) 280px",
+	gridTemplateColumns: "minmax(0, 1fr) minmax(200px, 220px)",
 })
 
 const sidebarClass = style(
-	flex({ direction: "column", gap: 8 }),
-	spacing.padding({ all: 6 }),
+	flex({ direction: "column", gap: 6 }),
+	spacing.padding({ all: 4 }),
 	{
 		minWidth: 0,
 		minHeight: 0,
@@ -1392,8 +1394,8 @@ const miniDayClass = style(
 	focusRing(),
 	motion.standard("background-color", "color"),
 	{
-		width: "28px",
-		height: "28px",
+		width: "24px",
+		height: "24px",
 		marginInline: "auto",
 		border: "none",
 		background: "transparent",
@@ -1470,15 +1472,23 @@ const mainHeaderClass = style(
 	spacing.padding({ x: 8, y: 6 }),
 	{
 		borderBottom: `1px solid ${borderColor.border}`,
+		minWidth: 0,
 	},
 )
 
-const mainHeaderStartClass = style(flex({ align: "center", gap: 3 }))
+const mainHeaderStartClass = style(flex({ align: "center", gap: 3 }), {
+	minWidth: 0,
+})
 
-const mainHeaderEndClass = style(flex({ align: "center", gap: 3 }))
+const mainHeaderEndClass = style(flex({ align: "center", gap: 3 }), {
+	flexShrink: 0,
+})
 
 const monthTitleClass = style(text("xl", 700, "highContrast"), {
 	margin: 0,
+	overflow: "hidden",
+	textOverflow: "ellipsis",
+	whiteSpace: "nowrap",
 })
 
 const viewSelectWrapClass = style({

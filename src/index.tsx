@@ -23,7 +23,7 @@ const appStyles = style(background.app, {
 	height: "100vh",
 	padding: "32px",
 	margin: "0 auto",
-	maxWidth: "1040px",
+	maxWidth: "1280px",
 	color: colors.gray[12],
 	overflow: "hidden",
 })
