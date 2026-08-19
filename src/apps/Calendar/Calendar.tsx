@@ -1290,17 +1290,17 @@ function joinClassNames(...classNames: Array<string | undefined | false>) {
 
 const eventHue = {
 	green: defineVars({
-		4: { default: greenLight.green4, [DARK_THEME]: greenDark.green4 },
+		3: { default: greenLight.green3, [DARK_THEME]: greenDark.green3 },
 		9: { default: greenLight.green9, [DARK_THEME]: greenDark.green9 },
 		11: { default: greenLight.green11, [DARK_THEME]: greenDark.green11 },
 	}),
 	orange: defineVars({
-		4: { default: orangeLight.orange4, [DARK_THEME]: orangeDark.orange4 },
+		3: { default: orangeLight.orange3, [DARK_THEME]: orangeDark.orange3 },
 		9: { default: orangeLight.orange9, [DARK_THEME]: orangeDark.orange9 },
 		11: { default: orangeLight.orange11, [DARK_THEME]: orangeDark.orange11 },
 	}),
 	pink: defineVars({
-		4: { default: pinkLight.pink4, [DARK_THEME]: pinkDark.pink4 },
+		3: { default: pinkLight.pink3, [DARK_THEME]: pinkDark.pink3 },
 		9: { default: pinkLight.pink9, [DARK_THEME]: pinkDark.pink9 },
 		11: { default: pinkLight.pink11, [DARK_THEME]: pinkDark.pink11 },
 	}),
@@ -1315,22 +1315,22 @@ const eventPalette: Record<
 	}
 > = {
 	accent: {
-		background: colors.accent[4],
+		background: colors.accent[3],
 		foreground: colors.accent[11],
 		selectedBackground: colors.accent[9],
 	},
 	green: {
-		background: eventHue.green[4],
+		background: eventHue.green[3],
 		foreground: eventHue.green[11],
 		selectedBackground: eventHue.green[9],
 	},
 	orange: {
-		background: eventHue.orange[4],
+		background: eventHue.orange[3],
 		foreground: eventHue.orange[11],
 		selectedBackground: eventHue.orange[9],
 	},
 	pink: {
-		background: eventHue.pink[4],
+		background: eventHue.pink[3],
 		foreground: eventHue.pink[11],
 		selectedBackground: eventHue.pink[9],
 	},
@@ -1573,6 +1573,7 @@ const allDayRowClass = style({
 	alignItems: "start",
 	position: "relative",
 	zIndex: 2,
+	flexShrink: 0,
 	overflow: "visible",
 	borderBottom: `1px solid ${borderColor.border}`,
 	minHeight: "36px",
@@ -1660,7 +1661,8 @@ const chipClass = style(
 		width: "100%",
 		maxWidth: "100%",
 		overflow: "hidden",
-		overflowWrap: "anywhere",
+		overflowWrap: "break-word",
+		wordBreak: "normal",
 		WebkitBoxOrient: "vertical",
 		WebkitLineClamp: 3,
 		border: "none",
