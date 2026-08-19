@@ -1,7 +1,7 @@
 import { style, useStyles } from "purse-styles"
 import { Prose } from "../components/Prose"
 import { H2, P } from "../components/Typography"
-import { Calendar } from "../patterns/Calendar"
+import { Calendar } from "../apps/Calendar/Calendar"
 import { spacing } from "../tokens/spacing"
 
 export function CalendarPage() {
@@ -13,10 +13,9 @@ export function CalendarPage() {
 			<Prose className={introClassName}>
 				<H2>Calendar</H2>
 				<P>
-					A three-pane schedule pattern: mini month and calendars on the
-					left, a multi-day time grid in the center, and event details on
-					the right. Built from Maui buttons, fields, select, avatar, and
-					color tokens.
+					A sample schedule app with a mini month, multi-day time grid, and
+					event details. Built from Maui buttons, fields, select, avatar,
+					and color tokens.
 				</P>
 			</Prose>
 			<Calendar />

@@ -157,7 +157,6 @@ const navigation: NavGroup[] = [
 				page: AssistantMessagePage,
 			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
-			{ label: "Calendar", path: "/patterns/calendar", page: CalendarPage },
 			{ label: "Tree", path: "/patterns/tree", page: TreePage },
 			{ label: "Loader", path: "/patterns/loader", page: LoaderPage },
 		],
@@ -171,6 +170,11 @@ const navigation: NavGroup[] = [
 				page: EmailClientPage,
 			},
 			{ label: "AI chat", path: "/apps/ai-chat", page: AiChatPage },
+			{
+				label: "Calendar",
+				path: "/apps/calendar",
+				page: CalendarPage,
+			},
 		],
 	},
 ]
@@ -194,6 +198,10 @@ function MauiContent() {
 							</Route>
 						)),
 					)}
+
+					<Route path="/patterns/calendar">
+						<Redirect to="/apps/calendar" />
+					</Route>
 
 					<Route>
 						<Redirect to={defaultPath} />
