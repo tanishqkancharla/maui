@@ -75,7 +75,6 @@ Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them
 | `src/patterns/Editor.tsx` | TipTap markdown composer |
 | `src/patterns/Loader.tsx` | Game-of-life loader |
 | `src/patterns/Sidebar.tsx` | App sidebar chrome |
-| `src/patterns/Tree.tsx` | Nested tree navigation |
 | `src/patterns/Inbox.tsx` | Mail inbox layout |
 | `src/patterns/MessageList.tsx` | Message list rows |
 

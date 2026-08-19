@@ -48,7 +48,6 @@ import { SelectPage } from "./SelectPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
 import { TextTokenPage } from "./TextTokenPage"
 import { TooltipPage } from "./TooltipPage"
-import { TreePage } from "./TreePage"
 
 export function Maui() {
 	return (
@@ -156,7 +155,6 @@ const navigation: NavGroup[] = [
 				page: AssistantMessagePage,
 			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
-			{ label: "Tree", path: "/patterns/tree", page: TreePage },
 			{ label: "Loader", path: "/patterns/loader", page: LoaderPage },
 		],
 	},

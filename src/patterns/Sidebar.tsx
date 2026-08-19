@@ -3,7 +3,7 @@ import { useId } from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { navigationItem } from "../components/navigationItem"
-import { backgroundColor } from "../tokens/background"
+import { background, backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
@@ -101,10 +101,10 @@ const sidebarClass = style(
 	flex({ direction: "column", gap: 8 }),
 	radius.lg,
 	spacing.padding({ all: 6 }),
+	background.element,
 	{
 		width: "240px",
 		minWidth: "240px",
-		backgroundColor: colors.gray[2],
 	},
 	shadow.subtle,
 )
