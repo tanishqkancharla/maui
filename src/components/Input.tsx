@@ -34,6 +34,7 @@ const inputClass = style(
 	{
 		width: "100%",
 		minWidth: 0,
+		height: "28px",
 		color: colors.gray[12],
 		border: "none",
 		background: backgroundColor.element,
@@ -245,6 +246,7 @@ const quietInputClass = style(
 	{
 		width: "100%",
 		minWidth: 0,
+		height: "28px",
 		color: colors.gray[12],
 		background: "transparent",
 		border: "none",

@@ -40,6 +40,7 @@ const triggerClass = style(
 	{
 		display: "flex",
 		alignItems: "center",
+		height: "28px",
 		minWidth: 0,
 		color: colors.gray[12],
 		border: "none",
