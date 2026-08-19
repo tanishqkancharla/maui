@@ -57,14 +57,15 @@ export function CodePage() {
 
 			<H3>Inline code</H3>
 			<P>
-				Import <Code>style</Code> from purse-styles, then compose{" "}
+				<Code>Code</Code> inherits the surrounding font size. Import{" "}
+				<Code>style</Code> from purse-styles, then compose{" "}
 				<Code>text("sm", 400, "highContrast")</Code> with layout tokens.
 			</P>
 			<CodeBlock lang="tsx">{`<Code>background.element</Code>`}</CodeBlock>
 
 			<H3>Keyboard</H3>
 			<P>
-				<Code>Kbd</Code> uses <Code>text("sm", 400, "lowContrast")</Code> and{" "}
+				<Code>Kbd</Code> uses <Code>text("xs", 400, "lowContrast")</Code> and{" "}
 				<Code>3px</Code> inline padding.
 			</P>
 			<Flex row alignItems="center" gap={4}>

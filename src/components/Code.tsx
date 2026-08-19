@@ -8,12 +8,12 @@ import { monospace, text } from "../tokens/text"
 type CodeProps = React.HTMLAttributes<HTMLElement>
 
 const codeClass = style(
-	text("xs", 400, "highContrast"),
 	monospace,
 	radius.sm,
 	spacing.padding({ x: 2, y: 1 }),
 	{
 		backgroundColor: colors.gray[3],
+		color: colors.gray[12],
 		display: "inline",
 		boxDecorationBreak: "clone",
 		whiteSpace: "nowrap",
@@ -21,7 +21,7 @@ const codeClass = style(
 )
 
 const kbdClass = style(
-	text("sm", 400, "lowContrast"),
+	text("xs", 400, "lowContrast"),
 	radius.sm,
 	{
 		backgroundColor: colors.gray[3],
