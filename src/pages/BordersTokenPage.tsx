@@ -122,7 +122,7 @@ export function BordersTokenPage() {
 			</Table>
 
 			<CodeBlock lang="typescript">{`const panel = style(
-	background.subtle,
+	background.element,
 	border([], "outline"),
 	radius.md,
 )

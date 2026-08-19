@@ -1348,11 +1348,11 @@ const shellWithoutSidebarClass = style({
 const sidebarClass = style(
 	flex({ direction: "column", gap: 6 }),
 	spacing.padding({ all: 4 }),
+	background.element,
 	{
 		minWidth: 0,
 		minHeight: 0,
 		overflow: "auto",
-		backgroundColor: colors.gray[2],
 		borderRight: `1px solid ${borderColor.border}`,
 	},
 )
@@ -1673,11 +1673,11 @@ const timedEventTimeClass = style(text("2xs", 400, "lowContrast"))
 const detailsClass = style(
 	flex({ direction: "column", gap: 8 }),
 	spacing.padding({ all: 8 }),
+	background.element,
 	{
 		minWidth: 0,
 		minHeight: 0,
 		overflow: "auto",
-		backgroundColor: colors.gray[2],
 		borderLeft: `1px solid ${borderColor.border}`,
 	},
 )
@@ -1742,7 +1742,7 @@ const shortcutKeysClass = style(flex({ align: "center", gap: 1 }))
 const keycapClass = style(
 	text("2xs", 500, "lowContrast"),
 	radius.xs,
-	background.subtle,
+	background.element,
 	spacing.padding({ x: 2, y: 1 }),
 	monospace,
 )
