@@ -6,11 +6,11 @@ import {
 	type ReactNode,
 	type RefObject,
 } from "react"
-import { style, useStyles } from "purse-styles"
+import { defineVars, style, useStyles } from "purse-styles"
 import { Avatar } from "../../components/Avatar"
 import { Button } from "../../components/Button"
 import { Icons } from "../../components/Icons"
-import { SearchField, TextField } from "../../components/Input"
+import { QuietSearchField, QuietTextField } from "../../components/Input"
 import { Select, SelectItem } from "../../components/Select"
 import { Tooltip } from "../../components/Tooltip"
 import { FuzzyString } from "../../components/FuzzyString"
@@ -23,6 +23,7 @@ import { flex, flexItem } from "../../tokens/layout"
 import { motion } from "../../tokens/motion"
 import { radius } from "../../tokens/radius"
 import { shadow } from "../../tokens/shadow"
+import { DARK_THEME } from "../../theme/dataTheme"
 import { icon } from "../../tokens/sizing"
 import { spacing } from "../../tokens/spacing"
 import { monospace, text } from "../../tokens/text"
@@ -489,7 +490,7 @@ function CalendarSidebar(props: {
 				onSelectDate={props.onSelectDate}
 			/>
 
-			<TextField
+			<QuietTextField
 				aria-label="Meet with"
 				placeholder="Meet with..."
 				value={props.meetWith}
@@ -540,7 +541,6 @@ function MiniCalendar(props: {
 	const iconSmClassName = useStyles(icon("sm"))
 	const calendarClassName = useStyles(miniCalendarClass)
 	const headerClassName = useStyles(miniCalendarHeaderClass)
-	const titleClassName = useStyles(miniCalendarTitleClass)
 	const navClassName = useStyles(miniCalendarNavClass)
 	const weekdayRowClassName = useStyles(miniWeekdayRowClass)
 	const weekdayClassName = useStyles(miniWeekdayClass)
@@ -551,20 +551,19 @@ function MiniCalendar(props: {
 	})
 
 	return (
-		<div className={calendarClassName}>
+		<div className={calendarClassName} aria-label={heading}>
 			<div className={headerClassName}>
-				<div className={titleClassName}>{heading}</div>
 				<div className={navClassName}>
 					<Button
 						variant="quiet"
-						aria-label="Previous month"
+						aria-label={`Previous month, ${heading}`}
 						onClick={() => props.onMonthChange(addMonths(props.month, -1))}
 					>
 						<Icons.ChevronLeft className={iconSmClassName} />
 					</Button>
 					<Button
 						variant="quiet"
-						aria-label="Next month"
+						aria-label={`Next month, ${heading}`}
 						onClick={() => props.onMonthChange(addMonths(props.month, 1))}
 					>
 						<Icons.ChevronRight className={iconSmClassName} />
@@ -973,7 +972,7 @@ function DetailsPanel(props: {
 
 	return (
 		<aside className={detailsClassName} aria-label="Event details">
-			<SearchField
+			<QuietSearchField
 				aria-label="Search events"
 				placeholder="Search events"
 				value={props.searchQuery}
@@ -1345,6 +1344,17 @@ const shellWithoutSidebarClass = style({
 	gridTemplateColumns: "minmax(0, 1fr) minmax(200px, 220px)",
 })
 
+const sidebarEdgeShadow = defineVars({
+	toRight: {
+		default: "8px 0 16px -10px rgba(0, 0, 0, 0.1)",
+		[DARK_THEME]: "8px 0 20px -10px rgba(0, 0, 0, 0.45)",
+	},
+	toLeft: {
+		default: "-8px 0 16px -10px rgba(0, 0, 0, 0.1)",
+		[DARK_THEME]: "-8px 0 20px -10px rgba(0, 0, 0, 0.45)",
+	},
+})
+
 const sidebarClass = style(
 	flex({ direction: "column", gap: 6 }),
 	spacing.padding({ all: 4 }),
@@ -1353,7 +1363,10 @@ const sidebarClass = style(
 		minWidth: 0,
 		minHeight: 0,
 		overflow: "auto",
+		position: "relative",
+		zIndex: 1,
 		borderRight: `1px solid ${borderColor.border}`,
+		boxShadow: sidebarEdgeShadow.toRight,
 	},
 )
 
@@ -1365,9 +1378,7 @@ const sidebarFooterClass = style(flex({ direction: "column", align: "start", gap
 
 const miniCalendarClass = style(flex({ direction: "column", gap: 3 }))
 
-const miniCalendarHeaderClass = style(flex({ align: "center", justify: "between" }))
-
-const miniCalendarTitleClass = style(text("sm", 600, "highContrast"))
+const miniCalendarHeaderClass = style(flex({ align: "center", justify: "end" }))
 
 const miniCalendarNavClass = style(flex({ align: "center" }))
 
@@ -1394,9 +1405,14 @@ const miniDayClass = style(
 	focusRing(),
 	motion.standard("background-color", "color"),
 	{
+		display: "grid",
+		placeItems: "center",
 		width: "24px",
 		height: "24px",
+		padding: 0,
 		marginInline: "auto",
+		lineHeight: 1,
+		textBox: "trim-both cap alphabetic",
 		border: "none",
 		background: "transparent",
 		cursor: "default",
@@ -1678,7 +1694,10 @@ const detailsClass = style(
 		minWidth: 0,
 		minHeight: 0,
 		overflow: "auto",
+		position: "relative",
+		zIndex: 1,
 		borderLeft: `1px solid ${borderColor.border}`,
+		boxShadow: sidebarEdgeShadow.toLeft,
 	},
 )
 
