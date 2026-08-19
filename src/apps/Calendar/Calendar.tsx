@@ -6,7 +6,7 @@ import {
 	type ReactNode,
 	type RefObject,
 } from "react"
-import { defineVars, style, useStyles } from "purse-styles"
+import { style, useStyles } from "purse-styles"
 import { Avatar } from "../../components/Avatar"
 import { Button } from "../../components/Button"
 import { Icons } from "../../components/Icons"
@@ -23,7 +23,6 @@ import { flex, flexItem } from "../../tokens/layout"
 import { motion } from "../../tokens/motion"
 import { radius } from "../../tokens/radius"
 import { shadow } from "../../tokens/shadow"
-import { DARK_THEME } from "../../theme/dataTheme"
 import { icon } from "../../tokens/sizing"
 import { spacing } from "../../tokens/spacing"
 import { monospace, text } from "../../tokens/text"
@@ -1344,29 +1343,17 @@ const shellWithoutSidebarClass = style({
 	gridTemplateColumns: "minmax(0, 1fr) minmax(200px, 220px)",
 })
 
-const sidebarEdgeShadow = defineVars({
-	toRight: {
-		default: "8px 0 16px -10px rgba(0, 0, 0, 0.1)",
-		[DARK_THEME]: "8px 0 20px -10px rgba(0, 0, 0, 0.45)",
-	},
-	toLeft: {
-		default: "-8px 0 16px -10px rgba(0, 0, 0, 0.1)",
-		[DARK_THEME]: "-8px 0 20px -10px rgba(0, 0, 0, 0.45)",
-	},
-})
-
 const sidebarClass = style(
 	flex({ direction: "column", gap: 6 }),
 	spacing.padding({ all: 4 }),
 	background.element,
+	shadow.subtle,
 	{
 		minWidth: 0,
 		minHeight: 0,
 		overflow: "auto",
 		position: "relative",
 		zIndex: 1,
-		borderRight: `1px solid ${borderColor.border}`,
-		boxShadow: sidebarEdgeShadow.toRight,
 	},
 )
 
@@ -1690,14 +1677,13 @@ const detailsClass = style(
 	flex({ direction: "column", gap: 8 }),
 	spacing.padding({ all: 8 }),
 	background.element,
+	shadow.subtle,
 	{
 		minWidth: 0,
 		minHeight: 0,
 		overflow: "auto",
 		position: "relative",
 		zIndex: 1,
-		borderLeft: `1px solid ${borderColor.border}`,
-		boxShadow: sidebarEdgeShadow.toLeft,
 	},
 )
 
