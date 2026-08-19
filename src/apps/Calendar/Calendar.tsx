@@ -6,7 +6,15 @@ import {
 	type ReactNode,
 	type RefObject,
 } from "react"
-import { style, useStyles } from "purse-styles"
+import { style, useStyles, defineVars } from "purse-styles"
+import {
+	green as greenLight,
+	greenDark,
+	orange as orangeLight,
+	orangeDark,
+	pink as pinkLight,
+	pinkDark,
+} from "@radix-ui/colors"
 import { Avatar } from "../../components/Avatar"
 import { Button } from "../../components/Button"
 import { Icons } from "../../components/Icons"
@@ -23,6 +31,7 @@ import { flex, flexItem } from "../../tokens/layout"
 import { motion } from "../../tokens/motion"
 import { radius } from "../../tokens/radius"
 import { shadow } from "../../tokens/shadow"
+import { DARK_THEME } from "../../theme/dataTheme"
 import { icon } from "../../tokens/sizing"
 import { spacing } from "../../tokens/spacing"
 import { monospace, text } from "../../tokens/text"
@@ -869,7 +878,7 @@ function EventChip(props: {
 	const className = useStyles(
 		chipClass,
 		eventColorClass(calendar?.color ?? "accent"),
-		props.selected && eventSelectedClass,
+		props.selected && eventSelectedColorClass(calendar?.color ?? "accent"),
 	)
 
 	return (
@@ -898,7 +907,7 @@ function TimedEventBlock(props: {
 	const className = useStyles(
 		timedEventClass,
 		eventColorClass(calendar?.color ?? "accent"),
-		props.selected && eventSelectedClass,
+		props.selected && eventSelectedColorClass(calendar?.color ?? "accent"),
 	)
 
 	return (
@@ -1287,19 +1296,51 @@ function joinClassNames(...classNames: Array<string | undefined | false>) {
 	return classNames.filter(Boolean).join(" ")
 }
 
-const eventPalette: Record<EventColor, { background: string; foreground: string }> = {
-	accent: { background: colors.accent[4], foreground: colors.accent[11] },
+const eventHue = {
+	green: defineVars({
+		4: { default: greenLight.green4, [DARK_THEME]: greenDark.green4 },
+		9: { default: greenLight.green9, [DARK_THEME]: greenDark.green9 },
+		11: { default: greenLight.green11, [DARK_THEME]: greenDark.green11 },
+	}),
+	orange: defineVars({
+		4: { default: orangeLight.orange4, [DARK_THEME]: orangeDark.orange4 },
+		9: { default: orangeLight.orange9, [DARK_THEME]: orangeDark.orange9 },
+		11: { default: orangeLight.orange11, [DARK_THEME]: orangeDark.orange11 },
+	}),
+	pink: defineVars({
+		4: { default: pinkLight.pink4, [DARK_THEME]: pinkDark.pink4 },
+		9: { default: pinkLight.pink9, [DARK_THEME]: pinkDark.pink9 },
+		11: { default: pinkLight.pink11, [DARK_THEME]: pinkDark.pink11 },
+	}),
+}
+
+const eventPalette: Record<
+	EventColor,
+	{
+		background: string
+		foreground: string
+		selectedBackground: string
+	}
+> = {
+	accent: {
+		background: colors.accent[4],
+		foreground: colors.accent[11],
+		selectedBackground: colors.accent[9],
+	},
 	green: {
-		background: avatar.green.background,
-		foreground: avatar.green.foreground,
+		background: eventHue.green[4],
+		foreground: eventHue.green[11],
+		selectedBackground: eventHue.green[9],
 	},
 	orange: {
-		background: avatar.orange.background,
-		foreground: avatar.orange.foreground,
+		background: eventHue.orange[4],
+		foreground: eventHue.orange[11],
+		selectedBackground: eventHue.orange[9],
 	},
 	pink: {
-		background: avatar.pink.background,
-		foreground: avatar.pink.foreground,
+		background: eventHue.pink[4],
+		foreground: eventHue.pink[11],
+		selectedBackground: eventHue.pink[9],
 	},
 }
 
@@ -1316,6 +1357,15 @@ const eventColorClass = memoize((color: EventColor) =>
 	style({
 		backgroundColor: eventPalette[color].background,
 		color: eventPalette[color].foreground,
+	}),
+)
+
+const eventSelectedColorClass = memoize((color: EventColor) =>
+	style(text("xs", 500, "onAccent"), {
+		backgroundColor: eventPalette[color].selectedBackground,
+		"& span": {
+			color: "inherit",
+		},
 	}),
 )
 
@@ -1516,18 +1566,15 @@ const tzHeaderClass = style(text("2xs", 500, "lowContrast"), {
 const dayHeaderClass = style(
 	flex({ direction: "column", align: "center" }),
 	spacing.padding({ y: 3 }),
-	{
-		borderLeft: `1px solid ${borderColor.border}`,
-	},
 )
 
 const dayHeaderTodayClass = style({
 	color: colors.accent[11],
 })
 
-const dayHeaderLabelClass = style(text("xs", 400, "highContrast"))
+const dayHeaderLabelClass = style(text("2xs", 400, "lowContrast"))
 
-const dayHeaderLabelTodayClass = style(text("xs", 400, "accent"))
+const dayHeaderLabelTodayClass = style(text("2xs", 400, "accent"))
 
 const allDayRowClass = style({
 	display: "grid",
@@ -1616,15 +1663,15 @@ const nowDotClass = style(radius.circle, {
 
 const chipClass = style(
 	text("xs", 500, "highContrast"),
-	radius.pill,
+	radius.sm,
 	spacing.padding({ x: 3, y: 1 }),
 	focusRing(),
 	{
 		display: "block",
 		width: "100%",
 		overflow: "hidden",
-		textOverflow: "ellipsis",
-		whiteSpace: "nowrap",
+		overflowWrap: "anywhere",
+		whiteSpace: "normal",
 		border: "none",
 		textAlign: "left",
 		cursor: "default",
@@ -1633,7 +1680,7 @@ const chipClass = style(
 
 const timedEventClass = style(
 	text("xs", 500, "highContrast"),
-	radius.md,
+	radius.sm,
 	spacing.padding({ x: 3, y: 1 }),
 	focusRing(),
 	{
@@ -1651,14 +1698,9 @@ const timedEventClass = style(
 	},
 )
 
-const eventSelectedClass = style({
-	boxShadow: `inset 0 0 0 1px ${colors.grayAlpha[8]}`,
-})
-
 const timedEventTitleClass = style({
-	overflow: "hidden",
-	textOverflow: "ellipsis",
-	whiteSpace: "nowrap",
+	overflowWrap: "anywhere",
+	whiteSpace: "normal",
 	width: "100%",
 })
 
