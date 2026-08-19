@@ -59,14 +59,9 @@ export type CalendarEvent = {
 const HOUR_HEIGHT = 52
 const HOURS = 24
 const GRID_HEIGHT = HOUR_HEIGHT * HOURS
-const TZ_COL_WIDTH = 22
-const GRID_TIME_ZONE = "America/Chicago"
-const DISPLAY_TIME_ZONES = [
-	"America/Chicago",
-	"America/New_York",
-	"Pacific/Honolulu",
-	"America/Los_Angeles",
-] as const
+const TZ_COL_WIDTH = 36
+const GRID_TIME_ZONE = "America/Los_Angeles"
+const DISPLAY_TIME_ZONES = ["America/Los_Angeles"] as const
 const WEEKDAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"]
 const VIEW_OPTIONS: { id: ViewDays; label: string }[] = [
 	{ id: 1, label: "1 day" },
@@ -765,16 +760,15 @@ function WeekGrid(props: {
 
 function DayHeaderCell(props: { day: Date; isToday: boolean }) {
 	const className = useStyles(dayHeaderClass, props.isToday && dayHeaderTodayClass)
-	const weekdayClassName = useStyles(dayHeaderWeekdayClass)
-	const dateClassName = useStyles(
-		dayHeaderDateClass,
-		props.isToday && dayHeaderDateTodayClass,
+	const labelClassName = useStyles(
+		dayHeaderLabelClass,
+		props.isToday && dayHeaderLabelTodayClass,
 	)
 
 	return (
 		<div className={className}>
-			<span className={weekdayClassName}>{weekdayShort(props.day)}</span>
-			<span className={dateClassName}>{props.day.getDate()}</span>
+			<span className={labelClassName}>{weekdayShort(props.day)}</span>
+			<span className={labelClassName}>{props.day.getDate()}</span>
 		</div>
 	)
 }
@@ -1474,7 +1468,6 @@ const mainHeaderClass = style(
 	flex({ align: "center", justify: "between", gap: 6 }),
 	spacing.padding({ x: 8, y: 6 }),
 	{
-		borderBottom: `1px solid ${borderColor.border}`,
 		minWidth: 0,
 	},
 )
@@ -1532,11 +1525,9 @@ const dayHeaderTodayClass = style({
 	color: colors.accent[11],
 })
 
-const dayHeaderWeekdayClass = style(text("xs", 500, "lowContrast"))
+const dayHeaderLabelClass = style(text("xs", 400, "highContrast"))
 
-const dayHeaderDateClass = style(text("md", 600, "highContrast"))
-
-const dayHeaderDateTodayClass = style(text("md", 600, "accent"))
+const dayHeaderLabelTodayClass = style(text("xs", 400, "accent"))
 
 const allDayRowClass = style({
 	display: "grid",
