@@ -5,7 +5,7 @@ description: Conventions for consuming the Maui design system. Use when building
 
 # Maui
 
-TypeScript-first design system styled with `purse-styles`. Wrap the app in `MauiProvider`, then import tokens and components from `"maui"`.
+TypeScript-first design system styled with `purse-styles`. Wrap the app in `MauiProvider`, then import tokens and components from `"@tanishqkancharla/maui"`.
 
 ```ts
 import { style } from "purse-styles"
@@ -16,7 +16,7 @@ import {
 	colors,
 	radius,
 	shadow,
-} from "maui"
+} from "@tanishqkancharla/maui"
 
 function App() {
 	return (
@@ -29,9 +29,9 @@ function App() {
 
 The published package exposes:
 
-- `"maui"` — built barrel (`dist/`) of provider, theme, tokens, and components
-- `"maui/src/*"` — TypeScript source for deep imports
-- `"maui/skills/maui"` — this skill file
+- `"@tanishqkancharla/maui"` — built barrel (`dist/`) of provider, theme, tokens, and components
+- `"@tanishqkancharla/maui/src/*"` — TypeScript source for deep imports
+- `"@tanishqkancharla/maui/skills/maui"` — this skill file
 
 `MauiProvider` sets up theme (`data-theme` / `color-scheme`), `PurseProvider`, design-system globals, and the focus UI database used by Button/Dialog.
 
@@ -57,7 +57,7 @@ internal button or segment.
 
 ## Focus
 
-`focusRing()` applies a theme-aware Radix blue shadow (`blueAlpha[8]` hard edge + `blueAlpha[5]` glow). Do not hand-roll a competing outline or box-shadow for keyboard focus.
+`focusRing()` applies a theme-aware Radix blue shadow (`blueA8` hard edge + `blueA5` glow). Do not hand-roll a competing outline or box-shadow for keyboard focus.
 
 ## Layout utilities
 
@@ -65,23 +65,19 @@ internal button or segment.
 
 ## Reference: patterns and apps
 
-Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them as in-repo reference implementations (also available via `"maui/src/..."` when the package ships source):
+Patterns and demo apps are **not** part of the `"@tanishqkancharla/maui"` package barrel. Use them as in-repo reference implementations (also available via `"@tanishqkancharla/maui/src/..."` when the package ships source):
 
 ### Patterns — `src/patterns/`
 
-| Path | Role |
-| --- | --- |
-| `src/patterns/AssistantMessage.tsx` | Streaming markdown reply (Streamdown + Maui prose) |
-| `src/patterns/Editor.tsx` | TipTap markdown composer |
-| `src/patterns/Loader.tsx` | Game-of-life loader |
-| `src/patterns/Sidebar.tsx` | App sidebar chrome |
-| `src/patterns/Inbox.tsx` | Mail inbox layout |
-| `src/patterns/MessageList.tsx` | Message list rows |
+- `src/patterns/AssistantMessage.tsx` — Streaming markdown reply (Streamdown + Maui prose)
+- `src/patterns/Editor.tsx` — TipTap markdown composer
+- `src/patterns/Loader.tsx` — Game-of-life loader
+- `src/patterns/Sidebar.tsx` — App sidebar chrome
+- `src/patterns/Inbox.tsx` — Mail inbox layout
+- `src/patterns/MessageList.tsx` — Message list rows
 
 ### Apps — `src/apps/`
 
-| Path | Role |
-| --- | --- |
-| `src/apps/AiChat/` | Mock streaming AI chat (Editor + AssistantMessage) |
-| `src/apps/EmailClient/` | Email client demo composing inbox patterns |
-| `src/apps/Calendar/` | Three-pane schedule (mini month, week grid, event details) |
+- `src/apps/AiChat/` — Mock streaming AI chat (Editor + AssistantMessage)
+- `src/apps/EmailClient/` — Email client demo composing inbox patterns
+- `src/apps/Calendar/` — Three-pane schedule (mini month, week grid, event details)
