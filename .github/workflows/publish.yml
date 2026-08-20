@@ -22,7 +22,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          # Node 24 ships npm 11, whose `npm ci` requires every optional
+          # platform binary in the lockfile. Node 22 / npm 10 matches local
+          # installs and the existing package-lock.json.
+          node-version: 22
           registry-url: https://registry.npmjs.org
           cache: npm
 
@@ -39,5 +42,6 @@ jobs:
         # Uses npm Trusted Publishing (OIDC). Configure the trusted publisher on
         # https://www.npmjs.com/package/@tanishqkancharla/maui → Settings →
         # Trusted Publisher: GitHub, tanishqkancharla/maui, publish.yml
-        # Do not set NODE_AUTH_TOKEN — that forces the legacy token path.
-        run: npm publish
+        # setup-node sets NODE_AUTH_TOKEN when registry-url is set; an empty
+        # token forces the legacy auth path and blocks OIDC. Unset it.
+        run: unset NODE_AUTH_TOKEN && npm publish
