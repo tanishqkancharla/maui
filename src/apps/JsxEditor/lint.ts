@@ -1,5 +1,7 @@
+import { javascript } from "@codemirror/lang-javascript"
 import { syntaxTree } from "@codemirror/language"
 import { linter, type Diagnostic } from "@codemirror/lint"
+import { EditorState } from "@codemirror/state"
 import type { EditorView } from "@codemirror/view"
 import { catalog, type CatalogComponent } from "./catalog"
 
@@ -20,31 +22,27 @@ const htmlAttrs = new Set([
 	"contentEditable",
 	"spellCheck",
 	"translate",
-	"about",
-	"accessKey",
-	"autoCapitalize",
 	"autoFocus",
-	"color",
-	"itemID",
-	"itemProp",
-	"itemRef",
-	"itemScope",
-	"itemType",
-	"nonce",
-	"part",
-	"popover",
-	"slot",
-	"spellCheck",
-	"inputMode",
-	"is",
-	"radioGroup",
-	"resource",
-	"results",
-	"security",
-	"unselectable",
 	"dangerouslySetInnerHTML",
-	"suppressHydrationWarning",
-	"suppressContentEditableWarning",
+])
+
+const svgAttrs = new Set([
+	"className",
+	"style",
+	"width",
+	"height",
+	"fill",
+	"stroke",
+	"strokeWidth",
+	"strokeLinecap",
+	"strokeLinejoin",
+	"opacity",
+	"role",
+	"color",
+	"viewBox",
+	"focusable",
+	"aria-hidden",
+	"aria-label",
 ])
 
 function catalogItem(tagName: string): CatalogComponent | undefined {
@@ -52,24 +50,23 @@ function catalogItem(tagName: string): CatalogComponent | undefined {
 	return catalog.find((entry) => entry.name === name)
 }
 
-function isPassthroughName(name: string): boolean {
-	return (
-		reactAttrs.has(name) ||
-		htmlAttrs.has(name) ||
-		/^(aria-|data-|on)[A-Za-z]/.test(name)
-	)
+function isPassthroughName(
+	item: CatalogComponent,
+	name: string,
+): boolean {
+	if (reactAttrs.has(name)) return true
+	if (/^(aria-|data-|on)[A-Za-z]/.test(name)) return true
+	if (item.html && htmlAttrs.has(name)) return true
+	if (item.svg && svgAttrs.has(name)) return true
+	return false
 }
 
 function quoteUnion(values: string[]): string {
 	return values.map((value) => (/^-?\d+$/.test(value) ? value : `"${value}"`)).join(" | ")
 }
 
-function tagNameFromOpen(
-	view: EditorView,
-	from: number,
-	to: number,
-): string | null {
-	const text = view.state.sliceDoc(from, to)
+function tagNameFromOpen(state: EditorState, from: number, to: number): string | null {
+	const text = state.sliceDoc(from, to)
 	const match = /^<\/?([A-Za-z][\w.]*)/.exec(text)
 	return match?.[1] ?? null
 }
@@ -88,10 +85,10 @@ function unwrapValue(raw: string): string {
 	return trimmed
 }
 
-export function lintJsx(view: EditorView): Diagnostic[] {
+export function collectJsxDiagnostics(state: EditorState): Diagnostic[] {
 	const diagnostics: Diagnostic[] = []
 
-	syntaxTree(view.state)
+	syntaxTree(state)
 		.cursor()
 		.iterate((node) => {
 			if (node.name !== "JSXAttribute") return
@@ -105,7 +102,7 @@ export function lintJsx(view: EditorView): Diagnostic[] {
 				return
 			}
 
-			const tagName = tagNameFromOpen(view, tag.from, tag.to)
+			const tagName = tagNameFromOpen(state, tag.from, tag.to)
 			if (!tagName || tagName === tagName.toLowerCase()) return
 
 			const item = catalogItem(tagName)
@@ -116,18 +113,16 @@ export function lintJsx(view: EditorView): Diagnostic[] {
 				node.node.getChild("JSXNameSpacedName")
 			if (!nameNode) return
 
-			const attrName = view.state.sliceDoc(nameNode.from, nameNode.to)
+			const attrName = state.sliceDoc(nameNode.from, nameNode.to)
 			const known = item.attributes.find((entry) => entry.name === attrName)
-			const allowedPassthrough =
-				isPassthroughName(attrName) && (item.html || reactAttrs.has(attrName))
 
-			if (!known && !allowedPassthrough) {
+			if (!known && !isPassthroughName(item, attrName)) {
 				diagnostics.push({
 					from: nameNode.from,
 					to: nameNode.to,
 					severity: "error",
 					source: "maui",
-					message: `Property '${attrName}' does not exist on ${item.name}.`,
+					message: `Property '${attrName}' does not exist on ${tagName}.`,
 				})
 				return
 			}
@@ -138,7 +133,7 @@ export function lintJsx(view: EditorView): Diagnostic[] {
 				node.node.getChild("JSXAttributeValue") ?? node.node.getChild("JSXEscape")
 			if (!valueNode) return
 
-			const raw = view.state.sliceDoc(valueNode.from, valueNode.to)
+			const raw = state.sliceDoc(valueNode.from, valueNode.to)
 			const value = unwrapValue(raw)
 			if (value.length === 0) return
 			if (known.values.includes(value)) return
@@ -155,4 +150,16 @@ export function lintJsx(view: EditorView): Diagnostic[] {
 	return diagnostics
 }
 
-export const mauiJsxLinter = linter(lintJsx, { delay: 250 })
+export function collectJsxDiagnosticsFromSource(source: string): Diagnostic[] {
+	const state = EditorState.create({
+		doc: source,
+		extensions: [javascript({ jsx: true, typescript: true })],
+	})
+	return collectJsxDiagnostics(state)
+}
+
+export function lintJsx(view: EditorView): Diagnostic[] {
+	return collectJsxDiagnostics(view.state)
+}
+
+export const mauiJsxLinter = linter(lintJsx, { delay: 150 })

@@ -16,7 +16,7 @@ import { defaultJsx } from "./catalog"
 import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
 import { evaluateJsx } from "./evaluate"
-import { mauiJsxLinter } from "./lint"
+import { collectJsxDiagnosticsFromSource, mauiJsxLinter } from "./lint"
 import { prettifyJsx, printWidthFromEditor } from "./prettify"
 
 const STORAGE_KEY = "maui-jsx-editor"
@@ -124,8 +124,15 @@ export function JsxEditor() {
 		setRuntimeError((current) => (current === null ? current : null))
 	}, [compiled, source])
 
+	const typeErrors = useMemo(
+		() => collectJsxDiagnosticsFromSource(source),
+		[source],
+	)
 	const previewError = compiled.ok ? runtimeError?.message : compiled.error
-	const outdated = Boolean(previewError) || liveSource !== source
+	const outdated =
+		Boolean(previewError) ||
+		typeErrors.length > 0 ||
+		liveSource !== source
 
 	const formatSource = useCallback(async () => {
 		const view = editorViewRef.current
@@ -178,6 +185,13 @@ export function JsxEditor() {
 							Format · ⌘S
 						</Text>
 					</div>
+					{typeErrors[0] && (
+						<div className={errorClassName} role="status">
+							<Text size="xs" color="accent">
+								{typeErrors[0].message}
+							</Text>
+						</div>
+					)}
 					<div className={editorBodyClassName}>
 						<CodeMirror
 							value={source}

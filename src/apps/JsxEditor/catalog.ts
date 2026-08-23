@@ -64,6 +64,7 @@ export type CatalogComponent = {
 	info: string
 	attributes: AttributeCompletion[]
 	html?: boolean
+	svg?: boolean
 }
 
 const spaceValues = ["1", "2", "3", "4", "6", "8", "12", "16"]
@@ -240,7 +241,12 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "Icons",
 		info: "Icon set. Use as <Icons.Plus />.",
-		attributes: [],
+		svg: true,
+		attributes: [
+			{ name: "width" },
+			{ name: "height" },
+			{ name: "className" },
+		],
 	},
 	{
 		name: "TextField",

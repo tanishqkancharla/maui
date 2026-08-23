@@ -81,10 +81,14 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				},
 				".cm-lintRange-error": {
 					backgroundImage: "none",
-					borderBottom: `1.5px wavy ${colors.accent[8]}`,
+					textDecorationLine: "underline",
+					textDecorationStyle: "wavy",
+					textDecorationColor: colors.accent[9],
+					textDecorationThickness: "2px",
+					textUnderlineOffset: "3px",
 				},
 				".cm-lintPoint-error": {
-					borderBottomColor: colors.accent[8],
+					borderBottomColor: colors.accent[9],
 				},
 				".cm-tooltip.cm-tooltip-lint": {
 					backgroundColor: backgroundColor.element,
