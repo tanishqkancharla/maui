@@ -144,10 +144,10 @@ export function JsxEditor() {
 			<div className={rootClassName}>
 				<section className={paneClassName} aria-label="JSX editor">
 					<div className={paneHeaderClassName}>
-						<Text size="xs" color="lowContrast">
+						<Text size="xs" color="highContrast">
 							JSX
 						</Text>
-						<Text size="xs" color="lowContrast">
+						<Text size="xs" color="highContrast">
 							Format · ⌘S
 						</Text>
 					</div>
@@ -171,7 +171,7 @@ export function JsxEditor() {
 
 				<section className={paneClassName} aria-label="Design preview">
 					<div className={paneHeaderClassName}>
-						<Text size="xs" color="lowContrast">
+						<Text size="xs" color="highContrast">
 							Preview
 						</Text>
 					</div>
