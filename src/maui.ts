@@ -35,7 +35,6 @@ export {
 	motionStreamDurationMs,
 } from "./tokens/motion"
 export {
-	icon,
 	iconSizeValues,
 	sizingTokens as sizing,
 	type IconSize,
@@ -82,7 +81,7 @@ export {
 	TableCell,
 } from "./components/Table"
 export { Prose, useProseSize, proseMaxWidth } from "./components/Prose"
-export { Icons } from "./components/Icons"
+export { Icons, type IconProps } from "./components/Icons"
 export {
 	ListBox,
 	ListBoxItem,

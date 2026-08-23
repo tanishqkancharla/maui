@@ -240,9 +240,10 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Icons",
-		info: "Icon set. Use as <Icons.Plus />.",
+		info: "Icon set. Use as <Icons.Plus size=\"sm\" />.",
 		svg: true,
 		attributes: [
+			{ name: "size", values: textSizes },
 			{ name: "width" },
 			{ name: "height" },
 			{ name: "className" },
@@ -401,7 +402,7 @@ export const defaultJsx = `<Flex column gap={6}>
   </Text>
   <Flex row gap={3} alignItems="center">
     <Button>
-      <Icons.Plus />
+      <Icons.Plus size="sm" />
       Create
     </Button>
     <Button variant="quiet">Cancel</Button>

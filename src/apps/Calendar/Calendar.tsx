@@ -32,7 +32,6 @@ import { motion } from "../../tokens/motion"
 import { radius } from "../../tokens/radius"
 import { shadow } from "../../tokens/shadow"
 import { DARK_THEME } from "../../theme/dataTheme"
-import { icon } from "../../tokens/sizing"
 import { spacing } from "../../tokens/spacing"
 import { monospace, text } from "../../tokens/text"
 import { memoize } from "../../utils/memoize"
@@ -334,7 +333,6 @@ export function Calendar({ className }: CalendarProps = {}) {
 		shellClass,
 		sidebarOpen ? shellWithSidebarClass : shellWithoutSidebarClass,
 	)
-	const iconSmClassName = useStyles(icon("sm"))
 
 	return (
 		<div
@@ -348,7 +346,6 @@ export function Calendar({ className }: CalendarProps = {}) {
 					todayKey={todayKey}
 					meetWith={meetWith}
 					hiddenCalendarIds={hiddenSet}
-					iconClassName={iconSmClassName}
 					onMeetWithChange={setMeetWith}
 					onToggleSidebar={() => setSidebarOpen(false)}
 					onCreateEvent={() => createEvent(selectedDate, 9 * 60)}
@@ -368,7 +365,7 @@ export function Calendar({ className }: CalendarProps = {}) {
 									aria-label="Show sidebar"
 									onClick={() => setSidebarOpen(true)}
 								>
-									<Icons.Sidebar className={iconSmClassName} />
+									<Icons.Sidebar size="sm" />
 								</Button>
 							</Tooltip>
 						)}
@@ -400,7 +397,7 @@ export function Calendar({ className }: CalendarProps = {}) {
 								aria-label="Previous range"
 								onClick={() => shiftRange(-1)}
 							>
-								<Icons.ChevronLeft className={iconSmClassName} />
+								<Icons.ChevronLeft size="sm" />
 							</Button>
 						</Tooltip>
 						<Tooltip content="Next">
@@ -409,7 +406,7 @@ export function Calendar({ className }: CalendarProps = {}) {
 								aria-label="Next range"
 								onClick={() => shiftRange(1)}
 							>
-								<Icons.ChevronRight className={iconSmClassName} />
+								<Icons.ChevronRight size="sm" />
 							</Button>
 						</Tooltip>
 					</div>
@@ -446,7 +443,6 @@ function CalendarSidebar(props: {
 	todayKey: string
 	meetWith: string
 	hiddenCalendarIds: Set<string>
-	iconClassName: string
 	onMeetWithChange: (value: string) => void
 	onToggleSidebar: () => void
 	onCreateEvent: () => void
@@ -471,7 +467,7 @@ function CalendarSidebar(props: {
 						aria-label="Hide sidebar"
 						onClick={props.onToggleSidebar}
 					>
-						<Icons.Sidebar className={props.iconClassName} />
+						<Icons.Sidebar size="sm" />
 					</Button>
 				</Tooltip>
 				<Tooltip content="New event">
@@ -480,7 +476,7 @@ function CalendarSidebar(props: {
 						aria-label="New event"
 						onClick={props.onCreateEvent}
 					>
-						<Icons.Plus className={props.iconClassName} />
+						<Icons.Plus size="sm" />
 					</Button>
 				</Tooltip>
 			</div>
@@ -520,11 +516,11 @@ function CalendarSidebar(props: {
 
 			<div className={footerClassName}>
 				<Button variant="quiet">
-					<Icons.Plus className={props.iconClassName} />
+					<Icons.Plus size="sm" />
 					Add calendar account
 				</Button>
 				<Button variant="quiet">
-					<Icons.Plus className={props.iconClassName} />
+					<Icons.Plus size="sm" />
 					Add Notion database
 				</Button>
 			</div>
@@ -541,7 +537,6 @@ function MiniCalendar(props: {
 }) {
 	const cells = useMemo(() => monthCells(props.month), [props.month])
 	const selectedKey = dateKey(props.selectedDate)
-	const iconSmClassName = useStyles(icon("sm"))
 	const calendarClassName = useStyles(miniCalendarClass)
 	const headerClassName = useStyles(miniCalendarHeaderClass)
 	const navClassName = useStyles(miniCalendarNavClass)
@@ -562,14 +557,14 @@ function MiniCalendar(props: {
 						aria-label={`Previous month, ${heading}`}
 						onClick={() => props.onMonthChange(addMonths(props.month, -1))}
 					>
-						<Icons.ChevronLeft className={iconSmClassName} />
+						<Icons.ChevronLeft size="sm" />
 					</Button>
 					<Button
 						variant="quiet"
 						aria-label={`Next month, ${heading}`}
 						onClick={() => props.onMonthChange(addMonths(props.month, 1))}
 					>
-						<Icons.ChevronRight className={iconSmClassName} />
+						<Icons.ChevronRight size="sm" />
 					</Button>
 				</div>
 			</div>
@@ -638,7 +633,6 @@ function CalendarSourceRow(props: {
 		!props.visible && sourceRowHiddenClass,
 	)
 	const swatchClassName = useStyles(swatchClass(props.calendar.color))
-	const iconSmClassName = useStyles(icon("sm"))
 
 	return (
 		<li>
@@ -655,7 +649,7 @@ function CalendarSourceRow(props: {
 					aria-pressed={props.visible}
 					onClick={props.onToggle}
 				>
-					<Icons.Eye className={iconSmClassName} />
+					<Icons.Eye size="sm" />
 				</Button>
 			</div>
 		</li>
@@ -960,7 +954,6 @@ function DetailsPanel(props: {
 	const emptyDetailsClassName = useStyles(emptyDetailsClass)
 	const shortcutsClassName = useStyles(shortcutsClass)
 	const shortcutsTitleClassName = useStyles(shortcutsTitleClass)
-	const iconSmClassName = useStyles(icon("sm"))
 	const calendarSwatchClassName = useStyles(
 		swatchClass(calendar?.color ?? "accent"),
 	)
@@ -1008,7 +1001,7 @@ function DetailsPanel(props: {
 					) : null}
 					<Button>
 						Add meeting note
-						<Icons.ArrowDown className={iconSmClassName} />
+						<Icons.ArrowDown size="sm" />
 					</Button>
 				</div>
 			) : (

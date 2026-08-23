@@ -2,6 +2,7 @@ import type React from "react"
 import { useId } from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
+import type { IconProps } from "../components/Icons"
 import { navigationItem } from "../components/navigationItem"
 import { background, backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
@@ -11,7 +12,7 @@ import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
-type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>
+type IconComponent = React.ComponentType<IconProps>
 
 type SidebarProps = React.ComponentPropsWithoutRef<"nav">
 
@@ -72,7 +73,6 @@ export function SidebarItem({
 		iconWrapClass,
 		...(active ? [iconWrapActiveClass] : []),
 	)
-	const iconClassName = useStyles(iconClass)
 	const labelClassName = useStyles(itemLabelClass)
 	const trailingClassName = useStyles(trailingClass)
 
@@ -86,7 +86,7 @@ export function SidebarItem({
 				className={joinClassNames(itemClassName, className)}
 			>
 				<span className={iconWrapClassName}>
-					{Icon ? <Icon className={iconClassName} /> : null}
+					{Icon ? <Icon size="sm" /> : null}
 				</span>
 				<span className={labelClassName}>{children}</span>
 				{trailing ? (
@@ -160,11 +160,6 @@ const iconWrapClass = style(radius.sm, {
 
 const iconWrapActiveClass = style({
 	color: colors.accent[11],
-})
-
-const iconClass = style({
-	width: "16px",
-	height: "16px",
 })
 
 const itemLabelClass = style({

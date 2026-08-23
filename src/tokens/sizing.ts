@@ -1,14 +1,13 @@
 import { style } from "purse-styles"
-import { memoize } from "../utils/memoize"
 import type { TextSize } from "./text"
 
-/** Same t-shirt scale as `text(...)`. */
+/** Same t-shirt scale as `text(...)` and `Icons.* size`. */
 export type IconSize = TextSize
 
 /**
  * Icon box sizes paired with text sizes. Values sit slightly above the
  * matching font-size so stroke icons balance optically next to type.
- * Intrinsic SVG artwork is 24×24 (`xl`).
+ * Intrinsic SVG artwork is 24×24 (`xl`). Applied by `Icons.*` via `size`.
  */
 export const iconSizeValues: Record<IconSize, string> = {
 	"2xs": "12px",
@@ -19,17 +18,7 @@ export const iconSizeValues: Record<IconSize, string> = {
 	xl: "24px",
 }
 
-export const icon = memoize((size: IconSize) =>
-	style({
-		width: iconSizeValues[size],
-		height: iconSizeValues[size],
-		flexShrink: 0,
-	}),
-)
-
 export const sizingTokens = {
-	/** @deprecated Prefer `icon("sm")` — kept as the default inline icon size. */
-	icon: icon("sm"),
 	fullWidth: style({ width: "100%" }),
 	contentWidth: style({ maxWidth: "72ch" }),
 } as const

@@ -161,7 +161,17 @@ export function collectJsxDiagnostics(state: EditorState): JsxDiagnostic[] {
 
 			const valueNode =
 				node.node.getChild("JSXAttributeValue") ?? node.node.getChild("JSXEscape")
-			if (!valueNode) return
+			if (!valueNode) {
+				diagnostics.push(
+					diagnostic(
+						state,
+						nameNode.from,
+						nameNode.to,
+						`Type 'true' is not assignable to type '${quoteUnion(known.values)}'.`,
+					),
+				)
+				return
+			}
 
 			const raw = state.sliceDoc(valueNode.from, valueNode.to)
 			const value = unwrapValue(raw)

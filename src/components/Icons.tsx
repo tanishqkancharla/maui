@@ -1,5 +1,36 @@
 import React from "react"
 import { colors } from "../tokens/colors"
+import { iconSizeValues, type IconSize } from "../tokens/sizing"
+
+export type { IconSize }
+
+export type IconProps = React.SVGProps<SVGSVGElement> & {
+	size?: IconSize
+}
+
+function withIconSize(
+	Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>,
+) {
+	function SizedIcon({
+		size = "sm",
+		width,
+		height,
+		style,
+		...props
+	}: IconProps) {
+		const box = iconSizeValues[size]
+		return (
+			<Icon
+				{...props}
+				width={width ?? box}
+				height={height ?? box}
+				style={{ flexShrink: 0, ...style }}
+			/>
+		)
+	}
+	SizedIcon.displayName = Icon.displayName ?? Icon.name
+	return SizedIcon
+}
 
 function Search(props: React.SVGProps<SVGSVGElement>) {
 	return (
@@ -440,21 +471,21 @@ function Sidebar(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export const Icons = {
-	Search,
-	CircleX,
-	Plus,
-	Minus,
-	DotsHorizontal,
-	ArrowDown,
-	ArrowUp,
-	Star,
-	Archive,
-	Trash,
-	Envelope,
-	Clock,
-	Pin,
-	ChevronLeft,
-	ChevronRight,
-	Eye,
-	Sidebar,
+	Search: withIconSize(Search),
+	CircleX: withIconSize(CircleX),
+	Plus: withIconSize(Plus),
+	Minus: withIconSize(Minus),
+	DotsHorizontal: withIconSize(DotsHorizontal),
+	ArrowDown: withIconSize(ArrowDown),
+	ArrowUp: withIconSize(ArrowUp),
+	Star: withIconSize(Star),
+	Archive: withIconSize(Archive),
+	Trash: withIconSize(Trash),
+	Envelope: withIconSize(Envelope),
+	Clock: withIconSize(Clock),
+	Pin: withIconSize(Pin),
+	ChevronLeft: withIconSize(ChevronLeft),
+	ChevronRight: withIconSize(ChevronRight),
+	Eye: withIconSize(Eye),
+	Sidebar: withIconSize(Sidebar),
 }
