@@ -4,6 +4,7 @@ import { tags as t } from "@lezer/highlight"
 import { backgroundColor } from "../../tokens/background"
 import { colors } from "../../tokens/colors"
 import { shadowVars } from "../../tokens/shadow"
+import { errorColors } from "./errorColors"
 
 const monoFontFamily =
 	'ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace'
@@ -83,12 +84,12 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					backgroundImage: "none",
 					textDecorationLine: "underline",
 					textDecorationStyle: "wavy",
-					textDecorationColor: colors.accent[9],
+					textDecorationColor: errorColors[9],
 					textDecorationThickness: "2px",
 					textUnderlineOffset: "3px",
 				},
 				".cm-lintPoint-error": {
-					borderBottomColor: colors.accent[9],
+					borderBottomColor: errorColors[9],
 				},
 				".cm-tooltip.cm-tooltip-lint": {
 					backgroundColor: backgroundColor.element,
@@ -99,7 +100,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					fontSize: "12px",
 				},
 				".cm-diagnostic-error": {
-					borderLeftColor: colors.accent[9],
+					borderLeftColor: errorColors[9],
 				},
 			},
 			{ dark },

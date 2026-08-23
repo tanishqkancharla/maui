@@ -11,12 +11,19 @@ import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
 import { spacing } from "../../tokens/spacing"
 import { Text } from "../../components/Text"
+import { text } from "../../tokens/text"
 import { cls } from "../../utils/cls"
 import { defaultJsx } from "./catalog"
 import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
+import { errorColors } from "./errorColors"
 import { evaluateJsx } from "./evaluate"
-import { collectJsxDiagnosticsFromSource, mauiJsxLinter } from "./lint"
+import {
+	collectJsxDiagnosticsFromSource,
+	formatErrorBanner,
+	lineFromCompileError,
+	mauiJsxLinter,
+} from "./lint"
 import { prettifyJsx, printWidthFromEditor } from "./prettify"
 
 const STORAGE_KEY = "maui-jsx-editor"
@@ -98,6 +105,7 @@ export function JsxEditor() {
 	const previewBodyClassName = useStyles(previewBodyClass)
 	const previewOutdatedClassName = useStyles(previewOutdatedClass)
 	const errorClassName = useStyles(errorClass)
+	const errorTextClassName = useStyles(errorTextClass)
 	const [runtimeError, setRuntimeError] = useState<Error | null>(null)
 	const [liveSource, setLiveSource] = useState(source)
 
@@ -128,11 +136,22 @@ export function JsxEditor() {
 		() => collectJsxDiagnosticsFromSource(source),
 		[source],
 	)
-	const previewError = compiled.ok ? runtimeError?.message : compiled.error
-	const outdated =
-		Boolean(previewError) ||
-		typeErrors.length > 0 ||
-		liveSource !== source
+	const bannerError = useMemo(() => {
+		if (!compiled.ok) {
+			return formatErrorBanner(
+				compiled.error,
+				lineFromCompileError(compiled.error),
+			)
+		}
+		if (runtimeError) {
+			return formatErrorBanner(runtimeError.message)
+		}
+		if (typeErrors[0]) {
+			return formatErrorBanner(typeErrors[0].message, typeErrors[0].line)
+		}
+		return null
+	}, [compiled, runtimeError, typeErrors])
+	const outdated = Boolean(bannerError) || liveSource !== source
 
 	const formatSource = useCallback(async () => {
 		const view = editorViewRef.current
@@ -185,11 +204,9 @@ export function JsxEditor() {
 							Format · ⌘S
 						</Text>
 					</div>
-					{typeErrors[0] && (
+					{bannerError && (
 						<div className={errorClassName} role="status">
-							<Text size="xs" color="accent">
-								{typeErrors[0].message}
-							</Text>
+							<span className={errorTextClassName}>{bannerError}</span>
 						</div>
 					)}
 					<div className={editorBodyClassName}>
@@ -217,11 +234,9 @@ export function JsxEditor() {
 							Preview
 						</Text>
 					</div>
-					{previewError && (
+					{bannerError && (
 						<div className={errorClassName} role="status">
-							<Text size="xs" color="accent">
-								{previewError}
-							</Text>
+							<span className={errorTextClassName}>{bannerError}</span>
 						</div>
 					)}
 					<div
@@ -317,6 +332,10 @@ const previewOutdatedClass = style({
 
 const errorClass = style(spacing.padding({ x: 4, y: 3 }), {
 	flexShrink: 0,
-	borderBottom: `1px solid ${colors.gray[4]}`,
-	backgroundColor: colors.accent[3],
+	borderBottom: `1px solid ${errorColors[6]}`,
+	backgroundColor: errorColors[3],
+})
+
+const errorTextClass = style(text("xs", 400, "highContrast"), {
+	color: errorColors[11],
 })

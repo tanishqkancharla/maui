@@ -85,8 +85,37 @@ function unwrapValue(raw: string): string {
 	return trimmed
 }
 
-export function collectJsxDiagnostics(state: EditorState): Diagnostic[] {
-	const diagnostics: Diagnostic[] = []
+export type JsxDiagnostic = Diagnostic & { line: number }
+
+function diagnostic(
+	state: EditorState,
+	from: number,
+	to: number,
+	message: string,
+): JsxDiagnostic {
+	return {
+		from,
+		to,
+		severity: "error",
+		source: "maui",
+		message,
+		line: state.doc.lineAt(from).number,
+	}
+}
+
+export function formatErrorBanner(message: string, line?: number): string {
+	const cleaned = message.replace(/\s*\(\d+:\d+\)\s*$/, "").trim()
+	return line ? `Line ${line}: ${cleaned}` : cleaned
+}
+
+export function lineFromCompileError(message: string): number | undefined {
+	const match = /\((\d+):\d+\)/.exec(message)
+	if (!match) return undefined
+	return Math.max(1, Number(match[1]) - 1)
+}
+
+export function collectJsxDiagnostics(state: EditorState): JsxDiagnostic[] {
+	const diagnostics: JsxDiagnostic[] = []
 
 	syntaxTree(state)
 		.cursor()
@@ -117,13 +146,14 @@ export function collectJsxDiagnostics(state: EditorState): Diagnostic[] {
 			const known = item.attributes.find((entry) => entry.name === attrName)
 
 			if (!known && !isPassthroughName(item, attrName)) {
-				diagnostics.push({
-					from: nameNode.from,
-					to: nameNode.to,
-					severity: "error",
-					source: "maui",
-					message: `Property '${attrName}' does not exist on ${tagName}.`,
-				})
+				diagnostics.push(
+					diagnostic(
+						state,
+						nameNode.from,
+						nameNode.to,
+						`Property '${attrName}' does not exist on ${tagName}.`,
+					),
+				)
 				return
 			}
 
@@ -138,19 +168,20 @@ export function collectJsxDiagnostics(state: EditorState): Diagnostic[] {
 			if (value.length === 0) return
 			if (known.values.includes(value)) return
 
-			diagnostics.push({
-				from: valueNode.from,
-				to: valueNode.to,
-				severity: "error",
-				source: "maui",
-				message: `Type '${/^-?\d+$/.test(value) ? value : `"${value}"`}' is not assignable to type '${quoteUnion(known.values)}'.`,
-			})
+			diagnostics.push(
+				diagnostic(
+					state,
+					valueNode.from,
+					valueNode.to,
+					`Type '${/^-?\d+$/.test(value) ? value : `"${value}"`}' is not assignable to type '${quoteUnion(known.values)}'.`,
+				),
+			)
 		})
 
 	return diagnostics
 }
 
-export function collectJsxDiagnosticsFromSource(source: string): Diagnostic[] {
+export function collectJsxDiagnosticsFromSource(source: string): JsxDiagnostic[] {
 	const state = EditorState.create({
 		doc: source,
 		extensions: [javascript({ jsx: true, typescript: true })],
