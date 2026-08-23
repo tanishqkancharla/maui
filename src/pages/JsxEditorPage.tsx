@@ -30,5 +30,6 @@ const hintClass = style(flex({ direction: "row", align: "center", gap: 2 }), {
 const pageClass = style(flex({ direction: "column", gap: 4 }), {
 	height: "100%",
 	minHeight: 0,
+	overflow: "hidden",
 	paddingBottom: spacing.value(4),
 })

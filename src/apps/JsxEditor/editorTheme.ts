@@ -14,6 +14,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 			{
 				"&": {
 					height: "100%",
+					overflow: "hidden",
 					backgroundColor: "transparent",
 					color: colors.gray[12],
 					fontSize: "13px",
@@ -25,6 +26,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					fontFamily: monoFontFamily,
 					fontVariantNumeric: "tabular-nums",
 					lineHeight: "20px",
+					overflow: "auto",
 				},
 				".cm-content": {
 					caretColor: colors.gray[12],

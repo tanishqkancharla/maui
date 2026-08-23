@@ -148,7 +148,7 @@ export function JsxEditor() {
 							JSX
 						</Text>
 						<Text size="xs" color="lowContrast">
-							Prettier · ⌘S
+							Format · ⌘S
 						</Text>
 					</div>
 					<div className={editorBodyClassName}>
@@ -199,7 +199,6 @@ const shellClass = style({
 	flexDirection: "column",
 	minHeight: 0,
 	flex: "1 1 auto",
-	height: "100%",
 })
 
 const rootClass = style({
@@ -209,7 +208,6 @@ const rootClass = style({
 	gap: spacing.value(4),
 	minHeight: 0,
 	flex: "1 1 auto",
-	height: "100%",
 	"@container (min-width: 760px)": {
 		gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
 		gridTemplateRows: "minmax(0, 1fr)",
@@ -238,9 +236,18 @@ const paneHeaderClass = style(
 const editorBodyClass = style({
 	flex: "1 1 auto",
 	minHeight: 0,
+	minWidth: 0,
 	overflow: "hidden",
+	"& > div": {
+		height: "100%",
+		minHeight: 0,
+	},
 	"& .cm-editor": {
 		height: "100%",
+		overflow: "hidden",
+	},
+	"& .cm-scroller": {
+		overflow: "auto",
 	},
 })
 
