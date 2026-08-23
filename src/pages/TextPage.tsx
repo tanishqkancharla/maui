@@ -101,7 +101,7 @@ export function TextPage() {
 				<Flex column gap={4}>
 					{sizes.map((size) => (
 						<Text key={size} size={size}>
-							{size} · Computers started as room-sized machines.
+							{`${size} · Computers started as room-sized machines.`}
 						</Text>
 					))}
 				</Flex>
@@ -113,7 +113,7 @@ export function TextPage() {
 				<Flex column gap={2}>
 					{weights.map((fontWeight) => (
 						<Text key={fontWeight} fontWeight={fontWeight}>
-							{fontWeight} · Readable heading
+							{`${fontWeight} · Readable heading`}
 						</Text>
 					))}
 				</Flex>
