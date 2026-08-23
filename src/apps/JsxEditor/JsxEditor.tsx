@@ -11,6 +11,7 @@ import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
 import { spacing } from "../../tokens/spacing"
 import { Text } from "../../components/Text"
+import { cls } from "../../utils/cls"
 import { defaultJsx } from "./catalog"
 import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
@@ -22,6 +23,9 @@ const STORAGE_KEY = "maui-jsx-editor"
 
 type PreviewErrorBoundaryProps = {
 	resetKey: string
+	fallback: React.ReactNode
+	onError: (error: Error | null) => void
+	onReady: () => void
 	children: React.ReactNode
 }
 
@@ -39,19 +43,33 @@ class PreviewErrorBoundary extends React.Component<
 		return { error }
 	}
 
+	componentDidCatch(error: Error) {
+		this.props.onError(error)
+	}
+
+	componentDidMount() {
+		if (!this.state.error) {
+			this.props.onReady()
+		}
+	}
+
 	componentDidUpdate(prevProps: PreviewErrorBoundaryProps) {
-		if (prevProps.resetKey !== this.props.resetKey && this.state.error) {
-			this.setState({ error: null })
+		if (prevProps.resetKey !== this.props.resetKey) {
+			if (this.state.error) {
+				this.setState({ error: null })
+			}
+			this.props.onError(null)
+			return
+		}
+
+		if (!this.state.error) {
+			this.props.onReady()
 		}
 	}
 
 	render() {
 		if (this.state.error) {
-			return (
-				<Text size="sm" color="lowContrast">
-					{this.state.error.message}
-				</Text>
-			)
+			return this.props.fallback
 		}
 
 		return this.props.children
@@ -80,7 +98,10 @@ export function JsxEditor() {
 	const paneHeaderClassName = useStyles(paneHeaderClass)
 	const editorBodyClassName = useStyles(editorBodyClass)
 	const previewBodyClassName = useStyles(previewBodyClass)
+	const previewOutdatedClassName = useStyles(previewOutdatedClass)
 	const errorClassName = useStyles(errorClass)
+	const [runtimeError, setRuntimeError] = useState<Error | null>(null)
+	const [liveSource, setLiveSource] = useState(source)
 
 	useEffect(() => {
 		try {
@@ -96,11 +117,17 @@ export function JsxEditor() {
 		return initial.ok ? initial.element : null
 	})
 
-	useEffect(() => {
-		if (compiled.ok) {
-			setPreview(compiled.element)
-		}
-	}, [compiled])
+	const commitPreview = useCallback(() => {
+		if (!compiled.ok) return
+		setPreview((current) =>
+			current === compiled.element ? current : compiled.element,
+		)
+		setLiveSource((current) => (current === source ? current : source))
+		setRuntimeError((current) => (current === null ? current : null))
+	}, [compiled, source])
+
+	const previewError = compiled.ok ? runtimeError?.message : compiled.error
+	const outdated = Boolean(previewError) || liveSource !== source
 
 	const formatSource = useCallback(async () => {
 		const view = editorViewRef.current
@@ -178,16 +205,28 @@ export function JsxEditor() {
 							Preview
 						</Text>
 					</div>
-					{!compiled.ok && (
+					{previewError && (
 						<div className={errorClassName} role="status">
 							<Text size="xs" color="accent">
-								{compiled.error}
+								{previewError}
 							</Text>
 						</div>
 					)}
-					<div className={previewBodyClassName}>
-						<PreviewErrorBoundary resetKey={compiled.ok ? source : "error"}>
-							{preview}
+					<div
+						className={cls(
+							previewBodyClassName,
+							outdated && previewOutdatedClassName,
+						)}
+						data-outdated={outdated ? "true" : undefined}
+						aria-busy={outdated}
+					>
+						<PreviewErrorBoundary
+							resetKey={compiled.ok ? source : liveSource}
+							fallback={preview}
+							onError={setRuntimeError}
+							onReady={commitPreview}
+						>
+							{compiled.ok ? compiled.element : preview}
 						</PreviewErrorBoundary>
 					</div>
 				</section>
@@ -258,6 +297,10 @@ const previewBodyClass = style(spacing.padding({ all: 8 }), {
 	flex: "1 1 auto",
 	minHeight: 0,
 	overflow: "auto",
+})
+
+const previewOutdatedClass = style({
+	opacity: 0.5,
 })
 
 const errorClass = style(spacing.padding({ x: 4, y: 3 }), {
