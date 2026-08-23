@@ -16,7 +16,7 @@ export function evaluateJsx(source: string): EvaluateResult {
 	}
 
 	try {
-		const wrapped = `const __el = (\n${trimmed}\n);`
+		const wrapped = `const __el = (<React.Fragment>\n${trimmed}\n</React.Fragment>);`
 		const { code } = transform(wrapped, {
 			transforms: ["jsx", "typescript"],
 			jsxRuntime: "classic",

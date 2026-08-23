@@ -150,8 +150,30 @@ export function mauiCompletionSource(
 		}
 	}
 
+	const bareEquals = context.matchBefore(/([A-Za-z][\w-]*)=$/)
+	if (bareEquals) {
+		const attributeName = bareEquals.text.slice(0, -1)
+		const item = catalog.find((entry) => entry.name === tag.name)
+		const attribute = item?.attributes.find((entry) => entry.name === attributeName)
+		const isNumeric = Boolean(
+			attribute?.values?.every((value) => /^\d+$/.test(value)),
+		)
+		return {
+			from: context.pos,
+			options: valueCompletions(tag.name, attributeName).map((option) => ({
+				...option,
+				apply: isNumeric ? `{${option.label}}` : `"${option.label}"`,
+			})),
+		}
+	}
+
 	const attrName = context.matchBefore(/[\s][A-Za-z][\w-]*/)
-	if (attrName || context.explicit) {
+	const escapedName = tag.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+	const afterTagName = new RegExp(`<${escapedName}(?:\\s|$)`).test(tag.open)
+	const inTagReadyForAttr =
+		afterTagName &&
+		(/[\s]$/.test(before) || context.explicit || Boolean(attrName))
+	if (inTagReadyForAttr) {
 		return {
 			from: attrName ? attrName.from + 1 : context.pos,
 			options: attributeCompletions(tag.name, usedAttributes(tag.open)),
