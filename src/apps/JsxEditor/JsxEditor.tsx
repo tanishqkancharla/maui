@@ -54,10 +54,8 @@ class PreviewErrorBoundary extends React.Component<
 	}
 
 	componentDidUpdate(prevProps: PreviewErrorBoundaryProps) {
-		if (prevProps.resetKey !== this.props.resetKey) {
-			if (this.state.error) {
-				this.setState({ error: null })
-			}
+		if (prevProps.resetKey !== this.props.resetKey && this.state.error) {
+			this.setState({ error: null })
 			this.props.onError(null)
 			return
 		}
