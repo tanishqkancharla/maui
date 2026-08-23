@@ -15,6 +15,7 @@ import { defaultJsx } from "./catalog"
 import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
 import { evaluateJsx } from "./evaluate"
+import { mauiJsxLinter } from "./lint"
 import { prettifyJsx, printWidthFromEditor } from "./prettify"
 
 const STORAGE_KEY = "maui-jsx-editor"
@@ -133,7 +134,8 @@ export function JsxEditor() {
 	const extensions = useMemo(
 		() => [
 			javascript({ jsx: true, typescript: true }),
-			mauiAutocomplete,
+			...mauiAutocomplete,
+			mauiJsxLinter,
 			...mauiCodeMirrorTheme(resolvedTheme === "dark"),
 		],
 		[resolvedTheme],
@@ -160,6 +162,7 @@ export function JsxEditor() {
 							basicSetup={{
 								foldGutter: false,
 								highlightActiveLineGutter: false,
+								autocompletion: false,
 							}}
 							onCreateEditor={(view) => {
 								editorViewRef.current = view

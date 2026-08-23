@@ -79,6 +79,24 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					textDecoration: "none",
 					color: colors.accent[11],
 				},
+				".cm-lintRange-error": {
+					backgroundImage: "none",
+					borderBottom: `1.5px wavy ${colors.accent[8]}`,
+				},
+				".cm-lintPoint-error": {
+					borderBottomColor: colors.accent[8],
+				},
+				".cm-tooltip.cm-tooltip-lint": {
+					backgroundColor: backgroundColor.element,
+					color: colors.gray[12],
+					border: "none",
+					borderRadius: "6px",
+					boxShadow: shadowVars.medium,
+					fontSize: "12px",
+				},
+				".cm-diagnostic-error": {
+					borderLeftColor: colors.accent[9],
+				},
 			},
 			{ dark },
 		),

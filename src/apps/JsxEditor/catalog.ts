@@ -63,6 +63,7 @@ export type CatalogComponent = {
 	name: string
 	info: string
 	attributes: AttributeCompletion[]
+	html?: boolean
 }
 
 const spaceValues = ["1", "2", "3", "4", "6", "8", "12", "16"]
@@ -82,6 +83,7 @@ export const catalog: CatalogComponent[] = [
 			{ name: "column", boolean: true, info: "Vertical direction" },
 			{ name: "gap", values: spaceValues, info: "Spacing scale step" },
 			{ name: "alignItems", values: alignItems },
+			{ name: "style" },
 		],
 	},
 	{
@@ -118,6 +120,7 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "Text",
 		info: "Inline span. Type styles are attributes.",
+		html: true,
 		attributes: [
 			{ name: "size", values: textSizes },
 			{ name: "fontWeight", values: textWeights },
@@ -153,6 +156,7 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "Label",
 		info: "Form label.",
+		html: true,
 		attributes: [{ name: "htmlFor" }],
 	},
 	{
@@ -178,16 +182,19 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "Link",
 		info: "Text link. Children are a string.",
+		html: true,
 		attributes: [{ name: "href" }],
 	},
 	{
 		name: "Code",
 		info: "Inline code.",
+		html: true,
 		attributes: [],
 	},
 	{
 		name: "Kbd",
 		info: "Keyboard key.",
+		html: true,
 		attributes: [],
 	},
 	{
@@ -203,6 +210,7 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "Button",
 		info: "Button. Optional quiet variant.",
+		html: true,
 		attributes: [
 			{ name: "variant", values: ["default", "quiet"] },
 			{ name: "aria-label" },
@@ -212,6 +220,7 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "Badge",
 		info: "Compact count or status label.",
+		html: true,
 		attributes: [],
 	},
 	{
@@ -220,6 +229,7 @@ export const catalog: CatalogComponent[] = [
 		attributes: [
 			{ name: "name" },
 			{ name: "size", values: textSizes },
+			{ name: "className" },
 		],
 	},
 	{
@@ -235,6 +245,7 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "TextField",
 		info: "Text input.",
+		html: true,
 		attributes: [
 			{ name: "placeholder" },
 			{ name: "value" },
@@ -244,6 +255,7 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "SearchField",
 		info: "Search input.",
+		html: true,
 		attributes: [
 			{ name: "placeholder" },
 			{ name: "value" },
@@ -253,6 +265,7 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "QuietTextField",
 		info: "Borderless text input.",
+		html: true,
 		attributes: [
 			{ name: "placeholder" },
 			{ name: "value" },
@@ -262,6 +275,7 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "NumberField",
 		info: "Numeric input.",
+		html: true,
 		attributes: [
 			{ name: "value" },
 			{ name: "aria-label" },
@@ -270,11 +284,13 @@ export const catalog: CatalogComponent[] = [
 	{
 		name: "Checkbox",
 		info: "Needs checked and setChecked.",
+		html: true,
 		attributes: [{ name: "label" }, { name: "checked" }],
 	},
 	{
 		name: "Switch",
 		info: "Toggle switch.",
+		html: true,
 		attributes: [{ name: "label" }],
 	},
 	{

@@ -1,10 +1,23 @@
 import {
 	autocompletion,
+	snippetCompletion,
+	startCompletion,
 	type Completion,
 	type CompletionContext,
 	type CompletionResult,
 } from "@codemirror/autocomplete"
-import { catalog, iconNames } from "./catalog"
+import { EditorView } from "@codemirror/view"
+import {
+	catalog,
+	iconNames,
+	type AttributeCompletion,
+	type CatalogComponent,
+} from "./catalog"
+
+function catalogItem(tagName: string): CatalogComponent | undefined {
+	const name = tagName.startsWith("Icons.") ? "Icons" : tagName
+	return catalog.find((entry) => entry.name === name)
+}
 
 function componentCompletions(): Completion[] {
 	return catalog.map((item) => ({
@@ -15,11 +28,15 @@ function componentCompletions(): Completion[] {
 	}))
 }
 
+function isNumericAttribute(attribute: AttributeCompletion | undefined): boolean {
+	return Boolean(attribute?.values?.every((value) => /^-?\d+$/.test(value)))
+}
+
 function attributeCompletions(
 	tagName: string,
 	used: Set<string>,
 ): Completion[] {
-	const item = catalog.find((entry) => entry.name === tagName)
+	const item = catalogItem(tagName)
 	if (!item) return []
 
 	return item.attributes
@@ -34,39 +51,43 @@ function attributeCompletions(
 				} satisfies Completion
 			}
 
-			if (attribute.values && attribute.values.length > 0) {
-				const isNumeric = attribute.values.every((value) => /^\d+$/.test(value))
-				const apply = isNumeric
-					? `${attribute.name}={}`
-					: `${attribute.name}=""`
-				return {
+			if (isNumericAttribute(attribute)) {
+				return snippetCompletion(`${attribute.name}={#{}}`, {
 					label: attribute.name,
 					type: "property",
 					info: attribute.info,
-					apply,
-				} satisfies Completion
+				})
 			}
 
-			return {
+			return snippetCompletion(`${attribute.name}="#{}"`, {
 				label: attribute.name,
 				type: "property",
 				info: attribute.info,
-				apply: `${attribute.name}=""`,
-			} satisfies Completion
+			})
 		})
 }
 
-function valueCompletions(tagName: string, attributeName: string): Completion[] {
-	const item = catalog.find((entry) => entry.name === tagName)
+function valueCompletions(
+	tagName: string,
+	attributeName: string,
+	mode: "bare" | "quoted" | "braced",
+): Completion[] {
+	const item = catalogItem(tagName)
 	const attribute = item?.attributes.find((entry) => entry.name === attributeName)
 	if (!attribute?.values) return []
 
-	const isNumeric = attribute.values.every((value) => /^\d+$/.test(value))
-	return attribute.values.map((value) => ({
-		label: value,
-		type: "enum",
-		apply: isNumeric ? value : value,
-	}))
+	const numeric = isNumericAttribute(attribute)
+	return attribute.values.map((value) => {
+		let apply = value
+		if (mode === "bare") {
+			apply = numeric ? `{${value}}` : `"${value}"`
+		}
+		return {
+			label: value,
+			type: "enum",
+			apply,
+		} satisfies Completion
+	})
 }
 
 function usedAttributes(tagOpen: string): Set<string> {
@@ -88,6 +109,21 @@ function currentTag(before: string): { name: string; open: string } | null {
 	const nameMatch = /^<([A-Za-z][\w.]*)/.exec(open)
 	if (!nameMatch) return null
 	return { name: nameMatch[1], open }
+}
+
+function valueResult(
+	from: number,
+	tagName: string,
+	attributeName: string,
+	mode: "bare" | "quoted" | "braced",
+): CompletionResult | null {
+	const options = valueCompletions(tagName, attributeName, mode)
+	if (options.length === 0) return null
+	return {
+		from,
+		options,
+		validFor: /^[^\s"'{}>=]*$/,
+	}
 }
 
 export function mauiCompletionSource(
@@ -115,8 +151,8 @@ export function mauiCompletionSource(
 		}
 	}
 
-	const openTag = context.matchBefore(/<[A-Za-z]*/)
-	if (openTag) {
+	const openTag = context.matchBefore(/<[A-Za-z][\w.]*/)
+	if (openTag && !/\s/.test(openTag.text)) {
 		return {
 			from: openTag.from + 1,
 			options: componentCompletions(),
@@ -126,15 +162,18 @@ export function mauiCompletionSource(
 	const tag = currentTag(before)
 	if (!tag) return null
 
-	const quotedValue = context.matchBefore(/([A-Za-z][\w-]*)=(["'])[^"']*/)
+	const quotedValue = context.matchBefore(
+		/([A-Za-z][\w-]*)=(["'])(?:\\.|[^\n"'])*/,
+	)
 	if (quotedValue) {
-		const attributeName = /([A-Za-z][\w-]*)=/.exec(quotedValue.text)?.[1]
-		if (attributeName) {
-			const quoteIndex = quotedValue.text.indexOf("=") + 2
-			return {
-				from: quotedValue.from + quoteIndex,
-				options: valueCompletions(tag.name, attributeName),
-			}
+		const matched = /^([A-Za-z][\w-]*)=(["'])/.exec(quotedValue.text)
+		if (matched) {
+			return valueResult(
+				quotedValue.from + matched[0].length,
+				tag.name,
+				matched[1],
+				"quoted",
+			)
 		}
 	}
 
@@ -142,29 +181,18 @@ export function mauiCompletionSource(
 	if (bracedValue) {
 		const attributeName = /([A-Za-z][\w-]*)=\{/.exec(bracedValue.text)?.[1]
 		if (attributeName) {
-			const braceIndex = bracedValue.text.indexOf("{") + 1
-			return {
-				from: bracedValue.from + braceIndex,
-				options: valueCompletions(tag.name, attributeName),
-			}
+			return valueResult(
+				bracedValue.from + bracedValue.text.indexOf("{") + 1,
+				tag.name,
+				attributeName,
+				"braced",
+			)
 		}
 	}
 
 	const bareEquals = context.matchBefore(/([A-Za-z][\w-]*)=$/)
 	if (bareEquals) {
-		const attributeName = bareEquals.text.slice(0, -1)
-		const item = catalog.find((entry) => entry.name === tag.name)
-		const attribute = item?.attributes.find((entry) => entry.name === attributeName)
-		const isNumeric = Boolean(
-			attribute?.values?.every((value) => /^\d+$/.test(value)),
-		)
-		return {
-			from: context.pos,
-			options: valueCompletions(tag.name, attributeName).map((option) => ({
-				...option,
-				apply: isNumeric ? `{${option.label}}` : `"${option.label}"`,
-			})),
-		}
+		return valueResult(context.pos, tag.name, bareEquals.text.slice(0, -1), "bare")
 	}
 
 	const attrName = context.matchBefore(/[\s][A-Za-z][\w-]*/)
@@ -177,14 +205,29 @@ export function mauiCompletionSource(
 		return {
 			from: attrName ? attrName.from + 1 : context.pos,
 			options: attributeCompletions(tag.name, usedAttributes(tag.open)),
+			validFor: /^[A-Za-z][\w-]*$/,
 		}
 	}
 
 	return null
 }
 
-export const mauiAutocomplete = autocompletion({
-	override: [mauiCompletionSource],
-	activateOnTyping: true,
-	icons: false,
+const triggerValueCompletion = EditorView.updateListener.of((update) => {
+	if (!update.docChanged) return
+	const pos = update.state.selection.main.head
+	const last = update.state.sliceDoc(Math.max(0, pos - 1), pos)
+	if (last === "=" || last === '"' || last === "'" || last === "{") {
+		startCompletion(update.view)
+	}
 })
+
+export const mauiAutocomplete = [
+	autocompletion({
+		override: [mauiCompletionSource],
+		activateOnTyping: true,
+		activateOnCompletion: (completion) =>
+			completion.type === "property" || completion.type === "enum",
+		icons: false,
+	}),
+	triggerValueCompletion,
+]
