@@ -1,4 +1,5 @@
 import { javascript } from "@codemirror/lang-javascript"
+import type { EditorView } from "@codemirror/view"
 import { style, useStyles } from "purse-styles"
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
@@ -14,7 +15,7 @@ import { defaultJsx } from "./catalog"
 import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
 import { evaluateJsx } from "./evaluate"
-import { prettifyJsx } from "./prettify"
+import { prettifyJsx, printWidthFromEditor } from "./prettify"
 
 const STORAGE_KEY = "maui-jsx-editor"
 
@@ -70,6 +71,7 @@ export function JsxEditor() {
 	const [source, setSource] = useState(readStoredSource)
 	const sourceRef = useRef(source)
 	sourceRef.current = source
+	const editorViewRef = useRef<EditorView | null>(null)
 
 	const shellClassName = useStyles(shellClass)
 	const rootClassName = useStyles(rootClass)
@@ -100,7 +102,9 @@ export function JsxEditor() {
 	}, [compiled])
 
 	const formatSource = useCallback(async () => {
-		const next = await prettifyJsx(sourceRef.current)
+		const view = editorViewRef.current
+		const printWidth = view ? printWidthFromEditor(view) : undefined
+		const next = await prettifyJsx(sourceRef.current, { printWidth })
 		if (next !== sourceRef.current) {
 			setSource(next)
 		}
@@ -143,6 +147,9 @@ export function JsxEditor() {
 						<Text size="xs" color="lowContrast">
 							JSX
 						</Text>
+						<Text size="xs" color="lowContrast">
+							Prettier · ⌘S
+						</Text>
 					</div>
 					<div className={editorBodyClassName}>
 						<CodeMirror
@@ -153,6 +160,9 @@ export function JsxEditor() {
 							basicSetup={{
 								foldGutter: false,
 								highlightActiveLineGutter: false,
+							}}
+							onCreateEditor={(view) => {
+								editorViewRef.current = view
 							}}
 							onChange={setSource}
 						/>
@@ -215,12 +225,15 @@ const paneClass = style(border([], "outline"), radius.lg, {
 	backgroundColor: backgroundColor.element,
 })
 
-const paneHeaderClass = style(flex({ direction: "row", align: "center" }), {
-	flexShrink: 0,
-	paddingInline: spacing.value(4),
-	paddingBlock: spacing.value(3),
-	borderBottom: `1px solid ${colors.gray[4]}`,
-})
+const paneHeaderClass = style(
+	flex({ direction: "row", align: "center", justify: "between" }),
+	{
+		flexShrink: 0,
+		paddingInline: spacing.value(4),
+		paddingBlock: spacing.value(3),
+		borderBottom: `1px solid ${colors.gray[4]}`,
+	},
+)
 
 const editorBodyClass = style({
 	flex: "1 1 auto",
