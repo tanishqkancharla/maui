@@ -34,6 +34,7 @@ import { FormControlsPage } from "./FormControlsPage"
 import { FuzzyStringPage } from "./FuzzyStringPage"
 import { IconsPage } from "./IconsPage"
 import { InboxPage } from "./InboxPage"
+import { JsxEditorPage } from "./JsxEditorPage"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
 import { ListBoxPage } from "./ListBoxPage"
@@ -71,6 +72,10 @@ type NavItem = {
 }
 
 const navigation: NavGroup[] = [
+	{
+		label: "Playground",
+		children: [{ label: "Editor", path: "/editor", page: JsxEditorPage }],
+	},
 	{
 		label: "Tokens",
 		children: [
@@ -179,7 +184,7 @@ const navigation: NavGroup[] = [
 	},
 ]
 
-const defaultPath = navigation[0].children[0].path
+const defaultPath = "/tokens/color"
 
 function MauiContent() {
 	const shellClassName = useStyles(mauiShellClass)
