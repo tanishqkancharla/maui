@@ -14,7 +14,10 @@ export function TextTokenPage() {
 			<H2>Text</H2>
 			<P>
 				The text token combines size, weight, and semantic color into one style
-				object. Use it anywhere text needs a consistent Maui type treatment.
+				object. Use it anywhere text needs a consistent Maui type treatment. In
+				JSX, the <code>Text</code> component applies the same token through{" "}
+				<code>size</code>, <code>fontWeight</code>, and <code>color</code>{" "}
+				attributes.
 			</P>
 
 			<H3>Values</H3>

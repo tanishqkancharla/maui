@@ -47,6 +47,7 @@ import { SidebarPage } from "./SidebarPage"
 import { SizingTokenPage } from "./SizingTokenPage"
 import { SelectPage } from "./SelectPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
+import { TextPage } from "./TextPage"
 import { TextTokenPage } from "./TextTokenPage"
 import { TooltipPage } from "./TooltipPage"
 
@@ -109,6 +110,7 @@ const navigation: NavGroup[] = [
 				path: "/components/prose",
 				page: ProsePage,
 			},
+			{ label: "Text", path: "/components/text", page: TextPage },
 			{
 				label: "Form controls",
 				path: "/components/form-controls",
