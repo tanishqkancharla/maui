@@ -84,6 +84,7 @@ function navItems(entries: NavEntry[]): NavItem[] {
 }
 
 const navigation: NavEntry[] = [
+	{ label: "About", path: "/about", page: AboutPage },
 	{ label: "Editor", path: "/editor", page: JsxEditorPage },
 	{
 		label: "Tokens",
@@ -191,7 +192,6 @@ const navigation: NavEntry[] = [
 			},
 		],
 	},
-	{ label: "About", path: "/about", page: AboutPage },
 ]
 
 const defaultPath = "/tokens/color"
