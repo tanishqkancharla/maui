@@ -10,6 +10,8 @@ import { colors } from "../../tokens/colors"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
 import { spacing } from "../../tokens/spacing"
+import { Button } from "../../components/Button"
+import { Kbd } from "../../components/Code"
 import { Text } from "../../components/Text"
 import { text } from "../../tokens/text"
 import { cls } from "../../utils/cls"
@@ -150,9 +152,15 @@ export function JsxEditor() {
 						<Text size="xs" color="highContrast">
 							JSX
 						</Text>
-						<Text size="xs" color="highContrast">
-							Format · ⌘S
-						</Text>
+						<Button
+							variant="quiet"
+							onClick={() => {
+								void formatSource()
+							}}
+						>
+							Format
+							<Kbd>⌘S</Kbd>
+						</Button>
 					</div>
 					<div className={editorBodyClassName}>
 						<CodeMirror
