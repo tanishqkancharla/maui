@@ -83,6 +83,11 @@ export {
 } from "./components/Table"
 export { Prose, useProseSize, proseMaxWidth } from "./components/Prose"
 export { Editor, type EditorProps } from "./components/Editor"
+export {
+	Thinking,
+	type ThinkingProps,
+	type ThinkingVariant,
+} from "./components/Thinking"
 export { Icons, type IconProps } from "./components/Icons"
 export * from "./icons/root"
 export {

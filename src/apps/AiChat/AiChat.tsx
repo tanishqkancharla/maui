@@ -3,7 +3,7 @@ import { style, useStyles } from "purse-styles"
 import { Button } from "../../components/Button"
 import { Editor } from "../../components/Editor"
 import { Icons } from "../../components/Icons"
-import { Loader } from "../../patterns/Loader"
+import { Thinking } from "../../components/Thinking"
 import { AssistantMessage } from "../../patterns/AssistantMessage"
 import { backgroundColor } from "../../tokens/background"
 import { border } from "../../tokens/borders"
@@ -283,11 +283,7 @@ export function AiChat() {
 							) : null}
 							{message.streaming ? (
 								<span className={thinkingClassName}>
-									<Loader
-										size="0.75em"
-										variant="muted"
-										aria-label="Thinking"
-									/>
+									<Thinking size="0.75em" variant="muted" />
 									Thinking
 								</span>
 							) : null}

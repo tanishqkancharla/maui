@@ -117,6 +117,7 @@ import { Text as TextIcon } from "maui/icons"
 - `Table` / `TableHead` / `TableBody` / `TableRow` / `TableHeaderCell` / `TableCell`
 - `Panel` — gallery/demo surface
 - `FuzzyString` — highlight segments; takes a match result, not a plain string
+- `Thinking` — 3×3 Game of Life indicator; reseeds when the board dies or loops
 
 ## Reference: patterns and apps
 
@@ -127,7 +128,6 @@ Patterns and demo apps are not part of the `"maui"` package barrel. Use the clos
 | Path | Role |
 | --- | --- |
 | `src/patterns/AssistantMessage.tsx` | Streaming markdown reply (Streamdown + Maui prose) |
-| `src/patterns/Loader.tsx` | Game-of-life loader |
 | `src/patterns/Sidebar.tsx` | App sidebar chrome |
 | `src/patterns/Inbox.tsx` | Mail inbox layout |
 | `src/patterns/MessageList.tsx` | Message list rows |
