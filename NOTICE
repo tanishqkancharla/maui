@@ -5,13 +5,23 @@ See LICENSE and https://polyformproject.org/licenses/noncommercial/1.0.0
 
 Required Notice: Copyright (c) 2026 Tanishq Kancharla (https://github.com/tanishqkancharla/maui)
 
-Additional grant for Halo
+Additional grants
 
-The copyright holder additionally grants a royalty-free, worldwide license
-to use, copy, modify, and distribute Maui solely as part of Halo
-(https://github.com/tanishqkancharla/halo-v2 and forks of that application),
-including commercial use and distribution of Halo.
+The copyright holder, Tanishq Kancharla, additionally grants a royalty-free,
+worldwide license to use, copy, modify, bundle, and distribute Maui,
+including commercially:
 
-This additional grant does not relicense Maui as MIT, allow using Maui as a
-standalone design system, or allow copying Maui into other products — even
-products derived from Halo by extracting Maui.
+1. As part of any software Tanishq Kancharla personally creates.
+2. As part of any other project the copyright holder grants in this file
+   or in a separate writing.
+
+These grants cover that software as an application or product, including
+forks that remain that application or product. They do not relicense Maui
+as MIT, allow using Maui as a standalone design system, or allow copying
+Maui into other products.
+
+Granted projects (in addition to software Tanishq Kancharla personally
+creates): none yet.
+
+Halo (https://github.com/tanishqkancharla/halo-v2) is covered as software
+Tanishq Kancharla personally created.

@@ -56,6 +56,6 @@ Maui is **source-available, not open source.** The code is public so you can rea
 
 The [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) covers personal, educational, and other noncommercial use. See [`LICENSE`](./LICENSE) and [`NOTICE`](./NOTICE).
 
-**Halo is an exception.** [Halo](https://github.com/tanishqkancharla/halo-v2) may depend on, bundle, and distribute Maui, including commercially. That grant is for Halo as an application. It does not make Maui MIT, and it does not let someone lift Maui out of Halo into another product.
+**First-party and granted projects are exceptions.** Any software Tanishq Kancharla personally creates — including [Halo](https://github.com/tanishqkancharla/halo-v2) — may depend on, bundle, and distribute Maui, including commercially. The same grant can be given to other projects by listing them in [`NOTICE`](./NOTICE) or in a separate writing. That does not make Maui MIT, and it does not let someone lift Maui out of a granted project into another product.
 
 This is not an open-contribution project. Please do not open pull requests; see [`CONTRIBUTING.md`](./CONTRIBUTING.md).

@@ -88,4 +88,4 @@ Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them
 
 ## License
 
-Maui is source-available under the PolyForm Noncommercial License 1.0.0. Do not use it in commercial products without a separate license from the author, except Halo (`tanishqkancharla/halo-v2`), which has an additional grant to depend on and ship Maui.
+Maui is source-available under the PolyForm Noncommercial License 1.0.0. Do not use it in commercial products except software Tanishq Kancharla personally creates, or another project the copyright holder grants in `NOTICE` or in writing.
