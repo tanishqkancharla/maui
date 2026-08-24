@@ -23,6 +23,7 @@ export {
 	monospace,
 	baseTextStyle,
 	fontFamily,
+	monoFontFamily,
 	type TextSize,
 	type TextWeight,
 	type TextColor,

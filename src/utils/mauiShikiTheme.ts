@@ -1,41 +1,42 @@
 import type { ThemeRegistration } from "shiki"
 
 // Adapted from rsms/sublime-theme (rsms-dark), remapped to Maui gray + accent.
-const darkColors = {
-	foreground: "#eeeeee", // --gray-12
-	foregroundMuted: "#b4b4b4", // --gray-11
-	unimportant: "#6e6e6e", // --gray-9
-	comment: "#6e6e6e",
-	keyword: "#8b8fd8", // desaturated accent
-	operator: "#d9a066", // rsms orange, softened
-	type: "#ecebe8",
-	typeRef: "#e8c9a0", // rsms typeRef, warm
-	string: "#6fbf9a", // rsms dataBase green
-	stringBright: "#8fd9b8",
-	function: "#ecebe8",
-	meta: "#8a9f94",
-	accent: "#a8a6f0", // --accent-color / brackets
-	invalid: "#e85d4f",
+export const mauiSyntaxColors = {
+	dark: {
+		foreground: "#eeeeee", // --gray-12
+		foregroundMuted: "#b4b4b4", // --gray-11
+		unimportant: "#6e6e6e", // --gray-9
+		comment: "#6e6e6e",
+		keyword: "#8b8fd8", // desaturated accent
+		operator: "#d9a066", // rsms orange, softened
+		type: "#ecebe8",
+		typeRef: "#e8c9a0", // rsms typeRef, warm
+		string: "#6fbf9a", // rsms dataBase green
+		stringBright: "#8fd9b8",
+		function: "#ecebe8",
+		meta: "#8a9f94",
+		accent: "#a8a6f0", // --accent-color / brackets
+		invalid: "#e85d4f",
+	},
+	light: {
+		foreground: "#202020",
+		foregroundMuted: "#646464",
+		unimportant: "#838383",
+		comment: "#646464",
+		keyword: "#3e63dd",
+		operator: "#a15c00",
+		type: "#272962",
+		typeRef: "#8a4b08",
+		string: "#18794e",
+		stringBright: "#147d64",
+		function: "#202020",
+		meta: "#66736d",
+		accent: "#3e63dd",
+		invalid: "#ce2c31",
+	},
 } as const
 
-type ThemeColors = Record<keyof typeof darkColors, string>
-
-const lightColors = {
-	foreground: "#202020",
-	foregroundMuted: "#646464",
-	unimportant: "#838383",
-	comment: "#646464",
-	keyword: "#3e63dd",
-	operator: "#a15c00",
-	type: "#272962",
-	typeRef: "#8a4b08",
-	string: "#18794e",
-	stringBright: "#147d64",
-	function: "#202020",
-	meta: "#66736d",
-	accent: "#3e63dd",
-	invalid: "#ce2c31",
-} as const satisfies ThemeColors
+type ThemeColors = (typeof mauiSyntaxColors)[keyof typeof mauiSyntaxColors]
 
 function createThemeTokens(colors: ThemeColors) {
 	return [
@@ -61,8 +62,8 @@ function createThemeTokens(colors: ThemeColors) {
 }
 
 export const mauiThemeTokens = {
-	dark: createThemeTokens(darkColors),
-	light: createThemeTokens(lightColors),
+	dark: createThemeTokens(mauiSyntaxColors.dark),
+	light: createThemeTokens(mauiSyntaxColors.light),
 } as const
 
 function createMauiShikiTheme(
@@ -186,10 +187,10 @@ function createMauiShikiTheme(
 export const mauiShikiThemeDark = createMauiShikiTheme(
 	"maui-dark",
 	"dark",
-	darkColors,
+	mauiSyntaxColors.dark,
 )
 export const mauiShikiThemeLight = createMauiShikiTheme(
 	"maui-light",
 	"light",
-	lightColors,
+	mauiSyntaxColors.light,
 )

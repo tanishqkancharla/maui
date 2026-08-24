@@ -212,6 +212,7 @@ export function JsxEditor() {
 							extensions={extensions}
 							basicSetup={{
 								foldGutter: false,
+								highlightActiveLine: false,
 								highlightActiveLineGutter: false,
 								autocompletion: false,
 							}}

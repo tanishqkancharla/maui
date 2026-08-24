@@ -4,12 +4,13 @@ import { tags as t } from "@lezer/highlight"
 import { backgroundColor } from "../../tokens/background"
 import { colors } from "../../tokens/colors"
 import { shadowVars } from "../../tokens/shadow"
+import { monoFontFamily } from "../../tokens/text"
+import { mauiSyntaxColors } from "../../utils/mauiShikiTheme"
 import { errorColors } from "./errorColors"
 
-const monoFontFamily =
-	'ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace'
-
 export function mauiCodeMirrorTheme(dark: boolean) {
+	const syntax = dark ? mauiSyntaxColors.dark : mauiSyntaxColors.light
+
 	return [
 		EditorView.theme(
 			{
@@ -17,8 +18,9 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					height: "100%",
 					overflow: "hidden",
 					backgroundColor: "transparent",
-					color: colors.gray[12],
+					color: syntax.foreground,
 					fontSize: "13px",
+					fontWeight: "400",
 				},
 				"&.cm-focused": {
 					outline: "none",
@@ -26,16 +28,18 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				".cm-scroller": {
 					fontFamily: monoFontFamily,
 					fontVariantNumeric: "tabular-nums",
+					fontWeight: "400",
 					lineHeight: "20px",
 					overflow: "auto",
 				},
 				".cm-content": {
-					caretColor: colors.gray[12],
+					caretColor: syntax.foreground,
 					paddingTop: "8px",
 					paddingBottom: "8px",
+					fontWeight: "400",
 				},
 				".cm-cursor, .cm-dropCursor": {
-					borderLeftColor: colors.gray[12],
+					borderLeftColor: syntax.foreground,
 				},
 				".cm-selectionBackground, .cm-content ::selection": {
 					backgroundColor: colors.accentAlpha[4],
@@ -45,7 +49,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 						backgroundColor: colors.accentAlpha[5],
 					},
 				".cm-activeLine": {
-					backgroundColor: colors.grayAlpha[3],
+					backgroundColor: "transparent",
 				},
 				".cm-gutters": {
 					backgroundColor: "transparent",
@@ -54,7 +58,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				},
 				".cm-activeLineGutter": {
 					backgroundColor: "transparent",
-					color: colors.gray[11],
+					color: colors.gray[9],
 				},
 				".cm-tooltip": {
 					backgroundColor: backgroundColor.element,
@@ -66,6 +70,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				".cm-tooltip-autocomplete ul li": {
 					fontFamily: monoFontFamily,
 					fontSize: "12px",
+					fontWeight: "400",
 				},
 				".cm-tooltip-autocomplete ul li[aria-selected]": {
 					backgroundColor: colors.accent[4],
@@ -74,11 +79,13 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				".cm-completionInfo": {
 					fontFamily: monoFontFamily,
 					fontSize: "12px",
+					fontWeight: "400",
 					color: colors.gray[11],
 				},
 				".cm-completionMatchedText": {
 					textDecoration: "none",
 					color: colors.accent[11],
+					fontWeight: "400",
 				},
 				".cm-lintRange-error": {
 					backgroundImage: "none",
@@ -107,46 +114,38 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 		),
 		syntaxHighlighting(
 			HighlightStyle.define([
-				{ tag: t.comment, color: colors.gray[9], fontStyle: "italic" },
-				{ tag: t.keyword, color: colors.accent[11] },
-				{ tag: t.controlKeyword, color: colors.accent[11] },
-				{ tag: t.definitionKeyword, color: colors.accent[11] },
-				{ tag: t.operatorKeyword, color: colors.gray[11] },
-				{ tag: t.string, color: colors.accent[11] },
-				{ tag: t.attributeValue, color: colors.accent[11] },
-				{ tag: t.number, color: colors.accent[11] },
-				{ tag: t.bool, color: colors.accent[11] },
-				{ tag: t.null, color: colors.accent[11] },
-				{ tag: t.literal, color: colors.accent[11] },
-				{ tag: t.content, color: colors.gray[12] },
-				{
-					tag: t.tagName,
-					color: colors.accent[11],
-					fontWeight: "600",
-				},
-				{
-					tag: t.standard(t.tagName),
-					color: colors.accent[11],
-					fontWeight: "600",
-				},
-				{ tag: t.typeName, color: colors.accent[11] },
-				{ tag: t.angleBracket, color: colors.gray[9] },
-				{ tag: t.attributeName, color: colors.gray[11] },
-				{ tag: t.propertyName, color: colors.gray[11] },
-				{ tag: t.variableName, color: colors.gray[12] },
-				{ tag: t.definition(t.variableName), color: colors.gray[12] },
-				{ tag: t.function(t.variableName), color: colors.gray[12] },
-				{ tag: t.punctuation, color: colors.gray[9] },
-				{ tag: t.operator, color: colors.gray[10] },
-				{ tag: t.bracket, color: colors.gray[9] },
-				{ tag: t.squareBracket, color: colors.gray[9] },
-				{ tag: t.paren, color: colors.gray[9] },
-				{ tag: t.brace, color: colors.gray[9] },
-				{ tag: t.meta, color: colors.gray[10] },
+				{ tag: t.comment, color: syntax.comment, fontStyle: "italic" },
+				{ tag: t.keyword, color: syntax.keyword },
+				{ tag: t.controlKeyword, color: syntax.keyword },
+				{ tag: t.definitionKeyword, color: syntax.keyword },
+				{ tag: t.operatorKeyword, color: syntax.operator },
+				{ tag: t.string, color: syntax.string },
+				{ tag: t.attributeValue, color: syntax.string },
+				{ tag: t.number, color: syntax.string },
+				{ tag: t.bool, color: syntax.string },
+				{ tag: t.null, color: syntax.string },
+				{ tag: t.literal, color: syntax.string },
+				{ tag: t.content, color: syntax.foreground },
+				{ tag: t.tagName, color: syntax.typeRef },
+				{ tag: t.standard(t.tagName), color: syntax.typeRef },
+				{ tag: t.typeName, color: syntax.type },
+				{ tag: t.angleBracket, color: syntax.unimportant },
+				{ tag: t.attributeName, color: syntax.typeRef },
+				{ tag: t.propertyName, color: syntax.foregroundMuted },
+				{ tag: t.variableName, color: syntax.foregroundMuted },
+				{ tag: t.definition(t.variableName), color: syntax.foregroundMuted },
+				{ tag: t.function(t.variableName), color: syntax.function },
+				{ tag: t.punctuation, color: syntax.unimportant },
+				{ tag: t.operator, color: syntax.operator },
+				{ tag: t.bracket, color: syntax.accent },
+				{ tag: t.squareBracket, color: syntax.unimportant },
+				{ tag: t.paren, color: syntax.unimportant },
+				{ tag: t.brace, color: syntax.unimportant },
+				{ tag: t.meta, color: syntax.meta },
 				{
 					tag: t.invalid,
-					color: colors.gray[12],
-					backgroundColor: colors.accent[4],
+					color: syntax.foreground,
+					backgroundColor: syntax.invalid,
 				},
 			]),
 		),

@@ -12,6 +12,7 @@ import {
 import { H2, H3, H4, Link, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { useTheme } from "../theme/ThemeContext"
+import { monoFontFamily } from "../tokens/text"
 import { mauiThemeTokens } from "../utils/mauiShikiTheme"
 
 const typescriptExample = `import { style } from "purse-styles"
@@ -131,7 +132,7 @@ export function CodePage() {
 								<span
 									style={{
 										color: token.color,
-										fontFamily: "ui-monospace, monospace",
+										fontFamily: monoFontFamily,
 									}}
 								>
 									Ag

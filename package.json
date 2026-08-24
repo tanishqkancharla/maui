@@ -75,6 +75,7 @@
 		"@codemirror/lint": "^6.9.7",
 		"@codemirror/state": "^6.7.1",
 		"@codemirror/view": "^6.43.9",
+		"@fontsource/commit-mono": "^5.3.0",
 		"@lezer/highlight": "^1.2.3",
 		"@radix-ui/colors": "^3.0.0",
 		"@react-spring/web": "^10.1.0",
