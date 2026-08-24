@@ -31,6 +31,7 @@ The published package exposes:
 
 - `"maui"` — built barrel (`dist/`) of provider, theme, tokens, and components
 - `"maui/icons"` — tree-shakeable named icon modules (same names as `Icons.*`)
+- `"maui/src"` — TypeScript source barrel
 - `"maui/src/*"` — TypeScript source for deep imports
 - `"maui/skills/maui"` — this skill file
 
@@ -38,10 +39,8 @@ The published package exposes:
 
 ## Design constraints
 
-Rolling list — append new rules here. Follow these when building or changing Maui UI.
-
-- **Hover backgrounds have no transitions.** Hover fills (`backgroundColor.elementHover`, quiet-button washes, list/row highlights) snap instantly. Do not animate `background` / `background-color` on hover with `motion.standard(...)` or a CSS `transition`. Other motion (tooltips, transforms) is fine.
-- **Start from the closest existing pattern or app.** Before inventing layout or chrome, look at `src/patterns/` and `src/apps/` that are closest to the end goal and reuse those structures.
+- Hover backgrounds have no transitions. Hover fills (`backgroundColor.elementHover`, quiet-button washes, list/row highlights) snap instantly. Do not animate `background` / `background-color` on hover with `motion.standard(...)` or a CSS `transition`. Other motion (tooltips, transforms) is fine.
+- Start from the closest existing pattern or app. Before inventing layout or chrome, look at `src/patterns/` and `src/apps/` that are closest to the end goal and reuse those structures.
 
 ## Theme FOUC
 
@@ -75,7 +74,7 @@ internal button or segment.
 
 `variant` is `"default"` | `"quiet"` | `"primary"`. Pass `variantColor` as a palette name (`"blue"`, `"red"`, `"accent"`, …). Button resolves `colors[variantColor]`:
 
-- `primary` fills with step 9 (hover 10) and `onAccent` text
+- `primary` fills with step 9 (hover 10) and light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow)
 - `quiet` + `variantColor` uses a 3.5% wash of step 9 (the same mix as `backgroundColor.elementHover`), hover 7%
 
 ```ts
@@ -94,7 +93,7 @@ import { Text as TextIcon } from "maui/icons"
 <TextIcon size="md" />
 ```
 
-`size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, …) are `TextIcon` from `"maui"` or the original name from `"maui/icons"` / `Icons.Text`.
+`size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, …) are `TextIcon` / `BadgeIcon` / `SwitchIcon` from `"maui"`, or the original name from `"maui/icons"` / `Icons.Text`.
 
 ## Editor
 
@@ -108,7 +107,7 @@ import { Editor } from "maui"
 
 ## Reference: patterns and apps
 
-Patterns and demo apps are **not** part of the `"maui"` package barrel. Use the closest one as a reference before inventing new layout (also available via `"maui/src/..."` when the package ships source):
+Patterns and demo apps are not part of the `"maui"` package barrel. Use the closest one as a reference before inventing new layout (also available via `"maui/src/..."` when the package ships source):
 
 ### Patterns — `src/patterns/`
 
@@ -127,6 +126,7 @@ Patterns and demo apps are **not** part of the `"maui"` package barrel. Use the 
 | `src/apps/AiChat/` | Mock streaming AI chat (Editor + AssistantMessage) |
 | `src/apps/EmailClient/` | Email client demo composing inbox patterns |
 | `src/apps/Calendar/` | Three-pane schedule (mini month, week grid, event details) |
+| `src/apps/JsxEditor/` | Live JSX playground (CodeMirror + Maui catalog) |
 
 ## License
 
