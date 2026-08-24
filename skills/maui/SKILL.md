@@ -68,7 +68,7 @@ internal button or segment.
 
 ## Layout utilities
 
-`Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px.
+`Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px. `Spacer` grows to fill leftover flex space. `Divider` is a horizontal rule.
 
 ## Buttons
 
@@ -104,6 +104,38 @@ import { Editor } from "maui"
 
 <Editor content={markdown} onChange={setMarkdown} placeholder="Write…" />
 ```
+
+## Components
+
+### Typography and reading
+
+- `Text` — size / weight / color / `monospace` span
+- `H1`–`H4`, `P`, `Label`, `Blockquote`, `Ul`, `Ol`, `Li`, `Link`
+- `Prose` — long-form rhythm; headings switch to the prose scale inside it
+
+### Form controls
+
+- `TextField`, `SearchField`, `NumberField`, `QuietTextField`
+- `Checkbox`, `Switch`, `Slider`
+- `RadioOptionGroup` / `RadioOption`
+- `Select` / `SelectItem`
+
+### Collections and overlays
+
+- `ListBox` / `ListBoxItem`
+- `MenuTrigger` / `Menu` / `MenuItem`
+- `Tooltip`
+- `CollectionPopover` — shared popover used by Select and Menu
+- `Overlay`, `Dialog`
+
+### Display
+
+- `Avatar`
+- `Badge`
+- `Code`, `Kbd`, `CodeBlock`
+- `Table` / `TableHead` / `TableBody` / `TableRow` / `TableHeaderCell` / `TableCell`
+- `Panel` — gallery/demo surface
+- `FuzzyString` — highlight segments; takes a match result, not a plain string
 
 ## Reference: patterns and apps
 
