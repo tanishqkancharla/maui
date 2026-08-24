@@ -274,7 +274,7 @@ function MauiNavigation() {
 							<Label>{entry.label}</Label>
 							<ul className={childrenClassName}>
 								{entry.children.map((item) => (
-									<NavLink key={item.path} item={item} inset />
+									<NavLink key={item.path} item={item} />
 								))}
 							</ul>
 						</li>
@@ -287,8 +287,8 @@ function MauiNavigation() {
 	)
 }
 
-function NavLink(props: { item: NavItem; inset?: boolean }) {
-	const className = useStyles(props.inset ? navLinkInsetClass : navLinkClass)
+function NavLink(props: { item: NavItem }) {
+	const className = useStyles(navLinkClass)
 	const [selected] = useRoute(props.item.path)
 
 	return (
@@ -359,9 +359,4 @@ const navChildrenClass = style(flex({ direction: "column" }), {
 const navLinkClass = style(navigationItem, {
 	display: "block",
 	textDecoration: "none",
-	paddingInlineStart: 0,
-})
-
-const navLinkInsetClass = style(navLinkClass, {
-	paddingInlineStart: spacing.value(4),
 })
