@@ -331,8 +331,8 @@ const navBrandClass = style(flex({ direction: "column", gap: 12 }), {
 })
 
 const navMarkClass = style({
-	width: "12px",
-	height: "12px",
+	width: "10px",
+	height: "10px",
 	borderRadius: "999px",
 	backgroundColor: colors.accent[9],
 })
