@@ -2,6 +2,7 @@ import { useRef } from "react"
 import { useSwitch } from "react-aria"
 import { ToggleState, useToggleState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -20,11 +21,8 @@ const switchClass = style(
 	{
 		position: "relative",
 		width: "fit-content",
-		"&:hover .switch-thumb": {
-			backgroundColor: colors.gray[2],
-		},
 		"&:hover .switch-toggle": {
-			backgroundColor: colors.gray[8],
+			backgroundColor: backgroundColor.elementHover,
 		},
 		"& .switch-input:checked + .switch-toggle": {
 			backgroundColor: colors.accent[9],
@@ -43,20 +41,21 @@ const switchToggleClass = style(
 		position: "relative",
 		width: "24px",
 		height: "14px",
-		backgroundColor: colors.gray[7],
+		backgroundColor: backgroundColor.element,
 	},
 )
 
 const switchThumbClass = style(
 	radius.circle,
-	motion.standard("background-color", "transform"),
+	motion.standard("transform"),
 	{
 		position: "absolute",
 		top: "2px",
 		left: "2px",
 		width: "10px",
 		height: "10px",
-		backgroundColor: colors.gray[1],
+		backgroundColor: "#ffffff",
+		boxShadow: "0 1px 2px rgba(0, 0, 0, 0.16)",
 	},
 )
 

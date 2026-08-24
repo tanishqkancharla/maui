@@ -2,6 +2,7 @@ import { useRef } from "react"
 import { useCheckbox } from "react-aria"
 import { useToggleState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -27,7 +28,7 @@ const checkboxClass = style(
 		position: "relative",
 		width: "fit-content",
 		"&:hover .checkbox-toggle": {
-			backgroundColor: colors.gray[8],
+			backgroundColor: backgroundColor.elementHover,
 		},
 		"& .checkbox-input:checked + .checkbox-toggle": {
 			backgroundColor: colors.accent[9],
@@ -48,7 +49,7 @@ const checkboxToggleClass = style(
 		pointerEvents: "none",
 		width: "14px",
 		height: "14px",
-		backgroundColor: colors.gray[7],
+		backgroundColor: backgroundColor.element,
 	},
 )
 
