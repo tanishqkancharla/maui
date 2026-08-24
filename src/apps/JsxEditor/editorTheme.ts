@@ -51,6 +51,12 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				".cm-activeLine": {
 					backgroundColor: "transparent",
 				},
+				"&.cm-focused .cm-matchingBracket, &.cm-focused .cm-matchingTag": {
+					backgroundColor: colors.accentAlpha[4],
+				},
+				"&.cm-focused .cm-nonmatchingBracket": {
+					backgroundColor: colors.accentAlpha[3],
+				},
 				".cm-gutters": {
 					backgroundColor: "transparent",
 					color: colors.gray[9],

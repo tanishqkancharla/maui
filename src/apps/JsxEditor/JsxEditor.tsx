@@ -16,6 +16,7 @@ import { cls } from "../../utils/cls"
 import { defaultJsx } from "./catalog"
 import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
+import { mauiBracketMatching } from "./tagMatching"
 import { errorColors } from "./errorColors"
 import { evaluateJsx } from "./evaluate"
 import {
@@ -187,6 +188,7 @@ export function JsxEditor() {
 			javascript({ jsx: true, typescript: true }),
 			...mauiAutocomplete,
 			mauiJsxLinter,
+			...mauiBracketMatching,
 			...mauiCodeMirrorTheme(resolvedTheme === "dark"),
 		],
 		[resolvedTheme],
@@ -214,6 +216,7 @@ export function JsxEditor() {
 								foldGutter: false,
 								highlightActiveLine: false,
 								highlightActiveLineGutter: false,
+								bracketMatching: false,
 								autocompletion: false,
 							}}
 							onCreateEditor={(view) => {
