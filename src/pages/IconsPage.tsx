@@ -1,7 +1,9 @@
+import { useMemo, useState } from "react"
 import type React from "react"
 import { useStyles } from "purse-styles"
 import { Icons, type IconProps } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
+import { SearchField } from "../components/Input"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
@@ -28,22 +30,44 @@ const previewGap: Record<IconSize, string> = {
 }
 
 export function IconsPage() {
+	const [query, setQuery] = useState("")
+	const filtered = useMemo(() => {
+		const needle = query.trim().toLowerCase()
+		if (!needle) return iconEntries
+		return iconEntries.filter(([name]) => name.toLowerCase().includes(needle))
+	}, [query])
+
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Icons</H2>
 			<P>
-				{iconEntries.length} SVG icons exported from <code>Icons</code>. Each
-				icon accepts standard SVG props and uses <code>currentColor</code> for
-				stroke and fill. Artwork is drawn at 24×24; set{" "}
+				{iconEntries.length} SVG icons. Import a named icon so unused artwork
+				is tree-shaken. <code>Icons.Name</code> is a convenience namespace and
+				pulls the full set.
+			</P>
+			<CodeBlock lang="tsx">{`import { Search, Plus } from "@tanishqkancharla/maui"
+
+<Search size="sm" />
+<Plus size="md" />`}</CodeBlock>
+			<P>
+				Artwork is 24×24 and uses <code>currentColor</code>. Set{" "}
 				<code>size</code> to the same t-shirt scale as <code>text(...)</code>.
+				Default is <code>sm</code> (16px).
+			</P>
+			<P>
+				A few icon names collide with other Maui exports (
+				<code>Text</code>, <code>Badge</code>, <code>Switch</code>, …). Those
+				are available as <code>TextIcon</code> from the root, as{" "}
+				<code>Icons.Text</code>, or from{" "}
+				<code>@tanishqkancharla/maui/icons</code>.
 			</P>
 
 			<H3>Sizes</H3>
 			<P>
 				Pair each icon size with the matching text size so labels and icons
-				share one scale. Default is <code>sm</code> (16px).
+				share one scale.
 			</P>
-			<CodeBlock lang="tsx">{`<Icons.Search size="sm" />
+			<CodeBlock lang="tsx">{`<Search size="sm" />
 <span className={text("sm", 400, "highContrast")}>Search mail</span>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={{ display: "grid", gap: "12px" }}>
@@ -59,15 +83,26 @@ export function IconsPage() {
 				Catalog tiles use <code>size="sm"</code> (16px) next to{" "}
 				<code>text("sm")</code> labels.
 			</P>
+			<SearchField
+				aria-label="Filter icons"
+				placeholder="Filter icons"
+				value={query}
+				onChange={setQuery}
+			/>
+			<P>
+				{filtered.length === iconEntries.length
+					? `${iconEntries.length} icons`
+					: `${filtered.length} of ${iconEntries.length} icons`}
+			</P>
 			<Panel>
 				<div
 					style={{
 						display: "grid",
-						gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+						gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
 						gap: "12px",
 					}}
 				>
-					{iconEntries.map(([name, Icon]) => (
+					{filtered.map(([name, Icon]) => (
 						<CatalogTile key={name} name={name} Icon={Icon} />
 					))}
 				</div>
@@ -116,7 +151,9 @@ function CatalogTile(props: {
 				}}
 			>
 				<props.Icon size="sm" style={{ color: colors.gray[12] }} />
-				<span className={labelClassName}>{props.name}</span>
+				<span className={labelClassName} style={{ overflowWrap: "anywhere" }}>
+					{props.name}
+				</span>
 			</div>
 		</div>
 	)

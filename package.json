@@ -11,10 +11,15 @@
 		"src",
 		"skills"
 	],
+	"sideEffects": false,
 	"exports": {
 		".": {
 			"types": "./dist/maui.d.ts",
 			"import": "./dist/maui.js"
+		},
+		"./icons": {
+			"types": "./dist/icons/index.d.ts",
+			"import": "./dist/icons/index.js"
 		},
 		"./src": "./src/maui.ts",
 		"./src/*": "./src/*",

@@ -264,7 +264,7 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Icons",
-		info: "Icon set. Use as <Icons.Plus size=\"sm\" />.",
+		info: "Icon set. Use as <Icons.Plus size=\"sm\" />. The Icons namespace is not tree-shakeable.",
 		svg: true,
 		attributes: [
 			{ name: "size", values: textSizes },

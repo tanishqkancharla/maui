@@ -30,6 +30,7 @@ function App() {
 The published package exposes:
 
 - `"maui"` — built barrel (`dist/`) of provider, theme, tokens, and components
+- `"maui/icons"` — tree-shakeable named icon modules (same names as `Icons.*`)
 - `"maui/src/*"` — TypeScript source for deep imports
 - `"maui/skills/maui"` — this skill file
 
@@ -62,6 +63,20 @@ internal button or segment.
 ## Layout utilities
 
 `Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px.
+
+## Icons
+
+Import named icons so unused SVGs are tree-shaken. Do not import the `Icons` namespace in app code unless you want the full set.
+
+```ts
+import { Search, Plus } from "maui"
+import { Text as TextIcon } from "maui/icons"
+
+<Search size="sm" />
+<TextIcon size="md" />
+```
+
+`size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, …) are `TextIcon` from `"maui"` or the original name from `"maui/icons"` / `Icons.Text`.
 
 ## Reference: patterns and apps
 

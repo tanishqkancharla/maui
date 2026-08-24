@@ -83,6 +83,7 @@ export {
 } from "./components/Table"
 export { Prose, useProseSize, proseMaxWidth } from "./components/Prose"
 export { Icons, type IconProps } from "./components/Icons"
+export * from "./icons/root"
 export {
 	ListBox,
 	ListBoxItem,
