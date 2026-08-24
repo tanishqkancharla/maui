@@ -15,6 +15,7 @@ import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
+import { AboutPage } from "./AboutPage"
 import { AiChatPage } from "./AiChatPage"
 import { AssistantMessagePage } from "./AssistantMessagePage"
 import { AvatarPage } from "./AvatarPage"
@@ -190,6 +191,7 @@ const navigation: NavEntry[] = [
 			},
 		],
 	},
+	{ label: "About", path: "/about", page: AboutPage },
 ]
 
 const defaultPath = "/tokens/color"
