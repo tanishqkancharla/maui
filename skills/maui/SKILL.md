@@ -89,6 +89,16 @@ import { Text as TextIcon } from "maui/icons"
 
 `size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, …) are `TextIcon` from `"maui"` or the original name from `"maui/icons"` / `Icons.Text`.
 
+## Editor
+
+`Editor` is a TipTap markdown surface (CommonMark shortcuts, Maui `proseHtml` type). It has no chrome — wrap it in your own shell for padding, elevation, and actions.
+
+```ts
+import { Editor } from "maui"
+
+<Editor content={markdown} onChange={setMarkdown} placeholder="Write…" />
+```
+
 ## Reference: patterns and apps
 
 Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them as in-repo reference implementations (also available via `"maui/src/..."` when the package ships source):
@@ -98,7 +108,6 @@ Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them
 | Path | Role |
 | --- | --- |
 | `src/patterns/AssistantMessage.tsx` | Streaming markdown reply (Streamdown + Maui prose) |
-| `src/patterns/Editor.tsx` | TipTap markdown composer |
 | `src/patterns/Loader.tsx` | Game-of-life loader |
 | `src/patterns/Sidebar.tsx` | App sidebar chrome |
 | `src/patterns/Inbox.tsx` | Mail inbox layout |

@@ -114,6 +114,7 @@ const navigation: NavGroup[] = [
 				path: "/components/prose",
 				page: ProsePage,
 			},
+			{ label: "Editor", path: "/components/editor", page: EditorPage },
 			{ label: "Text", path: "/components/text", page: TextPage },
 			{
 				label: "Form controls",
@@ -155,7 +156,6 @@ const navigation: NavGroup[] = [
 				path: "/patterns/message-list",
 				page: MessageListPage,
 			},
-			{ label: "Editor", path: "/patterns/editor", page: EditorPage },
 			{
 				label: "Assistant message",
 				path: "/patterns/assistant-message",
@@ -208,6 +208,9 @@ function MauiContent() {
 					</Route>
 					<Route path="/components/code-block">
 						<Redirect to="/components/code" />
+					</Route>
+					<Route path="/patterns/editor">
+						<Redirect to="/components/editor" />
 					</Route>
 					<Route path="/temp/syntax">
 						<Redirect to="/editor" />

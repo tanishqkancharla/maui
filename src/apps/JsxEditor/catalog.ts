@@ -5,6 +5,7 @@ import { Checkbox } from "../../components/Checkbox"
 import { Code, Kbd } from "../../components/Code"
 import { CodeBlock } from "../../components/CodeBlock"
 import { Dialog } from "../../components/Dialog"
+import { Editor } from "../../components/Editor"
 import { FuzzyString } from "../../components/FuzzyString"
 import { Icons } from "../../components/Icons"
 import {
@@ -354,6 +355,17 @@ export const catalog: CatalogComponent[] = [
 		info: "Long-form rhythm wrapper for headings and paragraphs.",
 		attributes: [],
 	},
+	{
+		name: "Editor",
+		info: "TipTap markdown surface. No chrome — wrap it for padding, elevation, and actions.",
+		attributes: [
+			{ name: "content", info: "Markdown string" },
+			{ name: "placeholder" },
+			{ name: "size", values: ["sm", "md", "lg"] },
+			{ name: "editable", boolean: true },
+			{ name: "aria-label" },
+		],
+	},
 ]
 
 export const previewScope: Record<string, unknown> = {
@@ -378,6 +390,7 @@ export const previewScope: Record<string, unknown> = {
 	MenuTrigger,
 	Overlay,
 	Panel,
+	Editor,
 	Prose,
 	RadioOption,
 	RadioOptionGroup,
