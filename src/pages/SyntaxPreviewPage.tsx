@@ -42,7 +42,7 @@ type SchemeId = (typeof schemeIds)[number]
 const schemeLabels: Record<SchemeId, string> = {
 	classic: "Classic JSX — blue / orange / green",
 	quiet: "Quiet Maui — warm / gray / green",
-	brand: "Brand — accent / gray / green",
+	brand: "Brand — accent / gray / blue in light, green in dark",
 	cool: "Cool split — violet / cyan / amber",
 	warm: "Warm split — gold / slate / teal",
 }
@@ -76,7 +76,9 @@ function schemeColors(id: SchemeId, dark: boolean): JsxHighlightColors {
 			return {
 				tagName: dark ? radix.violetDark.violet11 : radix.teal.teal11,
 				attributeName: radixStep11("gray", dark),
-				string: radixStep11("green", dark),
+				string: dark
+					? radixStep11("green", true)
+					: radixStep11("blue", false),
 			}
 		case "cool":
 			return {
@@ -101,7 +103,7 @@ export function SyntaxPreviewPage() {
 	const pageClassName = useStyles(pageClass)
 	const gridClassName = useStyles(gridClass)
 	const selectWrapClassName = useStyles(selectWrapClass)
-	const [scheme, setScheme] = useState<SchemeId>("classic")
+	const [scheme, setScheme] = useState<SchemeId>("brand")
 	const lightJsx = useMemo(() => schemeColors(scheme, false), [scheme])
 	const darkJsx = useMemo(() => schemeColors(scheme, true), [scheme])
 
