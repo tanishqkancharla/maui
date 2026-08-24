@@ -1,6 +1,8 @@
 import type { ThemeRegistration } from "shiki"
 
 // Adapted from rsms/sublime-theme (rsms-dark), remapped to Maui gray + accent.
+// JSX tags use accent (teal light / violet dark); attributes are gray;
+// strings are blue in light and green in dark so they don't collide with teal.
 export const mauiSyntaxColors = {
 	dark: {
 		foreground: "#eeeeee", // --gray-12
@@ -11,8 +13,10 @@ export const mauiSyntaxColors = {
 		operator: "#d9a066", // rsms orange, softened
 		type: "#ecebe8",
 		typeRef: "#e8c9a0", // rsms typeRef, warm
-		string: "#6fbf9a", // rsms dataBase green
-		stringBright: "#8fd9b8",
+		tag: "#baa7ff", // --accent-11 (violet)
+		attribute: "#b4b4b4", // --gray-11
+		string: "#3dd68c", // --green-11
+		stringBright: "#7ee7b0",
 		function: "#ecebe8",
 		meta: "#8a9f94",
 		accent: "#a8a6f0", // --accent-color / brackets
@@ -27,8 +31,10 @@ export const mauiSyntaxColors = {
 		operator: "#a15c00",
 		type: "#272962",
 		typeRef: "#8a4b08",
-		string: "#18794e",
-		stringBright: "#147d64",
+		tag: "#008573", // --accent-11 (teal)
+		attribute: "#646464", // --gray-11
+		string: "#0d74ce", // --blue-11
+		stringBright: "#0588f0", // --blue-10
 		function: "#202020",
 		meta: "#66736d",
 		accent: "#3e63dd",
@@ -46,6 +52,16 @@ function createThemeTokens(colors: ThemeColors) {
 		{ role: "Operator", sublime: "keyword.operator", color: colors.operator },
 		{ role: "Type", sublime: "entity.name.type", color: colors.type },
 		{ role: "Type reference", sublime: "support.type", color: colors.typeRef },
+		{
+			role: "Tag / component",
+			sublime: "entity.name.tag",
+			color: colors.tag,
+		},
+		{
+			role: "Attribute",
+			sublime: "entity.other.attribute-name",
+			color: colors.attribute,
+		},
 		{
 			role: "String / constant",
 			sublime: "string, constant",
@@ -161,16 +177,16 @@ function createMauiShikiTheme(
 				settings: { foreground: colors.unimportant },
 			},
 			{
-				scope: ["meta.tag entity.name"],
-				settings: { foreground: colors.typeRef },
+				scope: ["meta.tag entity.name", "entity.name.tag"],
+				settings: { foreground: colors.tag },
 			},
 			{
 				scope: ["meta.tag entity", "meta.tag.attributes"],
-				settings: { foreground: colors.foregroundMuted },
+				settings: { foreground: colors.attribute },
 			},
 			{
 				scope: ["entity.other.attribute-name"],
-				settings: { foreground: colors.typeRef },
+				settings: { foreground: colors.attribute },
 			},
 			{
 				scope: ["punctuation.definition.tag"],

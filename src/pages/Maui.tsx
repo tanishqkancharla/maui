@@ -47,7 +47,6 @@ import { SidebarPage } from "./SidebarPage"
 import { SizingTokenPage } from "./SizingTokenPage"
 import { SelectPage } from "./SelectPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
-import { SyntaxPreviewPage } from "./SyntaxPreviewPage"
 import { TextPage } from "./TextPage"
 import { TextTokenPage } from "./TextTokenPage"
 import { TooltipPage } from "./TooltipPage"
@@ -74,14 +73,7 @@ type NavItem = {
 const navigation: NavGroup[] = [
 	{
 		label: "Playground",
-		children: [
-			{ label: "Editor", path: "/editor", page: JsxEditorPage },
-			{
-				label: "Syntax preview",
-				path: "/temp/syntax",
-				page: SyntaxPreviewPage,
-			},
-		],
+		children: [{ label: "Editor", path: "/editor", page: JsxEditorPage }],
 	},
 	{
 		label: "Tokens",
@@ -216,6 +208,9 @@ function MauiContent() {
 					</Route>
 					<Route path="/components/code-block">
 						<Redirect to="/components/code" />
+					</Route>
+					<Route path="/temp/syntax">
+						<Redirect to="/editor" />
 					</Route>
 
 					<Route>

@@ -106,7 +106,9 @@ export function CodePage() {
 				<Link href="https://github.com/rsms/sublime-theme">
 					rsms/sublime-theme
 				</Link>{" "}
-				(rsms-dark), adapted to Maui foreground and accent colors.
+				(rsms-dark), adapted to Maui foreground and accent colors. JSX tags
+				use accent (teal in light, violet in dark), attributes use gray, and
+				strings use blue in light and green in dark.
 			</P>
 
 			<Table>
