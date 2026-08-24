@@ -59,7 +59,18 @@ function App() {
 	)
 }
 
+function replaceHashRouteWithPath() {
+	const { hash, search } = window.location
+	if (!hash.startsWith("#/")) {
+		return
+	}
+
+	window.history.replaceState(null, "", `${hash.slice(1)}${search}`)
+}
+
 function run() {
+	replaceHashRouteWithPath()
+
 	const appRoot = document.querySelector("#app")
 	if (!appRoot) {
 		throw new Error("Could not find #app element in dom.")

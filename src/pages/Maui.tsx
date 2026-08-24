@@ -7,7 +7,6 @@ import {
 	Switch as WouterSwitch,
 	useRoute,
 } from "wouter"
-import { useHashLocation } from "wouter/use-hash-location"
 import { style, useStyles } from "purse-styles"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
@@ -54,7 +53,7 @@ import { TooltipPage } from "./TooltipPage"
 
 export function Maui() {
 	return (
-		<Router hook={useHashLocation}>
+		<Router>
 			<MauiContent />
 		</Router>
 	)
