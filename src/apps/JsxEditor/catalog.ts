@@ -79,12 +79,16 @@ export const iconNames = Object.keys(Icons)
 export const catalog: CatalogComponent[] = [
 	{
 		name: "Flex",
-		info: "Row or column flex layout. gap and padding are spacing steps, not pixels.",
+		info: "Row or column flex layout. gap and p/px/py/pt/pb are spacing steps, not pixels.",
 		attributes: [
 			{ name: "row", boolean: true, info: "Horizontal direction" },
 			{ name: "column", boolean: true, info: "Vertical direction" },
 			{ name: "gap", values: spaceValues, info: "Spacing scale step" },
-			{ name: "padding", values: spaceValues, info: "Spacing scale step" },
+			{ name: "p", values: spaceValues, info: "Padding on all sides" },
+			{ name: "px", values: spaceValues, info: "Horizontal padding" },
+			{ name: "py", values: spaceValues, info: "Vertical padding" },
+			{ name: "pt", values: spaceValues, info: "Padding top" },
+			{ name: "pb", values: spaceValues, info: "Padding bottom" },
 			{ name: "alignItems", values: alignItems },
 			{
 				name: "border",

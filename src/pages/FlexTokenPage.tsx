@@ -14,7 +14,9 @@ export function FlexTokenPage() {
 			<P>
 				<code>Flex</code> is a small layout wrapper around the spacing scale.
 				Pass <code>row</code> or <code>column</code>, and use scale steps for{" "}
-				<code>gap</code> and <code>padding</code> (not raw pixels). Optional{" "}
+				<code>gap</code> and padding (<code>p</code>, <code>px</code>,{" "}
+				<code>py</code>, <code>pt</code>, <code>pb</code>) (not raw pixels).
+				Optional{" "}
 				<code>border</code>, <code>shadow</code>, and <code>radius</code> turn
 				it into a surface. Shadows already include a 1px ring, so{" "}
 				<code>border</code> is ignored when <code>shadow</code> is set. For
@@ -80,7 +82,8 @@ export function FlexTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>padding</code>
+							<code>p</code>, <code>px</code>, <code>py</code>, <code>pt</code>,{" "}
+							<code>pb</code>
 						</TableCell>
 						<TableCell>
 							<code style={unionCodeStyle}>
@@ -95,7 +98,8 @@ export function FlexTokenPage() {
 							</code>
 						</TableCell>
 						<TableCell>
-							Inset from the spacing scale, same steps as <code>gap</code>.
+							Padding from the spacing scale. More specific axes win (
+							<code>pt</code> over <code>py</code> over <code>p</code>).
 						</TableCell>
 					</TableRow>
 					<TableRow>
@@ -199,18 +203,18 @@ export function FlexTokenPage() {
 			</Panel>
 
 			<div style={sampleTitleStyle}>Surface</div>
-			<CodeBlock lang="tsx">{`<Flex column gap={4} padding={6} shadow="subtle" radius="lg">
+			<CodeBlock lang="tsx">{`<Flex column gap={4} p={6} shadow="subtle" radius="lg">
 	…
 </Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
-				<Flex column gap={4} padding={6} shadow="subtle" radius="lg">
+				<Flex column gap={4} p={6} shadow="subtle" radius="lg">
 					<Pill>Card</Pill>
 					<Pill>With shadow</Pill>
 				</Flex>
 			</Panel>
 
 			<div style={sampleTitleStyle}>Border</div>
-			<CodeBlock lang="tsx">{`<Flex row alignItems="center" gap={4} padding={4} border="outline" radius="md">
+			<CodeBlock lang="tsx">{`<Flex row alignItems="center" gap={4} px={4} py={3} border="outline" radius="md">
 	…
 </Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
@@ -218,7 +222,8 @@ export function FlexTokenPage() {
 					row
 					alignItems="center"
 					gap={4}
-					padding={4}
+					px={4}
+					py={3}
 					border="outline"
 					radius="md"
 				>

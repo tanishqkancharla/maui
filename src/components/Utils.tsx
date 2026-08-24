@@ -37,6 +37,11 @@ export function Padding(props: PaddingProps) {
 
 type FlexProps = {
 	gap?: Space
+	p?: Space
+	px?: Space
+	py?: Space
+	pt?: Space
+	pb?: Space
 	padding?: Space
 	children?: React.ReactNode
 	alignItems?: React.CSSProperties["alignItems"]
@@ -61,6 +66,11 @@ export function Flex(props: FlexProps) {
 		children,
 		style: styleProp,
 		gap,
+		p,
+		px,
+		py,
+		pt,
+		pb,
 		padding,
 		alignItems,
 		border: borderProp,
@@ -78,7 +88,20 @@ export function Flex(props: FlexProps) {
 			direction: column ? "column" : "row",
 			gap,
 		}),
-		padding === undefined ? undefined : spacing.padding({ all: padding }),
+		p === undefined &&
+			px === undefined &&
+			py === undefined &&
+			pt === undefined &&
+			pb === undefined &&
+			padding === undefined
+			? undefined
+			: spacing.padding({
+					all: p ?? padding,
+					x: px,
+					y: py,
+					top: pt,
+					bottom: pb,
+				}),
 		alignItems === undefined ? undefined : style({ alignItems }),
 		shadowProp ? shadow[shadowProp] : undefined,
 		resolvedBorder ? border([], resolvedBorder) : undefined,

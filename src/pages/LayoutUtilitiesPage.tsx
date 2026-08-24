@@ -12,12 +12,13 @@ export function LayoutUtilitiesPage() {
 				<code>Padding</code>, <code>Flex</code>, and <code>Gap</code> take
 				spacing scale steps (<code>1</code>–<code>16</code>), not raw pixels.{" "}
 				<code>Flex</code> also accepts <code>border</code>, <code>shadow</code>,{" "}
-				<code>radius</code>, and <code>padding</code> when it should read as a
-				surface. Shadows already include a 1px ring, so do not also set{" "}
+				<code>radius</code>, and padding (<code>p</code>, <code>px</code>,{" "}
+				<code>py</code>, <code>pt</code>, <code>pb</code>) when it should read
+				as a surface. Shadows already include a 1px ring, so do not also set{" "}
 				<code>border</code>.
 			</P>
 			<Padding xy={6}>
-				<Flex row alignItems="center" padding={4} border="outline" radius="md">
+				<Flex row alignItems="center" px={4} py={3} border="outline" radius="md">
 					<Text size="sm">Flex</Text>
 					<Gap width={6} />
 					<Text size="sm">Gap</Text>
@@ -26,11 +27,11 @@ export function LayoutUtilitiesPage() {
 				</Flex>
 			</Padding>
 			<H3>Surface</H3>
-			<CodeBlock lang="tsx">{`<Flex column gap={4} padding={6} shadow="subtle" radius="lg">
+			<CodeBlock lang="tsx">{`<Flex column gap={4} p={6} shadow="subtle" radius="lg">
   <Text size="sm">Raised group</Text>
 </Flex>`}</CodeBlock>
 			<Padding xy={6}>
-				<Flex column gap={4} padding={6} shadow="subtle" radius="lg">
+				<Flex column gap={4} p={6} shadow="subtle" radius="lg">
 					<Text size="sm">Raised group</Text>
 					<Text size="sm" color="lowContrast">
 						shadow=&quot;subtle&quot; includes the ring
