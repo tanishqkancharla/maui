@@ -18,6 +18,7 @@ import { cls } from "../../utils/cls"
 import { defaultJsx } from "./catalog"
 import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
+import { mauiEditorKeymap } from "./keymaps"
 import { PreviewIsland } from "./PreviewIsland"
 import { mauiBracketMatching } from "./tagMatching"
 import { evaluateJsx } from "./evaluate"
@@ -137,6 +138,7 @@ export function JsxEditor() {
 		() => [
 			javascript({ jsx: true, typescript: true }),
 			...mauiAutocomplete,
+			mauiEditorKeymap,
 			mauiJsxLinter,
 			...mauiBracketMatching,
 			...mauiCodeMirrorTheme(resolvedTheme === "dark"),
