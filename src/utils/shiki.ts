@@ -79,7 +79,7 @@ export async function highlightCode(
 				pre(node) {
 					node.properties.class = "shiki maui-shiki"
 					node.properties.style =
-						"background-color: transparent; margin: 0; padding: 0;"
+						"background-color: transparent; margin: 0; padding: 0; font-family: inherit;"
 				},
 			},
 		],
