@@ -1,7 +1,7 @@
 import { javascript } from "@codemirror/lang-javascript"
 import type { EditorView } from "@codemirror/view"
 import { style, useStyles } from "purse-styles"
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
 import { useTheme } from "../../theme/ThemeContext"
 import { backgroundColor } from "../../tokens/background"
@@ -16,6 +16,7 @@ import { cls } from "../../utils/cls"
 import { defaultJsx } from "./catalog"
 import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
+import { PreviewIsland } from "./PreviewIsland"
 import { mauiBracketMatching } from "./tagMatching"
 import { errorColors } from "./errorColors"
 import { evaluateJsx } from "./evaluate"
@@ -28,59 +29,6 @@ import {
 import { prettifyJsx, printWidthFromEditor } from "./prettify"
 
 const STORAGE_KEY = "maui-jsx-editor"
-
-type PreviewErrorBoundaryProps = {
-	resetKey: string
-	fallback: React.ReactNode
-	onError: (error: Error | null) => void
-	onReady: () => void
-	children: React.ReactNode
-}
-
-type PreviewErrorBoundaryState = {
-	error: Error | null
-}
-
-class PreviewErrorBoundary extends React.Component<
-	PreviewErrorBoundaryProps,
-	PreviewErrorBoundaryState
-> {
-	state: PreviewErrorBoundaryState = { error: null }
-
-	static getDerivedStateFromError(error: Error): PreviewErrorBoundaryState {
-		return { error }
-	}
-
-	componentDidCatch(error: Error) {
-		this.props.onError(error)
-	}
-
-	componentDidMount() {
-		if (!this.state.error) {
-			this.props.onReady()
-		}
-	}
-
-	componentDidUpdate(prevProps: PreviewErrorBoundaryProps) {
-		if (prevProps.resetKey !== this.props.resetKey && this.state.error) {
-			this.setState({ error: null })
-			this.props.onError(null)
-			return
-		}
-
-		if (!this.state.error) {
-			this.props.onReady()
-		}
-	}
-
-	render() {
-		if (this.state.error) {
-			return this.props.fallback
-		}
-
-		return this.props.children
-	}
-}
 
 function readStoredSource(): string {
 	try {
@@ -104,6 +52,7 @@ export function JsxEditor() {
 	const paneHeaderClassName = useStyles(paneHeaderClass)
 	const editorBodyClassName = useStyles(editorBodyClass)
 	const previewBodyClassName = useStyles(previewBodyClass)
+	const previewHostClassName = useStyles(previewHostClass)
 	const previewOutdatedClassName = useStyles(previewOutdatedClass)
 	const errorClassName = useStyles(errorClass)
 	const errorTextClassName = useStyles(errorTextClass)
@@ -246,14 +195,15 @@ export function JsxEditor() {
 						data-outdated={outdated ? "true" : undefined}
 						aria-busy={outdated}
 					>
-						<PreviewErrorBoundary
+						<PreviewIsland
+							className={previewHostClassName}
 							resetKey={compiled.ok ? source : liveSource}
 							fallback={preview}
 							onError={setRuntimeError}
 							onReady={commitPreview}
 						>
 							{compiled.ok ? compiled.element : preview}
-						</PreviewErrorBoundary>
+						</PreviewIsland>
 					</div>
 				</section>
 			</div>
@@ -323,6 +273,11 @@ const previewBodyClass = style(spacing.padding({ all: 8 }), {
 	flex: "1 1 auto",
 	minHeight: 0,
 	overflow: "auto",
+})
+
+const previewHostClass = style({
+	minHeight: 0,
+	height: "100%",
 })
 
 const previewOutdatedClass = style({

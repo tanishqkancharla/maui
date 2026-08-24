@@ -11,7 +11,7 @@ import {
 export type ThemePreference = "system" | "light" | "dark"
 export type ResolvedTheme = Exclude<ThemePreference, "system">
 
-type ThemeContextValue = {
+export type ThemeContextValue = {
 	preference: ThemePreference
 	resolvedTheme: ResolvedTheme
 	setPreference: (preference: ThemePreference) => void
@@ -19,7 +19,7 @@ type ThemeContextValue = {
 
 export const themeStorageKey = "maui-theme"
 
-const ThemeContext = createContext<ThemeContextValue | null>(null)
+export const ThemeContext = createContext<ThemeContextValue | null>(null)
 
 function isThemePreference(value: string | null): value is ThemePreference {
 	return value === "system" || value === "light" || value === "dark"
