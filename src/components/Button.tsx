@@ -21,7 +21,7 @@ const buttonBaseClass = style(
 		display: "inline-flex",
 		alignItems: "center",
 		justifyContent: "center",
-		gap: spacing.value(3),
+		gap: spacing.value(2),
 		borderRadius: "4px",
 		width: "fit-content",
 		height: "28px",
