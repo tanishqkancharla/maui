@@ -37,7 +37,7 @@ import { JsxEditorPage } from "./JsxEditorPage"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
 import { ListBoxPage } from "./ListBoxPage"
-import { LoaderPage } from "./LoaderPage"
+import { ThinkingPage } from "./ThinkingPage"
 import { MenuPage } from "./MenuPage"
 import { MessageListPage } from "./MessageListPage"
 import { MotionTokenPage } from "./MotionTokenPage"
@@ -115,6 +115,7 @@ const navigation: NavGroup[] = [
 				page: ProsePage,
 			},
 			{ label: "Editor", path: "/components/editor", page: EditorPage },
+			{ label: "Thinking", path: "/components/thinking", page: ThinkingPage },
 			{ label: "Text", path: "/components/text", page: TextPage },
 			{
 				label: "Form controls",
@@ -162,7 +163,6 @@ const navigation: NavGroup[] = [
 				page: AssistantMessagePage,
 			},
 			{ label: "Sidebar", path: "/patterns/sidebar", page: SidebarPage },
-			{ label: "Loader", path: "/patterns/loader", page: LoaderPage },
 		],
 	},
 	{
@@ -211,6 +211,9 @@ function MauiContent() {
 					</Route>
 					<Route path="/patterns/editor">
 						<Redirect to="/components/editor" />
+					</Route>
+					<Route path="/patterns/loader">
+						<Redirect to="/components/thinking" />
 					</Route>
 					<Route path="/temp/syntax">
 						<Redirect to="/editor" />

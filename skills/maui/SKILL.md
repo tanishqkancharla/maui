@@ -1,6 +1,6 @@
 ---
 name: maui
-description: Conventions for consuming the Maui design system. Use when building UI with Maui tokens, components, or purse-styles in an app that depends on Maui.
+description: Conventions and design constraints for consuming the Maui design system. Use when building UI with Maui tokens, components, or purse-styles in an app that depends on Maui.
 ---
 
 # Maui
@@ -31,10 +31,16 @@ The published package exposes:
 
 - `"maui"` — built barrel (`dist/`) of provider, theme, tokens, and components
 - `"maui/icons"` — tree-shakeable named icon modules (same names as `Icons.*`)
+- `"maui/src"` — TypeScript source barrel
 - `"maui/src/*"` — TypeScript source for deep imports
 - `"maui/skills/maui"` — this skill file
 
 `MauiProvider` sets up theme (`data-theme` / `color-scheme`), `PurseProvider`, design-system globals, and the focus UI database used by Button/Dialog.
+
+## Design constraints
+
+- Hover backgrounds have no transitions. Hover fills (`backgroundColor.elementHover`, quiet-button washes, list/row highlights) snap instantly. Do not animate `background` / `background-color` on hover with `motion.standard(...)` or a CSS `transition`. Other motion (tooltips, transforms) is fine.
+- Start from the closest existing pattern or app. Before inventing layout or chrome, look at `src/patterns/` and `src/apps/` that are closest to the end goal and reuse those structures.
 
 ## Theme FOUC
 
@@ -62,18 +68,7 @@ internal button or segment.
 
 ## Layout utilities
 
-`Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px.
-
-## Buttons
-
-`variant` is `"default"` | `"quiet"` | `"primary"`. Pass `variantColor` as a palette name (`"blue"`, `"red"`, `"accent"`, …). Button resolves `colors[variantColor]`:
-
-- `primary` fills with step 9 (hover 10) and `onAccent` text
-- `quiet` + `variantColor` uses a 3.5% wash of step 9 (the same mix as `backgroundColor.elementHover`), hover 7%
-
-```ts
-<Button variant="primary" variantColor="blue">Save</Button>
-```
+`Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px. `Spacer` grows to fill leftover flex space. `Divider` is a horizontal rule.
 
 ## Icons
 
@@ -87,28 +82,52 @@ import { Text as TextIcon } from "maui/icons"
 <TextIcon size="md" />
 ```
 
-`size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, …) are `TextIcon` from `"maui"` or the original name from `"maui/icons"` / `Icons.Text`.
+`size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, …) are `TextIcon` / `BadgeIcon` / `SwitchIcon` from `"maui"`, or the original name from `"maui/icons"` / `Icons.Text`.
 
-## Editor
+## Components
 
-`Editor` is a TipTap markdown surface (CommonMark shortcuts, Maui `proseHtml` type). It has no chrome — wrap it in your own shell for padding, elevation, and actions.
+### Typography and reading
 
-```ts
-import { Editor } from "maui"
+- `Text` — size / weight / color / `monospace` span
+- `H1`–`H4`, `P`, `Label`, `Blockquote`, `Ul`, `Ol`, `Li`, `Link`
+- `Prose` — long-form rhythm; headings switch to the prose scale inside it
+- `Editor` — TipTap markdown surface (CommonMark shortcuts, `proseHtml` type) with no chrome; wrap it for padding, elevation, and actions
 
-<Editor content={markdown} onChange={setMarkdown} placeholder="Write…" />
-```
+### Form controls
+
+- `Button` — `variant` is `"default"` | `"quiet"` | `"primary"`; `variantColor` is a palette name. Primary fills step 9 (hover 10) with light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow); quiet + color uses a 3.5% wash of step 9 (hover 7%).
+- `TextField`, `SearchField`, `NumberField`, `QuietTextField`
+- `Checkbox`, `Switch`, `Slider`
+- `RadioOptionGroup` / `RadioOption`
+- `Select` / `SelectItem`
+
+### Collections and overlays
+
+- `ListBox` / `ListBoxItem`
+- `MenuTrigger` / `Menu` / `MenuItem`
+- `Tooltip`
+- `CollectionPopover` — shared popover used by Select and Menu
+- `Overlay`, `Dialog`
+
+### Display
+
+- `Avatar`
+- `Badge`
+- `Code`, `Kbd`, `CodeBlock`
+- `Table` / `TableHead` / `TableBody` / `TableRow` / `TableHeaderCell` / `TableCell`
+- `Panel` — gallery/demo surface
+- `FuzzyString` — highlight segments; takes a match result, not a plain string
+- `Thinking` — 3×3 Game of Life indicator; reseeds when the board dies or loops
 
 ## Reference: patterns and apps
 
-Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them as in-repo reference implementations (also available via `"maui/src/..."` when the package ships source):
+Patterns and demo apps are not part of the `"maui"` package barrel. Use the closest one as a reference before inventing new layout (also available via `"maui/src/..."` when the package ships source):
 
 ### Patterns — `src/patterns/`
 
 | Path | Role |
 | --- | --- |
 | `src/patterns/AssistantMessage.tsx` | Streaming markdown reply (Streamdown + Maui prose) |
-| `src/patterns/Loader.tsx` | Game-of-life loader |
 | `src/patterns/Sidebar.tsx` | App sidebar chrome |
 | `src/patterns/Inbox.tsx` | Mail inbox layout |
 | `src/patterns/MessageList.tsx` | Message list rows |
@@ -120,6 +139,7 @@ Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them
 | `src/apps/AiChat/` | Mock streaming AI chat (Editor + AssistantMessage) |
 | `src/apps/EmailClient/` | Email client demo composing inbox patterns |
 | `src/apps/Calendar/` | Three-pane schedule (mini month, week grid, event details) |
+| `src/apps/JsxEditor/` | Live JSX playground (CodeMirror + Maui catalog) |
 
 ## License
 

@@ -32,6 +32,7 @@ import {
 	TableRow,
 } from "../../components/Table"
 import { Text } from "../../components/Text"
+import { Thinking } from "../../components/Thinking"
 import { Tooltip } from "../../components/Tooltip"
 import {
 	Blockquote,
@@ -366,6 +367,16 @@ export const catalog: CatalogComponent[] = [
 			{ name: "aria-label" },
 		],
 	},
+	{
+		name: "Thinking",
+		info: "3x3 Game of Life indicator. Reseeds when the board dies or loops.",
+		attributes: [
+			{ name: "size", info: "CSS length, default 1em" },
+			{ name: "variant", values: ["primary", "accent", "muted"] },
+			{ name: "aria-label" },
+			{ name: "className" },
+		],
+	},
 ]
 
 export const previewScope: Record<string, unknown> = {
@@ -405,6 +416,7 @@ export const previewScope: Record<string, unknown> = {
 	TableHeaderCell,
 	TableRow,
 	Text,
+	Thinking,
 	Tooltip,
 	Blockquote,
 	H1,

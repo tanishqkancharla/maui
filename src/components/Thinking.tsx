@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { colors } from "../tokens/colors"
 import { motion } from "../tokens/motion"
+import { cls } from "../utils/cls"
 
 const GRID_SIZE = 3
 const CELL_COUNT = GRID_SIZE * GRID_SIZE
@@ -59,25 +60,27 @@ function step(cells: Cells): Cells {
 	})
 }
 
-type LoaderVariant = "primary" | "accent" | "muted"
+export type ThinkingVariant = "primary" | "accent" | "muted"
 
-type LoaderProps = {
+export type ThinkingProps = {
 	size?: string
-	variant?: LoaderVariant
+	variant?: ThinkingVariant
 	className?: string
 	"aria-label"?: string
 }
 
-// A 3x3 dot grid, text-sized, that simulates Conway's Game of Life starting
-// from a random orientation. A small grid dies out or freezes quickly, so
-// whenever the simulation goes extinct or repeats a recent state, it reseeds
-// with a fresh random pattern to keep animating like a loading indicator.
-export function Loader({
+/**
+ * A 3x3 dot grid, text-sized, that simulates Conway's Game of Life starting
+ * from a random orientation. A small grid dies out or freezes quickly, so
+ * whenever the simulation goes extinct or repeats a recent state, it reseeds
+ * with a fresh random pattern to keep animating.
+ */
+export function Thinking({
 	size = "1em",
 	variant = "primary",
 	className,
-	"aria-label": ariaLabel = "Loading",
-}: LoaderProps) {
+	"aria-label": ariaLabel = "Thinking",
+}: ThinkingProps) {
 	const [cells, setCells] = useState<Cells>(() => randomCells())
 	const historyRef = useRef<string[]>([cellsKey(cells)])
 
@@ -111,7 +114,7 @@ export function Loader({
 		<span
 			role="status"
 			aria-label={ariaLabel}
-			className={joinClassNames(gridClassName, className)}
+			className={cls(gridClassName, className)}
 			style={{ width: size, height: size }}
 		>
 			{cells.map((alive, index) => (
@@ -155,7 +158,3 @@ const dotClass = style({
 		opacity: 1,
 	},
 })
-
-function joinClassNames(...classNames: Array<string | undefined>) {
-	return classNames.filter(Boolean).join(" ")
-}
