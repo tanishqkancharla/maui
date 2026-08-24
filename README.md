@@ -54,6 +54,8 @@ Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
 
 Maui is **source-available, not open source.** The code is public so you can read it and run the gallery; it is not licensed for other people to use in commercial products or as their design system.
 
-The [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) covers personal, educational, and other noncommercial use. Commercial use needs a separate license from the author. See [`LICENSE`](./LICENSE).
+The [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) covers personal, educational, and other noncommercial use. See [`LICENSE`](./LICENSE) and [`NOTICE`](./NOTICE).
+
+**Halo is an exception.** [Halo](https://github.com/tanishqkancharla/halo-v2) may depend on, bundle, and distribute Maui, including commercially. That grant is for Halo as an application. It does not make Maui MIT, and it does not let someone lift Maui out of Halo into another product.
 
 This is not an open-contribution project. Please do not open pull requests; see [`CONTRIBUTING.md`](./CONTRIBUTING.md).

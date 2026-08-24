@@ -4,3 +4,14 @@ Maui is licensed under the PolyForm Noncommercial License 1.0.0.
 See LICENSE and https://polyformproject.org/licenses/noncommercial/1.0.0
 
 Required Notice: Copyright (c) 2026 Tanishq Kancharla (https://github.com/tanishqkancharla/maui)
+
+Additional grant for Halo
+
+The copyright holder additionally grants a royalty-free, worldwide license
+to use, copy, modify, and distribute Maui solely as part of Halo
+(https://github.com/tanishqkancharla/halo-v2 and forks of that application),
+including commercial use and distribution of Halo.
+
+This additional grant does not relicense Maui as MIT, allow using Maui as a
+standalone design system, or allow copying Maui into other products — even
+products derived from Halo by extracting Maui.
