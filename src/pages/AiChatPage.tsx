@@ -10,9 +10,9 @@ export function AiChatPage() {
 		<Prose className={pageClassName}>
 			<H2>AI chat</H2>
 			<P>
-				A mock streaming chat composed from the Editor and Assistant message
-				patterns. Messages you send get a canned markdown reply streamed locally
-				through Streamdown — no backend or API.
+				A mock streaming chat composed from the Editor component and the
+				Assistant message pattern. Messages you send get a canned markdown reply
+				streamed locally through Streamdown — no backend or API.
 			</P>
 
 			<AiChat />

@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../../components/Button"
+import { Editor } from "../../components/Editor"
 import { Icons } from "../../components/Icons"
 import { Loader } from "../../patterns/Loader"
 import { AssistantMessage } from "../../patterns/AssistantMessage"
-import { Editor } from "../../patterns/Editor"
 import { backgroundColor } from "../../tokens/background"
 import { border } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
-import { shadow, shadowVars } from "../../tokens/shadow"
+import { shadow } from "../../tokens/shadow"
 import { spacing } from "../../tokens/spacing"
 import { monospace, text } from "../../tokens/text"
 import { prose } from "../../tokens/prose"
@@ -138,7 +138,7 @@ function streamAssistantTurn(
 const THINKING_DELAY_MS = 3000
 
 /**
- * Mock AI chat composed from the Editor and AssistantMessage patterns.
+ * Mock AI chat composed from the Editor component and AssistantMessage pattern.
  * Submitting a message streams tool calls, then a canned markdown reply.
  */
 export function AiChat() {
@@ -160,7 +160,8 @@ export function AiChat() {
 	const userRowClassName = useStyles(userRowClass)
 	const userBubbleClassName = useStyles(userBubbleClass)
 	const composerClassName = useStyles(composerClass)
-	const composerEditorClassName = useStyles(composerEditorClass)
+	const composerShellClassName = useStyles(composerShellClass)
+	const composerActionsClassName = useStyles(composerActionsClass)
 	const sendButtonClassName = useStyles(sendButtonClass)
 	const thinkingClassName = useStyles(thinkingClass)
 
@@ -296,16 +297,17 @@ export function AiChat() {
 			</div>
 
 			<div className={composerClassName}>
-				<Editor
-					content={draft}
-					onChange={setDraft}
-					onSubmit={send}
-					editable={!streaming}
-					placeholder="Message the assistant…"
-					aria-label="Compose message"
-					size="sm"
-					className={composerEditorClassName}
-					actions={
+				<div className={composerShellClassName}>
+					<Editor
+						content={draft}
+						onChange={setDraft}
+						onSubmit={send}
+						editable={!streaming}
+						placeholder="Message the assistant…"
+						aria-label="Compose message"
+						size="sm"
+					/>
+					<div className={composerActionsClassName}>
 						<Button
 							aria-label={streaming ? "Streaming" : "Send"}
 							className={sendButtonClassName}
@@ -314,8 +316,8 @@ export function AiChat() {
 						>
 							<Icons.ArrowUp size="sm" />
 						</Button>
-					}
-				/>
+					</div>
+				</div>
 			</div>
 		</div>
 	)
@@ -385,21 +387,24 @@ const composerClass = style(spacing.padding({ x: 6, top: 4, bottom: 6 }), {
 	backgroundColor: "transparent",
 })
 
-const composerEditorClass = style({
-	maxWidth: "none",
-	width: "100%",
-	// Keep the editor's subtle elevation on focus; drop the blue focus ring.
-	"&:focus-within": {
-		outline: "none",
-		boxShadow: shadowVars.subtle,
-		zIndex: "auto",
+const composerShellClass = style(
+	radius.lg,
+	shadow.subtle,
+	spacing.padding({ x: 4, y: 3 }),
+	flex({ direction: "column", gap: 2 }),
+	{
+		backgroundColor: backgroundColor.element,
+		minWidth: 0,
+		width: "100%",
 	},
-})
+)
+
+const composerActionsClass = style(flex({ align: "center", justify: "end", gap: 3 }))
 
 /** Filled circular send control — icon-only Button without the default shadow. */
 const sendButtonClass = style(radius.circle, {
 	boxShadow: "none",
-	// Editor shell is also `background.app` white; a light wash keeps the circle
+	// Composer shell is `background.element`; a light wash keeps the circle
 	// readable once the default Button shadow is removed.
 	backgroundColor: colors.gray[3],
 	"&:hover": {
