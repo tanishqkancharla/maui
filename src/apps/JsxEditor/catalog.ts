@@ -234,10 +234,16 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Button",
-		info: "Button. Optional quiet variant.",
+		info: "Button. default is raised, quiet is borderless, primary fills with accent 9.",
 		html: true,
 		attributes: [
-			{ name: "variant", values: ["default", "quiet"] },
+			{ name: "variant", values: ["default", "quiet", "primary"] },
+			{
+				name: "variantColor",
+				object: true,
+				info: "12-step scale. Primary uses step 9; quiet uses a 3.5% wash of step 9.",
+				values: ["colors.accent", "colors.gray"],
+			},
 			{ name: "aria-label" },
 			{ name: "disabled", boolean: true },
 		],

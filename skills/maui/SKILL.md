@@ -64,6 +64,13 @@ internal button or segment.
 
 `Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px.
 
+## Buttons
+
+`variant` is `"default"` | `"quiet"` | `"primary"`. Pass `variantColor` as a 12-step scale (`colors.accent`, `colors.gray`, or any matching scale):
+
+- `primary` fills with step 9 (hover 10) and `onAccent` text
+- `quiet` + `variantColor` uses a 3.5% wash of step 9 (the same mix as `backgroundColor.elementHover`), hover 7%
+
 ## Icons
 
 Import named icons so unused SVGs are tree-shaken. Do not import the `Icons` namespace in app code unless you want the full set.

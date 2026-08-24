@@ -24,6 +24,23 @@ export function ButtonsPage() {
 				<Button onClick={() => setOverlayOpen(true)}>Open Overlay</Button>
 			</Flex>
 
+			<H3>Primary</H3>
+			<P>
+				<code>variant="primary"</code> fills with step 9 of{" "}
+				<code>variantColor</code> (defaults to <code>colors.accent</code>).
+				Quiet uses the same color at the 3.5% surface-wash mix.
+			</P>
+			<Flex row alignItems="center" gap={4}>
+				<Button variant="primary">Save</Button>
+				<Button variant="primary">
+					<Icons.Plus />
+					Create
+				</Button>
+				<Button variant="quiet" variantColor={colors.accent}>
+					Quiet accent
+				</Button>
+			</Flex>
+
 			<H3>Quiet</H3>
 			<Flex row alignItems="center" gap={4}>
 				<Button variant="quiet">Button</Button>

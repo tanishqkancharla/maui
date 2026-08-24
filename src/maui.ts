@@ -52,7 +52,7 @@ export { visuallyHidden } from "./tokens/visuallyHidden"
 // Components
 export { Avatar } from "./components/Avatar"
 export { Badge } from "./components/Badge"
-export { Button, useButton } from "./components/Button"
+export { Button, useButton, type ButtonProps, type ButtonVariant, type ColorScale } from "./components/Button"
 export { Checkbox } from "./components/Checkbox"
 export { Switch } from "./components/Switch"
 export { Slider } from "./components/Slider"
