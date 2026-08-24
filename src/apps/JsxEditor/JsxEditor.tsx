@@ -204,11 +204,6 @@ export function JsxEditor() {
 							Format · ⌘S
 						</Text>
 					</div>
-					{bannerError && (
-						<div className={errorClassName} role="status">
-							<span className={errorTextClassName}>{bannerError}</span>
-						</div>
-					)}
 					<div className={editorBodyClassName}>
 						<CodeMirror
 							value={source}
