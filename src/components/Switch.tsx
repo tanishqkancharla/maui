@@ -2,7 +2,6 @@ import { useRef } from "react"
 import { useSwitch } from "react-aria"
 import { ToggleState, useToggleState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -22,7 +21,7 @@ const switchClass = style(
 		position: "relative",
 		width: "fit-content",
 		"&:hover .switch-toggle": {
-			backgroundColor: backgroundColor.elementHover,
+			backgroundColor: colors.gray[3],
 		},
 		"& .switch-input:checked + .switch-toggle": {
 			backgroundColor: colors.accent[9],
@@ -41,7 +40,7 @@ const switchToggleClass = style(
 		position: "relative",
 		width: "24px",
 		height: "14px",
-		backgroundColor: backgroundColor.element,
+		backgroundColor: colors.gray[2],
 	},
 )
 
