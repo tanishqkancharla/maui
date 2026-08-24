@@ -7,8 +7,17 @@ import { shadowVars } from "../../tokens/shadow"
 import { monoFontFamily } from "../../tokens/text"
 import { mauiSyntaxColors } from "../../utils/mauiShikiTheme"
 
-export function mauiCodeMirrorTheme(dark: boolean) {
+export type JsxHighlightColors = {
+	tagName: string
+	attributeName: string
+	string: string
+}
+
+export function mauiCodeMirrorTheme(dark: boolean, jsx?: JsxHighlightColors) {
 	const syntax = dark ? mauiSyntaxColors.dark : mauiSyntaxColors.light
+	const tagName = jsx?.tagName ?? syntax.typeRef
+	const attributeName = jsx?.attributeName ?? syntax.typeRef
+	const string = jsx?.string ?? syntax.string
 
 	return [
 		EditorView.theme(
@@ -124,18 +133,18 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				{ tag: t.controlKeyword, color: syntax.keyword },
 				{ tag: t.definitionKeyword, color: syntax.keyword },
 				{ tag: t.operatorKeyword, color: syntax.operator },
-				{ tag: t.string, color: syntax.string },
-				{ tag: t.attributeValue, color: syntax.string },
-				{ tag: t.number, color: syntax.string },
-				{ tag: t.bool, color: syntax.string },
-				{ tag: t.null, color: syntax.string },
-				{ tag: t.literal, color: syntax.string },
+				{ tag: t.string, color: string },
+				{ tag: t.attributeValue, color: string },
+				{ tag: t.number, color: string },
+				{ tag: t.bool, color: string },
+				{ tag: t.null, color: string },
+				{ tag: t.literal, color: string },
 				{ tag: t.content, color: syntax.foreground },
-				{ tag: t.tagName, color: syntax.typeRef },
-				{ tag: t.standard(t.tagName), color: syntax.typeRef },
+				{ tag: t.tagName, color: tagName },
+				{ tag: t.standard(t.tagName), color: tagName },
 				{ tag: t.typeName, color: syntax.type },
 				{ tag: t.angleBracket, color: syntax.unimportant },
-				{ tag: t.attributeName, color: syntax.typeRef },
+				{ tag: t.attributeName, color: attributeName },
 				{ tag: t.propertyName, color: syntax.foregroundMuted },
 				{ tag: t.variableName, color: syntax.foregroundMuted },
 				{ tag: t.definition(t.variableName), color: syntax.foregroundMuted },

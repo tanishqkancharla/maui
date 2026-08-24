@@ -47,6 +47,7 @@ import { SidebarPage } from "./SidebarPage"
 import { SizingTokenPage } from "./SizingTokenPage"
 import { SelectPage } from "./SelectPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
+import { SyntaxPreviewPage } from "./SyntaxPreviewPage"
 import { TextPage } from "./TextPage"
 import { TextTokenPage } from "./TextTokenPage"
 import { TooltipPage } from "./TooltipPage"
@@ -73,7 +74,14 @@ type NavItem = {
 const navigation: NavGroup[] = [
 	{
 		label: "Playground",
-		children: [{ label: "Editor", path: "/editor", page: JsxEditorPage }],
+		children: [
+			{ label: "Editor", path: "/editor", page: JsxEditorPage },
+			{
+				label: "Syntax preview",
+				path: "/temp/syntax",
+				page: SyntaxPreviewPage,
+			},
+		],
 	},
 	{
 		label: "Tokens",
