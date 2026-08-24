@@ -8,7 +8,7 @@ import {
 	surfaceMixPercent,
 	surfaceWash,
 } from "../tokens/background"
-import { colors } from "../tokens/colors"
+import { colors, type ColorName, type ColorScale } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { shadow, shadowVars } from "../tokens/shadow"
@@ -17,10 +17,6 @@ import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
 
 export type ButtonVariant = "default" | "quiet" | "primary"
-
-export type ColorScale = {
-	readonly [K in 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12]: string
-}
 
 const buttonBaseClass = style(
 	text("xs", 400, "highContrast"),
@@ -88,10 +84,20 @@ const quietButtonClass = style(
 	},
 )
 
+const darkTextOnSolid: ReadonlySet<ColorName> = new Set([
+	"amber",
+	"lime",
+	"mint",
+	"sky",
+	"yellow",
+])
+
 const coloredButtonClass = memoize(
-	(variant: "primary" | "quiet", scale: ColorScale) => {
+	(variant: "primary" | "quiet", name: ColorName) => {
+		const scale: ColorScale = colors[name]
 		if (variant === "primary") {
-			return style(buttonBaseClass, text("xs", 400, "onAccent"), {
+			return style(buttonBaseClass, {
+				color: darkTextOnSolid.has(name) ? scale[12] : "white",
 				backgroundColor: scale[9],
 				"&:hover": {
 					backgroundColor: scale[10],
@@ -142,7 +148,7 @@ type ButtonData = {
 export type ButtonProps = Omit<ButtonAttributes, "children" | "ref"> & {
 	children: React.ReactNode
 	variant?: ButtonVariant
-	variantColor?: ColorScale
+	variantColor?: ColorName
 }
 
 export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
@@ -198,10 +204,10 @@ export function Button(props: ButtonProps) {
 
 function buttonVariantClass(
 	variant: ButtonVariant,
-	variantColor: ColorScale | undefined,
+	variantColor: ColorName | undefined,
 ) {
 	if (variant === "primary") {
-		return coloredButtonClass("primary", variantColor ?? colors.accent)
+		return coloredButtonClass("primary", variantColor ?? "accent")
 	}
 	if (variant === "quiet" && variantColor) {
 		return coloredButtonClass("quiet", variantColor)

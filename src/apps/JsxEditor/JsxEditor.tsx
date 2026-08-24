@@ -18,7 +18,6 @@ import { mauiAutocomplete } from "./completions"
 import { mauiCodeMirrorTheme } from "./editorTheme"
 import { PreviewIsland } from "./PreviewIsland"
 import { mauiBracketMatching } from "./tagMatching"
-import { errorColors } from "./errorColors"
 import { evaluateJsx } from "./evaluate"
 import {
 	collectJsxDiagnosticsFromSource,
@@ -286,10 +285,10 @@ const previewOutdatedClass = style({
 
 const errorClass = style(spacing.padding({ x: 4, y: 3 }), {
 	flexShrink: 0,
-	borderBottom: `1px solid ${errorColors[6]}`,
-	backgroundColor: errorColors[3],
+	borderBottom: `1px solid ${colors.red[6]}`,
+	backgroundColor: colors.red[3],
 })
 
 const errorTextClass = style(text("xs", 400, "highContrast"), {
-	color: errorColors[11],
+	color: colors.red[11],
 })

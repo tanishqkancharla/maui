@@ -6,7 +6,6 @@ import { colors } from "../../tokens/colors"
 import { shadowVars } from "../../tokens/shadow"
 import { monoFontFamily } from "../../tokens/text"
 import { mauiSyntaxColors } from "../../utils/mauiShikiTheme"
-import { errorColors } from "./errorColors"
 
 export function mauiCodeMirrorTheme(dark: boolean) {
 	const syntax = dark ? mauiSyntaxColors.dark : mauiSyntaxColors.light
@@ -97,12 +96,12 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					backgroundImage: "none",
 					textDecorationLine: "underline",
 					textDecorationStyle: "wavy",
-					textDecorationColor: errorColors[9],
+					textDecorationColor: colors.red[9],
 					textDecorationThickness: "2px",
 					textUnderlineOffset: "3px",
 				},
 				".cm-lintPoint-error": {
-					borderBottomColor: errorColors[9],
+					borderBottomColor: colors.red[9],
 				},
 				".cm-tooltip.cm-tooltip-lint": {
 					backgroundColor: backgroundColor.element,
@@ -113,7 +112,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					fontSize: "12px",
 				},
 				".cm-diagnostic-error": {
-					borderLeftColor: errorColors[9],
+					borderLeftColor: colors.red[9],
 				},
 			},
 			{ dark },

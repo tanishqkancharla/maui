@@ -66,10 +66,14 @@ internal button or segment.
 
 ## Buttons
 
-`variant` is `"default"` | `"quiet"` | `"primary"`. Pass `variantColor` as a 12-step scale (`colors.accent`, `colors.gray`, or any matching scale):
+`variant` is `"default"` | `"quiet"` | `"primary"`. Pass `variantColor` as a palette name (`"blue"`, `"red"`, `"accent"`, …). Button resolves `colors[variantColor]`:
 
 - `primary` fills with step 9 (hover 10) and `onAccent` text
 - `quiet` + `variantColor` uses a 3.5% wash of step 9 (the same mix as `backgroundColor.elementHover`), hover 7%
+
+```ts
+<Button variant="primary" variantColor="blue">Save</Button>
+```
 
 ## Icons
 

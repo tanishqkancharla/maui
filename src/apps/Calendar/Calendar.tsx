@@ -6,15 +6,7 @@ import {
 	type ReactNode,
 	type RefObject,
 } from "react"
-import { style, useStyles, defineVars } from "purse-styles"
-import {
-	green as greenLight,
-	greenDark,
-	orange as orangeLight,
-	orangeDark,
-	pink as pinkLight,
-	pinkDark,
-} from "@radix-ui/colors"
+import { style, useStyles } from "purse-styles"
 import { Avatar } from "../../components/Avatar"
 import { Button } from "../../components/Button"
 import { Kbd } from "../../components/Code"
@@ -31,7 +23,6 @@ import { flex, flexItem } from "../../tokens/layout"
 import { motion } from "../../tokens/motion"
 import { radius } from "../../tokens/radius"
 import { shadow } from "../../tokens/shadow"
-import { DARK_THEME } from "../../theme/dataTheme"
 import { spacing } from "../../tokens/spacing"
 import { monospace, text } from "../../tokens/text"
 import { memoize } from "../../utils/memoize"
@@ -1277,24 +1268,6 @@ function joinClassNames(...classNames: Array<string | undefined | false>) {
 	return classNames.filter(Boolean).join(" ")
 }
 
-const eventHue = {
-	green: defineVars({
-		3: { default: greenLight.green3, [DARK_THEME]: greenDark.green3 },
-		9: { default: greenLight.green9, [DARK_THEME]: greenDark.green9 },
-		11: { default: greenLight.green11, [DARK_THEME]: greenDark.green11 },
-	}),
-	orange: defineVars({
-		3: { default: orangeLight.orange3, [DARK_THEME]: orangeDark.orange3 },
-		9: { default: orangeLight.orange9, [DARK_THEME]: orangeDark.orange9 },
-		11: { default: orangeLight.orange11, [DARK_THEME]: orangeDark.orange11 },
-	}),
-	pink: defineVars({
-		3: { default: pinkLight.pink3, [DARK_THEME]: pinkDark.pink3 },
-		9: { default: pinkLight.pink9, [DARK_THEME]: pinkDark.pink9 },
-		11: { default: pinkLight.pink11, [DARK_THEME]: pinkDark.pink11 },
-	}),
-}
-
 const eventPalette: Record<
 	EventColor,
 	{
@@ -1309,19 +1282,19 @@ const eventPalette: Record<
 		selectedBackground: colors.accent[9],
 	},
 	green: {
-		background: eventHue.green[3],
-		foreground: eventHue.green[11],
-		selectedBackground: eventHue.green[9],
+		background: colors.green[3],
+		foreground: colors.green[11],
+		selectedBackground: colors.green[9],
 	},
 	orange: {
-		background: eventHue.orange[3],
-		foreground: eventHue.orange[11],
-		selectedBackground: eventHue.orange[9],
+		background: colors.orange[3],
+		foreground: colors.orange[11],
+		selectedBackground: colors.orange[9],
 	},
 	pink: {
-		background: eventHue.pink[3],
-		foreground: eventHue.pink[11],
-		selectedBackground: eventHue.pink[9],
+		background: colors.pink[3],
+		foreground: colors.pink[11],
+		selectedBackground: colors.pink[9],
 	},
 }
 

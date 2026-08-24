@@ -7,7 +7,7 @@ import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
-import { colors } from "../tokens/colors"
+import { colorNames, colors } from "../tokens/colors"
 import { borderColor } from "../tokens/borders"
 
 export function ButtonsPage() {
@@ -27,18 +27,43 @@ export function ButtonsPage() {
 			<H3>Primary</H3>
 			<P>
 				<code>variant="primary"</code> fills with step 9 of{" "}
-				<code>variantColor</code> (defaults to <code>colors.accent</code>).
-				Quiet uses the same color at the 3.5% surface-wash mix.
+				<code>variantColor</code> (a palette name, default{" "}
+				<code>"accent"</code>). Quiet uses the same color at the 3.5%
+				surface-wash mix.
 			</P>
-			<Flex row alignItems="center" gap={4}>
+			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="primary">Save</Button>
 				<Button variant="primary">
 					<Icons.Plus />
 					Create
 				</Button>
-				<Button variant="quiet" variantColor={colors.accent}>
+				<Button variant="primary" variantColor="blue">
+					Blue
+				</Button>
+				<Button variant="primary" variantColor="red">
+					Red
+				</Button>
+				<Button variant="primary" variantColor="orange">
+					Orange
+				</Button>
+				<Button variant="quiet" variantColor="accent">
 					Quiet accent
 				</Button>
+				<Button variant="quiet" variantColor="blue">
+					Quiet blue
+				</Button>
+			</Flex>
+			<Flex
+				row
+				alignItems="center"
+				gap={3}
+				style={{ flexWrap: "wrap", marginTop: "12px" }}
+			>
+				{colorNames.map((name) => (
+					<Button key={name} variant="primary" variantColor={name}>
+						{name}
+					</Button>
+				))}
 			</Flex>
 
 			<H3>Quiet</H3>

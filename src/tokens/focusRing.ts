@@ -1,14 +1,8 @@
-import { blueA, blueDarkA } from "@radix-ui/colors"
 import { defineVars, style, type CSSProperties } from "purse-styles"
-import { DARK_THEME } from "../theme/dataTheme"
 import { memoize } from "../utils/memoize"
+import { colors } from "./colors"
 
-const focusColor = defineVars({
-	edge: { default: blueA.blueA8, [DARK_THEME]: blueDarkA.blueA8 },
-	glow: { default: blueA.blueA5, [DARK_THEME]: blueDarkA.blueA5 },
-})
-
-const focusShadow = `0 0 0 1px ${focusColor.edge}, 0 0 6px ${focusColor.glow}`
+const focusShadow = `0 0 0 1px ${colors.blueAlpha[8]}, 0 0 6px ${colors.blueAlpha[5]}`
 
 /**
  * Blue focus ring — hard edge uses step 8, soft glow uses step 5.

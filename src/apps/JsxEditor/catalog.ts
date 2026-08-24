@@ -48,7 +48,7 @@ import {
 import { Divider, Flex, Gap, Padding, Spacer } from "../../components/Utils"
 import { backgroundColor } from "../../tokens/background"
 import { borderColor } from "../../tokens/borders"
-import { colors } from "../../tokens/colors"
+import { colors, colorNames } from "../../tokens/colors"
 import { radius } from "../../tokens/radius"
 import { spacing } from "../../tokens/spacing"
 
@@ -240,9 +240,8 @@ export const catalog: CatalogComponent[] = [
 			{ name: "variant", values: ["default", "quiet", "primary"] },
 			{
 				name: "variantColor",
-				object: true,
-				info: "12-step scale. Primary uses step 9; quiet uses a 3.5% wash of step 9.",
-				values: ["colors.accent", "colors.gray"],
+				info: "Palette name resolved as colors[name]. Primary uses step 9; quiet uses a 3.5% wash of step 9.",
+				values: [...colorNames],
 			},
 			{ name: "aria-label" },
 			{ name: "disabled", boolean: true },
