@@ -98,7 +98,16 @@ export {
 	type MenuItemProps,
 } from "./components/Menu"
 export { FuzzyString } from "./components/FuzzyString"
-export { Flex, Padding, Gap, Spacer, Divider } from "./components/Utils"
+export {
+	Flex,
+	Padding,
+	Gap,
+	Spacer,
+	Divider,
+	type FlexShadow,
+	type FlexRadius,
+	type FlexBorder,
+} from "./components/Utils"
 export { Text, type TextProps } from "./components/Text"
 export {
 	H1,

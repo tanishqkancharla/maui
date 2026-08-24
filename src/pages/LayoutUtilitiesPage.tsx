@@ -9,7 +9,10 @@ export function LayoutUtilitiesPage() {
 			<H2>Layout utilities</H2>
 			<P>
 				<code>Padding</code>, <code>Flex</code>, and <code>Gap</code> take
-				spacing scale steps (<code>1</code>–<code>16</code>), not raw pixels.
+				spacing scale steps (<code>1</code>–<code>16</code>), not raw pixels.{" "}
+				<code>Flex</code> also accepts <code>border</code>, <code>shadow</code>,{" "}
+				<code>radius</code>, and <code>padding</code> when it should read as a
+				surface.
 			</P>
 			<Padding xy={6}>
 				<div
