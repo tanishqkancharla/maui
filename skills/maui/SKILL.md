@@ -1,6 +1,6 @@
 ---
 name: maui
-description: Conventions for consuming the Maui design system. Use when building UI with Maui tokens, components, or purse-styles in an app that depends on Maui.
+description: Conventions and design constraints for consuming the Maui design system. Use when building UI with Maui tokens, components, or purse-styles in an app that depends on Maui.
 ---
 
 # Maui
@@ -35,6 +35,13 @@ The published package exposes:
 - `"maui/skills/maui"` — this skill file
 
 `MauiProvider` sets up theme (`data-theme` / `color-scheme`), `PurseProvider`, design-system globals, and the focus UI database used by Button/Dialog.
+
+## Design constraints
+
+Rolling list — append new rules here. Follow these when building or changing Maui UI.
+
+- **Hover backgrounds have no transitions.** Hover fills (`backgroundColor.elementHover`, quiet-button washes, list/row highlights) snap instantly. Do not animate `background` / `background-color` on hover with `motion.standard(...)` or a CSS `transition`. Other motion (tooltips, transforms) is fine.
+- **Start from the closest existing pattern or app.** Before inventing layout or chrome, look at `src/patterns/` and `src/apps/` that are closest to the end goal and reuse those structures.
 
 ## Theme FOUC
 
@@ -101,7 +108,7 @@ import { Editor } from "maui"
 
 ## Reference: patterns and apps
 
-Patterns and demo apps are **not** part of the `"maui"` package barrel. Use them as in-repo reference implementations (also available via `"maui/src/..."` when the package ships source):
+Patterns and demo apps are **not** part of the `"maui"` package barrel. Use the closest one as a reference before inventing new layout (also available via `"maui/src/..."` when the package ships source):
 
 ### Patterns — `src/patterns/`
 
