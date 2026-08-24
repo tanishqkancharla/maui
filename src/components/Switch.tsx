@@ -1,7 +1,8 @@
 import { useRef } from "react"
 import { useSwitch } from "react-aria"
 import { ToggleState, useToggleState } from "react-stately"
-import { style, useStyles } from "purse-styles"
+import { defineVars, style, useStyles } from "purse-styles"
+import { DARK_THEME } from "../theme/dataTheme"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -10,6 +11,18 @@ import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { labelText } from "./Typography"
+
+/** One step darker than `background.element` (#fff / gray 2). */
+const switchOff = defineVars({
+	track: {
+		default: colors.gray[2],
+		[DARK_THEME]: colors.gray[1],
+	},
+	trackHover: {
+		default: colors.gray[3],
+		[DARK_THEME]: colors.gray[2],
+	},
+})
 
 const switchClass = style(
 	flex({ align: "center", gap: 3 }),
@@ -21,7 +34,7 @@ const switchClass = style(
 		position: "relative",
 		width: "fit-content",
 		"&:hover .switch-toggle": {
-			backgroundColor: colors.gray[3],
+			backgroundColor: switchOff.trackHover,
 		},
 		"& .switch-input:checked + .switch-toggle": {
 			backgroundColor: colors.accent[9],
@@ -40,7 +53,7 @@ const switchToggleClass = style(
 		position: "relative",
 		width: "24px",
 		height: "14px",
-		backgroundColor: colors.gray[2],
+		backgroundColor: switchOff.track,
 	},
 )
 
