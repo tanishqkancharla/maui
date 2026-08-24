@@ -57,6 +57,7 @@ export type AttributeCompletion = {
 	info?: string
 	values?: string[]
 	boolean?: boolean
+	object?: boolean
 }
 
 export type CatalogComponent = {
@@ -84,7 +85,11 @@ export const catalog: CatalogComponent[] = [
 			{ name: "column", boolean: true, info: "Vertical direction" },
 			{ name: "gap", values: spaceValues, info: "Spacing scale step" },
 			{ name: "alignItems", values: alignItems },
-			{ name: "style" },
+			{
+				name: "style",
+				object: true,
+				info: "React style object, e.g. {{ color: 'red' }}",
+			},
 		],
 	},
 	{

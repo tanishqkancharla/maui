@@ -51,7 +51,7 @@ function attributeCompletions(
 				} satisfies Completion
 			}
 
-			if (isNumericAttribute(attribute)) {
+			if (attribute.object || isNumericAttribute(attribute)) {
 				return snippetCompletion(`${attribute.name}={#{}}`, {
 					label: attribute.name,
 					type: "property",

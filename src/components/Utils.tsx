@@ -53,9 +53,14 @@ export function Flex(props: FlexProps) {
 		}),
 		alignItems === undefined ? undefined : style({ alignItems }),
 	)
+	const rawStyle = styleProp as unknown
+	const inlineStyle =
+		rawStyle != null && typeof rawStyle === "object" && !Array.isArray(rawStyle)
+			? (rawStyle as React.CSSProperties)
+			: undefined
 
 	return (
-		<div className={className} style={styleProp}>
+		<div className={className} style={inlineStyle}>
 			{children}
 		</div>
 	)
