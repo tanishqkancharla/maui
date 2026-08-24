@@ -52,4 +52,8 @@ Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
 
 ## License
 
-MIT
+Maui is **source-available, not open source.** The code is public so you can read it and run the gallery; it is not licensed for other people to use in commercial products or as their design system.
+
+The [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) covers personal, educational, and other noncommercial use. Commercial use needs a separate license from the author. See [`LICENSE`](./LICENSE).
+
+This is not an open-contribution project. Please do not open pull requests; see [`CONTRIBUTING.md`](./CONTRIBUTING.md).

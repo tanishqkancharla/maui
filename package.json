@@ -9,7 +9,9 @@
 	"files": [
 		"dist",
 		"src",
-		"skills"
+		"skills",
+		"LICENSE",
+		"NOTICE"
 	],
 	"exports": {
 		".": {
@@ -45,7 +47,7 @@
 		"release": "npm run build:lib && npm publish"
 	},
 	"author": "Tanishq Kancharla",
-	"license": "MIT",
+	"license": "PolyForm-Noncommercial-1.0.0",
 	"devDependencies": {
 		"@modelcontextprotocol/sdk": "^1.30.0",
 		"@resvg/resvg-js": "^2.6.2",
