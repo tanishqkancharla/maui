@@ -70,17 +70,6 @@ internal button or segment.
 
 `Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px. `Spacer` grows to fill leftover flex space. `Divider` is a horizontal rule.
 
-## Buttons
-
-`variant` is `"default"` | `"quiet"` | `"primary"`. Pass `variantColor` as a palette name (`"blue"`, `"red"`, `"accent"`, …). Button resolves `colors[variantColor]`:
-
-- `primary` fills with step 9 (hover 10) and light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow)
-- `quiet` + `variantColor` uses a 3.5% wash of step 9 (the same mix as `backgroundColor.elementHover`), hover 7%
-
-```ts
-<Button variant="primary" variantColor="blue">Save</Button>
-```
-
 ## Icons
 
 Import named icons so unused SVGs are tree-shaken. Do not import the `Icons` namespace in app code unless you want the full set.
@@ -95,16 +84,6 @@ import { Text as TextIcon } from "maui/icons"
 
 `size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, …) are `TextIcon` / `BadgeIcon` / `SwitchIcon` from `"maui"`, or the original name from `"maui/icons"` / `Icons.Text`.
 
-## Editor
-
-`Editor` is a TipTap markdown surface (CommonMark shortcuts, Maui `proseHtml` type). It has no chrome — wrap it in your own shell for padding, elevation, and actions.
-
-```ts
-import { Editor } from "maui"
-
-<Editor content={markdown} onChange={setMarkdown} placeholder="Write…" />
-```
-
 ## Components
 
 ### Typography and reading
@@ -112,9 +91,11 @@ import { Editor } from "maui"
 - `Text` — size / weight / color / `monospace` span
 - `H1`–`H4`, `P`, `Label`, `Blockquote`, `Ul`, `Ol`, `Li`, `Link`
 - `Prose` — long-form rhythm; headings switch to the prose scale inside it
+- `Editor` — TipTap markdown surface (CommonMark shortcuts, `proseHtml` type) with no chrome; wrap it for padding, elevation, and actions
 
 ### Form controls
 
+- `Button` — `variant` is `"default"` | `"quiet"` | `"primary"`; `variantColor` is a palette name. Primary fills step 9 (hover 10) with light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow); quiet + color uses a 3.5% wash of step 9 (hover 7%).
 - `TextField`, `SearchField`, `NumberField`, `QuietTextField`
 - `Checkbox`, `Switch`, `Slider`
 - `RadioOptionGroup` / `RadioOption`
