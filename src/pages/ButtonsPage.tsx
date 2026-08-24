@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Dialog } from "../components/Dialog"
 import { Icons } from "../components/Icons"
@@ -9,10 +8,7 @@ import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
 import { colors } from "../tokens/colors"
-import { backgroundColor } from "../tokens/background"
 import { borderColor } from "../tokens/borders"
-import { spacing } from "../tokens/spacing"
-import { text } from "../tokens/text"
 
 export function ButtonsPage() {
 	const [dialogOpen, setDialogOpen] = useState(false)
@@ -63,13 +59,6 @@ export function ButtonsPage() {
 				</Button>
 			</Flex>
 
-			<H3>Craft Agents comparison</H3>
-			<P>
-				Craft uses a 15% foreground border without a subtle shadow, paired
-				with a much lighter 3% foreground wash on hover.
-			</P>
-			<CraftAgentsComparison />
-
 			{dialogOpen && (
 				<Dialog onClickOutside={() => setDialogOpen(false)}>
 					<H3>Dialog</H3>
@@ -110,51 +99,3 @@ export function ButtonsPage() {
 		</Prose>
 	)
 }
-
-function CraftAgentsComparison() {
-	const comparisonClassName = useStyles(comparisonClass)
-	const sampleClassName = useStyles(comparisonSampleClass)
-	const labelClassName = useStyles(comparisonLabelClass)
-	const craftButtonClassName = useStyles(craftOutlineButtonClass)
-
-	return (
-		<div className={comparisonClassName}>
-			<div className={sampleClassName}>
-				<span className={labelClassName}>Current</span>
-				<Button>Button</Button>
-			</div>
-			<div className={sampleClassName}>
-				<span className={labelClassName}>Craft outline</span>
-				<Button className={craftButtonClassName}>Button</Button>
-			</div>
-		</div>
-	)
-}
-
-const craftOutlineButtonClass = style({
-	boxSizing: "border-box",
-	paddingBlock: `calc(${spacing.value(4)} - 1px)`,
-	paddingInline: `calc(${spacing.value(6)} - 1px)`,
-	border: `1px solid color-mix(in oklch, ${colors.gray[12]} 15%, transparent)`,
-	backgroundColor: backgroundColor.element,
-	boxShadow: "none",
-	"&:hover": {
-		backgroundColor: `color-mix(in oklch, ${colors.gray[12]} 3%, ${backgroundColor.element})`,
-	},
-})
-
-const comparisonClass = style({
-	display: "flex",
-	alignItems: "flex-start",
-	gap: spacing.value(12),
-	flexWrap: "wrap",
-})
-
-const comparisonSampleClass = style({
-	display: "flex",
-	flexDirection: "column",
-	alignItems: "flex-start",
-	gap: spacing.value(4),
-})
-
-const comparisonLabelClass = style(text("xs", 500, "lowContrast"))
