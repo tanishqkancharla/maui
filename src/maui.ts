@@ -10,7 +10,7 @@ export { themeFoucScript } from "./theme/themeFoucScript"
 export { DARK_THEME } from "./theme/dataTheme"
 
 // Tokens
-export { colors } from "./tokens/colors"
+export { colors, type ColorName, type ColorScale, colorNames, paletteNames } from "./tokens/colors"
 export { background, backgroundColor } from "./tokens/background"
 export { border, borderColor, type BorderSide, type BorderColor } from "./tokens/borders"
 export { radius } from "./tokens/radius"
@@ -23,6 +23,7 @@ export {
 	monospace,
 	baseTextStyle,
 	fontFamily,
+	monoFontFamily,
 	type TextSize,
 	type TextWeight,
 	type TextColor,
@@ -35,7 +36,6 @@ export {
 	motionStreamDurationMs,
 } from "./tokens/motion"
 export {
-	icon,
 	iconSizeValues,
 	sizingTokens as sizing,
 	type IconSize,
@@ -52,7 +52,7 @@ export { visuallyHidden } from "./tokens/visuallyHidden"
 // Components
 export { Avatar } from "./components/Avatar"
 export { Badge } from "./components/Badge"
-export { Button, useButton } from "./components/Button"
+export { Button, useButton, type ButtonProps, type ButtonVariant } from "./components/Button"
 export { Checkbox } from "./components/Checkbox"
 export { Switch } from "./components/Switch"
 export { Slider } from "./components/Slider"
@@ -82,7 +82,8 @@ export {
 	TableCell,
 } from "./components/Table"
 export { Prose, useProseSize, proseMaxWidth } from "./components/Prose"
-export { Icons } from "./components/Icons"
+export { Icons, type IconProps } from "./components/Icons"
+export * from "./icons/root"
 export {
 	ListBox,
 	ListBoxItem,
@@ -98,7 +99,16 @@ export {
 	type MenuItemProps,
 } from "./components/Menu"
 export { FuzzyString } from "./components/FuzzyString"
-export { Flex, Padding, Gap, Spacer, Divider } from "./components/Utils"
+export {
+	Flex,
+	Padding,
+	Gap,
+	Spacer,
+	Divider,
+	type FlexShadow,
+	type FlexRadius,
+	type FlexBorder,
+} from "./components/Utils"
 export { Text, type TextProps } from "./components/Text"
 export {
 	H1,

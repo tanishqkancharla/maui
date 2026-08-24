@@ -21,9 +21,11 @@ const codeBlockClass = style(
 		padding: "12px",
 		"& .shiki": {
 			backgroundColor: "transparent !important",
+			fontFamily: "inherit",
 		},
 		"& .shiki code": {
 			font: "inherit",
+			fontFamily: "inherit",
 			fontSize: "inherit",
 			lineHeight: "inherit",
 			tabSize: "inherit",

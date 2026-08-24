@@ -1,0 +1,9 @@
+import { createIcon } from "./createIcon"
+
+export const CandlestickChart = createIcon('CandlestickChart', function CandlestickChart(props) {
+	return (
+		<svg focusable="false" aria-hidden="true" role="img" viewBox="0 0 24 24" fill="none" {...props}>
+			<path d="M6 9.75H5.75C5.19772 9.75 4.75 10.1977 4.75 10.75V15.25C4.75 15.8023 5.19772 16.25 5.75 16.25H6M6 9.75H6.25C6.80228 9.75 7.25 10.1977 7.25 10.75V15.25C7.25 15.8023 6.80228 16.25 6.25 16.25H6M6 9.75V4.75M6 16.25V19.25M12 6.75H11.75C11.1977 6.75 10.75 7.19772 10.75 7.75V12.25C10.75 12.8023 11.1977 13.25 11.75 13.25H12M12 6.75H12.25C12.8023 6.75 13.25 7.19772 13.25 7.75V12.25C13.25 12.8023 12.8023 13.25 12.25 13.25H12M12 6.75V4.75M12 13.25V19.25M18 10.75H17.75C17.1977 10.75 16.75 11.1977 16.75 11.75V16.25C16.75 16.8023 17.1977 17.25 17.75 17.25H18M18 10.75H18.25C18.8023 10.75 19.25 11.1977 19.25 11.75V16.25C19.25 16.8023 18.8023 17.25 18.25 17.25H18M18 10.75V4.75M18 17.25V19.25" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+		</svg>
+	)
+})

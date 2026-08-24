@@ -2,32 +2,34 @@ import { useEffect, useState } from "react"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
-import { H2, H3, P } from "../components/Typography"
+import { H2, H3, H4, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { useTheme } from "../theme/ThemeContext"
 import { borderColor } from "../tokens/borders"
-import { colors } from "../tokens/colors"
+import {
+	colors,
+	paletteNames,
+	scaleSteps,
+	type ColorScale,
+} from "../tokens/colors"
 
-type ScaleName = "accent" | "accentAlpha" | "gray" | "grayAlpha"
-
-const colorTokenGroups: { name: string; scale: ScaleName }[] = [
+const semanticScales: { name: string; scale: keyof typeof colors }[] = [
 	{ name: "Accent", scale: "accent" },
 	{ name: "Accent alpha", scale: "accentAlpha" },
 	{ name: "Gray", scale: "gray" },
 	{ name: "Gray alpha", scale: "grayAlpha" },
 ]
 
-const scaleSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const
-
 export function ColorTokenPage() {
 	return (
 		<Prose>
 			<H2>Color Tokens</H2>
 			<P>
-				The exported color tokens expose the raw accent, accent alpha, gray, and
-				gray alpha scales. Semantic roles like text, background, border, and
-				focus ring should compose these raw values in their own style-token
-				modules.
+				<code>colors.accent</code> is the brand pair (teal in light, violet in
+				dark). Every Radix palette is also on <code>colors</code> as{" "}
+				<code>colors.blue</code>, <code>colors.red</code>,{" "}
+				<code>colors.blueAlpha</code>, and so on. Semantic roles like text,
+				background, border, and focus ring should compose these raw values.
 			</P>
 
 			<CodeBlock lang="typescript">{`style({
@@ -52,10 +54,11 @@ export function ColorTokenPage() {
 				</div>
 			</Panel>
 
+			<H3>Semantic</H3>
 			<Flex row gap={16} style={{ alignItems: "flex-start", flexWrap: "wrap" }}>
-				{colorTokenGroups.map((group) => (
+				{semanticScales.map((group) => (
 					<div key={group.name} style={{ minWidth: "260px" }}>
-						<H3>{group.name}</H3>
+						<H4>{group.name}</H4>
 						<Flex column gap={4}>
 							{scaleSteps.map((step) => (
 								<ColorToken
@@ -68,11 +71,65 @@ export function ColorTokenPage() {
 					</div>
 				))}
 			</Flex>
+
+			<H3>Palettes</H3>
+			<P>
+				Solid and alpha scales for every Radix color.{" "}
+				<code>variantColor="blue"</code> on Button resolves{" "}
+				<code>colors.blue</code>.
+			</P>
+			<Flex column gap={6}>
+				{paletteNames.map((name) => (
+					<PaletteStrip key={name} name={name} />
+				))}
+			</Flex>
 		</Prose>
 	)
 }
 
-function ColorToken(props: { scale: ScaleName; step: (typeof scaleSteps)[number] }) {
+function PaletteStrip(props: { name: (typeof paletteNames)[number] }) {
+	const solid = colors[props.name]
+	const alpha = colors[`${props.name}Alpha`]
+
+	return (
+		<div>
+			<code>{props.name}</code>
+			<ScaleBar scale={solid} />
+			<ScaleBar scale={alpha} />
+		</div>
+	)
+}
+
+function ScaleBar(props: { scale: ColorScale }) {
+	return (
+		<div
+			style={{
+				display: "flex",
+				height: "16px",
+				marginTop: "4px",
+				borderRadius: "4px",
+				overflow: "hidden",
+				boxShadow: `0 0 0 1px ${borderColor.outline} inset`,
+			}}
+		>
+			{scaleSteps.map((step) => (
+				<div
+					key={step}
+					title={`${step}`}
+					style={{
+						flex: 1,
+						background: props.scale[step],
+					}}
+				/>
+			))}
+		</div>
+	)
+}
+
+function ColorToken(props: {
+	scale: keyof typeof colors
+	step: (typeof scaleSteps)[number]
+}) {
 	const value = colors[props.scale][props.step]
 	const label = `colors.${props.scale}[${props.step}]`
 

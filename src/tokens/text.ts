@@ -10,8 +10,8 @@ export type TextColor = "lowContrast" | "highContrast" | "accent" | "onAccent"
 export const fontFamily =
 	'ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"'
 
-const monoFontFamily =
-	'ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace'
+export const monoFontFamily =
+	'"Commit Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace'
 
 const textSizeStyles: Record<
 	TextSize,

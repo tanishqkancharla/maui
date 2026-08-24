@@ -14,8 +14,13 @@ export function FlexTokenPage() {
 			<P>
 				<code>Flex</code> is a small layout wrapper around the spacing scale.
 				Pass <code>row</code> or <code>column</code>, and use scale steps for{" "}
-				<code>gap</code> (not raw pixels). For style-object composition, prefer{" "}
-				<code>flex()</code> from layout tokens.
+				<code>gap</code> and padding (<code>p</code>, <code>px</code>,{" "}
+				<code>py</code>, <code>pt</code>, <code>pb</code>) (not raw pixels).
+				Optional{" "}
+				<code>border</code>, <code>shadow</code>, and <code>radius</code> turn
+				it into a surface. Shadows already include a 1px ring, so{" "}
+				<code>border</code> is ignored when <code>shadow</code> is set. For
+				style-object composition, prefer <code>flex()</code> from layout tokens.
 			</P>
 
 			<H3>Values</H3>
@@ -75,6 +80,78 @@ export function FlexTokenPage() {
 						</TableCell>
 						<TableCell>Cross-axis alignment for the group.</TableCell>
 					</TableRow>
+					<TableRow>
+						<TableCell>
+							<code>p</code>, <code>px</code>, <code>py</code>, <code>pt</code>,{" "}
+							<code>pb</code>
+						</TableCell>
+						<TableCell>
+							<code style={unionCodeStyle}>
+								{`1
+| 2
+| 3
+| 4
+| 6
+| 8
+| 12
+| 16`}
+							</code>
+						</TableCell>
+						<TableCell>
+							Padding from the spacing scale. More specific axes win (
+							<code>pt</code> over <code>py</code> over <code>p</code>).
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<code>border</code>
+						</TableCell>
+						<TableCell>
+							<code style={unionCodeStyle}>
+								{`true
+| "border"
+| "outline"
+| "accent"`}
+							</code>
+						</TableCell>
+						<TableCell>
+							1px ring. <code>true</code> is <code>outline</code>. Skipped when{" "}
+							<code>shadow</code> is set.
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<code>shadow</code>
+						</TableCell>
+						<TableCell>
+							<code style={unionCodeStyle}>
+								{`"subtle"
+| "medium"
+| "strong"`}
+							</code>
+						</TableCell>
+						<TableCell>
+							Elevation token. Already includes a 1px ring.
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<code>radius</code>
+						</TableCell>
+						<TableCell>
+							<code style={unionCodeStyle}>
+								{`"none"
+| "2xs"
+| "xs"
+| "sm"
+| "md"
+| "lg"
+| "pill"
+| "circle"`}
+							</code>
+						</TableCell>
+						<TableCell>Corner radius token.</TableCell>
+					</TableRow>
 				</TableBody>
 			</Table>
 
@@ -123,6 +200,36 @@ export function FlexTokenPage() {
 				>
 					<Pill>center</Pill>
 				</div>
+			</Panel>
+
+			<div style={sampleTitleStyle}>Surface</div>
+			<CodeBlock lang="tsx">{`<Flex column gap={4} p={6} shadow="subtle" radius="lg">
+	…
+</Flex>`}</CodeBlock>
+			<Panel style={{ marginTop: "16px" }}>
+				<Flex column gap={4} p={6} shadow="subtle" radius="lg">
+					<Pill>Card</Pill>
+					<Pill>With shadow</Pill>
+				</Flex>
+			</Panel>
+
+			<div style={sampleTitleStyle}>Border</div>
+			<CodeBlock lang="tsx">{`<Flex row alignItems="center" gap={4} px={4} py={3} border="outline" radius="md">
+	…
+</Flex>`}</CodeBlock>
+			<Panel style={{ marginTop: "16px" }}>
+				<Flex
+					row
+					alignItems="center"
+					gap={4}
+					px={4}
+					py={3}
+					border="outline"
+					radius="md"
+				>
+					<Pill>Outlined</Pill>
+					<Pill>Group</Pill>
+				</Flex>
 			</Panel>
 
 			<div style={sampleTitleStyle}>Between</div>

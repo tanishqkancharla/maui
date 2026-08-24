@@ -1,18 +1,20 @@
+import { useMemo, useState } from "react"
 import type React from "react"
 import { useStyles } from "purse-styles"
-import { Icons } from "../components/Icons"
+import { Icons, type IconProps } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
+import { SearchField } from "../components/Input"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { icon, iconSizeValues, type IconSize } from "../tokens/sizing"
+import { iconSizeValues, type IconSize } from "../tokens/sizing"
 import { text, type TextSize } from "../tokens/text"
 
 const iconEntries = Object.entries(Icons) as [
 	keyof typeof Icons,
-	React.ComponentType<React.SVGProps<SVGSVGElement>>,
+	React.ComponentType<IconProps>,
 ][]
 
 const iconSizes: IconSize[] = ["2xs", "xs", "sm", "md", "lg", "xl"]
@@ -28,15 +30,36 @@ const previewGap: Record<IconSize, string> = {
 }
 
 export function IconsPage() {
+	const [query, setQuery] = useState("")
+	const filtered = useMemo(() => {
+		const needle = query.trim().toLowerCase()
+		if (!needle) return iconEntries
+		return iconEntries.filter(([name]) => name.toLowerCase().includes(needle))
+	}, [query])
+
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Icons</H2>
 			<P>
-				{iconEntries.length} SVG icons exported from <code>Icons</code>. Each
-				icon accepts standard SVG props and uses <code>currentColor</code> for
-				stroke and fill. Artwork is drawn at 24×24; size it with{" "}
-				<code>icon(...)</code> using the same t-shirt scale as{" "}
-				<code>text(...)</code>.
+				{iconEntries.length} SVG icons. Import a named icon so unused artwork
+				is tree-shaken. <code>Icons.Name</code> is a convenience namespace and
+				pulls the full set.
+			</P>
+			<CodeBlock lang="tsx">{`import { Search, Plus } from "@tanishqkancharla/maui"
+
+<Search size="sm" />
+<Plus size="md" />`}</CodeBlock>
+			<P>
+				Artwork is 24×24 and uses <code>currentColor</code>. Set{" "}
+				<code>size</code> to the same t-shirt scale as <code>text(...)</code>.
+				Default is <code>sm</code> (16px).
+			</P>
+			<P>
+				A few icon names collide with other Maui exports (
+				<code>Text</code>, <code>Badge</code>, <code>Switch</code>, …). Those
+				are available as <code>TextIcon</code> from the root, as{" "}
+				<code>Icons.Text</code>, or from{" "}
+				<code>@tanishqkancharla/maui/icons</code>.
 			</P>
 
 			<H3>Sizes</H3>
@@ -44,11 +67,8 @@ export function IconsPage() {
 				Pair each icon size with the matching text size so labels and icons
 				share one scale.
 			</P>
-			<CodeBlock lang="typescript">{`import { icon } from "maui"
-import { text } from "maui"
-
-const label = text("sm", 400, "highContrast")
-// <Icons.Search className={icon("sm")} /> Search mail`}</CodeBlock>
+			<CodeBlock lang="tsx">{`<Search size="sm" />
+<span className={text("sm", 400, "highContrast")}>Search mail</span>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={{ display: "grid", gap: "12px" }}>
 					{iconSizes.map((size) => (
@@ -60,18 +80,29 @@ const label = text("sm", 400, "highContrast")
 			<H3>Catalog</H3>
 			<H4>Default preview</H4>
 			<P>
-				Catalog tiles use <code>icon("sm")</code> (16px) next to{" "}
+				Catalog tiles use <code>size="sm"</code> (16px) next to{" "}
 				<code>text("sm")</code> labels.
+			</P>
+			<SearchField
+				aria-label="Filter icons"
+				placeholder="Filter icons"
+				value={query}
+				onChange={setQuery}
+			/>
+			<P>
+				{filtered.length === iconEntries.length
+					? `${iconEntries.length} icons`
+					: `${filtered.length} of ${iconEntries.length} icons`}
 			</P>
 			<Panel>
 				<div
 					style={{
 						display: "grid",
-						gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+						gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
 						gap: "12px",
 					}}
 				>
-					{iconEntries.map(([name, Icon]) => (
+					{filtered.map(([name, Icon]) => (
 						<CatalogTile key={name} name={name} Icon={Icon} />
 					))}
 				</div>
@@ -81,7 +112,6 @@ const label = text("sm", 400, "highContrast")
 }
 
 function SizePreview(props: { size: IconSize }) {
-	const iconClassName = useStyles(icon(props.size), iconColorClass)
 	const labelClassName = useStyles(
 		text(props.size as TextSize, 400, "highContrast"),
 	)
@@ -99,7 +129,7 @@ function SizePreview(props: { size: IconSize }) {
 					gap: previewGap[props.size],
 				}}
 			>
-				<Icons.Search className={iconClassName} />
+				<Icons.Search size={props.size} style={{ color: colors.gray[12] }} />
 				<span className={labelClassName}>Search mail</span>
 			</div>
 		</div>
@@ -108,9 +138,8 @@ function SizePreview(props: { size: IconSize }) {
 
 function CatalogTile(props: {
 	name: string
-	Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+	Icon: React.ComponentType<IconProps>
 }) {
-	const iconClassName = useStyles(icon("sm"), iconColorClass)
 	const labelClassName = useStyles(text("sm", 400, "lowContrast"))
 
 	return (
@@ -121,8 +150,10 @@ function CatalogTile(props: {
 					gap: previewGap.sm,
 				}}
 			>
-				<props.Icon className={iconClassName} />
-				<span className={labelClassName}>{props.name}</span>
+				<props.Icon size="sm" style={{ color: colors.gray[12] }} />
+				<span className={labelClassName} style={{ overflowWrap: "anywhere" }}>
+					{props.name}
+				</span>
 			</div>
 		</div>
 	)
@@ -136,10 +167,6 @@ const textSizeDetails: Record<IconSize, string> = {
 	lg: "16px",
 	xl: "22px",
 }
-
-const iconColorClass = {
-	color: colors.gray[12],
-} as const
 
 const sizeRowStyle = {
 	display: "grid",

@@ -1,3 +1,5 @@
+import "@fontsource/commit-mono/400.css"
+import "@fontsource/commit-mono/400-italic.css"
 import type { ReactNode } from "react"
 import { PurseProvider, useInjectGlobalStyles } from "purse-styles"
 import { ThemeProvider } from "./theme/ThemeContext"

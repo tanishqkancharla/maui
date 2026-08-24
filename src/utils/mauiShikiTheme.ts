@@ -1,41 +1,48 @@
 import type { ThemeRegistration } from "shiki"
 
 // Adapted from rsms/sublime-theme (rsms-dark), remapped to Maui gray + accent.
-const darkColors = {
-	foreground: "#eeeeee", // --gray-12
-	foregroundMuted: "#b4b4b4", // --gray-11
-	unimportant: "#6e6e6e", // --gray-9
-	comment: "#6e6e6e",
-	keyword: "#8b8fd8", // desaturated accent
-	operator: "#d9a066", // rsms orange, softened
-	type: "#ecebe8",
-	typeRef: "#e8c9a0", // rsms typeRef, warm
-	string: "#6fbf9a", // rsms dataBase green
-	stringBright: "#8fd9b8",
-	function: "#ecebe8",
-	meta: "#8a9f94",
-	accent: "#a8a6f0", // --accent-color / brackets
-	invalid: "#e85d4f",
+// JSX tags use accent (teal light / violet dark); attributes are gray;
+// strings are blue in light and green in dark so they don't collide with teal.
+export const mauiSyntaxColors = {
+	dark: {
+		foreground: "#eeeeee", // --gray-12
+		foregroundMuted: "#b4b4b4", // --gray-11
+		unimportant: "#6e6e6e", // --gray-9
+		comment: "#6e6e6e",
+		keyword: "#8b8fd8", // desaturated accent
+		operator: "#d9a066", // rsms orange, softened
+		type: "#ecebe8",
+		typeRef: "#e8c9a0", // rsms typeRef, warm
+		tag: "#baa7ff", // --accent-11 (violet)
+		attribute: "#b4b4b4", // --gray-11
+		string: "#3dd68c", // --green-11
+		stringBright: "#7ee7b0",
+		function: "#ecebe8",
+		meta: "#8a9f94",
+		accent: "#a8a6f0", // --accent-color / brackets
+		invalid: "#e85d4f",
+	},
+	light: {
+		foreground: "#202020",
+		foregroundMuted: "#646464",
+		unimportant: "#838383",
+		comment: "#646464",
+		keyword: "#3e63dd",
+		operator: "#a15c00",
+		type: "#272962",
+		typeRef: "#8a4b08",
+		tag: "#008573", // --accent-11 (teal)
+		attribute: "#646464", // --gray-11
+		string: "#0d74ce", // --blue-11
+		stringBright: "#0588f0", // --blue-10
+		function: "#202020",
+		meta: "#66736d",
+		accent: "#3e63dd",
+		invalid: "#ce2c31",
+	},
 } as const
 
-type ThemeColors = Record<keyof typeof darkColors, string>
-
-const lightColors = {
-	foreground: "#202020",
-	foregroundMuted: "#646464",
-	unimportant: "#838383",
-	comment: "#646464",
-	keyword: "#3e63dd",
-	operator: "#a15c00",
-	type: "#272962",
-	typeRef: "#8a4b08",
-	string: "#18794e",
-	stringBright: "#147d64",
-	function: "#202020",
-	meta: "#66736d",
-	accent: "#3e63dd",
-	invalid: "#ce2c31",
-} as const satisfies ThemeColors
+type ThemeColors = (typeof mauiSyntaxColors)[keyof typeof mauiSyntaxColors]
 
 function createThemeTokens(colors: ThemeColors) {
 	return [
@@ -45,6 +52,16 @@ function createThemeTokens(colors: ThemeColors) {
 		{ role: "Operator", sublime: "keyword.operator", color: colors.operator },
 		{ role: "Type", sublime: "entity.name.type", color: colors.type },
 		{ role: "Type reference", sublime: "support.type", color: colors.typeRef },
+		{
+			role: "Tag / component",
+			sublime: "entity.name.tag",
+			color: colors.tag,
+		},
+		{
+			role: "Attribute",
+			sublime: "entity.other.attribute-name",
+			color: colors.attribute,
+		},
 		{
 			role: "String / constant",
 			sublime: "string, constant",
@@ -61,8 +78,8 @@ function createThemeTokens(colors: ThemeColors) {
 }
 
 export const mauiThemeTokens = {
-	dark: createThemeTokens(darkColors),
-	light: createThemeTokens(lightColors),
+	dark: createThemeTokens(mauiSyntaxColors.dark),
+	light: createThemeTokens(mauiSyntaxColors.light),
 } as const
 
 function createMauiShikiTheme(
@@ -160,16 +177,16 @@ function createMauiShikiTheme(
 				settings: { foreground: colors.unimportant },
 			},
 			{
-				scope: ["meta.tag entity.name"],
-				settings: { foreground: colors.typeRef },
+				scope: ["meta.tag entity.name", "entity.name.tag"],
+				settings: { foreground: colors.tag },
 			},
 			{
 				scope: ["meta.tag entity", "meta.tag.attributes"],
-				settings: { foreground: colors.foregroundMuted },
+				settings: { foreground: colors.attribute },
 			},
 			{
 				scope: ["entity.other.attribute-name"],
-				settings: { foreground: colors.typeRef },
+				settings: { foreground: colors.attribute },
 			},
 			{
 				scope: ["punctuation.definition.tag"],
@@ -186,10 +203,10 @@ function createMauiShikiTheme(
 export const mauiShikiThemeDark = createMauiShikiTheme(
 	"maui-dark",
 	"dark",
-	darkColors,
+	mauiSyntaxColors.dark,
 )
 export const mauiShikiThemeLight = createMauiShikiTheme(
 	"maui-light",
 	"light",
-	lightColors,
+	mauiSyntaxColors.light,
 )

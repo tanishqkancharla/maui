@@ -7,7 +7,6 @@ import {
 	Switch as WouterSwitch,
 	useRoute,
 } from "wouter"
-import { useHashLocation } from "wouter/use-hash-location"
 import { style, useStyles } from "purse-styles"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
@@ -34,6 +33,7 @@ import { FormControlsPage } from "./FormControlsPage"
 import { FuzzyStringPage } from "./FuzzyStringPage"
 import { IconsPage } from "./IconsPage"
 import { InboxPage } from "./InboxPage"
+import { JsxEditorPage } from "./JsxEditorPage"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
 import { ListBoxPage } from "./ListBoxPage"
@@ -53,7 +53,7 @@ import { TooltipPage } from "./TooltipPage"
 
 export function Maui() {
 	return (
-		<Router hook={useHashLocation}>
+		<Router>
 			<MauiContent />
 		</Router>
 	)
@@ -71,6 +71,10 @@ type NavItem = {
 }
 
 const navigation: NavGroup[] = [
+	{
+		label: "Playground",
+		children: [{ label: "Editor", path: "/editor", page: JsxEditorPage }],
+	},
 	{
 		label: "Tokens",
 		children: [
@@ -179,7 +183,7 @@ const navigation: NavGroup[] = [
 	},
 ]
 
-const defaultPath = navigation[0].children[0].path
+const defaultPath = "/tokens/color"
 
 function MauiContent() {
 	const shellClassName = useStyles(mauiShellClass)
@@ -204,6 +208,9 @@ function MauiContent() {
 					</Route>
 					<Route path="/components/code-block">
 						<Redirect to="/components/code" />
+					</Route>
+					<Route path="/temp/syntax">
+						<Redirect to="/editor" />
 					</Route>
 
 					<Route>

@@ -120,9 +120,8 @@ const display = text("xl", 400, "highContrast")`}</CodeBlock>
 
 			<H4>Monospace</H4>
 			<P>
-				<code>monospace</code> switches to a system mono stack with tabular
-				numerals. Compose it after <code>text(...)</code> to keep size, weight,
-				and color.
+				<code>monospace</code> switches to Commit Mono with tabular numerals.
+				Compose it after <code>text(...)</code> to keep size, weight, and color.
 			</P>
 			<CodeBlock lang="typescript">{`const codeLabel = style(text("xs", 400, "highContrast"), monospace)`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>

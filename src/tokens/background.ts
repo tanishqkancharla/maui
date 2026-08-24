@@ -16,10 +16,24 @@ const elementSurface = defineVars({
 	},
 })
 
+/** Foreground wash percents used by element hover/active and tinted quiet buttons. */
+export const surfaceMixPercent = {
+	hover: 3.5,
+	active: 7,
+} as const
+
+export function surfaceWash(
+	foreground: string,
+	percent: number,
+	base: string = elementSurface.element,
+) {
+	return `color-mix(in oklch, ${foreground} ${percent}%, ${base})`
+}
+
 // Craft-style foreground wash over the element's own surface.
 const elementStates = defineVars({
-	elementHover: `color-mix(in oklch, ${colors.gray[12]} 3.5%, ${elementSurface.element})`,
-	elementActive: `color-mix(in oklch, ${colors.gray[12]} 7%, ${elementSurface.element})`,
+	elementHover: surfaceWash(colors.gray[12], surfaceMixPercent.hover),
+	elementActive: surfaceWash(colors.gray[12], surfaceMixPercent.active),
 })
 
 export const backgroundColor = {

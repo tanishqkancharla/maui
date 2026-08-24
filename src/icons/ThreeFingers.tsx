@@ -1,0 +1,9 @@
+import { createIcon } from "./createIcon"
+
+export const ThreeFingers = createIcon('ThreeFingers', function ThreeFingers(props) {
+	return (
+		<svg focusable="false" aria-hidden="true" role="img" viewBox="0 0 24 24" fill="none" {...props}>
+			<path d="M11.2499 8V11.25M11.2499 8V6C11.2499 5.30964 11.8095 4.75 12.4999 4.75C13.1902 4.75 13.7499 5.30964 13.7499 6V11.25M11.2499 8C11.2499 7.30964 10.6902 6.75 9.99985 6.75C9.30948 6.75 8.74984 7.30964 8.74984 8V13.25L7.14608 11.3273C6.53419 10.5937 5.42091 10.5538 4.75797 11.2416C4.75303 11.2467 4.75157 11.2543 4.75425 11.2609L6.7331 16.1319C7.49893 18.017 9.33071 19.25 11.3655 19.25H15.2499C17.459 19.25 19.2499 17.4591 19.2499 15.25V14.25C19.2499 12.5931 17.9067 11.25 16.2499 11.25L16.2499 7C16.2499 6.30964 15.6902 5.75 14.9999 5.75C14.3095 5.75 13.7499 6.30964 13.7499 7" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+		</svg>
+	)
+})

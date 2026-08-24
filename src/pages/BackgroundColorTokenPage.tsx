@@ -77,7 +77,7 @@ export function BackgroundColorTokenPage() {
 							<code>backgroundColor.elementHover</code>
 						</TableCell>
 						<TableCell>
-							5% gray[12] into app canvas (white / gray[1]).
+							3.5% gray[12] into the element surface.
 						</TableCell>
 					</TableRow>
 					<TableRow>
@@ -88,7 +88,7 @@ export function BackgroundColorTokenPage() {
 							<code>backgroundColor.elementActive</code>
 						</TableCell>
 						<TableCell>
-							10% gray[12] into app canvas (white / gray[1]).
+							7% gray[12] into the element surface.
 						</TableCell>
 					</TableRow>
 					<TableRow>

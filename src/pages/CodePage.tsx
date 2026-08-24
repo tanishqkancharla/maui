@@ -12,6 +12,7 @@ import {
 import { H2, H3, H4, Link, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { useTheme } from "../theme/ThemeContext"
+import { monoFontFamily } from "../tokens/text"
 import { mauiThemeTokens } from "../utils/mauiShikiTheme"
 
 const typescriptExample = `import { style } from "purse-styles"
@@ -105,7 +106,9 @@ export function CodePage() {
 				<Link href="https://github.com/rsms/sublime-theme">
 					rsms/sublime-theme
 				</Link>{" "}
-				(rsms-dark), adapted to Maui foreground and accent colors.
+				(rsms-dark), adapted to Maui foreground and accent colors. JSX tags
+				use accent (teal in light, violet in dark), attributes use gray, and
+				strings use blue in light and green in dark.
 			</P>
 
 			<Table>
@@ -131,7 +134,7 @@ export function CodePage() {
 								<span
 									style={{
 										color: token.color,
-										fontFamily: "ui-monospace, monospace",
+										fontFamily: monoFontFamily,
 									}}
 								>
 									Ag

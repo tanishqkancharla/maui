@@ -11,7 +11,7 @@ import {
 	TableRow,
 } from "../components/Table"
 import { Text } from "../components/Text"
-import { H2, H3, H4, P } from "../components/Typography"
+import { H2, H3, H4, Link, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { colors } from "../tokens/colors"
 import { type TextColor, type TextSize, type TextWeight } from "../tokens/text"
@@ -142,7 +142,8 @@ export function TextPage() {
 
 			<H4>Monospace</H4>
 			<P>
-				<Code>monospace</Code> switches to the system mono stack with tabular
+				<Code>monospace</Code> switches to{" "}
+				<Link href="https://commitmono.com/">Commit Mono</Link> with tabular
 				numerals, the same as composing <Code>text(...)</Code> with{" "}
 				<Code>monospace</Code>.
 			</P>

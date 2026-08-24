@@ -7,34 +7,22 @@ import {
 	TableHeaderCell,
 	TableRow,
 } from "../components/Table"
-import { Icons } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { icon, iconSizeValues, sizingTokens, type IconSize } from "../tokens/sizing"
-import { text } from "../tokens/text"
-
-const iconSizes: IconSize[] = ["2xs", "xs", "sm", "md", "lg", "xl"]
-
-const previewGap: Record<IconSize, string> = {
-	"2xs": "2px",
-	xs: "2px",
-	sm: "4px",
-	md: "4px",
-	lg: "6px",
-	xl: "6px",
-}
+import { sizingTokens } from "../tokens/sizing"
 
 export function SizingTokenPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Sizing</H2>
 			<P>
-				Sizing tokens cover icon dimensions (same t-shirt scale as text),
-				full-width layout, and readable content width.
+				Sizing tokens cover full-width layout and readable content width. Icon
+				box sizes live on the icon itself: <code>{`<Icons.Search size="sm" />`}</code>
+				.
 			</P>
 
 			<H3>Values</H3>
@@ -47,27 +35,6 @@ export function SizingTokenPage() {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					<TableRow>
-						<TableCell>
-							<code>icon(size)</code>
-						</TableCell>
-						<TableCell>
-							<code>"2xs" | "xs" | "sm" | "md" | "lg" | "xl"</code>
-						</TableCell>
-						<TableCell>
-							T-shirt icon box sizes, paired with{" "}
-							<code>text(size, …)</code>.
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<code>sizing.icon</code>
-						</TableCell>
-						<TableCell>
-							<code>icon("sm")</code> → 16×16
-						</TableCell>
-						<TableCell>Default inline icon size alias.</TableCell>
-					</TableRow>
 					<TableRow>
 						<TableCell>
 							<code>sizing.fullWidth</code>
@@ -90,17 +57,6 @@ export function SizingTokenPage() {
 			</Table>
 
 			<H3>Examples</H3>
-			<H4>Icon sizes</H4>
-			<CodeBlock lang="typescript">{`const leading = icon("sm")
-// <Icons.Search className={leading} /> next to text("sm", …)`}</CodeBlock>
-			<Panel style={{ marginTop: "16px" }}>
-				<div style={{ display: "grid", gap: "10px" }}>
-					{iconSizes.map((size) => (
-						<IconSizeExample key={size} size={size} />
-					))}
-				</div>
-			</Panel>
-
 			<H4>Full width</H4>
 			<CodeBlock lang="typescript">{`const field = style(
 	sizingTokens.fullWidth,
@@ -119,30 +75,6 @@ export function SizingTokenPage() {
 				<ContentWidthExample />
 			</Panel>
 		</Prose>
-	)
-}
-
-function IconSizeExample(props: { size: IconSize }) {
-	const iconClassName = useStyles(icon(props.size), iconClass)
-	const labelClassName = useStyles(text(props.size, 400, "highContrast"))
-	const metaClassName = useStyles(text("xs", 400, "lowContrast"))
-
-	return (
-		<div style={exampleCardStyle}>
-			<code className={metaClassName}>
-				{props.size} · {iconSizeValues[props.size]}
-			</code>
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					gap: previewGap[props.size],
-				}}
-			>
-				<Icons.Search className={iconClassName} />
-				<span className={labelClassName}>Icon aligns with text</span>
-			</div>
-		</div>
 	)
 }
 
@@ -165,10 +97,6 @@ function ContentWidthExample() {
 		</div>
 	)
 }
-
-const iconClass = {
-	color: colors.accent[11],
-} as const
 
 const fullWidthClass = {
 	height: "28px",

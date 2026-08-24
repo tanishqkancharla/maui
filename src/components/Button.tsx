@@ -3,13 +3,20 @@ import { useId } from "react-aria"
 import { style, useStyles } from "purse-styles"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
-import { backgroundColor } from "../tokens/background"
-import { colors } from "../tokens/colors"
+import {
+	backgroundColor,
+	surfaceMixPercent,
+	surfaceWash,
+} from "../tokens/background"
+import { colors, type ColorName, type ColorScale } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { shadow, shadowVars } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
+import { memoize } from "../utils/memoize"
+
+export type ButtonVariant = "default" | "quiet" | "primary"
 
 const buttonBaseClass = style(
 	text("xs", 400, "highContrast"),
@@ -21,7 +28,7 @@ const buttonBaseClass = style(
 		display: "inline-flex",
 		alignItems: "center",
 		justifyContent: "center",
-		gap: spacing.value(3),
+		gap: spacing.value(2),
 		borderRadius: "4px",
 		width: "fit-content",
 		height: "28px",
@@ -77,6 +84,57 @@ const quietButtonClass = style(
 	},
 )
 
+const darkTextOnSolid: ReadonlySet<ColorName> = new Set([
+	"amber",
+	"lime",
+	"mint",
+	"sky",
+	"yellow",
+])
+
+const coloredButtonClass = memoize(
+	(variant: "primary" | "quiet", name: ColorName) => {
+		const scale: ColorScale = colors[name]
+		if (variant === "primary") {
+			return style(buttonBaseClass, {
+				color: darkTextOnSolid.has(name) ? scale[12] : "white",
+				backgroundColor: scale[9],
+				"&:hover": {
+					backgroundColor: scale[10],
+				},
+				"&:active": {
+					backgroundColor: scale[10],
+				},
+			})
+		}
+
+		return style(buttonBaseClass, focusRing("&:focus-visible"), {
+			color: scale[11],
+			backgroundColor: surfaceWash(
+				scale[9],
+				surfaceMixPercent.hover,
+				"transparent",
+			),
+			boxShadow: "none",
+			"&:hover": {
+				color: scale[12],
+				backgroundColor: surfaceWash(
+					scale[9],
+					surfaceMixPercent.active,
+					"transparent",
+				),
+			},
+			"&:active": {
+				backgroundColor: surfaceWash(
+					scale[9],
+					surfaceMixPercent.active,
+					"transparent",
+				),
+			},
+		})
+	},
+)
+
 type ButtonAttributes = React.DetailedHTMLProps<
 	React.ButtonHTMLAttributes<HTMLButtonElement>,
 	HTMLButtonElement
@@ -87,9 +145,10 @@ type ButtonData = {
 	focused: boolean
 }
 
-type ButtonProps = Omit<ButtonAttributes, "children" | "ref"> & {
+export type ButtonProps = Omit<ButtonAttributes, "children" | "ref"> & {
 	children: React.ReactNode
-	variant?: "default" | "quiet"
+	variant?: ButtonVariant
+	variantColor?: ColorName
 }
 
 export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
@@ -123,12 +182,11 @@ export function Button(props: ButtonProps) {
 		onFocus,
 		type = "button",
 		variant = "default",
+		variantColor,
 		...buttonProps
 	} = props
 	const [data, attributes] = useButton({ children, onClick, onFocus })
-	const className = useStyles(
-		variant === "quiet" ? quietButtonClass : buttonClass,
-	)
+	const className = useStyles(buttonVariantClass(variant, variantColor))
 	const textClassName = useStyles(buttonTextClass)
 	const mergedClassName = [className, classNameProp].filter(Boolean).join(" ")
 
@@ -142,6 +200,22 @@ export function Button(props: ButtonProps) {
 			{renderButtonChildren(children, textClassName)}
 		</button>
 	)
+}
+
+function buttonVariantClass(
+	variant: ButtonVariant,
+	variantColor: ColorName | undefined,
+) {
+	if (variant === "primary") {
+		return coloredButtonClass("primary", variantColor ?? "accent")
+	}
+	if (variant === "quiet" && variantColor) {
+		return coloredButtonClass("quiet", variantColor)
+	}
+	if (variant === "quiet") {
+		return quietButtonClass
+	}
+	return buttonClass
 }
 
 function renderButtonChildren(children: React.ReactNode, className: string) {
