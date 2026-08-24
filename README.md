@@ -86,9 +86,22 @@ Vite serves the gallery at [http://localhost:5173/](http://localhost:5173/).
 
 ## Package
 
-The barrel exports the provider, theme, tokens, and components. Patterns and demo apps in this repo are reference implementations, not part of the package barrel. Older public npm versions of `@tanishqkancharla/maui` may still exist; new first-party apps should install from GitHub as above.
+The barrel exports the provider, theme, tokens, and components. Patterns and demo apps in this repo are reference implementations, not part of the package barrel. This repo no longer publishes to public npm (`publish.yml` is removed; `npm run release` exits). Older public npm versions of `@tanishqkancharla/maui` may still exist until they are deprecated or made private from an npm login.
 
 Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
+
+## Remaining account steps (cannot be done from this agent)
+
+Do these **after** Halo (and any other consumer) installs Maui from git, or those installs will break:
+
+1. In [Halo](https://github.com/tanishqkancharla/halo-v2) `apps/electron/package.json`, change `"maui": "npm:@tanishqkancharla/maui@0.0.2"` to `"maui": "github:tanishqkancharla/maui#v0.0.3"` (then retag and bump after this license lands). Run `pnpm install` and commit the lockfile.
+2. Halo CI: add a fine-grained PAT (Contents: Read on `tanishqkancharla/maui` only) as `MAUI_READ_TOKEN`, and before `pnpm install` in `.github/workflows/publish-electron.yml`:
+   `git config --global url."https://x-access-token:${MAUI_READ_TOKEN}@github.com/".insteadOf "https://github.com/"`
+3. Add each Halo contributor as a **Read** collaborator on this repo (Settings → Collaborators).
+4. Make this GitHub repo private (Settings → General → Change visibility).
+5. Confirm Vercel still has access so the gallery deploys.
+6. From a machine logged into npm: `npm deprecate @tanishqkancharla/maui "Private. First-party apps install from GitHub."` Paid npm optional: `npm access restricted @tanishqkancharla/maui`. Remove the npm Trusted Publisher for `publish.yml`.
+7. Tag new Maui versions (`git tag v0.0.4`) and pin that tag in consuming apps. Do not `npm publish`.
 
 ## License
 

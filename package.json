@@ -25,7 +25,7 @@
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {
-		"access": "public"
+		"access": "restricted"
 	},
 	"repository": {
 		"type": "git",
@@ -44,7 +44,7 @@
 		"test": "vitest",
 		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs",
 		"mcp:agentation": "node .cursor/agentation-mcp.mjs",
-		"release": "npm run build:lib && npm publish"
+		"release": "echo 'Do not publish Maui to public npm. Tag a git revision for first-party consumers.' && exit 1"
 	},
 	"author": "Tanishq Kancharla",
 	"license": "PolyForm-Noncommercial-1.0.0",
