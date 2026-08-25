@@ -1,17 +1,14 @@
-import { useState, type ReactNode } from "react"
-import { style, useStyles } from "purse-styles"
+import { useState } from "react"
 import { Button } from "../components/Button"
-import { Code } from "../components/Code"
 import { Dialog } from "../components/Dialog"
 import { Icons } from "../components/Icons"
 import { Overlay } from "../components/Overlay"
 import { Prose } from "../components/Prose"
-import { H2, H3, H4, P } from "../components/Typography"
+import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
+import { colorNames, colors } from "../tokens/colors"
 import { borderColor } from "../tokens/borders"
-import { colorNames, colors, type ColorName } from "../tokens/colors"
-import { memoize } from "../utils/memoize"
 
 export function ButtonsPage() {
 	const [dialogOpen, setDialogOpen] = useState(false)
@@ -31,8 +28,9 @@ export function ButtonsPage() {
 			<P>
 				<code>variant="primary"</code> fills with step 9 of{" "}
 				<code>variantColor</code> (a palette name, default{" "}
-				<code>"accent"</code>). Quiet uses the same color at the 3.5%
-				surface-wash mix.
+				<code>"accent"</code>). The edge is{" "}
+				<code>shadow.subtle</code> tinted with that fill. Quiet uses the
+				same color at the 3.5% surface-wash mix.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="primary">Save</Button>
@@ -68,8 +66,6 @@ export function ButtonsPage() {
 					</Button>
 				))}
 			</Flex>
-
-			<PrimaryRingTreatments />
 
 			<H3>Quiet</H3>
 			<Flex row alignItems="center" gap={4}>
@@ -144,162 +140,5 @@ export function ButtonsPage() {
 				</Overlay>
 			)}
 		</Prose>
-	)
-}
-
-const ringSamples: { label: string; color: ColorName }[] = [
-	{ label: "Save", color: "accent" },
-	{ label: "Blue", color: "blue" },
-	{ label: "Red", color: "red" },
-	{ label: "Orange", color: "orange" },
-	{ label: "gray", color: "gray" },
-]
-
-function campsiteChromaticShadow(fill: string) {
-	return [
-		`0px 0px 4px oklch(from ${fill} calc(l * 0.42) c h / 0.18)`,
-		`0px 0px 0px 0.5px oklch(from ${fill} calc(l * 0.42) c h / 0.6)`,
-		"inset 0px 0.5px 0px rgb(255 255 255 / 0.08)",
-		"inset 0px 0px 1px 1px rgb(255 255 255 / 0.12)",
-		`inset 0px -1px 1px oklch(from ${fill} calc(l * 0.42) c h / 0.24)`,
-		`inset 0px -4px 8px -4px oklch(from ${fill} calc(l * 0.42) c h / 0.1)`,
-	].join(", ")
-}
-
-const ringTreatments: {
-	title: string
-	note: ReactNode
-	overflowVisible?: boolean
-	shadow?: (fill: string) => string
-}[] = [
-	{
-		title: "Current — gray/black ring",
-		note: (
-			<>
-				What ships today. Primary inherits <Code>shadow.subtle</Code>: a
-				neutral 8% 1px ring plus Craft blurs.
-			</>
-		),
-	},
-	{
-		title: "Tinted shadow.subtle",
-		note: (
-			<>
-				Same three layers and offsets as <Code>shadow.subtle</Code>, but
-				black/white is replaced with the fill hue at the same alphas (8% ring,
-				6% blurs).
-			</>
-		),
-		shadow: (fill) =>
-			`oklch(from ${fill} l c h / 0.08) 0px 0px 0px 1px, oklch(from ${fill} l c h / 0.06) 0px 1px 1px -0.5px, oklch(from ${fill} l c h / 0.06) 0px 3px 3px -1.5px`,
-	},
-	{
-		title: "Tinted shadow.subtle, mixed into black",
-		note: (
-			<>
-				Same stack, pigment is <Code>color-mix(in oklch, fill 55%, black)</Code>{" "}
-				then the original 8%/6% alphas — a colored gray, not a wash of the
-				fill.
-			</>
-		),
-		shadow: (fill) => {
-			const pigment = `color-mix(in oklch, ${fill} 55%, black)`
-			return `oklch(from ${pigment} l c h / 0.08) 0px 0px 0px 1px, oklch(from ${pigment} l c h / 0.06) 0px 1px 1px -0.5px, oklch(from ${pigment} l c h / 0.06) 0px 3px 3px -1.5px`
-		},
-	},
-	{
-		title: "Campsite chromatic",
-		note: (
-			<>
-				What Campsite does on colored fills (<Code>important</Code> /{" "}
-				<Code>onboarding</Code>): 0.5px same-hue hairline, same-hue outer
-				glow, white inset highlight, darker inset wash. Not the gray Craft
-				ring.
-			</>
-		),
-		overflowVisible: true,
-		shadow: campsiteChromaticShadow,
-	},
-]
-
-const primaryShadowOverride = memoize(
-	(boxShadow: string, overflowVisible: boolean) =>
-		style({
-			display: "contents",
-			"& > button": overflowVisible
-				? { boxShadow, overflow: "visible" }
-				: { boxShadow },
-			"& > button:focus-visible": {
-				outline: "none",
-				position: "relative",
-				zIndex: 1,
-				boxShadow: `0 0 0 1px ${colors.blueAlpha[8]}, 0 0 6px ${colors.blueAlpha[5]}, ${boxShadow}`,
-			},
-		}),
-)
-
-const previewPassthrough = style({ display: "contents" })
-
-function PrimaryShadowPreview(props: {
-	boxShadow?: string
-	overflowVisible?: boolean
-	children: ReactNode
-}) {
-	const className = useStyles(
-		props.boxShadow
-			? primaryShadowOverride(
-					props.boxShadow,
-					Boolean(props.overflowVisible),
-				)
-			: previewPassthrough,
-	)
-	return <span className={className}>{props.children}</span>
-}
-
-function PrimaryRingTreatments() {
-	return (
-		<section id="primary-ring-treatments">
-			<H3>Primary ring treatments</H3>
-			<P>
-				Exploration, not shipped. Each row is the same five buttons with a
-				different edge. Toggle light/dark in the sidebar to compare both
-				themes.
-			</P>
-			{ringTreatments.map((treatment) => (
-				<div key={treatment.title} style={{ marginTop: "16px" }}>
-					<H4>{treatment.title}</H4>
-					<P>{treatment.note}</P>
-					<Flex
-						row
-						alignItems="center"
-						gap={4}
-						style={{ flexWrap: "wrap", marginTop: "8px" }}
-					>
-						{ringSamples.map((sample) => {
-							const fill = colors[sample.color][9]
-							const boxShadow = treatment.shadow?.(fill)
-							return (
-								<PrimaryShadowPreview
-									key={sample.label}
-									boxShadow={boxShadow}
-									overflowVisible={treatment.overflowVisible}
-								>
-									<Button
-										variant="primary"
-										variantColor={
-											sample.color === "accent"
-												? undefined
-												: sample.color
-										}
-									>
-										{sample.label}
-									</Button>
-								</PrimaryShadowPreview>
-							)
-						})}
-					</Flex>
-				</div>
-			))}
-		</section>
 	)
 }

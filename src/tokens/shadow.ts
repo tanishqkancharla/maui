@@ -21,6 +21,11 @@ export const shadowVars = defineVars({
 	strong: `rgba(${rgb}, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, ${blur}) 0px 1px 1px -0.5px, rgba(0, 0, 0, ${blur}) 0px 3px 3px -1.5px, rgba(0, 0, 0, ${blur}) 0px 6px 6px -3px, rgba(0, 0, 0, calc(${blur} * 0.67)) 0px 12px 12px -6px, rgba(0, 0, 0, calc(${blur} * 0.67)) 0px 24px 24px -12px`,
 })
 
+/** Same offsets as `shadowVars.subtle`, with the ring and blurs tinted from `color`. */
+export function tintedSubtle(color: string) {
+	return `oklch(from ${color} l c h / 0.08) 0px 0px 0px 1px, oklch(from ${color} l c h / ${blur}) 0px 1px 1px -0.5px, oklch(from ${color} l c h / ${blur}) 0px 3px 3px -1.5px`
+}
+
 export const shadow = {
 	subtle: style({ boxShadow: shadowVars.subtle }),
 	medium: style({ boxShadow: shadowVars.medium }),

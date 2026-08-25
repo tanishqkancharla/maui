@@ -11,7 +11,7 @@ import {
 import { colors, type ColorName, type ColorScale } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
-import { shadow, shadowVars } from "../tokens/shadow"
+import { shadow, shadowVars, tintedSubtle } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
@@ -96,9 +96,11 @@ const coloredButtonClass = memoize(
 	(variant: "primary" | "quiet", name: ColorName) => {
 		const scale: ColorScale = colors[name]
 		if (variant === "primary") {
-			return style(buttonBaseClass, {
+			const edge = tintedSubtle(scale[9])
+			return style(buttonBaseClass, focusRing("&:focus-visible", edge), {
 				color: darkTextOnSolid.has(name) ? scale[12] : "white",
 				backgroundColor: scale[9],
+				boxShadow: edge,
 				"&:hover": {
 					backgroundColor: scale[10],
 				},

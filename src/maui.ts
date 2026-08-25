@@ -14,7 +14,7 @@ export { colors, type ColorName, type ColorScale, colorNames, paletteNames } fro
 export { background, backgroundColor } from "./tokens/background"
 export { border, borderColor, type BorderSide, type BorderColor } from "./tokens/borders"
 export { radius } from "./tokens/radius"
-export { shadow, shadowVars } from "./tokens/shadow"
+export { shadow, shadowVars, tintedSubtle } from "./tokens/shadow"
 export { focusRing } from "./tokens/focusRing"
 export { spacing, type Space } from "./tokens/spacing"
 export { flex, flexItem, grid, gridItem } from "./tokens/layout"
