@@ -77,7 +77,7 @@ export function ColorTokenPage() {
 				Solid and alpha scales for every Radix color.{" "}
 				<code>variantColor="blue"</code> on Button resolves{" "}
 				<code>colors.blue</code>. Hex and <code>rgb()</code> strings are
-				used as-is.
+				used as an opaque fill.
 			</P>
 			<Flex column gap={6}>
 				{paletteNames.map((name) => (

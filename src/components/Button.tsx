@@ -92,16 +92,21 @@ const darkTextOnSolid: ReadonlySet<ColorName> = new Set([
 	"yellow",
 ])
 
-/** Hex or rgb(a). Palette names stay ColorName (`"blue"` is Radix, not CSS `blue`). */
-export type ButtonCssColor = `#${string}` | `rgb(${string}` | `rgba(${string}`
+/** Opaque hex or `rgb()`. Palette names stay ColorName (`"blue"` is Radix, not CSS `blue`). */
+export type ButtonCssColor = `#${string}` | `rgb(${string}`
 export type ButtonVariantColor = ColorName | ButtonCssColor
 
 function isCssColor(value: string): value is ButtonCssColor {
-	return value.startsWith("#") || value.startsWith("rgb(") || value.startsWith("rgba(")
+	return value.startsWith("#") || value.startsWith("rgb")
 }
 
 function paletteFill(name: ColorName): ColorScale {
 	return colors[name]
+}
+
+/** Drop origin alpha so custom fills stay solid. */
+function opaqueColor(color: string) {
+	return `oklch(from ${color} l c h / 1)`
 }
 
 /** Hover/active of a one-off fill: same hue, a step darker. */
@@ -120,12 +125,13 @@ function onSolidText(color: string) {
 const coloredButtonClass = memoize(
 	(variant: "primary" | "quiet", color: ButtonVariantColor) => {
 		if (isCssColor(color)) {
+			const fill = opaqueColor(color)
 			if (variant === "primary") {
-				const edge = tintedSubtle(color)
-				const hover = darkerFill(color)
+				const edge = tintedSubtle(fill)
+				const hover = darkerFill(fill)
 				return style(buttonBaseClass, focusRing("&:focus-visible", edge), {
-					color: onSolidText(color),
-					backgroundColor: color,
+					color: onSolidText(fill),
+					backgroundColor: fill,
 					boxShadow: edge,
 					"&:hover": {
 						backgroundColor: hover,
@@ -137,24 +143,24 @@ const coloredButtonClass = memoize(
 			}
 
 			return style(buttonBaseClass, focusRing("&:focus-visible"), {
-				color,
+				color: fill,
 				backgroundColor: surfaceWash(
-					color,
+					fill,
 					surfaceMixPercent.hover,
 					"transparent",
 				),
 				boxShadow: "none",
 				"&:hover": {
-					color: darkerFill(color),
+					color: darkerFill(fill),
 					backgroundColor: surfaceWash(
-						color,
+						fill,
 						surfaceMixPercent.active,
 						"transparent",
 					),
 				},
 				"&:active": {
 					backgroundColor: surfaceWash(
-						color,
+						fill,
 						surfaceMixPercent.active,
 						"transparent",
 					),
