@@ -178,6 +178,32 @@ const ringTreatments: {
 		),
 	},
 	{
+		title: "Tinted shadow.subtle",
+		note: (
+			<>
+				Same three layers and offsets as <Code>shadow.subtle</Code>, but
+				black/white is replaced with the fill hue at the same alphas (8% ring,
+				6% blurs).
+			</>
+		),
+		shadow: (fill) =>
+			`oklch(from ${fill} l c h / 0.08) 0px 0px 0px 1px, oklch(from ${fill} l c h / 0.06) 0px 1px 1px -0.5px, oklch(from ${fill} l c h / 0.06) 0px 3px 3px -1.5px`,
+	},
+	{
+		title: "Tinted shadow.subtle, mixed into black",
+		note: (
+			<>
+				Same stack, pigment is <Code>color-mix(in oklch, fill 55%, black)</Code>{" "}
+				then the original 8%/6% alphas — a colored gray, not a wash of the
+				fill.
+			</>
+		),
+		shadow: (fill) => {
+			const pigment = `color-mix(in oklch, ${fill} 55%, black)`
+			return `oklch(from ${pigment} l c h / 0.08) 0px 0px 0px 1px, oklch(from ${pigment} l c h / 0.06) 0px 1px 1px -0.5px, oklch(from ${pigment} l c h / 0.06) 0px 3px 3px -1.5px`
+		},
+	},
+	{
 		title: "B. No ring",
 		note: (
 			<>
