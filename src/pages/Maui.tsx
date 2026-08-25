@@ -245,6 +245,7 @@ function MauiNavigation() {
 	const childrenClassName = useStyles(navChildrenClass)
 	const brandClassName = useStyles(navBrandClass)
 	const markClassName = useStyles(navMarkClass)
+	const controlClassName = useStyles(navControlClass)
 	const { preference, setPreference } = useTheme()
 
 	return (
@@ -253,20 +254,22 @@ function MauiNavigation() {
 				<span className={markClassName} aria-hidden="true" />
 				<H3>Maui</H3>
 			</div>
-			<Select
-				label="Theme"
-				aria-label="Theme"
-				selectedKey={preference}
-				onSelectionChange={(key) => {
-					if (isThemePreference(key)) {
-						setPreference(key)
-					}
-				}}
-			>
-				<SelectItem id="system">System</SelectItem>
-				<SelectItem id="light">Light</SelectItem>
-				<SelectItem id="dark">Dark</SelectItem>
-			</Select>
+			<div className={controlClassName}>
+				<Select
+					label="Theme"
+					aria-label="Theme"
+					selectedKey={preference}
+					onSelectionChange={(key) => {
+						if (isThemePreference(key)) {
+							setPreference(key)
+						}
+					}}
+				>
+					<SelectItem id="system">System</SelectItem>
+					<SelectItem id="light">Light</SelectItem>
+					<SelectItem id="dark">Dark</SelectItem>
+				</Select>
+			</div>
 			<ul className={navListClassName}>
 				{navigation.map((entry) =>
 					isNavGroup(entry) ? (
@@ -349,6 +352,13 @@ const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	margin: 0,
 	"& > label": {
 		marginTop: spacing.value(8),
+		paddingInline: spacing.value(4),
+	},
+})
+
+const navControlClass = style({
+	"& label": {
+		paddingInline: spacing.value(4),
 	},
 })
 
