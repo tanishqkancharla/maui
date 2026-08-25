@@ -15,6 +15,7 @@ import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
+import { AboutPage } from "./AboutPage"
 import { AiChatPage } from "./AiChatPage"
 import { AssistantMessagePage } from "./AssistantMessagePage"
 import { AvatarPage } from "./AvatarPage"
@@ -59,22 +60,32 @@ export function Maui() {
 	)
 }
 
-type NavGroup = {
-	label: string
-	children: NavItem[]
-}
-
 type NavItem = {
 	label: string
 	path: string
 	page: React.ComponentType
 }
 
-const navigation: NavGroup[] = [
-	{
-		label: "Playground",
-		children: [{ label: "Editor", path: "/editor", page: JsxEditorPage }],
-	},
+type NavGroup = {
+	label: string
+	children: NavItem[]
+}
+
+type NavEntry = NavItem | NavGroup
+
+function isNavGroup(entry: NavEntry): entry is NavGroup {
+	return "children" in entry
+}
+
+function navItems(entries: NavEntry[]): NavItem[] {
+	return entries.flatMap((entry) =>
+		isNavGroup(entry) ? entry.children : [entry],
+	)
+}
+
+const navigation: NavEntry[] = [
+	{ label: "About", path: "/about", page: AboutPage },
+	{ label: "Editor", path: "/editor", page: JsxEditorPage },
 	{
 		label: "Tokens",
 		children: [
@@ -195,13 +206,11 @@ function MauiContent() {
 
 			<div className={contentClassName}>
 				<WouterSwitch>
-					{navigation.flatMap((group) =>
-						group.children.map((item) => (
-							<Route key={item.path} path={item.path}>
-								<item.page />
-							</Route>
-						)),
-					)}
+					{navItems(navigation).map((item) => (
+						<Route key={item.path} path={item.path}>
+							<item.page />
+						</Route>
+					))}
 
 					<Route path="/patterns/calendar">
 						<Redirect to="/apps/calendar" />
@@ -239,6 +248,7 @@ function MauiNavigation() {
 	const childrenClassName = useStyles(navChildrenClass)
 	const brandClassName = useStyles(navBrandClass)
 	const markClassName = useStyles(navMarkClass)
+	const controlClassName = useStyles(navControlClass)
 	const { preference, setPreference } = useTheme()
 
 	return (
@@ -247,31 +257,37 @@ function MauiNavigation() {
 				<span className={markClassName} aria-hidden="true" />
 				<H3>Maui</H3>
 			</div>
-			<Select
-				label="Theme"
-				aria-label="Theme"
-				selectedKey={preference}
-				onSelectionChange={(key) => {
-					if (isThemePreference(key)) {
-						setPreference(key)
-					}
-				}}
-			>
-				<SelectItem id="system">System</SelectItem>
-				<SelectItem id="light">Light</SelectItem>
-				<SelectItem id="dark">Dark</SelectItem>
-			</Select>
+			<div className={controlClassName}>
+				<Select
+					label="Theme"
+					aria-label="Theme"
+					selectedKey={preference}
+					onSelectionChange={(key) => {
+						if (isThemePreference(key)) {
+							setPreference(key)
+						}
+					}}
+				>
+					<SelectItem id="system">System</SelectItem>
+					<SelectItem id="light">Light</SelectItem>
+					<SelectItem id="dark">Dark</SelectItem>
+				</Select>
+			</div>
 			<ul className={navListClassName}>
-				{navigation.map((group) => (
-					<li className={groupClassName} key={group.label}>
-						<Label>{group.label}</Label>
-						<ul className={childrenClassName}>
-							{group.children.map((item) => (
-								<NavLink key={item.path} item={item} />
-							))}
-						</ul>
-					</li>
-				))}
+				{navigation.map((entry) =>
+					isNavGroup(entry) ? (
+						<li className={groupClassName} key={entry.label}>
+							<Label>{entry.label}</Label>
+							<ul className={childrenClassName}>
+								{entry.children.map((item) => (
+									<NavLink key={item.path} item={item} />
+								))}
+							</ul>
+						</li>
+					) : (
+						<NavLink key={entry.path} item={entry} />
+					),
+				)}
 			</ul>
 		</nav>
 	)
@@ -320,16 +336,17 @@ const navClass = style(
 
 const navBrandClass = style(flex({ direction: "column", gap: 12 }), {
 	paddingTop: spacing.value(6),
+	paddingInline: spacing.value(4),
 })
 
 const navMarkClass = style({
-	width: "12px",
-	height: "12px",
+	width: "10px",
+	height: "10px",
 	borderRadius: "999px",
 	backgroundColor: colors.accent[9],
 })
 
-const navListClass = style(flex({ direction: "column", gap: 8 }), {
+const navListClass = style(flex({ direction: "column", gap: 0 }), {
 	listStyleType: "none",
 	padding: 0,
 	margin: 0,
@@ -337,6 +354,17 @@ const navListClass = style(flex({ direction: "column", gap: 8 }), {
 
 const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	margin: 0,
+	"& > label": {
+		marginTop: spacing.value(8),
+		marginBottom: spacing.value(2),
+		paddingInline: spacing.value(4),
+	},
+})
+
+const navControlClass = style({
+	"& > * > span:first-child": {
+		paddingInline: spacing.value(4),
+	},
 })
 
 const navChildrenClass = style(flex({ direction: "column" }), {

@@ -254,6 +254,7 @@ const paneHeaderClass = style(
 	flex({ direction: "row", align: "center", justify: "between" }),
 	{
 		flexShrink: 0,
+		minHeight: `calc(28px + ${spacing.value(3)} * 2 + 1px)`,
 		paddingInline: spacing.value(4),
 		paddingBlock: spacing.value(3),
 		borderBottom: `1px solid ${colors.gray[4]}`,
