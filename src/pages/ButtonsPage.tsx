@@ -10,12 +10,7 @@ import { H2, H3, H4, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
 import { borderColor } from "../tokens/borders"
-import {
-	colorNames,
-	colors,
-	type ColorName,
-	type PaletteName,
-} from "../tokens/colors"
+import { colorNames, colors, type ColorName } from "../tokens/colors"
 import { memoize } from "../utils/memoize"
 
 export function ButtonsPage() {
@@ -152,9 +147,6 @@ export function ButtonsPage() {
 	)
 }
 
-const elevationBlur =
-	"rgba(0, 0, 0, 0.06) 0px 1px 1px -0.5px, rgba(0, 0, 0, 0.06) 0px 3px 3px -1.5px"
-
 const ringSamples: { label: string; color: ColorName }[] = [
 	{ label: "Save", color: "accent" },
 	{ label: "Blue", color: "blue" },
@@ -163,13 +155,25 @@ const ringSamples: { label: string; color: ColorName }[] = [
 	{ label: "gray", color: "gray" },
 ]
 
+function campsiteChromaticShadow(fill: string) {
+	return [
+		`0px 0px 4px oklch(from ${fill} calc(l * 0.42) c h / 0.18)`,
+		`0px 0px 0px 0.5px oklch(from ${fill} calc(l * 0.42) c h / 0.6)`,
+		"inset 0px 0.5px 0px rgb(255 255 255 / 0.08)",
+		"inset 0px 0px 1px 1px rgb(255 255 255 / 0.12)",
+		`inset 0px -1px 1px oklch(from ${fill} calc(l * 0.42) c h / 0.24)`,
+		`inset 0px -4px 8px -4px oklch(from ${fill} calc(l * 0.42) c h / 0.1)`,
+	].join(", ")
+}
+
 const ringTreatments: {
 	title: string
 	note: ReactNode
-	shadow?: (fill: string, color: ColorName) => string
+	overflowVisible?: boolean
+	shadow?: (fill: string) => string
 }[] = [
 	{
-		title: "A. Current — gray/black ring",
+		title: "Current — gray/black ring",
 		note: (
 			<>
 				What ships today. Primary inherits <Code>shadow.subtle</Code>: a
@@ -204,98 +208,49 @@ const ringTreatments: {
 		},
 	},
 	{
-		title: "B. No ring",
+		title: "Campsite chromatic",
 		note: (
 			<>
-				Radix Themes <Code>solid</Code>, Material 3 filled, Polaris. Quiet
-				already does this.
+				What Campsite does on colored fills (<Code>important</Code> /{" "}
+				<Code>onboarding</Code>): 0.5px same-hue hairline, same-hue outer
+				glow, white inset highlight, darker inset wash. Not the gray Craft
+				ring.
 			</>
 		),
-		shadow: () => "none",
-	},
-	{
-		title: "C. Hue-matched darker edge",
-		note: (
-			<>
-				Primer, Stripe, Apple. Mix black into the fill for the 1px ring; keep
-				the elevation blurs.
-			</>
-		),
-		shadow: (fill) =>
-			`color-mix(in oklch, black 18%, ${fill}) 0px 0px 0px 1px, ${elevationBlur}`,
-	},
-	{
-		title: "D. Soft same-hue ring",
-		note: (
-			<>
-				Ring only, no gray blur.{" "}
-				<Code>color-mix(in oklch, fill 70%, black)</Code>.
-			</>
-		),
-		shadow: (fill) =>
-			`color-mix(in oklch, ${fill} 70%, black) 0px 0px 0px 1px`,
-	},
-	{
-		title: "E. Inset alpha ring",
-		note: (
-			<>
-				Radix <Code>outline</Code> / <Code>surface</Code>. Inner 1px from the
-				palette alpha scale (step 8).
-			</>
-		),
-		shadow: (_fill, color) => `inset 0 0 0 1px ${paletteAlpha(color)[8]}`,
-	},
-	{
-		title: "F. Relative color",
-		note: (
-			<>
-				<Code>oklch(from fill calc(l * 0.82) c h)</Code> — lower lightness,
-				keep chroma, plus elevation blurs.
-			</>
-		),
-		shadow: (fill) =>
-			`oklch(from ${fill} calc(l * 0.82) c h) 0px 0px 0px 1px, ${elevationBlur}`,
+		overflowVisible: true,
+		shadow: campsiteChromaticShadow,
 	},
 ]
 
-const tintedGrays: ColorName[] = [
-	"gray",
-	"mauve",
-	"slate",
-	"sage",
-	"olive",
-	"sand",
-]
-
-function paletteAlpha(name: ColorName) {
-	if (name === "accent") return colors.accentAlpha
-	return colors[`${name}Alpha` as `${PaletteName}Alpha`]
-}
-
-const primaryShadowOverride = memoize((boxShadow: string) =>
-	style({
-		display: "contents",
-		"& > button": {
-			boxShadow,
-		},
-		"& > button:focus-visible": {
-			outline: "none",
-			position: "relative",
-			zIndex: 1,
-			boxShadow: `0 0 0 1px ${colors.blueAlpha[8]}, 0 0 6px ${colors.blueAlpha[5]}, ${boxShadow}`,
-		},
-	}),
+const primaryShadowOverride = memoize(
+	(boxShadow: string, overflowVisible: boolean) =>
+		style({
+			display: "contents",
+			"& > button": overflowVisible
+				? { boxShadow, overflow: "visible" }
+				: { boxShadow },
+			"& > button:focus-visible": {
+				outline: "none",
+				position: "relative",
+				zIndex: 1,
+				boxShadow: `0 0 0 1px ${colors.blueAlpha[8]}, 0 0 6px ${colors.blueAlpha[5]}, ${boxShadow}`,
+			},
+		}),
 )
 
 const previewPassthrough = style({ display: "contents" })
 
 function PrimaryShadowPreview(props: {
 	boxShadow?: string
+	overflowVisible?: boolean
 	children: ReactNode
 }) {
 	const className = useStyles(
 		props.boxShadow
-			? primaryShadowOverride(props.boxShadow)
+			? primaryShadowOverride(
+					props.boxShadow,
+					Boolean(props.overflowVisible),
+				)
 			: previewPassthrough,
 	)
 	return <span className={className}>{props.children}</span>
@@ -306,10 +261,9 @@ function PrimaryRingTreatments() {
 		<section id="primary-ring-treatments">
 			<H3>Primary ring treatments</H3>
 			<P>
-				Exploration, not shipped. Primary fills currently share the gray{" "}
-				<Code>shadow.subtle</Code> ring used on default controls. Each row is
-				the same five buttons with a different edge. Toggle light/dark in the
-				sidebar to compare both themes.
+				Exploration, not shipped. Each row is the same five buttons with a
+				different edge. Toggle light/dark in the sidebar to compare both
+				themes.
 			</P>
 			{ringTreatments.map((treatment) => (
 				<div key={treatment.title} style={{ marginTop: "16px" }}>
@@ -323,16 +277,19 @@ function PrimaryRingTreatments() {
 					>
 						{ringSamples.map((sample) => {
 							const fill = colors[sample.color][9]
-							const boxShadow = treatment.shadow?.(fill, sample.color)
+							const boxShadow = treatment.shadow?.(fill)
 							return (
 								<PrimaryShadowPreview
 									key={sample.label}
 									boxShadow={boxShadow}
+									overflowVisible={treatment.overflowVisible}
 								>
 									<Button
 										variant="primary"
 										variantColor={
-											sample.color === "accent" ? undefined : sample.color
+											sample.color === "accent"
+												? undefined
+												: sample.color
 										}
 									>
 										{sample.label}
@@ -343,26 +300,6 @@ function PrimaryRingTreatments() {
 					</Flex>
 				</div>
 			))}
-
-			<H4>G. Tinted gray pairing</H4>
-			<P>
-				A different lever: keep the current ring, but use a chromatic-adjacent
-				neutral as the fill. Radix pairs sage with teal, mauve with violet,
-				slate with blue. Pure <Code>gray</Code> is the one that clashes.
-			</P>
-			<Flex
-				row
-				alignItems="center"
-				gap={4}
-				style={{ flexWrap: "wrap", marginTop: "8px" }}
-			>
-				<Button variant="primary">accent</Button>
-				{tintedGrays.map((name) => (
-					<Button key={name} variant="primary" variantColor={name}>
-						{name}
-					</Button>
-				))}
-			</Flex>
 		</section>
 	)
 }
