@@ -28,7 +28,7 @@ export function FormControlsPage() {
 		<Flex column gap={6} style={{ marginBottom: "32px" }}>
 			<H2>Form controls</H2>
 			<Flex column gap={6}>
-				<Flex column gap={2} style={{ maxWidth: "240px" }}>
+				<Flex column gap={3} style={{ maxWidth: "240px" }}>
 					<Label htmlFor="text-field">Text field</Label>
 					<TextField
 						id="text-field"
@@ -37,7 +37,7 @@ export function FormControlsPage() {
 						onChange={setTextValue}
 					/>
 				</Flex>
-				<Flex column gap={2} style={{ maxWidth: "240px" }}>
+				<Flex column gap={3} style={{ maxWidth: "240px" }}>
 					<Label htmlFor="search-field">Search field</Label>
 					<SearchField
 						id="search-field"
@@ -46,7 +46,7 @@ export function FormControlsPage() {
 						onChange={setSearchValue}
 					/>
 				</Flex>
-				<Flex column gap={2} style={{ maxWidth: "240px" }}>
+				<Flex column gap={3} style={{ maxWidth: "240px" }}>
 					<Label htmlFor="number-field">Number field</Label>
 					<NumberField
 						id="number-field"
@@ -56,7 +56,7 @@ export function FormControlsPage() {
 						maxValue={10}
 					/>
 				</Flex>
-				<Flex column gap={2} style={{ maxWidth: "240px" }}>
+				<Flex column gap={3} style={{ maxWidth: "240px" }}>
 					<Label htmlFor="quiet-text-field">Quiet text field</Label>
 					<QuietTextField
 						id="quiet-text-field"

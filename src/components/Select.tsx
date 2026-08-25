@@ -25,7 +25,7 @@ import { labelText } from "./Typography"
 const selectClass = style({
 	display: "flex",
 	flexDirection: "column",
-	gap: "4px",
+	gap: spacing.value(3),
 	width: "100%",
 })
 

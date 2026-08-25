@@ -333,6 +333,7 @@ const navClass = style(
 
 const navBrandClass = style(flex({ direction: "column", gap: 12 }), {
 	paddingTop: spacing.value(6),
+	paddingInline: spacing.value(4),
 })
 
 const navMarkClass = style({
@@ -353,6 +354,7 @@ const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	"& > label": {
 		marginTop: spacing.value(8),
 		marginBottom: spacing.value(2),
+		paddingInline: spacing.value(4),
 	},
 })
 
