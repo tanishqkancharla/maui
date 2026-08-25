@@ -357,7 +357,7 @@ const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 })
 
 const navControlClass = style({
-	"& label": {
+	"& [slot='label']": {
 		paddingInline: spacing.value(4),
 	},
 })
