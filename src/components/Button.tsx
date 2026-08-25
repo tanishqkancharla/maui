@@ -92,13 +92,81 @@ const darkTextOnSolid: ReadonlySet<ColorName> = new Set([
 	"yellow",
 ])
 
+/** Hex or rgb(a). Palette names stay ColorName (`"blue"` is Radix, not CSS `blue`). */
+export type ButtonCssColor = `#${string}` | `rgb(${string}` | `rgba(${string}`
+export type ButtonVariantColor = ColorName | ButtonCssColor
+
+function isCssColor(value: string): value is ButtonCssColor {
+	return value.startsWith("#") || value.startsWith("rgb(") || value.startsWith("rgba(")
+}
+
+function paletteFill(name: ColorName): ColorScale {
+	return colors[name]
+}
+
+/** Hover/active of a one-off fill: same hue, a step darker. */
+function darkerFill(color: string) {
+	return `oklch(from ${color} calc(l - 0.04) c h)`
+}
+
+/**
+ * White or near-black from fill lightness. Threshold sits between Radix
+ * orange-9 (white text) and amber-9 (dark text).
+ */
+function onSolidText(color: string) {
+	return `oklch(from ${color} clamp(0.2, (0.75 - l) * 100, 0.99) 0 0)`
+}
+
 const coloredButtonClass = memoize(
-	(variant: "primary" | "quiet", name: ColorName) => {
-		const scale: ColorScale = colors[name]
+	(variant: "primary" | "quiet", color: ButtonVariantColor) => {
+		if (isCssColor(color)) {
+			if (variant === "primary") {
+				const edge = tintedSubtle(color)
+				const hover = darkerFill(color)
+				return style(buttonBaseClass, focusRing("&:focus-visible", edge), {
+					color: onSolidText(color),
+					backgroundColor: color,
+					boxShadow: edge,
+					"&:hover": {
+						backgroundColor: hover,
+					},
+					"&:active": {
+						backgroundColor: hover,
+					},
+				})
+			}
+
+			return style(buttonBaseClass, focusRing("&:focus-visible"), {
+				color,
+				backgroundColor: surfaceWash(
+					color,
+					surfaceMixPercent.hover,
+					"transparent",
+				),
+				boxShadow: "none",
+				"&:hover": {
+					color: darkerFill(color),
+					backgroundColor: surfaceWash(
+						color,
+						surfaceMixPercent.active,
+						"transparent",
+					),
+				},
+				"&:active": {
+					backgroundColor: surfaceWash(
+						color,
+						surfaceMixPercent.active,
+						"transparent",
+					),
+				},
+			})
+		}
+
+		const scale = paletteFill(color)
 		if (variant === "primary") {
 			const edge = tintedSubtle(scale[9])
 			return style(buttonBaseClass, focusRing("&:focus-visible", edge), {
-				color: darkTextOnSolid.has(name) ? scale[12] : "white",
+				color: darkTextOnSolid.has(color) ? scale[12] : "white",
 				backgroundColor: scale[9],
 				boxShadow: edge,
 				"&:hover": {
@@ -150,7 +218,7 @@ type ButtonData = {
 export type ButtonProps = Omit<ButtonAttributes, "children" | "ref"> & {
 	children: React.ReactNode
 	variant?: ButtonVariant
-	variantColor?: ColorName
+	variantColor?: ButtonVariantColor
 }
 
 export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
@@ -206,7 +274,7 @@ export function Button(props: ButtonProps) {
 
 function buttonVariantClass(
 	variant: ButtonVariant,
-	variantColor: ColorName | undefined,
+	variantColor: ButtonVariantColor | undefined,
 ) {
 	if (variant === "primary") {
 		return coloredButtonClass("primary", variantColor ?? "accent")

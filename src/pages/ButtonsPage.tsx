@@ -28,9 +28,10 @@ export function ButtonsPage() {
 			<P>
 				<code>variant="primary"</code> fills with step 9 of{" "}
 				<code>variantColor</code> (a palette name, default{" "}
-				<code>"accent"</code>). The edge is{" "}
-				<code>shadow.subtle</code> tinted with that fill. Quiet uses the
-				same color at the 3.5% surface-wash mix.
+				<code>"accent"</code>). Pass a hex or <code>rgb()</code> /{" "}
+				<code>rgba()</code> string to use that color as the fill. The
+				edge is <code>shadow.subtle</code> tinted with the fill. Quiet
+				uses the same color at the 3.5% surface-wash mix.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="primary">Save</Button>
@@ -52,6 +53,25 @@ export function ButtonsPage() {
 				</Button>
 				<Button variant="quiet" variantColor="blue">
 					Quiet blue
+				</Button>
+			</Flex>
+			<Flex
+				row
+				alignItems="center"
+				gap={4}
+				style={{ flexWrap: "wrap", marginTop: "12px" }}
+			>
+				<Button variant="primary" variantColor="#6366f1">
+					#6366f1
+				</Button>
+				<Button variant="primary" variantColor="#f5d90a">
+					#f5d90a
+				</Button>
+				<Button variant="primary" variantColor="rgb(219, 68, 55)">
+					rgb(219, 68, 55)
+				</Button>
+				<Button variant="quiet" variantColor="#6366f1">
+					Quiet #6366f1
 				</Button>
 			</Flex>
 			<Flex
