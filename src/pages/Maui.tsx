@@ -339,7 +339,7 @@ const navMarkClass = style({
 	backgroundColor: colors.accent[9],
 })
 
-const navListClass = style(flex({ direction: "column", gap: 8 }), {
+const navListClass = style(flex({ direction: "column", gap: 0 }), {
 	listStyleType: "none",
 	padding: 0,
 	margin: 0,
@@ -347,6 +347,9 @@ const navListClass = style(flex({ direction: "column", gap: 8 }), {
 
 const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	margin: 0,
+	"& > label": {
+		marginTop: spacing.value(8),
+	},
 })
 
 const navChildrenClass = style(flex({ direction: "column" }), {
