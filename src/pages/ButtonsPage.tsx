@@ -277,7 +277,7 @@ function PrimaryShadowPreview(props: {
 
 function PrimaryRingTreatments() {
 	return (
-		<>
+		<section id="primary-ring-treatments">
 			<H3>Primary ring treatments</H3>
 			<P>
 				Exploration, not shipped. Primary fills currently share the gray{" "}
@@ -337,6 +337,6 @@ function PrimaryRingTreatments() {
 					</Button>
 				))}
 			</Flex>
-		</>
+		</section>
 	)
 }
