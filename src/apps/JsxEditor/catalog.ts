@@ -242,7 +242,7 @@ export const catalog: CatalogComponent[] = [
 			{ name: "variant", values: ["default", "quiet", "primary"] },
 			{
 				name: "variantColor",
-				info: "Palette name resolved as colors[name]. Primary uses step 9; quiet uses a 3.5% wash of step 9.",
+				info: "Palette name (colors[name], primary step 9) or an opaque hex / rgb() fill. Quiet uses a 3.5% wash.",
 				values: [...colorNames],
 			},
 			{ name: "aria-label" },

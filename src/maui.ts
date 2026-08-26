@@ -14,7 +14,7 @@ export { colors, type ColorName, type ColorScale, colorNames, paletteNames } fro
 export { background, backgroundColor } from "./tokens/background"
 export { border, borderColor, type BorderSide, type BorderColor } from "./tokens/borders"
 export { radius } from "./tokens/radius"
-export { shadow, shadowVars } from "./tokens/shadow"
+export { shadow, shadowVars, tintedSubtle } from "./tokens/shadow"
 export { focusRing } from "./tokens/focusRing"
 export { spacing, type Space } from "./tokens/spacing"
 export { flex, flexItem, grid, gridItem } from "./tokens/layout"
@@ -52,7 +52,14 @@ export { visuallyHidden } from "./tokens/visuallyHidden"
 // Components
 export { Avatar } from "./components/Avatar"
 export { Badge } from "./components/Badge"
-export { Button, useButton, type ButtonProps, type ButtonVariant } from "./components/Button"
+export {
+	Button,
+	useButton,
+	type ButtonCssColor,
+	type ButtonProps,
+	type ButtonVariant,
+	type ButtonVariantColor,
+} from "./components/Button"
 export { Checkbox } from "./components/Checkbox"
 export { Switch } from "./components/Switch"
 export { Slider } from "./components/Slider"
