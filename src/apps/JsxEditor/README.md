@@ -1,5 +1,7 @@
 # JSX editor (standalone)
 
+Gist: https://gist.github.com/tanishqkancharla/814050126496e7ef2250d26ccdbf7edf
+
 CodeMirror JSX playground: live preview, catalog autocomplete, attribute lint, and format-on-⌘S.
 
 Design-system specifics live behind `DesignSystemApi`. Point `JsxEditor` at any adapter — Maui’s is `useMauiDesignSystem()` in the Maui repo.
