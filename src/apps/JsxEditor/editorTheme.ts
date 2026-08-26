@@ -1,15 +1,13 @@
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language"
 import { EditorView } from "@codemirror/view"
 import { tags as t } from "@lezer/highlight"
-import { backgroundColor } from "../../tokens/background"
-import { colors } from "../../tokens/colors"
-import { shadowVars } from "../../tokens/shadow"
-import { monoFontFamily } from "../../tokens/text"
-import { mauiSyntaxColors } from "../../utils/mauiShikiTheme"
+import type { EditorChromeTokens, SyntaxColors } from "./DesignSystemApi"
 
-export function mauiCodeMirrorTheme(dark: boolean) {
-	const syntax = dark ? mauiSyntaxColors.dark : mauiSyntaxColors.light
-
+export function createCodeMirrorTheme(
+	dark: boolean,
+	chrome: EditorChromeTokens,
+	syntax: SyntaxColors,
+) {
 	return [
 		EditorView.theme(
 			{
@@ -25,7 +23,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					outline: "none",
 				},
 				".cm-scroller": {
-					fontFamily: monoFontFamily,
+					fontFamily: chrome.monoFontFamily,
 					fontVariantNumeric: "tabular-nums",
 					fontWeight: "400",
 					lineHeight: "20px",
@@ -41,78 +39,78 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					borderLeftColor: syntax.foreground,
 				},
 				".cm-selectionBackground, .cm-content ::selection": {
-					backgroundColor: colors.accentAlpha[4],
+					backgroundColor: chrome.accentAlpha4,
 				},
 				"&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground":
 					{
-						backgroundColor: colors.accentAlpha[5],
+						backgroundColor: chrome.accentAlpha5,
 					},
 				".cm-activeLine": {
 					backgroundColor: "transparent",
 				},
 				"&.cm-focused .cm-matchingBracket, &.cm-focused .cm-matchingTag": {
-					backgroundColor: colors.accentAlpha[4],
+					backgroundColor: chrome.accentAlpha4,
 				},
 				"&.cm-focused .cm-nonmatchingBracket": {
-					backgroundColor: colors.accentAlpha[3],
+					backgroundColor: chrome.accentAlpha3,
 				},
 				".cm-gutters": {
 					backgroundColor: "transparent",
-					color: colors.gray[9],
+					color: chrome.gray9,
 					border: "none",
 				},
 				".cm-activeLineGutter": {
 					backgroundColor: "transparent",
-					color: colors.gray[9],
+					color: chrome.gray9,
 				},
 				".cm-tooltip": {
-					backgroundColor: backgroundColor.element,
-					color: colors.gray[12],
+					backgroundColor: chrome.elementBackground,
+					color: chrome.gray12,
 					border: "none",
 					borderRadius: "6px",
-					boxShadow: shadowVars.medium,
+					boxShadow: chrome.shadowMedium,
 				},
 				".cm-tooltip-autocomplete ul li": {
-					fontFamily: monoFontFamily,
+					fontFamily: chrome.monoFontFamily,
 					fontSize: "12px",
 					fontWeight: "400",
 				},
 				".cm-tooltip-autocomplete ul li[aria-selected]": {
-					backgroundColor: colors.accent[4],
-					color: colors.gray[12],
+					backgroundColor: chrome.accent4,
+					color: chrome.gray12,
 				},
 				".cm-completionInfo": {
-					fontFamily: monoFontFamily,
+					fontFamily: chrome.monoFontFamily,
 					fontSize: "12px",
 					fontWeight: "400",
-					color: colors.gray[11],
+					color: chrome.gray11,
 				},
 				".cm-completionMatchedText": {
 					textDecoration: "none",
-					color: colors.accent[11],
+					color: chrome.accent11,
 					fontWeight: "400",
 				},
 				".cm-lintRange-error": {
 					backgroundImage: "none",
 					textDecorationLine: "underline",
 					textDecorationStyle: "wavy",
-					textDecorationColor: colors.red[9],
+					textDecorationColor: chrome.red9,
 					textDecorationThickness: "2px",
 					textUnderlineOffset: "3px",
 				},
 				".cm-lintPoint-error": {
-					borderBottomColor: colors.red[9],
+					borderBottomColor: chrome.red9,
 				},
 				".cm-tooltip.cm-tooltip-lint": {
-					backgroundColor: backgroundColor.element,
-					color: colors.gray[12],
+					backgroundColor: chrome.elementBackground,
+					color: chrome.gray12,
 					border: "none",
 					borderRadius: "6px",
-					boxShadow: shadowVars.medium,
+					boxShadow: chrome.shadowMedium,
 					fontSize: "12px",
 				},
 				".cm-diagnostic-error": {
-					borderLeftColor: colors.red[9],
+					borderLeftColor: chrome.red9,
 				},
 			},
 			{ dark },
