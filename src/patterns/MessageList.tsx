@@ -3,7 +3,7 @@ import { style, useStyles } from "purse-styles"
 import { Avatar } from "../components/Avatar"
 import { Prose } from "../components/Prose"
 import { P } from "../components/Typography"
-import { colors } from "../tokens/colors"
+import { backgroundColor } from "../tokens/background"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
@@ -162,24 +162,18 @@ const messageClass = style(
 	radius.lg,
 	shadow.subtle,
 	spacing.padding({ all: 8 }),
+	flex({ direction: "column", gap: 4 }),
 	{
-		backgroundColor: colors.gray[2],
+		backgroundColor: backgroundColor.element,
 		minWidth: 0,
 	}
 )
 
-const messageHeaderClass = style(
-	flex({ align: "center", gap: 2, wrap: true }),
-	{
-		marginBottom: "8px",
-	}
-)
+const messageHeaderClass = flex({ align: "center", gap: 2, wrap: true })
 
 const senderNameClass = style(text("sm", 500, "highContrast"))
 
-const messageMetaClass = style(text("xs", 400, "lowContrast"), {
-	marginLeft: "2px",
-})
+const messageMetaClass = style(text("xs", 400, "lowContrast"))
 
 const editedLabelClass = style(text("xs", 400, "lowContrast"), {
 	fontStyle: "italic",

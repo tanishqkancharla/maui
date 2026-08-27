@@ -3,9 +3,10 @@ import { style, useStyles } from "purse-styles"
 import { H2 } from "../../components/Typography"
 import { InboxMultiLine } from "../../patterns/Inbox"
 import { Message, MessageList } from "../../patterns/MessageList"
-import { colors } from "../../tokens/colors"
+import { background, backgroundColor } from "../../tokens/background"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
+import { shadow } from "../../tokens/shadow"
 import { spacing } from "../../tokens/spacing"
 import { text } from "../../tokens/text"
 import { emailInbox, emailThreads, getThreadMessages } from "./data"
@@ -22,7 +23,6 @@ export function EmailClient() {
 	const readingPaneClassName = useStyles(readingPaneClass)
 	const inboxHeaderClassName = useStyles(inboxHeaderClass)
 	const threadHeaderClassName = useStyles(threadHeaderClass)
-	const threadSubjectClassName = useStyles(threadSubjectClass)
 	const emptyStateClassName = useStyles(emptyStateClass)
 
 	return (
@@ -46,7 +46,7 @@ export function EmailClient() {
 				{selectedThread ? (
 					<>
 						<header className={threadHeaderClassName}>
-							<h2 className={threadSubjectClassName}>{selectedThread.subject}</h2>
+							<H2>{selectedThread.subject}</H2>
 						</header>
 
 						<MessageList aria-label={`${selectedThread.subject} thread`}>
@@ -70,29 +70,22 @@ export function EmailClient() {
 	)
 }
 
-const shellClass = style(
-	radius.lg,
-	{
-		display: "grid",
-		gridTemplateColumns: "minmax(320px, 38%) minmax(0, 1fr)",
-		gap: "1px",
-		minHeight: "640px",
-		overflow: "hidden",
-		backgroundColor: colors.gray[4],
-		border: `1px solid ${colors.gray[4]}`,
-	}
-)
-
-const paneBaseClass = style({
-	minWidth: 0,
-	minHeight: 0,
-	backgroundColor: colors.gray[1],
+const shellClass = style(radius.lg, shadow.subtle, {
+	display: "grid",
+	gridTemplateColumns: "minmax(320px, 38%) minmax(0, 1fr)",
+	minHeight: "640px",
+	overflow: "hidden",
+	backgroundColor: backgroundColor.app,
 })
 
-const inboxPaneClass = style(paneBaseClass, {
+const inboxPaneClass = style(background.element, shadow.subtle, {
 	display: "flex",
 	flexDirection: "column",
 	overflow: "hidden",
+	minWidth: 0,
+	minHeight: 0,
+	position: "relative",
+	zIndex: 1,
 })
 
 const inboxListClass = style(spacing.padding({ x: 4 }), {
@@ -106,22 +99,19 @@ const inboxListResetClass = style({
 })
 
 const readingPaneClass = style(
-	paneBaseClass,
 	spacing.padding({ x: 8, y: 6 }),
 	flex({ direction: "column", gap: 6 }),
 	{
+		minWidth: 0,
+		minHeight: 0,
 		overflowY: "auto",
-	}
+	},
 )
 
 const inboxHeaderClass = style(spacing.padding({ x: 4, y: 4 }))
 
 const threadHeaderClass = style({
 	minWidth: 0,
-})
-
-const threadSubjectClass = style(text("lg", 600, "highContrast"), {
-	margin: 0,
 })
 
 const emptyStateClass = style(text("md", 400, "lowContrast"), {
