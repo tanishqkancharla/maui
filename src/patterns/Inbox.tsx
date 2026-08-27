@@ -2,6 +2,7 @@ import type React from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Icons } from "../components/Icons"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { flex, flexItem } from "../tokens/layout"
 import { radius } from "../tokens/radius"
@@ -339,7 +340,7 @@ const threadToolbarClass = style(
 		top: "50%",
 		right: "6px",
 		zIndex: 1,
-		background: "white",
+		background: backgroundColor.element,
 		opacity: 0,
 		pointerEvents: "none",
 		transform: "translateY(-50%)",
