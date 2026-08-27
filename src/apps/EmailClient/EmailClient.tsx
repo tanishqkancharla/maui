@@ -79,7 +79,7 @@ const shellClass = style(radius.lg, shadow.subtle, {
 })
 
 const inboxPaneClass = style(
-	flex({ direction: "column", gap: 8 }),
+	flex({ direction: "column", gap: 6 }),
 	spacing.padding({ all: 2 }),
 	{
 		minWidth: 0,
