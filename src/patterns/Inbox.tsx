@@ -1,7 +1,7 @@
 import type React from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
-import { Icons } from "../components/Icons"
+import { Archive, Clock, Envelope, Star, Trash } from "../icons"
 import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { flex, flexItem } from "../tokens/layout"
@@ -188,19 +188,19 @@ function ThreadHoverActions(props: { className: string }) {
 	return (
 		<div className={props.className}>
 			<ThreadAction label="Star thread">
-				<Icons.Star />
+				<Star size="md" />
 			</ThreadAction>
 			<ThreadAction label="Archive thread">
-				<Icons.Archive />
+				<Archive size="md" />
 			</ThreadAction>
 			<ThreadAction label="Delete thread">
-				<Icons.Trash />
+				<Trash size="md" />
 			</ThreadAction>
 			<ThreadAction label="Mark unread">
-				<Icons.Envelope />
+				<Envelope size="md" />
 			</ThreadAction>
 			<ThreadAction label="Snooze thread">
-				<Icons.Clock />
+				<Clock size="md" />
 			</ThreadAction>
 		</div>
 	)
@@ -244,7 +244,7 @@ const threadListClass = style(flex({ direction: "column" }), {
 })
 
 const threadRowSelectedClass = style({
-	backgroundColor: colors.grayAlpha[3],
+	backgroundColor: backgroundColor.elementActive,
 })
 
 const threadRowClass = style(
@@ -259,7 +259,7 @@ const threadRowClass = style(
 		minHeight: "40px",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: colors.grayAlpha[2],
+			backgroundColor: backgroundColor.elementHover,
 		},
 		"&:hover .email-thread-row-toolbar": {
 			opacity: 1,
@@ -437,7 +437,7 @@ const compactRowClass = style(
 		position: "relative",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: colors.grayAlpha[2],
+			backgroundColor: backgroundColor.elementHover,
 		},
 		"&:hover .email-thread-row-toolbar": {
 			opacity: 1,
