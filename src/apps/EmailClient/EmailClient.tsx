@@ -4,7 +4,6 @@ import { H2, H3 } from "../../components/Typography"
 import { InboxMultiLine } from "../../patterns/Inbox"
 import { Message, MessageList } from "../../patterns/MessageList"
 import { backgroundColor } from "../../tokens/background"
-import { colors } from "../../tokens/colors"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
 import { shadow } from "../../tokens/shadow"
@@ -20,7 +19,6 @@ export function EmailClient() {
 	const shellClassName = useStyles(shellClass)
 	const inboxPaneClassName = useStyles(inboxPaneClass)
 	const inboxBrandClassName = useStyles(inboxBrandClass)
-	const inboxMarkClassName = useStyles(inboxMarkClass)
 	const inboxListClassName = useStyles(inboxListClass)
 	const inboxListResetClassName = useStyles(inboxListResetClass)
 	const readingPaneClassName = useStyles(readingPaneClass)
@@ -31,7 +29,6 @@ export function EmailClient() {
 		<div className={shellClassName}>
 			<section className={inboxPaneClassName} aria-label="Inbox">
 				<header className={inboxBrandClassName}>
-					<span className={inboxMarkClassName} aria-hidden="true" />
 					<H3>Inbox</H3>
 				</header>
 
@@ -91,16 +88,9 @@ const inboxPaneClass = style(
 	},
 )
 
-const inboxBrandClass = style(flex({ direction: "column", gap: 12 }), {
+const inboxBrandClass = style({
 	paddingTop: spacing.value(6),
 	paddingInline: spacing.value(4),
-})
-
-const inboxMarkClass = style({
-	width: "10px",
-	height: "10px",
-	borderRadius: "999px",
-	backgroundColor: colors.accent[9],
 })
 
 const inboxListClass = style({
