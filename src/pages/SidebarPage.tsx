@@ -12,6 +12,7 @@ import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
 import { colors } from "../tokens/colors"
+
 export function SidebarPage() {
 	const [selectedItem, setSelectedItem] = useState("overview")
 	const pageClassName = useStyles(pageClass)
@@ -129,19 +130,18 @@ const pageClass = style({
 	paddingBottom: "32px",
 })
 
-const shellClass = style(
-	radius.lg,
-	{
-		display: "grid",
-		gridTemplateColumns: "240px minmax(0, 1fr)",
-		gap: "24px",
-		minHeight: "520px",
-	}
-)
+const shellClass = style(radius.lg, {
+	display: "grid",
+	gridTemplateColumns: "240px minmax(0, 1fr)",
+	minHeight: "520px",
+})
 
 const sidebarBrandClass = style(
-	flex({ align: "center", gap: 4 }),
-	spacing.padding({ x: 3, y: 2 }),
+	flex({ align: "center", gap: 3 }),
+	{
+		paddingTop: spacing.value(6),
+		paddingInline: spacing.value(4),
+	},
 )
 
 const brandMarkClass = style(
