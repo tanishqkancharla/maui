@@ -1,6 +1,6 @@
 {
 	"name": "@tanishqkancharla/maui",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Maui design system",
 	"type": "module",
 	"main": "./dist/maui.js",
