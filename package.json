@@ -1,26 +1,35 @@
 {
 	"name": "@tanishqkancharla/maui",
-	"version": "0.0.6",
+	"version": "0.0.8",
 	"description": "Maui design system",
 	"type": "module",
-	"main": "./src/maui.ts",
-	"types": "./src/maui.ts",
+	"main": "./dist/maui.js",
+	"types": "./dist/maui.d.ts",
 	"source": "./src/maui.ts",
 	"files": [
+		"dist",
 		"src",
 		"skills",
 		"LICENSE",
 		"NOTICE"
 	],
-	"sideEffects": false,
+	"sideEffects": [
+		"**/*.css",
+		"./dist/MauiProvider.js",
+		"./src/MauiProvider.tsx"
+	],
 	"exports": {
 		".": {
-			"types": "./src/maui.ts",
-			"import": "./src/maui.ts"
+			"source": "./src/maui.ts",
+			"types": "./dist/maui.d.ts",
+			"import": "./dist/maui.js",
+			"default": "./dist/maui.js"
 		},
 		"./icons": {
-			"types": "./src/icons/index.ts",
-			"import": "./src/icons/index.ts"
+			"source": "./src/icons/index.ts",
+			"types": "./dist/icons/index.d.ts",
+			"import": "./dist/icons/index.js",
+			"default": "./dist/icons/index.js"
 		},
 		"./src": "./src/maui.ts",
 		"./src/*": "./src/*",
@@ -29,7 +38,8 @@
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {
-		"access": "restricted"
+		"access": "restricted",
+		"registry": "https://npm.pkg.github.com"
 	},
 	"repository": {
 		"type": "git",
@@ -37,17 +47,19 @@
 	},
 	"scripts": {
 		"tsc": "tsc --noEmit --watch",
+		"typecheck": "tsc --noEmit",
 		"clear": "mkdir -p dist && rm -rf dist/*",
 		"dev": "vite",
 		"build": "npm run og && vite build",
 		"build:lib": "tsc -p tsconfig.lib.json",
+		"verify-package": "node scripts/verify-package.mjs",
 		"og": "node scripts/generate-og-image.mjs",
 		"serve": "vite preview",
 		"deploy": "npx vercel deploy",
 		"test": "vitest",
 		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs",
 		"mcp:agentation": "node .cursor/agentation-mcp.mjs",
-		"release": "echo 'Do not publish Maui to public npm. Tag a git revision for first-party consumers.' && exit 1"
+		"release": "echo 'Do not publish Maui to public npm. Tag vX.Y.Z to publish to GitHub Packages.' && exit 1"
 	},
 	"author": "Tanishq Kancharla",
 	"license": "PolyForm-Noncommercial-1.0.0",
@@ -109,5 +121,9 @@
 		"tuple-database": "^2.2.4",
 		"use-state-dispatch": "^0.6.0",
 		"wouter": "^3.10.0"
+	},
+	"peerDependencies": {
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
 	}
 }

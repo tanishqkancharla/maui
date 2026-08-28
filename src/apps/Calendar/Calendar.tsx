@@ -259,9 +259,14 @@ export function Calendar({ className }: CalendarProps = {}) {
 	const selectedEvent =
 		events.find((event) => event.id === selectedEventId) ?? null
 
-	const monthLabel = visibleDays[0]
-		? formatMonthTitle(visibleDays[0], visibleDays[visibleDays.length - 1])
-		: ""
+	const monthLabel = (() => {
+		const firstVisibleDay = visibleDays[0]
+		const lastVisibleDay = visibleDays[visibleDays.length - 1]
+		if (firstVisibleDay === undefined || lastVisibleDay === undefined) {
+			return ""
+		}
+		return formatMonthTitle(firstVisibleDay, lastVisibleDay)
+	})()
 
 	function goToDate(date: Date) {
 		setSelectedDate(startOfDay(date))
@@ -664,9 +669,11 @@ function WeekGrid(props: {
 	const timedEvents = props.events.filter(
 		(event) => !event.allDay && event.kind !== "ooo",
 	)
-	const hourOffsets = DISPLAY_TIME_ZONES.map((zone) =>
-		hourOffsetFromPrimary(props.days[0] ?? new Date(), zone),
-	)
+	const timeZoneColumns = DISPLAY_TIME_ZONES.map((zone, zoneIndex) => ({
+		zone,
+		offset: hourOffsetFromPrimary(props.days[0] ?? new Date(), zone),
+		showPeriod: zoneIndex === 0,
+	}))
 
 	const columns = `repeat(${props.days.length}, minmax(0, 1fr))`
 	const gutterWidth = `${DISPLAY_TIME_ZONES.length * TZ_COL_WIDTH}px`
@@ -721,11 +728,11 @@ function WeekGrid(props: {
 					style={{ gridTemplateColumns: gridTemplate, height: GRID_HEIGHT }}
 				>
 					<div className={tzGutterClassName}>
-						{DISPLAY_TIME_ZONES.map((zone, zoneIndex) => (
+						{timeZoneColumns.map(({ zone, offset, showPeriod }) => (
 							<TimezoneColumn
 								key={zone}
-								offset={hourOffsets[zoneIndex]}
-								showPeriod={zoneIndex === 0}
+								offset={offset}
+								showPeriod={showPeriod}
 							/>
 						))}
 					</div>
@@ -1125,7 +1132,10 @@ function dateKey(date: Date) {
 }
 
 function parseDateKey(key: string) {
-	const [year, month, day] = key.split("-").map(Number)
+	const parts = key.split("-")
+	const year = Number(parts[0])
+	const month = Number(parts[1])
+	const day = Number(parts[2])
 	return new Date(year, month - 1, day)
 }
 

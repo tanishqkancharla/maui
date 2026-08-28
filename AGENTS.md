@@ -10,18 +10,20 @@ Standard commands (see `package.json` `scripts`):
 
 - Dev server: `npm run dev` → Vite serves at `http://localhost:5173/` (Vite `root` is `src/`).
 - Website build: `npm run build` → static output to `website/` (gallery entry; not part of the npm package).
-- Library build: `npm run build:lib` → ESM + declarations to `dist/` (`maui.js`, `maui.d.ts`, and compiled modules). Also runs via `prepare` on install.
+- Library build: `npm run build:lib` → ESM + declarations to `dist/` (`maui.js`, `maui.d.ts`, and compiled modules). `dist/` is generated and gitignored.
 - Preview built website: `npm run serve`.
-- Type-check: `npm run tsc` runs `tsc --noEmit --watch` (watch mode). For a one-shot check use `npx tsc --noEmit`.
+- Type-check: `npm run typecheck` is one-shot (`tsc --noEmit`). `npm run tsc` is watch mode.
+- Package check: `npm run verify-package` packs the tarball and inspects its real contents.
 - Tests: `npm test` (Vitest). Note: there are currently **no test files**, so Vitest exits with code 1 and "No test files found" — this is expected, not a failure.
-- Do **not** publish to public npm. `npm run release` is disabled. First-party apps install from GitHub (`maui@github:tanishqkancharla/maui#vX.Y.Z`). Cut a version by tagging git after merge, then pin that tag in consumers.
+- Do **not** publish to public npm. `npm run release` is disabled. First-party apps install from GitHub Packages (`maui@npm:@tanishqkancharla/maui@X.Y.Z`). Tag `vX.Y.Z` to publish.
 
-### First-party versioning (not npm)
+### First-party versioning (GitHub Packages)
 
-1. Bump `version` in `package.json` and `package-lock.json` if you want the package metadata to match the tag.
-2. Merge to `main`.
-3. Tag: `git tag v0.0.4 && git push origin v0.0.4`.
-4. Point consuming apps (Halo, etc.) at that tag. Do not run `npm publish`. The old GitHub Release → npm Trusted Publishing workflow was removed.
+1. Run `npm run typecheck`, `npm run build:lib`, and `npm run verify-package`.
+2. Bump `version` in `package.json` and `package-lock.json` to an unused patch.
+3. Commit, merge to `main` if needed, then `git tag vX.Y.Z && git push origin vX.Y.Z`.
+4. The tag workflow publishes `@tanishqkancharla/maui` to `https://npm.pkg.github.com`.
+5. Point consuming apps (Halo, etc.) at that version. Do not run `npm publish` to registry.npmjs.org.
 
 Non-obvious notes:
 

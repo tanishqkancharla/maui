@@ -57,9 +57,14 @@ function radixScale(name: PaletteName, alpha = false): ColorScale {
 		[K in ColorScaleStep]: { default: string; [DARK_THEME]?: string }
 	}
 	for (const step of STEPS) {
+		const lightValue = light[`${prefix}${step}`]
+		const darkValue = dark[`${prefix}${step}`]
+		if (lightValue === undefined || darkValue === undefined) {
+			throw new Error(`Radix scale ${prefix} is missing step ${step}`)
+		}
 		steps[step] = {
-			default: light[`${prefix}${step}`],
-			[DARK_THEME]: dark[`${prefix}${step}`],
+			default: lightValue,
+			[DARK_THEME]: darkValue,
 		}
 	}
 	return defineVars(steps)

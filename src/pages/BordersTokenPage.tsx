@@ -198,7 +198,7 @@ function BorderExample(props: {
 }
 
 function capitalize(value: string) {
-	return `${value[0].toUpperCase()}${value.slice(1)}`
+	return `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`
 }
 
 function SingleEdgeExample() {
