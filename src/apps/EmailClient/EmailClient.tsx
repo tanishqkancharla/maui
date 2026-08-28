@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { style, useStyles } from "purse-styles"
-import { H2 } from "../../components/Typography"
+import { H2, H3 } from "../../components/Typography"
 import { InboxMultiLine } from "../../patterns/Inbox"
 import { Message, MessageList } from "../../patterns/MessageList"
-import { colors } from "../../tokens/colors"
+import { backgroundColor } from "../../tokens/background"
 import { flex } from "../../tokens/layout"
 import { radius } from "../../tokens/radius"
+import { shadow } from "../../tokens/shadow"
 import { spacing } from "../../tokens/spacing"
 import { text } from "../../tokens/text"
 import { emailInbox, emailThreads, getThreadMessages } from "./data"
@@ -17,19 +18,18 @@ export function EmailClient() {
 
 	const shellClassName = useStyles(shellClass)
 	const inboxPaneClassName = useStyles(inboxPaneClass)
+	const inboxBrandClassName = useStyles(inboxBrandClass)
 	const inboxListClassName = useStyles(inboxListClass)
 	const inboxListResetClassName = useStyles(inboxListResetClass)
 	const readingPaneClassName = useStyles(readingPaneClass)
-	const inboxHeaderClassName = useStyles(inboxHeaderClass)
 	const threadHeaderClassName = useStyles(threadHeaderClass)
-	const threadSubjectClassName = useStyles(threadSubjectClass)
 	const emptyStateClassName = useStyles(emptyStateClass)
 
 	return (
 		<div className={shellClassName}>
 			<section className={inboxPaneClassName} aria-label="Inbox">
-				<header className={inboxHeaderClassName}>
-					<H2>Inbox</H2>
+				<header className={inboxBrandClassName}>
+					<H3>Inbox</H3>
 				</header>
 
 				<div className={inboxListClassName}>
@@ -46,7 +46,7 @@ export function EmailClient() {
 				{selectedThread ? (
 					<>
 						<header className={threadHeaderClassName}>
-							<h2 className={threadSubjectClassName}>{selectedThread.subject}</h2>
+							<H2>{selectedThread.subject}</H2>
 						</header>
 
 						<MessageList aria-label={`${selectedThread.subject} thread`}>
@@ -70,32 +70,30 @@ export function EmailClient() {
 	)
 }
 
-const shellClass = style(
-	radius.lg,
+const shellClass = style(radius.lg, shadow.subtle, {
+	display: "grid",
+	gridTemplateColumns: "240px minmax(0, 1fr)",
+	minHeight: "640px",
+	overflow: "hidden",
+	backgroundColor: backgroundColor.app,
+})
+
+const inboxPaneClass = style(
+	flex({ direction: "column", gap: 6 }),
+	spacing.padding({ all: 2 }),
 	{
-		display: "grid",
-		gridTemplateColumns: "minmax(320px, 38%) minmax(0, 1fr)",
-		gap: "1px",
-		minHeight: "640px",
+		minWidth: 0,
+		minHeight: 0,
 		overflow: "hidden",
-		backgroundColor: colors.gray[4],
-		border: `1px solid ${colors.gray[4]}`,
-	}
+	},
 )
 
-const paneBaseClass = style({
-	minWidth: 0,
-	minHeight: 0,
-	backgroundColor: colors.gray[1],
+const inboxBrandClass = style({
+	paddingTop: spacing.value(6),
+	paddingInline: spacing.value(4),
 })
 
-const inboxPaneClass = style(paneBaseClass, {
-	display: "flex",
-	flexDirection: "column",
-	overflow: "hidden",
-})
-
-const inboxListClass = style(spacing.padding({ x: 4 }), {
+const inboxListClass = style({
 	flex: 1,
 	minHeight: 0,
 	overflowY: "auto",
@@ -106,22 +104,17 @@ const inboxListResetClass = style({
 })
 
 const readingPaneClass = style(
-	paneBaseClass,
-	spacing.padding({ x: 8, y: 6 }),
+	spacing.padding({ x: 16, y: 8 }),
 	flex({ direction: "column", gap: 6 }),
 	{
+		minWidth: 0,
+		minHeight: 0,
 		overflowY: "auto",
-	}
+	},
 )
-
-const inboxHeaderClass = style(spacing.padding({ x: 4, y: 4 }))
 
 const threadHeaderClass = style({
 	minWidth: 0,
-})
-
-const threadSubjectClass = style(text("lg", 600, "highContrast"), {
-	margin: 0,
 })
 
 const emptyStateClass = style(text("md", 400, "lowContrast"), {

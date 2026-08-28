@@ -1,11 +1,11 @@
 import type React from "react"
 import { useId } from "react"
 import { style, useStyles } from "purse-styles"
-import { Button } from "../components/Button"
 import type { IconProps } from "../components/Icons"
 import { navigationItem } from "../components/navigationItem"
-import { background, backgroundColor } from "../tokens/background"
+import { background } from "../tokens/background"
 import { colors } from "../tokens/colors"
+import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
@@ -51,8 +51,8 @@ export function SidebarSection(props: SidebarSectionProps) {
 }
 
 type SidebarItemProps = Omit<
-	React.ComponentProps<typeof Button>,
-	"children" | "type" | "variant"
+	React.ComponentPropsWithoutRef<"button">,
+	"children" | "type"
 > & {
 	active?: boolean
 	children: React.ReactNode
@@ -78,11 +78,10 @@ export function SidebarItem({
 
 	return (
 		<li>
-			<Button
+			<button
 				{...props}
 				type="button"
-				variant="quiet"
-				aria-pressed={active ? true : props["aria-pressed"]}
+				aria-current={active ? "page" : undefined}
 				className={joinClassNames(itemClassName, className)}
 			>
 				<span className={iconWrapClassName}>
@@ -92,15 +91,18 @@ export function SidebarItem({
 				{trailing ? (
 					<span className={trailingClassName}>{trailing}</span>
 				) : null}
-			</Button>
+			</button>
 		</li>
 	)
 }
 
+const iconColumn = "16px"
+const iconToText = spacing.value(3)
+
 const sidebarClass = style(
 	flex({ direction: "column", gap: 8 }),
 	radius.lg,
-	spacing.padding({ all: 6 }),
+	spacing.padding({ all: 2 }),
 	background.element,
 	{
 		width: "240px",
@@ -109,13 +111,13 @@ const sidebarClass = style(
 	shadow.subtle,
 )
 
-const sectionClass = style(flex({ direction: "column", gap: 4 }))
+const sectionClass = style(flex({ direction: "column", gap: 2 }))
 
 const sectionLabelClass = style(
 	text("xs", 500, "lowContrast"),
-	spacing.padding({ x: 3 }),
 	{
-		letterSpacing: "0.02em",
+		paddingInlineStart: `calc(${spacing.value(4)} + ${iconColumn} + ${iconToText})`,
+		paddingInlineEnd: spacing.value(4),
 	},
 )
 
@@ -126,44 +128,42 @@ const sectionListClass = style(flex({ direction: "column" }), {
 	gap: "1px",
 })
 
-const itemClass = style(navigationItem, {
+const itemClass = style(navigationItem, focusRing("&:focus-visible"), {
 	display: "grid",
-	gridTemplateColumns: "16px minmax(0, 1fr) auto",
+	gridTemplateColumns: `${iconColumn} minmax(0, 1fr) auto`,
 	alignItems: "center",
-	columnGap: "8px",
+	columnGap: iconToText,
 	minWidth: 0,
-	paddingLeft: "6px",
-	paddingRight: "6px",
-	paddingTop: "4px",
-	paddingBottom: "4px",
 	border: 0,
 	width: "100%",
+	height: "auto",
 	textDecoration: "none",
 	textAlign: "left",
 	backgroundColor: "transparent",
-	"&[aria-pressed='true']": {
-		backgroundColor: backgroundColor.elementActive,
-		color: colors.accent[11],
+	color: colors.gray[12],
+	"&[aria-current='page']": {
+		color: colors.accent[9],
+		fontWeight: 500,
+		backgroundColor: "transparent",
 	},
 })
 
-const iconWrapClass = style(radius.sm, {
+const iconWrapClass = style({
 	display: "grid",
 	placeItems: "center",
 	flexShrink: 0,
 	color: colors.gray[11],
-	width: "20px",
-	height: "20px",
-	marginBlock: "-2px",
-	marginLeft: "-2px",
+	width: iconColumn,
+	height: iconColumn,
 })
 
 const iconWrapActiveClass = style({
-	color: colors.accent[11],
+	color: colors.accent[9],
 })
 
 const itemLabelClass = style({
-	flex: "1 1 auto",
+	fontSize: "13px",
+	lineHeight: "20px",
 	minWidth: 0,
 	overflow: "hidden",
 	textOverflow: "ellipsis",
