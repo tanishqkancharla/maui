@@ -1,13 +1,12 @@
 {
 	"name": "@tanishqkancharla/maui",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "Maui design system",
 	"type": "module",
-	"main": "./dist/maui.js",
-	"types": "./dist/maui.d.ts",
+	"main": "./src/maui.ts",
+	"types": "./src/maui.ts",
 	"source": "./src/maui.ts",
 	"files": [
-		"dist",
 		"src",
 		"skills",
 		"LICENSE",
@@ -16,12 +15,12 @@
 	"sideEffects": false,
 	"exports": {
 		".": {
-			"types": "./dist/maui.d.ts",
-			"import": "./dist/maui.js"
+			"types": "./src/maui.ts",
+			"import": "./src/maui.ts"
 		},
 		"./icons": {
-			"types": "./dist/icons/index.d.ts",
-			"import": "./dist/icons/index.js"
+			"types": "./src/icons/index.ts",
+			"import": "./src/icons/index.ts"
 		},
 		"./src": "./src/maui.ts",
 		"./src/*": "./src/*",
@@ -43,7 +42,6 @@
 		"build": "npm run og && vite build",
 		"build:lib": "tsc -p tsconfig.lib.json",
 		"og": "node scripts/generate-og-image.mjs",
-		"prepare": "npm run build:lib",
 		"serve": "vite preview",
 		"deploy": "npx vercel deploy",
 		"test": "vitest",
