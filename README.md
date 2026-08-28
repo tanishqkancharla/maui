@@ -4,52 +4,38 @@ TypeScript-first design system styled with [`purse-styles`](https://www.npmjs.co
 
 **Gallery:** [maui.tanishqkancharla.dev](https://maui.tanishqkancharla.dev)
 
-Maui is not a public npm library. First-party and granted projects install it from GitHub (see [Install](#install)).
+Maui is not a public npm library. First-party and granted projects install `@tanishqkancharla/maui` from GitHub Packages (see [Install](#install)).
 
 ## Install
 
-Only software Tanishq Kancharla personally creates, or a project listed in [`NOTICE`](./NOTICE), should depend on Maui. Taking the package off public npm does not hide a public GitHub repo: anyone can still `pnpm add github:tanishqkancharla/maui`. For real access control, make this repo **private** and give each consuming project’s contributors **read** access here (not write, and not “Maui contributor”).
+Only software Tanishq Kancharla personally creates, or a project listed in [`NOTICE`](./NOTICE), should depend on Maui.
 
-### GitHub git dependency (simplest)
+### GitHub Packages
 
-Works with a public or private repo. Halo already aliases the package as `maui`:
+The package is `@tanishqkancharla/maui` on `https://npm.pkg.github.com`. Halo can keep the `maui` import alias:
 
 ```sh
-pnpm add maui@github:tanishqkancharla/maui#v0.0.2
+pnpm add maui@npm:@tanishqkancharla/maui@0.0.8
 ```
 
 ```json
 {
 	"dependencies": {
-		"maui": "github:tanishqkancharla/maui#v0.0.2"
+		"maui": "npm:@tanishqkancharla/maui@0.0.8"
 	}
 }
 ```
 
-Pin a tag or SHA, not `main`. The package root export is TypeScript source (`src/maui.ts`), so git installs do not compile `dist/` and `dist/` is not committed. Private-repo CI needs a GitHub token that can read this repo (`contents: read`).
-
-Contributors clone Halo as usual. If Maui is private, they must be a read collaborator on this repo (or on a GitHub team that can read it) so `pnpm install` can fetch the git dependency with their existing GitHub credentials.
-
-### GitHub Packages (closest to npm)
-
-If you want semver installs without a public registry, publish `@tanishqkancharla/maui` to GitHub Packages and keep Halo’s existing alias:
-
-```json
-{
-	"dependencies": {
-		"maui": "npm:@tanishqkancharla/maui@0.0.2"
-	}
-}
-```
-
-In the consuming repo’s `.npmrc` (token stays in the user env or CI secret, never committed):
+In the consuming repo’s `.npmrc` (never commit a token):
 
 ```ini
 @tanishqkancharla:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
 ```
 
-Same access model: repo/package read for Halo contributors, not write on Maui.
+Local and CI installs need a GitHub token with `read:packages` in `NODE_AUTH_TOKEN`. Contributors use a personal token (or `gh auth token`). GitHub Actions should set `packages: read` and pass `NODE_AUTH_TOKEN` from `GITHUB_TOKEN` after the Halo repo is granted read access to the package. Forks do not inherit that access; they need their own token.
+
+The published tarball contains compiled `dist/` JavaScript and declarations. Installs do not run a Maui build.
 
 Wrap the app in `MauiProvider`, then import tokens and components:
 
@@ -80,13 +66,16 @@ Vite serves the gallery at [http://localhost:5173/](http://localhost:5173/).
 | --- | --- |
 | `npm run dev` | Gallery dev server |
 | `npm run build` | Static gallery → `website/` |
-| `npm run build:lib` | Optional local ESM + types → `dist/` (not required for git installs) |
+| `npm run build:lib` | Compile package ESM + types → `dist/` (generated, not committed) |
+| `npm run typecheck` | One-shot TypeScript check |
+| `npm run verify-package` | Pack and inspect the real tarball |
 | `npm run serve` | Preview the gallery build |
-| `npx tsc --noEmit` | Type-check |
 
 ## Package
 
-The barrel exports the provider, theme, tokens, and components from TypeScript source. Patterns and demo apps in this repo are reference implementations, not part of the package barrel. This repo no longer publishes to public npm (`publish.yml` is removed; `npm run release` exits). Older public npm versions of `@tanishqkancharla/maui` may still exist until they are deprecated or made private from an npm login.
+The default package export is compiled `dist/` JavaScript and declarations. TypeScript source remains available through the `source` export condition and `maui/src`. Patterns and demo apps in this repo are reference implementations, not part of the package barrel.
+
+Tag `vX.Y.Z` matching `package.json` to publish to GitHub Packages. Do not publish to public npm (`npm run release` exits).
 
 Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
 
