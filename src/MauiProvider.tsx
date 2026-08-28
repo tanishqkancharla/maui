@@ -1,3 +1,4 @@
+/// <reference path="./css-modules.d.ts" />
 import "@fontsource/commit-mono/400.css"
 import "@fontsource/commit-mono/400-italic.css"
 import type { ReactNode } from "react"

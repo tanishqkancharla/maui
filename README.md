@@ -26,7 +26,7 @@ pnpm add maui@github:tanishqkancharla/maui#v0.0.2
 }
 ```
 
-Pin a tag or SHA, not `main`. `prepare` runs `build:lib` on install so `dist/` does not need to be committed. Private-repo CI needs a GitHub token that can read this repo (`contents: read`).
+Pin a tag or SHA, not `main`. The package root export is TypeScript source (`src/maui.ts`), so git installs do not compile `dist/` and `dist/` is not committed. Private-repo CI needs a GitHub token that can read this repo (`contents: read`).
 
 Contributors clone Halo as usual. If Maui is private, they must be a read collaborator on this repo (or on a GitHub team that can read it) so `pnpm install` can fetch the git dependency with their existing GitHub credentials.
 
@@ -80,13 +80,13 @@ Vite serves the gallery at [http://localhost:5173/](http://localhost:5173/).
 | --- | --- |
 | `npm run dev` | Gallery dev server |
 | `npm run build` | Static gallery → `website/` |
-| `npm run build:lib` | Package ESM + types → `dist/` |
+| `npm run build:lib` | Optional local ESM + types → `dist/` (not required for git installs) |
 | `npm run serve` | Preview the gallery build |
 | `npx tsc --noEmit` | Type-check |
 
 ## Package
 
-The barrel exports the provider, theme, tokens, and components. Patterns and demo apps in this repo are reference implementations, not part of the package barrel. This repo no longer publishes to public npm (`publish.yml` is removed; `npm run release` exits). Older public npm versions of `@tanishqkancharla/maui` may still exist until they are deprecated or made private from an npm login.
+The barrel exports the provider, theme, tokens, and components from TypeScript source. Patterns and demo apps in this repo are reference implementations, not part of the package barrel. This repo no longer publishes to public npm (`publish.yml` is removed; `npm run release` exits). Older public npm versions of `@tanishqkancharla/maui` may still exist until they are deprecated or made private from an npm login.
 
 Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
 
