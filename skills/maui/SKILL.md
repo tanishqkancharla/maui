@@ -29,9 +29,9 @@ function App() {
 
 The published package exposes:
 
-- `"maui"` — TypeScript source barrel (`src/maui.ts`) of provider, theme, tokens, and components
+- `"maui"` — compiled barrel (`dist/`) of provider, theme, tokens, and components
 - `"maui/icons"` — tree-shakeable named icon modules (same names as `Icons.*`)
-- `"maui/src"` — same TypeScript source barrel
+- `"maui/src"` — TypeScript source barrel
 - `"maui/src/*"` — TypeScript source for deep imports
 - `"maui/skills/maui"` — this skill file
 
