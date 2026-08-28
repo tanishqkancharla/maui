@@ -94,7 +94,10 @@ function usedAttributes(tagOpen: string): Set<string> {
 	const used = new Set<string>()
 	const pattern = /\s([A-Za-z][\w-]*)(?:[={\s/>]|$)/g
 	for (const match of tagOpen.matchAll(pattern)) {
-		used.add(match[1])
+		const attributeName = match[1]
+		if (attributeName !== undefined) {
+			used.add(attributeName)
+		}
 	}
 	return used
 }
@@ -108,7 +111,9 @@ function currentTag(before: string): { name: string; open: string } | null {
 	const open = before.slice(lastOpen)
 	const nameMatch = /^<([A-Za-z][\w.]*)/.exec(open)
 	if (!nameMatch) return null
-	return { name: nameMatch[1], open }
+	const name = nameMatch[1]
+	if (name === undefined) return null
+	return { name, open }
 }
 
 function valueResult(
@@ -168,10 +173,14 @@ export function mauiCompletionSource(
 	if (quotedValue) {
 		const matched = /^([A-Za-z][\w-]*)=(["'])/.exec(quotedValue.text)
 		if (matched) {
+			const attributeName = matched[1]
+			if (attributeName === undefined) {
+				return null
+			}
 			return valueResult(
 				quotedValue.from + matched[0].length,
 				tag.name,
-				matched[1],
+				attributeName,
 				"quoted",
 			)
 		}

@@ -37,7 +37,7 @@ export const focusActions = {
 
 		const focusElement: FocusElement = {
 			type: "element",
-			id: elementKey.last!,
+			id: lastFocusKeySegment(elementKey),
 		}
 
 		tx.set(elementKey, focusElement)
@@ -59,7 +59,7 @@ export const focusActions = {
 
 			const scope: FocusScope = {
 				type: "scope",
-				id: scopeKey.last!,
+				id: lastFocusKeySegment(scopeKey),
 				...scopeProps,
 			}
 
@@ -206,10 +206,11 @@ export const focusQueries = {
 		return nextElement as FocusElementAndKey | undefined
 	},
 	getFirstElementInScope(db: ReadOnlyUIDatabase, scopeKey: FocusTreeKey) {
-		return focusQueries.getAllElementsInScope(db, scopeKey).first
+		return focusQueries.getAllElementsInScope(db, scopeKey)[0]
 	},
 	getLastElementInScope(db: ReadOnlyUIDatabase, scopeKey: FocusTreeKey) {
-		return focusQueries.getAllElementsInScope(db, scopeKey).last
+		const elements = focusQueries.getAllElementsInScope(db, scopeKey)
+		return elements[elements.length - 1]
 	},
 	// TODO: Could have a different index just for elements that would make
 	// this more efficient
@@ -226,9 +227,12 @@ export const focusQueries = {
 			db,
 			parentScopeKey
 		)
-		const firstElementInScopeKey = elementsInScope[0].key
+		const firstElementInScope = elementsInScope[0]
+		if (firstElementInScope === undefined) {
+			return false
+		}
 
-		return isEqual(firstElementInScopeKey, elementKey)
+		return isEqual(firstElementInScope.key, elementKey)
 	},
 	isElementLastInScope(db: ReadOnlyUIDatabase, elementKey: FocusTreeKey) {
 		const parentScopeKey = elementKey.slice(0, -1) as FocusTreeKey
@@ -236,10 +240,12 @@ export const focusQueries = {
 			db,
 			parentScopeKey
 		)
-		const lastElementInScopeKey =
-			elementsInScope[elementsInScope.length - 1].key
+		const lastElementInScope = elementsInScope[elementsInScope.length - 1]
+		if (lastElementInScope === undefined) {
+			return false
+		}
 
-		return isEqual(lastElementInScopeKey, elementKey)
+		return isEqual(lastElementInScope.key, elementKey)
 	},
 	getParentScope(
 		db: ReadOnlyUIDatabase,
@@ -260,4 +266,12 @@ export const focusQueries = {
 	getActiveFocus(db: ReadOnlyUIDatabase) {
 		return db.get(["activeFocus"])
 	},
+}
+
+function lastFocusKeySegment(key: FocusTreeKey) {
+	const segment = key[key.length - 1]
+	if (segment === undefined) {
+		throw new Error("Focus tree key is missing an id segment")
+	}
+	return segment
 }
