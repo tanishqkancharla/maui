@@ -14,7 +14,10 @@ export type EmailThreadWithMessages = EmailThread & {
 	messages: EmailMessage[]
 }
 
-export const emailInbox: EmailThreadWithMessages[] = [
+export const emailInbox: [
+	EmailThreadWithMessages,
+	...EmailThreadWithMessages[],
+] = [
 	{
 		id: "q3-roadmap",
 		senders: "Maya Chen",

@@ -10,7 +10,7 @@ Standard commands (see `package.json` `scripts`):
 
 - Dev server: `npm run dev` → Vite serves at `http://localhost:5173/` (Vite `root` is `src/`).
 - Website build: `npm run build` → static output to `website/` (gallery entry; not part of the npm package).
-- Library build: `npm run build:lib` → ESM + declarations to `dist/` (`maui.js`, `maui.d.ts`, and compiled modules). Also runs via `prepare` on install.
+- Library build: `npm run build:lib` → ESM + declarations to `dist/` (`maui.js`, `maui.d.ts`, and compiled modules). Optional for local inspection; git installs use TypeScript source and do not run this on `prepare`.
 - Preview built website: `npm run serve`.
 - Type-check: `npm run tsc` runs `tsc --noEmit --watch` (watch mode). For a one-shot check use `npx tsc --noEmit`.
 - Tests: `npm test` (Vitest). Note: there are currently **no test files**, so Vitest exits with code 1 and "No test files found" — this is expected, not a failure.

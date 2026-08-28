@@ -12,7 +12,9 @@
 		"LICENSE",
 		"NOTICE"
 	],
-	"sideEffects": false,
+	"sideEffects": [
+		"**/*.css"
+	],
 	"exports": {
 		".": {
 			"types": "./src/maui.ts",
