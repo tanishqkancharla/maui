@@ -78,8 +78,16 @@ function avatarColorIndex(seed: string) {
 	return Math.abs(hash) % avatarPalette.length
 }
 
+function avatarPaletteForSeed(seed: string) {
+	const index = avatarColorIndex(seed)
+	if (index === 0) return avatarPalette[0]
+	if (index === 1) return avatarPalette[1]
+	if (index === 2) return avatarPalette[2]
+	return avatarPalette[3]
+}
+
 const avatarClass = memoize((seed: string, size: TextSize) => {
-	const palette = avatarPalette[avatarColorIndex(seed)]
+	const palette = avatarPaletteForSeed(seed)
 
 	return style(text("2xs", 600, "highContrast"), radius.circle, {
 		display: "grid",

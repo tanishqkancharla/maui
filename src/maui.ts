@@ -1,3 +1,5 @@
+/// <reference path="./css-modules.d.ts" />
+
 // Provider + theme
 export { MauiProvider } from "./MauiProvider"
 export {

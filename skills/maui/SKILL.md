@@ -29,9 +29,9 @@ function App() {
 
 The published package exposes:
 
-- `"maui"` — built barrel (`dist/`) of provider, theme, tokens, and components
+- `"maui"` — TypeScript source barrel (`src/maui.ts`) of provider, theme, tokens, and components
 - `"maui/icons"` — tree-shakeable named icon modules (same names as `Icons.*`)
-- `"maui/src"` — TypeScript source barrel
+- `"maui/src"` — same TypeScript source barrel
 - `"maui/src/*"` — TypeScript source for deep imports
 - `"maui/skills/maui"` — this skill file
 
@@ -121,7 +121,7 @@ import { Text as TextIcon } from "maui/icons"
 
 ## Reference: patterns and apps
 
-Patterns and demo apps are not part of the `"maui"` package barrel. Use the closest one as a reference before inventing new layout (also available via `"maui/src/..."` when the package ships source):
+Patterns and demo apps are not part of the `"maui"` package barrel. Use the closest one as a reference before inventing new layout (also available via `"maui/src/..."`):
 
 ### Patterns — `src/patterns/`
 

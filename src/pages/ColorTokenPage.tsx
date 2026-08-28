@@ -171,8 +171,14 @@ function ResolvedColorValue(props: { cssVar: string }) {
 			return
 		}
 
+		const cssVariable = match[1]
+		if (cssVariable === undefined) {
+			setValue(props.cssVar)
+			return
+		}
+
 		const nextValue = getComputedStyle(document.documentElement)
-			.getPropertyValue(match[1])
+			.getPropertyValue(cssVariable)
 			.trim()
 
 		if (nextValue) {
