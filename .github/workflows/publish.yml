@@ -1,4 +1,4 @@
-name: Publish GitHub Packages
+name: Publish npm
 
 on:
   push:
@@ -11,7 +11,7 @@ concurrency:
 
 permissions:
   contents: read
-  packages: write
+  id-token: write
 
 jobs:
   publish:
@@ -35,13 +35,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
-          registry-url: https://npm.pkg.github.com
-          scope: "@tanishqkancharla"
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Update npm
+        run: npm install --global npm@latest
 
       - name: Type-check
         run: npm run typecheck
@@ -52,7 +54,5 @@ jobs:
       - name: Pack and inspect tarball
         run: npm run verify-package
 
-      - name: Publish to GitHub Packages
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm publish
+      - name: Publish to npm
+        run: npm publish --access public --provenance

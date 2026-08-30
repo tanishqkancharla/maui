@@ -1,6 +1,6 @@
 {
 	"name": "@tanishqkancharla/maui",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "Maui design system",
 	"type": "module",
 	"main": "./dist/maui.js",
@@ -38,8 +38,8 @@
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {
-		"access": "restricted",
-		"registry": "https://npm.pkg.github.com"
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
 	},
 	"repository": {
 		"type": "git",
@@ -52,6 +52,7 @@
 		"dev": "vite",
 		"build": "npm run og && vite build",
 		"build:lib": "tsc -p tsconfig.lib.json",
+		"prepack": "npm run build:lib",
 		"verify-package": "node scripts/verify-package.mjs",
 		"og": "node scripts/generate-og-image.mjs",
 		"serve": "vite preview",
@@ -59,10 +60,10 @@
 		"test": "vitest",
 		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs",
 		"mcp:agentation": "node .cursor/agentation-mcp.mjs",
-		"release": "echo 'Do not publish Maui to public npm. Tag vX.Y.Z to publish to GitHub Packages.' && exit 1"
+		"release": "npm publish --access public --provenance"
 	},
 	"author": "Tanishq Kancharla",
-	"license": "PolyForm-Noncommercial-1.0.0",
+	"license": "MIT",
 	"devDependencies": {
 		"@modelcontextprotocol/sdk": "^1.30.0",
 		"@resvg/resvg-js": "^2.6.2",

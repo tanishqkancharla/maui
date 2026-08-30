@@ -15,15 +15,15 @@ Standard commands (see `package.json` `scripts`):
 - Type-check: `npm run typecheck` is one-shot (`tsc --noEmit`). `npm run tsc` is watch mode.
 - Package check: `npm run verify-package` packs the tarball and inspects its real contents.
 - Tests: `npm test` (Vitest). Note: there are currently **no test files**, so Vitest exits with code 1 and "No test files found" — this is expected, not a failure.
-- Do **not** publish to public npm. `npm run release` is disabled. First-party apps install from GitHub Packages (`maui@npm:@tanishqkancharla/maui@X.Y.Z`). Tag `vX.Y.Z` to publish.
+- Releases publish `@tanishqkancharla/maui` to public npm. Tag `vX.Y.Z` matching `package.json` to publish.
 
-### First-party versioning (GitHub Packages)
+### Versioning
 
 1. Run `npm run typecheck`, `npm run build:lib`, and `npm run verify-package`.
 2. Bump `version` in `package.json` and `package-lock.json` to an unused patch.
 3. Commit, merge to `main` if needed, then `git tag vX.Y.Z && git push origin vX.Y.Z`.
-4. The tag workflow publishes `@tanishqkancharla/maui` to `https://npm.pkg.github.com`.
-5. Point consuming apps (Halo, etc.) at that version. Do not run `npm publish` to registry.npmjs.org.
+4. The tag workflow publishes `@tanishqkancharla/maui` to npm with provenance.
+5. Point consuming apps (Halo, etc.) at that version.
 
 Non-obvious notes:
 

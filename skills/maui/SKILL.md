@@ -143,4 +143,4 @@ Patterns and demo apps are not part of the `"maui"` package barrel. Use the clos
 
 ## License
 
-Maui is source-available under the PolyForm Noncommercial License 1.0.0. Do not use it in commercial products except software Tanishq Kancharla personally creates, or another project the copyright holder grants in `NOTICE` or in writing.
+Maui is open source under the MIT License.
