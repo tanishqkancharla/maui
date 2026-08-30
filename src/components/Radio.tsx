@@ -2,6 +2,7 @@ import { createContext, useContext, useRef } from "react"
 import { AriaRadioGroupProps, useRadio, useRadioGroup } from "react-aria"
 import { RadioGroupState, useRadioGroupState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -49,7 +50,7 @@ const radioClass = style(
 		position: "relative",
 		width: "fit-content",
 		"&:hover .radio-toggle": {
-			backgroundColor: colors.gray[8],
+			backgroundColor: backgroundColor.elementHover,
 		},
 		"& .radio-input:checked + .radio-toggle": {
 			backgroundColor: colors.accent[9],
@@ -69,7 +70,7 @@ const radioToggleClass = style(
 		position: "relative",
 		width: "14px",
 		height: "14px",
-		backgroundColor: colors.gray[7],
+		backgroundColor: backgroundColor.element,
 	},
 )
 
