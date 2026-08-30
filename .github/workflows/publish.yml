@@ -132,4 +132,10 @@ jobs:
 
       - name: Publish to npm
         if: steps.skip.outputs.skip != 'true'
-        run: npm publish --access public --provenance
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          if npm view "@tanishqkancharla/maui@$VERSION" version >/dev/null 2>&1; then
+            echo "@tanishqkancharla/maui@$VERSION is already published"
+          else
+            npm publish --access public --provenance
+          fi
