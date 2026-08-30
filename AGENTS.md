@@ -15,15 +15,14 @@ Standard commands (see `package.json` `scripts`):
 - Type-check: `npm run typecheck` is one-shot (`tsc --noEmit`). `npm run tsc` is watch mode.
 - Package check: `npm run verify-package` packs the tarball and inspects its real contents.
 - Tests: `npm test` (Vitest). Note: there are currently **no test files**, so Vitest exits with code 1 and "No test files found" — this is expected, not a failure.
-- Releases publish `@tanishqkancharla/maui` to public npm. Tag `vX.Y.Z` matching `package.json` to publish.
+- Releases publish `@tanishqkancharla/maui` to public npm. Every push to `main` cuts the next patch, tags `vX.Y.Z`, and publishes. Put `[skip release]` in the merge commit message to skip. Manual `v*` tags still publish.
 
 ### Versioning
 
-1. Run `npm run typecheck`, `npm run build:lib`, and `npm run verify-package`.
-2. Bump `version` in `package.json` and `package-lock.json` to an unused patch.
-3. Commit, merge to `main` if needed, then `git tag vX.Y.Z && git push origin vX.Y.Z`.
-4. The tag workflow publishes `@tanishqkancharla/maui` to npm with provenance.
-5. Point consuming apps (Halo, etc.) at that version.
+1. Merge to `main` (or push a `vX.Y.Z` tag that matches `package.json`).
+2. `.github/workflows/publish.yml` typechecks, builds, verifies the tarball, tags if needed, and runs `npm publish --access public --provenance`.
+3. If `package.json` is not already a git tag or npm version, that version is published as-is. Otherwise the workflow patch-bumps and commits `Release vX.Y.Z`.
+4. Point consuming apps (Halo, etc.) at the new npm version. The gallery at maui.tanishqkancharla.dev deploys separately through Vercel’s Git integration on `main`.
 
 Non-obvious notes:
 

@@ -62,7 +62,7 @@ Vite serves the gallery at [http://localhost:5173/](http://localhost:5173/).
 
 The default package export is compiled `dist/` JavaScript and declarations. TypeScript source remains available through the `source` export condition and `maui/src`. Patterns and demo apps in this repo are reference implementations, not part of the package barrel.
 
-Tag `vX.Y.Z` matching `package.json` to publish to npm through GitHub Actions.
+Pushes to `main` publish a new patch of `@tanishqkancharla/maui` to npm (tag `vX.Y.Z`, provenance). Add `[skip release]` to the merge commit message to skip. Manual `git tag vX.Y.Z && git push origin vX.Y.Z` still publishes when the tag matches `package.json`. The gallery deploys to [maui.tanishqkancharla.dev](https://maui.tanishqkancharla.dev) through Vercel on `main`.
 
 Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
 
