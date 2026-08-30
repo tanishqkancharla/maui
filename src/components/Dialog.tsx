@@ -2,8 +2,8 @@ import { animated, SpringConfig, useSpring } from "@react-spring/web"
 import { style, useStyles } from "purse-styles"
 import React from "react"
 import { FocusScope } from "../hooks/useFocus"
+import { background } from "../tokens/background"
 import { border } from "../tokens/borders"
-import { colors } from "../tokens/colors"
 import { Overlay } from "./Overlay"
 
 type DialogProps = {
@@ -11,10 +11,9 @@ type DialogProps = {
 	onClickOutside?: () => void
 }
 
-const dialogStyle = style(border([], "border"), {
+const dialogStyle = style(background.element, border([], "border"), {
 	flex: 1,
 	borderRadius: "4px",
-	backgroundColor: colors.gray[2],
 	margin: "15vh 20vw",
 	padding: "32px",
 })
