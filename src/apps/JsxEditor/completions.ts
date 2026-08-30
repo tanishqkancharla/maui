@@ -7,19 +7,17 @@ import {
 	type CompletionResult,
 } from "@codemirror/autocomplete"
 import { EditorView } from "@codemirror/view"
-import {
-	catalog,
-	iconNames,
-	type AttributeCompletion,
-	type CatalogComponent,
-} from "./catalog"
+import type { AttributeCompletion, CatalogComponent } from "./DesignSystemApi"
 
-function catalogItem(tagName: string): CatalogComponent | undefined {
+function catalogItem(
+	catalog: CatalogComponent[],
+	tagName: string,
+): CatalogComponent | undefined {
 	const name = tagName.startsWith("Icons.") ? "Icons" : tagName
 	return catalog.find((entry) => entry.name === name)
 }
 
-function componentCompletions(): Completion[] {
+function componentCompletions(catalog: CatalogComponent[]): Completion[] {
 	return catalog.map((item) => ({
 		label: item.name,
 		type: "class",
@@ -33,10 +31,11 @@ function isNumericAttribute(attribute: AttributeCompletion | undefined): boolean
 }
 
 function attributeCompletions(
+	catalog: CatalogComponent[],
 	tagName: string,
 	used: Set<string>,
 ): Completion[] {
-	const item = catalogItem(tagName)
+	const item = catalogItem(catalog, tagName)
 	if (!item) return []
 
 	return item.attributes
@@ -68,11 +67,12 @@ function attributeCompletions(
 }
 
 function valueCompletions(
+	catalog: CatalogComponent[],
 	tagName: string,
 	attributeName: string,
 	mode: "bare" | "quoted" | "braced",
 ): Completion[] {
-	const item = catalogItem(tagName)
+	const item = catalogItem(catalog, tagName)
 	const attribute = item?.attributes.find((entry) => entry.name === attributeName)
 	if (!attribute?.values) return []
 
@@ -112,12 +112,13 @@ function currentTag(before: string): { name: string; open: string } | null {
 }
 
 function valueResult(
+	catalog: CatalogComponent[],
 	from: number,
 	tagName: string,
 	attributeName: string,
 	mode: "bare" | "quoted" | "braced",
 ): CompletionResult | null {
-	const options = valueCompletions(tagName, attributeName, mode)
+	const options = valueCompletions(catalog, tagName, attributeName, mode)
 	if (options.length === 0) return null
 	return {
 		from,
@@ -126,90 +127,107 @@ function valueResult(
 	}
 }
 
-export function mauiCompletionSource(
-	context: CompletionContext,
-): CompletionResult | null {
-	const before = context.state.doc.sliceString(0, context.pos)
+export function createCompletionSource(
+	catalog: CatalogComponent[],
+	iconNames: string[],
+) {
+	return function completionSource(
+		context: CompletionContext,
+	): CompletionResult | null {
+		const before = context.state.doc.sliceString(0, context.pos)
 
-	const iconsDot = context.matchBefore(/Icons\.[A-Za-z]*/)
-	if (iconsDot) {
-		return {
-			from: iconsDot.from + "Icons.".length,
-			options: iconNames.map((name) => ({
-				label: name,
-				type: "class",
-				apply: name,
-			})),
+		const iconsDot = context.matchBefore(/Icons\.[A-Za-z]*/)
+		if (iconsDot) {
+			return {
+				from: iconsDot.from + "Icons.".length,
+				options: iconNames.map((name) => ({
+					label: name,
+					type: "class",
+					apply: name,
+				})),
+			}
 		}
-	}
 
-	const closeTag = context.matchBefore(/<\/[A-Za-z]*/)
-	if (closeTag) {
-		return {
-			from: closeTag.from + 2,
-			options: componentCompletions(),
+		const closeTag = context.matchBefore(/<\/[A-Za-z]*/)
+		if (closeTag) {
+			return {
+				from: closeTag.from + 2,
+				options: componentCompletions(catalog),
+			}
 		}
-	}
 
-	const openTag = context.matchBefore(/<[A-Za-z][\w.]*/)
-	if (openTag && !/\s/.test(openTag.text)) {
-		return {
-			from: openTag.from + 1,
-			options: componentCompletions(),
+		const openTag = context.matchBefore(/<[A-Za-z][\w.]*/)
+		if (openTag && !/\s/.test(openTag.text)) {
+			return {
+				from: openTag.from + 1,
+				options: componentCompletions(catalog),
+			}
 		}
-	}
 
-	const tag = currentTag(before)
-	if (!tag) return null
+		const tag = currentTag(before)
+		if (!tag) return null
 
-	const quotedValue = context.matchBefore(
-		/([A-Za-z][\w-]*)=(["'])(?:\\.|[^\n"'])*/,
-	)
-	if (quotedValue) {
-		const matched = /^([A-Za-z][\w-]*)=(["'])/.exec(quotedValue.text)
-		if (matched) {
+		const quotedValue = context.matchBefore(
+			/([A-Za-z][\w-]*)=(["'])(?:\\.|[^\n"'])*/,
+		)
+		if (quotedValue) {
+			const matched = /^([A-Za-z][\w-]*)=(["'])/.exec(quotedValue.text)
+			if (matched) {
+				return valueResult(
+					catalog,
+					quotedValue.from + matched[0].length,
+					tag.name,
+					matched[1],
+					"quoted",
+				)
+			}
+		}
+
+		const bracedValue = context.matchBefore(/([A-Za-z][\w-]*)=\{[^}]*/)
+		if (bracedValue) {
+			const attributeName = /([A-Za-z][\w-]*)=\{/.exec(bracedValue.text)?.[1]
+			if (attributeName) {
+				return valueResult(
+					catalog,
+					bracedValue.from + bracedValue.text.indexOf("{") + 1,
+					tag.name,
+					attributeName,
+					"braced",
+				)
+			}
+		}
+
+		const bareEquals = context.matchBefore(/([A-Za-z][\w-]*)=$/)
+		if (bareEquals) {
 			return valueResult(
-				quotedValue.from + matched[0].length,
+				catalog,
+				context.pos,
 				tag.name,
-				matched[1],
-				"quoted",
+				bareEquals.text.slice(0, -1),
+				"bare",
 			)
 		}
-	}
 
-	const bracedValue = context.matchBefore(/([A-Za-z][\w-]*)=\{[^}]*/)
-	if (bracedValue) {
-		const attributeName = /([A-Za-z][\w-]*)=\{/.exec(bracedValue.text)?.[1]
-		if (attributeName) {
-			return valueResult(
-				bracedValue.from + bracedValue.text.indexOf("{") + 1,
-				tag.name,
-				attributeName,
-				"braced",
-			)
+		const attrName = context.matchBefore(/[\s][A-Za-z][\w-]*/)
+		const escapedName = tag.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+		const afterTagName = new RegExp(`<${escapedName}(?:\\s|$)`).test(tag.open)
+		const inTagReadyForAttr =
+			afterTagName &&
+			(/[\s]$/.test(before) || context.explicit || Boolean(attrName))
+		if (inTagReadyForAttr) {
+			return {
+				from: attrName ? attrName.from + 1 : context.pos,
+				options: attributeCompletions(
+					catalog,
+					tag.name,
+					usedAttributes(tag.open),
+				),
+				validFor: /^[A-Za-z][\w-]*$/,
+			}
 		}
-	}
 
-	const bareEquals = context.matchBefore(/([A-Za-z][\w-]*)=$/)
-	if (bareEquals) {
-		return valueResult(context.pos, tag.name, bareEquals.text.slice(0, -1), "bare")
+		return null
 	}
-
-	const attrName = context.matchBefore(/[\s][A-Za-z][\w-]*/)
-	const escapedName = tag.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-	const afterTagName = new RegExp(`<${escapedName}(?:\\s|$)`).test(tag.open)
-	const inTagReadyForAttr =
-		afterTagName &&
-		(/[\s]$/.test(before) || context.explicit || Boolean(attrName))
-	if (inTagReadyForAttr) {
-		return {
-			from: attrName ? attrName.from + 1 : context.pos,
-			options: attributeCompletions(tag.name, usedAttributes(tag.open)),
-			validFor: /^[A-Za-z][\w-]*$/,
-		}
-	}
-
-	return null
 }
 
 const triggerValueCompletion = EditorView.updateListener.of((update) => {
@@ -221,13 +239,18 @@ const triggerValueCompletion = EditorView.updateListener.of((update) => {
 	}
 })
 
-export const mauiAutocomplete = [
-	autocompletion({
-		override: [mauiCompletionSource],
-		activateOnTyping: true,
-		activateOnCompletion: (completion) =>
-			completion.type === "property" || completion.type === "enum",
-		icons: false,
-	}),
-	triggerValueCompletion,
-]
+export function createAutocomplete(
+	catalog: CatalogComponent[],
+	iconNames: string[],
+) {
+	return [
+		autocompletion({
+			override: [createCompletionSource(catalog, iconNames)],
+			activateOnTyping: true,
+			activateOnCompletion: (completion) =>
+				completion.type === "property" || completion.type === "enum",
+			icons: false,
+		}),
+		triggerValueCompletion,
+	]
+}
