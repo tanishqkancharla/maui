@@ -81,7 +81,7 @@ export function TextTokenPage() {
 							<code>monospace</code>
 						</TableCell>
 						<TableCell>
-							<code>font-family + tabular-nums + tab-size: 2</code>
+							<code>font-family + ss05 smart kerning + tabular-nums</code>
 						</TableCell>
 						<TableCell>
 							Compose with <code>text(...)</code> to override the sans family.
