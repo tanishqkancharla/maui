@@ -120,10 +120,11 @@ const display = text("xl", 400, "highContrast")`}</CodeBlock>
 
 			<H4>Monospace</H4>
 			<P>
-				<code>monospace</code> switches to Commit Mono with tabular numerals.
-				Compose it after <code>text(...)</code> to keep size, weight, and color.
+				<code>monospace</code> switches to Commit Mono with tabular numerals
+				and smart kerning (OpenType <code>ss05</code>). Compose it after{" "}
+				<code>text(...)</code> to keep size, weight, and color.
 			</P>
-			<CodeBlock lang="typescript">{`const codeLabel = style(text("xs", 400, "highContrast"), monospace)`}</CodeBlock>
+			<CodeBlock lang="typescript">{`const codeLabel = style(text("lg", 400, "highContrast"), monospace)`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<MonoExample />
 			</Panel>
@@ -182,12 +183,16 @@ function AccentExample() {
 
 function MonoExample() {
 	const className = useStyles(
-		text("xs", 400, "highContrast"),
+		text("lg", 400, "highContrast"),
 		monospace,
 		exampleCardClass,
 	)
 
-	return <div className={className}>const greeting = "hello"</div>
+	return (
+		<div className={className}>
+			Commit Mono: Normal programming typeface
+		</div>
+	)
 }
 
 const exampleCardClass = {

@@ -24,6 +24,7 @@ export {
 	baseTextStyle,
 	fontFamily,
 	monoFontFamily,
+	monoFontStyle,
 	type TextSize,
 	type TextWeight,
 	type TextColor,

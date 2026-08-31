@@ -2,7 +2,7 @@ import { style } from "purse-styles"
 import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
 import { motionEasing, motionStreamDurationMs } from "./motion"
-import { fontFamily, monoFontFamily } from "./text"
+import { fontFamily, monoFontStyle } from "./text"
 
 /**
  * Long-form/reading type scale. Distinct from the `text` token group (which
@@ -266,7 +266,7 @@ export const proseHtml = memoize((size: ProseSize) => {
 		"& strong": { fontWeight: 600 },
 		"& em": { fontStyle: "italic" },
 		"& code": {
-			fontFamily: monoFontFamily,
+			...monoFontStyle,
 			fontSize: "0.875em",
 		},
 		"& pre, & .maui-code-block": {

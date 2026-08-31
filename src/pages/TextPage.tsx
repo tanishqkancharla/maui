@@ -144,16 +144,21 @@ export function TextPage() {
 			<P>
 				<Code>monospace</Code> switches to{" "}
 				<Link href="https://commitmono.com/">Commit Mono</Link> with tabular
-				numerals, the same as composing <Code>text(...)</Code> with{" "}
-				<Code>monospace</Code>.
+				numerals and smart kerning (OpenType <Code>ss05</Code>), the same as
+				composing <Code>text(...)</Code> with <Code>monospace</Code>.
 			</P>
-			<CodeBlock lang="tsx">{`<Text size="xs" monospace>
-	const greeting = "hello"
+			<CodeBlock lang="tsx">{`<Text size="lg" monospace>
+	Commit Mono: Normal programming typeface
 </Text>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
-				<Text size="xs" monospace>
-					const greeting = "hello"
-				</Text>
+				<Flex column gap={4}>
+					<Text size="lg" monospace>
+						Commit Mono: Normal programming typeface
+					</Text>
+					<Text size="xs" monospace>
+						const greeting = "hello"
+					</Text>
+				</Flex>
 			</Panel>
 
 			<H4>Inline</H4>
