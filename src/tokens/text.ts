@@ -68,15 +68,7 @@ export const baseTextStyle = {
 	color: colors.gray[12],
 }
 
-export const monospace = style({
-	...monoFontStyle,
-	// Win over `text()`, which also sets font-family at single-class specificity.
-	"&&": {
-		fontFamily: monoFontFamily,
-		fontFeatureSettings: '"ss05" 1',
-		fontVariantNumeric: "tabular-nums",
-	},
-})
+export const monospace = style(monoFontStyle)
 
 const textColorStyles: Record<TextColor, React.CSSProperties["color"]> = {
 	lowContrast: colors.gray[11],
