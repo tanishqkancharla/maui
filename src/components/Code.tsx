@@ -22,7 +22,7 @@ const codeClass = style(
 )
 
 const kbdClass = style(
-	text("xs", 400, "lowContrast"),
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
 	radius.sm,
 	{
 		backgroundColor: colors.gray[3],

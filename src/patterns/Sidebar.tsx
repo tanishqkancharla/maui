@@ -114,7 +114,7 @@ const sidebarClass = style(
 const sectionClass = style(flex({ direction: "column", gap: 2 }))
 
 const sectionLabelClass = style(
-	text("xs", 500, "lowContrast"),
+	text({ size: "xs", fontWeight: 500, color: "lowContrast" }),
 	{
 		paddingInlineStart: `calc(${spacing.value(4)} + ${iconColumn} + ${iconToText})`,
 		paddingInlineEnd: spacing.value(4),

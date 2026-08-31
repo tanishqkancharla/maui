@@ -412,6 +412,6 @@ const sendButtonClass = style(radius.circle, {
 })
 
 const thinkingClass = style(
-	text("xs", 400, "lowContrast"),
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
 	flex({ align: "center", gap: 4 }),
 )

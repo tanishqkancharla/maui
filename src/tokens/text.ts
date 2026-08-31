@@ -77,11 +77,21 @@ const textColorStyles: Record<TextColor, React.CSSProperties["color"]> = {
 	onAccent: "white",
 }
 
-export const text = memoize(
-	(size: TextSize, fontWeight: TextWeight, color: TextColor) =>
-		style({
-			...textSizeStyles[size],
-			fontWeight,
-			color: textColorStyles[color],
-		}),
-)
+export type TextOptions = {
+	size?: TextSize
+	fontWeight?: TextWeight
+	color?: TextColor
+	monospace?: boolean
+}
+
+export const text = memoize((options: TextOptions = {}) => {
+	const size = options.size ?? "md"
+	const fontWeight = options.fontWeight ?? 400
+	const color = options.color ?? "highContrast"
+	return style({
+		...textSizeStyles[size],
+		fontWeight,
+		color: textColorStyles[color],
+		...(options.monospace ? monoFontStyle : {}),
+	})
+})

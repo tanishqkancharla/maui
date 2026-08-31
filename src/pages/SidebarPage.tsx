@@ -145,7 +145,7 @@ const sidebarBrandClass = style(
 )
 
 const brandMarkClass = style(
-	text("sm", 600, "onAccent"),
+	text({ size: "sm", fontWeight: 600, color: "onAccent" }),
 	radius.md,
 	{
 		display: "grid",
@@ -160,19 +160,19 @@ const brandTextClass = style({
 	minWidth: 0,
 })
 
-const brandTitleClass = style(text("sm", 600, "highContrast"), {
+const brandTitleClass = style(text({ size: "sm", fontWeight: 600, color: "highContrast" }), {
 	overflow: "hidden",
 	textOverflow: "ellipsis",
 	whiteSpace: "nowrap",
 })
 
-const brandSubtitleClass = style(text("xs", 400, "lowContrast"))
+const brandSubtitleClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
 
 const exampleContentClass = style({
 	minWidth: 0,
 	minHeight: "100%",
 })
 
-const noteClass = style(text("md", 400, "lowContrast"), {
+const noteClass = style(text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
 	maxWidth: "72ch",
 })

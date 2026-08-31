@@ -60,7 +60,7 @@ const pageClass = style({
 	paddingBottom: "32px",
 })
 
-const hintClass = style(text("sm", 400, "lowContrast"), {
+const hintClass = style(text({ size: "sm", fontWeight: 400, color: "lowContrast" }), {
 	margin: "0 0 12px",
 })
 

@@ -25,7 +25,7 @@ export function BackgroundColorTokenPage() {
 	const accentClassName = useStyles(
 		background.accent,
 		radius.md,
-		text("sm", 400, "onAccent"),
+		text({ size: "sm", fontWeight: 400, color: "onAccent" }),
 		{ padding: "12px" },
 	)
 
@@ -116,7 +116,7 @@ export function BackgroundColorTokenPage() {
 
 			<H3>Example</H3>
 			<CodeBlock lang="typescript">{`const panel = style(background.element, border([], "outline"), radius.md)
-const primary = style(background.accent, text("sm", 400, "onAccent"))`}</CodeBlock>
+const primary = style(background.accent, text({ size: "sm", fontWeight: 400, color: "onAccent" }))`}</CodeBlock>
 
 			<Panel
 				style={{

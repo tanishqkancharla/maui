@@ -4,12 +4,11 @@ import { highlightCode, isSupportedCodeLang } from "../utils/shiki"
 import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { shadow } from "../tokens/shadow"
-import { monospace, text } from "../tokens/text"
+import { text } from "../tokens/text"
 import { useTheme } from "../theme/ThemeContext"
 
 const codeBlockClass = style(
-	text("xs", 400, "highContrast"),
-	monospace,
+	text({ size: "xs", fontWeight: 400, color: "highContrast", monospace: true }),
 	shadow.subtle,
 	{
 		backgroundColor: backgroundColor.app,

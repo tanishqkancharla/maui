@@ -17,11 +17,10 @@ import { mauiThemeTokens } from "../utils/mauiShikiTheme"
 
 const typescriptExample = `import { style } from "purse-styles"
 import { border } from "../tokens/borders"
-import { text, monospace } from "../tokens/text"
+import { text } from "../tokens/text"
 
 const panel = style(
-	text("sm", 400, "highContrast"),
-	monospace,
+	text({ size: "sm", fontWeight: 400, color: "highContrast", monospace: true }),
 	border([], "outline"),
 )`
 
@@ -60,14 +59,15 @@ export function CodePage() {
 			<P>
 				<Code>Code</Code> is one type size smaller than surrounding text.
 				Import <Code>style</Code> from purse-styles, then compose{" "}
-				<Code>text("sm", 400, "highContrast")</Code> with layout tokens.
+				<Code>{`text({ size: "sm", fontWeight: 400, color: "highContrast" })`}</Code> with layout tokens.
 			</P>
 			<CodeBlock lang="tsx">{`<Code>background.element</Code>`}</CodeBlock>
 
 			<H3>Keyboard</H3>
 			<P>
-				<Code>Kbd</Code> uses <Code>text("xs", 400, "lowContrast")</Code> and{" "}
-				<Code>3px</Code> inline padding.
+				<Code>Kbd</Code> uses{" "}
+				<Code>{`text({ size: "xs", fontWeight: 400, color: "lowContrast" })`}</Code>{" "}
+				and <Code>3px</Code> inline padding.
 			</P>
 			<Flex row alignItems="center" gap={4}>
 				<Kbd>⌘</Kbd>

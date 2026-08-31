@@ -19,7 +19,7 @@ import { memoize } from "../utils/memoize"
 export type ButtonVariant = "default" | "quiet" | "primary"
 
 const buttonBaseClass = style(
-	text("xs", 400, "highContrast"),
+	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
 	focusRing("&:focus-visible", shadowVars.subtle),
 	motion.standard("box-shadow", "background-color", "color"),
 	shadow.subtle,

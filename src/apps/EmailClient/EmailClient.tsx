@@ -117,6 +117,6 @@ const threadHeaderClass = style({
 	minWidth: 0,
 })
 
-const emptyStateClass = style(text("md", 400, "lowContrast"), {
+const emptyStateClass = style(text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
 	margin: 0,
 })

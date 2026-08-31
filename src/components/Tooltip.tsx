@@ -257,7 +257,7 @@ const triggerClass = style({
 })
 
 const tooltipClass = style(
-	text("xs", 400, "highContrast"),
+	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
 	radius.sm,
 	spacing.padding({ x: 3, y: 2 }),
 	shadow.medium,

@@ -28,6 +28,7 @@ export {
 	type TextSize,
 	type TextWeight,
 	type TextColor,
+	type TextOptions,
 } from "./tokens/text"
 export { avatar } from "./tokens/avatar"
 export {

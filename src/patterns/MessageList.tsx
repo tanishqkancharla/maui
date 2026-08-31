@@ -171,11 +171,11 @@ const messageClass = style(
 
 const messageHeaderClass = flex({ align: "center", gap: 2, wrap: true })
 
-const senderNameClass = style(text("sm", 500, "highContrast"))
+const senderNameClass = style(text({ size: "sm", fontWeight: 500, color: "highContrast" }))
 
-const messageMetaClass = style(text("xs", 400, "lowContrast"))
+const messageMetaClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
 
-const editedLabelClass = style(text("xs", 400, "lowContrast"), {
+const editedLabelClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }), {
 	fontStyle: "italic",
 })
 

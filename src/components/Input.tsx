@@ -21,7 +21,7 @@ import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { Icons } from "./Icons"
 
-const inputText = text("sm", 400, "highContrast")
+const inputText = text({ size: "sm", fontWeight: 400, color: "highContrast" })
 const numberFieldDivider = `color-mix(in oklch, ${colors.gray[12]} 5%, ${backgroundColor.element})`
 
 const inputClass = style(

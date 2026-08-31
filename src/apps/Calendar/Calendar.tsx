@@ -24,7 +24,7 @@ import { motion } from "../../tokens/motion"
 import { radius } from "../../tokens/radius"
 import { shadow } from "../../tokens/shadow"
 import { spacing } from "../../tokens/spacing"
-import { monospace, text } from "../../tokens/text"
+import { text } from "../../tokens/text"
 import { memoize } from "../../utils/memoize"
 import { fuzzyMatch, fuzzyMatchScore } from "../../utils/fuzzyMatch"
 import { randomId } from "../../utils/randomId"
@@ -1325,7 +1325,7 @@ const eventColorClass = memoize((color: EventColor) =>
 )
 
 const eventSelectedColorClass = memoize((color: EventColor) =>
-	style(text("xs", 500, "onAccent"), {
+	style(text({ size: "xs", fontWeight: 500, color: "onAccent" }), {
 		backgroundColor: eventPalette[color].selectedBackground,
 		"& span": {
 			color: "inherit",
@@ -1382,7 +1382,7 @@ const miniWeekdayRowClass = style({
 	gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
 })
 
-const miniWeekdayClass = style(text("2xs", 500, "lowContrast"), {
+const miniWeekdayClass = style(text({ size: "2xs", fontWeight: 500, color: "lowContrast" }), {
 	display: "grid",
 	placeItems: "center",
 	height: "20px",
@@ -1395,7 +1395,7 @@ const miniGridClass = style({
 })
 
 const miniDayClass = style(
-	text("xs", 400, "highContrast"),
+	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
 	radius.circle,
 	focusRing(),
 	motion.standard("background-color", "color"),
@@ -1425,7 +1425,7 @@ const miniDaySelectedClass = style({
 	backgroundColor: colors.grayAlpha[4],
 })
 
-const miniDayTodayClass = style(text("xs", 600, "onAccent"), {
+const miniDayTodayClass = style(text({ size: "xs", fontWeight: 600, color: "onAccent" }), {
 	backgroundColor: colors.accent[9],
 	"&:hover": {
 		backgroundColor: colors.accent[10],
@@ -1436,7 +1436,7 @@ const accountListClass = style(flex({ direction: "column", gap: 6 }))
 
 const accountSectionClass = style(flex({ direction: "column", gap: 2 }))
 
-const accountEmailClass = style(text("xs", 500, "lowContrast"), spacing.padding({ x: 2 }))
+const accountEmailClass = style(text({ size: "xs", fontWeight: 500, color: "lowContrast" }), spacing.padding({ x: 2 }))
 
 const calendarSourceListClass = style(flex({ direction: "column" }), {
 	listStyleType: "none",
@@ -1465,7 +1465,7 @@ const sourceRowHiddenClass = style({
 	},
 })
 
-const sourceNameClass = style(text("sm", 400, "highContrast"), flexItem({ size: "fill" }), {
+const sourceNameClass = style(text({ size: "sm", fontWeight: 400, color: "highContrast" }), flexItem({ size: "fill" }), {
 	minWidth: 0,
 	overflow: "hidden",
 	textOverflow: "ellipsis",
@@ -1494,7 +1494,7 @@ const mainHeaderEndClass = style(flex({ align: "center", gap: 3 }), {
 	flexShrink: 0,
 })
 
-const monthTitleClass = style(text("xl", 700, "highContrast"), {
+const monthTitleClass = style(text({ size: "xl", fontWeight: 700, color: "highContrast" }), {
 	margin: 0,
 	overflow: "hidden",
 	textOverflow: "ellipsis",
@@ -1522,7 +1522,7 @@ const tzHeaderRowClass = style({
 	paddingBottom: spacing.value(2),
 })
 
-const tzHeaderClass = style(text("2xs", 500, "lowContrast"), {
+const tzHeaderClass = style(text({ size: "2xs", fontWeight: 500, color: "lowContrast" }), {
 	display: "grid",
 	placeItems: "center",
 })
@@ -1536,9 +1536,9 @@ const dayHeaderTodayClass = style({
 	color: colors.accent[11],
 })
 
-const dayHeaderLabelClass = style(text("2xs", 400, "lowContrast"))
+const dayHeaderLabelClass = style(text({ size: "2xs", fontWeight: 400, color: "lowContrast" }))
 
-const dayHeaderLabelTodayClass = style(text("2xs", 400, "accent"))
+const dayHeaderLabelTodayClass = style(text({ size: "2xs", fontWeight: 400, color: "accent" }))
 
 const allDayRowClass = style({
 	display: "grid",
@@ -1551,7 +1551,7 @@ const allDayRowClass = style({
 	minHeight: "36px",
 })
 
-const allDayLabelClass = style(text("2xs", 500, "lowContrast"), spacing.padding({ x: 3, y: 2 }))
+const allDayLabelClass = style(text({ size: "2xs", fontWeight: 500, color: "lowContrast" }), spacing.padding({ x: 3, y: 2 }))
 
 const allDayCellClass = style(flex({ direction: "column", gap: 1 }), spacing.padding({ all: 2 }), {
 	minWidth: 0,
@@ -1582,13 +1582,16 @@ const tzColumnClass = style({
 	flexDirection: "column",
 })
 
-const tzHourClass = style(text("2xs", 400, "lowContrast"), monospace, {
-	height: HOUR_HEIGHT,
-	display: "flex",
-	alignItems: "flex-start",
-	justifyContent: "center",
-	paddingTop: "2px",
-})
+const tzHourClass = style(
+	text({ size: "2xs", fontWeight: 400, color: "lowContrast", monospace: true }),
+	{
+		height: HOUR_HEIGHT,
+		display: "flex",
+		alignItems: "flex-start",
+		justifyContent: "center",
+		paddingTop: "2px",
+	},
+)
 
 const dayColumnClass = style({
 	position: "relative",
@@ -1622,7 +1625,7 @@ const nowDotClass = style(radius.circle, {
 })
 
 const chipClass = style(
-	text("xs", 500, "highContrast"),
+	text({ size: "xs", fontWeight: 500, color: "highContrast" }),
 	radius.sm,
 	spacing.padding({ x: 3, y: 1 }),
 	focusRing(),
@@ -1651,7 +1654,7 @@ const chipExpandedClass = style({
 })
 
 const timedEventClass = style(
-	text("xs", 500, "highContrast"),
+	text({ size: "xs", fontWeight: 500, color: "highContrast" }),
 	radius.sm,
 	spacing.padding({ x: 3, y: 1 }),
 	focusRing(),
@@ -1676,7 +1679,7 @@ const timedEventTitleClass = style({
 	width: "100%",
 })
 
-const timedEventTimeClass = style(text("2xs", 400, "lowContrast"))
+const timedEventTimeClass = style(text({ size: "2xs", fontWeight: 400, color: "lowContrast" }))
 
 const detailsClass = style(
 	flex({ direction: "column", gap: 8 }),
@@ -1716,21 +1719,21 @@ const searchItemClass = style(
 	},
 )
 
-const searchItemTitleClass = style(text("sm", 500, "highContrast"))
+const searchItemTitleClass = style(text({ size: "sm", fontWeight: 500, color: "highContrast" }))
 
-const searchItemMetaClass = style(text("xs", 400, "lowContrast"))
+const searchItemMetaClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
 
 const selectedEventClass = style(flex({ direction: "column", align: "start", gap: 3 }))
 
-const selectedTitleClass = style(text("lg", 600, "highContrast"))
+const selectedTitleClass = style(text({ size: "lg", fontWeight: 600, color: "highContrast" }))
 
-const selectedTimeClass = style(text("sm", 400, "highContrast"))
+const selectedTimeClass = style(text({ size: "sm", fontWeight: 400, color: "highContrast" }))
 
-const selectedDurationClass = style(text("xs", 400, "lowContrast"))
+const selectedDurationClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
 
-const selectedCalendarClass = style(flex({ align: "center", gap: 3 }), text("sm", 400, "lowContrast"))
+const selectedCalendarClass = style(flex({ align: "center", gap: 3 }), text({ size: "sm", fontWeight: 400, color: "lowContrast" }))
 
-const emptyDetailsClass = style(text("sm", 400, "lowContrast"), {
+const emptyDetailsClass = style(text({ size: "sm", fontWeight: 400, color: "lowContrast" }), {
 	margin: 0,
 })
 
@@ -1738,13 +1741,13 @@ const shortcutsClass = style(flex({ direction: "column", gap: 2 }), {
 	marginTop: "auto",
 })
 
-const shortcutsTitleClass = style(text("xs", 500, "lowContrast"), {
+const shortcutsTitleClass = style(text({ size: "xs", fontWeight: 500, color: "lowContrast" }), {
 	marginBottom: spacing.value(2),
 })
 
 const shortcutRowClass = style(
 	flex({ align: "center", justify: "between", gap: 4 }),
-	text("xs", 400, "lowContrast"),
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
 )
 
 const shortcutKeysClass = style(flex({ align: "center", gap: 1 }))
