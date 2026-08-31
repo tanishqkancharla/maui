@@ -30,7 +30,7 @@ const selectClass = style({
 })
 
 const triggerClass = style(
-	text("sm", 400, "highContrast"),
+	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	focusRing("&:focus-visible", shadowVars.subtle),
 	motion.standard("background", "border-color"),
 	radius.sm,
@@ -87,11 +87,11 @@ const chevronClass = style(motion.standard("transform"), {
 	} as CSSProperties),
 })
 
-const supportingTextClass = style(text("xs", 400, "lowContrast"), {
+const supportingTextClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }), {
 	margin: 0,
 })
 
-const errorClass = style(text("xs", 400, "highContrast"), {
+const errorClass = style(text({ size: "xs", fontWeight: 400, color: "highContrast" }), {
 	color: "light-dark(#ce2c31, #e5484d)",
 })
 

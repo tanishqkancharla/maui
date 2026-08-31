@@ -4,7 +4,7 @@ import { tags as t } from "@lezer/highlight"
 import { backgroundColor } from "../../tokens/background"
 import { colors } from "../../tokens/colors"
 import { shadowVars } from "../../tokens/shadow"
-import { monoFontFamily } from "../../tokens/text"
+import { monoFontFamily, monoFontStyle } from "../../tokens/text"
 import { mauiSyntaxColors } from "../../utils/mauiShikiTheme"
 
 export function mauiCodeMirrorTheme(dark: boolean) {
@@ -25,8 +25,9 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 					outline: "none",
 				},
 				".cm-scroller": {
-					fontFamily: monoFontFamily,
-					fontVariantNumeric: "tabular-nums",
+					fontFamily: monoFontStyle.fontFamily,
+					fontVariantNumeric: monoFontStyle.fontVariantNumeric,
+					fontFeatureSettings: monoFontStyle.fontFeatureSettings,
 					fontWeight: "400",
 					lineHeight: "20px",
 					overflow: "auto",
@@ -74,6 +75,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				},
 				".cm-tooltip-autocomplete ul li": {
 					fontFamily: monoFontFamily,
+					fontFeatureSettings: monoFontStyle.fontFeatureSettings,
 					fontSize: "12px",
 					fontWeight: "400",
 				},
@@ -83,6 +85,7 @@ export function mauiCodeMirrorTheme(dark: boolean) {
 				},
 				".cm-completionInfo": {
 					fontFamily: monoFontFamily,
+					fontFeatureSettings: monoFontStyle.fontFeatureSettings,
 					fontSize: "12px",
 					fontWeight: "400",
 					color: colors.gray[11],

@@ -22,8 +22,9 @@ export function TextPage() {
 			<H2>Text</H2>
 			<P>
 				<Code>Text</Code> is a <Code>span</Code> whose type styles are set as
-				attributes. It applies the <Code>text(size, fontWeight, color)</Code>{" "}
-				token — the same scale documented on the Text token page.
+				attributes. It applies the{" "}
+				<Code>{`text({ size, fontWeight, color, monospace })`}</Code> token —
+				the same scale documented on the Text token page.
 			</P>
 
 			<H3>Attributes</H3>
@@ -144,16 +145,21 @@ export function TextPage() {
 			<P>
 				<Code>monospace</Code> switches to{" "}
 				<Link href="https://commitmono.com/">Commit Mono</Link> with tabular
-				numerals, the same as composing <Code>text(...)</Code> with{" "}
-				<Code>monospace</Code>.
+				numerals and smart kerning (OpenType <Code>ss05</Code>), the same as{" "}
+				<Code>{`text({ …, monospace: true })`}</Code>.
 			</P>
-			<CodeBlock lang="tsx">{`<Text size="xs" monospace>
-	const greeting = "hello"
+			<CodeBlock lang="tsx">{`<Text size="lg" monospace>
+	Commit Mono: Normal programming typeface
 </Text>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
-				<Text size="xs" monospace>
-					const greeting = "hello"
-				</Text>
+				<Flex column gap={4}>
+					<Text size="lg" monospace>
+						Commit Mono: Normal programming typeface
+					</Text>
+					<Text size="xs" monospace>
+						const greeting = "hello"
+					</Text>
+				</Flex>
 			</Panel>
 
 			<H4>Inline</H4>

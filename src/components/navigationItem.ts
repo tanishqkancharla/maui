@@ -7,7 +7,7 @@ import { text } from "../tokens/text"
 
 export const navigationItem = style(
 	spacing.padding({ x: 4, y: 2 }),
-	text("sm", 400, "highContrast"),
+	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	radius.sm,
 	{
 		margin: 0,

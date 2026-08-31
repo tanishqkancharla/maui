@@ -68,7 +68,7 @@ export function IconsPage() {
 				share one scale.
 			</P>
 			<CodeBlock lang="tsx">{`<Search size="sm" />
-<span className={text("sm", 400, "highContrast")}>Search mail</span>`}</CodeBlock>
+<span className={text({ size: "sm", fontWeight: 400, color: "highContrast" })}>Search mail</span>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={{ display: "grid", gap: "12px" }}>
 					{iconSizes.map((size) => (
@@ -81,7 +81,7 @@ export function IconsPage() {
 			<H4>Default preview</H4>
 			<P>
 				Catalog tiles use <code>size="sm"</code> (16px) next to{" "}
-				<code>text("sm")</code> labels.
+				<code>{`text({ size: "sm" })`}</code> labels.
 			</P>
 			<SearchField
 				aria-label="Filter icons"
@@ -113,9 +113,9 @@ export function IconsPage() {
 
 function SizePreview(props: { size: IconSize }) {
 	const labelClassName = useStyles(
-		text(props.size as TextSize, 400, "highContrast"),
+		text({ size: props.size as TextSize, fontWeight: 400, color: "highContrast" }),
 	)
-	const metaClassName = useStyles(text("xs", 400, "lowContrast"))
+	const metaClassName = useStyles(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
 
 	return (
 		<div style={sizeRowStyle}>
@@ -140,7 +140,7 @@ function CatalogTile(props: {
 	name: string
 	Icon: React.ComponentType<IconProps>
 }) {
-	const labelClassName = useStyles(text("sm", 400, "lowContrast"))
+	const labelClassName = useStyles(text({ size: "sm", fontWeight: 400, color: "lowContrast" }))
 
 	return (
 		<div style={catalogTileStyle}>

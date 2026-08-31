@@ -42,7 +42,7 @@ const searchableItems = [
 
 export function FuzzyStringPage() {
 	const [query, setQuery] = useState("em")
-	const resultTextClass = useStyles(text("md", 400, "highContrast"))
+	const resultTextClass = useStyles(text({ size: "md", fontWeight: 400, color: "highContrast" }))
 
 	const filteredItems = useMemo(() => {
 		if (!query) {

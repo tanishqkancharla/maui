@@ -13,6 +13,19 @@ export const fontFamily =
 export const monoFontFamily =
 	'"Commit Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace'
 
+/**
+ * Shared Commit Mono treatment. `ss05` is Commit Mono’s “smart kerning”:
+ * letters stay on the monospace grid but slide toward narrower neighbors
+ * (https://commitmono.com/).
+ */
+export const monoFontStyle = {
+	fontFamily: monoFontFamily,
+	fontVariantNumeric: "tabular-nums",
+	fontFeatureSettings: '"ss05" 1',
+	tabSize: "2",
+	MozTabSize: "2",
+} as const satisfies React.CSSProperties
+
 const textSizeStyles: Record<
 	TextSize,
 	Omit<React.CSSProperties, "color" | "fontWeight">
@@ -55,12 +68,7 @@ export const baseTextStyle = {
 	color: colors.gray[12],
 }
 
-export const monospace = style({
-	fontFamily: monoFontFamily,
-	fontVariantNumeric: "tabular-nums",
-	tabSize: "2",
-	MozTabSize: "2",
-})
+export const monospace = style(monoFontStyle)
 
 const textColorStyles: Record<TextColor, React.CSSProperties["color"]> = {
 	lowContrast: colors.gray[11],
@@ -69,11 +77,21 @@ const textColorStyles: Record<TextColor, React.CSSProperties["color"]> = {
 	onAccent: "white",
 }
 
-export const text = memoize(
-	(size: TextSize, fontWeight: TextWeight, color: TextColor) =>
-		style({
-			...textSizeStyles[size],
-			fontWeight,
-			color: textColorStyles[color],
-		}),
-)
+export type TextOptions = {
+	size?: TextSize
+	fontWeight?: TextWeight
+	color?: TextColor
+	monospace?: boolean
+}
+
+export const text = memoize((options: TextOptions = {}) => {
+	const size = options.size ?? "md"
+	const fontWeight = options.fontWeight ?? 400
+	const color = options.color ?? "highContrast"
+	return style({
+		...textSizeStyles[size],
+		fontWeight,
+		color: textColorStyles[color],
+		...(options.monospace ? monoFontStyle : {}),
+	})
+})

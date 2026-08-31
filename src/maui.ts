@@ -24,9 +24,11 @@ export {
 	baseTextStyle,
 	fontFamily,
 	monoFontFamily,
+	monoFontStyle,
 	type TextSize,
 	type TextWeight,
 	type TextColor,
+	type TextOptions,
 } from "./tokens/text"
 export { avatar } from "./tokens/avatar"
 export {

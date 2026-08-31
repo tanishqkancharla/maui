@@ -14,7 +14,7 @@ import { useProseSize } from "./Prose"
 // Each heading/text component renders at its application (`text`) size by
 // default, and switches to the prose scale when it lives inside a `Prose`
 // container (see `useProseSize`). Prose sizes/weights come from `prose(size)`.
-const appH1Class = text("xl", 700, "highContrast")
+const appH1Class = text({ size: "xl", fontWeight: 700, color: "highContrast" })
 
 export function H1(props: { children: string }) {
 	const proseSize = useProseSize()
@@ -23,7 +23,7 @@ export function H1(props: { children: string }) {
 	return <h1 className={className}>{props.children}</h1>
 }
 
-const appH2Class = text("lg", 600, "highContrast")
+const appH2Class = text({ size: "lg", fontWeight: 600, color: "highContrast" })
 
 export function H2(props: { children: string }) {
 	const proseSize = useProseSize()
@@ -32,7 +32,7 @@ export function H2(props: { children: string }) {
 	return <h2 className={className}>{props.children}</h2>
 }
 
-const appH3Class = text("md", 600, "highContrast")
+const appH3Class = text({ size: "md", fontWeight: 600, color: "highContrast" })
 
 export function H3(props: { children: string }) {
 	const proseSize = useProseSize()
@@ -41,7 +41,7 @@ export function H3(props: { children: string }) {
 	return <h3 className={className}>{props.children}</h3>
 }
 
-const appH4Class = text("md", 600, "highContrast")
+const appH4Class = text({ size: "md", fontWeight: 600, color: "highContrast" })
 
 export function H4(props: { children: string }) {
 	const proseSize = useProseSize()
@@ -55,7 +55,7 @@ export function H4(props: { children: string }) {
 const pLayoutClass = style({
 	margin: 0,
 })
-const appPClass = text("md", 400, "highContrast")
+const appPClass = text({ size: "md", fontWeight: 400, color: "highContrast" })
 
 export function P(props: { children: React.ReactNode }) {
 	const proseSize = useProseSize()
@@ -65,7 +65,7 @@ export function P(props: { children: React.ReactNode }) {
 	return <p className={className}>{props.children}</p>
 }
 
-export const labelText = style(text("xs", 500, "lowContrast"), {
+export const labelText = style(text({ size: "xs", fontWeight: 500, color: "lowContrast" }), {
 	userSelect: "none",
 })
 
@@ -94,7 +94,7 @@ const blockquoteFrameClass = style({
 	// it's correcting a user-agent default rather than opining on rhythm.
 	marginInline: 0,
 })
-const appBlockquoteClass = text("md", 500, "lowContrast")
+const appBlockquoteClass = text({ size: "md", fontWeight: 500, color: "lowContrast" })
 
 export function Blockquote(props: { children: string }) {
 	const proseSize = useProseSize()
@@ -106,7 +106,7 @@ export function Blockquote(props: { children: string }) {
 
 // App-context list treatment. Inside `Prose`, lists take their size and
 // internal spacing from `prose(size).list` instead (see `Ul`/`Ol`).
-const appListClass = style(text("md", 400, "highContrast"), {
+const appListClass = style(text({ size: "md", fontWeight: 400, color: "highContrast" }), {
 	paddingInlineStart: spacing.value(8),
 	"& > li + li": {
 		marginTop: spacing.value(2),
@@ -147,7 +147,7 @@ export function Li(props: { children: React.ReactNode }) {
 	return <li className={className}>{props.children}</li>
 }
 
-const appLinkClass = text("md", 400, "highContrast")
+const appLinkClass = text({ size: "md", fontWeight: 400, color: "highContrast" })
 
 export function Link(props: { children: string; href: string }) {
 	const proseSize = useProseSize()

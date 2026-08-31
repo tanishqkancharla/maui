@@ -24,7 +24,7 @@ export const listBoxStyle = style(background.element, {
 
 export const listBoxItemStyle = style(
 	spacing.padding({ x: 4, y: 2 }),
-	text("sm", 400, "highContrast"),
+	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	{
 		position: "relative",
 		margin: 0,

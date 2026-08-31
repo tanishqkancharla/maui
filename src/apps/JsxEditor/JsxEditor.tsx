@@ -300,6 +300,6 @@ const errorClass = style(spacing.padding({ x: 4, y: 3 }), {
 	backgroundColor: colors.red[3],
 })
 
-const errorTextClass = style(text("xs", 400, "highContrast"), {
+const errorTextClass = style(text({ size: "xs", fontWeight: 400, color: "highContrast" }), {
 	color: colors.red[11],
 })

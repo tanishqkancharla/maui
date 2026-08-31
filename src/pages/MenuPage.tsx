@@ -34,7 +34,7 @@ export function MenuPage() {
 }
 
 const triggerStyle = style(
-	text("sm", 400, "highContrast"),
+	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	focusRing("&:focus-visible", shadowVars.subtle),
 	radius.sm,
 	spacing.padding({ x: 4, y: 2 }),

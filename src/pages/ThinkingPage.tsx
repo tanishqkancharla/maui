@@ -64,7 +64,7 @@ const rowClass = style(flex({ align: "center", gap: 6 }))
 
 const columnClass = style(flex({ direction: "column", gap: 6 }))
 
-const inlineExampleClass = style(text("md", 400, "highContrast"), {
+const inlineExampleClass = style(text({ size: "md", fontWeight: 400, color: "highContrast" }), {
 	display: "flex",
 	alignItems: "center",
 	gap: "6px",

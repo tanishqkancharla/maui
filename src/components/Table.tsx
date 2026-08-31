@@ -15,7 +15,7 @@ const tableHeaderCellClass = style(labelText, {
 	verticalAlign: "bottom",
 })
 
-const tableBodyCellClass = style(text("sm", 400, "lowContrast"), border(["top"], "border"), {
+const tableBodyCellClass = style(text({ size: "sm", fontWeight: 400, color: "lowContrast" }), border(["top"], "border"), {
 	padding: "10px 12px 10px 0",
 	verticalAlign: "top",
 })

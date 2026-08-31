@@ -89,7 +89,7 @@ function avatarPaletteForSeed(seed: string) {
 const avatarClass = memoize((seed: string, size: TextSize) => {
 	const palette = avatarPaletteForSeed(seed)
 
-	return style(text("2xs", 600, "highContrast"), radius.circle, {
+	return style(text({ size: "2xs", fontWeight: 600, color: "highContrast" }), radius.circle, {
 		display: "grid",
 		placeItems: "center",
 		flexShrink: 0,

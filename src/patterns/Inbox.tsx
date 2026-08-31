@@ -248,7 +248,7 @@ const threadRowSelectedClass = style({
 })
 
 const threadRowClass = style(
-	text("md", 400, "lowContrast"),
+	text({ size: "md", fontWeight: 400, color: "lowContrast" }),
 	spacing.padding({ x: 3 }),
 	radius.md,
 	{
@@ -273,7 +273,7 @@ const threadRowClass = style(
 )
 
 const threadSenderClass = style(
-	text("md", 400, "highContrast"),
+	text({ size: "md", fontWeight: 400, color: "highContrast" }),
 	flex({ align: "center", gap: 3 }),
 	{
 		minWidth: 0,
@@ -314,19 +314,19 @@ const threadSubjectBaseClass = style(truncate, {
 
 const threadSubjectClass = style(
 	threadSubjectBaseClass,
-	text("md", 400, "highContrast"),
+	text({ size: "md", fontWeight: 400, color: "highContrast" }),
 )
 
 const threadSnippetClass = style(
 	truncate,
 	flexItem({ size: "fill" }),
-	text("md", 400, "lowContrast"),
+	text({ size: "md", fontWeight: 400, color: "lowContrast" }),
 	{
 		minWidth: 0,
 	},
 )
 
-const threadTimeClass = style(text("md", 400, "lowContrast"), {
+const threadTimeClass = style(text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
 	justifySelf: "end",
 })
 
@@ -461,17 +461,17 @@ const compactHeaderClass = flex({ align: "center", justify: "between", gap: 6 })
 const compactSenderClass = style(
 	truncate,
 	flexItem({ size: "fill" }),
-	text("md", 400, "highContrast"),
+	text({ size: "md", fontWeight: 400, color: "highContrast" }),
 	{
 		minWidth: 0,
 	},
 )
 
-const compactTimeClass = style(text("md", 400, "lowContrast"), {
+const compactTimeClass = style(text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
 	flexShrink: 0,
 })
 
-const compactSnippetClass = style(truncate, text("md", 400, "lowContrast"), {
+const compactSnippetClass = style(truncate, text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
 	display: "-webkit-box",
 	WebkitLineClamp: 2,
 	WebkitBoxOrient: "vertical",
