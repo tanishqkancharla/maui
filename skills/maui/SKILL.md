@@ -1,6 +1,6 @@
 ---
 name: maui
-description: Conventions and design constraints for consuming the Maui design system. Use when building UI with Maui tokens, components, or purse-styles in an app that depends on Maui.
+description: Conventions and design constraints for consuming the Maui design system. Use when building UI with Maui tokens, components, or purse-styles in an app that depends on Maui. Before designing or implementing new UI, read the closest example under src/apps/ or src/patterns/.
 ---
 
 # Maui
@@ -39,8 +39,8 @@ The published package exposes:
 
 ## Design constraints
 
+- Before designing or implementing new UI with Maui components, read the closest example under `src/apps/` or `src/patterns/`. Reuse its structure, components, tokens, and interactions.
 - Hover backgrounds have no transitions. Hover fills (`backgroundColor.elementHover`, quiet-button washes, list/row highlights) snap instantly. Do not animate `background` / `background-color` on hover with `motion.standard(...)` or a CSS `transition`. Other motion (tooltips, transforms) is fine.
-- Start from the closest existing pattern or app. Before inventing layout or chrome, look at `src/patterns/` and `src/apps/` that are closest to the end goal and reuse those structures.
 - Simple apps default to a `proseMaxWidth` column (`72ch`) centered in their container: `width: "100%"`, `maxWidth: proseMaxWidth`, `marginInline: "auto"`. `sizingTokens.contentWidth` is the same measure. Use this for single-column tools, settings, forms, and reading layouts. Multi-pane or full-bleed apps (inbox, calendar, IDE) are the exception.
 - Always design empty states. Every list, inbox, search result, or collection needs an intentional empty composition (copy and an optional action), never a blank panel.
 
@@ -122,7 +122,7 @@ import { Text as TextIcon } from "maui/icons"
 
 ## Reference: patterns and apps
 
-Patterns, demo apps, and the gallery `Panel` preview surface are not part of the `"maui"` package barrel. Use the closest one as a reference before inventing new layout (also available via `"maui/src/..."`):
+Patterns, demo apps, and the gallery `Panel` preview surface are not part of the `"maui"` package barrel. Read the closest example before designing or implementing new UI, and reuse its structure, components, tokens, and interactions (also available via `"maui/src/..."`):
 
 ### Patterns — `src/patterns/`
 
