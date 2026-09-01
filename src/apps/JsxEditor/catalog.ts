@@ -17,7 +17,6 @@ import {
 import { ListBox, ListBoxItem } from "../../components/ListBox"
 import { Menu, MenuItem, MenuTrigger } from "../../components/Menu"
 import { Overlay } from "../../components/Overlay"
-import { Panel } from "../../components/Panel"
 import { Prose } from "../../components/Prose"
 import { RadioOption, RadioOptionGroup } from "../../components/Radio"
 import { Select, SelectItem } from "../../components/Select"
@@ -267,11 +266,6 @@ export const catalog: CatalogComponent[] = [
 		],
 	},
 	{
-		name: "Panel",
-		info: "Raised preview surface.",
-		attributes: [],
-	},
-	{
 		name: "Icons",
 		info: "Icon set. Use as <Icons.Plus size=\"sm\" />. The Icons namespace is not tree-shakeable.",
 		svg: true,
@@ -449,7 +443,6 @@ export const previewScope: Record<string, unknown> = {
 	MenuItem,
 	MenuTrigger,
 	Overlay,
-	Panel,
 	Editor,
 	Prose,
 	RadioOption,

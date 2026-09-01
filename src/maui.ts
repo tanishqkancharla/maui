@@ -81,7 +81,6 @@ export {
 export { Dialog } from "./components/Dialog"
 export { Tooltip } from "./components/Tooltip"
 export { Overlay } from "./components/Overlay"
-export { Panel } from "./components/Panel"
 export {
 	Table,
 	TableHeader,
