@@ -1,5 +1,6 @@
 import { style, useStyles } from "purse-styles"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
@@ -28,14 +29,12 @@ export function FocusRingTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Value</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Focus ring tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Value</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>

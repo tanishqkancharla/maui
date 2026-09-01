@@ -26,9 +26,11 @@ import { Switch } from "../../components/Switch"
 import {
 	Table,
 	TableBody,
+	TableCaption,
 	TableCell,
+	TableFooter,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../../components/Table"
 import { Text } from "../../components/Text"
@@ -347,6 +349,53 @@ export const catalog: CatalogComponent[] = [
 		attributes: [{ name: "id" }],
 	},
 	{
+		name: "Table",
+		info: "Accessible data table. Pair with TableHeader, TableHead, TableBody, TableRow, and TableCell.",
+		attributes: [{ name: "aria-label" }],
+	},
+	{
+		name: "TableHeader",
+		info: "Table column header row. Contains TableHead columns directly, not TableRow.",
+		attributes: [],
+	},
+	{
+		name: "TableHead",
+		info: "Column header. First identifying column should set isRowHeader. align is start, center, or end.",
+		attributes: [
+			{ name: "isRowHeader", boolean: true },
+			{ name: "align", values: ["start", "center", "end"] },
+			{ name: "id" },
+		],
+	},
+	{
+		name: "TableBody",
+		info: "Table rows. Renders an empty state when there are no rows.",
+		attributes: [],
+	},
+	{
+		name: "TableRow",
+		info: "Table row.",
+		attributes: [{ name: "id" }],
+	},
+	{
+		name: "TableCell",
+		info: "Table cell. align is start, center, or end.",
+		attributes: [
+			{ name: "align", values: ["start", "center", "end"] },
+			{ name: "colSpan" },
+		],
+	},
+	{
+		name: "TableFooter",
+		info: "Summary row group below the body.",
+		attributes: [],
+	},
+	{
+		name: "TableCaption",
+		info: "Caption below the table. Place after Table, often inside a figure.",
+		attributes: [],
+	},
+	{
 		name: "Tooltip",
 		info: "Hover tooltip.",
 		attributes: [{ name: "label" }],
@@ -411,9 +460,11 @@ export const previewScope: Record<string, unknown> = {
 	Switch,
 	Table,
 	TableBody,
+	TableCaption,
 	TableCell,
+	TableFooter,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 	Text,
 	Thinking,

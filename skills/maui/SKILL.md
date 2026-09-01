@@ -116,7 +116,7 @@ import { Text as TextIcon } from "maui/icons"
 - `Avatar`
 - `Badge`
 - `Code`, `Kbd`, `CodeBlock`
-- `Table` / `TableHead` / `TableBody` / `TableRow` / `TableHeaderCell` / `TableCell`
+- `Table` / `TableHeader` / `TableHead` / `TableBody` / `TableRow` / `TableCell` / `TableFooter` / `TableCaption`
 - `Panel` — gallery/demo surface
 - `FuzzyString` — highlight segments; takes a match result, not a plain string
 - `Thinking` — 3×3 Game of Life indicator; reseeds when the board dies or loops

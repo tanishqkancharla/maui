@@ -1,7 +1,8 @@
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
@@ -24,14 +25,12 @@ export function FlexTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Value</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Flex attributes">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Value</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>

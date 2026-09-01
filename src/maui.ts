@@ -84,11 +84,21 @@ export { Overlay } from "./components/Overlay"
 export { Panel } from "./components/Panel"
 export {
 	Table,
+	TableHeader,
 	TableHead,
 	TableBody,
+	TableFooter,
 	TableRow,
-	TableHeaderCell,
 	TableCell,
+	TableCaption,
+	type TableAlign,
+	type TableProps,
+	type TableHeaderProps,
+	type TableHeadProps,
+	type TableBodyProps,
+	type TableFooterProps,
+	type TableRowProps,
+	type TableCellProps,
 } from "./components/Table"
 export { Prose, useProseSize, proseMaxWidth } from "./components/Prose"
 export { Editor, type EditorProps } from "./components/Editor"

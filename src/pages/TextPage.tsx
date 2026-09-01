@@ -7,7 +7,7 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../components/Table"
 import { Text } from "../components/Text"
@@ -28,14 +28,12 @@ export function TextPage() {
 			</P>
 
 			<H3>Attributes</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Attribute</TableHeaderCell>
-						<TableHeaderCell>Values</TableHeaderCell>
-						<TableHeaderCell>Default</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Text attributes">
+				<TableHeader>
+					<TableHead isRowHeader>Attribute</TableHead>
+					<TableHead>Values</TableHead>
+					<TableHead>Default</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>

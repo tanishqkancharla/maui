@@ -1,5 +1,6 @@
 import { useStyles } from "purse-styles"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
@@ -22,14 +23,12 @@ export function TextTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Input</TableHeaderCell>
-						<TableHeaderCell>Values</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Text token values">
+				<TableHeader>
+					<TableHead isRowHeader>Input</TableHead>
+					<TableHead>Values</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>
