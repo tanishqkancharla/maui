@@ -22,14 +22,9 @@ import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
+import { memoize } from "../utils/memoize"
 
 export type TableAlign = "start" | "center" | "end"
-
-const alignClass = {
-	start: style({ textAlign: "start" }),
-	center: style({ textAlign: "center" }),
-	end: style({ textAlign: "end" }),
-} as const
 
 const tableContainerClass = style({
 	width: "100%",
@@ -47,18 +42,20 @@ const tableHeaderClass = style({
 	outline: "none",
 })
 
-const tableHeadClass = style(
-	text({ size: "xs", fontWeight: 500, color: "lowContrast" }),
-	spacing.padding({ x: 4, y: 3 }),
-	border(["bottom"], "border"),
-	focusRing("&[data-focus-visible]"),
-	{
-		textAlign: "start",
-		verticalAlign: "middle",
-		whiteSpace: "nowrap",
-		outline: "none",
-		fontWeight: 500,
-	},
+const tableHeadClass = memoize((align: TableAlign = "start") =>
+	style(
+		text({ size: "xs", fontWeight: 500, color: "lowContrast" }),
+		spacing.padding({ x: 4, y: 3 }),
+		border(["bottom"], "border"),
+		focusRing("&[data-focus-visible]"),
+		{
+			textAlign: align,
+			verticalAlign: "middle",
+			whiteSpace: "nowrap",
+			outline: "none",
+			fontWeight: 500,
+		},
+	),
 )
 
 const tableBodyClass = style({
@@ -74,13 +71,17 @@ const tableBodyClass = style({
 const tableFooterClass = style(
 	text({ size: "sm", fontWeight: 500, color: "highContrast" }),
 	{
-		backgroundColor: colors.gray[2],
+		backgroundColor: colors.gray[3],
 		"& td": {
 			borderBottom: "none",
 			fontWeight: 500,
+			backgroundColor: colors.gray[3],
 		},
 		"& tr:first-child td": {
 			borderTop: `1px solid ${borderColor.border}`,
+		},
+		"& tr:hover td, & tr[data-hovered] td": {
+			backgroundColor: colors.gray[3],
 		},
 	},
 )
@@ -88,7 +89,7 @@ const tableFooterClass = style(
 const tableRowClass = style({
 	outline: "none",
 	cursor: "default",
-	"&[data-hovered] td": {
+	"&:hover td, &[data-hovered] td": {
 		backgroundColor: backgroundColor.elementHover,
 	},
 	"&[data-selected] td": {
@@ -99,19 +100,21 @@ const tableRowClass = style({
 	},
 })
 
-const tableCellClass = style(
-	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
-	spacing.padding({ x: 4, y: 3 }),
-	border(["bottom"], "border"),
-	focusRing("&[data-focus-visible]"),
-	{
-		textAlign: "start",
-		verticalAlign: "middle",
-		outline: "none",
-		'&[role="rowheader"]': {
-			fontWeight: 500,
+const tableCellClass = memoize((align: TableAlign = "start") =>
+	style(
+		text({ size: "sm", fontWeight: 400, color: "highContrast" }),
+		spacing.padding({ x: 4, y: 3 }),
+		border(["bottom"], "border"),
+		focusRing("&[data-focus-visible]"),
+		{
+			textAlign: align,
+			verticalAlign: "middle",
+			outline: "none",
+			'&[role="rowheader"]': {
+				fontWeight: 500,
+			},
 		},
-	},
+	),
 )
 
 const tableCaptionClass = style(
@@ -158,11 +161,8 @@ export interface TableHeadProps extends Omit<AriaColumnProps, "className"> {
 	align?: TableAlign
 }
 
-export function TableHead({ align, ...props }: TableHeadProps) {
-	const className = useStyles(
-		tableHeadClass,
-		align ? alignClass[align] : undefined,
-	)
+export function TableHead({ align = "start", ...props }: TableHeadProps) {
+	const className = useStyles(tableHeadClass(align))
 
 	return <AriaColumn {...props} className={className} />
 }
@@ -210,11 +210,8 @@ export interface TableCellProps extends Omit<AriaCellProps, "className"> {
 	align?: TableAlign
 }
 
-export function TableCell({ align, ...props }: TableCellProps) {
-	const className = useStyles(
-		tableCellClass,
-		align ? alignClass[align] : undefined,
-	)
+export function TableCell({ align = "start", ...props }: TableCellProps) {
+	const className = useStyles(tableCellClass(align))
 
 	return <AriaCell {...props} className={className} />
 }
