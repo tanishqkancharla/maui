@@ -71,17 +71,17 @@ const tableBodyClass = style({
 const tableFooterClass = style(
 	text({ size: "sm", fontWeight: 500, color: "highContrast" }),
 	{
-		backgroundColor: colors.gray[3],
+		backgroundColor: colors.gray[2],
 		"& td": {
 			borderBottom: "none",
 			fontWeight: 500,
-			backgroundColor: colors.gray[3],
+			backgroundColor: colors.gray[2],
 		},
 		"& tr:first-child td": {
 			borderTop: `1px solid ${borderColor.border}`,
 		},
 		"& tr:hover td, & tr[data-hovered] td": {
-			backgroundColor: colors.gray[3],
+			backgroundColor: colors.gray[2],
 		},
 	},
 )
