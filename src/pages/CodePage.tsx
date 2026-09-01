@@ -6,7 +6,7 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../components/Table"
 import { H2, H3, H4, Link, P } from "../components/Typography"
@@ -111,26 +111,24 @@ export function CodePage() {
 				strings use blue in light and green in dark.
 			</P>
 
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Role</TableHeaderCell>
-						<TableHeaderCell>Sublime scope</TableHeaderCell>
-						<TableHeaderCell>Color</TableHeaderCell>
-						<TableHeaderCell>Sample</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Maui Shiki theme tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Role</TableHead>
+					<TableHead>Sublime scope</TableHead>
+					<TableHead>Color</TableHead>
+					<TableHead>Sample</TableHead>
+				</TableHeader>
 				<TableBody>
 					{themeTokens.map((token) => (
 						<TableRow key={token.role}>
-							<TableCell align="middle">{token.role}</TableCell>
-							<TableCell align="middle">
+							<TableCell>{token.role}</TableCell>
+							<TableCell>
 								<Code>{token.sublime}</Code>
 							</TableCell>
-							<TableCell align="middle">
+							<TableCell>
 								<Code>{token.color}</Code>
 							</TableCell>
-							<TableCell align="middle">
+							<TableCell>
 								<span
 									style={{
 										color: token.color,

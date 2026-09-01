@@ -1,61 +1,223 @@
+import type { ReactNode } from "react"
+import {
+	Cell as AriaCell,
+	Column as AriaColumn,
+	Row as AriaRow,
+	Table as AriaTable,
+	TableBody as AriaTableBody,
+	TableFooter as AriaTableFooter,
+	TableHeader as AriaTableHeader,
+	type CellProps as AriaCellProps,
+	type ColumnProps as AriaColumnProps,
+	type RowProps as AriaRowProps,
+	type TableBodyProps as AriaTableBodyProps,
+	type TableFooterProps as AriaTableFooterProps,
+	type TableHeaderProps as AriaTableHeaderProps,
+	type TableProps as AriaTableProps,
+} from "react-aria-components"
 import { style, useStyles } from "purse-styles"
-import type React from "react"
-import { border } from "../tokens/borders"
+import { backgroundColor } from "../tokens/background"
+import { border, borderColor } from "../tokens/borders"
+import { colors } from "../tokens/colors"
+import { focusRing } from "../tokens/focusRing"
+import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
-import { labelText } from "./Typography"
+import { memoize } from "../utils/memoize"
 
-const tableClass = style({
-	borderCollapse: "collapse",
+export type TableAlign = "start" | "center" | "end"
+
+const tableContainerClass = style({
 	width: "100%",
+	overflowX: "auto",
 })
 
-const tableHeaderCellClass = style(labelText, {
-	padding: "0 12px 8px 0",
-	textAlign: "left",
-	verticalAlign: "bottom",
+const tableClass = style(focusRing("&[data-focus-visible]"), {
+	borderCollapse: "collapse",
+	borderSpacing: 0,
+	width: "100%",
+	outline: "none",
 })
 
-const tableBodyCellClass = style(text({ size: "sm", fontWeight: 400, color: "lowContrast" }), border(["top"], "border"), {
-	padding: "10px 12px 10px 0",
-	verticalAlign: "top",
+const tableHeaderClass = style({
+	outline: "none",
 })
 
-export function Table(props: { children: React.ReactNode }) {
+const tableHeadClass = memoize((align: TableAlign = "start") =>
+	style(
+		text({ size: "xs", fontWeight: 500, color: "lowContrast" }),
+		spacing.padding({ x: 4, y: 3 }),
+		border(["bottom"], "border"),
+		focusRing("&[data-focus-visible]"),
+		{
+			textAlign: align,
+			verticalAlign: "middle",
+			whiteSpace: "nowrap",
+			outline: "none",
+			fontWeight: 500,
+		},
+	),
+)
+
+const tableBodyClass = style({
+	outline: "none",
+	"& tr:last-child td": {
+		borderBottom: "none",
+	},
+	"&[data-empty]": {
+		textAlign: "center",
+	},
+})
+
+const tableFooterClass = style(
+	text({ size: "sm", fontWeight: 500, color: "highContrast" }),
+	{
+		backgroundColor: colors.gray[2],
+		"& td": {
+			borderBottom: "none",
+			fontWeight: 500,
+			backgroundColor: colors.gray[2],
+		},
+		"& tr:first-child td": {
+			borderTop: `1px solid ${borderColor.border}`,
+		},
+		"& tr:hover td, & tr[data-hovered] td": {
+			backgroundColor: colors.gray[2],
+		},
+	},
+)
+
+const tableRowClass = style({
+	outline: "none",
+	cursor: "default",
+	"&:hover td, &[data-hovered] td": {
+		backgroundColor: backgroundColor.elementHover,
+	},
+	"&[data-selected] td": {
+		backgroundColor: backgroundColor.elementActive,
+	},
+	"&[data-disabled]": {
+		color: colors.gray[8],
+	},
+})
+
+const tableCellClass = memoize((align: TableAlign = "start") =>
+	style(
+		text({ size: "sm", fontWeight: 400, color: "highContrast" }),
+		spacing.padding({ x: 4, y: 3 }),
+		border(["bottom"], "border"),
+		focusRing("&[data-focus-visible]"),
+		{
+			textAlign: align,
+			verticalAlign: "middle",
+			outline: "none",
+			'&[role="rowheader"]': {
+				fontWeight: 500,
+			},
+		},
+	),
+)
+
+const tableCaptionClass = style(
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+	{
+		margin: 0,
+		marginTop: spacing.value(4),
+	},
+)
+
+const emptyStateClass = style(
+	text({ size: "sm", fontWeight: 400, color: "lowContrast" }),
+	spacing.padding({ x: 4, y: 8 }),
+	{
+		textAlign: "center",
+	},
+)
+
+export interface TableProps extends Omit<AriaTableProps, "className"> {}
+
+export function Table(props: TableProps) {
+	const containerClassName = useStyles(tableContainerClass)
 	const className = useStyles(tableClass)
 
-	return <table className={className}>{props.children}</table>
-}
-
-export function TableHead(props: { children: React.ReactNode }) {
-	return <thead>{props.children}</thead>
-}
-
-export function TableBody(props: { children: React.ReactNode }) {
-	return <tbody>{props.children}</tbody>
-}
-
-export function TableRow(props: { children: React.ReactNode }) {
-	return <tr>{props.children}</tr>
-}
-
-export function TableHeaderCell(props: { children: React.ReactNode }) {
-	const className = useStyles(tableHeaderCellClass)
-
-	return <th className={className}>{props.children}</th>
-}
-
-const tableBodyCellMiddleClass = style({
-	verticalAlign: "middle",
-})
-
-export function TableCell(props: {
-	children: React.ReactNode
-	align?: "top" | "middle"
-}) {
-	const className = useStyles(
-		tableBodyCellClass,
-		props.align === "middle" && tableBodyCellMiddleClass,
+	return (
+		<div className={containerClassName}>
+			<AriaTable {...props} className={className} />
+		</div>
 	)
+}
 
-	return <td className={className}>{props.children}</td>
+export interface TableHeaderProps<T>
+	extends Omit<AriaTableHeaderProps<T>, "className"> {}
+
+export function TableHeader<T extends object = object>(
+	props: TableHeaderProps<T>,
+) {
+	const className = useStyles(tableHeaderClass)
+
+	return <AriaTableHeader {...props} className={className} />
+}
+
+export interface TableHeadProps extends Omit<AriaColumnProps, "className"> {
+	align?: TableAlign
+}
+
+export function TableHead({ align = "start", ...props }: TableHeadProps) {
+	const className = useStyles(tableHeadClass(align))
+
+	return <AriaColumn {...props} className={className} />
+}
+
+export interface TableBodyProps<T>
+	extends Omit<AriaTableBodyProps<T>, "className"> {}
+
+export function TableBody<T extends object = object>(props: TableBodyProps<T>) {
+	const className = useStyles(tableBodyClass)
+	const emptyClassName = useStyles(emptyStateClass)
+
+	return (
+		<AriaTableBody
+			{...props}
+			className={className}
+			renderEmptyState={
+				props.renderEmptyState ??
+				(() => <div className={emptyClassName}>No results.</div>)
+			}
+		/>
+	)
+}
+
+export interface TableFooterProps<T>
+	extends Omit<AriaTableFooterProps<T>, "className"> {}
+
+export function TableFooter<T extends object = object>(
+	props: TableFooterProps<T>,
+) {
+	const className = useStyles(tableFooterClass)
+
+	return <AriaTableFooter {...props} className={className} />
+}
+
+export interface TableRowProps<T>
+	extends Omit<AriaRowProps<T>, "className"> {}
+
+export function TableRow<T extends object = object>(props: TableRowProps<T>) {
+	const className = useStyles(tableRowClass)
+
+	return <AriaRow {...props} className={className} />
+}
+
+export interface TableCellProps extends Omit<AriaCellProps, "className"> {
+	align?: TableAlign
+}
+
+export function TableCell({ align = "start", ...props }: TableCellProps) {
+	const className = useStyles(tableCellClass(align))
+
+	return <AriaCell {...props} className={className} />
+}
+
+export function TableCaption(props: { children: ReactNode }) {
+	const className = useStyles(tableCaptionClass)
+
+	return <div className={className}>{props.children}</div>
 }

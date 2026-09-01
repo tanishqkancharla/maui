@@ -17,7 +17,6 @@ import {
 import { ListBox, ListBoxItem } from "../../components/ListBox"
 import { Menu, MenuItem, MenuTrigger } from "../../components/Menu"
 import { Overlay } from "../../components/Overlay"
-import { Panel } from "../../components/Panel"
 import { Prose } from "../../components/Prose"
 import { RadioOption, RadioOptionGroup } from "../../components/Radio"
 import { Select, SelectItem } from "../../components/Select"
@@ -26,9 +25,11 @@ import { Switch } from "../../components/Switch"
 import {
 	Table,
 	TableBody,
+	TableCaption,
 	TableCell,
+	TableFooter,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../../components/Table"
 import { Text } from "../../components/Text"
@@ -265,11 +266,6 @@ export const catalog: CatalogComponent[] = [
 		],
 	},
 	{
-		name: "Panel",
-		info: "Raised preview surface.",
-		attributes: [],
-	},
-	{
 		name: "Icons",
 		info: "Icon set. Use as <Icons.Plus size=\"sm\" />. The Icons namespace is not tree-shakeable.",
 		svg: true,
@@ -347,6 +343,53 @@ export const catalog: CatalogComponent[] = [
 		attributes: [{ name: "id" }],
 	},
 	{
+		name: "Table",
+		info: "Accessible data table. Pair with TableHeader, TableHead, TableBody, TableRow, and TableCell.",
+		attributes: [{ name: "aria-label" }],
+	},
+	{
+		name: "TableHeader",
+		info: "Table column header row. Contains TableHead columns directly, not TableRow.",
+		attributes: [],
+	},
+	{
+		name: "TableHead",
+		info: "Column header. First identifying column should set isRowHeader. align is start, center, or end.",
+		attributes: [
+			{ name: "isRowHeader", boolean: true },
+			{ name: "align", values: ["start", "center", "end"] },
+			{ name: "id" },
+		],
+	},
+	{
+		name: "TableBody",
+		info: "Table rows. Renders an empty state when there are no rows.",
+		attributes: [],
+	},
+	{
+		name: "TableRow",
+		info: "Table row.",
+		attributes: [{ name: "id" }],
+	},
+	{
+		name: "TableCell",
+		info: "Table cell. align is start, center, or end.",
+		attributes: [
+			{ name: "align", values: ["start", "center", "end"] },
+			{ name: "colSpan" },
+		],
+	},
+	{
+		name: "TableFooter",
+		info: "Summary row group below the body.",
+		attributes: [],
+	},
+	{
+		name: "TableCaption",
+		info: "Caption below the table. Place after Table, often inside a figure.",
+		attributes: [],
+	},
+	{
 		name: "Tooltip",
 		info: "Hover tooltip.",
 		attributes: [{ name: "label" }],
@@ -400,7 +443,6 @@ export const previewScope: Record<string, unknown> = {
 	MenuItem,
 	MenuTrigger,
 	Overlay,
-	Panel,
 	Editor,
 	Prose,
 	RadioOption,
@@ -411,9 +453,11 @@ export const previewScope: Record<string, unknown> = {
 	Switch,
 	Table,
 	TableBody,
+	TableCaption,
 	TableCell,
+	TableFooter,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 	Text,
 	Thinking,

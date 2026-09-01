@@ -50,6 +50,7 @@ import { SelectPage } from "./SelectPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
 import { TextPage } from "./TextPage"
 import { TextTokenPage } from "./TextTokenPage"
+import { TablePage } from "./TablePage"
 import { TooltipPage } from "./TooltipPage"
 
 export function Maui() {
@@ -139,6 +140,7 @@ const navigation: NavEntry[] = [
 				path: "/components/list-box",
 				page: ListBoxPage,
 			},
+			{ label: "Table", path: "/components/table", page: TablePage },
 			{ label: "Menu", path: "/components/menu", page: MenuPage },
 			{ label: "Tooltip", path: "/components/tooltip", page: TooltipPage },
 			{

@@ -4,7 +4,7 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
@@ -26,14 +26,12 @@ export function SizingTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Value</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Sizing tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Value</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>

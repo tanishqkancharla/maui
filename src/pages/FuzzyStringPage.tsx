@@ -1,6 +1,7 @@
 import { useStyles } from "purse-styles"
 import { useMemo, useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
 import { FuzzyString } from "../components/FuzzyString"
 import { SearchField } from "../components/Input"
 import { Panel } from "../components/Panel"
@@ -70,14 +71,12 @@ export function FuzzyStringPage() {
 
 			<H3>Examples</H3>
 			<Panel>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableHeaderCell>Query</TableHeaderCell>
-							<TableHeaderCell>Text</TableHeaderCell>
-							<TableHeaderCell>Result</TableHeaderCell>
-						</TableRow>
-					</TableHead>
+				<Table aria-label="FuzzyString examples">
+					<TableHeader>
+						<TableHead isRowHeader>Query</TableHead>
+						<TableHead>Text</TableHead>
+						<TableHead>Result</TableHead>
+					</TableHeader>
 					<TableBody>
 						{staticExamples.map((example) => {
 							const match = fuzzyMatch(example.query, example.text)

@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { CodeBlock } from "../components/CodeBlock"
@@ -35,14 +36,12 @@ export function MotionTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Value</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Motion tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Value</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>

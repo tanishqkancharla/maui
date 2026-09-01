@@ -7,7 +7,7 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
@@ -31,14 +31,12 @@ export function ShadowTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Value</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Shadow tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Value</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>
