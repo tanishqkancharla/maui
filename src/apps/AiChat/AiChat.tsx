@@ -20,15 +20,41 @@ type ToolCall =
 	| { id: string; kind: "wrote"; path: string }
 	| { id: string; kind: "shell"; command: string }
 
-type ChatMessage =
-	| { id: string; role: "user"; content: string }
-	| {
-			id: string
-			role: "assistant"
-			content: string
-			toolCalls?: ToolCall[]
-			streaming?: boolean
-	  }
+type UserChatMessage = { id: string; role: "user"; content: string }
+
+type AssistantChatMessage = {
+	id: string
+	role: "assistant"
+	content: string
+	toolCalls?: ToolCall[]
+	streaming?: boolean
+}
+
+type ChatMessage = UserChatMessage | AssistantChatMessage
+
+type ChatTurn = {
+	id: string
+	user?: UserChatMessage
+	assistants: AssistantChatMessage[]
+}
+
+/** Group a user prompt with the assistant replies that follow it so the prompt can stick within its turn. */
+function groupMessages(messages: ChatMessage[]): ChatTurn[] {
+	const turns: ChatTurn[] = []
+	for (const message of messages) {
+		if (message.role === "user") {
+			turns.push({ id: message.id, user: message, assistants: [] })
+			continue
+		}
+		const last = turns.at(-1)
+		if (last) {
+			last.assistants.push(message)
+		} else {
+			turns.push({ id: message.id, assistants: [message] })
+		}
+	}
+	return turns
+}
 
 const welcomeMarkdown = `## Hello
 
@@ -152,6 +178,7 @@ export function AiChat() {
 
 	const shellClassName = useStyles(shellClass)
 	const feedClassName = useStyles(feedClass)
+	const turnClassName = useStyles(turnClass)
 	const assistantRowClassName = useStyles(assistantRowClass)
 	const assistantMessageClassName = useStyles(assistantMessageClass)
 	const toolCallsClassName = useStyles(toolCallsClass)
@@ -245,51 +272,54 @@ export function AiChat() {
 				aria-label="Conversation"
 				aria-relevant="additions"
 			>
-				{messages.map((message) =>
-					message.role === "user" ? (
-						<div key={message.id} className={userRowClassName}>
-							<div className={userBubbleClassName}>{message.content}</div>
-						</div>
-					) : (
-						<div key={message.id} className={assistantRowClassName}>
-							{message.toolCalls && message.toolCalls.length > 0 ? (
-								<div className={toolCallsClassName} aria-label="Tool calls">
-									{message.toolCalls.map((call) => (
-										<div key={call.id} className={toolCallClassName}>
-											{call.kind === "read" ? (
-												<>Read {call.path}</>
-											) : call.kind === "wrote" ? (
-												<>Wrote {call.path}</>
-											) : (
-												<>
-													{"$ "}
-													<span className={toolShellClassName}>
-														{call.command}
-													</span>
-												</>
-											)}
-										</div>
-									))}
-								</div>
-							) : null}
-							{message.content ? (
-								<AssistantMessage
-									size="sm"
-									className={assistantMessageClassName}
-									isAnimating={Boolean(message.streaming)}
-								>
-									{message.content}
-								</AssistantMessage>
-							) : null}
-							{message.streaming ? (
-								<span className={thinkingClassName}>
-									<Thinking size="0.75em" variant="muted" />
-									Thinking
-								</span>
-							) : null}
-						</div>
-					),
-				)}
+				{groupMessages(messages).map((turn) => (
+					<div key={turn.id} className={turnClassName}>
+						{turn.user ? (
+							<div className={userRowClassName}>
+								<div className={userBubbleClassName}>{turn.user.content}</div>
+							</div>
+						) : null}
+						{turn.assistants.map((message) => (
+							<div key={message.id} className={assistantRowClassName}>
+								{message.toolCalls && message.toolCalls.length > 0 ? (
+									<div className={toolCallsClassName} aria-label="Tool calls">
+										{message.toolCalls.map((call) => (
+											<div key={call.id} className={toolCallClassName}>
+												{call.kind === "read" ? (
+													<>Read {call.path}</>
+												) : call.kind === "wrote" ? (
+													<>Wrote {call.path}</>
+												) : (
+													<>
+														{"$ "}
+														<span className={toolShellClassName}>
+															{call.command}
+														</span>
+													</>
+												)}
+											</div>
+										))}
+									</div>
+								) : null}
+								{message.content ? (
+									<AssistantMessage
+										size="sm"
+										className={assistantMessageClassName}
+										isAnimating={Boolean(message.streaming)}
+									>
+										{message.content}
+									</AssistantMessage>
+								) : null}
+								{message.streaming ? (
+									<span className={thinkingClassName}>
+										<Thinking size="0.75em" variant="muted" />
+										Thinking
+									</span>
+								) : null}
+							</div>
+						))}
+					</div>
+				))}
 			</div>
 
 			<div className={composerClassName}>
@@ -320,6 +350,7 @@ export function AiChat() {
 }
 
 const shellClass = style(border([], "outline"), radius.lg, {
+	backgroundColor: backgroundColor.app,
 	display: "flex",
 	flexDirection: "column",
 	minHeight: "560px",
@@ -336,6 +367,12 @@ const feedClass = style(
 		overflowY: "auto",
 	},
 )
+
+const turnClass = style(flex({ direction: "column", gap: 6 }), {
+	minWidth: 0,
+	width: "100%",
+	alignSelf: "stretch",
+})
 
 const assistantRowClass = style(flex({ direction: "column", gap: 3 }), {
 	minWidth: 0,
@@ -362,10 +399,18 @@ const toolCallClass = style(prose("sm").paragraph, {
 
 const toolShellClass = style(monospace)
 
-const userRowClass = style(flex({ justify: "end" }), {
-	minWidth: 0,
-	alignSelf: "stretch",
-})
+const userRowClass = style(
+	flex({ justify: "end" }),
+	spacing.padding({ top: 3 }),
+	{
+		minWidth: 0,
+		alignSelf: "stretch",
+		backgroundColor: backgroundColor.app,
+		position: "sticky",
+		top: 0,
+		zIndex: 1,
+	},
+)
 
 const userBubbleClass = style(
 	prose("sm").paragraph,
