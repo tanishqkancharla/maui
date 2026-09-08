@@ -7,6 +7,7 @@ export const radius = {
 	sm: style({ borderRadius: "4px" }),
 	md: style({ borderRadius: "6px" }),
 	lg: style({ borderRadius: "8px" }),
+	xl: style({ borderRadius: "12px" }),
 	pill: style({ borderRadius: "999px" }),
 	circle: style({ borderRadius: "100%" }),
 } as const

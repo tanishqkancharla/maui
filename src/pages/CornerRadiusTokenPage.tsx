@@ -86,6 +86,17 @@ export function CornerRadiusTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
+							<code>radius.xl</code>
+						</TableCell>
+						<TableCell>
+							<code>12px</code>
+						</TableCell>
+						<TableCell>
+							App shells and large preview frames.
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>radius.pill</code>
 						</TableCell>
 						<TableCell>
@@ -109,7 +120,8 @@ export function CornerRadiusTokenPage() {
 
 			<H3>Example</H3>
 			<CodeBlock lang="typescript">{`const input = style(radius.sm)
-const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
+const dialog = style(radius.md, spacing.padding({ all: 12 }))
+const shell = style(radius.xl)`}</CodeBlock>
 
 			<Panel
 				style={{
@@ -143,6 +155,24 @@ const dialog = style(radius.md, spacing.padding({ all: 12 }))`}</CodeBlock>
 						width: "72px",
 						height: "40px",
 						borderRadius: "6px",
+						background: colors.gray[3],
+						border: `1px solid ${borderColor.outline}`,
+					}}
+				/>
+				<div
+					style={{
+						width: "72px",
+						height: "40px",
+						borderRadius: "8px",
+						background: colors.gray[3],
+						border: `1px solid ${borderColor.outline}`,
+					}}
+				/>
+				<div
+					style={{
+						width: "72px",
+						height: "40px",
+						borderRadius: "12px",
 						background: colors.gray[3],
 						border: `1px solid ${borderColor.outline}`,
 					}}

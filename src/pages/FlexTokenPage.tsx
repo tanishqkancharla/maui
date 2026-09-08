@@ -145,6 +145,7 @@ export function FlexTokenPage() {
 | "sm"
 | "md"
 | "lg"
+| "xl"
 | "pill"
 | "circle"`}
 							</code>

@@ -105,7 +105,7 @@ export const catalog: CatalogComponent[] = [
 			},
 			{
 				name: "radius",
-				values: ["none", "2xs", "xs", "sm", "md", "lg", "pill", "circle"],
+				values: ["none", "2xs", "xs", "sm", "md", "lg", "xl", "pill", "circle"],
 			},
 			{
 				name: "style",
