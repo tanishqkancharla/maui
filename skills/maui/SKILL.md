@@ -53,7 +53,6 @@ Before designing or implementing new UI:
 | A component | [Components](#components) |
 | A pattern | [Patterns](#patterns) |
 | An app | [Apps](#apps) |
-| Live JSX playground | [jsx-editor.md](references/apps/jsx-editor.md) |
 
 Patterns, demo apps, and the gallery `Panel` preview surface are **not** part of the `"maui"` package barrel. Prefer the recipes in those references and rebuild with barrel exports (`Button`, `Flex`, `text(...)`, …).
 
@@ -104,10 +103,6 @@ import { Text as TextIcon } from "maui/icons"
 ```
 
 `size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, `H1`, `H2`, `H3`, `Link`, `Menu`, `Code`, `Blockquote`, `Padding`, `SearchField`) are `TextIcon` / `BadgeIcon` / … from `"maui"`, or the original name from `"maui/icons"` / `Icons.Text`.
-
-## Editor
-
-Gallery top-level `/editor` (not under Apps). Live JSX playground: [jsx-editor.md](references/apps/jsx-editor.md).
 
 ## Components
 
