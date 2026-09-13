@@ -1,3 +1,5 @@
+import { useState } from "react"
+import type { Selection } from "react-aria-components"
 import { Code } from "../components/Code"
 import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
@@ -66,7 +68,10 @@ export function TablePage() {
 				A data table with horizontal dividers and cell padding. Columns live
 				directly in <Code>TableHeader</Code>. Use <Code>align</Code> on{" "}
 				<Code>TableHead</Code> and <Code>TableCell</Code> instead of text
-				alignment classes.
+				alignment classes. Row selection is opt-in via React Aria's{" "}
+				<Code>selectionMode</Code>, <Code>selectedKeys</Code>, and{" "}
+				<Code>onSelectionChange</Code>; tables without those props do not
+				highlight on hover.
 			</P>
 
 			<H3>Invoices</H3>
@@ -100,6 +105,17 @@ export function TablePage() {
 				</figure>
 			</Panel>
 
+			<H3>Selection</H3>
+			<P>
+				Pass <Code>selectionMode="multiple"</Code> to select rows by click or
+				Space. Hover and selected washes follow{" "}
+				<Code>data-selection-mode</Code>, <Code>data-hovered</Code>, and{" "}
+				<Code>data-selected</Code>.
+			</P>
+			<Panel>
+				<InvoiceSelectionTable />
+			</Panel>
+
 			<H3>Empty</H3>
 			<P>
 				Tables need an empty composition. <Code>TableBody</Code> renders “No
@@ -117,5 +133,44 @@ export function TablePage() {
 				</Table>
 			</Panel>
 		</Prose>
+	)
+}
+
+function InvoiceSelectionTable() {
+	const [selectedKeys, setSelectedKeys] = useState<Selection>(
+		new Set(["INV001", "INV004"]),
+	)
+	const selectedLabel =
+		selectedKeys === "all" ? "all" : [...selectedKeys].join(", ")
+
+	return (
+		<figure style={{ margin: 0, width: "100%" }}>
+			<Table
+				aria-label="Selectable invoices"
+				selectionMode="multiple"
+				selectedKeys={selectedKeys}
+				onSelectionChange={setSelectedKeys}
+			>
+				<TableHeader>
+					<TableHead isRowHeader>Invoice</TableHead>
+					<TableHead>Status</TableHead>
+					<TableHead>Method</TableHead>
+					<TableHead align="end">Amount</TableHead>
+				</TableHeader>
+				<TableBody>
+					{invoices.map((invoice) => (
+						<TableRow key={invoice.invoice} id={invoice.invoice}>
+							<TableCell>{invoice.invoice}</TableCell>
+							<TableCell>{invoice.paymentStatus}</TableCell>
+							<TableCell>{invoice.paymentMethod}</TableCell>
+							<TableCell align="end">{invoice.totalAmount}</TableCell>
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
+			<TableCaption>
+				Click a row to toggle it. Selected: {selectedLabel || "none"}.
+			</TableCaption>
+		</figure>
 	)
 }

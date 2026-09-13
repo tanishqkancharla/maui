@@ -80,7 +80,7 @@ const tableFooterClass = style(
 		"& tr:first-child td": {
 			borderTop: `1px solid ${borderColor.border}`,
 		},
-		"& tr:hover td, & tr[data-hovered] td": {
+		"& tr[data-hovered] td, & tr[data-selected] td": {
 			backgroundColor: colors.gray[2],
 		},
 	},
@@ -89,10 +89,10 @@ const tableFooterClass = style(
 const tableRowClass = style({
 	outline: "none",
 	cursor: "default",
-	"&:hover td, &[data-hovered] td": {
+	"&[data-selection-mode][data-hovered] td": {
 		backgroundColor: backgroundColor.elementHover,
 	},
-	"&[data-selected] td": {
+	"&[data-selection-mode][data-selected] td": {
 		backgroundColor: backgroundColor.elementActive,
 	},
 	"&[data-disabled]": {
