@@ -45,14 +45,15 @@ Prefer this skill for composition knowledge — how to assemble tokens, componen
 Before designing or implementing new UI:
 
 1. Read the constraints in this file.
-2. Open the matching reference below and reuse its structure, tokens, and interactions.
+2. Open the matching reference (same grouping as the [gallery nav](https://maui.tanishqkancharla.dev)) and reuse its structure, tokens, and interactions.
 
 | Need | Read |
 | --- | --- |
 | Tokens, `purse-styles`, motion, layout, theme | [references/tokens.md](references/tokens.md) |
-| Component props and composition | [references/components.md](references/components.md) |
-| Sidebar, inbox, messages, streaming markdown | [references/patterns.md](references/patterns.md) |
-| Email client, calendar, AI chat, JSX editor | [references/apps.md](references/apps.md) |
+| A component | [Components](#components) |
+| A pattern | [Patterns](#patterns) |
+| An app | [Apps](#apps) |
+| Live JSX playground | [jsx-editor.md](references/apps/jsx-editor.md) |
 
 Patterns, demo apps, and the gallery `Panel` preview surface are **not** part of the `"maui"` package barrel. Prefer the recipes in those references and rebuild with barrel exports (`Button`, `Flex`, `text(...)`, …).
 
@@ -104,61 +105,56 @@ import { Text as TextIcon } from "maui/icons"
 
 `size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, `H1`, `H2`, `H3`, `Link`, `Menu`, `Code`, `Blockquote`, `Padding`, `SearchField`) are `TextIcon` / `BadgeIcon` / … from `"maui"`, or the original name from `"maui/icons"` / `Icons.Text`.
 
+## Editor
+
+Gallery top-level `/editor` (not under Apps). Live JSX playground: [jsx-editor.md](references/apps/jsx-editor.md).
+
 ## Components
 
-Catalog only — props, examples, and composition live in [references/components.md](references/components.md).
+Gallery order. Props and composition live in the linked file.
 
-### Typography and reading
+| Page | Reference |
+| --- | --- |
+| Avatar | [avatar.md](references/components/avatar.md) |
+| Badge | [badge.md](references/components/badge.md) |
+| Buttons | [buttons.md](references/components/buttons.md) (`Button`, `Overlay`, `Dialog`) |
+| Prose | [prose.md](references/components/prose.md) (`Prose`, `H1`–`H4`, `P`, lists, `Label`, `Link`) |
+| Editor | [editor.md](references/components/editor.md) |
+| Thinking | [thinking.md](references/components/thinking.md) |
+| Crossfade | [crossfade.md](references/components/crossfade.md) |
+| Loading screen | [loading-screen.md](references/components/loading-screen.md) |
+| Text | [text.md](references/components/text.md) |
+| Form controls | [form-controls.md](references/components/form-controls.md) |
+| Select | [select.md](references/components/select.md) |
+| List box | [list-box.md](references/components/list-box.md) |
+| Table | [table.md](references/components/table.md) |
+| Menu | [menu.md](references/components/menu.md) |
+| Tooltip | [tooltip.md](references/components/tooltip.md) |
+| Layout utilities | [layout-utilities.md](references/components/layout-utilities.md) |
+| FuzzyString | [fuzzy-string.md](references/components/fuzzy-string.md) |
+| Icons | [icons.md](references/components/icons.md) |
+| Code | [code.md](references/components/code.md) |
 
-- `Text` — size / weight / color / `monospace` span
-- `H1`–`H4`, `P`, `Label`, `Blockquote`, `Ul`, `Ol`, `Li`, `Link`
-- `Prose` — long-form rhythm; headings switch to the prose scale inside it
-- `Editor` — TipTap markdown surface (CommonMark shortcuts, `proseHtml` type) with no chrome; wrap it for padding, elevation, and actions
+## Patterns
 
-### Form controls
+Not on the `"maui"` barrel. Prefer the recipes; rebuild with barrel exports in consuming apps. Hover fills snap; empty collections get copy.
 
-- `Button` — `variant` is `"default"` | `"quiet"` | `"primary"`; `variantColor` is a palette name, or an opaque hex / `rgb()` string (`#${string}` or `rgb(`). Primary palettes fill step 9 (hover 10) with light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow). A CSS color is used as the fill (alpha is dropped; hover is `l - 0.04`; text is white or near-black from lightness). The edge is `tintedSubtle`. Quiet + color uses a 3.5% wash of the fill (hover 7%). Disable with React Aria’s `isDisabled` (maps to the native `disabled` attribute; no parallel `disabled` React prop).
-- `TextField`, `SearchField`, `NumberField`, `QuietTextField`
-- `Checkbox`, `Switch`, `Slider`
-- `RadioOptionGroup` / `RadioOption`
-- `Select` / `SelectItem`
-
-### Collections and overlays
-
-- `ListBox` / `ListBoxItem`
-- `MenuTrigger` / `Menu` / `MenuItem`
-- `Tooltip`
-- `CollectionPopover` — shared popover used by Select and Menu
-- `Overlay`, `Dialog`
-
-### Display
-
-- `Avatar`
-- `Badge`
-- `Code`, `Kbd`, `CodeBlock`
-- `Table` — React Aria table. `TableHeader` contains `TableHead` columns directly (no `TableRow`). Mark the identifying column with `isRowHeader` (required; usually the name/id column, not a leading checkbox or drag handle). When `selectionMode` is `"multiple"`, `TableHeader` and `TableRow` insert a leading checkbox column (`Checkbox slot="selection"`). `align` on `TableHead` / `TableCell` is `"start"` | `"center"` | `"end"`. `TableFooter` fills with `colors.gray[2]`. Place `TableCaption` after `Table`. `TableBody` renders “No results.” when empty; pass `renderEmptyState` to replace it.
-- `FuzzyString` — highlight segments; takes a match result, not a plain string
-- `Thinking` — 3×3 Game of Life indicator; reseeds when the board dies or loops
-- `Crossfade` — when `contentKey` changes, fades the previous view out in `direction` (`up` | `down` | `left` | `right`), then fades the new view in from the opposite side. `contentKey` is required. Do not put `key` on `Crossfade` itself or the exit is skipped.
-- `LoadingScreen` — fills available width and height. Optional `progressLabel`. Label at start fades Thinking (accent, small / `0.8em`) and the label (accent, weight 500, trailing `...`) in together; later label changes Crossfade up. With no label at start, Thinking waits 2s before fading in; a label before 2s fades both in immediately; a label after 2s animates in and shifts Thinking so the pair stays centered.
-
-## Patterns and apps
-
-Not on the `"maui"` barrel. Prefer the recipes here; rebuild with barrel exports in consuming apps.
-
-| Pattern | Role | Reference |
+| Page | Role | Reference |
 | --- | --- | --- |
-| Sidebar | 240px nav: sections, active item, optional icon and trailing badge | [patterns.md](references/patterns.md#sidebar) |
-| Inbox / InboxMultiLine | Mail thread list with unread dot, hover actions, selection | [patterns.md](references/patterns.md#inbox) |
-| MessageList / Message | Thread of raised message cards (avatar + Prose body) | [patterns.md](references/patterns.md#message-list) |
-| AssistantMessage | Streaming markdown reply (Streamdown + Maui prose + CodeBlock) | [patterns.md](references/patterns.md#assistant-message) |
+| Inbox | Mail thread list with unread dot, hover actions, selection | [inbox.md](references/patterns/inbox.md) |
+| Message list | Thread of raised message cards (avatar + Prose body) | [message-list.md](references/patterns/message-list.md) |
+| Assistant message | Streaming markdown reply (Streamdown + Maui prose + CodeBlock) | [assistant-message.md](references/patterns/assistant-message.md) |
+| Sidebar | 240px nav: sections, active item, optional icon and trailing badge | [sidebar.md](references/patterns/sidebar.md) |
 
-| App | Role | Reference |
+## Apps
+
+Not on the `"maui"` barrel. Prefer these layouts; rebuild with barrel exports.
+
+| Page | Role | Reference |
 | --- | --- | --- |
-| Email client | Two-pane inbox + reading pane | [apps.md](references/apps.md#email-client) |
-| AI chat | Mock streaming chat (Editor + AssistantMessage + Thinking) | [apps.md](references/apps.md#ai-chat) |
-| Calendar | Three-pane schedule (mini month, week grid, event details) | [apps.md](references/apps.md#calendar) |
-| JSX editor | Live JSX playground (CodeMirror + Maui catalog) | [apps.md](references/apps.md#jsx-editor) |
+| Email client | Two-pane inbox + reading pane | [email-client.md](references/apps/email-client.md) |
+| AI chat | Mock streaming chat (Editor + AssistantMessage + Thinking) | [ai-chat.md](references/apps/ai-chat.md) |
+| Calendar | Three-pane schedule (mini month, week grid, event details) | [calendar.md](references/apps/calendar.md) |
 
 ## License
 
