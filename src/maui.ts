@@ -109,6 +109,8 @@ export {
 export {
 	Crossfade,
 	crossfadeOffsetPx,
+	crossfadeEnterTransition,
+	crossfadeExitTransition,
 	type CrossfadeProps,
 	type CrossfadeDirection,
 	type CrossfadeMode,

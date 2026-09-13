@@ -18,16 +18,29 @@ import { cls } from "../utils/cls"
 
 export type CrossfadeDirection = "up" | "down" | "left" | "right"
 
-/** AnimatePresence sequencing. `wait` finishes the exit before the enter starts. */
+/** AnimatePresence sequencing. `sync` overlaps exit and enter. */
 export type CrossfadeMode = "sync" | "wait" | "popLayout"
 
 /** Travel distance used when `offset` is omitted — spacing step 6. */
 export const crossfadeOffsetPx = Number.parseFloat(spacing.value(6))
 
+/** Incoming view. Tuned in the gallery studio; exit still uses the 80ms token. */
+export const crossfadeEnterTransition: Transition = {
+	type: "spring",
+	visualDuration: 0.3,
+	bounce: 0.2,
+}
+
+/** Outgoing view. `motionDurationMs` + CSS ease-in-out (`motionEasing`). */
+export const crossfadeExitTransition: Transition = {
+	duration: motionDurationMs / 1000,
+	ease: [0.42, 0, 0.58, 1],
+}
+
 export type CrossfadeProps = {
 	children: ReactNode
-	/** Axis the outgoing view travels along as it fades out. Incoming view enters from the opposite side. */
-	direction: CrossfadeDirection
+	/** Axis the outgoing view travels along as it fades out. Incoming view enters from the opposite side. Defaults to `"left"`. */
+	direction?: CrossfadeDirection
 	/**
 	 * Identity of the current view. When this changes, the previous children
 	 * fade out, then the new children fade in. Do not put `key` on
@@ -36,17 +49,14 @@ export type CrossfadeProps = {
 	contentKey: Key
 	className?: string
 	style?: CSSProperties
-	/**
-	 * Motion transition for the incoming view. Defaults to
-	 * `motionDurationMs` with `easeInOut` (`motionEasing`).
-	 */
+	/** Motion transition for the incoming view. Defaults to `crossfadeEnterTransition`. */
 	enterTransition?: Transition
 	/**
-	 * Motion transition for the outgoing view. Defaults to the same
-	 * token-backed tween as `enterTransition`.
+	 * Motion transition for the outgoing view. Defaults to
+	 * `crossfadeExitTransition` (`motionDurationMs` / `motionEasing`).
 	 */
 	exitTransition?: Transition
-	/** AnimatePresence mode. Defaults to `"wait"`. */
+	/** AnimatePresence mode. Defaults to `"sync"`. */
 	mode?: CrossfadeMode
 	/** Travel distance in pixels. Defaults to `crossfadeOffsetPx`. */
 	offset?: number
@@ -59,11 +69,6 @@ export type CrossfadeProps = {
 	reduceMotion?: boolean
 	/** Run the enter animation on the first view. Defaults to false. */
 	playInitial?: boolean
-}
-
-const defaultTransition: Transition = {
-	duration: motionDurationMs / 1000,
-	ease: "easeInOut",
 }
 
 function shift(
@@ -120,13 +125,13 @@ function fadeVariants(exitTransition: Transition): Variants {
  */
 export function Crossfade({
 	children,
-	direction,
+	direction = "left",
 	contentKey,
 	className,
 	style: styleProp,
-	enterTransition = defaultTransition,
-	exitTransition = defaultTransition,
-	mode = "wait",
+	enterTransition = crossfadeEnterTransition,
+	exitTransition = crossfadeExitTransition,
+	mode = "sync",
 	offset = crossfadeOffsetPx,
 	clip = true,
 	reduceMotion: reduceMotionProp,

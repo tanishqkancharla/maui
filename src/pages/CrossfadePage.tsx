@@ -7,7 +7,7 @@ import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { RadioOption, RadioOptionGroup } from "../components/Radio"
 import { Text } from "../components/Text"
-import { H2, H3, Link, P } from "../components/Typography"
+import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
 const directions: CrossfadeDirection[] = ["up", "down", "left", "right"]
@@ -40,7 +40,7 @@ function isDirection(value: string): value is CrossfadeDirection {
 }
 
 export function CrossfadePage() {
-	const [direction, setDirection] = useState<CrossfadeDirection>("up")
+	const [direction, setDirection] = useState<CrossfadeDirection>("left")
 	const [index, setIndex] = useState(0)
 	const slide = slides[index] ?? slides[0]
 
@@ -48,14 +48,13 @@ export function CrossfadePage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Crossfade</H2>
 			<P>
-				When <code>contentKey</code> changes, Crossfade fades the previous view
-				out in <code>direction</code>, then fades the new view in from the
-				opposite side. <code>contentKey</code> is required — putting{" "}
-				<code>key</code> on Crossfade itself remounts the wrapper and skips the
-				exit. Duration and easing default to{" "}
-				<code>motionDurationMs</code> and <code>motionEasing</code>.{" "}
-				<Link href="/studio/crossfade">Open the Crossfade studio</Link> to
-				tune timing, easing, wait mode, and offset.
+				When <code>contentKey</code> changes, the previous view exits in{" "}
+				<code>direction</code> while the next view enters from the opposite
+				side. <code>contentKey</code> is required — putting <code>key</code>{" "}
+				on Crossfade itself remounts the wrapper and skips the exit. Enter
+				defaults to a 0.3s spring (bounce 0.2); exit uses{" "}
+				<code>motionDurationMs</code> / <code>motionEasing</code>. Mode
+				defaults to <code>sync</code>, direction to <code>left</code>.
 			</P>
 
 			<H3>Playground</H3>
@@ -131,7 +130,7 @@ export function CrossfadePage() {
 			<CodeBlock lang="tsx">{`const [index, setIndex] = useState(0)
 const slide = slides[index]
 
-<Crossfade direction="up" contentKey={slide.id}>
+<Crossfade contentKey={slide.id}>
 	<Text size="lg">{slide.title}</Text>
 </Crossfade>`}</CodeBlock>
 		</Prose>
