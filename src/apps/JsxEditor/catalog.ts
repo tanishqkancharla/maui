@@ -424,7 +424,7 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Crossfade",
-		info: "Fades previous children out in direction, then fades the next view in. contentKey is required and identifies the current view.",
+		info: "Fades previous children out in direction while the next view enters from the opposite side. contentKey is required.",
 		attributes: [
 			{
 				name: "direction",

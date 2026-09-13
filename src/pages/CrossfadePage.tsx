@@ -40,7 +40,7 @@ function isDirection(value: string): value is CrossfadeDirection {
 }
 
 export function CrossfadePage() {
-	const [direction, setDirection] = useState<CrossfadeDirection>("up")
+	const [direction, setDirection] = useState<CrossfadeDirection>("left")
 	const [index, setIndex] = useState(0)
 	const slide = slides[index] ?? slides[0]
 
@@ -48,11 +48,10 @@ export function CrossfadePage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Crossfade</H2>
 			<P>
-				When <code>contentKey</code> changes, Crossfade fades the previous view
-				out in <code>direction</code>, then fades the new view in from the
-				opposite side. <code>contentKey</code> is required — putting{" "}
-				<code>key</code> on Crossfade itself remounts the wrapper and skips the
-				exit.
+				When <code>contentKey</code> changes, the previous view exits in{" "}
+				<code>direction</code> while the next view enters from the opposite
+				side. <code>contentKey</code> is required — putting <code>key</code>{" "}
+				on Crossfade itself remounts the wrapper and skips the exit.
 			</P>
 
 			<H3>Playground</H3>
@@ -128,7 +127,7 @@ export function CrossfadePage() {
 			<CodeBlock lang="tsx">{`const [index, setIndex] = useState(0)
 const slide = slides[index]
 
-<Crossfade direction="up" contentKey={slide.id}>
+<Crossfade direction="left" contentKey={slide.id}>
 	<Text size="lg">{slide.title}</Text>
 </Crossfade>`}</CodeBlock>
 		</Prose>

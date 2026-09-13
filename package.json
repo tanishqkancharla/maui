@@ -1,6 +1,6 @@
 {
 	"name": "@tanishqkancharla/maui",
-	"version": "0.0.20",
+	"version": "0.0.21",
 	"description": "Maui design system",
 	"type": "module",
 	"main": "./dist/maui.js",
@@ -75,6 +75,7 @@
 		"@vitejs/plugin-react": "^6.0.2",
 		"agentation": "^3.0.2",
 		"agentation-mcp": "^1.2.0",
+		"dialkit": "^2.0.2",
 		"esbuild": "^0.28.0",
 		"libretto-browser-tools": "^0.1.2",
 		"process": "^0.11.10",

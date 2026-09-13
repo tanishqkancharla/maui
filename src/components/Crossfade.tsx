@@ -3,6 +3,7 @@ import {
 	AnimatePresence,
 	motion,
 	useReducedMotion,
+	type Transition,
 	type Variants,
 } from "motion/react"
 import { style, useStyles } from "purse-styles"
@@ -27,6 +28,17 @@ export type CrossfadeProps = {
 }
 
 const OFFSET_PX = Number.parseFloat(spacing.value(6))
+
+const enterTransition: Transition = {
+	type: "spring",
+	visualDuration: 0.3,
+	bounce: 0.2,
+}
+
+const exitTransition: Transition = {
+	duration: motionDurationMs / 1000,
+	ease: [0.42, 0, 0.58, 1],
+}
 
 function shift(
 	direction: CrossfadeDirection,
@@ -58,13 +70,14 @@ const travelVariants: Variants = {
 	exit: (direction: CrossfadeDirection) => ({
 		opacity: 0,
 		...shift(direction, 1),
+		transition: exitTransition,
 	}),
 }
 
 const fadeVariants: Variants = {
 	initial: { opacity: 0 },
 	animate: { opacity: 1 },
-	exit: { opacity: 0 },
+	exit: { opacity: 0, transition: exitTransition },
 }
 
 /**
@@ -89,7 +102,7 @@ export function Crossfade({
 			style={styleProp}
 			data-direction={direction}
 		>
-			<AnimatePresence mode="wait" initial={false} custom={direction}>
+			<AnimatePresence mode="sync" initial={false} custom={direction}>
 				<motion.div
 					key={contentKey}
 					className={layerClassName}
@@ -98,10 +111,7 @@ export function Crossfade({
 					initial="initial"
 					animate="animate"
 					exit="exit"
-					transition={{
-						duration: motionDurationMs / 1000,
-						ease: "easeInOut",
-					}}
+					transition={enterTransition}
 				>
 					{children}
 				</motion.div>

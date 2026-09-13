@@ -196,7 +196,7 @@ motion.standard("opacity", "transform")  // 80ms ease-in-out on those properties
 
 Use `motion.standard` for opacity, transform, box-shadow, color. **Never** for hover `background` / `background-color`.
 
-Tooltips use a snappy spring (not `motion.standard`). Crossfade uses `motionDurationMs`. Streaming markdown uses `motionStreamDurationMs`.
+Tooltips use a snappy spring (not `motion.standard`). Crossfade enter is a 0.3s spring (`bounce` 0.2); exit uses `motionDurationMs` / ease-in-out. Streaming markdown uses `motionStreamDurationMs`.
 
 ## Sizing and icons
 

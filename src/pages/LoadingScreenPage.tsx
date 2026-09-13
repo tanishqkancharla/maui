@@ -167,7 +167,7 @@ export function LoadingScreenPage() {
 					</Button>
 					<Button
 						onClick={() => setEarlyLabel("Connecting")}
-						disabled={earlyLabel !== undefined}
+						isDisabled={earlyLabel !== undefined}
 					>
 						Set label now
 					</Button>
@@ -198,7 +198,7 @@ export function LoadingScreenPage() {
 					</Button>
 					<Button
 						onClick={() => setLateLabel("Still working")}
-						disabled={lateLabel !== undefined}
+						isDisabled={lateLabel !== undefined}
 					>
 						Set label after wait
 					</Button>
