@@ -111,6 +111,10 @@ export {
 	type CrossfadeProps,
 	type CrossfadeDirection,
 } from "./components/Crossfade"
+export {
+	LoadingScreen,
+	type LoadingScreenProps,
+} from "./components/LoadingScreen"
 export { Icons, type IconProps } from "./components/Icons"
 export * from "./icons/root"
 export {
