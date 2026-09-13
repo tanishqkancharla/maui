@@ -32,7 +32,11 @@ function DemoFrame(props: { children: ReactNode; label: string }) {
 	)
 }
 
-function Elapsed(props: { running: boolean; resetKey: number }) {
+function Elapsed(props: {
+	running: boolean
+	resetKey: number
+	capMs?: number
+}) {
 	const [ms, setMs] = useState(0)
 
 	useEffect(() => {
@@ -43,10 +47,16 @@ function Elapsed(props: { running: boolean; resetKey: number }) {
 		setMs(0)
 		const started = Date.now()
 		const id = window.setInterval(() => {
-			setMs(Date.now() - started)
+			const elapsed = Date.now() - started
+			const next =
+				props.capMs === undefined ? elapsed : Math.min(elapsed, props.capMs)
+			setMs(next)
+			if (props.capMs !== undefined && elapsed >= props.capMs) {
+				window.clearInterval(id)
+			}
 		}, 100)
 		return () => window.clearInterval(id)
-	}, [props.running, props.resetKey])
+	}, [props.running, props.resetKey, props.capMs])
 
 	const seconds = (ms / 1000).toFixed(1)
 
@@ -133,7 +143,7 @@ export function LoadingScreenPage() {
 					<Button onClick={() => setDelayedKey((value) => value + 1)}>
 						Replay wait
 					</Button>
-					<Elapsed running resetKey={delayedKey} />
+					<Elapsed running resetKey={delayedKey} capMs={2000} />
 				</Flex>
 				<DemoFrame label="Loading screen with no progress label">
 					<LoadingScreen key={delayedKey} />
