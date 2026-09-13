@@ -8,7 +8,7 @@ Shared rules: hover fills snap (no background transition); empty collections get
 
 ## Sidebar
 
-Fixed **240px** nav: raised `background.element` + `shadow.subtle` + `radius.lg`, column `gap={8}`, padding step 2.
+`Sidebar` / `SidebarSection` / `SidebarItem`: fixed **240px** nav: raised `background.element` + `shadow.subtle` + `radius.lg`, column `gap={8}`, padding step 2.
 
 Composition:
 
@@ -45,7 +45,7 @@ Hover: `backgroundColor.elementHover`, instant.
 
 ## Inbox
 
-Mail **thread list**, not a table. Two densities:
+`Inbox` / `InboxMultiLine`: mail **thread list**, not a table. Two densities:
 
 | | `Inbox` (single line) | `InboxMultiLine` |
 | --- | --- | --- |
@@ -82,7 +82,7 @@ Email client uses **InboxMultiLine** in a 240px pane (see [apps.md](apps.md#emai
 
 ## Message list
 
-Raised **cards** in a column (`gap` 6, max width ~760px), `role="feed"`.
+`MessageList` + `Message`: raised **cards** in a column (`gap` 6, max width ~760px), `role="feed"`.
 
 Each `Message`:
 
@@ -106,7 +106,7 @@ Each `Message`:
 
 ## Assistant message
 
-Streaming **markdown reply**. Same reading scale as `Prose` (`proseHtml(size)`), max width `proseMaxWidth`.
+`AssistantMessage`: streaming **markdown reply**. Same reading scale as `Prose` (`proseHtml(size)`), max width `proseMaxWidth`.
 
 ```tsx
 <AssistantMessage size="sm" isAnimating={streaming}>
