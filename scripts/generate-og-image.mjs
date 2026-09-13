@@ -22,8 +22,8 @@ const WIDTH = 1200
 const HEIGHT = 630
 const FAVICON_SIZE = 32
 const APPLE_TOUCH_SIZE = 180
-// 32×32 viewBox radius. Previous r=6.4; √0.5 scales area to 50%.
-const FAVICON_DOT_RADIUS = 6.4 * Math.SQRT1_2
+// 32×32 viewBox radius. Original r=6.4; √0.4 scales area to 40%.
+const FAVICON_DOT_RADIUS = 6.4 * Math.sqrt(0.4)
 
 // Match Maui light / dark tokens (Radix teal → violet accent, gray scale).
 const themes = {
