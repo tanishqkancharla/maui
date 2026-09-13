@@ -1,9 +1,17 @@
 import { javascript } from "@codemirror/lang-javascript"
 import type { EditorView } from "@codemirror/view"
+import { debounce } from "lodash"
 import { style, useStyles } from "purse-styles"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react"
 import CodeMirror from "@uiw/react-codemirror"
-import { useTheme } from "../../theme/ThemeContext"
+import { useTheme, type ThemePreference } from "../../theme/ThemeContext"
 import { backgroundColor } from "../../tokens/background"
 import { border } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
@@ -29,6 +37,13 @@ import {
 	mauiJsxLinter,
 } from "./lint"
 import { prettifyJsx, printWidthFromEditor } from "./prettify"
+import {
+	decodeEditorUrlState,
+	editorPath,
+	editorUrlDebounceMs,
+	readEditorUrlState,
+	writeEditorUrlState,
+} from "./urlState"
 
 const STORAGE_KEY = "maui-jsx-editor"
 
@@ -41,11 +56,21 @@ function readStoredSource(): string {
 	}
 }
 
+function readInitialSource(): string {
+	const fromHash = readEditorUrlState()
+	if (fromHash) {
+		return fromHash.source
+	}
+	return readStoredSource()
+}
+
 export function JsxEditor() {
-	const { resolvedTheme } = useTheme()
-	const [source, setSource] = useState(readStoredSource)
+	const { preference, resolvedTheme, setPreference } = useTheme()
+	const [source, setSource] = useState(readInitialSource)
 	const sourceRef = useRef(source)
 	sourceRef.current = source
+	const preferenceRef = useRef(preference)
+	preferenceRef.current = preference
 	const editorViewRef = useRef<EditorView | null>(null)
 
 	const shellClassName = useStyles(shellClass)
@@ -68,6 +93,69 @@ export function JsxEditor() {
 			// Ignore quota / private-mode failures.
 		}
 	}, [source])
+
+	useLayoutEffect(() => {
+		const fromHash = readEditorUrlState()
+		if (fromHash?.theme) {
+			setPreference(fromHash.theme)
+		}
+	}, [setPreference])
+
+	const writeUrl = useMemo(
+		() =>
+			debounce((nextSource: string, nextTheme: ThemePreference) => {
+				writeEditorUrlState({ source: nextSource, theme: nextTheme })
+			}, editorUrlDebounceMs),
+		[],
+	)
+
+	useEffect(() => {
+		writeUrl(source, preference)
+	}, [preference, source, writeUrl])
+
+	useEffect(() => {
+		return () => {
+			writeUrl.flush()
+			writeUrl.cancel()
+		}
+	}, [writeUrl])
+
+	useEffect(() => {
+		function syncFromHash() {
+			const parsed = decodeEditorUrlState(window.location.hash)
+			if (!parsed) {
+				return
+			}
+			if (parsed.source !== sourceRef.current) {
+				setSource(parsed.source)
+			}
+			if (parsed.theme && parsed.theme !== preferenceRef.current) {
+				setPreference(parsed.theme)
+			}
+		}
+
+		function restoreHashIfCleared() {
+			if (window.location.pathname !== editorPath) {
+				return
+			}
+			if (window.location.hash) {
+				return
+			}
+			writeEditorUrlState({
+				source: sourceRef.current,
+				theme: preferenceRef.current,
+			})
+		}
+
+		window.addEventListener("hashchange", syncFromHash)
+		window.addEventListener("pushState", restoreHashIfCleared)
+		window.addEventListener("popstate", restoreHashIfCleared)
+		return () => {
+			window.removeEventListener("hashchange", syncFromHash)
+			window.removeEventListener("pushState", restoreHashIfCleared)
+			window.removeEventListener("popstate", restoreHashIfCleared)
+		}
+	}, [setPreference])
 
 	const compiled = useMemo(() => evaluateJsx(source), [source])
 	const [preview, setPreview] = useState<React.ReactNode>(() => {
