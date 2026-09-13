@@ -1,12 +1,15 @@
 import type { ReactNode } from "react"
 import {
 	Cell as AriaCell,
+	Checkbox as AriaCheckbox,
+	Collection,
 	Column as AriaColumn,
 	Row as AriaRow,
 	Table as AriaTable,
 	TableBody as AriaTableBody,
 	TableFooter as AriaTableFooter,
 	TableHeader as AriaTableHeader,
+	useTableOptions,
 	type CellProps as AriaCellProps,
 	type ColumnProps as AriaColumnProps,
 	type RowProps as AriaRowProps,
@@ -20,6 +23,9 @@ import { backgroundColor } from "../tokens/background"
 import { border, borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { flex } from "../tokens/layout"
+import { radius } from "../tokens/radius"
+import { shadow, shadowVars } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
@@ -133,6 +139,92 @@ const emptyStateClass = style(
 	},
 )
 
+const tableSelectionCheckboxClass = style(
+	flex({ align: "center", justify: "center" }),
+	focusRing("&[data-focus-visible] .checkbox-toggle", shadowVars.subtle),
+	{
+		position: "relative",
+		width: "fit-content",
+		cursor: "default",
+		"& input": {
+			position: "absolute",
+			width: "1px",
+			height: "1px",
+			padding: 0,
+			margin: "-1px",
+			overflow: "hidden",
+			clip: "rect(0, 0, 0, 0)",
+			whiteSpace: "nowrap",
+			border: 0,
+		},
+		"&[data-hovered] .checkbox-toggle": {
+			backgroundColor: backgroundColor.elementHover,
+		},
+		"&[data-selected] .checkbox-toggle, &[data-indeterminate] .checkbox-toggle":
+			{
+				backgroundColor: colors.accent[9],
+			},
+		"&[data-selected] .checkbox-icon, &[data-indeterminate] .checkbox-icon": {
+			opacity: 1,
+			transform: "scale(1)",
+		},
+	},
+)
+
+const tableSelectionToggleClass = style(
+	flex({ align: "center", justify: "center" }),
+	radius["2xs"],
+	shadow.subtle,
+	{
+		pointerEvents: "none",
+		width: "14px",
+		height: "14px",
+		backgroundColor: backgroundColor.element,
+	},
+)
+
+const tableSelectionIconClass = style({
+	width: "10px",
+	height: "10px",
+	paddingTop: "0.5px",
+	paddingLeft: "0.5px",
+	fill: colors.gray[3],
+	opacity: 0,
+	transform: "scale(0)",
+})
+
+function useMultipleSelectionCheckboxes() {
+	const { selectionMode, selectionBehavior } = useTableOptions()
+	return selectionMode === "multiple" && selectionBehavior === "toggle"
+}
+
+function TableSelectionCheckbox() {
+	const className = useStyles(tableSelectionCheckboxClass)
+	const toggleClassName = useStyles(tableSelectionToggleClass)
+	const iconClassName = useStyles(tableSelectionIconClass)
+
+	return (
+		<AriaCheckbox slot="selection" className={className}>
+			{({ isIndeterminate }) => (
+				<span className={`${toggleClassName} checkbox-toggle`}>
+					<svg
+						focusable="false"
+						aria-hidden="true"
+						className={`${iconClassName} checkbox-icon`}
+						viewBox="0 0 11 11"
+					>
+						{isIndeterminate ? (
+							<rect x="2" y="4.75" width="7" height="1.5" rx="0.5" />
+						) : (
+							<path d="M3.788 9A.999.999 0 0 1 3 8.615l-2.288-3a1 1 0 1 1 1.576-1.23l1.5 1.991 3.924-4.991a1 1 0 1 1 1.576 1.23l-4.712 6A.999.999 0 0 1 3.788 9z" />
+						)}
+					</svg>
+				</span>
+			)}
+		</AriaCheckbox>
+	)
+}
+
 export interface TableProps extends Omit<AriaTableProps, "className"> {}
 
 export function Table(props: TableProps) {
@@ -149,12 +241,33 @@ export function Table(props: TableProps) {
 export interface TableHeaderProps<T>
 	extends Omit<AriaTableHeaderProps<T>, "className"> {}
 
-export function TableHeader<T extends object = object>(
-	props: TableHeaderProps<T>,
-) {
+export function TableHeader<T extends object = object>({
+	children,
+	columns,
+	...props
+}: TableHeaderProps<T>) {
 	const className = useStyles(tableHeaderClass)
+	const showSelectionCheckboxes = useMultipleSelectionCheckboxes()
 
-	return <AriaTableHeader {...props} className={className} />
+	return (
+		<AriaTableHeader {...props} className={className}>
+			{showSelectionCheckboxes && (
+				<TableHead
+					align="center"
+					width={32}
+					minWidth={32}
+					style={{ width: 32, minWidth: 32 }}
+				>
+					<TableSelectionCheckbox />
+				</TableHead>
+			)}
+			{typeof children === "function" ? (
+				<Collection items={columns}>{children}</Collection>
+			) : (
+				children
+			)}
+		</AriaTableHeader>
+	)
 }
 
 export interface TableHeadProps extends Omit<AriaColumnProps, "className"> {
@@ -200,10 +313,28 @@ export function TableFooter<T extends object = object>(
 export interface TableRowProps<T>
 	extends Omit<AriaRowProps<T>, "className"> {}
 
-export function TableRow<T extends object = object>(props: TableRowProps<T>) {
+export function TableRow<T extends object = object>({
+	children,
+	columns,
+	...props
+}: TableRowProps<T>) {
 	const className = useStyles(tableRowClass)
+	const showSelectionCheckboxes = useMultipleSelectionCheckboxes()
 
-	return <AriaRow {...props} className={className} />
+	return (
+		<AriaRow {...props} className={className}>
+			{showSelectionCheckboxes && (
+				<TableCell align="center">
+					<TableSelectionCheckbox />
+				</TableCell>
+			)}
+			{typeof children === "function" ? (
+				<Collection items={columns}>{children}</Collection>
+			) : (
+				children
+			)}
+		</AriaRow>
+	)
 }
 
 export interface TableCellProps extends Omit<AriaCellProps, "className"> {

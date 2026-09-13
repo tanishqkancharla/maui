@@ -107,10 +107,10 @@ export function TablePage() {
 
 			<H3>Selection</H3>
 			<P>
-				Pass <Code>selectionMode="multiple"</Code> to select rows by click or
-				Space. Hover and selected washes follow{" "}
-				<Code>data-selection-mode</Code>, <Code>data-hovered</Code>, and{" "}
-				<Code>data-selected</Code>.
+				Pass <Code>selectionMode="multiple"</Code> for a leading checkbox
+				column (select-all in the header, one per row). Hover and selected
+				washes follow <Code>data-selection-mode</Code>,{" "}
+				<Code>data-hovered</Code>, and <Code>data-selected</Code>.
 			</P>
 			<Panel>
 				<InvoiceSelectionTable />
@@ -169,7 +169,8 @@ function InvoiceSelectionTable() {
 				</TableBody>
 			</Table>
 			<TableCaption>
-				Click a row to toggle it. Selected: {selectedLabel || "none"}.
+				Use the checkboxes or click a row to toggle. Selected:{" "}
+				{selectedLabel || "none"}.
 			</TableCaption>
 		</figure>
 	)
