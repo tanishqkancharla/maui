@@ -120,7 +120,7 @@ import { Text as TextIcon } from "maui/icons"
 - `FuzzyString` — highlight segments; takes a match result, not a plain string
 - `Thinking` — 3×3 Game of Life indicator; reseeds when the board dies or loops
 - `Crossfade` — when `contentKey` changes, fades the previous view out in `direction` (`up` | `down` | `left` | `right`), then fades the new view in from the opposite side. `contentKey` is required. Do not put `key` on `Crossfade` itself or the exit is skipped.
-- `LoadingScreen` — fills available width and height. Optional `progressLabel`. Label at start fades Thinking (primary, small) and the label (with trailing `...`) in together; later label changes Crossfade up. With no label at start, Thinking waits 2s before fading in; a label before 2s fades both in immediately; a label after 2s animates in and shifts Thinking so the pair stays centered.
+- `LoadingScreen` — fills available width and height. Optional `progressLabel`. Label at start fades Thinking (accent, small / `0.8em`) and the label (with trailing `...`) in together; later label changes Crossfade up. With no label at start, Thinking waits 2s before fading in; a label before 2s fades both in immediately; a label after 2s animates in and shifts Thinking so the pair stays centered.
 
 ## Reference: patterns and apps
 

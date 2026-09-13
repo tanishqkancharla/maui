@@ -7,8 +7,8 @@ import {
 import { style, useStyles } from "purse-styles"
 import { motionDurationMs } from "../tokens/motion"
 import { radius } from "../tokens/radius"
-import { iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
+import { text } from "../tokens/text"
 import { cls } from "../utils/cls"
 import { Crossfade } from "./Crossfade"
 import { Text } from "./Text"
@@ -92,8 +92,8 @@ export function LoadingScreen({
 						transition={transition}
 					>
 						<Thinking
-							variant="primary"
-							size={iconSizeValues.sm}
+							variant="accent"
+							size="0.8em"
 							aria-label={label ?? "Loading"}
 						/>
 						<AnimatePresence initial={false}>
@@ -149,12 +149,15 @@ const rootClass = style(radius.lg, {
 	overflow: "hidden",
 })
 
-const stackClass = style({
-	display: "flex",
-	flexDirection: "column",
-	alignItems: "center",
-	minWidth: 0,
-})
+const stackClass = style(
+	text({ size: "md", fontWeight: 400, color: "highContrast" }),
+	{
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		minWidth: 0,
+	},
+)
 
 const labelSlotClass = style({
 	overflow: "hidden",
