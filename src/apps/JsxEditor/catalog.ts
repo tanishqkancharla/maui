@@ -423,13 +423,13 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Crossfade",
-		info: "Fades previous children out in direction, then fades the next view in. Pass contentKey when the child is not keyed.",
+		info: "Fades previous children out in direction, then fades the next view in. contentKey is required and identifies the current view.",
 		attributes: [
 			{
 				name: "direction",
 				values: ["up", "down", "left", "right"],
 			},
-			{ name: "contentKey", info: "Identity of the current view" },
+			{ name: "contentKey", info: "Required identity of the current view" },
 			{ name: "className" },
 		],
 	},

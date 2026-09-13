@@ -48,11 +48,11 @@ export function CrossfadePage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Crossfade</H2>
 			<P>
-				When the identified content changes, Crossfade fades the previous view
+				When <code>contentKey</code> changes, Crossfade fades the previous view
 				out in <code>direction</code>, then fades the new view in from the
-				opposite side. Pass <code>contentKey</code> so the transition tracks
-				the view — putting <code>key</code> on Crossfade itself remounts the
-				wrapper and skips the exit.
+				opposite side. <code>contentKey</code> is required — putting{" "}
+				<code>key</code> on Crossfade itself remounts the wrapper and skips the
+				exit.
 			</P>
 
 			<H3>Playground</H3>
