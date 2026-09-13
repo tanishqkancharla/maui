@@ -167,11 +167,11 @@ function CrossfadeStudio() {
 			},
 			offset: [crossfadeOffsetPx, 0, 64, 1],
 			clip: true,
-			motion: {
+			travel: {
 				type: "select",
 				options: [
-					{ value: "auto", label: "Auto (prefers-reduced-motion)" },
-					{ value: "travel", label: "Always travel" },
+					{ value: "auto", label: "System" },
+					{ value: "travel", label: "Travel" },
 					{ value: "fade", label: "Fade only" },
 				],
 				default: "auto",
@@ -202,7 +202,7 @@ function CrossfadeStudio() {
 	const values = dial.values
 	const direction = isDirection(values.direction) ? values.direction : "up"
 	const mode = isMode(values.mode) ? values.mode : "wait"
-	const motionMode = isMotionMode(values.motion) ? values.motion : "auto"
+	const motionMode = isMotionMode(values.travel) ? values.travel : "auto"
 	const enterTransition = toMotionTransition(values.enter)
 	const exitTransition = toMotionTransition(values.exit)
 	const slide = slides[index] ?? slides[0]
