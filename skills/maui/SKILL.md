@@ -119,7 +119,7 @@ import { Text as TextIcon } from "maui/icons"
 - `Table` — React Aria table. `TableHeader` contains `TableHead` columns directly (no `TableRow`). Mark the identifying column with `isRowHeader` (required; usually the name/id column, not a leading checkbox or drag handle). When `selectionMode` is `"multiple"`, `TableHeader` and `TableRow` insert a leading checkbox column (`Checkbox slot="selection"`). `align` on `TableHead` / `TableCell` is `"start"` | `"center"` | `"end"`. `TableFooter` fills with `colors.gray[2]`. Place `TableCaption` after `Table`. `TableBody` renders “No results.” when empty; pass `renderEmptyState` to replace it.
 - `FuzzyString` — highlight segments; takes a match result, not a plain string
 - `Thinking` — 3×3 Game of Life indicator; reseeds when the board dies or loops
-- `Crossfade` — when `contentKey` changes, fades the previous view out in `direction` (`up` | `down` | `left` | `right`), then fades the new view in from the opposite side. `contentKey` is required. Do not put `key` on `Crossfade` itself or the exit is skipped.
+- `Crossfade` — when `contentKey` changes, the previous view exits in `direction` (`up` | `down` | `left` | `right`) and the next view enters from the opposite side. `contentKey` is required. Do not put `key` on `Crossfade` itself or the exit is skipped.
 - `LoadingScreen` — fills available width and height. Optional `progressLabel`. Label at start fades Thinking (accent, small / `0.8em`) and the label (accent, weight 500, trailing `...`) in together; later label changes Crossfade up. With no label at start, Thinking waits 2s before fading in; a label before 2s fades both in immediately; a label after 2s animates in and shifts Thinking so the pair stays centered.
 
 ## Reference: patterns and apps
