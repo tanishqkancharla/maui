@@ -1,6 +1,6 @@
 # Patterns
 
-Recipes for app chrome that is **not** on the `"maui"` barrel. Rebuild them in the consuming app with barrel components and tokens. Do not import `"maui/src/patterns/..."`.
+Recipes for app chrome that is **not** on the `"maui"` barrel. Prefer these recipes and rebuild with barrel components and tokens in consuming apps. Package source under `"maui/src/patterns"` is there if you need a detail this file does not cover.
 
 Shared rules: hover fills snap (no background transition); empty collections get copy (and usually an action); keep `minWidth: 0` on text columns so truncation works.
 

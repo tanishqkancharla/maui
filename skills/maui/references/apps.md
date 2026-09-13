@@ -1,6 +1,6 @@
 # Apps
 
-Full-screen (or large-panel) compositions. None of these are on the `"maui"` barrel. Recreate the **structure** with barrel components; do not import `"maui/src/apps/..."`.
+Full-screen (or large-panel) compositions. None of these are on the `"maui"` barrel. Prefer these layouts and recreate the **structure** with barrel components. Package source under `"maui/src/apps"` is there if you need a detail this file does not cover.
 
 Pick the closest app, then the matching [pattern](patterns.md).
 

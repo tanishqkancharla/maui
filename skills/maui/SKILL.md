@@ -1,6 +1,6 @@
 ---
 name: maui
-description: Conventions and design constraints for consuming the Maui design system. Use when building UI with Maui tokens, components, patterns, or purse-styles. Read this skill and its references — do not inspect node_modules or package internals for patterns and apps.
+description: Conventions and design constraints for consuming the Maui design system. Use when building UI with Maui tokens, components, patterns, or purse-styles. Prefer this skill and its references for composition knowledge.
 ---
 
 # Maui
@@ -31,7 +31,7 @@ The published package exposes:
 
 - `"maui"` — compiled barrel (`dist/`) of provider, theme, tokens, and components
 - `"maui/icons"` — tree-shakeable named icon modules (same names as `Icons.*`)
-- `"maui/src"` — TypeScript source barrel (types / deep imports, not a usage guide)
+- `"maui/src"` — TypeScript source barrel
 - `"maui/src/*"` — TypeScript source for deep imports
 - `"maui/skills/maui"` — this skill file
 - `"maui/skills/maui/*"` — reference files next to this skill
@@ -40,7 +40,7 @@ The published package exposes:
 
 ## How to learn Maui
 
-This skill is the source of composition knowledge. **Do not** browse `node_modules`, `"maui/src/patterns"`, `"maui/src/apps"`, or other package internals to learn patterns, apps, or how to assemble UI.
+Prefer this skill for composition knowledge — how to assemble tokens, components, patterns, and apps. Reach for package source (`"maui/src/patterns"`, `"maui/src/apps"`, or an install under `node_modules`) when you need a detail the skill does not cover.
 
 Before designing or implementing new UI:
 
@@ -54,7 +54,7 @@ Before designing or implementing new UI:
 | Sidebar, inbox, messages, streaming markdown | [references/patterns.md](references/patterns.md) |
 | Email client, calendar, AI chat, JSX editor | [references/apps.md](references/apps.md) |
 
-Patterns, demo apps, and the gallery `Panel` preview surface are **not** part of the `"maui"` package barrel. Recreate them from the recipes in those references using barrel exports (`Button`, `Flex`, `text(...)`, …).
+Patterns, demo apps, and the gallery `Panel` preview surface are **not** part of the `"maui"` package barrel. Prefer the recipes in those references and rebuild with barrel exports (`Button`, `Flex`, `text(...)`, …).
 
 ## Design constraints
 
@@ -144,7 +144,7 @@ Catalog only — props, examples, and composition live in [references/components
 
 ## Patterns and apps
 
-Not on the `"maui"` barrel. Recreate from the recipes — do not import gallery internals.
+Not on the `"maui"` barrel. Prefer the recipes here; rebuild with barrel exports in consuming apps.
 
 | Pattern | Role | Reference |
 | --- | --- | --- |
