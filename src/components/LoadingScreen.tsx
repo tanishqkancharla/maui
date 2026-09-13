@@ -6,6 +6,7 @@ import {
 } from "motion/react"
 import { style, useStyles } from "purse-styles"
 import { motionDurationMs } from "../tokens/motion"
+import { radius } from "../tokens/radius"
 import { iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { cls } from "../utils/cls"
@@ -132,7 +133,7 @@ export function LoadingScreen({
 	)
 }
 
-const rootClass = style({
+const rootClass = style(radius.lg, {
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
@@ -141,6 +142,7 @@ const rootClass = style({
 	height: "100%",
 	minWidth: 0,
 	minHeight: 0,
+	overflow: "hidden",
 })
 
 const stackClass = style({

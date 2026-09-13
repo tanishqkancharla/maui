@@ -3,11 +3,13 @@ import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { CodeBlock } from "../components/CodeBlock"
 import { LoadingScreen } from "../components/LoadingScreen"
-import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { Text } from "../components/Text"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
+import { border } from "../tokens/borders"
+import { colors } from "../tokens/colors"
+import { radius } from "../tokens/radius"
 
 const EARLY_LABEL_MS = 800
 const LATE_LABEL_MS = 2500
@@ -22,13 +24,9 @@ function DemoFrame(props: { children: ReactNode; label: string }) {
 	const frameClassName = useStyles(demoFrameClass)
 
 	return (
-		<Panel
-			className={frameClassName}
-			style={{ padding: 0 }}
-			aria-label={props.label}
-		>
+		<div className={frameClassName} aria-label={props.label}>
 			{props.children}
-		</Panel>
+		</div>
 	)
 }
 
@@ -96,7 +94,8 @@ export function LoadingScreenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Loading screen</H2>
 			<P>
-				Fills whatever width and height it is given. Pass{" "}
+				Fills whatever width and height it is given, with{" "}
+				<code>radius.lg</code> on the surface. Pass{" "}
 				<code>progressLabel</code> to show a status under a medium, primary
 				Thinking indicator. Label changes Crossfade up. With no label at
 				mount, the indicator waits 2s before fading in.
@@ -217,11 +216,17 @@ export function LoadingScreenPage() {
 	)
 }
 
-const demoFrameClass = style({
-	boxSizing: "border-box",
-	height: "220px",
-	padding: 0,
-	overflow: "hidden",
-	display: "flex",
-	flexDirection: "column",
-})
+const demoFrameClass = style(
+	border([], "outline"),
+	radius.lg,
+	{
+		backgroundColor: colors.gray[1],
+		backgroundImage: `radial-gradient(${colors.grayAlpha[3]} 1px, transparent 1px)`,
+		backgroundSize: "12px 12px",
+		boxSizing: "border-box",
+		height: "220px",
+		overflow: "hidden",
+		display: "flex",
+		flexDirection: "column",
+	},
+)
