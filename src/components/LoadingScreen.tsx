@@ -122,7 +122,7 @@ export function LoadingScreen({
 											direction="up"
 											contentKey={label}
 										>
-											<Text size="sm" color="lowContrast">
+											<Text size="sm" fontWeight={500} color="accent">
 												{progressText(label)}
 											</Text>
 										</Crossfade>
@@ -165,7 +165,7 @@ const labelSlotClass = style({
 })
 
 const labelClass = style({
-	paddingTop: spacing.value(4),
+	paddingTop: spacing.value(8),
 	textAlign: "center",
 	maxWidth: "36ch",
 })
