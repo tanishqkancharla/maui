@@ -7,7 +7,7 @@ import { Panel } from "../components/Panel"
 import { Prose } from "../components/Prose"
 import { RadioOption, RadioOptionGroup } from "../components/Radio"
 import { Text } from "../components/Text"
-import { H2, H3, P } from "../components/Typography"
+import { H2, H3, Link, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
 const directions: CrossfadeDirection[] = ["up", "down", "left", "right"]
@@ -52,7 +52,10 @@ export function CrossfadePage() {
 				out in <code>direction</code>, then fades the new view in from the
 				opposite side. <code>contentKey</code> is required — putting{" "}
 				<code>key</code> on Crossfade itself remounts the wrapper and skips the
-				exit.
+				exit. Duration and easing default to{" "}
+				<code>motionDurationMs</code> and <code>motionEasing</code>.{" "}
+				<Link href="/studio/crossfade">Open the Crossfade studio</Link> to
+				tune timing, easing, wait mode, and offset.
 			</P>
 
 			<H3>Playground</H3>

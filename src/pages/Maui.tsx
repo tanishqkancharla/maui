@@ -26,6 +26,7 @@ import { ButtonsPage } from "./ButtonsPage"
 import { CalendarPage } from "./CalendarPage"
 import { CodePage } from "./CodePage"
 import { CrossfadePage } from "./CrossfadePage"
+import { CrossfadeStudioPage } from "./CrossfadeStudioPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
 import { EditorPage } from "./EditorPage"
@@ -133,6 +134,11 @@ const navigation: NavEntry[] = [
 				label: "Crossfade",
 				path: "/components/crossfade",
 				page: CrossfadePage,
+			},
+			{
+				label: "Crossfade studio",
+				path: "/studio/crossfade",
+				page: CrossfadeStudioPage,
 			},
 			{ label: "Text", path: "/components/text", page: TextPage },
 			{

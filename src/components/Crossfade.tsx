@@ -1,8 +1,14 @@
-import { type CSSProperties, type Key, type ReactNode } from "react"
+import {
+	useMemo,
+	type CSSProperties,
+	type Key,
+	type ReactNode,
+} from "react"
 import {
 	AnimatePresence,
 	motion,
 	useReducedMotion,
+	type Transition,
 	type Variants,
 } from "motion/react"
 import { style, useStyles } from "purse-styles"
@@ -11,6 +17,12 @@ import { spacing } from "../tokens/spacing"
 import { cls } from "../utils/cls"
 
 export type CrossfadeDirection = "up" | "down" | "left" | "right"
+
+/** AnimatePresence sequencing. `wait` finishes the exit before the enter starts. */
+export type CrossfadeMode = "sync" | "wait" | "popLayout"
+
+/** Travel distance used when `offset` is omitted — spacing step 6. */
+export const crossfadeOffsetPx = Number.parseFloat(spacing.value(6))
 
 export type CrossfadeProps = {
 	children: ReactNode
@@ -24,15 +36,42 @@ export type CrossfadeProps = {
 	contentKey: Key
 	className?: string
 	style?: CSSProperties
+	/**
+	 * Motion transition for the incoming view. Defaults to
+	 * `motionDurationMs` with `easeInOut` (`motionEasing`).
+	 */
+	enterTransition?: Transition
+	/**
+	 * Motion transition for the outgoing view. Defaults to the same
+	 * token-backed tween as `enterTransition`.
+	 */
+	exitTransition?: Transition
+	/** AnimatePresence mode. Defaults to `"wait"`. */
+	mode?: CrossfadeMode
+	/** Travel distance in pixels. Defaults to `crossfadeOffsetPx`. */
+	offset?: number
+	/** Clip traveling views to the Crossfade box. Defaults to true. */
+	clip?: boolean
+	/**
+	 * When set, overrides `prefers-reduced-motion`. Omit to follow the user
+	 * preference (travel becomes a fade).
+	 */
+	reduceMotion?: boolean
+	/** Run the enter animation on the first view. Defaults to false. */
+	playInitial?: boolean
 }
 
-const OFFSET_PX = Number.parseFloat(spacing.value(6))
+const defaultTransition: Transition = {
+	duration: motionDurationMs / 1000,
+	ease: "easeInOut",
+}
 
 function shift(
 	direction: CrossfadeDirection,
 	sign: 1 | -1,
+	offset: number,
 ): { x: number; y: number } {
-	const distance = OFFSET_PX * sign
+	const distance = offset * sign
 	switch (direction) {
 		case "up":
 			return { x: 0, y: -distance }
@@ -45,26 +84,34 @@ function shift(
 	}
 }
 
-const travelVariants: Variants = {
-	initial: (direction: CrossfadeDirection) => ({
-		opacity: 0,
-		...shift(direction, -1),
-	}),
-	animate: {
-		opacity: 1,
-		x: 0,
-		y: 0,
-	},
-	exit: (direction: CrossfadeDirection) => ({
-		opacity: 0,
-		...shift(direction, 1),
-	}),
+function travelVariants(
+	offset: number,
+	exitTransition: Transition,
+): Variants {
+	return {
+		initial: (direction: CrossfadeDirection) => ({
+			opacity: 0,
+			...shift(direction, -1, offset),
+		}),
+		animate: {
+			opacity: 1,
+			x: 0,
+			y: 0,
+		},
+		exit: (direction: CrossfadeDirection) => ({
+			opacity: 0,
+			...shift(direction, 1, offset),
+			transition: exitTransition,
+		}),
+	}
 }
 
-const fadeVariants: Variants = {
-	initial: { opacity: 0 },
-	animate: { opacity: 1 },
-	exit: { opacity: 0 },
+function fadeVariants(exitTransition: Transition): Variants {
+	return {
+		initial: { opacity: 0 },
+		animate: { opacity: 1 },
+		exit: { opacity: 0, transition: exitTransition },
+	}
 }
 
 /**
@@ -77,19 +124,40 @@ export function Crossfade({
 	contentKey,
 	className,
 	style: styleProp,
+	enterTransition = defaultTransition,
+	exitTransition = defaultTransition,
+	mode = "wait",
+	offset = crossfadeOffsetPx,
+	clip = true,
+	reduceMotion: reduceMotionProp,
+	playInitial = false,
 }: CrossfadeProps) {
-	const reduceMotion = useReducedMotion()
+	const prefersReducedMotion = useReducedMotion()
+	const reduceMotion = reduceMotionProp ?? prefersReducedMotion
 	const rootClassName = useStyles(rootClass)
 	const layerClassName = useStyles(layerClass)
-	const variants = reduceMotion ? fadeVariants : travelVariants
+	const variants = useMemo(
+		() =>
+			reduceMotion
+				? fadeVariants(exitTransition)
+				: travelVariants(offset, exitTransition),
+		[exitTransition, offset, reduceMotion],
+	)
 
 	return (
 		<div
 			className={cls(rootClassName, className)}
-			style={styleProp}
+			style={{
+				...styleProp,
+				overflow: clip ? "hidden" : "visible",
+			}}
 			data-direction={direction}
 		>
-			<AnimatePresence mode="wait" initial={false} custom={direction}>
+			<AnimatePresence
+				mode={mode}
+				initial={playInitial}
+				custom={direction}
+			>
 				<motion.div
 					key={contentKey}
 					className={layerClassName}
@@ -98,10 +166,7 @@ export function Crossfade({
 					initial="initial"
 					animate="animate"
 					exit="exit"
-					transition={{
-						duration: motionDurationMs / 1000,
-						ease: "easeInOut",
-					}}
+					transition={enterTransition}
 				>
 					{children}
 				</motion.div>

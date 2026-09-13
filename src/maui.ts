@@ -108,8 +108,10 @@ export {
 } from "./components/Thinking"
 export {
 	Crossfade,
+	crossfadeOffsetPx,
 	type CrossfadeProps,
 	type CrossfadeDirection,
+	type CrossfadeMode,
 } from "./components/Crossfade"
 export { Icons, type IconProps } from "./components/Icons"
 export * from "./icons/root"
