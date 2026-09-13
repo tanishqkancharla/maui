@@ -436,7 +436,7 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "LoadingScreen",
-		info: "Full-size loading state. Optional progressLabel. Delays Thinking by 2s when no label is given at start; label changes Crossfade up.",
+		info: "Full-size loading state. Optional progressLabel is shown with trailing .... Small primary Thinking. Delays 2s when no label at start; label changes Crossfade up.",
 		attributes: [
 			{
 				name: "progressLabel",

@@ -26,6 +26,10 @@ function resolvedLabel(progressLabel: string | undefined) {
 	return trimmed ? trimmed : undefined
 }
 
+function progressText(label: string) {
+	return label.endsWith("...") || label.endsWith("…") ? label : `${label}...`
+}
+
 /**
  * Full-size loading state. A `progressLabel` on the first render fades the
  * Thinking indicator and label in together. Without a label, the indicator
@@ -89,7 +93,7 @@ export function LoadingScreen({
 					>
 						<Thinking
 							variant="primary"
-							size={iconSizeValues.md}
+							size={iconSizeValues.sm}
 							aria-label={label ?? "Loading"}
 						/>
 						<AnimatePresence initial={false}>
@@ -119,7 +123,7 @@ export function LoadingScreen({
 											contentKey={label}
 										>
 											<Text size="sm" color="lowContrast">
-												{label}
+												{progressText(label)}
 											</Text>
 										</Crossfade>
 									</div>
@@ -158,7 +162,7 @@ const labelSlotClass = style({
 })
 
 const labelClass = style({
-	paddingTop: spacing.value(3),
+	paddingTop: spacing.value(4),
 	textAlign: "center",
 	maxWidth: "36ch",
 })
