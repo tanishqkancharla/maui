@@ -106,6 +106,11 @@ export {
 	type ThinkingProps,
 	type ThinkingVariant,
 } from "./components/Thinking"
+export {
+	Crossfade,
+	type CrossfadeProps,
+	type CrossfadeDirection,
+} from "./components/Crossfade"
 export { Icons, type IconProps } from "./components/Icons"
 export * from "./icons/root"
 export {
