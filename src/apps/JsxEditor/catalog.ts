@@ -34,6 +34,7 @@ import {
 } from "../../components/Table"
 import { Text } from "../../components/Text"
 import { Thinking } from "../../components/Thinking"
+import { Crossfade } from "../../components/Crossfade"
 import { Tooltip } from "../../components/Tooltip"
 import {
 	Blockquote,
@@ -420,6 +421,18 @@ export const catalog: CatalogComponent[] = [
 			{ name: "className" },
 		],
 	},
+	{
+		name: "Crossfade",
+		info: "Fades previous children out in direction, then fades the next view in. contentKey is required and identifies the current view.",
+		attributes: [
+			{
+				name: "direction",
+				values: ["up", "down", "left", "right"],
+			},
+			{ name: "contentKey", info: "Required identity of the current view" },
+			{ name: "className" },
+		],
+	},
 ]
 
 export const previewScope: Record<string, unknown> = {
@@ -461,6 +474,7 @@ export const previewScope: Record<string, unknown> = {
 	TableRow,
 	Text,
 	Thinking,
+	Crossfade,
 	Tooltip,
 	Blockquote,
 	H1,

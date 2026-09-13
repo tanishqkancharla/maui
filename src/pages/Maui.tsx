@@ -25,6 +25,7 @@ import { BordersTokenPage } from "./BordersTokenPage"
 import { ButtonsPage } from "./ButtonsPage"
 import { CalendarPage } from "./CalendarPage"
 import { CodePage } from "./CodePage"
+import { CrossfadePage } from "./CrossfadePage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
 import { EditorPage } from "./EditorPage"
@@ -128,6 +129,11 @@ const navigation: NavEntry[] = [
 			},
 			{ label: "Editor", path: "/components/editor", page: EditorPage },
 			{ label: "Thinking", path: "/components/thinking", page: ThinkingPage },
+			{
+				label: "Crossfade",
+				path: "/components/crossfade",
+				page: CrossfadePage,
+			},
 			{ label: "Text", path: "/components/text", page: TextPage },
 			{
 				label: "Form controls",
