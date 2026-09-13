@@ -39,6 +39,7 @@ import { InboxPage } from "./InboxPage"
 import { JsxEditorPage } from "./JsxEditorPage"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
+import { LoadingScreenPage } from "./LoadingScreenPage"
 import { ListBoxPage } from "./ListBoxPage"
 import { ThinkingPage } from "./ThinkingPage"
 import { MenuPage } from "./MenuPage"
@@ -141,6 +142,11 @@ const navigation: NavEntry[] = [
 			// 	path: "/studio/crossfade",
 			// 	page: CrossfadeStudioPage,
 			// },
+			{
+				label: "Loading screen",
+				path: "/components/loading-screen",
+				page: LoadingScreenPage,
+			},
 			{ label: "Text", path: "/components/text", page: TextPage },
 			{
 				label: "Form controls",

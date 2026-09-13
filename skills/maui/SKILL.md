@@ -97,7 +97,7 @@ import { Text as TextIcon } from "maui/icons"
 
 ### Form controls
 
-- `Button` — `variant` is `"default"` | `"quiet"` | `"primary"`; `variantColor` is a palette name, or an opaque hex / `rgb()` string (`#${string}` or `rgb(`). Primary palettes fill step 9 (hover 10) with light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow). A CSS color is used as the fill (alpha is dropped; hover is `l - 0.04`; text is white or near-black from lightness). The edge is `tintedSubtle`. Quiet + color uses a 3.5% wash of the fill (hover 7%).
+- `Button` — `variant` is `"default"` | `"quiet"` | `"primary"`; `variantColor` is a palette name, or an opaque hex / `rgb()` string (`#${string}` or `rgb(`). Primary palettes fill step 9 (hover 10) with light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow). A CSS color is used as the fill (alpha is dropped; hover is `l - 0.04`; text is white or near-black from lightness). The edge is `tintedSubtle`. Quiet + color uses a 3.5% wash of the fill (hover 7%). Disable with React Aria’s `isDisabled` (maps to the native `disabled` attribute; no parallel `disabled` React prop).
 - `TextField`, `SearchField`, `NumberField`, `QuietTextField`
 - `Checkbox`, `Switch`, `Slider`
 - `RadioOptionGroup` / `RadioOption`
@@ -120,6 +120,7 @@ import { Text as TextIcon } from "maui/icons"
 - `FuzzyString` — highlight segments; takes a match result, not a plain string
 - `Thinking` — 3×3 Game of Life indicator; reseeds when the board dies or loops
 - `Crossfade` — when `contentKey` changes, the previous view exits in `direction` (`up` | `down` | `left` | `right`) and the next view enters from the opposite side. `contentKey` is required. Do not put `key` on `Crossfade` itself or the exit is skipped.
+- `LoadingScreen` — fills available width and height. Optional `progressLabel`. Label at start fades Thinking (accent, small / `0.8em`) and the label (accent, weight 500, trailing `...`) in together; later label changes Crossfade up. With no label at start, Thinking waits 2s before fading in; a label before 2s fades both in immediately; a label after 2s animates in and shifts Thinking so the pair stays centered.
 
 ## Reference: patterns and apps
 

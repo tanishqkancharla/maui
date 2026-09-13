@@ -35,6 +35,7 @@ import {
 import { Text } from "../../components/Text"
 import { Thinking } from "../../components/Thinking"
 import { Crossfade } from "../../components/Crossfade"
+import { LoadingScreen } from "../../components/LoadingScreen"
 import { Tooltip } from "../../components/Tooltip"
 import {
 	Blockquote,
@@ -248,7 +249,7 @@ export const catalog: CatalogComponent[] = [
 				values: [...colorNames],
 			},
 			{ name: "aria-label" },
-			{ name: "disabled", boolean: true },
+			{ name: "isDisabled", boolean: true },
 		],
 	},
 	{
@@ -433,6 +434,17 @@ export const catalog: CatalogComponent[] = [
 			{ name: "className" },
 		],
 	},
+	{
+		name: "LoadingScreen",
+		info: "Full-size loading state. Optional progressLabel is shown in accent, medium weight, with trailing .... Small accent Thinking. Delays 2s when no label at start; label changes Crossfade up.",
+		attributes: [
+			{
+				name: "progressLabel",
+				info: "Optional status under the Thinking indicator",
+			},
+			{ name: "className" },
+		],
+	},
 ]
 
 export const previewScope: Record<string, unknown> = {
@@ -475,6 +487,7 @@ export const previewScope: Record<string, unknown> = {
 	Text,
 	Thinking,
 	Crossfade,
+	LoadingScreen,
 	Tooltip,
 	Blockquote,
 	H1,

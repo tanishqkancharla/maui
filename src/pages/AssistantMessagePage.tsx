@@ -73,7 +73,7 @@ export function AssistantMessagePage() {
 				<div className={actionsClassName}>
 					<Button
 						onClick={() => setIsAnimating(true)}
-						disabled={isAnimating}
+						isDisabled={isAnimating}
 					>
 						{isAnimating ? "Streaming…" : "Replay stream"}
 					</Button>

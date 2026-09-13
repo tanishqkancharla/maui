@@ -18,6 +18,22 @@ import { memoize } from "../utils/memoize"
 
 export type ButtonVariant = "default" | "quiet" | "primary"
 
+const disabledRaised = {
+	cursor: "default",
+	opacity: 1,
+	color: colors.gray[8],
+	backgroundColor: backgroundColor.element,
+	boxShadow: shadowVars.subtle,
+} as const
+
+const disabledQuiet = {
+	cursor: "default",
+	opacity: 1,
+	color: colors.gray[8],
+	backgroundColor: "transparent",
+	boxShadow: "none",
+} as const
+
 const buttonBaseClass = style(
 	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
 	focusRing("&:focus-visible", shadowVars.subtle),
@@ -51,6 +67,7 @@ const buttonBaseClass = style(
 		"&:has(> svg:only-child)": {
 			paddingInline: spacing.value(3),
 		},
+		"&:disabled": disabledRaised,
 	},
 )
 
@@ -62,10 +79,10 @@ const buttonTextClass = style({
 
 const buttonClass = style(buttonBaseClass, {
 	backgroundColor: backgroundColor.element,
-	"&:hover": {
+	"&:hover:not(:disabled)": {
 		backgroundColor: backgroundColor.elementHover,
 	},
-	"&:active": {
+	"&:active:not(:disabled)": {
 		backgroundColor: backgroundColor.elementActive,
 	},
 })
@@ -77,10 +94,11 @@ const quietButtonClass = style(
 		color: colors.gray[11],
 		backgroundColor: "transparent",
 		boxShadow: "none",
-		"&:hover": {
+		"&:hover:not(:disabled)": {
 			color: colors.gray[12],
 			backgroundColor: backgroundColor.elementHover,
 		},
+		"&:disabled": disabledQuiet,
 	},
 )
 
@@ -133,12 +151,13 @@ const coloredButtonClass = memoize(
 					color: onSolidText(fill),
 					backgroundColor: fill,
 					boxShadow: edge,
-					"&:hover": {
+					"&:hover:not(:disabled)": {
 						backgroundColor: hover,
 					},
-					"&:active": {
+					"&:active:not(:disabled)": {
 						backgroundColor: hover,
 					},
+					"&:disabled": disabledRaised,
 				})
 			}
 
@@ -150,7 +169,7 @@ const coloredButtonClass = memoize(
 					"transparent",
 				),
 				boxShadow: "none",
-				"&:hover": {
+				"&:hover:not(:disabled)": {
 					color: darkerFill(fill),
 					backgroundColor: surfaceWash(
 						fill,
@@ -158,13 +177,14 @@ const coloredButtonClass = memoize(
 						"transparent",
 					),
 				},
-				"&:active": {
+				"&:active:not(:disabled)": {
 					backgroundColor: surfaceWash(
 						fill,
 						surfaceMixPercent.active,
 						"transparent",
 					),
 				},
+				"&:disabled": disabledQuiet,
 			})
 		}
 
@@ -175,12 +195,13 @@ const coloredButtonClass = memoize(
 				color: darkTextOnSolid.has(color) ? scale[12] : "white",
 				backgroundColor: scale[9],
 				boxShadow: edge,
-				"&:hover": {
+				"&:hover:not(:disabled)": {
 					backgroundColor: scale[10],
 				},
-				"&:active": {
+				"&:active:not(:disabled)": {
 					backgroundColor: scale[10],
 				},
+				"&:disabled": disabledRaised,
 			})
 		}
 
@@ -192,7 +213,7 @@ const coloredButtonClass = memoize(
 				"transparent",
 			),
 			boxShadow: "none",
-			"&:hover": {
+			"&:hover:not(:disabled)": {
 				color: scale[12],
 				backgroundColor: surfaceWash(
 					scale[9],
@@ -200,13 +221,14 @@ const coloredButtonClass = memoize(
 					"transparent",
 				),
 			},
-			"&:active": {
+			"&:active:not(:disabled)": {
 				backgroundColor: surfaceWash(
 					scale[9],
 					surfaceMixPercent.active,
 					"transparent",
 				),
 			},
+			"&:disabled": disabledQuiet,
 		})
 	},
 )
@@ -221,10 +243,15 @@ type ButtonData = {
 	focused: boolean
 }
 
-export type ButtonProps = Omit<ButtonAttributes, "children" | "ref"> & {
+export type ButtonProps = Omit<
+	ButtonAttributes,
+	"children" | "ref" | "disabled"
+> & {
 	children: React.ReactNode
 	variant?: ButtonVariant
 	variantColor?: ButtonVariantColor
+	/** Whether the button is disabled. */
+	isDisabled?: boolean
 }
 
 export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
@@ -259,6 +286,7 @@ export function Button(props: ButtonProps) {
 		type = "button",
 		variant = "default",
 		variantColor,
+		isDisabled,
 		...buttonProps
 	} = props
 	const [data, attributes] = useButton({ children, onClick, onFocus })
@@ -271,6 +299,8 @@ export function Button(props: ButtonProps) {
 			{...buttonProps}
 			{...attributes}
 			type={type}
+			disabled={isDisabled}
+			data-disabled={isDisabled || undefined}
 			className={mergedClassName}
 		>
 			{renderButtonChildren(children, textClassName)}
