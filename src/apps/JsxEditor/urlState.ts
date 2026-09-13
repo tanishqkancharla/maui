@@ -50,9 +50,16 @@ export function encodeEditorUrlState(state: EditorUrlState): string {
 }
 
 export function decodeEditorUrlState(hash: string): EditorUrlState | null {
-	const encoded = hash.startsWith("#") ? hash.slice(1) : hash
-	if (!encoded) {
+	const raw = hash.startsWith("#") ? hash.slice(1) : hash
+	if (!raw) {
 		return null
+	}
+
+	let encoded = raw
+	try {
+		encoded = decodeURIComponent(raw)
+	} catch {
+		// Hash is already decoded, or percent-encoding is malformed.
 	}
 
 	try {
