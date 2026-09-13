@@ -99,7 +99,7 @@ const tableRowClass = style({
 		backgroundColor: backgroundColor.elementHover,
 	},
 	"&[data-selection-mode][data-selected] td": {
-		backgroundColor: backgroundColor.elementActive,
+		backgroundColor: colors.accent[4],
 	},
 	"&[data-disabled]": {
 		color: colors.gray[8],
