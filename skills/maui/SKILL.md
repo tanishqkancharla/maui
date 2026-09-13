@@ -1,6 +1,6 @@
 ---
 name: maui
-description: Conventions and design constraints for consuming the Maui design system. Use when building UI with Maui tokens, components, or purse-styles in an app that depends on Maui. Before designing or implementing new UI, read the closest example under src/apps/ or src/patterns/.
+description: Conventions and design constraints for consuming the Maui design system. Use when building UI with Maui tokens, components, patterns, or purse-styles. Read this skill and its references — do not inspect node_modules or package internals for patterns and apps.
 ---
 
 # Maui
@@ -31,17 +31,35 @@ The published package exposes:
 
 - `"maui"` — compiled barrel (`dist/`) of provider, theme, tokens, and components
 - `"maui/icons"` — tree-shakeable named icon modules (same names as `Icons.*`)
-- `"maui/src"` — TypeScript source barrel
+- `"maui/src"` — TypeScript source barrel (types / deep imports, not a usage guide)
 - `"maui/src/*"` — TypeScript source for deep imports
 - `"maui/skills/maui"` — this skill file
+- `"maui/skills/maui/*"` — reference files next to this skill
 
 `MauiProvider` sets up theme (`data-theme` / `color-scheme`), `PurseProvider`, design-system globals, and the focus UI database used by Button/Dialog.
 
+## How to learn Maui
+
+This skill is the source of composition knowledge. **Do not** browse `node_modules`, `"maui/src/patterns"`, `"maui/src/apps"`, or other package internals to learn patterns, apps, or how to assemble UI.
+
+Before designing or implementing new UI:
+
+1. Read the constraints in this file.
+2. Open the matching reference below and reuse its structure, tokens, and interactions.
+
+| Need | Read |
+| --- | --- |
+| Tokens, `purse-styles`, motion, layout, theme | [references/tokens.md](references/tokens.md) |
+| Component props and composition | [references/components.md](references/components.md) |
+| Sidebar, inbox, messages, streaming markdown | [references/patterns.md](references/patterns.md) |
+| Email client, calendar, AI chat, JSX editor | [references/apps.md](references/apps.md) |
+
+Patterns, demo apps, and the gallery `Panel` preview surface are **not** part of the `"maui"` package barrel. Recreate them from the recipes in those references using barrel exports (`Button`, `Flex`, `text(...)`, …).
+
 ## Design constraints
 
-- Before designing or implementing new UI with Maui components, read the closest example under `src/apps/` or `src/patterns/`. Reuse its structure, components, tokens, and interactions.
 - Hover backgrounds have no transitions. Hover fills (`backgroundColor.elementHover`, quiet-button washes, list/row highlights) snap instantly. Do not animate `background` / `background-color` on hover with `motion.standard(...)` or a CSS `transition`. Other motion (tooltips, transforms) is fine.
-- Simple apps default to a `proseMaxWidth` column (`72ch`) centered in their container: `width: "100%"`, `maxWidth: proseMaxWidth`, `marginInline: "auto"`. `sizingTokens.contentWidth` is the same measure. Use this for single-column tools, settings, forms, and reading layouts. Multi-pane or full-bleed apps (inbox, calendar, IDE) are the exception.
+- Simple apps default to a `proseMaxWidth` column (`72ch`) centered in their container: `width: "100%"`, `maxWidth: proseMaxWidth`, `marginInline: "auto"`. `sizing.contentWidth` is the same measure. Use this for single-column tools, settings, forms, and reading layouts. Multi-pane or full-bleed apps (inbox, calendar, IDE) are the exception.
 - Always design empty states. Every list, inbox, search result, or collection needs an intentional empty composition (copy and an optional action), never a blank panel.
 
 ## Theme FOUC
@@ -84,9 +102,11 @@ import { Text as TextIcon } from "maui/icons"
 <TextIcon size="md" />
 ```
 
-`size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, …) are `TextIcon` / `BadgeIcon` / `SwitchIcon` from `"maui"`, or the original name from `"maui/icons"` / `Icons.Text`.
+`size` uses the same t-shirt scale as `text(...)` (`2xs`–`xl`, default `sm`). Stroke and fill use `currentColor`. Icons that share a root export name (`Text`, `Badge`, `Switch`, `H1`, `H2`, `H3`, `Link`, `Menu`, `Code`, `Blockquote`, `Padding`, `SearchField`) are `TextIcon` / `BadgeIcon` / … from `"maui"`, or the original name from `"maui/icons"` / `Icons.Text`.
 
 ## Components
+
+Catalog only — props, examples, and composition live in [references/components.md](references/components.md).
 
 ### Typography and reading
 
@@ -122,27 +142,23 @@ import { Text as TextIcon } from "maui/icons"
 - `Crossfade` — when `contentKey` changes, fades the previous view out in `direction` (`up` | `down` | `left` | `right`), then fades the new view in from the opposite side. `contentKey` is required. Do not put `key` on `Crossfade` itself or the exit is skipped.
 - `LoadingScreen` — fills available width and height. Optional `progressLabel`. Label at start fades Thinking (accent, small / `0.8em`) and the label (accent, weight 500, trailing `...`) in together; later label changes Crossfade up. With no label at start, Thinking waits 2s before fading in; a label before 2s fades both in immediately; a label after 2s animates in and shifts Thinking so the pair stays centered.
 
-## Reference: patterns and apps
+## Patterns and apps
 
-Patterns, demo apps, and the gallery `Panel` preview surface are not part of the `"maui"` package barrel. Read the closest example before designing or implementing new UI, and reuse its structure, components, tokens, and interactions (also available via `"maui/src/..."`):
+Not on the `"maui"` barrel. Recreate from the recipes — do not import gallery internals.
 
-### Patterns — `src/patterns/`
+| Pattern | Role | Reference |
+| --- | --- | --- |
+| Sidebar | 240px nav: sections, active item, optional icon and trailing badge | [patterns.md](references/patterns.md#sidebar) |
+| Inbox / InboxMultiLine | Mail thread list with unread dot, hover actions, selection | [patterns.md](references/patterns.md#inbox) |
+| MessageList / Message | Thread of raised message cards (avatar + Prose body) | [patterns.md](references/patterns.md#message-list) |
+| AssistantMessage | Streaming markdown reply (Streamdown + Maui prose + CodeBlock) | [patterns.md](references/patterns.md#assistant-message) |
 
-| Path | Role |
-| --- | --- |
-| `src/patterns/AssistantMessage.tsx` | Streaming markdown reply (Streamdown + Maui prose) |
-| `src/patterns/Sidebar.tsx` | App sidebar chrome |
-| `src/patterns/Inbox.tsx` | Mail inbox layout |
-| `src/patterns/MessageList.tsx` | Message list rows |
-
-### Apps — `src/apps/`
-
-| Path | Role |
-| --- | --- |
-| `src/apps/AiChat/` | Mock streaming AI chat (Editor + AssistantMessage) |
-| `src/apps/EmailClient/` | Email client demo composing inbox patterns |
-| `src/apps/Calendar/` | Three-pane schedule (mini month, week grid, event details) |
-| `src/apps/JsxEditor/` | Live JSX playground (CodeMirror + Maui catalog) |
+| App | Role | Reference |
+| --- | --- | --- |
+| Email client | Two-pane inbox + reading pane | [apps.md](references/apps.md#email-client) |
+| AI chat | Mock streaming chat (Editor + AssistantMessage + Thinking) | [apps.md](references/apps.md#ai-chat) |
+| Calendar | Three-pane schedule (mini month, week grid, event details) | [apps.md](references/apps.md#calendar) |
+| JSX editor | Live JSX playground (CodeMirror + Maui catalog) | [apps.md](references/apps.md#jsx-editor) |
 
 ## License
 
