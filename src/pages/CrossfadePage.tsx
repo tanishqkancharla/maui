@@ -51,10 +51,7 @@ export function CrossfadePage() {
 				When <code>contentKey</code> changes, the previous view exits in{" "}
 				<code>direction</code> while the next view enters from the opposite
 				side. <code>contentKey</code> is required — putting <code>key</code>{" "}
-				on Crossfade itself remounts the wrapper and skips the exit. Enter
-				defaults to a 0.3s spring (bounce 0.2); exit uses{" "}
-				<code>motionDurationMs</code> / <code>motionEasing</code>. Mode
-				defaults to <code>sync</code>, direction to <code>left</code>.
+				on Crossfade itself remounts the wrapper and skips the exit.
 			</P>
 
 			<H3>Playground</H3>
@@ -130,7 +127,7 @@ export function CrossfadePage() {
 			<CodeBlock lang="tsx">{`const [index, setIndex] = useState(0)
 const slide = slides[index]
 
-<Crossfade contentKey={slide.id}>
+<Crossfade direction="left" contentKey={slide.id}>
 	<Text size="lg">{slide.title}</Text>
 </Crossfade>`}</CodeBlock>
 		</Prose>

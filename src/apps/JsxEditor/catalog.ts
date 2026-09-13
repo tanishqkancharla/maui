@@ -423,23 +423,13 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Crossfade",
-		info: "Fades previous children out in direction while the next view enters from the opposite side. contentKey is required. Enter defaults to a 0.3s spring; exit uses Maui motion tokens.",
+		info: "Fades previous children out in direction while the next view enters from the opposite side. contentKey is required.",
 		attributes: [
 			{
 				name: "direction",
 				values: ["up", "down", "left", "right"],
-				info: "Defaults to left.",
 			},
 			{ name: "contentKey", info: "Required identity of the current view" },
-			{
-				name: "mode",
-				values: ["wait", "sync", "popLayout"],
-				info: "AnimatePresence mode. Defaults to sync.",
-			},
-			{
-				name: "offset",
-				info: "Travel distance in px. Defaults to spacing 6.",
-			},
 			{ name: "className" },
 		],
 	},

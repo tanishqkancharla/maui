@@ -27,22 +27,11 @@ import { spacing } from "../tokens/spacing"
   import type { Transition } from "motion/react"
   import { useTheme } from "../theme/ThemeContext"
   import { motionDurationMs } from "../tokens/motion"
-  import {
-    crossfadeOffsetPx,
-    type CrossfadeDirection,
-    type CrossfadeMode,
-  } from "../components/Crossfade"
+  import { type CrossfadeDirection } from "../components/Crossfade"
 
-  Liked defaults (now baked into Crossfade):
-  {
-    direction: "left",
-    mode: "sync",
-    offset: 12,
-    clip: true,
-    travel: "auto",
-    enter: { type: "spring", visualDuration: 0.3, bounce: 0.2 },
-    exit: { type: "easing", duration: 0.08, ease: [0.42, 0, 0.58, 1] },
-  }
+  Motion is internal to Crossfade now:
+  enter spring visualDuration 0.3 / bounce 0.2, exit 80ms ease-in-out,
+  mode sync, offset spacing 6, clip.
 */
 
 const slides = [
@@ -125,7 +114,7 @@ function CrossfadeStudioPreview() {
 						radius="sm"
 						style={{ minHeight: "108px" }}
 					>
-						<Crossfade contentKey={slide.id}>
+						<Crossfade direction="left" contentKey={slide.id}>
 							<Flex column gap={3}>
 								<Text size="lg" fontWeight={600}>
 									{slide.title}
@@ -162,7 +151,7 @@ function CrossfadeStudioPreview() {
 							maxWidth: "36ch",
 						}}
 					>
-						<Crossfade contentKey={progressLabel}>
+						<Crossfade direction="left" contentKey={progressLabel}>
 							<Text size="sm" color="lowContrast">
 								{progressLabel}...
 							</Text>
