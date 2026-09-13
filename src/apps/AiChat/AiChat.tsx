@@ -307,7 +307,7 @@ export function AiChat() {
 						<Button
 							aria-label={streaming ? "Streaming" : "Send"}
 							className={sendButtonClassName}
-							disabled={streaming || !draft.trim()}
+							isDisabled={streaming || !draft.trim()}
 							onClick={send}
 						>
 							<Icons.ArrowUp size="sm" />

@@ -248,7 +248,7 @@ export const catalog: CatalogComponent[] = [
 				values: [...colorNames],
 			},
 			{ name: "aria-label" },
-			{ name: "disabled", boolean: true },
+			{ name: "isDisabled", boolean: true },
 		],
 	},
 	{

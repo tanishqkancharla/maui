@@ -24,6 +24,35 @@ export function ButtonsPage() {
 				<Button onClick={() => setOverlayOpen(true)}>Open Overlay</Button>
 			</Flex>
 
+			<H3>Disabled</H3>
+			<P>
+				<code>isDisabled</code> is React Aria’s disabled prop. It sets the
+				native <code>disabled</code> attribute — there is no parallel{" "}
+				<code>disabled</code> React prop. Hover and press fills do not apply.
+			</P>
+			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
+				<Button isDisabled>Button</Button>
+				<Button variant="primary" isDisabled>
+					Save
+				</Button>
+				<Button variant="quiet" isDisabled>
+					Quiet
+				</Button>
+				<Button variant="primary" variantColor="blue" isDisabled>
+					Blue
+				</Button>
+				<Button variant="quiet" variantColor="accent" isDisabled>
+					Quiet accent
+				</Button>
+				<Button isDisabled>
+					<Icons.Plus />
+					Create
+				</Button>
+				<Button isDisabled aria-label="Search">
+					<Icons.Search />
+				</Button>
+			</Flex>
+
 			<H3>Primary</H3>
 			<P>
 				<code>variant="primary"</code> fills with step 9 of{" "}
