@@ -3,7 +3,8 @@ import { syntaxTree } from "@codemirror/language"
 import { linter, type Diagnostic } from "@codemirror/lint"
 import { EditorState } from "@codemirror/state"
 import type { EditorView } from "@codemirror/view"
-import { catalog, type CatalogComponent } from "./catalog"
+import { isCssColor } from "../../components/Button"
+import { catalog, type AttributeCompletion, type CatalogComponent } from "./catalog"
 
 const reactAttrs = new Set(["key", "ref", "children"])
 
@@ -65,6 +66,15 @@ function quoteUnion(values: string[]): string {
 	return values.map((value) => (/^-?\d+$/.test(value) ? value : `"${value}"`)).join(" | ")
 }
 
+function expectedType(attribute: AttributeCompletion): string {
+	const values = attribute.values ?? []
+	const union = quoteUnion(values)
+	if (attribute.cssColor) {
+		return `${union} | \`#\${string}\` | \`rgb(\${string}\``
+	}
+	return union
+}
+
 function tagNameFromOpen(state: EditorState, from: number, to: number): string | null {
 	const text = state.sliceDoc(from, to)
 	const match = /^<\/?([A-Za-z][\w.]*)/.exec(text)
@@ -73,16 +83,17 @@ function tagNameFromOpen(state: EditorState, from: number, to: number): string |
 
 function unwrapValue(raw: string): string {
 	const trimmed = raw.trim()
+	const inner =
+		trimmed.startsWith("{") && trimmed.endsWith("}")
+			? trimmed.slice(1, -1).trim()
+			: trimmed
 	if (
-		(trimmed.startsWith('"') && trimmed.endsWith('"')) ||
-		(trimmed.startsWith("'") && trimmed.endsWith("'"))
+		(inner.startsWith('"') && inner.endsWith('"')) ||
+		(inner.startsWith("'") && inner.endsWith("'"))
 	) {
-		return trimmed.slice(1, -1)
+		return inner.slice(1, -1)
 	}
-	if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
-		return trimmed.slice(1, -1).trim()
-	}
-	return trimmed
+	return inner
 }
 
 export type JsxDiagnostic = Diagnostic & { line: number }
@@ -167,7 +178,7 @@ export function collectJsxDiagnostics(state: EditorState): JsxDiagnostic[] {
 						state,
 						nameNode.from,
 						nameNode.to,
-						`Type 'true' is not assignable to type '${quoteUnion(known.values)}'.`,
+						`Type 'true' is not assignable to type '${expectedType(known)}'.`,
 					),
 				)
 				return
@@ -177,13 +188,14 @@ export function collectJsxDiagnostics(state: EditorState): JsxDiagnostic[] {
 			const value = unwrapValue(raw)
 			if (value.length === 0) return
 			if (known.values.includes(value)) return
+			if (known.cssColor && isCssColor(value)) return
 
 			diagnostics.push(
 				diagnostic(
 					state,
 					valueNode.from,
 					valueNode.to,
-					`Type '${/^-?\d+$/.test(value) ? value : `"${value}"`}' is not assignable to type '${quoteUnion(known.values)}'.`,
+					`Type '${/^-?\d+$/.test(value) ? value : `"${value}"`}' is not assignable to type '${expectedType(known)}'.`,
 				),
 			)
 		})

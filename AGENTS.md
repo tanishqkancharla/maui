@@ -14,7 +14,7 @@ Standard commands (see `package.json` `scripts`):
 - Preview built website: `npm run serve`.
 - Type-check: `npm run typecheck` is one-shot (`tsc --noEmit`). `npm run tsc` is watch mode.
 - Package check: `npm run verify-package` packs the tarball and inspects its real contents.
-- Tests: `npm test` (Vitest). Note: there are currently **no test files**, so Vitest exits with code 1 and "No test files found" — this is expected, not a failure.
+- Tests: `npm test` (Vitest). Editor lint coverage lives in `src/apps/JsxEditor/lint.test.ts`.
 - Releases publish `@tanishqkancharla/maui` to public npm. Every push to `main` cuts the next patch, tags `vX.Y.Z`, and publishes. Put `[skip release]` in the merge commit message to skip. Manual `v*` tags still publish.
 
 ### Versioning
