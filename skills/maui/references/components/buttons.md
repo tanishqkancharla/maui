@@ -29,6 +29,8 @@ Styled React Aria `Button` (default `type="button"`). Consumes `ButtonContext`, 
 
 Primary: fill step 9, hover 10, light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow). Custom CSS fill drops alpha; hover is `l - 0.04`; text is white or near-black from lightness. Edge is `tintedSubtle`. Quiet + color: 3.5% wash (hover 7%).
 
+While a menu or overlay is open, the trigger keeps the active fill via RAC `data-pressed` / `aria-expanded` (same tokens as `:active`: `elementActive`, or primary step 10).
+
 `useButton(props)` is exported for custom focus-tracked buttons; prefer `Button`.
 
 ## `Overlay`

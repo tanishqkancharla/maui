@@ -81,14 +81,26 @@ const buttonTextClass = style({
 	textBox: "trim-both cap alphabetic",
 })
 
+/**
+ * RAC `data-pressed` is true while the pointer is down. MenuTrigger’s
+ * PressResponder also keeps it while the menu is open. `aria-expanded`
+ * covers Select / ComboBox / DatePicker / DialogTrigger overlays.
+ */
+function pressedOrExpanded(styles: Record<string, string>) {
+	return {
+		"&:active:not(:disabled), &[data-pressed]:not(:disabled), &[aria-expanded='true']:not(:disabled)":
+			styles,
+	}
+}
+
 const buttonClass = style(buttonBaseClass, {
 	backgroundColor: backgroundColor.element,
 	"&:hover:not(:disabled)": {
 		backgroundColor: backgroundColor.elementHover,
 	},
-	"&:active:not(:disabled)": {
+	...pressedOrExpanded({
 		backgroundColor: backgroundColor.elementActive,
-	},
+	}),
 })
 
 const quietButtonClass = style(
@@ -102,6 +114,10 @@ const quietButtonClass = style(
 			color: colors.gray[12],
 			backgroundColor: backgroundColor.elementHover,
 		},
+		...pressedOrExpanded({
+			color: colors.gray[12],
+			backgroundColor: backgroundColor.elementActive,
+		}),
 		"&:disabled": disabledQuiet,
 	},
 )
@@ -158,9 +174,9 @@ const coloredButtonClass = memoize(
 					"&:hover:not(:disabled)": {
 						backgroundColor: hover,
 					},
-					"&:active:not(:disabled)": {
+					...pressedOrExpanded({
 						backgroundColor: hover,
-					},
+					}),
 					"&:disabled": disabledRaised,
 				})
 			}
@@ -181,13 +197,14 @@ const coloredButtonClass = memoize(
 						"transparent",
 					),
 				},
-				"&:active:not(:disabled)": {
+				...pressedOrExpanded({
+					color: darkerFill(fill),
 					backgroundColor: surfaceWash(
 						fill,
 						surfaceMixPercent.active,
 						"transparent",
 					),
-				},
+				}),
 				"&:disabled": disabledQuiet,
 			})
 		}
@@ -202,9 +219,9 @@ const coloredButtonClass = memoize(
 				"&:hover:not(:disabled)": {
 					backgroundColor: scale[10],
 				},
-				"&:active:not(:disabled)": {
+				...pressedOrExpanded({
 					backgroundColor: scale[10],
-				},
+				}),
 				"&:disabled": disabledRaised,
 			})
 		}
@@ -225,13 +242,14 @@ const coloredButtonClass = memoize(
 					"transparent",
 				),
 			},
-			"&:active:not(:disabled)": {
+			...pressedOrExpanded({
+				color: scale[12],
 				backgroundColor: surfaceWash(
 					scale[9],
 					surfaceMixPercent.active,
 					"transparent",
 				),
-			},
+			}),
 			"&:disabled": disabledQuiet,
 		})
 	},
