@@ -33,7 +33,6 @@ import { evaluateJsx } from "./evaluate"
 import {
 	collectJsxDiagnosticsFromSource,
 	formatErrorBanner,
-	formatTypeErrorBanners,
 	lineFromCompileError,
 	mauiJsxLinter,
 } from "./lint"
@@ -180,16 +179,27 @@ export function JsxEditor() {
 	const bannerLines = useMemo(() => {
 		if (!compiled.ok) {
 			return [
-				formatErrorBanner(
-					compiled.error,
-					lineFromCompileError(compiled.error),
-				),
+				{
+					key: "compile",
+					text: formatErrorBanner(
+						compiled.error,
+						lineFromCompileError(compiled.error),
+					),
+				},
 			]
 		}
 		if (runtimeError) {
-			return [formatErrorBanner(runtimeError.message)]
+			return [
+				{
+					key: "runtime",
+					text: formatErrorBanner(runtimeError.message),
+				},
+			]
 		}
-		return formatTypeErrorBanners(typeErrors)
+		return typeErrors.map((error) => ({
+			key: `${error.from}:${error.to}`,
+			text: formatErrorBanner(error.message, error.line),
+		}))
 	}, [compiled, runtimeError, typeErrors])
 	const outdated = bannerLines.length > 0 || liveSource !== source
 
@@ -282,8 +292,8 @@ export function JsxEditor() {
 					{bannerLines.length > 0 && (
 						<div className={errorClassName} role="status">
 							{bannerLines.map((line) => (
-								<div key={line} className={errorTextClassName}>
-									{line}
+								<div key={line.key} className={errorTextClassName}>
+									{line.text}
 								</div>
 							))}
 						</div>

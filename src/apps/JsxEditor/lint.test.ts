@@ -67,4 +67,31 @@ describe("collectJsxDiagnosticsFromSource", () => {
 			`Line 3: Type '"ghost"' is not assignable to type '"default" | "quiet" | "primary"'.`,
 		])
 	})
+
+	test("reports each multiline disabled Button", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex>
+				<Button
+					variant="primary"
+					variantColor="#1A73E8"
+					style={{ color: "#FFFFFF" }}
+					disabled
+				>
+					Starting
+				</Button>
+				<Button
+					variant="primary"
+					variantColor="#1A73E8"
+					style={{ color: "#FFFFFF" }}
+					disabled
+				>
+					Connecting
+				</Button>
+			</Flex>`,
+		)
+		expect(formatTypeErrorBanners(diagnostics)).toEqual([
+			`Line 6: Property 'disabled' does not exist on Button.`,
+			`Line 14: Property 'disabled' does not exist on Button.`,
+		])
+	})
 })
