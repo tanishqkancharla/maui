@@ -241,7 +241,7 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Button",
-		info: "Button. default is raised, quiet is borderless, primary fills with accent 9.",
+		info: "Button. default is raised, quiet is borderless, primary fills with accent 9. Works as a MenuTrigger child.",
 		html: true,
 		attributes: [
 			{ name: "variant", values: ["default", "quiet", "primary"] },

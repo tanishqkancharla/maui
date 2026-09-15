@@ -1,5 +1,9 @@
-import React, { useCallback, useRef } from "react"
-import { useId } from "react-aria"
+import React, { useCallback } from "react"
+import { useId, useObjectRef } from "react-aria"
+import {
+	Button as RACButton,
+	type ButtonProps as RACButtonProps,
+} from "react-aria-components"
 import { style, useStyles } from "purse-styles"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
@@ -243,33 +247,41 @@ type ButtonData = {
 	focused: boolean
 }
 
-export type ButtonProps = Omit<
-	ButtonAttributes,
-	"children" | "ref" | "disabled"
-> & {
+export type ButtonProps = Omit<RACButtonProps, "children" | "className"> & {
 	children: React.ReactNode
+	className?: string
 	variant?: ButtonVariant
 	variantColor?: ButtonVariantColor
-	/** Whether the button is disabled. */
-	isDisabled?: boolean
 }
 
-export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
-	const ref = useRef<HTMLButtonElement>(null)
+export function useButton(
+	props: Pick<ButtonProps, "onClick" | "onFocus">,
+	forwardedRef?: React.ForwardedRef<HTMLButtonElement>,
+): [
+	ButtonData,
+	Pick<ButtonAttributes, "ref"> & Pick<RACButtonProps, "onClick" | "onFocus">,
+] {
+	const ref = useObjectRef(forwardedRef)
 	const id = useId()
 	const [focused, focusProps] = useFocus(id, ref)
 
 	const onClickRef = useRefCurrent(props.onClick)
 	const onFocusRef = useRefCurrent(props.onFocus)
 
-	const onClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-		focusProps.onFocus(event)
-		onClickRef.current?.(event)
-	}, [])
-	const onFocus = useCallback((event: React.FocusEvent<HTMLButtonElement>) => {
-		focusProps.onFocus(event)
-		onFocusRef.current?.(event)
-	}, [])
+	const onClick = useCallback<NonNullable<RACButtonProps["onClick"]>>(
+		(event) => {
+			focusProps.onFocus(event)
+			onClickRef.current?.(event)
+		},
+		[],
+	)
+	const onFocus = useCallback<NonNullable<RACButtonProps["onFocus"]>>(
+		(event) => {
+			focusProps.onFocus(event)
+			onFocusRef.current?.(event)
+		},
+		[],
+	)
 
 	return [
 		{ focused, id },
@@ -277,7 +289,10 @@ export function useButton(props: ButtonProps): [ButtonData, ButtonAttributes] {
 	]
 }
 
-export function Button(props: ButtonProps) {
+export const Button = React.forwardRef(function Button(
+	props: ButtonProps,
+	forwardedRef: React.ForwardedRef<HTMLButtonElement>,
+) {
 	const {
 		children,
 		className: classNameProp,
@@ -289,24 +304,25 @@ export function Button(props: ButtonProps) {
 		isDisabled,
 		...buttonProps
 	} = props
-	const [data, attributes] = useButton({ children, onClick, onFocus })
+	const [, attributes] = useButton({ onClick, onFocus }, forwardedRef)
 	const className = useStyles(buttonVariantClass(variant, variantColor))
 	const textClassName = useStyles(buttonTextClass)
 	const mergedClassName = [className, classNameProp].filter(Boolean).join(" ")
 
 	return (
-		<button
+		<RACButton
 			{...buttonProps}
-			{...attributes}
+			ref={attributes.ref}
 			type={type}
-			disabled={isDisabled}
-			data-disabled={isDisabled || undefined}
+			isDisabled={isDisabled}
 			className={mergedClassName}
+			onClick={attributes.onClick}
+			onFocus={attributes.onFocus}
 		>
 			{renderButtonChildren(children, textClassName)}
-		</button>
+		</RACButton>
 	)
-}
+})
 
 function buttonVariantClass(
 	variant: ButtonVariant,

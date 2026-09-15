@@ -4,7 +4,7 @@ Gallery: `/components/buttons`. Import from `"maui"`. Overlay and Dialog live on
 
 ## `Button`
 
-Native `<button>` (default `type="button"`). Height 28px, `shadow.subtle`, `radius` 4px.
+Styled React Aria `Button` (default `type="button"`). Consumes `ButtonContext`, so it works as a `MenuTrigger`, `Select`, `DialogTrigger`, `ComboBox`, or `DatePicker` child. Height 28px, `shadow.subtle`, `radius` 4px.
 
 ```tsx
 <Button>Save</Button>
@@ -24,6 +24,7 @@ Native `<button>` (default `type="button"`). Height 28px, `shadow.subtle`, `radi
 | `variant` | `"default"` (raised element) \| `"quiet"` (no shadow, transparent) \| `"primary"` (solid fill) |
 | `variantColor` | Palette name or opaque `#hex` / `rgb(...)`. Primary default is `"accent"`. Quiet ignores color unless set |
 | `isDisabled` | React Aria name. Maps to native `disabled`. **No `disabled` React prop** |
+| `onClick` | Still supported. React Aria also exposes `onPress` |
 | `children` | Text is wrapped for cap-height trim; SVG icons sit beside text. Icon-only needs `aria-label` |
 
 Primary: fill step 9, hover 10, light text (`onAccent`, or step 12 on amber/lime/mint/sky/yellow). Custom CSS fill drops alpha; hover is `l - 0.04`; text is white or near-black from lightness. Edge is `tintedSubtle`. Quiet + color: 3.5% wash (hover 7%).
