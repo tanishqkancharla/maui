@@ -119,6 +119,10 @@ export function formatErrorBanner(message: string, line?: number): string {
 	return line ? `Line ${line}: ${cleaned}` : cleaned
 }
 
+export function formatTypeErrorBanners(errors: JsxDiagnostic[]): string[] {
+	return errors.map((error) => formatErrorBanner(error.message, error.line))
+}
+
 export function lineFromCompileError(message: string): number | undefined {
 	const match = /\((\d+):\d+\)/.exec(message)
 	if (!match) return undefined
