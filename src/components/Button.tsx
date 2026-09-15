@@ -114,7 +114,7 @@ const darkTextOnSolid: ReadonlySet<ColorName> = new Set([
 export type ButtonCssColor = `#${string}` | `rgb(${string}`
 export type ButtonVariantColor = ColorName | ButtonCssColor
 
-function isCssColor(value: string): value is ButtonCssColor {
+export function isCssColor(value: string): value is ButtonCssColor {
 	return value.startsWith("#") || value.startsWith("rgb")
 }
 

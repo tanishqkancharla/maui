@@ -63,6 +63,8 @@ export type AttributeCompletion = {
 	values?: string[]
 	boolean?: boolean
 	object?: boolean
+	/** Palette `values` plus opaque hex / `rgb()` fills, matching ButtonVariantColor. */
+	cssColor?: boolean
 }
 
 export type CatalogComponent = {
@@ -247,6 +249,7 @@ export const catalog: CatalogComponent[] = [
 				name: "variantColor",
 				info: "Palette name (colors[name], primary step 9) or an opaque hex / rgb() fill. Quiet uses a 3.5% wash.",
 				values: [...colorNames],
+				cssColor: true,
 			},
 			{ name: "aria-label" },
 			{ name: "isDisabled", boolean: true },
