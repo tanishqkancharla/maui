@@ -1,5 +1,8 @@
 import { describe, expect, test } from "vitest"
-import { collectJsxDiagnosticsFromSource } from "./lint"
+import {
+	collectJsxDiagnosticsFromSource,
+	formatTypeErrorBanners,
+} from "./lint"
 
 describe("collectJsxDiagnosticsFromSource", () => {
 	test("accepts a Button palette variantColor", () => {
@@ -49,5 +52,46 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		expect(diagnostics[0]?.message).toBe(
 			`Type '"solid"' is not assignable to type '"default" | "quiet" | "primary"'.`,
 		)
+	})
+
+	test("reports every invalid attribute", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex>
+				<Button variant="solid" disabled>Connect</Button>
+				<Button variant="ghost">Cancel</Button>
+			</Flex>`,
+		)
+		expect(formatTypeErrorBanners(diagnostics)).toEqual([
+			`Line 2: Type '"solid"' is not assignable to type '"default" | "quiet" | "primary"'.`,
+			`Line 2: Property 'disabled' does not exist on Button.`,
+			`Line 3: Type '"ghost"' is not assignable to type '"default" | "quiet" | "primary"'.`,
+		])
+	})
+
+	test("reports each multiline disabled Button", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex>
+				<Button
+					variant="primary"
+					variantColor="#1A73E8"
+					style={{ color: "#FFFFFF" }}
+					disabled
+				>
+					Starting
+				</Button>
+				<Button
+					variant="primary"
+					variantColor="#1A73E8"
+					style={{ color: "#FFFFFF" }}
+					disabled
+				>
+					Connecting
+				</Button>
+			</Flex>`,
+		)
+		expect(formatTypeErrorBanners(diagnostics)).toEqual([
+			`Line 6: Property 'disabled' does not exist on Button.`,
+			`Line 14: Property 'disabled' does not exist on Button.`,
+		])
 	})
 })

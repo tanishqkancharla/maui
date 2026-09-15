@@ -176,22 +176,32 @@ export function JsxEditor() {
 		() => collectJsxDiagnosticsFromSource(source),
 		[source],
 	)
-	const bannerError = useMemo(() => {
+	const bannerLines = useMemo(() => {
 		if (!compiled.ok) {
-			return formatErrorBanner(
-				compiled.error,
-				lineFromCompileError(compiled.error),
-			)
+			return [
+				{
+					key: "compile",
+					text: formatErrorBanner(
+						compiled.error,
+						lineFromCompileError(compiled.error),
+					),
+				},
+			]
 		}
 		if (runtimeError) {
-			return formatErrorBanner(runtimeError.message)
+			return [
+				{
+					key: "runtime",
+					text: formatErrorBanner(runtimeError.message),
+				},
+			]
 		}
-		if (typeErrors[0]) {
-			return formatErrorBanner(typeErrors[0].message, typeErrors[0].line)
-		}
-		return null
+		return typeErrors.map((error) => ({
+			key: `${error.from}:${error.to}`,
+			text: formatErrorBanner(error.message, error.line),
+		}))
 	}, [compiled, runtimeError, typeErrors])
-	const outdated = Boolean(bannerError) || liveSource !== source
+	const outdated = bannerLines.length > 0 || liveSource !== source
 
 	const formatSource = useCallback(async () => {
 		const view = editorViewRef.current
@@ -279,9 +289,13 @@ export function JsxEditor() {
 							Preview
 						</Text>
 					</div>
-					{bannerError && (
+					{bannerLines.length > 0 && (
 						<div className={errorClassName} role="status">
-							<span className={errorTextClassName}>{bannerError}</span>
+							{bannerLines.map((line) => (
+								<div key={line.key} className={errorTextClassName}>
+									{line.text}
+								</div>
+							))}
 						</div>
 					)}
 					<div
@@ -382,12 +396,17 @@ const previewOutdatedClass = style({
 	opacity: 0.5,
 })
 
-const errorClass = style(spacing.padding({ x: 4, y: 3 }), {
+const errorClass = style(spacing.padding({ x: 4, y: 3 }), spacing.gap[2], {
+	display: "flex",
+	flexDirection: "column",
 	flexShrink: 0,
+	maxHeight: "40%",
+	overflow: "auto",
 	borderBottom: `1px solid ${colors.red[6]}`,
 	backgroundColor: colors.red[3],
 })
 
 const errorTextClass = style(text({ size: "xs", fontWeight: 400, color: "highContrast" }), {
 	color: colors.red[11],
+	whiteSpace: "pre-wrap",
 })
