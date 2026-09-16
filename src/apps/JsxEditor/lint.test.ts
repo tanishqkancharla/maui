@@ -94,4 +94,18 @@ describe("collectJsxDiagnosticsFromSource", () => {
 			`Line 14: Property 'disabled' does not exist on Button.`,
 		])
 	})
+
+	test("accepts MenuTrigger with a Maui Button", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<MenuTrigger>
+				<Button variant="quiet" aria-label="Actions">
+					<Icons.DotsHorizontal />
+				</Button>
+				<Menu>
+					<MenuItem id="rename">Rename</MenuItem>
+				</Menu>
+			</MenuTrigger>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
 })
