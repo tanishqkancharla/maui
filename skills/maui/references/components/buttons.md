@@ -58,3 +58,6 @@ Full-viewport portal. `onClickOutside` fires when the backdrop itself is the mou
   </Dialog>
 )}
 ```
+
+Edge-anchored mobile nav is [`Drawer`](drawer.md), not this Dialog and not Overlay.
+

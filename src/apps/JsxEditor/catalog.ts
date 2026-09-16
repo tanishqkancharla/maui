@@ -5,6 +5,7 @@ import { Checkbox } from "../../components/Checkbox"
 import { Code, Kbd } from "../../components/Code"
 import { CodeBlock } from "../../components/CodeBlock"
 import { Dialog } from "../../components/Dialog"
+import { Drawer } from "../../components/Drawer"
 import { Editor } from "../../components/Editor"
 import { FuzzyString } from "../../components/FuzzyString"
 import { Icons } from "../../components/Icons"
@@ -246,6 +247,17 @@ export const catalog: CatalogComponent[] = [
 		],
 	},
 	{
+		name: "Drawer",
+		info: "Start/end edge modal overlay. RAC isOpen / onOpenChange. Swipe toward the edge, tap scrim, or Escape to dismiss. Not a Sidebar prop.",
+		attributes: [
+			{ name: "isOpen", boolean: true },
+			{ name: "defaultOpen", boolean: true },
+			{ name: "side", values: ["start", "end"] },
+			{ name: "isDismissable", boolean: true, info: "Default true" },
+			{ name: "aria-label" },
+		],
+	},
+	{
 		name: "Badge",
 		info: "Compact count or status label.",
 		html: true,
@@ -478,6 +490,7 @@ export const previewScope: Record<string, unknown> = {
 	Kbd,
 	CodeBlock,
 	Dialog,
+	Drawer,
 	FuzzyString,
 	Icons,
 	NumberField,
