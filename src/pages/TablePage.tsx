@@ -1,7 +1,7 @@
 import { useState } from "react"
 import type { Selection } from "react-aria-components"
 import { Code } from "../components/Code"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import {
 	Table,

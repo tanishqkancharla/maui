@@ -118,3 +118,14 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		expect(diagnostics).toEqual([])
 	})
 })
+
+describe("JSX editor catalog", () => {
+	test("does not expose Padding or Panel", async () => {
+		const { catalog, previewScope } = await import("./catalog")
+		const names = catalog.map((entry) => entry.name)
+		expect(names).not.toContain("Padding")
+		expect(names).not.toContain("Panel")
+		expect(previewScope).not.toHaveProperty("Padding")
+		expect(previewScope).not.toHaveProperty("Panel")
+	})
+})

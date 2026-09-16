@@ -1,5 +1,5 @@
 import { style, useStyles } from "purse-styles"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { Thinking } from "../components/Thinking"
 import { H2, H3, P } from "../components/Typography"

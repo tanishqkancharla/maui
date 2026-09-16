@@ -1,6 +1,6 @@
 import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import {
 	Table,

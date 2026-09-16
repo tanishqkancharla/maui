@@ -54,7 +54,7 @@ Before designing or implementing new UI:
 | A pattern | [Patterns](#patterns) |
 | An app | [Apps](#apps) |
 
-Patterns, demo apps, and the gallery `Panel` preview surface are **not** part of the `"maui"` package barrel. Prefer the recipes in those references and rebuild with barrel exports (`Button`, `Flex`, `text(...)`, …).
+Patterns, demo apps, and the gallery `Panel` preview frame are **not** package components. `Panel` is not on the `"maui"` barrel, not in `src/components`, and not in the JSX editor catalog. Prefer the recipes in those references and rebuild with barrel exports (`Button`, `Flex`, `text(...)`, …).
 
 ## Design constraints
 

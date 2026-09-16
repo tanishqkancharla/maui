@@ -2,7 +2,7 @@
 
 Gallery: `/components/layout-utilities`. Import from `"maui"`. Layout tokens: [tokens.md](../tokens.md).
 
-Gallery-only: `Panel` is a preview frame in the docs site. It is **not** exported. Use `Flex` + `shadow` + `radius` instead.
+Gallery-only: `Panel` is a dotted preview frame in the docs site (`src/pages/Panel.tsx`). It is **not** a `"maui"` export (barrel or `src/components`). Use `Flex` + `shadow` + `radius` instead.
 
 ## `Flex`
 

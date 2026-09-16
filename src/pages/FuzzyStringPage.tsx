@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
 import { FuzzyString } from "../components/FuzzyString"
 import { SearchField } from "../components/Input"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { text } from "../tokens/text"

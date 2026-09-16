@@ -1,6 +1,6 @@
 import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import {
 	Table,

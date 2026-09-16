@@ -8,7 +8,7 @@ import {
 	TableRow,
 } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { borderColor } from "../tokens/borders"
