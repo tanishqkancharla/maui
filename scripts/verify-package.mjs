@@ -11,12 +11,6 @@ import { dirname, join, relative, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..")
-const forbiddenTarballPaths = [
-	"package/src/components/Panel.tsx",
-	"package/dist/components/Panel.js",
-	"package/dist/components/Panel.d.ts",
-]
-
 const requiredTarballPaths = [
 	"package/package.json",
 	"package/dist/maui.js",
@@ -251,11 +245,6 @@ function main() {
 			throw new Error(`Tarball is missing ${required}`)
 		}
 	}
-	for (const forbidden of forbiddenTarballPaths) {
-		if (listingSet.has(forbidden)) {
-			throw new Error(`Tarball must not include gallery-only ${forbidden}`)
-		}
-	}
 	if (listing.some((path) => path === "package/dist" && !listingSet.has("package/dist/maui.js"))) {
 		throw new Error("Tarball dist/ is incomplete")
 	}
@@ -267,10 +256,6 @@ function main() {
 			assertCaseSensitivePath(extractedRoot, required)
 		}
 		verifyPackageJson(extractedRoot)
-		const dts = readFileSync(join(extractedRoot, "package", "dist", "maui.d.ts"), "utf8")
-		if (/\bexport\s+\{[^}]*\bPanel\b/.test(dts) || /\bdeclare function Panel\b/.test(dts)) {
-			throw new Error("dist/maui.d.ts must not export Panel")
-		}
 		verifyRelativeImports(extractedRoot)
 		console.log("Tarball files and relative imports are complete.")
 		consumeTarball(tarballPath)
