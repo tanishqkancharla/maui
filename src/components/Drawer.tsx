@@ -1,8 +1,9 @@
 import {
 	useCallback,
-	useLayoutEffect,
+	useEffect,
 	useRef,
 	useState,
+	type PointerEvent as ReactPointerEvent,
 	type ReactNode,
 } from "react"
 import {
@@ -21,12 +22,10 @@ import {
 	useMotionValue,
 	useReducedMotion,
 	useTransform,
-	type PanInfo,
 } from "motion/react"
 import { background } from "../tokens/background"
+import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { radius } from "../tokens/radius"
-import { shadow } from "../tokens/shadow"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { motionDurationMs } from "../tokens/motion"
 import { cls } from "../utils/cls"
@@ -52,6 +51,7 @@ const PANEL_MAX_VW = 85
 const SCRIM_ALPHA = 0.32
 const DISMISS_OFFSET_RATIO = 0.35
 const DISMISS_VELOCITY = 500
+const AXIS_INTENT_PX = 10
 
 const MotionModalOverlay = motion.create(ModalOverlay)
 
@@ -152,6 +152,10 @@ function DrawerLayer({
 	const closing = useRef(false)
 	const panelRef = useRef<HTMLDivElement | null>(null)
 	const suppressClick = useRef(false)
+	const axisLock = useRef<"pending" | "x" | "y" | null>(null)
+	const pointerOrigin = useRef({ x: 0, y: 0, startX: 0 })
+	const lastMove = useRef({ x: 0, t: 0, v: 0 })
+	const enterAnimation = useRef<ReturnType<typeof animate> | null>(null)
 
 	const panelWidth = measurePanelWidth()
 	const closesToNegativeX =
@@ -165,17 +169,21 @@ function DrawerLayer({
 	const canDrag = isDismissable && !reduceMotion
 	const dismissOffset = panelWidth * DISMISS_OFFSET_RATIO
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (reduceMotion) {
 			overlayOpacity.set(0)
 			void animate(overlayOpacity, 1, reducedMotionTransition)
 			return
 		}
 		x.set(closedX)
-		void animate(x, 0, panelEnterExit)
+		enterAnimation.current = animate(x, 0, panelEnterExit)
+		return () => {
+			enterAnimation.current?.stop()
+			enterAnimation.current = null
+		}
 	}, [closedX, overlayOpacity, reduceMotion, x])
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		const node = panelRef.current
 		if (!node) {
 			return
@@ -197,6 +205,7 @@ function DrawerLayer({
 				return
 			}
 			closing.current = true
+			enterAnimation.current?.stop()
 			if (reduceMotion) {
 				void animate(overlayOpacity, 0, reducedMotionTransition).then(() => {
 					onOpenChange(false)
@@ -210,28 +219,114 @@ function DrawerLayer({
 		[closedX, onOpenChange, overlayOpacity, reduceMotion, x],
 	)
 
-	const onDragEnd = useCallback(
-		(_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-			if (!isDismissable) {
-				void animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
+	const clampDragX = useCallback(
+		(next: number) => {
+			return closesToNegativeX
+				? Math.min(0, Math.max(closedX, next))
+				: Math.max(0, Math.min(closedX, next))
+		},
+		[closedX, closesToNegativeX],
+	)
+
+	const finishDrag = useCallback(() => {
+		const offset = x.get()
+		const velocity = lastMove.current.v
+		const shouldClose =
+			isDismissable &&
+			(closesToNegativeX
+				? offset < -dismissOffset || velocity < -DISMISS_VELOCITY
+				: offset > dismissOffset || velocity > DISMISS_VELOCITY)
+		if (shouldClose) {
+			suppressClick.current = true
+			requestOpenChange(false)
+			return
+		}
+		void animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
+	}, [
+		closesToNegativeX,
+		dismissOffset,
+		isDismissable,
+		requestOpenChange,
+		x,
+	])
+
+	const onPointerDown = useCallback(
+		(event: ReactPointerEvent<HTMLDivElement>) => {
+			suppressClick.current = false
+			const target = event.target
+			if (target instanceof Element) {
+				const link = target.closest("a")
+				if (link instanceof HTMLElement) {
+					link.draggable = false
+				}
+			}
+			if (!canDrag || event.button !== 0) {
 				return
 			}
-			const shouldClose = closesToNegativeX
-				? info.offset.x < -dismissOffset || info.velocity.x < -DISMISS_VELOCITY
-				: info.offset.x > dismissOffset || info.velocity.x > DISMISS_VELOCITY
-			if (shouldClose) {
-				requestOpenChange(false)
-			} else {
-				void animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
+			axisLock.current = "pending"
+			pointerOrigin.current = {
+				x: event.clientX,
+				y: event.clientY,
+				startX: x.get(),
 			}
+			lastMove.current = { x: event.clientX, t: event.timeStamp, v: 0 }
 		},
-		[
-			closesToNegativeX,
-			dismissOffset,
-			isDismissable,
-			requestOpenChange,
-			x,
-		],
+		[canDrag, x],
+	)
+
+	const onPointerMove = useCallback(
+		(event: ReactPointerEvent<HTMLDivElement>) => {
+			if (!canDrag || axisLock.current == null) {
+				return
+			}
+			const dx = event.clientX - pointerOrigin.current.x
+			const dy = event.clientY - pointerOrigin.current.y
+			if (axisLock.current === "pending") {
+				if (Math.abs(dx) < AXIS_INTENT_PX && Math.abs(dy) < AXIS_INTENT_PX) {
+					return
+				}
+				if (Math.abs(dx) > Math.abs(dy)) {
+					axisLock.current = "x"
+					enterAnimation.current?.stop()
+					try {
+						event.currentTarget.setPointerCapture(event.pointerId)
+					} catch {
+						// iOS can reject capture on some targets; window-level moves still arrive.
+					}
+				} else {
+					axisLock.current = "y"
+					return
+				}
+			}
+			if (axisLock.current !== "x") {
+				return
+			}
+			event.preventDefault()
+			const dt = event.timeStamp - lastMove.current.t
+			if (dt > 0) {
+				lastMove.current.v = ((event.clientX - lastMove.current.x) / dt) * 1000
+			}
+			lastMove.current = { x: event.clientX, t: event.timeStamp, v: lastMove.current.v }
+			const next = clampDragX(pointerOrigin.current.startX + dx)
+			if (Math.abs(next) > 8) {
+				suppressClick.current = true
+			}
+			x.set(next)
+		},
+		[canDrag, clampDragX, x],
+	)
+
+	const onPointerUp = useCallback(
+		(event: ReactPointerEvent<HTMLDivElement>) => {
+			if (axisLock.current === "x") {
+				if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+					event.currentTarget.releasePointerCapture(event.pointerId)
+				}
+				finishDrag()
+			}
+			axisLock.current = null
+		},
+		[finishDrag],
 	)
 
 	return (
@@ -256,25 +351,10 @@ function DrawerLayer({
 							? undefined
 							: { x, touchAction: canDrag ? "pan-y" : "auto" }
 					}
-					drag={canDrag ? "x" : false}
-					dragMomentum={false}
-					dragElastic={0}
-					onPointerDownCapture={(event) => {
-						suppressClick.current = false
-						const target = event.target
-						if (!(target instanceof Element)) {
-							return
-						}
-						const link = target.closest("a")
-						if (link instanceof HTMLElement) {
-							link.draggable = false
-						}
-					}}
-					onDrag={(_event, info) => {
-						if (Math.abs(info.offset.x) > 8) {
-							suppressClick.current = true
-						}
-					}}
+					onPointerDownCapture={onPointerDown}
+					onPointerMoveCapture={onPointerMove}
+					onPointerUpCapture={onPointerUp}
+					onPointerCancelCapture={onPointerUp}
 					onClickCapture={(event) => {
 						if (!suppressClick.current) {
 							return
@@ -283,12 +363,6 @@ function DrawerLayer({
 						event.stopPropagation()
 						suppressClick.current = false
 					}}
-					dragConstraints={
-						closesToNegativeX
-							? { left: -panelWidth, right: 0 }
-							: { left: 0, right: panelWidth }
-					}
-					onDragEnd={onDragEnd}
 				>
 					<AriaDialog
 						className={dialogClassName}
@@ -313,7 +387,6 @@ const overlayClass = style({
 	inset: 0,
 	zIndex: 1100,
 	overflow: "hidden",
-	touchAction: "none",
 	overscrollBehavior: "none",
 })
 
@@ -341,37 +414,28 @@ const shellClass = style({
 	},
 })
 
-const panelClass = style(
-	background.element,
-	shadow.subtle,
-	radius.lg,
-	{
+const panelClass = style(background.element, {
+	width: "100%",
+	height: "100%",
+	display: "flex",
+	flexDirection: "column",
+	overflow: "hidden",
+	borderRadius: 0,
+	willChange: "transform",
+	touchAction: "pan-y",
+	userSelect: "none",
+	boxShadow: `0 0 0 1px ${borderColor.outline}`,
+	"& [role='dialog'] > nav": {
 		width: "100%",
-		height: "100%",
-		display: "flex",
-		flexDirection: "column",
-		overflow: "hidden",
-		willChange: "transform",
-		touchAction: "pan-y",
-		userSelect: "none",
-		"&[data-side='start']": {
-			borderStartStartRadius: 0,
-			borderEndStartRadius: 0,
-		},
-		"&[data-side='end']": {
-			borderStartEndRadius: 0,
-			borderEndEndRadius: 0,
-		},
-		"& [role='dialog'] > nav": {
-			width: "100%",
-			minWidth: 0,
-			height: "100%",
-			boxShadow: "none",
-			borderRadius: 0,
-			backgroundColor: "transparent",
-		},
+		minWidth: 0,
+		height: "auto",
+		minHeight: "100%",
+		overflow: "visible",
+		boxShadow: "none",
+		borderRadius: 0,
+		backgroundColor: "transparent",
 	},
-)
+})
 
 const dialogClass = style({
 	height: "100%",

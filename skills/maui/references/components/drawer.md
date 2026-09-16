@@ -33,7 +33,7 @@ Out of the public API: drag/snap props, cookies, breakpoint hooks, `DrawerTrigge
 
 ## Behavior
 
-- Raised surface: `background.element` + `shadow.subtle` + `radius.lg` (inner corners; flush to the start/end edge).
+- Flush square panel: `background.element`, no radius, outside 1px `borderColor.outline` ring (`box-shadow: 0 0 0 1px`). Nested Sidebar/nav drops its own radius and shadow.
 - Scrim is gray-12 alpha. Content does not shrink or push. Focus is trapped.
 - Nested vertical scroll wins until horizontal intent is clear.
 - `prefers-reduced-motion`: no rubber-band drag; opacity-only open/close (`useReducedMotion`, same as [Crossfade](crossfade.md)).
