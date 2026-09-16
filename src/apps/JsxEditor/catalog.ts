@@ -348,6 +348,35 @@ export const catalog: CatalogComponent[] = [
 		attributes: [{ name: "id" }],
 	},
 	{
+		name: "MenuTrigger",
+		info: "Exactly two children: a Maui Button trigger, then Menu. The trigger stays selected while open.",
+		attributes: [
+			{
+				name: "placement",
+				values: [
+					"bottom",
+					"bottom start",
+					"bottom end",
+					"top",
+					"top start",
+					"top end",
+					"left",
+					"right",
+				],
+			},
+		],
+	},
+	{
+		name: "Menu",
+		info: "Popover collection of actions. Second child of MenuTrigger.",
+		attributes: [],
+	},
+	{
+		name: "MenuItem",
+		info: "One action in a Menu. id is the onAction key.",
+		attributes: [{ name: "id" }],
+	},
+	{
 		name: "Table",
 		info: "Accessible data table. Pair with TableHeader, TableHead, TableBody, TableRow, and TableCell.",
 		attributes: [{ name: "aria-label" }],
@@ -534,6 +563,17 @@ export const defaultJsx = `<Flex column gap={6}>
       Create
     </Button>
     <Button variant="quiet">Cancel</Button>
+    <MenuTrigger>
+      <Button variant="quiet" aria-label="Actions">
+        <Icons.DotsHorizontal />
+      </Button>
+      <Menu>
+        <MenuItem id="rename">Rename</MenuItem>
+        <MenuItem id="duplicate">Duplicate</MenuItem>
+        <MenuItem id="archive">Archive</MenuItem>
+        <MenuItem id="delete">Delete</MenuItem>
+      </Menu>
+    </MenuTrigger>
   </Flex>
 </Flex>
 `
