@@ -15,8 +15,9 @@ export function FlexTokenPage() {
 			<P>
 				<code>Flex</code> is a small layout wrapper around the spacing scale.
 				Pass <code>row</code> or <code>column</code>, and use scale steps for{" "}
-				<code>gap</code> and padding (<code>p</code>, <code>px</code>,{" "}
-				<code>py</code>, <code>pt</code>, <code>pb</code>) (not raw pixels).
+				<code>gap</code> and padding (<code>padding</code> / <code>p</code>,{" "}
+				<code>px</code>, <code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
+				<code>pb</code>, <code>pl</code>) (not raw pixels).
 				Optional{" "}
 				<code>border</code>, <code>shadow</code>, and <code>radius</code> turn
 				it into a surface. Shadows already include a 1px ring, so{" "}
@@ -81,8 +82,9 @@ export function FlexTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>p</code>, <code>px</code>, <code>py</code>, <code>pt</code>,{" "}
-							<code>pb</code>
+							<code>padding</code> / <code>p</code>, <code>px</code>,{" "}
+							<code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
+							<code>pb</code>, <code>pl</code>
 						</TableCell>
 						<TableCell>
 							<code style={unionCodeStyle}>
@@ -97,7 +99,8 @@ export function FlexTokenPage() {
 							</code>
 						</TableCell>
 						<TableCell>
-							Padding from the spacing scale. More specific axes win (
+							Padding from the spacing scale. <code>padding</code> is an alias
+							of <code>p</code>. More specific axes win (
 							<code>pt</code> over <code>py</code> over <code>p</code>).
 						</TableCell>
 					</TableRow>

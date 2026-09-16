@@ -14,7 +14,7 @@ This is a **full-bleed schedule**, not a prose column.
 
 ## Sidebar
 
-Raised `background.element` + `shadow.subtle`, column `gap` 6, padding 4.
+Raised `background.element` + `shadow.subtle`, `Flex column` with `gap={6} p={4}`.
 
 - Toolbar: quiet icon buttons — hide sidebar (`Sidebar` icon), new event (`Plus`). Wrap in `Tooltip`.
 - **Mini month**: 7-column weekday initials (`2xs`), 24px circular day buttons. Today = `accent[9]` + `onAccent` text. Selected (not today) = `grayAlpha[4]`. Outside-month = `gray[8]`. Hover = `elementHover` (no background transition on the chrome; day buttons may use `motion.standard` on color only). Prev/next month chevrons.
@@ -34,7 +34,7 @@ Event colors: `accent` | `green` | `orange` | `pink` — fill step 3, text 11, s
 
 ## Details pane
 
-Raised column, padding 8.
+Raised `Flex column` with `p={8}`.
 
 - `SearchField` “Search events”. Matches render as a list of title (`FuzzyString`) + meta; click jumps to that event and date.
 - Selected event: title `lg`/600, time range or “All day”, duration, calendar swatch + name, `Button` “Add meeting note”.

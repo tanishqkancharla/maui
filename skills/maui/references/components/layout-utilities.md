@@ -22,16 +22,14 @@ Row **or** column (exactly one of `row` / `column` is required).
 | `row` / `column` | Required, mutually exclusive |
 | `gap` | Spacing step |
 | `p` / `padding` | All-side padding step |
-| `px` `py` `pt` `pb` | Axis / side padding |
+| `px` `py` `pt` `pr` `pb` `pl` | Axis / side padding |
 | `alignItems` | CSS `align-items` |
 | `border` | `true` (outline) or `"border" \| "outline" \| "accent"`. **Skipped when `shadow` is set** |
 | `shadow` | `"subtle" \| "medium" \| "strong"` — includes a ring; do not also set `border` |
 | `radius` | Token key (`sm`, `lg`, `pill`, …) |
 | `style` | React style object |
 
-## `Padding`
-
-`xy` (all), `x` / `y`, or `top` `right` `bottom` `left`. Spacing steps.
+Do not wrap children in a `Padding` box — that component does not exist. Use `Flex` padding props.
 
 ## `Gap`
 

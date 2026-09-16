@@ -11,37 +11,15 @@ export type FlexShadow = keyof typeof shadow
 export type FlexRadius = keyof typeof radius
 export type FlexBorder = true | BorderColor
 
-type PaddingProps = {
-	top?: Space
-	left?: Space
-	right?: Space
-	bottom?: Space
-	x?: Space
-	y?: Space
-	xy?: Space
-	children?: React.ReactNode
-}
-
-export function Padding(props: PaddingProps) {
-	const className = useStyles(
-		spacing.padding({
-			top: props.top ?? props.y ?? props.xy,
-			bottom: props.bottom ?? props.y ?? props.xy,
-			left: props.left ?? props.x ?? props.xy,
-			right: props.right ?? props.x ?? props.xy,
-		}),
-	)
-
-	return <div className={className}>{props.children}</div>
-}
-
 type FlexProps = {
 	gap?: Space
 	p?: Space
 	px?: Space
 	py?: Space
 	pt?: Space
+	pr?: Space
 	pb?: Space
+	pl?: Space
 	padding?: Space
 	children?: React.ReactNode
 	alignItems?: React.CSSProperties["alignItems"]
@@ -70,7 +48,9 @@ export function Flex(props: FlexProps) {
 		px,
 		py,
 		pt,
+		pr,
 		pb,
+		pl,
 		padding,
 		alignItems,
 		border: borderProp,
@@ -92,7 +72,9 @@ export function Flex(props: FlexProps) {
 			px === undefined &&
 			py === undefined &&
 			pt === undefined &&
+			pr === undefined &&
 			pb === undefined &&
+			pl === undefined &&
 			padding === undefined
 			? undefined
 			: spacing.padding({
@@ -100,7 +82,9 @@ export function Flex(props: FlexProps) {
 					x: px,
 					y: py,
 					top: pt,
+					right: pr,
 					bottom: pb,
+					left: pl,
 				}),
 		alignItems === undefined ? undefined : style({ alignItems }),
 		shadowProp ? shadow[shadowProp] : undefined,

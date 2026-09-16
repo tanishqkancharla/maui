@@ -88,7 +88,7 @@ internal button or segment.
 
 ## Layout utilities
 
-`Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px. `Spacer` grows to fill leftover flex space. `Divider` is a horizontal rule.
+`Flex` and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4} padding={4}>` is 9px gap and 9px inset, not 4px. Put padding on `Flex` (`padding` / `p`, `px`, `py`, `pt`, `pr`, `pb`, `pl`) — there is no `Padding` component. `Spacer` grows to fill leftover flex space. `Divider` is a horizontal rule.
 
 ## Icons
 

@@ -95,6 +95,15 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		])
 	})
 
+	test("accepts Flex padding aliases and side props", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex column padding={6} px={4} py={3} pt={2} pr={8} pb={2} pl={8}>
+				<Text>Inset</Text>
+			</Flex>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
+
 	test("accepts MenuTrigger with a Maui Button", () => {
 		const diagnostics = collectJsxDiagnosticsFromSource(
 			`<MenuTrigger>

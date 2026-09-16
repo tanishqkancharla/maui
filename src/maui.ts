@@ -134,7 +134,6 @@ export {
 export { FuzzyString } from "./components/FuzzyString"
 export {
 	Flex,
-	Padding,
 	Gap,
 	Spacer,
 	Divider,
