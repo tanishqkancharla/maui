@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * Pack Maui and validate the real tarball: required files, case-sensitive
- * relative imports, declarations, and a fresh consumer install/import.
- * Does not mock the package contents.
+ * Pack-and-inspect publish smoke test of the real npm tarball:
+ * required files, case-sensitive relative imports, package.json
+ * exports, no prepare-on-install, fresh consumer resolve/esbuild.
+ * No product or public-API assertions — the maui.ts barrel is the
+ * public API. Do not denylist components or unpublished files here.
  */
 import { execFileSync } from "node:child_process"
 import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs"
