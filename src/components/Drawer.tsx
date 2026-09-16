@@ -56,7 +56,7 @@ const MotionModalOverlay = motion.create(ModalOverlay)
 
 const panelEnterExit = {
 	type: "tween" as const,
-	duration: 0.32,
+	duration: 0.4,
 	ease: [0.32, 0, 0.2, 1] as const,
 }
 
