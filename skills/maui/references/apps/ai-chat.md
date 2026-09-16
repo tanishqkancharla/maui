@@ -13,7 +13,7 @@ Column shell: outline border, `radius.lg`, `minHeight` ~560px / `maxHeight` ~720
 
 **Feed** (`role="log"` `aria-label="Conversation"` `aria-relevant="additions"`)
 
-- Padding `x: 8, y: 6`, column `gap` 6, `flex: 1`, `overflowY: auto`. Scroll to bottom when messages change.
+- `Flex column` with `px={8} py={6} gap={6}`, `flex: 1`, `overflowY: auto`. Scroll to bottom when messages change.
 - **User**: `justify: end`, bubble `maxWidth: 80%`, `prose("sm")` paragraph, `radius.md`, `shadow.subtle`, `background.element`, `pre-wrap`.
 - **Assistant**: full-width column.
   1. Optional tool-call lines (lowContrast, ellipsis): `Read path`, `Wrote path`, `$ command` (command in `monospace`).
@@ -22,8 +22,8 @@ Column shell: outline border, `radius.lg`, `minHeight` ~560px / `maxHeight` ~720
 
 **Composer**
 
-- Outer padding `x: 6, top: 4, bottom: 6`.
-- Inner shell: `radius.lg`, `shadow.subtle`, `background.element`, padding `x: 4, y: 3`, column.
+- Outer `Flex` with `px={6} pt={4} pb={6}`.
+- Inner shell: `radius.lg`, `shadow.subtle`, `background.element`, `Flex column` with `px={4} py={3}`.
 - `<Editor size="sm" onSubmit={send} editable={!streaming} placeholder="Message the assistant…" />`
 - Send: circular quiet-ish `Button` (`radius.circle`, no box-shadow, `gray[3]` fill so it reads on `element`), icon `ArrowUp`, `aria-label="Send"`, disabled while streaming or empty. ⌘/Ctrl+Enter also sends (`Editor onSubmit`).
 

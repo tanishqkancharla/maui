@@ -2,22 +2,23 @@ import { CodeBlock } from "../components/CodeBlock"
 import { Prose } from "../components/Prose"
 import { Text } from "../components/Text"
 import { H2, H3, P } from "../components/Typography"
-import { Divider, Flex, Gap, Padding, Spacer } from "../components/Utils"
+import { Divider, Flex, Gap, Spacer } from "../components/Utils"
 
 export function LayoutUtilitiesPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Layout utilities</H2>
 			<P>
-				<code>Padding</code>, <code>Flex</code>, and <code>Gap</code> take
-				spacing scale steps (<code>1</code>–<code>16</code>), not raw pixels.{" "}
-				<code>Flex</code> also accepts <code>border</code>, <code>shadow</code>,{" "}
-				<code>radius</code>, and padding (<code>p</code>, <code>px</code>,{" "}
-				<code>py</code>, <code>pt</code>, <code>pb</code>) when it should read
-				as a surface. Shadows already include a 1px ring, so do not also set{" "}
-				<code>border</code>.
+				<code>Flex</code> and <code>Gap</code> take spacing scale steps (
+				<code>1</code>–<code>16</code>), not raw pixels. Put inset on{" "}
+				<code>Flex</code> with <code>padding</code> / <code>p</code>,{" "}
+				<code>px</code>, <code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
+				<code>pb</code>, <code>pl</code>. <code>Flex</code> also accepts{" "}
+				<code>border</code>, <code>shadow</code>, and <code>radius</code> when
+				it should read as a surface. Shadows already include a 1px ring, so do
+				not also set <code>border</code>.
 			</P>
-			<Padding xy={6}>
+			<Flex column padding={6}>
 				<Flex row alignItems="center" px={4} py={3} border="outline" radius="md">
 					<Text size="sm">Flex</Text>
 					<Gap width={6} />
@@ -25,19 +26,19 @@ export function LayoutUtilitiesPage() {
 					<Spacer />
 					<Text size="sm">Spacer</Text>
 				</Flex>
-			</Padding>
+			</Flex>
 			<H3>Surface</H3>
 			<CodeBlock lang="tsx">{`<Flex column gap={4} p={6} shadow="subtle" radius="lg">
   <Text size="sm">Raised group</Text>
 </Flex>`}</CodeBlock>
-			<Padding xy={6}>
+			<Flex column padding={6}>
 				<Flex column gap={4} p={6} shadow="subtle" radius="lg">
 					<Text size="sm">Raised group</Text>
 					<Text size="sm" color="lowContrast">
 						shadow=&quot;subtle&quot; includes the ring
 					</Text>
 				</Flex>
-			</Padding>
+			</Flex>
 			<Divider />
 		</Prose>
 	)

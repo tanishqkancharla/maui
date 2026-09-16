@@ -50,7 +50,7 @@ function Row({ children }: { children: React.ReactNode }) {
 - `text({...})`, `shadow.subtle`, `background.element`, `radius.md`, `flex({...})`, `spacing.padding({...})` are already style objects — pass them to `useStyles`.
 - `style({ ... })` is for leftover CSS that tokens do not cover (`minWidth`, grid templates, absolute positioning).
 - Compose several objects in one `useStyles` call. Falsy entries are skipped.
-- For one-off layout, prefer the `Flex` / `Padding` components (see [layout-utilities.md](components/layout-utilities.md)). For repeated custom chrome, prefer tokens + `useStyles`.
+- For one-off layout, prefer `Flex` (see [layout-utilities.md](components/layout-utilities.md)). For repeated custom chrome, prefer tokens + `useStyles`.
 
 ## Color
 
@@ -140,7 +140,7 @@ spacing.gap[4]           // style { gap: 9px }
 spacing.value(4)         // "9px" — only when gap/padding tokens cannot apply
 ```
 
-`Flex` / `Padding` / `Gap` / `flex({ gap })` all take these steps.
+`Flex` / `Gap` / `flex({ gap })` all take these steps. Put inset on `Flex` with `padding` / `p` / `px` / `py` / `pt` / `pr` / `pb` / `pl`.
 
 ## Layout tokens
 

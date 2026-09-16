@@ -1,3 +1,4 @@
+/** Gallery-only preview frame. Not a `"maui"` package component. */
 import type React from "react"
 import { style, useStyles } from "purse-styles"
 import { border } from "../tokens/borders"

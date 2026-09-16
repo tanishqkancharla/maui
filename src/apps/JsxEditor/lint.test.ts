@@ -95,6 +95,15 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		])
 	})
 
+	test("accepts Flex padding aliases and side props", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex column padding={6} px={4} py={3} pt={2} pr={8} pb={2} pl={8}>
+				<Text>Inset</Text>
+			</Flex>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
+
 	test("accepts MenuTrigger with a Maui Button", () => {
 		const diagnostics = collectJsxDiagnosticsFromSource(
 			`<MenuTrigger>
@@ -107,5 +116,16 @@ describe("collectJsxDiagnosticsFromSource", () => {
 			</MenuTrigger>`,
 		)
 		expect(diagnostics).toEqual([])
+	})
+})
+
+describe("JSX editor catalog", () => {
+	test("does not expose Padding or Panel", async () => {
+		const { catalog, previewScope } = await import("./catalog")
+		const names = catalog.map((entry) => entry.name)
+		expect(names).not.toContain("Padding")
+		expect(names).not.toContain("Panel")
+		expect(previewScope).not.toHaveProperty("Padding")
+		expect(previewScope).not.toHaveProperty("Panel")
 	})
 })

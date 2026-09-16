@@ -1,6 +1,6 @@
 import { style, useStyles } from "purse-styles"
 import { Editor } from "../components/Editor"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { backgroundColor } from "../tokens/background"

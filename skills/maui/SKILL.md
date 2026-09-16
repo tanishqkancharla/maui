@@ -54,7 +54,7 @@ Before designing or implementing new UI:
 | A pattern | [Patterns](#patterns) |
 | An app | [Apps](#apps) |
 
-Patterns, demo apps, and the gallery `Panel` preview surface are **not** part of the `"maui"` package barrel. Prefer the recipes in those references and rebuild with barrel exports (`Button`, `Flex`, `text(...)`, …).
+Patterns, demo apps, and the gallery `Panel` preview frame are **not** package components. `Panel` is not on the `"maui"` barrel, not in `src/components`, and not in the JSX editor catalog. Prefer the recipes in those references and rebuild with barrel exports (`Button`, `Flex`, `text(...)`, …).
 
 ## Design constraints
 
@@ -88,7 +88,7 @@ internal button or segment.
 
 ## Layout utilities
 
-`Flex`, `Padding`, and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4}>` is 9px, not 4px. `Spacer` grows to fill leftover flex space. `Divider` is a horizontal rule.
+`Flex` and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. Example: `<Flex row gap={4} padding={4}>` is 9px gap and 9px inset, not 4px. Put padding on `Flex` (`padding` / `p`, `px`, `py`, `pt`, `pr`, `pb`, `pl`) — there is no `Padding` component. `Spacer` grows to fill leftover flex space. `Divider` is a horizontal rule.
 
 ## Icons
 

@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead,
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { motion, motionDurationMs, motionEasing } from "../tokens/motion"
