@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * Pack Maui and validate the real tarball: required files, case-sensitive
- * relative imports, declarations, and a fresh consumer install/import.
- * Does not mock the package contents.
+ * Pack-and-inspect publish smoke test of the real npm tarball:
+ * required files, case-sensitive relative imports, package.json
+ * exports, no prepare-on-install, fresh consumer resolve/esbuild.
+ * No product or public-API assertions — the maui.ts barrel is the
+ * public API. Do not denylist components or unpublished files here.
  */
 import { execFileSync } from "node:child_process"
 import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs"
@@ -11,12 +13,6 @@ import { dirname, join, relative, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..")
-const forbiddenTarballPaths = [
-	"package/src/components/Panel.tsx",
-	"package/dist/components/Panel.js",
-	"package/dist/components/Panel.d.ts",
-]
-
 const requiredTarballPaths = [
 	"package/package.json",
 	"package/dist/maui.js",
@@ -251,11 +247,6 @@ function main() {
 			throw new Error(`Tarball is missing ${required}`)
 		}
 	}
-	for (const forbidden of forbiddenTarballPaths) {
-		if (listingSet.has(forbidden)) {
-			throw new Error(`Tarball must not include gallery-only ${forbidden}`)
-		}
-	}
 	if (listing.some((path) => path === "package/dist" && !listingSet.has("package/dist/maui.js"))) {
 		throw new Error("Tarball dist/ is incomplete")
 	}
@@ -267,10 +258,6 @@ function main() {
 			assertCaseSensitivePath(extractedRoot, required)
 		}
 		verifyPackageJson(extractedRoot)
-		const dts = readFileSync(join(extractedRoot, "package", "dist", "maui.d.ts"), "utf8")
-		if (/\bexport\s+\{[^}]*\bPanel\b/.test(dts) || /\bdeclare function Panel\b/.test(dts)) {
-			throw new Error("dist/maui.d.ts must not export Panel")
-		}
 		verifyRelativeImports(extractedRoot)
 		console.log("Tarball files and relative imports are complete.")
 		consumeTarball(tarballPath)

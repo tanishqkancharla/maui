@@ -13,7 +13,7 @@ Standard commands (see `package.json` `scripts`):
 - Library build: `npm run build:lib` → ESM + declarations to `dist/` (`maui.js`, `maui.d.ts`, and compiled modules). `dist/` is generated and gitignored.
 - Preview built website: `npm run serve`.
 - Type-check: `npm run typecheck` is one-shot (`tsc --noEmit`). `npm run tsc` is watch mode.
-- Package check: `npm run verify-package` packs the tarball and inspects its real contents.
+- Package check: `npm run verify-package` is a pack-and-inspect publish smoke test of the real npm tarball (required files, case-sensitive relative imports, package.json exports, no prepare-on-install, fresh consumer resolve/esbuild). Not a product or public-API check — what is/isn’t exported lives on the `maui.ts` barrel. Do not denylist components or encode gallery policy in this script.
 - Tests: `npm test` (Vitest). Editor lint coverage lives in `src/apps/JsxEditor/lint.test.ts`.
 - Releases publish `@tanishqkancharla/maui` to public npm. Every push to `main` cuts the next patch, tags `vX.Y.Z`, and publishes. Put `[skip release]` in the merge commit message to skip. Manual `v*` tags still publish.
 

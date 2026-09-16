@@ -55,7 +55,7 @@ Vite serves the gallery at [http://localhost:5173/](http://localhost:5173/).
 | `npm run build` | Static gallery → `website/` |
 | `npm run build:lib` | Compile package ESM + types → `dist/` (generated, not committed) |
 | `npm run typecheck` | One-shot TypeScript check |
-| `npm run verify-package` | Pack and inspect the real tarball |
+| `npm run verify-package` | Pack-and-inspect publish smoke test of the real tarball (not a public-API check) |
 | `npm run serve` | Preview the gallery build |
 
 ## Package
