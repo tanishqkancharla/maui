@@ -1,8 +1,8 @@
 import {
 	useCallback,
+	useLayoutEffect,
 	useRef,
 	useState,
-	type PointerEvent as ReactPointerEvent,
 	type ReactNode,
 } from "react"
 import {
@@ -14,11 +14,9 @@ import {
 import { useLocale } from "react-aria"
 import { style, useStyles } from "purse-styles"
 import {
-	AnimatePresence,
 	animate,
 	cubicBezier,
 	motion,
-	useDragControls,
 	useMotionTemplate,
 	useMotionValue,
 	useReducedMotion,
@@ -54,9 +52,7 @@ const PANEL_MAX_VW = 85
 const SCRIM_ALPHA = 0.32
 const DISMISS_OFFSET_RATIO = 0.35
 const DISMISS_VELOCITY = 500
-const AXIS_INTENT_PX = 10
 
-const MotionModal = motion.create(Modal)
 const MotionModalOverlay = motion.create(ModalOverlay)
 
 const panelEnterExit = {
@@ -108,21 +104,21 @@ export function Drawer({
 		[isControlled, onOpenChange],
 	)
 
+	if (!isOpen) {
+		return null
+	}
+
 	return (
-		<AnimatePresence>
-			{isOpen ? (
-				<DrawerLayer
-					side={side}
-					isDismissable={isDismissable}
-					ariaLabel={ariaLabel}
-					ariaLabelledby={ariaLabelledby}
-					className={className}
-					onOpenChange={setOpen}
-				>
-					{children}
-				</DrawerLayer>
-			) : null}
-		</AnimatePresence>
+		<DrawerLayer
+			side={side}
+			isDismissable={isDismissable}
+			ariaLabel={ariaLabel}
+			ariaLabelledby={ariaLabelledby}
+			className={className}
+			onOpenChange={setOpen}
+		>
+			{children}
+		</DrawerLayer>
 	)
 }
 
@@ -149,12 +145,12 @@ function DrawerLayer({
 		overlayClass,
 		...(reduceMotion ? [overlayReducedScrimClass] : []),
 	)
+	const shellClassName = useStyles(shellClass)
 	const panelClassName = useStyles(panelClass)
 	const dialogClassName = useStyles(dialogClass)
 	const titleClassName = useStyles(visuallyHidden)
-	const dragControls = useDragControls()
-	const axisLock = useRef<"pending" | "x" | "y" | null>(null)
-	const pointerOrigin = useRef({ x: 0, y: 0 })
+	const closing = useRef(false)
+	const panelRef = useRef<HTMLDivElement | null>(null)
 
 	const panelWidth = measurePanelWidth()
 	const closesToNegativeX =
@@ -162,68 +158,77 @@ function DrawerLayer({
 		(side === "end" && direction === "rtl")
 	const closedX = closesToNegativeX ? -panelWidth : panelWidth
 	const x = useMotionValue(reduceMotion ? 0 : closedX)
+	const overlayOpacity = useMotionValue(reduceMotion ? 0 : 1)
 	const progress = useTransform(x, [closedX, 0], [0, 1])
 	const scrimBackground = useMotionTemplate`oklch(from ${colors.gray[12]} l c h / calc(${SCRIM_ALPHA} * ${progress}))`
 	const canDrag = isDismissable && !reduceMotion
 	const dismissOffset = panelWidth * DISMISS_OFFSET_RATIO
 
-	const releaseAxisLock = useCallback(() => {
-		axisLock.current = null
+	useLayoutEffect(() => {
+		if (reduceMotion) {
+			overlayOpacity.set(0)
+			void animate(overlayOpacity, 1, reducedMotionTransition)
+			return
+		}
+		x.set(closedX)
+		void animate(x, 0, panelEnterExit)
+	}, [closedX, overlayOpacity, reduceMotion, x])
+
+	useLayoutEffect(() => {
+		const node = panelRef.current
+		if (!node) {
+			return
+		}
+		const preventNativeDrag = (event: DragEvent) => {
+			event.preventDefault()
+		}
+		node.addEventListener("dragstart", preventNativeDrag)
+		return () => node.removeEventListener("dragstart", preventNativeDrag)
 	}, [])
 
-	const onPointerDown = useCallback(
-		(event: ReactPointerEvent) => {
-			if (!canDrag || event.button !== 0) {
+	const requestOpenChange = useCallback(
+		(next: boolean) => {
+			if (next) {
+				onOpenChange(true)
 				return
 			}
-			axisLock.current = "pending"
-			pointerOrigin.current = { x: event.clientX, y: event.clientY }
+			if (closing.current) {
+				return
+			}
+			closing.current = true
+			if (reduceMotion) {
+				void animate(overlayOpacity, 0, reducedMotionTransition).then(() => {
+					onOpenChange(false)
+				})
+				return
+			}
+			void animate(x, closedX, panelEnterExit).then(() => {
+				onOpenChange(false)
+			})
 		},
-		[canDrag],
-	)
-
-	const onPointerMove = useCallback(
-		(event: ReactPointerEvent) => {
-			if (!canDrag || axisLock.current !== "pending") {
-				return
-			}
-			const dx = event.clientX - pointerOrigin.current.x
-			const dy = event.clientY - pointerOrigin.current.y
-			if (Math.abs(dx) < AXIS_INTENT_PX && Math.abs(dy) < AXIS_INTENT_PX) {
-				return
-			}
-			if (Math.abs(dx) > Math.abs(dy)) {
-				axisLock.current = "x"
-				dragControls.start(event)
-			} else {
-				axisLock.current = "y"
-			}
-		},
-		[canDrag, dragControls],
+		[closedX, onOpenChange, overlayOpacity, reduceMotion, x],
 	)
 
 	const onDragEnd = useCallback(
 		(_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-			releaseAxisLock()
 			if (!isDismissable) {
-				animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
+				void animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
 				return
 			}
 			const shouldClose = closesToNegativeX
 				? info.offset.x < -dismissOffset || info.velocity.x < -DISMISS_VELOCITY
 				: info.offset.x > dismissOffset || info.velocity.x > DISMISS_VELOCITY
 			if (shouldClose) {
-				onOpenChange(false)
+				requestOpenChange(false)
 			} else {
-				animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
+				void animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
 			}
 		},
 		[
 			closesToNegativeX,
 			dismissOffset,
 			isDismissable,
-			onOpenChange,
-			releaseAxisLock,
+			requestOpenChange,
 			x,
 		],
 	)
@@ -231,56 +236,60 @@ function DrawerLayer({
 	return (
 		<MotionModalOverlay
 			isOpen
-			onOpenChange={onOpenChange}
+			onOpenChange={requestOpenChange}
 			isDismissable={isDismissable}
 			className={overlayClassName}
-			initial={reduceMotion ? { opacity: 0 } : false}
-			animate={reduceMotion ? { opacity: 1 } : undefined}
-			exit={reduceMotion ? { opacity: 0 } : undefined}
-			transition={reduceMotion ? reducedMotionTransition : undefined}
-			style={reduceMotion ? undefined : { backgroundColor: scrimBackground }}
+			style={
+				reduceMotion
+					? { opacity: overlayOpacity }
+					: { backgroundColor: scrimBackground }
+			}
 		>
-			<MotionModal
-				className={cls(panelClassName, className)}
-				data-side={side}
-				initial={reduceMotion ? { opacity: 0 } : { x: closedX }}
-				animate={reduceMotion ? { opacity: 1 } : { x: 0 }}
-				exit={reduceMotion ? { opacity: 0 } : { x: closedX }}
-				transition={reduceMotion ? reducedMotionTransition : panelEnterExit}
-				style={reduceMotion ? undefined : { x }}
-				drag={canDrag ? "x" : false}
-				dragControls={dragControls}
-				dragListener={false}
-				dragMomentum={false}
-				dragConstraints={
-					closesToNegativeX
-						? { left: -panelWidth, right: 0 }
-						: { left: 0, right: panelWidth }
-				}
-				dragElastic={
-					closesToNegativeX
-						? { left: 0.2, right: 0 }
-						: { left: 0, right: 0.2 }
-				}
-				onPointerDown={onPointerDown}
-				onPointerMove={onPointerMove}
-				onPointerUp={releaseAxisLock}
-				onPointerCancel={releaseAxisLock}
-				onDragEnd={onDragEnd}
-			>
-				<AriaDialog
-					className={dialogClassName}
-					aria-label={ariaLabel}
-					aria-labelledby={ariaLabelledby}
+			<Modal className={shellClassName} data-side={side}>
+				<motion.div
+					ref={panelRef}
+					className={cls(panelClassName, className)}
+					data-side={side}
+					style={
+						reduceMotion
+							? undefined
+							: { x, touchAction: canDrag ? "pan-y" : "auto" }
+					}
+					drag={canDrag ? "x" : false}
+					dragDirectionLock
+					dragMomentum={false}
+					dragElastic={0}
+					onPointerDownCapture={(event) => {
+						const target = event.target
+						if (!(target instanceof Element)) {
+							return
+						}
+						const link = target.closest("a")
+						if (link instanceof HTMLElement) {
+							link.draggable = false
+						}
+					}}
+					dragConstraints={
+						closesToNegativeX
+							? { left: -panelWidth, right: 0 }
+							: { left: 0, right: panelWidth }
+					}
+					onDragEnd={onDragEnd}
 				>
-					{ariaLabel && !ariaLabelledby ? (
-						<Heading slot="title" className={titleClassName}>
-							{ariaLabel}
-						</Heading>
-					) : null}
-					{children}
-				</AriaDialog>
-			</MotionModal>
+					<AriaDialog
+						className={dialogClassName}
+						aria-label={ariaLabel}
+						aria-labelledby={ariaLabelledby}
+					>
+						{ariaLabel && !ariaLabelledby ? (
+							<Heading slot="title" className={titleClassName}>
+								{ariaLabel}
+							</Heading>
+						) : null}
+						{children}
+					</AriaDialog>
+				</motion.div>
+			</Modal>
 		</MotionModalOverlay>
 	)
 }
@@ -290,10 +299,32 @@ const overlayClass = style({
 	inset: 0,
 	zIndex: 1100,
 	overflow: "hidden",
+	touchAction: "none",
+	overscrollBehavior: "none",
 })
 
 const overlayReducedScrimClass = style({
 	backgroundColor: `oklch(from ${colors.gray[12]} l c h / ${SCRIM_ALPHA})`,
+})
+
+const shellClass = style({
+	position: "absolute",
+	top: 0,
+	bottom: 0,
+	width: `min(${PANEL_WIDTH_PX}px, ${PANEL_MAX_VW}vw)`,
+	maxWidth: `${PANEL_MAX_VW}vw`,
+	height: "100%",
+	margin: 0,
+	outline: "none",
+	overflow: "visible",
+	background: "transparent",
+	boxShadow: "none",
+	"&[data-side='start']": {
+		insetInlineStart: 0,
+	},
+	"&[data-side='end']": {
+		insetInlineEnd: 0,
+	},
 })
 
 const panelClass = style(
@@ -301,25 +332,19 @@ const panelClass = style(
 	shadow.subtle,
 	radius.lg,
 	{
-		position: "absolute",
-		top: 0,
-		bottom: 0,
-		width: `min(${PANEL_WIDTH_PX}px, ${PANEL_MAX_VW}vw)`,
-		maxWidth: `${PANEL_MAX_VW}vw`,
+		width: "100%",
 		height: "100%",
-		margin: 0,
-		outline: "none",
-		willChange: "transform",
 		display: "flex",
 		flexDirection: "column",
 		overflow: "hidden",
+		willChange: "transform",
+		touchAction: "pan-y",
+		userSelect: "none",
 		"&[data-side='start']": {
-			insetInlineStart: 0,
 			borderStartStartRadius: 0,
 			borderEndStartRadius: 0,
 		},
 		"&[data-side='end']": {
-			insetInlineEnd: 0,
 			borderStartEndRadius: 0,
 			borderEndEndRadius: 0,
 		},
