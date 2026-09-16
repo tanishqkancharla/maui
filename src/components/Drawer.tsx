@@ -3,7 +3,6 @@ import {
 	useLayoutEffect,
 	useRef,
 	useState,
-	type PointerEvent as ReactPointerEvent,
 	type ReactNode,
 } from "react"
 import {
@@ -18,7 +17,6 @@ import {
 	animate,
 	cubicBezier,
 	motion,
-	useDragControls,
 	useMotionTemplate,
 	useMotionValue,
 	useReducedMotion,
@@ -54,7 +52,6 @@ const PANEL_MAX_VW = 85
 const SCRIM_ALPHA = 0.32
 const DISMISS_OFFSET_RATIO = 0.35
 const DISMISS_VELOCITY = 500
-const AXIS_INTENT_PX = 10
 
 const MotionModalOverlay = motion.create(ModalOverlay)
 
@@ -154,9 +151,6 @@ function DrawerLayer({
 	const titleClassName = useStyles(visuallyHidden)
 	const closing = useRef(false)
 	const panelRef = useRef<HTMLDivElement | null>(null)
-	const dragControls = useDragControls()
-	const axisLock = useRef<"pending" | "x" | "y" | null>(null)
-	const pointerOrigin = useRef({ x: 0, y: 0 })
 
 	const panelWidth = measurePanelWidth()
 	const closesToNegativeX =
@@ -192,48 +186,6 @@ function DrawerLayer({
 		return () => node.removeEventListener("dragstart", preventNativeDrag)
 	}, [])
 
-	const releaseAxisLock = useCallback(() => {
-		axisLock.current = null
-	}, [])
-
-	const onPointerDown = useCallback(
-		(event: ReactPointerEvent<HTMLDivElement>) => {
-			const target = event.target
-			if (target instanceof Element) {
-				const link = target.closest("a")
-				if (link instanceof HTMLElement) {
-					link.draggable = false
-				}
-			}
-			if (!canDrag || event.button !== 0) {
-				return
-			}
-			axisLock.current = "pending"
-			pointerOrigin.current = { x: event.clientX, y: event.clientY }
-		},
-		[canDrag],
-	)
-
-	const onPointerMove = useCallback(
-		(event: ReactPointerEvent<HTMLDivElement>) => {
-			if (!canDrag || axisLock.current !== "pending") {
-				return
-			}
-			const dx = event.clientX - pointerOrigin.current.x
-			const dy = event.clientY - pointerOrigin.current.y
-			if (Math.abs(dx) < AXIS_INTENT_PX && Math.abs(dy) < AXIS_INTENT_PX) {
-				return
-			}
-			if (Math.abs(dx) > Math.abs(dy)) {
-				axisLock.current = "x"
-				dragControls.start(event)
-			} else {
-				axisLock.current = "y"
-			}
-		},
-		[canDrag, dragControls],
-	)
-
 	const requestOpenChange = useCallback(
 		(next: boolean) => {
 			if (next) {
@@ -259,7 +211,6 @@ function DrawerLayer({
 
 	const onDragEnd = useCallback(
 		(_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-			releaseAxisLock()
 			if (!isDismissable) {
 				void animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
 				return
@@ -277,7 +228,6 @@ function DrawerLayer({
 			closesToNegativeX,
 			dismissOffset,
 			isDismissable,
-			releaseAxisLock,
 			requestOpenChange,
 			x,
 		],
@@ -306,14 +256,18 @@ function DrawerLayer({
 							: { x, touchAction: canDrag ? "pan-y" : "auto" }
 					}
 					drag={canDrag ? "x" : false}
-					dragControls={dragControls}
-					dragListener={false}
 					dragMomentum={false}
 					dragElastic={0}
-					onPointerDownCapture={onPointerDown}
-					onPointerMove={onPointerMove}
-					onPointerUp={releaseAxisLock}
-					onPointerCancel={releaseAxisLock}
+					onPointerDownCapture={(event) => {
+						const target = event.target
+						if (!(target instanceof Element)) {
+							return
+						}
+						const link = target.closest("a")
+						if (link instanceof HTMLElement) {
+							link.draggable = false
+						}
+					}}
 					dragConstraints={
 						closesToNegativeX
 							? { left: -panelWidth, right: 0 }
