@@ -16,7 +16,6 @@ import { useLocale } from "react-aria"
 import { style, useStyles } from "purse-styles"
 import {
 	animate,
-	cubicBezier,
 	motion,
 	useMotionTemplate,
 	useMotionValue,
@@ -56,8 +55,9 @@ const AXIS_INTENT_PX = 10
 const MotionModalOverlay = motion.create(ModalOverlay)
 
 const panelEnterExit = {
-	duration: 0.4,
-	ease: cubicBezier(0.32, 0.72, 0, 1),
+	type: "tween" as const,
+	duration: 0.32,
+	ease: [0.32, 0, 0.2, 1] as const,
 }
 
 const reducedMotionTransition = {
@@ -351,6 +351,7 @@ function DrawerLayer({
 							? undefined
 							: { x, touchAction: canDrag ? "pan-y" : "auto" }
 					}
+					initial={reduceMotion ? false : { x: closedX }}
 					onPointerDownCapture={onPointerDown}
 					onPointerMoveCapture={onPointerMove}
 					onPointerUpCapture={onPointerUp}
