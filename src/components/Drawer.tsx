@@ -151,6 +151,7 @@ function DrawerLayer({
 	const titleClassName = useStyles(visuallyHidden)
 	const closing = useRef(false)
 	const panelRef = useRef<HTMLDivElement | null>(null)
+	const suppressClick = useRef(false)
 
 	const panelWidth = measurePanelWidth()
 	const closesToNegativeX =
@@ -259,6 +260,7 @@ function DrawerLayer({
 					dragMomentum={false}
 					dragElastic={0}
 					onPointerDownCapture={(event) => {
+						suppressClick.current = false
 						const target = event.target
 						if (!(target instanceof Element)) {
 							return
@@ -267,6 +269,19 @@ function DrawerLayer({
 						if (link instanceof HTMLElement) {
 							link.draggable = false
 						}
+					}}
+					onDrag={(_event, info) => {
+						if (Math.abs(info.offset.x) > 8) {
+							suppressClick.current = true
+						}
+					}}
+					onClickCapture={(event) => {
+						if (!suppressClick.current) {
+							return
+						}
+						event.preventDefault()
+						event.stopPropagation()
+						suppressClick.current = false
 					}}
 					dragConstraints={
 						closesToNegativeX
