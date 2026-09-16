@@ -153,6 +153,7 @@ function DrawerLayer({
 	const panelRef = useRef<HTMLDivElement | null>(null)
 	const suppressClick = useRef(false)
 	const axisLock = useRef<"pending" | "x" | "y" | null>(null)
+	const activePointer = useRef<number | null>(null)
 	const pointerOrigin = useRef({ x: 0, y: 0, startX: 0 })
 	const lastMove = useRef({ x: 0, t: 0, v: 0 })
 	const enterAnimation = useRef<ReturnType<typeof animate> | null>(null)
@@ -260,9 +261,14 @@ function DrawerLayer({
 					link.draggable = false
 				}
 			}
-			if (!canDrag || event.button !== 0) {
+			if (
+				!canDrag ||
+				event.button !== 0 ||
+				activePointer.current !== null
+			) {
 				return
 			}
+			activePointer.current = event.pointerId
 			axisLock.current = "pending"
 			pointerOrigin.current = {
 				x: event.clientX,
@@ -275,8 +281,12 @@ function DrawerLayer({
 	)
 
 	const onPointerMove = useCallback(
-		(event: ReactPointerEvent<HTMLDivElement>) => {
-			if (!canDrag || axisLock.current == null) {
+		(event: PointerEvent) => {
+			if (
+				!canDrag ||
+				axisLock.current == null ||
+				event.pointerId !== activePointer.current
+			) {
 				return
 			}
 			const dx = event.clientX - pointerOrigin.current.x
@@ -289,9 +299,9 @@ function DrawerLayer({
 					axisLock.current = "x"
 					enterAnimation.current?.stop()
 					try {
-						event.currentTarget.setPointerCapture(event.pointerId)
+						panelRef.current?.setPointerCapture(event.pointerId)
 					} catch {
-						// iOS can reject capture on some targets; window-level moves still arrive.
+						// Safari can reject capture. The window listeners remain the fallback.
 					}
 				} else {
 					axisLock.current = "y"
@@ -317,17 +327,39 @@ function DrawerLayer({
 	)
 
 	const onPointerUp = useCallback(
-		(event: ReactPointerEvent<HTMLDivElement>) => {
+		(event: PointerEvent) => {
+			if (event.pointerId !== activePointer.current) {
+				return
+			}
 			if (axisLock.current === "x") {
-				if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-					event.currentTarget.releasePointerCapture(event.pointerId)
+				try {
+					if (panelRef.current?.hasPointerCapture(event.pointerId)) {
+						panelRef.current.releasePointerCapture(event.pointerId)
+					}
+				} catch {
+					// The pointer may already be cancelled or released by Safari.
 				}
 				finishDrag()
 			}
 			axisLock.current = null
+			activePointer.current = null
 		},
 		[finishDrag],
 	)
+
+	useEffect(() => {
+		if (!canDrag) {
+			return
+		}
+		window.addEventListener("pointermove", onPointerMove, { passive: false })
+		window.addEventListener("pointerup", onPointerUp)
+		window.addEventListener("pointercancel", onPointerUp)
+		return () => {
+			window.removeEventListener("pointermove", onPointerMove)
+			window.removeEventListener("pointerup", onPointerUp)
+			window.removeEventListener("pointercancel", onPointerUp)
+		}
+	}, [canDrag, onPointerMove, onPointerUp])
 
 	return (
 		<MotionModalOverlay
@@ -353,9 +385,6 @@ function DrawerLayer({
 					}
 					initial={reduceMotion ? false : { x: closedX }}
 					onPointerDownCapture={onPointerDown}
-					onPointerMoveCapture={onPointerMove}
-					onPointerUpCapture={onPointerUp}
-					onPointerCancelCapture={onPointerUp}
 					onClickCapture={(event) => {
 						if (!suppressClick.current) {
 							return
