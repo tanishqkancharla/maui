@@ -13,10 +13,11 @@ export function LayoutUtilitiesPage() {
 				<code>1</code>–<code>16</code>), not raw pixels. Put inset on{" "}
 				<code>Flex</code> with <code>padding</code> / <code>p</code>,{" "}
 				<code>px</code>, <code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
-				<code>pb</code>, <code>pl</code>. 				<code>justifyContent</code> uses the same
-				tokens as <code>flex()</code> (<code>start</code>, <code>center</code>,{" "}
-				<code>end</code>, <code>between</code>, <code>around</code>,{" "}
-				<code>evenly</code>). <code>background</code> applies a surface token.{" "}
+				<code>pb</code>, <code>pl</code>.{" "}
+				<code>justifyContent</code> uses the same tokens as <code>flex()</code>{" "}
+				(<code>start</code>, <code>center</code>, <code>end</code>,{" "}
+				<code>between</code>, <code>around</code>, <code>evenly</code>).{" "}
+				<code>background</code> applies a surface token.{" "}
 				<code>Flex</code> also accepts <code>border</code>, <code>shadow</code>,
 				and <code>radius</code> when it should read as a surface. Shadows
 				already include a 1px ring, so do not also set <code>border</code>.
@@ -30,7 +31,7 @@ export function LayoutUtilitiesPage() {
 					<Text size="sm">Spacer</Text>
 				</Flex>
 			</Flex>
-			<H3>Justify</H3>
+			<H3>justifyContent</H3>
 			<CodeBlock lang="tsx">{`<Flex row alignItems="center" justifyContent="between">
   <Text size="sm">Title</Text>
   <Text size="sm" color="lowContrast">Action</Text>
