@@ -16,7 +16,7 @@ export function LayoutUtilitiesPage() {
 				<code>pb</code>, <code>pl</code>. <code>justify</code> uses the same
 				tokens as <code>flex()</code> (<code>start</code>, <code>center</code>,{" "}
 				<code>end</code>, <code>between</code>, <code>around</code>,{" "}
-				<code>evenly</code>). <code>background</code> applies a surface token.
+				<code>evenly</code>). <code>background</code> applies a surface token.{" "}
 				<code>Flex</code> also accepts <code>border</code>, <code>shadow</code>,
 				and <code>radius</code> when it should read as a surface. Shadows
 				already include a 1px ring, so do not also set <code>border</code>.
