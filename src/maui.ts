@@ -82,6 +82,11 @@ export { Dialog } from "./components/Dialog"
 export { Tooltip } from "./components/Tooltip"
 export { Overlay } from "./components/Overlay"
 export {
+	Drawer,
+	type DrawerProps,
+	type DrawerSide,
+} from "./components/Drawer"
+export {
 	Table,
 	TableHeader,
 	TableHead,

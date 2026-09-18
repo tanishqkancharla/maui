@@ -5,6 +5,7 @@ import { MauiProvider } from "./MauiProvider"
 import { Maui } from "./pages/Maui"
 import { background } from "./tokens/background"
 import { colors } from "./tokens/colors"
+import { galleryCompactMedia } from "./pages/galleryCompact"
 
 const AgentationDev = import.meta.env.DEV
 	? lazy(() =>
@@ -34,6 +35,9 @@ const appStyles = style(background.app, {
 	maxWidth: "1280px",
 	color: colors.gray[12],
 	overflow: "hidden",
+	[`@media ${galleryCompactMedia}`]: {
+		padding: "12px",
+	},
 })
 
 function AppContent() {

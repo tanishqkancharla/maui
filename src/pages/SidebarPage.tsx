@@ -117,9 +117,9 @@ export function SidebarPage() {
 			</Panel>
 
 			<p className={noteClassName}>
-				This intentionally leaves out shadcn's provider, mobile sheet, rail,
-				collapse modes, and trigger. Those can be added later if Maui needs
-				stateful sidebar behavior.
+				This intentionally leaves out shadcn&apos;s provider, rail, collapse
+				modes, and trigger. Mobile overlay chrome is{" "}
+				<code>Drawer</code>, a separate barrel component — not a Sidebar API.
 			</p>
 		</Prose>
 	)

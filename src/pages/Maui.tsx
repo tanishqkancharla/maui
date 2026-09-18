@@ -1,13 +1,18 @@
 import type React from "react"
+import { useEffect, useState } from "react"
 import {
 	Link as WouterLink,
 	Redirect,
 	Route,
 	Router,
 	Switch as WouterSwitch,
+	useLocation,
 	useRoute,
 } from "wouter"
 import { style, useStyles } from "purse-styles"
+import { Button } from "../components/Button"
+import { Drawer } from "../components/Drawer"
+import { Icons } from "../components/Icons"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
 import { navigationItem } from "../components/navigationItem"
@@ -15,6 +20,7 @@ import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
+import { galleryCompactMedia } from "./galleryCompact"
 import { AboutPage } from "./AboutPage"
 import { AiChatPage } from "./AiChatPage"
 import { AssistantMessagePage } from "./AssistantMessagePage"
@@ -23,6 +29,7 @@ import { BadgePage } from "./BadgePage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
 import { BordersTokenPage } from "./BordersTokenPage"
 import { ButtonsPage } from "./ButtonsPage"
+import { DrawerPage } from "./DrawerPage"
 import { CalendarPage } from "./CalendarPage"
 import { CodePage } from "./CodePage"
 import { CrossfadePage } from "./CrossfadePage"
@@ -124,6 +131,7 @@ const navigation: NavEntry[] = [
 			{ label: "Avatar", path: "/components/avatar", page: AvatarPage },
 			{ label: "Badge", path: "/components/badge", page: BadgePage },
 			{ label: "Buttons", path: "/components/buttons", page: ButtonsPage },
+			{ label: "Drawer", path: "/components/drawer", page: DrawerPage },
 			{
 				label: "Prose",
 				path: "/components/prose",
@@ -217,13 +225,70 @@ const navigation: NavEntry[] = [
 
 const defaultPath = "/tokens/color"
 
+function useGalleryCompact() {
+	const [compact, setCompact] = useState(() =>
+		typeof window === "undefined"
+			? false
+			: window.matchMedia(galleryCompactMedia).matches,
+	)
+
+	useEffect(() => {
+		const media = window.matchMedia(galleryCompactMedia)
+		const onChange = () => setCompact(media.matches)
+		media.addEventListener("change", onChange)
+		return () => media.removeEventListener("change", onChange)
+	}, [])
+
+	return compact
+}
+
 function MauiContent() {
-	const shellClassName = useStyles(mauiShellClass)
+	const isCompact = useGalleryCompact()
+	const [navOpen, setNavOpen] = useState(false)
+	const [location] = useLocation()
+	const shellClassName = useStyles(
+		isCompact ? compactShellClass : mauiShellClass,
+	)
 	const contentClassName = useStyles(contentClass)
+	const compactHeaderClassName = useStyles(compactHeaderClass)
+
+	useEffect(() => {
+		setNavOpen(false)
+	}, [location])
+
+	useEffect(() => {
+		if (!isCompact) {
+			setNavOpen(false)
+		}
+	}, [isCompact])
 
 	return (
 		<div className={shellClassName}>
-			<MauiNavigation />
+			{isCompact ? (
+				<header className={compactHeaderClassName}>
+					<Button
+						variant="quiet"
+						aria-label="Open navigation"
+						onPress={() => setNavOpen(true)}
+					>
+						<Icons.Menu size="sm" />
+					</Button>
+					<H3>Maui</H3>
+				</header>
+			) : (
+				<MauiNavigation />
+			)}
+
+			{isCompact ? (
+				<Drawer
+					isOpen={navOpen}
+					onOpenChange={setNavOpen}
+					side="start"
+					aria-label="Navigation"
+				>
+					<MauiNavigation />
+				</Drawer>
+			) : null}
 
 			<div className={contentClassName}>
 				<WouterSwitch>
@@ -339,10 +404,29 @@ const mauiShellClass = style(
 	},
 )
 
+const compactShellClass = style(flex({ direction: "column" }), {
+	height: "100%",
+	minHeight: 0,
+})
+
+const compactHeaderClass = style(
+	flex({ direction: "row", align: "center", gap: 2 }),
+	{
+		flexShrink: 0,
+		minHeight: "36px",
+		paddingInline: spacing.value(2),
+		paddingBlock: spacing.value(1),
+	},
+)
+
 const contentClass = style(spacing.padding({ x: 16 }), {
 	height: "100%",
 	minHeight: 0,
 	overflowY: "auto",
+	flex: 1,
+	[`@media ${galleryCompactMedia}`]: {
+		paddingInline: spacing.value(4),
+	},
 })
 
 const navClass = style(

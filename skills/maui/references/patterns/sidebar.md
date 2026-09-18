@@ -36,3 +36,6 @@ Item layout (rebuild, do not invent a different nav row):
 - List: no bullets, `gap: 1px`.
 
 Hover: `backgroundColor.elementHover`, instant.
+
+Mobile overlay chrome is [`Drawer`](../components/drawer.md), a separate barrel component. Do not hang a sheet, rail, or trigger off Sidebar.
+
