@@ -19,8 +19,10 @@ export function FlexTokenPage() {
 				<code>px</code>, <code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
 				<code>pb</code>, <code>pl</code>) (not raw pixels).
 				Optional{" "}
-				<code>border</code>, <code>shadow</code>, and <code>radius</code> turn
-				it into a surface. Shadows already include a 1px ring, so{" "}
+				<code>justifyContent</code>, <code>background</code>, <code>border</code>,{" "}
+				<code>shadow</code>, and <code>radius</code> turn it into a layout
+				surface. <code>justifyContent</code> uses the same tokens as{" "}
+				<code>flex()</code>. Shadows already include a 1px ring, so{" "}
 				<code>border</code> is ignored when <code>shadow</code> is set. For
 				style-object composition, prefer <code>flex()</code> from layout tokens.
 			</P>
@@ -76,9 +78,55 @@ export function FlexTokenPage() {
 							<code>alignItems</code>
 						</TableCell>
 						<TableCell>
-							<code>align-items</code> CSS value
+							<code style={unionCodeStyle}>
+								{`"start"
+| "center"
+| "end"
+| "stretch"
+| "baseline"`}
+							</code>
 						</TableCell>
-						<TableCell>Cross-axis alignment for the group.</TableCell>
+						<TableCell>
+							Cross-axis alignment. Same tokens as <code>flex()</code>{" "}
+							<code>alignItems</code>.
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<code>justifyContent</code>
+						</TableCell>
+						<TableCell>
+							<code style={unionCodeStyle}>
+								{`"start"
+| "center"
+| "end"
+| "between"
+| "around"
+| "evenly"`}
+							</code>
+						</TableCell>
+						<TableCell>
+							Main-axis alignment. Same tokens as <code>flex()</code>{" "}
+							<code>justifyContent</code>.
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<code>background</code>
+						</TableCell>
+						<TableCell>
+							<code style={unionCodeStyle}>
+								{`"app"
+| "element"
+| "elementHover"
+| "elementActive"
+| "accent"
+| "accentHover"`}
+							</code>
+						</TableCell>
+						<TableCell>
+							Surface token from <code>background</code>.
+						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
@@ -188,29 +236,35 @@ export function FlexTokenPage() {
 			</Panel>
 
 			<div style={sampleTitleStyle}>Centered</div>
-			<CodeBlock lang="typescript">{`<Flex row alignItems="center" style={{ justifyContent: "center", height: 112 }}>
+			<CodeBlock lang="typescript">{`<Flex row alignItems="center" justifyContent="center" style={{ height: 112 }}>
 	…
 </Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
-				<div
-					style={{
-						...exampleCardStyle,
-						height: "112px",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-					}}
-				>
-					<Pill>center</Pill>
+				<div style={exampleCardStyle}>
+					<Flex
+						row
+						alignItems="center"
+						justifyContent="center"
+						style={{ height: 112 }}
+					>
+						<Pill>center</Pill>
+					</Flex>
 				</div>
 			</Panel>
 
 			<div style={sampleTitleStyle}>Surface</div>
-			<CodeBlock lang="tsx">{`<Flex column gap={4} p={6} shadow="subtle" radius="lg">
+			<CodeBlock lang="tsx">{`<Flex column gap={4} p={6} background="element" shadow="subtle" radius="lg">
 	…
 </Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
-				<Flex column gap={4} p={6} shadow="subtle" radius="lg">
+				<Flex
+					column
+					gap={4}
+					p={6}
+					background="element"
+					shadow="subtle"
+					radius="lg"
+				>
 					<Pill>Card</Pill>
 					<Pill>With shadow</Pill>
 				</Flex>
@@ -236,16 +290,14 @@ export function FlexTokenPage() {
 			</Panel>
 
 			<div style={sampleTitleStyle}>Between</div>
-			<CodeBlock lang="typescript">{`<Flex row alignItems="center" gap={4}>
+			<CodeBlock lang="typescript">{`<Flex row alignItems="center" justifyContent="between">
 	<span>between</span>
-	<Spacer />
 	<span>Action</span>
 </Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
-					<Flex row alignItems="center" gap={4}>
+					<Flex row alignItems="center" justifyContent="between">
 						<span>between</span>
-						<div style={{ flex: "1 1 auto" }} />
 						<span style={{ color: colors.accent[11] }}>Action</span>
 					</Flex>
 				</div>

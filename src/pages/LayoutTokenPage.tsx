@@ -9,7 +9,7 @@ import { flex, flexItem, grid, gridItem } from "../tokens/layout"
 
 import { colors } from "../tokens/colors"
 import { borderColor } from "../tokens/borders"
-const flexExampleClass = style(flex({ align: "center", gap: 4 }))
+const flexExampleClass = style(flex({ alignItems: "center", gap: 4 }))
 const flexFillItemClass = style(flexItem({ size: "fill" }))
 const gridExampleClass = style(grid({ columns: "sidebarContent", gap: 8 }))
 const gridSidebarClass = style(gridItem({ area: "sidebar" }))
@@ -45,7 +45,7 @@ export function LayoutTokenPage() {
 							<code>flex(options)</code>
 						</TableCell>
 						<TableCell>
-							<code>direction, align, justify, gap, wrap</code>
+							<code>direction, alignItems, justifyContent, gap, wrap</code>
 						</TableCell>
 						<TableCell>Rows, columns, toolbars, and stacks.</TableCell>
 					</TableRow>
@@ -54,7 +54,7 @@ export function LayoutTokenPage() {
 							<code>flexItem(options)</code>
 						</TableCell>
 						<TableCell>
-							<code>size, align, order</code>
+							<code>size, alignSelf, order</code>
 						</TableCell>
 						<TableCell>
 							Child sizing and alignment inside a flex container.
@@ -65,7 +65,7 @@ export function LayoutTokenPage() {
 							<code>grid(options)</code>
 						</TableCell>
 						<TableCell>
-							<code>columns, align, justify, gap</code>
+							<code>columns, alignItems, justifyContent, gap</code>
 						</TableCell>
 						<TableCell>
 							Equal columns, responsive grids, and sidebar/content shells.
@@ -76,7 +76,7 @@ export function LayoutTokenPage() {
 							<code>gridItem(options)</code>
 						</TableCell>
 						<TableCell>
-							<code>area, span, align, justify</code>
+							<code>area, span, alignSelf, justifySelf</code>
 						</TableCell>
 						<TableCell>
 							Named areas, full-width spans, and child placement.
@@ -87,7 +87,7 @@ export function LayoutTokenPage() {
 
 			<H3>Examples</H3>
 			<H4>Flex container and item</H4>
-			<CodeBlock lang="typescript">{`const toolbar = style(flex({ align: "center", gap: 4 }))
+			<CodeBlock lang="typescript">{`const toolbar = style(flex({ alignItems: "center", gap: 4 }))
 const flexibleItem = style(flexItem({ size: "fill" }))`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>

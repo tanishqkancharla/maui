@@ -1365,17 +1365,17 @@ const sidebarClass = style(
 	},
 )
 
-const sidebarToolbarClass = style(flex({ align: "center", justify: "between" }))
+const sidebarToolbarClass = style(flex({ alignItems: "center", justifyContent: "between" }))
 
-const sidebarFooterClass = style(flex({ direction: "column", align: "start", gap: 1 }), {
+const sidebarFooterClass = style(flex({ direction: "column", alignItems: "start", gap: 1 }), {
 	marginTop: "auto",
 })
 
 const miniCalendarClass = style(flex({ direction: "column", gap: 3 }))
 
-const miniCalendarHeaderClass = style(flex({ align: "center", justify: "end" }))
+const miniCalendarHeaderClass = style(flex({ alignItems: "center", justifyContent: "end" }))
 
-const miniCalendarNavClass = style(flex({ align: "center" }))
+const miniCalendarNavClass = style(flex({ alignItems: "center" }))
 
 const miniWeekdayRowClass = style({
 	display: "grid",
@@ -1445,7 +1445,7 @@ const calendarSourceListClass = style(flex({ direction: "column" }), {
 })
 
 const sourceRowClass = style(
-	flex({ align: "center", gap: 3 }),
+	flex({ alignItems: "center", gap: 3 }),
 	radius.sm,
 	spacing.padding({ x: 2, y: 1 }),
 	{
@@ -1479,18 +1479,18 @@ const mainClass = style(flex({ direction: "column" }), {
 })
 
 const mainHeaderClass = style(
-	flex({ align: "center", justify: "between", gap: 6 }),
+	flex({ alignItems: "center", justifyContent: "between", gap: 6 }),
 	spacing.padding({ x: 8, y: 6 }),
 	{
 		minWidth: 0,
 	},
 )
 
-const mainHeaderStartClass = style(flex({ align: "center", gap: 3 }), {
+const mainHeaderStartClass = style(flex({ alignItems: "center", gap: 3 }), {
 	minWidth: 0,
 })
 
-const mainHeaderEndClass = style(flex({ align: "center", gap: 3 }), {
+const mainHeaderEndClass = style(flex({ alignItems: "center", gap: 3 }), {
 	flexShrink: 0,
 })
 
@@ -1528,7 +1528,7 @@ const tzHeaderClass = style(text({ size: "2xs", fontWeight: 500, color: "lowCont
 })
 
 const dayHeaderClass = style(
-	flex({ direction: "column", align: "center" }),
+	flex({ direction: "column", alignItems: "center" }),
 	spacing.padding({ y: 3 }),
 )
 
@@ -1703,7 +1703,7 @@ const searchListClass = style(flex({ direction: "column" }), {
 })
 
 const searchItemClass = style(
-	flex({ direction: "column", align: "start" }),
+	flex({ direction: "column", alignItems: "start" }),
 	radius.sm,
 	spacing.padding({ x: 3, y: 2 }),
 	focusRing(),
@@ -1723,7 +1723,7 @@ const searchItemTitleClass = style(text({ size: "sm", fontWeight: 500, color: "h
 
 const searchItemMetaClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
 
-const selectedEventClass = style(flex({ direction: "column", align: "start", gap: 3 }))
+const selectedEventClass = style(flex({ direction: "column", alignItems: "start", gap: 3 }))
 
 const selectedTitleClass = style(text({ size: "lg", fontWeight: 600, color: "highContrast" }))
 
@@ -1731,7 +1731,7 @@ const selectedTimeClass = style(text({ size: "sm", fontWeight: 400, color: "high
 
 const selectedDurationClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
 
-const selectedCalendarClass = style(flex({ align: "center", gap: 3 }), text({ size: "sm", fontWeight: 400, color: "lowContrast" }))
+const selectedCalendarClass = style(flex({ alignItems: "center", gap: 3 }), text({ size: "sm", fontWeight: 400, color: "lowContrast" }))
 
 const emptyDetailsClass = style(text({ size: "sm", fontWeight: 400, color: "lowContrast" }), {
 	margin: 0,
@@ -1746,8 +1746,8 @@ const shortcutsTitleClass = style(text({ size: "xs", fontWeight: 500, color: "lo
 })
 
 const shortcutRowClass = style(
-	flex({ align: "center", justify: "between", gap: 4 }),
+	flex({ alignItems: "center", justifyContent: "between", gap: 4 }),
 	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
 )
 
-const shortcutKeysClass = style(flex({ align: "center", gap: 1 }))
+const shortcutKeysClass = style(flex({ alignItems: "center", gap: 1 }))

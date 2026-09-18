@@ -362,7 +362,7 @@ const toolCallClass = style(prose("sm").paragraph, {
 
 const toolShellClass = style(monospace)
 
-const userRowClass = style(flex({ justify: "end" }), {
+const userRowClass = style(flex({ justifyContent: "end" }), {
 	minWidth: 0,
 	alignSelf: "stretch",
 })
@@ -395,7 +395,7 @@ const composerShellClass = style(
 	},
 )
 
-const composerActionsClass = style(flex({ align: "center", justify: "end", gap: 3 }))
+const composerActionsClass = style(flex({ alignItems: "center", justifyContent: "end", gap: 3 }))
 
 /** Filled circular send control — icon-only Button without the default shadow. */
 const sendButtonClass = style(radius.circle, {
@@ -413,5 +413,5 @@ const sendButtonClass = style(radius.circle, {
 
 const thinkingClass = style(
 	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
-	flex({ align: "center", gap: 4 }),
+	flex({ alignItems: "center", gap: 4 }),
 )

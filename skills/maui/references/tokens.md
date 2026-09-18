@@ -35,7 +35,7 @@ import { flex, spacing, text, backgroundColor, radius, shadow } from "maui"
 
 function Row({ children }: { children: React.ReactNode }) {
 	const className = useStyles(
-		flex({ direction: "row", align: "center", gap: 4 }),
+		flex({ direction: "row", alignItems: "center", gap: 4 }),
 		radius.sm,
 		shadow.subtle,
 		style({
@@ -145,14 +145,15 @@ spacing.value(4)         // "9px" — only when gap/padding tokens cannot apply
 ## Layout tokens
 
 ```ts
-flex({ direction: "row" | "column", align, justify, gap, wrap })
-flexItem({ size: "hug" | "fill" | "auto", align, order })
-grid({ columns: "one" | "two" | "three" | "autoFit" | "sidebarContent", align, justify, gap })
-gridItem({ area: "sidebar" | "content", span: "full" | 1 | 2 | 3, align, justify })
+flex({ direction: "row" | "column", alignItems, justifyContent, gap, wrap })
+flexItem({ size: "hug" | "fill" | "auto", alignSelf, order })
+grid({ columns: "one" | "two" | "three" | "autoFit" | "sidebarContent", alignItems, justifyContent, gap })
+gridItem({ area: "sidebar" | "content", span: "full" | 1 | 2 | 3, alignSelf, justifySelf })
 ```
 
-- `align`: `start` | `center` | `end` | `stretch` | `baseline`
-- `justify`: `start` | `center` | `end` | `between` | `around` | `evenly`
+- `alignItems` / `alignSelf`: `start` | `center` | `end` | `stretch` | `baseline`
+- `justifyContent`: `start` | `center` | `end` | `between` | `around` | `evenly`
+- `justifySelf` (grid items): `start` | `center` | `end` | `stretch` | `baseline`
 - `gap` on these token helpers also accepts `0`.
 - `sidebarContent` is `180px minmax(0, 1fr)` with areas `"sidebar content"`.
 

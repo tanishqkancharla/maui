@@ -17,7 +17,7 @@ export { radius } from "./tokens/radius"
 export { shadow, shadowVars, tintedSubtle } from "./tokens/shadow"
 export { focusRing } from "./tokens/focusRing"
 export { spacing, type Space } from "./tokens/spacing"
-export { flex, flexItem, grid, gridItem } from "./tokens/layout"
+export { flex, flexItem, grid, gridItem, type AlignItems, type JustifyContent } from "./tokens/layout"
 export {
 	text,
 	monospace,
@@ -140,6 +140,9 @@ export {
 	type FlexShadow,
 	type FlexRadius,
 	type FlexBorder,
+	type FlexAlignItems,
+	type FlexJustifyContent,
+	type FlexBackground,
 } from "./components/Utils"
 export { Text, type TextProps } from "./components/Text"
 export {

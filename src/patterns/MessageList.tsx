@@ -169,7 +169,7 @@ const messageClass = style(
 	}
 )
 
-const messageHeaderClass = flex({ align: "center", gap: 2, wrap: true })
+const messageHeaderClass = flex({ alignItems: "center", gap: 2, wrap: true })
 
 const senderNameClass = style(text({ size: "sm", fontWeight: 500, color: "highContrast" }))
 

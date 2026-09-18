@@ -353,7 +353,7 @@ const paneClass = style(border([], "outline"), radius.lg, {
 })
 
 const paneHeaderClass = style(
-	flex({ direction: "row", align: "center", justify: "between" }),
+	flex({ direction: "row", alignItems: "center", justifyContent: "between" }),
 	{
 		flexShrink: 0,
 		minHeight: `calc(28px + ${spacing.value(3)} * 2 + 1px)`,

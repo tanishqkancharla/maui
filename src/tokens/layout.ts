@@ -3,35 +3,36 @@ import { memoize } from "../utils/memoize"
 import { spacing } from "./spacing"
 
 type Space = 0 | 1 | 2 | 3 | 4 | 6 | 8 | 12 | 16
-type Align = "start" | "center" | "end" | "stretch" | "baseline"
-type Justify = "start" | "center" | "end" | "between" | "around" | "evenly"
+
+export type AlignItems = "start" | "center" | "end" | "stretch" | "baseline"
+export type JustifyContent = "start" | "center" | "end" | "between" | "around" | "evenly"
 
 type FlexOptions = {
 	direction?: "row" | "column"
-	align?: Align
-	justify?: Justify
+	alignItems?: AlignItems
+	justifyContent?: JustifyContent
 	gap?: Space
 	wrap?: boolean
 }
 
 type FlexItemOptions = {
 	size?: "hug" | "fill" | "auto"
-	align?: Align
+	alignSelf?: AlignItems
 	order?: number
 }
 
 type GridOptions = {
 	columns?: "one" | "two" | "three" | "autoFit" | "sidebarContent"
-	align?: Align
-	justify?: Justify
+	alignItems?: AlignItems
+	justifyContent?: JustifyContent
 	gap?: Space
 }
 
 type GridItemOptions = {
 	area?: "sidebar" | "content"
 	span?: "full" | 1 | 2 | 3
-	align?: Align
-	justify?: Align
+	alignSelf?: AlignItems
+	justifySelf?: AlignItems
 }
 
 const spaceValues: Record<Space, string> = {
@@ -46,7 +47,7 @@ const spaceValues: Record<Space, string> = {
 	16: spacing.value(16),
 }
 
-const alignValues: Record<Align, string> = {
+const alignValues: Record<AlignItems, string> = {
 	start: "flex-start",
 	center: "center",
 	end: "flex-end",
@@ -54,7 +55,7 @@ const alignValues: Record<Align, string> = {
 	baseline: "baseline",
 }
 
-const justifyValues: Record<Justify, string> = {
+const justifyValues: Record<JustifyContent, string> = {
 	start: "flex-start",
 	center: "center",
 	end: "flex-end",
@@ -75,9 +76,9 @@ export const flex = memoize((options: FlexOptions = {}) =>
 	style({
 		display: "flex",
 		flexDirection: options.direction ?? "row",
-		alignItems: options.align ? alignValues[options.align] : undefined,
-		justifyContent: options.justify
-			? justifyValues[options.justify]
+		alignItems: options.alignItems ? alignValues[options.alignItems] : undefined,
+		justifyContent: options.justifyContent
+			? justifyValues[options.justifyContent]
 			: undefined,
 		gap: options.gap === undefined ? undefined : spaceValues[options.gap],
 		flexWrap: options.wrap ? "wrap" : undefined,
@@ -94,7 +95,7 @@ export const flexItem = memoize((options: FlexItemOptions = {}) =>
 					: options.size === "hug"
 						? "0 0 auto"
 						: undefined,
-		alignSelf: options.align ? alignValues[options.align] : undefined,
+		alignSelf: options.alignSelf ? alignValues[options.alignSelf] : undefined,
 		order: options.order,
 	}),
 )
@@ -107,9 +108,9 @@ export const grid = memoize((options: GridOptions = {}) =>
 			: undefined,
 		gridTemplateAreas:
 			options.columns === "sidebarContent" ? '"sidebar content"' : undefined,
-		alignItems: options.align ? alignValues[options.align] : undefined,
-		justifyContent: options.justify
-			? justifyValues[options.justify]
+		alignItems: options.alignItems ? alignValues[options.alignItems] : undefined,
+		justifyContent: options.justifyContent
+			? justifyValues[options.justifyContent]
 			: undefined,
 		gap: options.gap === undefined ? undefined : spaceValues[options.gap],
 	}),
@@ -124,7 +125,9 @@ export const gridItem = memoize((options: GridItemOptions = {}) =>
 				: typeof options.span === "number"
 					? `span ${options.span}`
 					: undefined,
-		alignSelf: options.align ? alignValues[options.align] : undefined,
-		justifySelf: options.justify ? alignValues[options.justify] : undefined,
+		alignSelf: options.alignSelf ? alignValues[options.alignSelf] : undefined,
+		justifySelf: options.justifySelf
+			? alignValues[options.justifySelf]
+			: undefined,
 	}),
 )

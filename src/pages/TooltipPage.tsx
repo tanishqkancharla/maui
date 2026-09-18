@@ -111,7 +111,7 @@ function ToolbarButton(props: { action: ToolbarAction }) {
 const toolbarClass = style(
 	shadow.subtle,
 	radius.sm,
-	flex({ align: "center", gap: 1 }),
+	flex({ alignItems: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),
 	background.element,
 	{

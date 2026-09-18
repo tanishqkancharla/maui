@@ -104,6 +104,53 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		expect(diagnostics).toEqual([])
 	})
 
+	test("accepts Flex justifyContent and background tokens", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex row alignItems="center" justifyContent="between" background="element" p={4} radius="lg">
+				<Text>Left</Text>
+				<Text>Right</Text>
+			</Flex>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
+
+	test("rejects the old Flex justify prop name", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex row justify="between">
+				<Text>Left</Text>
+			</Flex>`,
+		)
+		expect(diagnostics).toHaveLength(1)
+		expect(diagnostics[0]?.message).toBe(
+			`Property 'justify' does not exist on Flex.`,
+		)
+	})
+
+	test("rejects an unknown Flex justifyContent", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex row justifyContent="space-between">
+				<Text>Left</Text>
+			</Flex>`,
+		)
+		expect(diagnostics).toHaveLength(1)
+		expect(diagnostics[0]?.message).toBe(
+			`Type '"space-between"' is not assignable to type '"start" | "center" | "end" | "between" | "around" | "evenly"'.`,
+		)
+	})
+
+	test("rejects an unknown Flex background", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex column background="card">
+				<Text>Card</Text>
+			</Flex>`,
+		)
+		expect(diagnostics).toHaveLength(1)
+		expect(diagnostics[0]?.message).toContain(
+			`Type '"card"' is not assignable to type '`,
+		)
+		expect(diagnostics[0]?.message).toContain('"element"')
+	})
+
 	test("accepts MenuTrigger with a Maui Button", () => {
 		const diagnostics = collectJsxDiagnosticsFromSource(
 			`<MenuTrigger>
@@ -127,5 +174,35 @@ describe("JSX editor catalog", () => {
 		expect(names).not.toContain("Panel")
 		expect(previewScope).not.toHaveProperty("Padding")
 		expect(previewScope).not.toHaveProperty("Panel")
+	})
+
+	test("Flex catalog includes justifyContent and background", async () => {
+		const { catalog } = await import("./catalog")
+		const flex = catalog.find((entry) => entry.name === "Flex")
+		const names = flex?.attributes.map((attribute) => attribute.name) ?? []
+		expect(names).toContain("justifyContent")
+		expect(names).not.toContain("justify")
+		expect(names).toContain("background")
+		expect(
+			flex?.attributes.find((attribute) => attribute.name === "justifyContent")
+				?.values,
+		).toEqual([
+			"start",
+			"center",
+			"end",
+			"between",
+			"around",
+			"evenly",
+		])
+		expect(
+			flex?.attributes.find((attribute) => attribute.name === "background")?.values,
+		).toEqual([
+			"app",
+			"element",
+			"elementHover",
+			"elementActive",
+			"accent",
+			"accentHover",
+		])
 	})
 })

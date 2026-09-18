@@ -60,7 +60,7 @@ const pageClass = style({
 	paddingBottom: "32px",
 })
 
-const rowClass = style(flex({ align: "center", gap: 6 }))
+const rowClass = style(flex({ alignItems: "center", gap: 6 }))
 
 const columnClass = style(flex({ direction: "column", gap: 6 }))
 

@@ -137,7 +137,7 @@ const shellClass = style(radius.lg, {
 })
 
 const sidebarBrandClass = style(
-	flex({ align: "center", gap: 3 }),
+	flex({ alignItems: "center", gap: 3 }),
 	{
 		paddingTop: spacing.value(6),
 		paddingInline: spacing.value(4),
