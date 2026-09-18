@@ -53,19 +53,7 @@ const AXIS_INTENT_PX = 10
 
 const MotionModalOverlay = motion.create(ModalOverlay)
 
-const panelEnter = {
-	type: "tween" as const,
-	duration: 0.3,
-	ease: [0.32, 0, 0.2, 1] as const,
-}
-
-const panelExit = {
-	type: "tween" as const,
-	duration: 0.4,
-	ease: [0.32, 0, 0.2, 1] as const,
-}
-
-function panelMomentumExit(velocity: number) {
+function panelSpring(velocity = 0) {
 	return {
 		type: "spring" as const,
 		stiffness: 500,
@@ -194,7 +182,7 @@ function DrawerLayer({
 			return
 		}
 		x.set(closedX)
-		enterAnimation.current = animate(x, 0, panelEnter)
+		enterAnimation.current = animate(x, 0, panelSpring())
 		return () => {
 			enterAnimation.current?.stop()
 			enterAnimation.current = null
@@ -230,11 +218,7 @@ function DrawerLayer({
 				})
 				return
 			}
-			const exitTransition =
-				releaseVelocity === undefined
-					? panelExit
-					: panelMomentumExit(releaseVelocity)
-			void animate(x, closedX, exitTransition).then(() => {
+			void animate(x, closedX, panelSpring(releaseVelocity)).then(() => {
 				onOpenChange(false)
 			})
 		},

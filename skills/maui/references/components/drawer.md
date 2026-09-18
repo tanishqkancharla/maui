@@ -35,9 +35,9 @@ Out of the public API: drag/snap props, cookies, breakpoint hooks, `DrawerTrigge
 
 - Flush square panel: `background.element`, no radius, outside 1px `borderColor.outline` ring (`box-shadow: 0 0 0 1px`). Nested Sidebar/nav drops its own radius and shadow.
 - Scrim is black alpha in both themes. Content does not shrink or push. Focus is trapped.
-- Opening uses a 300ms ease-out; non-gesture closing uses 400ms.
+- Panel opening and closing use the same critically damped spring.
 - Nested vertical scroll wins until horizontal intent is clear.
-- A swipe-dismiss carries its release velocity into the exit spring, preserving
+- A swipe-dismiss seeds that spring with its release velocity, preserving
   gesture momentum instead of restarting from rest.
 - `prefers-reduced-motion`: no rubber-band drag; opacity-only open/close (`useReducedMotion`, same as [Crossfade](crossfade.md)).
 - Choosing a nav item should close the drawer in **app wiring**, not via a Drawer prop.
