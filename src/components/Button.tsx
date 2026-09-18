@@ -181,13 +181,11 @@ const coloredButtonClass = memoize(
 				})
 			}
 
+			// Quiet: color tints the label only. Rest is transparent; hover/press
+			// keep the existing wash (same idea as uncolored quiet).
 			return style(buttonBaseClass, focusRing("&:focus-visible"), {
 				color: fill,
-				backgroundColor: surfaceWash(
-					fill,
-					surfaceMixPercent.hover,
-					"transparent",
-				),
+				backgroundColor: "transparent",
 				boxShadow: "none",
 				"&:hover:not(:disabled)": {
 					color: darkerFill(fill),
@@ -226,13 +224,11 @@ const coloredButtonClass = memoize(
 			})
 		}
 
+		// Quiet: color tints the label only. Rest is transparent; hover/press
+		// keep the existing wash (same idea as uncolored quiet).
 		return style(buttonBaseClass, focusRing("&:focus-visible"), {
 			color: scale[11],
-			backgroundColor: surfaceWash(
-				scale[9],
-				surfaceMixPercent.hover,
-				"transparent",
-			),
+			backgroundColor: "transparent",
 			boxShadow: "none",
 			"&:hover:not(:disabled)": {
 				color: scale[12],

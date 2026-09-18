@@ -59,8 +59,7 @@ export function ButtonsPage() {
 				<code>variantColor</code> (a palette name, default{" "}
 				<code>"accent"</code>). Pass a hex or <code>rgb()</code> string
 				to use that color as the fill (alpha is dropped). The edge is{" "}
-				<code>shadow.subtle</code> tinted with that fill. Quiet uses the
-				same color at the 3.5% surface-wash mix.
+				<code>shadow.subtle</code> tinted with that fill.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="primary">Save</Button>
@@ -76,12 +75,6 @@ export function ButtonsPage() {
 				</Button>
 				<Button variant="primary" variantColor="orange">
 					Orange
-				</Button>
-				<Button variant="quiet" variantColor="accent">
-					Quiet accent
-				</Button>
-				<Button variant="quiet" variantColor="blue">
-					Quiet blue
 				</Button>
 			</Flex>
 			<Flex
@@ -99,9 +92,6 @@ export function ButtonsPage() {
 				<Button variant="primary" variantColor="rgb(219, 68, 55)">
 					rgb(219, 68, 55)
 				</Button>
-				<Button variant="quiet" variantColor="#6366f1">
-					Quiet #6366f1
-				</Button>
 			</Flex>
 			<Flex
 				row
@@ -117,7 +107,12 @@ export function ButtonsPage() {
 			</Flex>
 
 			<H3>Quiet</H3>
-			<Flex row alignItems="center" gap={4}>
+			<P>
+				<code>variant="quiet"</code> has no fill, with or without{" "}
+				<code>variantColor</code>. Color tints the label and icon; hover
+				and press use a wash, same as uncolored quiet.
+			</P>
+			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="quiet">Button</Button>
 				<Button variant="quiet">
 					<Icons.Plus />
@@ -125,6 +120,15 @@ export function ButtonsPage() {
 				</Button>
 				<Button variant="quiet" aria-label="More actions">
 					<Icons.DotsHorizontal />
+				</Button>
+				<Button variant="quiet" variantColor="accent">
+					Quiet accent
+				</Button>
+				<Button variant="quiet" variantColor="blue">
+					Quiet blue
+				</Button>
+				<Button variant="quiet" variantColor="#6366f1">
+					Quiet #6366f1
 				</Button>
 			</Flex>
 

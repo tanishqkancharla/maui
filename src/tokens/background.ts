@@ -16,7 +16,7 @@ const elementSurface = defineVars({
 	},
 })
 
-/** Foreground wash percents used by element hover/active and tinted quiet buttons. */
+/** Foreground wash percents used by element hover/active and quiet-button hover. */
 export const surfaceMixPercent = {
 	hover: 3.5,
 	active: 7,
