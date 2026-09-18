@@ -374,7 +374,7 @@ const playgroundClass = style(radius.lg, {
 })
 
 const playgroundBarClass = style(
-	flex({ direction: "row", align: "center", gap: 2 }),
+	flex({ direction: "row", alignItems: "center", gap: 2 }),
 	{
 		minHeight: "36px",
 	},
@@ -475,7 +475,7 @@ const silkBackgroundClass = style({
 	backgroundColor: backgroundColor.element,
 })
 
-const sidebarBrandClass = style(flex({ align: "center", gap: 3 }), {
+const sidebarBrandClass = style(flex({ alignItems: "center", gap: 3 }), {
 	paddingTop: spacing.value(6),
 	paddingInline: spacing.value(4),
 })

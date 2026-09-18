@@ -410,7 +410,7 @@ const compactShellClass = style(flex({ direction: "column" }), {
 })
 
 const compactHeaderClass = style(
-	flex({ direction: "row", align: "center", gap: 2 }),
+	flex({ direction: "row", alignItems: "center", gap: 2 }),
 	{
 		flexShrink: 0,
 		minHeight: "36px",
