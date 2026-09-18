@@ -51,7 +51,7 @@ import {
 	Ul,
 } from "../../components/Typography"
 import { Divider, Flex, Gap, Spacer } from "../../components/Utils"
-import { backgroundColor } from "../../tokens/background"
+import { background, backgroundColor } from "../../tokens/background"
 import { borderColor } from "../../tokens/borders"
 import { colors, colorNames } from "../../tokens/colors"
 import { radius } from "../../tokens/radius"
@@ -80,6 +80,8 @@ const textSizes = ["2xs", "xs", "sm", "md", "lg", "xl"]
 const textWeights = ["400", "500", "600", "700"]
 const textColors = ["lowContrast", "highContrast", "accent", "onAccent"]
 const alignItems = ["start", "center", "end", "stretch", "baseline"]
+const justifyValues = ["start", "center", "end", "between", "around", "evenly"]
+const backgroundValues = Object.keys(background)
 
 export const iconNames = Object.keys(Icons)
 
@@ -100,6 +102,16 @@ export const catalog: CatalogComponent[] = [
 			{ name: "pb", values: spaceValues, info: "Padding bottom" },
 			{ name: "pl", values: spaceValues, info: "Padding left" },
 			{ name: "alignItems", values: alignItems },
+			{
+				name: "justify",
+				values: justifyValues,
+				info: "Main-axis alignment (justify-content). Same tokens as flex().",
+			},
+			{
+				name: "background",
+				values: backgroundValues,
+				info: "Surface token (app, element, accent, …).",
+			},
 			{
 				name: "border",
 				values: ["border", "outline", "accent"],
@@ -534,13 +546,23 @@ export const previewScope: Record<string, unknown> = {
 }
 
 export const defaultJsx = `<Flex column gap={6}>
-  <Flex row gap={4} alignItems="center">
-    <Avatar name="Ada Lovelace" size="md" />
-    <Flex column gap={1}>
-      <Text size="lg" fontWeight={600}>Ada Lovelace</Text>
-      <Text size="sm" color="lowContrast">Mathematician</Text>
+  <Flex
+    row
+    gap={4}
+    alignItems="center"
+    justify="between"
+    p={4}
+    background="element"
+    radius="lg"
+    shadow="subtle"
+  >
+    <Flex row gap={4} alignItems="center">
+      <Avatar name="Ada Lovelace" size="md" />
+      <Flex column gap={1}>
+        <Text size="lg" fontWeight={600}>Ada Lovelace</Text>
+        <Text size="sm" color="lowContrast">Mathematician</Text>
+      </Flex>
     </Flex>
-    <Spacer />
     <Badge>Active</Badge>
   </Flex>
   <Text color="lowContrast">

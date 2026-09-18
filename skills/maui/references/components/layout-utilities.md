@@ -9,10 +9,9 @@ Gallery-only: `Panel` is a dotted preview frame in the docs site (`src/pages/Pan
 Row **or** column (exactly one of `row` / `column` is required).
 
 ```tsx
-<Flex row gap={4} alignItems="center">
+<Flex row gap={4} alignItems="center" justify="between">
   <Avatar name="Ada Lovelace" size="md" />
   <Text size="lg" fontWeight={600}>Ada Lovelace</Text>
-  <Spacer />
   <Badge>Active</Badge>
 </Flex>
 ```
@@ -24,6 +23,8 @@ Row **or** column (exactly one of `row` / `column` is required).
 | `p` / `padding` | All-side padding step |
 | `px` `py` `pt` `pr` `pb` `pl` | Axis / side padding |
 | `alignItems` | CSS `align-items` |
+| `justify` | `start` \| `center` \| `end` \| `between` \| `around` \| `evenly` — same tokens as `flex()`. Maps to `justify-content`. |
+| `background` | `app` \| `element` \| `elementHover` \| `elementActive` \| `accent` \| `accentHover` |
 | `border` | `true` (outline) or `"border" \| "outline" \| "accent"`. **Skipped when `shadow` is set** |
 | `shadow` | `"subtle" \| "medium" \| "strong"` — includes a ring; do not also set `border` |
 | `radius` | Token key (`sm`, `lg`, `pill`, …) |

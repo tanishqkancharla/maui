@@ -2,15 +2,11 @@ import { describe, expect, test } from "vitest"
 import { evaluateJsx } from "./evaluate"
 
 describe("evaluateJsx", () => {
-	test("evaluates MenuTrigger with a Maui Button", () => {
-		const result = evaluateJsx(`<MenuTrigger>
-  <Button variant="quiet" aria-label="Actions">
-    <Icons.DotsHorizontal />
-  </Button>
-  <Menu>
-    <MenuItem id="rename">Rename</MenuItem>
-  </Menu>
-</MenuTrigger>`)
+	test("evaluates Flex justify and background", () => {
+		const result = evaluateJsx(`<Flex row alignItems="center" justify="between" background="element" p={4} radius="lg">
+  <Text>Left</Text>
+  <Text>Right</Text>
+</Flex>`)
 		expect(result.ok).toBe(true)
 	})
 })

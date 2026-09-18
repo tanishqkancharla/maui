@@ -140,6 +140,8 @@ export {
 	type FlexShadow,
 	type FlexRadius,
 	type FlexBorder,
+	type FlexJustify,
+	type FlexBackground,
 } from "./components/Utils"
 export { Text, type TextProps } from "./components/Text"
 export {

@@ -1,5 +1,6 @@
 import { style, useStyles } from "purse-styles"
 import React from "react"
+import { background } from "../tokens/background"
 import { border, type BorderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
@@ -10,6 +11,8 @@ import { spacing, type Space } from "../tokens/spacing"
 export type FlexShadow = keyof typeof shadow
 export type FlexRadius = keyof typeof radius
 export type FlexBorder = true | BorderColor
+export type FlexJustify = "start" | "center" | "end" | "between" | "around" | "evenly"
+export type FlexBackground = keyof typeof background
 
 type FlexProps = {
 	gap?: Space
@@ -23,6 +26,8 @@ type FlexProps = {
 	padding?: Space
 	children?: React.ReactNode
 	alignItems?: React.CSSProperties["alignItems"]
+	justify?: FlexJustify
+	background?: FlexBackground
 	style?: React.CSSProperties
 	border?: FlexBorder
 	shadow?: FlexShadow
@@ -53,6 +58,8 @@ export function Flex(props: FlexProps) {
 		pl,
 		padding,
 		alignItems,
+		justify,
+		background: backgroundProp,
 		border: borderProp,
 		shadow: shadowProp,
 		radius: radiusProp,
@@ -67,6 +74,7 @@ export function Flex(props: FlexProps) {
 		flex({
 			direction: column ? "column" : "row",
 			gap,
+			justify,
 		}),
 		p === undefined &&
 			px === undefined &&
@@ -87,6 +95,7 @@ export function Flex(props: FlexProps) {
 					left: pl,
 				}),
 		alignItems === undefined ? undefined : style({ alignItems }),
+		backgroundProp ? background[backgroundProp] : undefined,
 		shadowProp ? shadow[shadowProp] : undefined,
 		resolvedBorder ? border([], resolvedBorder) : undefined,
 		radiusProp ? radius[radiusProp] : undefined,
