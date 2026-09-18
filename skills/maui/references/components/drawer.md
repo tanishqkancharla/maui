@@ -21,13 +21,13 @@ const [open, setOpen] = useState(false)
 </Drawer>
 ```
 
-| Prop | Notes |
-| --- | --- |
-| `isOpen` / `defaultOpen` / `onOpenChange` | React Aria overlay names. Controlled or uncontrolled |
-| `side` | `"start"` (default) \| `"end"`. Logical; `useLocale` maps physical left/right |
-| `isDismissable` | Default `true`. Tap scrim, swipe toward the edge, Escape |
-| `children` | The panel. Width **240px**, cap ~85vw |
-| `aria-label` / `aria-labelledby` | Dialog name. Visually hidden title from `aria-label` is fine |
+| Prop                                      | Notes                                                                         |
+| ----------------------------------------- | ----------------------------------------------------------------------------- |
+| `isOpen` / `defaultOpen` / `onOpenChange` | React Aria overlay names. Controlled or uncontrolled                          |
+| `side`                                    | `"start"` (default) \| `"end"`. Logical; `useLocale` maps physical left/right |
+| `isDismissable`                           | Default `true`. Tap scrim, swipe toward the edge, Escape                      |
+| `children`                                | The panel. Width **240px**, cap ~85vw                                         |
+| `aria-label` / `aria-labelledby`          | Dialog name. Visually hidden title from `aria-label` is fine                  |
 
 Out of the public API: drag/snap props, cookies, breakpoint hooks, `DrawerTrigger` / Header / Footer / Rail, edge-swipe-to-open.
 
@@ -36,6 +36,8 @@ Out of the public API: drag/snap props, cookies, breakpoint hooks, `DrawerTrigge
 - Flush square panel: `background.element`, no radius, outside 1px `borderColor.outline` ring (`box-shadow: 0 0 0 1px`). Nested Sidebar/nav drops its own radius and shadow.
 - Scrim is gray-12 alpha. Content does not shrink or push. Focus is trapped.
 - Nested vertical scroll wins until horizontal intent is clear.
+- A swipe-dismiss carries its release velocity into the exit spring, preserving
+  gesture momentum instead of restarting from rest.
 - `prefers-reduced-motion`: no rubber-band drag; opacity-only open/close (`useReducedMotion`, same as [Crossfade](crossfade.md)).
 - Choosing a nav item should close the drawer in **app wiring**, not via a Drawer prop.
 

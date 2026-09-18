@@ -60,6 +60,18 @@ const panelEnterExit = {
 	ease: [0.32, 0, 0.2, 1] as const,
 }
 
+function panelMomentumExit(velocity: number) {
+	return {
+		type: "spring" as const,
+		stiffness: 500,
+		damping: 45,
+		mass: 1,
+		velocity,
+		restDelta: 0.5,
+		restSpeed: 15,
+	}
+}
+
 const reducedMotionTransition = {
 	duration: motionDurationMs / 1000,
 	ease: [0.42, 0, 0.58, 1] as const,
@@ -197,7 +209,7 @@ function DrawerLayer({
 	}, [])
 
 	const requestOpenChange = useCallback(
-		(next: boolean) => {
+		(next: boolean, releaseVelocity?: number) => {
 			if (next) {
 				onOpenChange(true)
 				return
@@ -213,7 +225,11 @@ function DrawerLayer({
 				})
 				return
 			}
-			void animate(x, closedX, panelEnterExit).then(() => {
+			const exitTransition =
+				releaseVelocity === undefined
+					? panelEnterExit
+					: panelMomentumExit(releaseVelocity)
+			void animate(x, closedX, exitTransition).then(() => {
 				onOpenChange(false)
 			})
 		},
@@ -239,17 +255,14 @@ function DrawerLayer({
 				: offset > dismissOffset || velocity > DISMISS_VELOCITY)
 		if (shouldClose) {
 			suppressClick.current = true
-			requestOpenChange(false)
+			const exitVelocity = closesToNegativeX
+				? Math.min(velocity, 0)
+				: Math.max(velocity, 0)
+			requestOpenChange(false, exitVelocity)
 			return
 		}
 		void animate(x, 0, { ...snapBackTransition, min: 0, max: 0 })
-	}, [
-		closesToNegativeX,
-		dismissOffset,
-		isDismissable,
-		requestOpenChange,
-		x,
-	])
+	}, [closesToNegativeX, dismissOffset, isDismissable, requestOpenChange, x])
 
 	const onPointerDown = useCallback(
 		(event: ReactPointerEvent<HTMLDivElement>) => {
@@ -261,11 +274,7 @@ function DrawerLayer({
 					link.draggable = false
 				}
 			}
-			if (
-				!canDrag ||
-				event.button !== 0 ||
-				activePointer.current !== null
-			) {
+			if (!canDrag || event.button !== 0 || activePointer.current !== null) {
 				return
 			}
 			activePointer.current = event.pointerId
@@ -316,7 +325,11 @@ function DrawerLayer({
 			if (dt > 0) {
 				lastMove.current.v = ((event.clientX - lastMove.current.x) / dt) * 1000
 			}
-			lastMove.current = { x: event.clientX, t: event.timeStamp, v: lastMove.current.v }
+			lastMove.current = {
+				x: event.clientX,
+				t: event.timeStamp,
+				v: lastMove.current.v,
+			}
 			const next = clampDragX(pointerOrigin.current.startX + dx)
 			if (Math.abs(next) > 8) {
 				suppressClick.current = true
