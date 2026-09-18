@@ -402,7 +402,7 @@ const comparisonBackdropClass = style({
 	position: "fixed",
 	inset: 0,
 	zIndex: 80,
-	backgroundColor: `oklch(from ${colors.gray[12]} l c h / 0.34)`,
+	backgroundColor: "rgb(0 0 0 / 0.34)",
 	opacity: "calc(1 - var(--drawer-swipe-progress, 0))",
 	transition: "opacity 400ms ease-out",
 	"&[data-starting-style], &[data-ending-style]": {
@@ -461,7 +461,7 @@ const silkViewClass = style({
 })
 
 const silkBackdropClass = style({
-	backgroundColor: colors.gray[12],
+	backgroundColor: "black",
 })
 
 const silkContentClass = style({

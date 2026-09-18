@@ -24,7 +24,6 @@ import {
 } from "motion/react"
 import { background } from "../tokens/background"
 import { borderColor } from "../tokens/borders"
-import { colors } from "../tokens/colors"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { motionDurationMs } from "../tokens/motion"
 import { cls } from "../utils/cls"
@@ -54,7 +53,13 @@ const AXIS_INTENT_PX = 10
 
 const MotionModalOverlay = motion.create(ModalOverlay)
 
-const panelEnterExit = {
+const panelEnter = {
+	type: "tween" as const,
+	duration: 0.3,
+	ease: [0.32, 0, 0.2, 1] as const,
+}
+
+const panelExit = {
 	type: "tween" as const,
 	duration: 0.4,
 	ease: [0.32, 0, 0.2, 1] as const,
@@ -178,7 +183,7 @@ function DrawerLayer({
 	const x = useMotionValue(reduceMotion ? 0 : closedX)
 	const overlayOpacity = useMotionValue(reduceMotion ? 0 : 1)
 	const progress = useTransform(x, [closedX, 0], [0, 1])
-	const scrimBackground = useMotionTemplate`oklch(from ${colors.gray[12]} l c h / calc(${SCRIM_ALPHA} * ${progress}))`
+	const scrimBackground = useMotionTemplate`rgb(0 0 0 / calc(${SCRIM_ALPHA} * ${progress}))`
 	const canDrag = isDismissable && !reduceMotion
 	const dismissOffset = panelWidth * DISMISS_OFFSET_RATIO
 
@@ -189,7 +194,7 @@ function DrawerLayer({
 			return
 		}
 		x.set(closedX)
-		enterAnimation.current = animate(x, 0, panelEnterExit)
+		enterAnimation.current = animate(x, 0, panelEnter)
 		return () => {
 			enterAnimation.current?.stop()
 			enterAnimation.current = null
@@ -227,7 +232,7 @@ function DrawerLayer({
 			}
 			const exitTransition =
 				releaseVelocity === undefined
-					? panelEnterExit
+					? panelExit
 					: panelMomentumExit(releaseVelocity)
 			void animate(x, closedX, exitTransition).then(() => {
 				onOpenChange(false)
@@ -434,7 +439,7 @@ const overlayClass = style({
 })
 
 const overlayReducedScrimClass = style({
-	backgroundColor: `oklch(from ${colors.gray[12]} l c h / ${SCRIM_ALPHA})`,
+	backgroundColor: `rgb(0 0 0 / ${SCRIM_ALPHA})`,
 })
 
 const shellClass = style({

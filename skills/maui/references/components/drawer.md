@@ -34,7 +34,8 @@ Out of the public API: drag/snap props, cookies, breakpoint hooks, `DrawerTrigge
 ## Behavior
 
 - Flush square panel: `background.element`, no radius, outside 1px `borderColor.outline` ring (`box-shadow: 0 0 0 1px`). Nested Sidebar/nav drops its own radius and shadow.
-- Scrim is gray-12 alpha. Content does not shrink or push. Focus is trapped.
+- Scrim is black alpha in both themes. Content does not shrink or push. Focus is trapped.
+- Opening uses a 300ms ease-out; non-gesture closing uses 400ms.
 - Nested vertical scroll wins until horizontal intent is clear.
 - A swipe-dismiss carries its release velocity into the exit spring, preserving
   gesture momentum instead of restarting from rest.
