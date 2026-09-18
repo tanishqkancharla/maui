@@ -41,7 +41,7 @@ export function RadioOptionGroup(props: RadioOptionGroupProps) {
 }
 
 const radioClass = style(
-	flex({ align: "center", gap: 3 }),
+	flex({ alignItems: "center", gap: 3 }),
 	focusRing(
 		"& .radio-input:focus-visible + .radio-toggle",
 		shadowVars.subtle,

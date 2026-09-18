@@ -14,7 +14,7 @@ Column shell: outline border, `radius.lg`, `minHeight` ~560px / `maxHeight` ~720
 **Feed** (`role="log"` `aria-label="Conversation"` `aria-relevant="additions"`)
 
 - `Flex column` with `px={8} py={6} gap={6}`, `flex: 1`, `overflowY: auto`. Scroll to bottom when messages change.
-- **User**: `justify: end`, bubble `maxWidth: 80%`, `prose("sm")` paragraph, `radius.md`, `shadow.subtle`, `background.element`, `pre-wrap`.
+- **User**: `justifyContent: end`, bubble `maxWidth: 80%`, `prose("sm")` paragraph, `radius.md`, `shadow.subtle`, `background.element`, `pre-wrap`.
 - **Assistant**: full-width column.
   1. Optional tool-call lines (lowContrast, ellipsis): `Read path`, `Wrote path`, `$ command` (command in `monospace`).
   2. AssistantMessage `size="sm"` `isAnimating={streaming}` — override `maxWidth: none` so it fills the pane.

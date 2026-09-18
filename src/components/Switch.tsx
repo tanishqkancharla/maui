@@ -25,7 +25,7 @@ const switchOff = defineVars({
 })
 
 const switchClass = style(
-	flex({ align: "center", gap: 3 }),
+	flex({ alignItems: "center", gap: 3 }),
 	focusRing(
 		"& .switch-input:focus-visible + .switch-toggle",
 		shadowVars.subtle,

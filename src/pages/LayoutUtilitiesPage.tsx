@@ -13,7 +13,7 @@ export function LayoutUtilitiesPage() {
 				<code>1</code>–<code>16</code>), not raw pixels. Put inset on{" "}
 				<code>Flex</code> with <code>padding</code> / <code>p</code>,{" "}
 				<code>px</code>, <code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
-				<code>pb</code>, <code>pl</code>. <code>justify</code> uses the same
+				<code>pb</code>, <code>pl</code>. 				<code>justifyContent</code> uses the same
 				tokens as <code>flex()</code> (<code>start</code>, <code>center</code>,{" "}
 				<code>end</code>, <code>between</code>, <code>around</code>,{" "}
 				<code>evenly</code>). <code>background</code> applies a surface token.{" "}
@@ -31,7 +31,7 @@ export function LayoutUtilitiesPage() {
 				</Flex>
 			</Flex>
 			<H3>Justify</H3>
-			<CodeBlock lang="tsx">{`<Flex row alignItems="center" justify="between">
+			<CodeBlock lang="tsx">{`<Flex row alignItems="center" justifyContent="between">
   <Text size="sm">Title</Text>
   <Text size="sm" color="lowContrast">Action</Text>
 </Flex>`}</CodeBlock>
@@ -39,7 +39,7 @@ export function LayoutUtilitiesPage() {
 				<Flex
 					row
 					alignItems="center"
-					justify="between"
+					justifyContent="between"
 					px={4}
 					py={3}
 					border="outline"

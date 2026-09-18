@@ -104,9 +104,9 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		expect(diagnostics).toEqual([])
 	})
 
-	test("accepts Flex justify and background tokens", () => {
+	test("accepts Flex justifyContent and background tokens", () => {
 		const diagnostics = collectJsxDiagnosticsFromSource(
-			`<Flex row alignItems="center" justify="between" background="element" p={4} radius="lg">
+			`<Flex row alignItems="center" justifyContent="between" background="element" p={4} radius="lg">
 				<Text>Left</Text>
 				<Text>Right</Text>
 			</Flex>`,
@@ -114,9 +114,21 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		expect(diagnostics).toEqual([])
 	})
 
-	test("rejects an unknown Flex justify", () => {
+	test("rejects the old Flex justify prop name", () => {
 		const diagnostics = collectJsxDiagnosticsFromSource(
-			`<Flex row justify="space-between">
+			`<Flex row justify="between">
+				<Text>Left</Text>
+			</Flex>`,
+		)
+		expect(diagnostics).toHaveLength(1)
+		expect(diagnostics[0]?.message).toBe(
+			`Property 'justify' does not exist on Flex.`,
+		)
+	})
+
+	test("rejects an unknown Flex justifyContent", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Flex row justifyContent="space-between">
 				<Text>Left</Text>
 			</Flex>`,
 		)
@@ -164,13 +176,17 @@ describe("JSX editor catalog", () => {
 		expect(previewScope).not.toHaveProperty("Panel")
 	})
 
-	test("Flex catalog includes justify and background", async () => {
+	test("Flex catalog includes justifyContent and background", async () => {
 		const { catalog } = await import("./catalog")
 		const flex = catalog.find((entry) => entry.name === "Flex")
 		const names = flex?.attributes.map((attribute) => attribute.name) ?? []
-		expect(names).toContain("justify")
+		expect(names).toContain("justifyContent")
+		expect(names).not.toContain("justify")
 		expect(names).toContain("background")
-		expect(flex?.attributes.find((attribute) => attribute.name === "justify")?.values).toEqual([
+		expect(
+			flex?.attributes.find((attribute) => attribute.name === "justifyContent")
+				?.values,
+		).toEqual([
 			"start",
 			"center",
 			"end",

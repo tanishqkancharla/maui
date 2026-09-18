@@ -22,7 +22,7 @@ export function JsxEditorPage() {
 	)
 }
 
-const hintClass = style(flex({ direction: "row", align: "center", gap: 2 }), {
+const hintClass = style(flex({ direction: "row", alignItems: "center", gap: 2 }), {
 	flexShrink: 0,
 	flexWrap: "wrap",
 })

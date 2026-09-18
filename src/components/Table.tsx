@@ -140,7 +140,7 @@ const emptyStateClass = style(
 )
 
 const tableSelectionCheckboxClass = style(
-	flex({ align: "center", justify: "center" }),
+	flex({ alignItems: "center", justifyContent: "center" }),
 	focusRing("&[data-focus-visible] .checkbox-toggle", shadowVars.subtle),
 	{
 		position: "relative",
@@ -172,7 +172,7 @@ const tableSelectionCheckboxClass = style(
 )
 
 const tableSelectionToggleClass = style(
-	flex({ align: "center", justify: "center" }),
+	flex({ alignItems: "center", justifyContent: "center" }),
 	radius["2xs"],
 	shadow.subtle,
 	{

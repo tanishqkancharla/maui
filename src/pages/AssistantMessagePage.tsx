@@ -93,6 +93,6 @@ const pageClass = style({
 	paddingBottom: "32px",
 })
 
-const actionsClass = style(flex({ align: "center", gap: 4 }), {
+const actionsClass = style(flex({ alignItems: "center", gap: 4 }), {
 	marginBottom: "16px",
 })

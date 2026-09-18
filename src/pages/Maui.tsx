@@ -332,7 +332,7 @@ function NavLink(props: { item: NavItem }) {
 }
 
 const mauiShellClass = style(
-	grid({ columns: "sidebarContent", align: "start" }),
+	grid({ columns: "sidebarContent", alignItems: "start" }),
 	{
 		height: "100%",
 		minHeight: 0,

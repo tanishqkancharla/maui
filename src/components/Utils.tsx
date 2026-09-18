@@ -3,7 +3,7 @@ import React from "react"
 import { background } from "../tokens/background"
 import { border, type BorderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { flex } from "../tokens/layout"
+import { flex, type AlignItems, type JustifyContent } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { spacing, type Space } from "../tokens/spacing"
@@ -11,7 +11,8 @@ import { spacing, type Space } from "../tokens/spacing"
 export type FlexShadow = keyof typeof shadow
 export type FlexRadius = keyof typeof radius
 export type FlexBorder = true | BorderColor
-export type FlexJustify = "start" | "center" | "end" | "between" | "around" | "evenly"
+export type FlexAlignItems = AlignItems
+export type FlexJustifyContent = JustifyContent
 export type FlexBackground = keyof typeof background
 
 type FlexProps = {
@@ -25,8 +26,8 @@ type FlexProps = {
 	pl?: Space
 	padding?: Space
 	children?: React.ReactNode
-	alignItems?: React.CSSProperties["alignItems"]
-	justify?: FlexJustify
+	alignItems?: AlignItems
+	justifyContent?: JustifyContent
 	background?: FlexBackground
 	style?: React.CSSProperties
 	border?: FlexBorder
@@ -58,7 +59,7 @@ export function Flex(props: FlexProps) {
 		pl,
 		padding,
 		alignItems,
-		justify,
+		justifyContent,
 		background: backgroundProp,
 		border: borderProp,
 		shadow: shadowProp,
@@ -74,7 +75,8 @@ export function Flex(props: FlexProps) {
 		flex({
 			direction: column ? "column" : "row",
 			gap,
-			justify,
+			alignItems,
+			justifyContent,
 		}),
 		p === undefined &&
 			px === undefined &&
@@ -94,7 +96,6 @@ export function Flex(props: FlexProps) {
 					bottom: pb,
 					left: pl,
 				}),
-		alignItems === undefined ? undefined : style({ alignItems }),
 		backgroundProp ? background[backgroundProp] : undefined,
 		shadowProp ? shadow[shadowProp] : undefined,
 		resolvedBorder ? border([], resolvedBorder) : undefined,

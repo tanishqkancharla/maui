@@ -101,11 +101,11 @@ export const catalog: CatalogComponent[] = [
 			{ name: "pr", values: spaceValues, info: "Padding right" },
 			{ name: "pb", values: spaceValues, info: "Padding bottom" },
 			{ name: "pl", values: spaceValues, info: "Padding left" },
-			{ name: "alignItems", values: alignItems },
+			{ name: "alignItems", values: alignItems, info: "Cross-axis alignment. Same tokens as flex()." },
 			{
-				name: "justify",
+				name: "justifyContent",
 				values: justifyValues,
-				info: "Main-axis alignment (justify-content). Same tokens as flex().",
+				info: "Main-axis alignment. Same tokens as flex().",
 			},
 			{
 				name: "background",
@@ -550,7 +550,7 @@ export const defaultJsx = `<Flex column gap={6}>
     row
     gap={4}
     alignItems="center"
-    justify="between"
+    justifyContent="between"
     p={4}
     background="element"
     radius="lg"

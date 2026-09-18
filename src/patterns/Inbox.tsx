@@ -274,7 +274,7 @@ const threadRowClass = style(
 
 const threadSenderClass = style(
 	text({ size: "md", fontWeight: 400, color: "highContrast" }),
-	flex({ align: "center", gap: 3 }),
+	flex({ alignItems: "center", gap: 3 }),
 	{
 		minWidth: 0,
 	},
@@ -333,7 +333,7 @@ const threadTimeClass = style(text({ size: "md", fontWeight: 400, color: "lowCon
 const threadToolbarClass = style(
 	shadow.subtle,
 	radius.sm,
-	flex({ align: "center", gap: 1 }),
+	flex({ alignItems: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),
 	{
 		position: "absolute",
@@ -456,7 +456,7 @@ const compactBodyClass = style(flexItem({ size: "fill" }), {
 	minWidth: 0,
 })
 
-const compactHeaderClass = flex({ align: "center", justify: "between", gap: 6 })
+const compactHeaderClass = flex({ alignItems: "center", justifyContent: "between", gap: 6 })
 
 const compactSenderClass = style(
 	truncate,

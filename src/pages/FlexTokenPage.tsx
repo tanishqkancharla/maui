@@ -19,9 +19,9 @@ export function FlexTokenPage() {
 				<code>px</code>, <code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
 				<code>pb</code>, <code>pl</code>) (not raw pixels).
 				Optional{" "}
-				<code>justify</code>, <code>background</code>, <code>border</code>,{" "}
+				<code>justifyContent</code>, <code>background</code>, <code>border</code>,{" "}
 				<code>shadow</code>, and <code>radius</code> turn it into a layout
-				surface. <code>justify</code> uses the same tokens as{" "}
+				surface. <code>justifyContent</code> uses the same tokens as{" "}
 				<code>flex()</code>. Shadows already include a 1px ring, so{" "}
 				<code>border</code> is ignored when <code>shadow</code> is set. For
 				style-object composition, prefer <code>flex()</code> from layout tokens.
@@ -78,13 +78,22 @@ export function FlexTokenPage() {
 							<code>alignItems</code>
 						</TableCell>
 						<TableCell>
-							<code>align-items</code> CSS value
+							<code style={unionCodeStyle}>
+								{`"start"
+| "center"
+| "end"
+| "stretch"
+| "baseline"`}
+							</code>
 						</TableCell>
-						<TableCell>Cross-axis alignment for the group.</TableCell>
+						<TableCell>
+							Cross-axis alignment. Same tokens as <code>flex()</code>{" "}
+							<code>alignItems</code>.
+						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>justify</code>
+							<code>justifyContent</code>
 						</TableCell>
 						<TableCell>
 							<code style={unionCodeStyle}>
@@ -98,7 +107,7 @@ export function FlexTokenPage() {
 						</TableCell>
 						<TableCell>
 							Main-axis alignment. Same tokens as <code>flex()</code>{" "}
-							<code>justify</code> (<code>justify-content</code>).
+							<code>justifyContent</code>.
 						</TableCell>
 					</TableRow>
 					<TableRow>
@@ -227,7 +236,7 @@ export function FlexTokenPage() {
 			</Panel>
 
 			<div style={sampleTitleStyle}>Centered</div>
-			<CodeBlock lang="typescript">{`<Flex row alignItems="center" justify="center" style={{ height: 112 }}>
+			<CodeBlock lang="typescript">{`<Flex row alignItems="center" justifyContent="center" style={{ height: 112 }}>
 	…
 </Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
@@ -235,7 +244,7 @@ export function FlexTokenPage() {
 					<Flex
 						row
 						alignItems="center"
-						justify="center"
+						justifyContent="center"
 						style={{ height: 112 }}
 					>
 						<Pill>center</Pill>
@@ -281,13 +290,13 @@ export function FlexTokenPage() {
 			</Panel>
 
 			<div style={sampleTitleStyle}>Between</div>
-			<CodeBlock lang="typescript">{`<Flex row alignItems="center" justify="between">
+			<CodeBlock lang="typescript">{`<Flex row alignItems="center" justifyContent="between">
 	<span>between</span>
 	<span>Action</span>
 </Flex>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
-					<Flex row alignItems="center" justify="between">
+					<Flex row alignItems="center" justifyContent="between">
 						<span>between</span>
 						<span style={{ color: colors.accent[11] }}>Action</span>
 					</Flex>

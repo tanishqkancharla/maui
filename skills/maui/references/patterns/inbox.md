@@ -31,6 +31,6 @@ Behavior:
 - Time sits on the right. **On hover**, time fades out and a quiet icon toolbar (`Star`, `Archive`, `Trash`, `Envelope`, `Clock`) fades in at the right — `shadow.subtle` chip, `Button variant="quiet"` with `aria-label`, `stopPropagation` on click.
 - Always include an empty state when `threads.length === 0` (“No messages” + optional compose action).
 
-Single-line sender column is highContrast with the unread dot. Multi-line puts the dot in a leading column (`align: start`).
+Single-line sender column is highContrast with the unread dot. Multi-line puts the dot in a leading column (`alignItems: start`).
 
 [Email client](../apps/email-client.md) uses **InboxMultiLine** in a 240px pane.
