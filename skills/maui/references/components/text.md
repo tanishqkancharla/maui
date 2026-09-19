@@ -12,4 +12,4 @@ Inline `<span>`. Defaults: `size="md"`, `fontWeight={400}`, `color="highContrast
 
 Also accepts native span props except `color` (that axis is the token).
 
-`size`: `2xs` | `xs` | `sm` | `md` | `lg` | `xl`. `fontWeight`: `400` | `500` | `600` | `700`. `color`: `lowContrast` | `highContrast` | `accent` | `onAccent`. `tabular`: boolean (`font-variant-numeric: tabular-nums`; no-op with `monospace`).
+`size`: `2xs` | `xs` | `sm` | `md` | `lg` | `xl`. `fontWeight`: `400` | `500` | `600` | `700`. `color`: `lowContrast` | `highContrast` | `accent` | `onAccent`. `tabular`: boolean (`font-variant-numeric: tabular-nums`).
