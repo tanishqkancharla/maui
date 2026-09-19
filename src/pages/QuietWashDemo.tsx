@@ -39,8 +39,8 @@ function paletteAlpha(name: ColorName): ColorScale {
 function themeWash(foreground: string, lightPercent: number, darkPercent: number) {
 	return defineVars({
 		wash: {
-			default: surfaceWash(foreground, lightPercent, backgroundColor.element),
-			[DARK_THEME]: surfaceWash(foreground, darkPercent, backgroundColor.element),
+			default: surfaceWash(foreground, lightPercent, "transparent"),
+			[DARK_THEME]: surfaceWash(foreground, darkPercent, "transparent"),
 		},
 	}).wash
 }
@@ -278,20 +278,17 @@ export function QuietWashDemo() {
 			<P>
 				Gallery-only. Production <code>Button</code> is unchanged. Proposed
 				quiet hover mixes <code>{"{color}Alpha[9]"}</code> into{" "}
-				<code>background.element</code> at <strong>6% light / 9% dark</strong>{" "}
-				(the percents that match today’s 3.5% <code>gray[12]</code> wash).
-				Press is 2× (12% / 18%), same ratio as 3.5 → 7. Palette{" "}
-				<code>variantColor</code> uses that color’s alpha 9 — no separate 7%
-				opaque step-9 wash over transparent. Hex/rgb still mix the opaque
-				fill at 6% / 9% (no alpha scale). Hover fills snap; no background
-				transition.
+				<strong>transparent</strong> at <strong>6% light / 9% dark</strong>{" "}
+				for both gray and <code>variantColor</code>. Press is 2× (12% / 18%).
+				Hex/rgb mix the opaque fill at the same percents. Hover fills snap;
+				no background transition.
 			</P>
 			<CodeBlock lang="typescript">{`// uncolored
-color-mix(in oklch, grayAlpha[9] 6%, element) // light hover
-color-mix(in oklch, grayAlpha[9] 9%, element) // dark hover
+color-mix(in oklch, grayAlpha[9] 6%, transparent) // light hover
+color-mix(in oklch, grayAlpha[9] 9%, transparent) // dark hover
 
 // variantColor="blue"
-color-mix(in oklch, blueAlpha[9] 6%, element)`}</CodeBlock>
+color-mix(in oklch, blueAlpha[9] 6%, transparent)`}</CodeBlock>
 
 			<Flex column gap={6} style={{ marginTop: "16px" }}>
 				<Flex column gap={4}>
@@ -312,7 +309,7 @@ color-mix(in oklch, blueAlpha[9] 6%, element)`}</CodeBlock>
 					</Text>
 					<P>
 						Gray and palette colors share one recipe: alpha 9 at 6% / 9%
-						into element. Press 12% / 18%.
+						into transparent. Press 12% / 18%.
 					</P>
 					<StateBlock label="Rest (hover these)" kind="proposed" />
 					<StateBlock label="Hover" kind="proposed" preview="hover" />
