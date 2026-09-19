@@ -9,6 +9,7 @@ import { Flex } from "../components/Utils"
 
 import { colorNames, colors } from "../tokens/colors"
 import { borderColor } from "../tokens/borders"
+import { QuietWashDemo } from "./QuietWashDemo"
 
 export function ButtonsPage() {
 	const [dialogOpen, setDialogOpen] = useState(false)
@@ -131,6 +132,8 @@ export function ButtonsPage() {
 					Quiet #6366f1
 				</Button>
 			</Flex>
+
+			<QuietWashDemo />
 
 			<H3>Icons with text</H3>
 			<Flex row alignItems="center" gap={4}>
