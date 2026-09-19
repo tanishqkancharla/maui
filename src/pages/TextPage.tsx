@@ -155,8 +155,7 @@ export function TextPage() {
 				<Code>tabular</Code> sets{" "}
 				<Code>font-variant-numeric: tabular-nums</Code> so digits keep a
 				fixed advance. NumberField, TableHead, and TableCell turn this on by
-				default. Skip it when <Code>monospace</Code> is set — Commit Mono
-				already uses tabular numerals. Body copy and Prose stay off.
+				default. Body copy and Prose stay off.
 			</P>
 			<CodeBlock lang="tsx">{`<Text tabular>111,111.00</Text>
 <Text tabular>888,888.00</Text>`}</CodeBlock>
