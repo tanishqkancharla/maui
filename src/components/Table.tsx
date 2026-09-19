@@ -50,7 +50,7 @@ const tableHeaderClass = style({
 
 const tableHeadClass = memoize((align: TableAlign = "start") =>
 	style(
-		text({ size: "xs", fontWeight: 500, color: "lowContrast" }),
+		text({ size: "xs", fontWeight: 500, color: "lowContrast", tabular: true }),
 		spacing.padding({ x: 4, y: 3 }),
 		border(["bottom"], "border"),
 		focusRing("&[data-focus-visible]"),
@@ -108,7 +108,7 @@ const tableRowClass = style({
 
 const tableCellClass = memoize((align: TableAlign = "start") =>
 	style(
-		text({ size: "sm", fontWeight: 400, color: "highContrast" }),
+		text({ size: "sm", fontWeight: 400, color: "highContrast", tabular: true }),
 		spacing.padding({ x: 4, y: 3 }),
 		border(["bottom"], "border"),
 		focusRing("&[data-focus-visible]"),

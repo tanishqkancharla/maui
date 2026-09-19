@@ -161,6 +161,7 @@ export const catalog: CatalogComponent[] = [
 			{ name: "fontWeight", values: textWeights },
 			{ name: "color", values: textColors },
 			{ name: "monospace", boolean: true },
+			{ name: "tabular", boolean: true },
 		],
 	},
 	{

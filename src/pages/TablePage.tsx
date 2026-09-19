@@ -68,7 +68,8 @@ export function TablePage() {
 				A data table with horizontal dividers and cell padding. Columns live
 				directly in <Code>TableHeader</Code>. Use <Code>align</Code> on{" "}
 				<Code>TableHead</Code> and <Code>TableCell</Code> instead of text
-				alignment classes. Row selection is opt-in via React Aria's{" "}
+				alignment classes. Both default to tabular numerals so numeric
+				columns do not shift. Row selection is opt-in via React Aria's{" "}
 				<Code>selectionMode</Code>, <Code>selectedKeys</Code>, and{" "}
 				<Code>onSelectionChange</Code>; tables without those props do not
 				highlight on hover.
