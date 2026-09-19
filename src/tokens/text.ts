@@ -96,6 +96,5 @@ export const text = memoize((options: TextOptions = {}) => {
 		color: textColorStyles[color],
 		...(options.tabular && { fontVariantNumeric: "tabular-nums" }),
 		...(options.monospace ? monoFontStyle : {}),
-		...(options.tabular && { fontVariantNumeric: "tabular-nums" }),
 	})
 })
