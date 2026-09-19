@@ -95,7 +95,7 @@ export function TextTokenPage() {
 							<code>font-variant-numeric: tabular-nums</code>
 						</TableCell>
 						<TableCell>
-							Fixed-width digits. No-op with <code>monospace</code>.
+							Fixed-width digits.
 						</TableCell>
 					</TableRow>
 				</TableBody>
@@ -133,8 +133,8 @@ const display = text({ size: "xl", fontWeight: 400, color: "highContrast" })`}</
 			<P>
 				<code>tabular: true</code> sets{" "}
 				<code>font-variant-numeric: tabular-nums</code>. NumberField,
-				TableHead, and TableCell turn this on by default. Skip it when{" "}
-				<code>monospace</code> is set. Body copy and Prose stay off.
+				TableHead, and TableCell turn this on by default. Body copy and
+				Prose stay off.
 			</P>
 			<CodeBlock lang="typescript">{`const count = text({ size: "sm", fontWeight: 400, color: "highContrast", tabular: true })`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
