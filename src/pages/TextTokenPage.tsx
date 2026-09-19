@@ -14,12 +14,12 @@ export function TextTokenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Text</H2>
 			<P>
-				The text token combines size, weight, semantic color, and an optional
-				monospace stack into one style object. Use it anywhere text needs a
-				consistent Maui type treatment. In JSX, the <code>Text</code> component
-				applies the same token through <code>size</code>,{" "}
-				<code>fontWeight</code>, <code>color</code>, and <code>monospace</code>{" "}
-				attributes.
+				The text token combines size, weight, semantic color, and optional
+				monospace / tabular flags into one style object. Use it anywhere text
+				needs a consistent Maui type treatment. In JSX, the <code>Text</code>{" "}
+				component applies the same token through <code>size</code>,{" "}
+				<code>fontWeight</code>, <code>color</code>, <code>monospace</code>,
+				and <code>tabular</code> attributes.
 			</P>
 
 			<H3>Values</H3>
@@ -87,6 +87,17 @@ export function TextTokenPage() {
 							Switch to Commit Mono with smart kerning.
 						</TableCell>
 					</TableRow>
+					<TableRow>
+						<TableCell>
+							<code>tabular</code>
+						</TableCell>
+						<TableCell>
+							<code>font-variant-numeric: tabular-nums</code>
+						</TableCell>
+						<TableCell>
+							Fixed-width digits. No-op with <code>monospace</code>.
+						</TableCell>
+					</TableRow>
 				</TableBody>
 			</Table>
 
@@ -116,6 +127,18 @@ const display = text({ size: "xl", fontWeight: 400, color: "highContrast" })`}</
 			<CodeBlock lang="typescript">{`const active = text({ size: "sm", fontWeight: 500, color: "accent" })`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<AccentExample />
+			</Panel>
+
+			<H4>Tabular</H4>
+			<P>
+				<code>tabular: true</code> sets{" "}
+				<code>font-variant-numeric: tabular-nums</code>. NumberField,
+				TableHead, and TableCell turn this on by default. Skip it when{" "}
+				<code>monospace</code> is set. Body copy and Prose stay off.
+			</P>
+			<CodeBlock lang="typescript">{`const count = text({ size: "sm", fontWeight: 400, color: "highContrast", tabular: true })`}</CodeBlock>
+			<Panel style={{ marginTop: "16px" }}>
+				<TabularExample />
 			</Panel>
 
 			<H4>Monospace</H4>
@@ -178,6 +201,20 @@ function AccentExample() {
 	const className = useStyles(text({ size: "sm", fontWeight: 500, color: "accent" }), exampleCardClass)
 
 	return <div className={className}>Selected navigation item</div>
+}
+
+function TabularExample() {
+	const className = useStyles(
+		text({ size: "sm", fontWeight: 400, color: "highContrast", tabular: true }),
+		exampleCardClass,
+	)
+
+	return (
+		<div className={className}>
+			<div>111,111.00</div>
+			<div>888,888.00</div>
+		</div>
+	)
 }
 
 function MonoExample() {

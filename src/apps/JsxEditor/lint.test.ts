@@ -205,4 +205,20 @@ describe("JSX editor catalog", () => {
 			"accentHover",
 		])
 	})
+
+	test("accepts Text tabular", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Text tabular>1,280</Text>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
+
+	test("catalog exposes Text tabular", async () => {
+		const { catalog } = await import("./catalog")
+		const text = catalog.find((entry) => entry.name === "Text")
+		expect(
+			text?.attributes.find((attribute) => attribute.name === "tabular")
+				?.boolean,
+		).toBe(true)
+	})
 })

@@ -23,8 +23,8 @@ export function TextPage() {
 			<P>
 				<Code>Text</Code> is a <Code>span</Code> whose type styles are set as
 				attributes. It applies the{" "}
-				<Code>{`text({ size, fontWeight, color, monospace })`}</Code> token —
-				the same scale documented on the Text token page.
+				<Code>{`text({ size, fontWeight, color, monospace, tabular })`}</Code>{" "}
+				token — the same scale documented on the Text token page.
 			</P>
 
 			<H3>Attributes</H3>
@@ -75,6 +75,17 @@ export function TextPage() {
 					<TableRow>
 						<TableCell>
 							<Code>monospace</Code>
+						</TableCell>
+						<TableCell>
+							<Code>boolean</Code>
+						</TableCell>
+						<TableCell>
+							<Code>false</Code>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<Code>tabular</Code>
 						</TableCell>
 						<TableCell>
 							<Code>boolean</Code>
@@ -136,6 +147,35 @@ export function TextPage() {
 							{color}
 						</Text>
 					))}
+				</Flex>
+			</Panel>
+
+			<H4>Tabular</H4>
+			<P>
+				<Code>tabular</Code> sets{" "}
+				<Code>font-variant-numeric: tabular-nums</Code> so digits keep a
+				fixed advance. NumberField, TableHead, and TableCell turn this on by
+				default. Skip it when <Code>monospace</Code> is set — Commit Mono
+				already uses tabular numerals. Body copy and Prose stay off.
+			</P>
+			<CodeBlock lang="tsx">{`<Text tabular>111,111.00</Text>
+<Text tabular>888,888.00</Text>`}</CodeBlock>
+			<Panel style={{ marginTop: "16px" }}>
+				<Flex row gap={8}>
+					<Flex column gap={1}>
+						<Text size="xs" color="lowContrast">
+							proportional
+						</Text>
+						<Text>111,111.00</Text>
+						<Text>888,888.00</Text>
+					</Flex>
+					<Flex column gap={1}>
+						<Text size="xs" color="lowContrast">
+							tabular
+						</Text>
+						<Text tabular>111,111.00</Text>
+						<Text tabular>888,888.00</Text>
+					</Flex>
 				</Flex>
 			</Panel>
 

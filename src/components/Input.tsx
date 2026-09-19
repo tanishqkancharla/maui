@@ -183,7 +183,7 @@ const numberFieldClass = style(
 )
 
 const numberInputClass = style(
-	inputText,
+	text({ size: "sm", fontWeight: 400, color: "highContrast", tabular: true }),
 	spacing.padding({ x: 4, y: 2 }),
 	{
 		flex: "1 1 auto",

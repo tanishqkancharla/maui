@@ -82,6 +82,8 @@ export type TextOptions = {
 	fontWeight?: TextWeight
 	color?: TextColor
 	monospace?: boolean
+	/** `font-variant-numeric: tabular-nums`. No-op when `monospace` is set. */
+	tabular?: boolean
 }
 
 export const text = memoize((options: TextOptions = {}) => {
@@ -92,6 +94,9 @@ export const text = memoize((options: TextOptions = {}) => {
 		...textSizeStyles[size],
 		fontWeight,
 		color: textColorStyles[color],
+		...(options.tabular && !options.monospace
+			? { fontVariantNumeric: "tabular-nums" }
+			: {}),
 		...(options.monospace ? monoFontStyle : {}),
 	})
 })

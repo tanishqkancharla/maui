@@ -100,6 +100,7 @@ text({
 	fontWeight: 500,     // 400 | 500 | 600 | 700          (default 400)
 	color: "lowContrast", // lowContrast | highContrast | accent | onAccent
 	monospace: true,
+	tabular: true,       // font-variant-numeric: tabular-nums
 })
 ```
 
@@ -114,6 +115,7 @@ text({
 
 - `lowContrast` → `gray[11]`, `highContrast` → `gray[12]`, `accent` → `accent[11]`, `onAccent` → white.
 - UI sans: `fontFamily` (system ui-sans-serif stack). Mono: Commit Mono with `ss05` smart kerning (`monoFontStyle` / `monospace`).
+- `tabular: true` → `font-variant-numeric: tabular-nums`. NumberField, TableHead, and TableCell turn this on by default. No-op when `monospace` is set. Body copy and Prose stay off.
 - `baseTextStyle` is md / 400 / highContrast — already on `html, body`.
 - Inside `Prose`, `H1`–`H4` / `P` / lists switch to the **prose** scale (`sm` 14px, `md` 16px, `lg` 18px), which is larger and has reading rhythm. Do not put app chrome inside `Prose`.
 

@@ -53,7 +53,7 @@ export function FormControlsPage() {
 						value={numberValue}
 						onChange={setNumberValue}
 						minValue={0}
-						maxValue={10}
+						maxValue={999}
 					/>
 				</Flex>
 				<Flex column gap={3} style={{ maxWidth: "240px" }}>
