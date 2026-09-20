@@ -7,12 +7,13 @@ import {
 import { style, useStyles } from "purse-styles"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
+import { backgroundColor, quietWash } from "../tokens/background"
 import {
-	backgroundColor,
-	surfaceMixPercent,
-	surfaceWash,
-} from "../tokens/background"
-import { colors, type ColorName, type ColorScale } from "../tokens/colors"
+	colors,
+	type ColorName,
+	type ColorScale,
+	type PaletteName,
+} from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { shadow, shadowVars, tintedSubtle } from "../tokens/shadow"
@@ -103,20 +104,26 @@ const buttonClass = style(buttonBaseClass, {
 	}),
 })
 
+function paletteAlpha(name: ColorName): ColorScale {
+	if (name === "accent") return colors.accentAlpha
+	return colors[`${name}Alpha` as `${PaletteName}Alpha`]
+}
+
 const quietButtonClass = style(
 	buttonBaseClass,
 	focusRing("&:focus-visible"),
+	motion.standard("box-shadow", "color"),
 	{
 		color: colors.gray[11],
 		backgroundColor: "transparent",
 		boxShadow: "none",
 		"&:hover:not(:disabled)": {
 			color: colors.gray[12],
-			backgroundColor: backgroundColor.elementHover,
+			backgroundColor: quietWash(colors.grayAlpha[9], "hover"),
 		},
 		...pressedOrExpanded({
 			color: colors.gray[12],
-			backgroundColor: backgroundColor.elementActive,
+			backgroundColor: quietWash(colors.grayAlpha[9], "press"),
 		}),
 		"&:disabled": disabledQuiet,
 	},
@@ -181,30 +188,27 @@ const coloredButtonClass = memoize(
 				})
 			}
 
-			// Quiet: color tints the label only. Rest is transparent; hover/press
-			// keep the existing wash (same idea as uncolored quiet).
-			return style(buttonBaseClass, focusRing("&:focus-visible"), {
-				color: fill,
-				backgroundColor: "transparent",
-				boxShadow: "none",
-				"&:hover:not(:disabled)": {
-					color: darkerFill(fill),
-					backgroundColor: surfaceWash(
-						fill,
-						surfaceMixPercent.active,
-						"transparent",
-					),
+			// Quiet: color tints the label. Hover/press mix the fill into
+			// transparent at the same percents as uncolored quiet.
+			return style(
+				buttonBaseClass,
+				focusRing("&:focus-visible"),
+				motion.standard("box-shadow", "color"),
+				{
+					color: fill,
+					backgroundColor: "transparent",
+					boxShadow: "none",
+					"&:hover:not(:disabled)": {
+						color: darkerFill(fill),
+						backgroundColor: quietWash(fill, "hover"),
+					},
+					...pressedOrExpanded({
+						color: darkerFill(fill),
+						backgroundColor: quietWash(fill, "press"),
+					}),
+					"&:disabled": disabledQuiet,
 				},
-				...pressedOrExpanded({
-					color: darkerFill(fill),
-					backgroundColor: surfaceWash(
-						fill,
-						surfaceMixPercent.active,
-						"transparent",
-					),
-				}),
-				"&:disabled": disabledQuiet,
-			})
+			)
 		}
 
 		const scale = paletteFill(color)
@@ -224,30 +228,28 @@ const coloredButtonClass = memoize(
 			})
 		}
 
-		// Quiet: color tints the label only. Rest is transparent; hover/press
-		// keep the existing wash (same idea as uncolored quiet).
-		return style(buttonBaseClass, focusRing("&:focus-visible"), {
-			color: scale[11],
-			backgroundColor: "transparent",
-			boxShadow: "none",
-			"&:hover:not(:disabled)": {
-				color: scale[12],
-				backgroundColor: surfaceWash(
-					scale[9],
-					surfaceMixPercent.active,
-					"transparent",
-				),
+		// Quiet: color tints the label. Hover/press mix alpha 9 into
+		// transparent at the same percents as uncolored quiet.
+		const alpha = paletteAlpha(color)
+		return style(
+			buttonBaseClass,
+			focusRing("&:focus-visible"),
+			motion.standard("box-shadow", "color"),
+			{
+				color: scale[11],
+				backgroundColor: "transparent",
+				boxShadow: "none",
+				"&:hover:not(:disabled)": {
+					color: scale[12],
+					backgroundColor: quietWash(alpha[9], "hover"),
+				},
+				...pressedOrExpanded({
+					color: scale[12],
+					backgroundColor: quietWash(alpha[9], "press"),
+				}),
+				"&:disabled": disabledQuiet,
 			},
-			...pressedOrExpanded({
-				color: scale[12],
-				backgroundColor: surfaceWash(
-					scale[9],
-					surfaceMixPercent.active,
-					"transparent",
-				),
-			}),
-			"&:disabled": disabledQuiet,
-		})
+		)
 	},
 )
 

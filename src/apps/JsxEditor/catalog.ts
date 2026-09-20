@@ -250,7 +250,7 @@ export const catalog: CatalogComponent[] = [
 			{ name: "variant", values: ["default", "quiet", "primary"] },
 			{
 				name: "variantColor",
-				info: "Palette name (colors[name], primary step 9) or an opaque hex / rgb() fill. Quiet stays transparent; color tints the label.",
+				info: "Palette name (colors[name], primary step 9) or an opaque hex / rgb() fill. Quiet stays transparent; color tints the label. Hover mixes Alpha[9] at 6%/9%.",
 				values: [...colorNames],
 				cssColor: true,
 			},

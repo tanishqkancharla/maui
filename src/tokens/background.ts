@@ -1,5 +1,6 @@
 import { defineVars, style } from "purse-styles"
 import { DARK_THEME } from "../theme/dataTheme"
+import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
 
 const appSurface = defineVars({
@@ -16,10 +17,16 @@ const elementSurface = defineVars({
 	},
 })
 
-/** Foreground wash percents used by element hover/active and quiet-button hover. */
+/** Foreground wash percents used by raised element hover/active. */
 export const surfaceMixPercent = {
 	hover: 3.5,
 	active: 7,
+} as const
+
+/** Quiet-button wash percents over transparent (press is 2× hover). */
+export const quietMixPercent = {
+	hover: { light: 6, dark: 9 },
+	press: { light: 12, dark: 18 },
 } as const
 
 export function surfaceWash(
@@ -29,6 +36,19 @@ export function surfaceWash(
 ) {
 	return `color-mix(in oklch, ${foreground} ${percent}%, ${base})`
 }
+
+/** Theme-aware `color-mix` of a foreground into transparent. */
+export const quietWash = memoize(
+	(foreground: string, state: keyof typeof quietMixPercent) => {
+		const { light, dark } = quietMixPercent[state]
+		return defineVars({
+			wash: {
+				default: surfaceWash(foreground, light, "transparent"),
+				[DARK_THEME]: surfaceWash(foreground, dark, "transparent"),
+			},
+		}).wash
+	},
+)
 
 // Craft-style foreground wash over the element's own surface.
 const elementStates = defineVars({

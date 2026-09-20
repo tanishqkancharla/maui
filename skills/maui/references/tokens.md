@@ -88,7 +88,7 @@ background.element
 background.accent              // accent[9]
 ```
 
-Hover/active washes use `color-mix` in oklch. **Do not transition `background` / `background-color` on hover.**
+Hover/active washes use `color-mix` in oklch. **Do not transition `background` / `background-color` on hover.** Quiet `Button` hover/press is a separate transparent wash (`grayAlpha[9]` or that color’s alpha 9 at 6% light / 9% dark; press 2×), not `elementHover`.
 
 ## Text
 
