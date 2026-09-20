@@ -16,7 +16,6 @@ import {
 	colors,
 	type ColorName,
 	type ColorScale,
-	type PaletteName,
 } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
@@ -109,12 +108,11 @@ const buttonClass = style(buttonBaseClass, {
 })
 
 function paletteAlpha(name: ColorName): ColorScale {
-	if (name === "accent") return colors.accentAlpha
-	return colors[`${name}Alpha` as `${PaletteName}Alpha`]
+	return colors[`${name}Alpha`]
 }
 
-function quietClass(color: string, hoverColor: string, wash: string) {
-	return style(
+const quietClass = memoize((color: string, hoverColor: string, wash: string) =>
+	style(
 		buttonBaseClass,
 		focusRing("&:focus-visible"),
 		motion.standard("box-shadow", "color"),
@@ -132,8 +130,8 @@ function quietClass(color: string, hoverColor: string, wash: string) {
 			}),
 			"&:disabled": disabledQuiet,
 		},
-	)
-}
+	),
+)
 
 const quietButtonClass = quietClass(
 	colors.gray[11],

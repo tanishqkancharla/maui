@@ -81,14 +81,14 @@ import { background, backgroundColor } from "maui"
 
 backgroundColor.app            // page
 backgroundColor.element        // raised control / card
-backgroundColor.elementHover   // 3.5% gray-12 wash over element
-backgroundColor.elementActive  // 7% wash
+backgroundColor.elementHover   // grayAlpha[9] at surfaceMixPercent over element
+backgroundColor.elementActive  // 2× hover
 background.app                 // style objects of the same values
 background.element
 background.accent              // accent[9]
 ```
 
-Hover/active washes use `color-mix` in oklch (`surfaceWash`, transparent by default). **Do not transition `background` / `background-color` on hover.** Quiet `Button` uses `surfaceMixPercent` (6% light / 9% dark, press 2×) with Alpha[9]. Raised `elementHover` is still 3.5% gray-12 over the element surface.
+Hover/active washes use `color-mix` in oklch (`surfaceWash`). **Do not transition `background` / `background-color` on hover.** One mix table: `surfaceMixPercent` (6% light / 9% dark, press 2×) with Alpha[9]. Quiet mixes into transparent; raised `elementHover` mixes into the element surface.
 
 ## Text
 

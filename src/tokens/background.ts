@@ -17,44 +17,40 @@ const elementSurface = defineVars({
 	},
 })
 
-/** Transparent-wash percents (press is 2× hover). */
+/** Wash percents (press is 2× hover). */
 export const surfaceMixPercent = {
 	hover: { light: 6, dark: 9 },
 	active: { light: 12, dark: 18 },
 } as const
 
-type MixPercent = number | { readonly light: number; readonly dark: number }
+type MixPercent = (typeof surfaceMixPercent)[keyof typeof surfaceMixPercent]
 
 /** `color-mix` of a foreground into `base` (transparent by default). */
-export function surfaceWash(
-	foreground: string,
-	percent: MixPercent,
-	base: string = "transparent",
-): string {
-	if (typeof percent !== "number") {
-		return themeWash(foreground, percent, base)
-	}
-	return `color-mix(in oklch, ${foreground} ${percent}%, ${base})`
-}
-
-const themeWash = memoize(
+export const surfaceWash = memoize(
 	(
 		foreground: string,
-		percent: { readonly light: number; readonly dark: number },
-		base: string,
+		percent: MixPercent,
+		base: string = "transparent",
 	): string =>
 		defineVars({
 			wash: {
-				default: surfaceWash(foreground, percent.light, base),
-				[DARK_THEME]: surfaceWash(foreground, percent.dark, base),
+				default: `color-mix(in oklch, ${foreground} ${percent.light}%, ${base})`,
+				[DARK_THEME]: `color-mix(in oklch, ${foreground} ${percent.dark}%, ${base})`,
 			},
 		}).wash,
 )
 
-// Craft-style foreground wash over the element's own surface.
 const elementStates = defineVars({
-	elementHover: surfaceWash(colors.gray[12], 3.5, elementSurface.element),
-	elementActive: surfaceWash(colors.gray[12], 7, elementSurface.element),
+	elementHover: surfaceWash(
+		colors.grayAlpha[9],
+		surfaceMixPercent.hover,
+		elementSurface.element,
+	),
+	elementActive: surfaceWash(
+		colors.grayAlpha[9],
+		surfaceMixPercent.active,
+		elementSurface.element,
+	),
 })
 
 export const backgroundColor = {
