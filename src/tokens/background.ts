@@ -17,43 +17,44 @@ const elementSurface = defineVars({
 	},
 })
 
-/** Foreground wash percents used by raised element hover/active. */
+/** Transparent-wash percents (press is 2× hover). */
 export const surfaceMixPercent = {
-	hover: 3.5,
-	active: 7,
-} as const
-
-/** Quiet-button wash percents over transparent (press is 2× hover). */
-export const quietMixPercent = {
 	hover: { light: 6, dark: 9 },
-	press: { light: 12, dark: 18 },
+	active: { light: 12, dark: 18 },
 } as const
 
+type MixPercent = number | { readonly light: number; readonly dark: number }
+
+/** `color-mix` of a foreground into `base` (transparent by default). */
 export function surfaceWash(
 	foreground: string,
-	percent: number,
-	base: string = elementSurface.element,
-) {
+	percent: MixPercent,
+	base: string = "transparent",
+): string {
+	if (typeof percent !== "number") {
+		return themeWash(foreground, percent, base)
+	}
 	return `color-mix(in oklch, ${foreground} ${percent}%, ${base})`
 }
 
-/** Theme-aware `color-mix` of a foreground into transparent. */
-export const quietWash = memoize(
-	(foreground: string, state: keyof typeof quietMixPercent) => {
-		const { light, dark } = quietMixPercent[state]
-		return defineVars({
+const themeWash = memoize(
+	(
+		foreground: string,
+		percent: { readonly light: number; readonly dark: number },
+		base: string,
+	): string =>
+		defineVars({
 			wash: {
-				default: surfaceWash(foreground, light, "transparent"),
-				[DARK_THEME]: surfaceWash(foreground, dark, "transparent"),
+				default: surfaceWash(foreground, percent.light, base),
+				[DARK_THEME]: surfaceWash(foreground, percent.dark, base),
 			},
-		}).wash
-	},
+		}).wash,
 )
 
 // Craft-style foreground wash over the element's own surface.
 const elementStates = defineVars({
-	elementHover: surfaceWash(colors.gray[12], surfaceMixPercent.hover),
-	elementActive: surfaceWash(colors.gray[12], surfaceMixPercent.active),
+	elementHover: surfaceWash(colors.gray[12], 3.5, elementSurface.element),
+	elementActive: surfaceWash(colors.gray[12], 7, elementSurface.element),
 })
 
 export const backgroundColor = {
