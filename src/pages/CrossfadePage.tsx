@@ -10,7 +10,15 @@ import { Text } from "../components/Text"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 
-const directions: CrossfadeDirection[] = ["up", "down", "left", "right"]
+type PlaygroundDirection = "none" | CrossfadeDirection
+
+const playgroundDirections: PlaygroundDirection[] = [
+	"none",
+	"up",
+	"down",
+	"left",
+	"right",
+]
 
 const slides = [
 	{
@@ -35,23 +43,28 @@ const slides = [
 	},
 ] as const
 
-function isDirection(value: string): value is CrossfadeDirection {
-	return (directions as readonly string[]).includes(value)
+function isPlaygroundDirection(value: string): value is PlaygroundDirection {
+	return (playgroundDirections as readonly string[]).includes(value)
 }
 
 export function CrossfadePage() {
-	const [direction, setDirection] = useState<CrossfadeDirection>("left")
+	const [direction, setDirection] = useState<PlaygroundDirection>("none")
 	const [index, setIndex] = useState(0)
 	const slide = slides[index] ?? slides[0]
+	const travel = direction === "none" ? undefined : direction
 
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Crossfade</H2>
 			<P>
-				When <code>contentKey</code> changes, the previous view exits in{" "}
-				<code>direction</code> while the next view enters from the opposite
-				side. <code>contentKey</code> is required — putting <code>key</code>{" "}
-				on Crossfade itself remounts the wrapper and skips the exit.
+				When <code>contentKey</code> changes, the previous view fades out
+				and the next fades in. Omit <code>direction</code> for an in-place
+				opacity fade — same position, no slide. Pass{" "}
+				<code>up</code>, <code>down</code>, <code>left</code>, or{" "}
+				<code>right</code> to keep the directional crossfade: the previous
+				view exits that way while the next enters from the opposite side.{" "}
+				<code>contentKey</code> is required — putting <code>key</code> on
+				Crossfade itself remounts the wrapper and skips the exit.
 			</P>
 
 			<H3>Playground</H3>
@@ -61,11 +74,12 @@ export function CrossfadePage() {
 						label="Direction"
 						value={direction}
 						onChange={(value) => {
-							if (isDirection(value)) {
+							if (isPlaygroundDirection(value)) {
 								setDirection(value)
 							}
 						}}
 					>
+						<RadioOption value="none">None</RadioOption>
 						<RadioOption value="up">Up</RadioOption>
 						<RadioOption value="down">Down</RadioOption>
 						<RadioOption value="left">Left</RadioOption>
@@ -111,7 +125,7 @@ export function CrossfadePage() {
 						radius="sm"
 						style={{ minHeight: "108px" }}
 					>
-						<Crossfade direction={direction} contentKey={slide.id}>
+						<Crossfade direction={travel} contentKey={slide.id}>
 							<Flex column gap={3}>
 								<Text size="lg" fontWeight={600}>
 									{slide.title}
@@ -126,6 +140,10 @@ export function CrossfadePage() {
 			<H3>Usage</H3>
 			<CodeBlock lang="tsx">{`const [index, setIndex] = useState(0)
 const slide = slides[index]
+
+<Crossfade contentKey={slide.id}>
+	<Text size="lg">{slide.title}</Text>
+</Crossfade>
 
 <Crossfade direction="left" contentKey={slide.id}>
 	<Text size="lg">{slide.title}</Text>

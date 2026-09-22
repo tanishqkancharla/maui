@@ -114,7 +114,7 @@ function CrossfadeStudioPreview() {
 						radius="sm"
 						style={{ minHeight: "108px" }}
 					>
-						<Crossfade direction="left" contentKey={slide.id}>
+						<Crossfade contentKey={slide.id}>
 							<Flex column gap={3}>
 								<Text size="lg" fontWeight={600}>
 									{slide.title}
@@ -151,7 +151,7 @@ function CrossfadeStudioPreview() {
 							maxWidth: "36ch",
 						}}
 					>
-						<Crossfade direction="left" contentKey={progressLabel}>
+						<Crossfade direction="up" contentKey={progressLabel}>
 							<Text size="sm" color="lowContrast">
 								{progressLabel}...
 							</Text>
