@@ -108,9 +108,10 @@ export function ButtonsPage() {
 
 			<H3>Quiet</H3>
 			<P>
-				<code>variant="quiet"</code> has no fill, with or without{" "}
-				<code>variantColor</code>. Color tints the label and icon; hover
-				and press use a wash, same as uncolored quiet.
+				<code>variant="quiet"</code> has no fill. <code>variantColor</code>{" "}
+				tints the label and icon. Hover and press mix{" "}
+				<code>grayAlpha[9]</code> (or that color’s alpha 9) into transparent
+				at 6% light / 9% dark; press is 2×.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="quiet">Button</Button>
