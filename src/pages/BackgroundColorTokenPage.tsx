@@ -76,8 +76,7 @@ export function BackgroundColorTokenPage() {
 							<code>backgroundColor.elementHover</code>
 						</TableCell>
 						<TableCell>
-							<code>grayAlpha[9]</code> at <code>surfaceMixPercent.hover</code>{" "}
-							into the element surface (6% light / 9% dark).
+							3.5% gray[12] into the element surface.
 						</TableCell>
 					</TableRow>
 					<TableRow>
@@ -88,8 +87,7 @@ export function BackgroundColorTokenPage() {
 							<code>backgroundColor.elementActive</code>
 						</TableCell>
 						<TableCell>
-							<code>grayAlpha[9]</code> at <code>surfaceMixPercent.active</code>{" "}
-							into the element surface (12% light / 18% dark).
+							7% gray[12] into the element surface.
 						</TableCell>
 					</TableRow>
 					<TableRow>
