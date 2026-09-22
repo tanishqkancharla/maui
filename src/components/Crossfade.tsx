@@ -15,8 +15,12 @@ export type CrossfadeDirection = "up" | "down" | "left" | "right"
 
 export type CrossfadeProps = {
 	children: ReactNode
-	/** Axis the outgoing view travels along as it fades out. Incoming view enters from the opposite side. */
-	direction: CrossfadeDirection
+	/**
+	 * Axis the outgoing view travels along as it fades out. Incoming view
+	 * enters from the opposite side. Omit for an in-place opacity fade at
+	 * the same position.
+	 */
+	direction?: CrossfadeDirection
 	/**
 	 * Identity of the current view. When this changes, the previous children
 	 * fade out, then the new children fade in. Do not put `key` on
@@ -75,14 +79,15 @@ const travelVariants: Variants = {
 }
 
 const fadeVariants: Variants = {
-	initial: { opacity: 0 },
-	animate: { opacity: 1 },
-	exit: { opacity: 0, transition: exitTransition },
+	initial: { opacity: 0, x: 0, y: 0 },
+	animate: { opacity: 1, x: 0, y: 0 },
+	exit: { opacity: 0, x: 0, y: 0, transition: exitTransition },
 }
 
 /**
- * When `contentKey` changes, fade the previous view out in `direction`,
- * then fade the replacement in from the opposite side.
+ * When `contentKey` changes, fade the previous view out and the next in.
+ * Omit `direction` for an in-place opacity fade. Pass a direction to slide
+ * the outgoing view that way and enter the replacement from the opposite side.
  */
 export function Crossfade({
 	children,
@@ -94,7 +99,8 @@ export function Crossfade({
 	const reduceMotion = useReducedMotion()
 	const rootClassName = useStyles(rootClass)
 	const layerClassName = useStyles(layerClass)
-	const variants = reduceMotion ? fadeVariants : travelVariants
+	const slide = Boolean(direction) && !reduceMotion
+	const variants = slide ? travelVariants : fadeVariants
 
 	return (
 		<div

@@ -221,4 +221,39 @@ describe("JSX editor catalog", () => {
 				?.boolean,
 		).toBe(true)
 	})
+
+	test("accepts Crossfade without direction", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Crossfade contentKey="inbox"><Text>Inbox</Text></Crossfade>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
+
+	test("accepts Crossfade with a travel direction", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Crossfade direction="left" contentKey="inbox"><Text>Inbox</Text></Crossfade>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
+
+	test("rejects an unknown Crossfade direction", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Crossfade direction="none" contentKey="inbox"><Text>Inbox</Text></Crossfade>`,
+		)
+		expect(diagnostics).toHaveLength(1)
+		expect(diagnostics[0]?.message).toBe(
+			`Type '"none"' is not assignable to type '"up" | "down" | "left" | "right"'.`,
+		)
+	})
+
+	test("Crossfade catalog treats direction as optional", async () => {
+		const { catalog } = await import("./catalog")
+		const crossfade = catalog.find((entry) => entry.name === "Crossfade")
+		const direction = crossfade?.attributes.find(
+			(attribute) => attribute.name === "direction",
+		)
+		expect(crossfade?.info).toMatch(/in-place opacity fade/i)
+		expect(direction?.info).toMatch(/optional/i)
+		expect(direction?.values).toEqual(["up", "down", "left", "right"])
+	})
 })

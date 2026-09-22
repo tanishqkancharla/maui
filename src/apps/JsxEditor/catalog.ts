@@ -471,10 +471,11 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Crossfade",
-		info: "Fades previous children out in direction while the next view enters from the opposite side. contentKey is required.",
+		info: "When contentKey changes, fades previous children out and the next in. Omit direction for an in-place opacity fade. Pass up, down, left, or right to slide. contentKey is required.",
 		attributes: [
 			{
 				name: "direction",
+				info: "Optional. Omit for in-place opacity fade. When set, outgoing view travels this way.",
 				values: ["up", "down", "left", "right"],
 			},
 			{ name: "contentKey", info: "Required identity of the current view" },
