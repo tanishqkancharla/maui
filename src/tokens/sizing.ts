@@ -20,5 +20,5 @@ export const iconSizeValues: Record<IconSize, string> = {
 
 export const sizingTokens = {
 	fullWidth: style({ width: "100%" }),
-	contentWidth: style({ maxWidth: "72ch" }),
+	contentWidth: style({ maxWidth: "80ch" }),
 } as const

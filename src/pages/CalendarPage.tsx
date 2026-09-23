@@ -33,5 +33,5 @@ const pageClass = style(spacing.padding({ bottom: 16 }), {
 })
 
 const introClass = style({
-	maxWidth: "72ch",
+	maxWidth: "80ch",
 })

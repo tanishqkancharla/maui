@@ -52,7 +52,7 @@ export function Prose(props: {
 // rather than on every typography component, so the constraint is a property
 // of the prose column and doesn't follow those components into app UI. The
 // per-size vertical rhythm lives in `proseRhythm` and is composed in above.
-export const proseMaxWidth = "72ch"
+export const proseMaxWidth = "80ch"
 
 const proseContainerClass = style({
 	maxWidth: proseMaxWidth,

@@ -47,7 +47,7 @@ export function SizingTokenPage() {
 							<code>sizing.contentWidth</code>
 						</TableCell>
 						<TableCell>
-							<code>max-width: 72ch</code>
+							<code>max-width: 80ch</code>
 						</TableCell>
 						<TableCell>Readable prose and content measure.</TableCell>
 					</TableRow>
