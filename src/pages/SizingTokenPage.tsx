@@ -9,7 +9,7 @@ import {
 } from "../components/Table"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
-import { Prose } from "../components/Prose"
+import { Prose, proseMaxWidth } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
@@ -47,7 +47,7 @@ export function SizingTokenPage() {
 							<code>sizing.contentWidth</code>
 						</TableCell>
 						<TableCell>
-							<code>max-width: 72ch</code>
+							<code>max-width: {proseMaxWidth}</code>
 						</TableCell>
 						<TableCell>Readable prose and content measure.</TableCell>
 					</TableRow>

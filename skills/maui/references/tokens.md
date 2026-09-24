@@ -119,7 +119,7 @@ text({
 - `baseTextStyle` is md / 400 / highContrast — already on `html, body`.
 - Inside `Prose`, `H1`–`H4` / `P` / lists switch to the **prose** scale (`sm` 14px, `md` 16px, `lg` 18px), which is larger and has reading rhythm. Do not put app chrome inside `Prose`.
 
-`proseMaxWidth` is `"72ch"`. `sizing.contentWidth` is `maxWidth: 72ch`. `sizing.fullWidth` is `width: 100%`.
+`proseContainerStyle` is the composable column (`maxWidth: proseMaxWidth`, `"80ch"`). `sizing.contentWidth` is that same style. `sizing.fullWidth` is `width: 100%`.
 
 ## Spacing
 
