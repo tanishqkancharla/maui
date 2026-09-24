@@ -1,9 +1,9 @@
-import { style, useStyles } from "purse-styles"
+import { useStyles } from "purse-styles"
 import React from "react"
 import { type ProseSize, proseRhythm } from "../tokens/prose"
-import { proseMaxWidth } from "../tokens/sizing"
+import { proseContainerStyle, proseMaxWidth } from "../tokens/sizing"
 
-export { proseMaxWidth }
+export { proseContainerStyle, proseMaxWidth }
 
 /**
  * Set inside a `Prose` container so typography components can opt into the
@@ -37,7 +37,7 @@ export function Prose(props: {
 	style?: React.CSSProperties
 }) {
 	const size = props.size ?? "md"
-	const proseClassName = useStyles(proseContainerClass, proseRhythm(size))
+	const proseClassName = useStyles(proseContainerStyle, proseRhythm(size))
 	const className = props.className
 		? `${proseClassName} ${props.className}`
 		: proseClassName
@@ -50,11 +50,3 @@ export function Prose(props: {
 		</ProseContext.Provider>
 	)
 }
-
-// Set once here on the container rather than on every typography component,
-// so the constraint is a property of the prose column and doesn't follow
-// those components into app UI. The per-size vertical rhythm lives in
-// `proseRhythm` and is composed in above.
-const proseContainerClass = style({
-	maxWidth: proseMaxWidth,
-})

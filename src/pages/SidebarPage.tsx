@@ -3,7 +3,7 @@ import { style, useStyles } from "purse-styles"
 import { Badge } from "../components/Badge"
 import { Icons } from "../components/Icons"
 import { Panel } from "./Panel"
-import { Prose, proseMaxWidth } from "../components/Prose"
+import { Prose, proseContainerStyle } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Sidebar, SidebarItem, SidebarSection } from "../patterns/Sidebar"
 import { flex } from "../tokens/layout"
@@ -173,6 +173,7 @@ const exampleContentClass = style({
 	minHeight: "100%",
 })
 
-const noteClass = style(text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
-	maxWidth: proseMaxWidth,
-})
+const noteClass = style(
+	text({ size: "md", fontWeight: 400, color: "lowContrast" }),
+	proseContainerStyle,
+)

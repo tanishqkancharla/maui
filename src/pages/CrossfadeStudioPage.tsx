@@ -3,7 +3,7 @@ import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Crossfade } from "../components/Crossfade"
 import { Panel } from "./Panel"
-import { Prose, proseMaxWidth } from "../components/Prose"
+import { Prose, proseContainerStyle } from "../components/Prose"
 import { Text } from "../components/Text"
 import { H2, H3, Link, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
@@ -66,7 +66,7 @@ const progressLabels = [
 
 export function CrossfadeStudioPage() {
 	const pageClassName = useStyles(pageClass)
-	const introClassName = useStyles(introClass)
+	const introClassName = useStyles(proseContainerStyle)
 
 	return (
 		<div className={pageClassName}>
@@ -170,10 +170,6 @@ const pageClass = style(spacing.padding({ bottom: 16 }), {
 	width: "100%",
 	maxWidth: "100%",
 	minWidth: 0,
-})
-
-const introClass = style({
-	maxWidth: proseMaxWidth,
 })
 
 const previewColumnClass = style({

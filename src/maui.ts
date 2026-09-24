@@ -104,7 +104,7 @@ export {
 	type TableRowProps,
 	type TableCellProps,
 } from "./components/Table"
-export { Prose, useProseSize, proseMaxWidth } from "./components/Prose"
+export { Prose, useProseSize, proseContainerStyle, proseMaxWidth } from "./components/Prose"
 export { Editor, type EditorProps } from "./components/Editor"
 export {
 	Thinking,

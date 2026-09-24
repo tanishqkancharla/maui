@@ -1,12 +1,12 @@
 import { style, useStyles } from "purse-styles"
-import { Prose, proseMaxWidth } from "../components/Prose"
+import { Prose, proseContainerStyle } from "../components/Prose"
 import { H2, P } from "../components/Typography"
 import { Calendar } from "../apps/Calendar/Calendar"
 import { spacing } from "../tokens/spacing"
 
 export function CalendarPage() {
 	const pageClassName = useStyles(pageClass)
-	const introClassName = useStyles(introClass)
+	const introClassName = useStyles(proseContainerStyle)
 
 	return (
 		<div className={pageClassName}>
@@ -30,8 +30,4 @@ const pageClass = style(spacing.padding({ bottom: 16 }), {
 	width: "100%",
 	maxWidth: "100%",
 	minWidth: 0,
-})
-
-const introClass = style({
-	maxWidth: proseMaxWidth,
 })

@@ -9,7 +9,7 @@ import {
 import { code } from "@streamdown/code"
 import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
-import { proseMaxWidth } from "../components/Prose"
+import { proseContainerStyle } from "../components/Prose"
 import { backgroundColor } from "../tokens/background"
 import { motionEasing, motionStreamDurationMs } from "../tokens/motion"
 import { proseHtml, proseStreamingMarkers, type ProseSize } from "../tokens/prose"
@@ -191,8 +191,7 @@ const streamdownAnimate = {
 	stagger: 16,
 }
 
-const assistantMessageClass = style({
-	maxWidth: proseMaxWidth,
+const assistantMessageClass = style(proseContainerStyle, {
 	minWidth: 0,
 })
 

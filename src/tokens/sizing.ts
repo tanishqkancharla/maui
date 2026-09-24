@@ -18,10 +18,15 @@ export const iconSizeValues: Record<IconSize, string> = {
 	xl: "24px",
 }
 
-/** Reading measure for `Prose` and single-column content. */
+/** Reading measure for long-form columns. */
 export const proseMaxWidth = "80ch"
+
+/** Composable prose column. `sizing.contentWidth` is this same style. */
+export const proseContainerStyle = style({
+	maxWidth: proseMaxWidth,
+})
 
 export const sizingTokens = {
 	fullWidth: style({ width: "100%" }),
-	contentWidth: style({ maxWidth: proseMaxWidth }),
+	contentWidth: proseContainerStyle,
 } as const
