@@ -4,7 +4,7 @@ Gallery: `/apps/email-client`. Not on the `"maui"` barrel. Prefer this layout; r
 
 Patterns: [Inbox](../patterns/inbox.md), [Message list](../patterns/message-list.md).
 
-**Two panes**, full-bleed (not an 80ch column).
+**Two panes**, full-bleed (not a `proseMaxWidth` column).
 
 ```
 [ 240px inbox ] [ flexible reading pane ]

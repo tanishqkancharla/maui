@@ -9,7 +9,7 @@ import { Drawer } from "../components/Drawer"
 import { Icons } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
-import { Prose } from "../components/Prose"
+import { Prose, proseMaxWidth } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { Sidebar, SidebarItem, SidebarSection } from "../patterns/Sidebar"
@@ -387,7 +387,7 @@ const playgroundTitleClass = style(
 const noteClass = style(
 	text({ size: "md", fontWeight: 400, color: "lowContrast" }),
 	{
-		maxWidth: "72ch",
+		maxWidth: proseMaxWidth,
 	},
 )
 

@@ -1,5 +1,5 @@
 import { style, useStyles } from "purse-styles"
-import { Prose } from "../components/Prose"
+import { Prose, proseMaxWidth } from "../components/Prose"
 import { H2, P } from "../components/Typography"
 import { Calendar } from "../apps/Calendar/Calendar"
 import { spacing } from "../tokens/spacing"
@@ -33,5 +33,5 @@ const pageClass = style(spacing.padding({ bottom: 16 }), {
 })
 
 const introClass = style({
-	maxWidth: "80ch",
+	maxWidth: proseMaxWidth,
 })

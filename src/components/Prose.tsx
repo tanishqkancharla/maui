@@ -1,6 +1,9 @@
 import { style, useStyles } from "purse-styles"
 import React from "react"
 import { type ProseSize, proseRhythm } from "../tokens/prose"
+import { proseMaxWidth } from "../tokens/sizing"
+
+export { proseMaxWidth }
 
 /**
  * Set inside a `Prose` container so typography components can opt into the
@@ -48,12 +51,10 @@ export function Prose(props: {
 	)
 }
 
-// Reading measure for long-form content. Set once here on the container
-// rather than on every typography component, so the constraint is a property
-// of the prose column and doesn't follow those components into app UI. The
-// per-size vertical rhythm lives in `proseRhythm` and is composed in above.
-export const proseMaxWidth = "80ch"
-
+// Set once here on the container rather than on every typography component,
+// so the constraint is a property of the prose column and doesn't follow
+// those components into app UI. The per-size vertical rhythm lives in
+// `proseRhythm` and is composed in above.
 const proseContainerClass = style({
 	maxWidth: proseMaxWidth,
 })

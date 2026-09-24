@@ -3,7 +3,7 @@ import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Crossfade } from "../components/Crossfade"
 import { Panel } from "./Panel"
-import { Prose } from "../components/Prose"
+import { Prose, proseMaxWidth } from "../components/Prose"
 import { Text } from "../components/Text"
 import { H2, H3, Link, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
@@ -173,7 +173,7 @@ const pageClass = style(spacing.padding({ bottom: 16 }), {
 })
 
 const introClass = style({
-	maxWidth: "80ch",
+	maxWidth: proseMaxWidth,
 })
 
 const previewColumnClass = style({
