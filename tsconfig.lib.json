@@ -8,5 +8,11 @@
 		"noEmit": false,
 		"noEmitOnError": true
 	},
-	"include": ["src/maui.ts", "src/types/**/*.d.ts", "src/css-modules.d.ts"]
+	"include": [
+		"src/maui.ts",
+		"src/components/Editor.tsx",
+		"src/components/MarkdownEditor.tsx",
+		"src/types/**/*.d.ts",
+		"src/css-modules.d.ts"
+	]
 }

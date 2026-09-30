@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react"
+import type { Editor as TiptapEditor } from "@tiptap/react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../../components/Button"
-import { Editor } from "../../components/Editor"
+import { MarkdownEditor } from "../../components/MarkdownEditor"
 import { Icons } from "../../components/Icons"
 import { Thinking } from "../../components/Thinking"
 import { AssistantMessage } from "../../patterns/AssistantMessage"
@@ -146,6 +147,7 @@ export function AiChat() {
 		{ id: "welcome", role: "assistant", content: welcomeMarkdown },
 	])
 	const [draft, setDraft] = useState("")
+	const composerRef = useRef<TiptapEditor | null>(null)
 	const [streaming, setStreaming] = useState(false)
 	const cancelStreamRef = useRef<(() => void) | null>(null)
 	const feedRef = useRef<HTMLDivElement>(null)
@@ -186,6 +188,7 @@ export function AiChat() {
 		const fullReply = replyFor(prompt)
 		const plannedTools = toolCallsFor(prompt)
 
+		composerRef.current?.commands.clearContent(false)
 		setDraft("")
 		setStreaming(true)
 		setMessages((prev) => [
@@ -294,8 +297,8 @@ export function AiChat() {
 
 			<div className={composerClassName}>
 				<div className={composerShellClassName}>
-					<Editor
-						content={draft}
+					<MarkdownEditor
+						ref={composerRef}
 						onChange={setDraft}
 						onSubmit={send}
 						editable={!streaming}

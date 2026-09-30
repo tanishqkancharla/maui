@@ -6,7 +6,7 @@ import { Code, Kbd } from "../../components/Code"
 import { CodeBlock } from "../../components/CodeBlock"
 import { Dialog } from "../../components/Dialog"
 import { Drawer } from "../../components/Drawer"
-import { Editor } from "../../components/Editor"
+import { MarkdownEditor } from "../../components/MarkdownEditor"
 import { FuzzyString } from "../../components/FuzzyString"
 import { Icons } from "../../components/Icons"
 import {
@@ -449,10 +449,10 @@ export const catalog: CatalogComponent[] = [
 		attributes: [],
 	},
 	{
-		name: "Editor",
+		name: "MarkdownEditor",
 		info: "TipTap markdown surface. No chrome — wrap it for padding, elevation, and actions.",
 		attributes: [
-			{ name: "content", info: "Markdown string" },
+			{ name: "initialContent", info: "Initial Markdown; later changes are ignored" },
 			{ name: "placeholder" },
 			{ name: "size", values: ["sm", "md", "lg"] },
 			{ name: "editable", boolean: true },
@@ -517,7 +517,7 @@ export const previewScope: Record<string, unknown> = {
 	MenuItem,
 	MenuTrigger,
 	Overlay,
-	Editor,
+	MarkdownEditor,
 	Prose,
 	RadioOption,
 	RadioOptionGroup,

@@ -124,6 +124,12 @@ function verifyPackageJson(extractedRoot) {
 	if (pkg.exports?.["./icons"]?.import !== "./dist/icons/index.js") {
 		throw new Error("icons export import must resolve to dist/icons/index.js")
 	}
+	for (const target of Object.values(pkg.exports)) {
+		if (typeof target !== "object") continue
+		for (const path of Object.values(target)) {
+			assertCaseSensitivePath(extractedRoot, `package/${path.replace(/^\.\//, "")}`)
+		}
+	}
 	if (pkg.scripts?.prepare) {
 		throw new Error("Packed package must not run a prepare build on install")
 	}
@@ -221,6 +227,43 @@ function consumeTarball(tarballPath) {
 		if (!existsSync(bundleOut) || !existsSync(iconsOut)) {
 			throw new Error("esbuild did not emit consumer bundles for root and icons")
 		}
+
+		// Resolve real dependencies, not just relative imports. In particular, the
+		// root entry must work without installing any optional peers.
+		const optionalPeerNames = Object.entries(installed.peerDependenciesMeta ?? {})
+			.filter(([, meta]) => meta.optional)
+			.map(([name]) => name)
+		for (const name of optionalPeerNames) {
+			if (existsSync(join(consumerRoot, "node_modules", name))) {
+				throw new Error(`Optional peer ${name} was pulled into the base installation`)
+			}
+		}
+		const bundleEntry = (entry, name) => run(
+			join(repoRoot, "node_modules", "esbuild", "bin", "esbuild"),
+			[
+				join(installedRoot, entry),
+				"--bundle",
+				"--format=esm",
+				"--platform=browser",
+				"--loader:.woff2=file",
+				"--loader:.woff=file",
+				`--outfile=${join(consumerRoot, `${name}.js`)}`,
+			],
+			consumerRoot,
+		)
+		bundleEntry(installed.exports["."].import, "root-without-optional-peers")
+		console.log("Root bundled with real dependencies before optional peer installation.")
+
+		const optionalPeers = optionalPeerNames
+			.map((name) => `${name}@${installed.peerDependencies[name]}`)
+		if (optionalPeers.length > 0) {
+			run("npm", ["install", "--ignore-scripts", ...optionalPeers], consumerRoot)
+		}
+		for (const [name, target] of Object.entries(installed.exports)) {
+			if (typeof target !== "object" || !target.import) continue
+			bundleEntry(target.import, `entry-${name.replace(/\W/g, "_")}`)
+		}
+		console.log("All compiled entry points bundled with optional peers installed.")
 	} finally {
 		rmSync(consumerRoot, { recursive: true, force: true })
 	}

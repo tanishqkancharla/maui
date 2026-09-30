@@ -1,5 +1,9 @@
 import { style, useStyles } from "purse-styles"
+import { useEditor } from "@tiptap/react"
+import StarterKit from "@tiptap/starter-kit"
+import { Button } from "../components/Button"
 import { Editor } from "../components/Editor"
+import { MarkdownEditor } from "../components/MarkdownEditor"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
@@ -23,22 +27,39 @@ export function EditorPage() {
 	const pageClassName = useStyles(pageClass)
 	const hintClassName = useStyles(hintClass)
 	const shellClassName = useStyles(demoShellClass)
+	const editor = useEditor({
+		extensions: [StarterKit.configure({ heading: { levels: [2] } })],
+		content:
+			"<p>This editor uses a caller-owned TipTap instance. Select text and toggle bold.</p>",
+		immediatelyRender: false,
+		editorProps: { attributes: { "aria-label": "Custom editor demo" } },
+	})
 
 	return (
 		<Prose className={pageClassName}>
 			<H2>Editor</H2>
 			<P>
-				A TipTap surface with bidirectional markdown (
-				<code>@tiptap/markdown</code>) and input-rule shortcuts from StarterKit —
-				<code>#</code> for headings, <code>**</code> for bold, <code>-</code> for
-				lists, <code>&gt;</code> for quotes. The editable tree uses Maui{" "}
-				<code>proseHtml</code> styles so it matches long-form reading type.
+				<code>Editor</code> is a Maui-styled surface for an instance created
+				with TipTap’s <code>useEditor</code>. You own the extensions, content
+				format, events, and commands. Import it from <code>maui/editor</code>.
 			</P>
 			<P>
-				<code>Editor</code> is the markdown surface only — padding, elevation, and
-				actions belong on a wrapper. The gallery and AI chat each supply their
-				own shell.
+				<code>MarkdownEditor</code> builds on that surface with StarterKit,
+				Markdown, and Placeholder. Import it from{" "}
+				<code>maui/markdown-editor</code>. Both leave padding, elevation, and
+				actions to a wrapper. TipTap is an optional peer dependency; install it
+				when using either editor.
 			</P>
+
+			<H3>Custom editor</H3>
+			<Panel>
+				<Button onClick={() => editor?.chain().focus().toggleBold().run()}>
+					Toggle bold
+				</Button>
+				<div className={shellClassName}>
+					<Editor editor={editor} />
+				</div>
+			</Panel>
 
 			<H3>Markdown editor</H3>
 			<Panel>
@@ -48,7 +69,10 @@ export function EditorPage() {
 					the chat app.
 				</p>
 				<div className={shellClassName}>
-					<Editor content={demoMarkdown} aria-label="Markdown editor demo" />
+					<MarkdownEditor
+						initialContent={demoMarkdown}
+						aria-label="Markdown editor demo"
+					/>
 				</div>
 			</Panel>
 		</Prose>
@@ -60,9 +84,12 @@ const pageClass = style({
 	paddingBottom: "32px",
 })
 
-const hintClass = style(text({ size: "sm", fontWeight: 400, color: "lowContrast" }), {
-	margin: "0 0 12px",
-})
+const hintClass = style(
+	text({ size: "sm", fontWeight: 400, color: "lowContrast" }),
+	{
+		margin: "0 0 12px",
+	},
+)
 
 const demoShellClass = style(
 	radius.lg,
