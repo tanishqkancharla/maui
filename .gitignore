@@ -3,6 +3,7 @@ tmp/
 /website
 /node_modules
 /*.tgz
+/.amp/portals/*
 
 .DS_Store
 .vercel
