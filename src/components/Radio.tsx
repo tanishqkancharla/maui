@@ -2,7 +2,11 @@ import { createContext, useContext, useRef } from "react"
 import { AriaRadioGroupProps, useRadio, useRadioGroup } from "react-aria"
 import { RadioGroupState, useRadioGroupState } from "react-stately"
 import { style, useStyles } from "purse-styles"
-import { backgroundColor } from "../tokens/background"
+import {
+	backgroundColor,
+	surfaceMixPercent,
+	surfaceWash,
+} from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -42,10 +46,7 @@ export function RadioOptionGroup(props: RadioOptionGroupProps) {
 
 const radioClass = style(
 	flex({ alignItems: "center", gap: 3 }),
-	focusRing(
-		"& .radio-input:focus-visible + .radio-toggle",
-		shadowVars.control,
-	),
+	focusRing("& .radio-input:focus-visible + .radio-toggle", shadowVars.control),
 	{
 		position: "relative",
 		width: "fit-content",
@@ -55,38 +56,36 @@ const radioClass = style(
 		"& .radio-input:checked + .radio-toggle": {
 			backgroundColor: colors.accent[9],
 		},
+		"&:hover .radio-input:checked + .radio-toggle": {
+			backgroundColor: surfaceWash(
+				colors.gray[12],
+				surfaceMixPercent.hover,
+				colors.accent[9],
+			),
+		},
 		"& .radio-input:checked + .radio-toggle .radio-dot": {
 			transform: "scale(1)",
 		},
 	},
 )
 
-const radioToggleClass = style(
-	radius.circle,
-	motion.standard("background-color"),
-	shadow.control,
-	{
-		pointerEvents: "none",
-		position: "relative",
-		width: "14px",
-		height: "14px",
-		backgroundColor: backgroundColor.element,
-	},
-)
+const radioToggleClass = style(radius.circle, shadow.control, {
+	pointerEvents: "none",
+	position: "relative",
+	width: "14px",
+	height: "14px",
+	backgroundColor: backgroundColor.element,
+})
 
-const radioDotClass = style(
-	radius.circle,
-	motion.standard("transform"),
-	{
-		position: "absolute",
-		top: "4px",
-		left: "4px",
-		width: "6px",
-		height: "6px",
-		backgroundColor: colors.gray[3],
-		transform: "scale(0)",
-	},
-)
+const radioDotClass = style(radius.circle, motion.standard("transform"), {
+	position: "absolute",
+	top: "4px",
+	left: "4px",
+	width: "6px",
+	height: "6px",
+	backgroundColor: colors.gray[3],
+	transform: "scale(0)",
+})
 
 type RadioOptionProps = {
 	value: string

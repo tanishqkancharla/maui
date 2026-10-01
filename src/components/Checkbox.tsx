@@ -3,7 +3,11 @@ import { useCheckbox } from "react-aria"
 import { useToggleState } from "react-stately"
 import { defineVars, style, useStyles } from "purse-styles"
 import { LARGE_SCALE } from "../theme/dataScale"
-import { backgroundColor } from "../tokens/background"
+import {
+	backgroundColor,
+	surfaceMixPercent,
+	surfaceWash,
+} from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -42,6 +46,13 @@ const checkboxClass = style(
 		"& .checkbox-input:checked + .checkbox-toggle": {
 			backgroundColor: colors.accent[9],
 		},
+		"&:hover .checkbox-input:checked + .checkbox-toggle": {
+			backgroundColor: surfaceWash(
+				colors.gray[12],
+				surfaceMixPercent.hover,
+				colors.accent[9],
+			),
+		},
 		"& .checkbox-input:checked + .checkbox-toggle .checkbox-icon": {
 			opacity: 1,
 			transform: "scale(1)",
@@ -52,7 +63,6 @@ const checkboxClass = style(
 const checkboxToggleClass = style(
 	flex({ alignItems: "center", justifyContent: "center" }),
 	radius["2xs"],
-	motion.standard("background-color"),
 	shadow.control,
 	{
 		pointerEvents: "none",
@@ -63,18 +73,15 @@ const checkboxToggleClass = style(
 	},
 )
 
-const checkboxIconClass = style(
-	motion.standard("opacity", "transform"),
-	{
-		width: checkboxSize.checkmark,
-		height: checkboxSize.checkmark,
-		paddingTop: "0.5px",
-		paddingLeft: "0.5px",
-		fill: colors.gray[3],
-		opacity: 0,
-		transform: "scale(0)",
-	},
-)
+const checkboxIconClass = style(motion.standard("opacity", "transform"), {
+	width: checkboxSize.checkmark,
+	height: checkboxSize.checkmark,
+	paddingTop: "0.5px",
+	paddingLeft: "0.5px",
+	fill: colors.gray[3],
+	opacity: 0,
+	transform: "scale(0)",
+})
 
 export function Checkbox(props: CheckboxProps) {
 	const { label, checked, setChecked } = props

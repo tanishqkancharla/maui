@@ -2,11 +2,11 @@ import { useState } from "react"
 import { Button } from "../components/Button"
 import { Code } from "../components/Code"
 import { Dialog } from "../components/Dialog"
-import { Icons } from "../components/Icons"
 import { Overlay } from "../components/Overlay"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
+import { Archive, DotsHorizontal, Plus, Search } from "../icons"
 
 import { colorNames, colors } from "../tokens/colors"
 import { borderColor } from "../tokens/borders"
@@ -46,26 +46,26 @@ export function ButtonsPage() {
 					Quiet accent
 				</Button>
 				<Button isDisabled>
-					<Icons.Plus />
+					<Plus />
 					Create
 				</Button>
 				<Button isDisabled aria-label="Search">
-					<Icons.Search />
+					<Search />
 				</Button>
 			</Flex>
 
 			<H3>Primary</H3>
 			<P>
 				<Code>variant="primary"</Code> fills with step 9 of{" "}
-				<Code>variantColor</Code> (a palette name, default{" "}
-				<Code>"accent"</Code>). Pass a hex or <Code>rgb()</Code> string
-				to use that color as the fill (alpha is dropped). Primary buttons use
-				a stronger inset highlight and a tight edge tinted from the fill.
+				<Code>variantColor</Code> (a palette name, default <Code>"accent"</Code>
+				). Pass a hex or <Code>rgb()</Code> string to use that color as the fill
+				(alpha is dropped). Primary buttons use a stronger inset highlight and a
+				tight edge tinted from the fill.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="primary">Save</Button>
 				<Button variant="primary">
-					<Icons.Plus />
+					<Plus />
 					Create
 				</Button>
 				<Button variant="primary" variantColor="blue">
@@ -110,18 +110,18 @@ export function ButtonsPage() {
 			<H3>Quiet</H3>
 			<P>
 				<Code>variant="quiet"</Code> has no fill. <Code>variantColor</Code>{" "}
-				tints the label and icon. Hover and press mix{" "}
-				<Code>grayAlpha[9]</Code> (or that color’s alpha 9) into transparent
-				at 6% light / 9% dark; press is 2×.
+				tints the label and icon. Hover and press mix <Code>grayAlpha[9]</Code>{" "}
+				(or that color’s alpha 9) into transparent. Hover uses the shared 3.5%
+				control wash; press remains stronger.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="quiet">Button</Button>
 				<Button variant="quiet">
-					<Icons.Plus />
+					<Plus />
 					Create
 				</Button>
 				<Button variant="quiet" aria-label="More actions">
-					<Icons.DotsHorizontal />
+					<DotsHorizontal />
 				</Button>
 				<Button variant="quiet" variantColor="accent">
 					Quiet accent
@@ -137,23 +137,25 @@ export function ButtonsPage() {
 			<H3>Icons with text</H3>
 			<Flex row alignItems="center" gap={4}>
 				<Button>
-					<Icons.Plus />
+					<Plus />
 					Create
 				</Button>
 				<Button>
 					Archive
-					<Icons.Archive />
+					<Archive />
 				</Button>
 			</Flex>
 
 			<H3>Icon only</H3>
-			<P>Icon-only buttons need an accessible label that describes the action.</P>
+			<P>
+				Icon-only buttons need an accessible label that describes the action.
+			</P>
 			<Flex row alignItems="center" gap={4}>
 				<Button aria-label="Search">
-					<Icons.Search />
+					<Search />
 				</Button>
 				<Button aria-label="More actions">
-					<Icons.DotsHorizontal />
+					<DotsHorizontal />
 				</Button>
 			</Flex>
 

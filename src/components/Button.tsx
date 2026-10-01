@@ -12,14 +12,9 @@ import {
 	surfaceMixPercent,
 	surfaceWash,
 } from "../tokens/background"
-import {
-	colors,
-	type ColorName,
-	type ColorScale,
-} from "../tokens/colors"
+import { colors, type ColorName, type ColorScale } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { radius } from "../tokens/radius"
-import { motion } from "../tokens/motion"
 import { shadowVars } from "../tokens/shadow"
 import { controlSize } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
@@ -49,7 +44,6 @@ const disabledQuiet = {
 const buttonBaseClass = style(
 	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
 	focusRing("&:focus-visible", buttonShadow),
-	motion.standard("box-shadow", "background-color", "color"),
 	spacing.padding({ x: 6, y: 4 }),
 	radius.sm,
 	{
@@ -117,25 +111,20 @@ function paletteAlpha(name: ColorName): ColorScale {
 }
 
 const quietClass = memoize((color: string, hoverColor: string, wash: string) =>
-	style(
-		buttonBaseClass,
-		focusRing("&:focus-visible"),
-		motion.standard("box-shadow", "color"),
-		{
-			color,
-			backgroundColor: "transparent",
-			boxShadow: "none",
-			"&:hover:not(:disabled)": {
-				color: hoverColor,
-				backgroundColor: surfaceWash(wash, surfaceMixPercent.hover),
-			},
-			...pressedOrExpanded({
-				color: hoverColor,
-				backgroundColor: surfaceWash(wash, surfaceMixPercent.active),
-			}),
-			"&:disabled": disabledQuiet,
+	style(buttonBaseClass, focusRing("&:focus-visible"), {
+		color,
+		backgroundColor: "transparent",
+		boxShadow: "none",
+		"&:hover:not(:disabled)": {
+			color: hoverColor,
+			backgroundColor: surfaceWash(wash, surfaceMixPercent.hover),
 		},
-	),
+		...pressedOrExpanded({
+			color: hoverColor,
+			backgroundColor: surfaceWash(wash, surfaceMixPercent.active),
+		}),
+		"&:disabled": disabledQuiet,
+	}),
 )
 
 const quietButtonClass = quietClass(
@@ -169,7 +158,7 @@ function opaqueColor(color: string) {
 	return `oklch(from ${color} l c h / 1)`
 }
 
-/** Hover/active of a one-off fill: same hue, a step darker. */
+/** Pressed state of a one-off fill: same hue, a step darker. */
 function darkerFill(color: string) {
 	return `oklch(from ${color} calc(l - 0.04) c h)`
 }
@@ -191,7 +180,12 @@ const coloredButtonClass = memoize(
 		if (isCssColor(color)) {
 			const fill = opaqueColor(color)
 			if (variant === "primary") {
-				const hover = darkerFill(fill)
+				const hover = surfaceWash(
+					colors.gray[12],
+					surfaceMixPercent.hover,
+					fill,
+				)
+				const pressed = darkerFill(fill)
 				const primaryShadow = primaryButtonShadow(fill)
 				return style(
 					buttonBaseClass,
@@ -204,7 +198,7 @@ const coloredButtonClass = memoize(
 							backgroundColor: hover,
 						},
 						...pressedOrExpanded({
-							backgroundColor: hover,
+							backgroundColor: pressed,
 						}),
 						"&:disabled": disabledRaised,
 					},
@@ -217,6 +211,11 @@ const coloredButtonClass = memoize(
 		const scale = paletteFill(color)
 		if (variant === "primary") {
 			const primaryShadow = primaryButtonShadow(scale[9])
+			const hover = surfaceWash(
+				colors.gray[12],
+				surfaceMixPercent.hover,
+				scale[9],
+			)
 			return style(
 				buttonBaseClass,
 				focusRing("&:focus-visible", primaryShadow),
@@ -225,7 +224,7 @@ const coloredButtonClass = memoize(
 					backgroundColor: scale[9],
 					boxShadow: primaryShadow,
 					"&:hover:not(:disabled)": {
-						backgroundColor: scale[10],
+						backgroundColor: hover,
 					},
 					...pressedOrExpanded({
 						backgroundColor: scale[10],

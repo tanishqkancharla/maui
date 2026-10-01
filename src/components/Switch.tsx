@@ -4,6 +4,7 @@ import { ToggleState, useToggleState } from "react-stately"
 import { defineVars, style, useStyles } from "purse-styles"
 import { DARK_THEME } from "../theme/dataTheme"
 import { LARGE_SCALE } from "../theme/dataScale"
+import { surfaceMixPercent, surfaceWash } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
@@ -26,11 +27,18 @@ const switchOff = defineVars({
 		default: colors.gray[2],
 		[DARK_THEME]: colors.gray[1],
 	},
-	trackHover: {
-		default: colors.gray[3],
-		[DARK_THEME]: colors.gray[2],
-	},
 })
+
+const switchOffHover = surfaceWash(
+	colors.gray[12],
+	surfaceMixPercent.hover,
+	switchOff.track,
+)
+const switchOnHover = surfaceWash(
+	colors.gray[12],
+	surfaceMixPercent.hover,
+	colors.accent[9],
+)
 
 const switchClass = style(
 	flex({ alignItems: "center", gap: 3 }),
@@ -43,10 +51,13 @@ const switchClass = style(
 		width: "fit-content",
 		minHeight: controlSize.minTarget,
 		"&:hover .switch-toggle": {
-			backgroundColor: switchOff.trackHover,
+			backgroundColor: switchOffHover,
 		},
 		"& .switch-input:checked + .switch-toggle": {
 			backgroundColor: colors.accent[9],
+		},
+		"&:hover .switch-input:checked + .switch-toggle": {
+			backgroundColor: switchOnHover,
 		},
 		"& .switch-input:checked + .switch-toggle .switch-thumb": {
 			transform: `translateX(calc(${switchSize.width} - ${switchSize.thumb} - 4px))`,
@@ -54,32 +65,23 @@ const switchClass = style(
 	},
 )
 
-const switchToggleClass = style(
-	radius.pill,
-	motion.standard("background-color"),
-	shadow.control,
-	{
-		position: "relative",
-		flexShrink: 0,
-		width: switchSize.width,
-		height: switchSize.height,
-		backgroundColor: switchOff.track,
-	},
-)
+const switchToggleClass = style(radius.pill, shadow.control, {
+	position: "relative",
+	flexShrink: 0,
+	width: switchSize.width,
+	height: switchSize.height,
+	backgroundColor: switchOff.track,
+})
 
-const switchThumbClass = style(
-	radius.circle,
-	motion.standard("transform"),
-	{
-		position: "absolute",
-		top: "2px",
-		left: "2px",
-		width: switchSize.thumb,
-		height: switchSize.thumb,
-		backgroundColor: "#ffffff",
-		boxShadow: "0 1px 2px rgba(0, 0, 0, 0.16)",
-	},
-)
+const switchThumbClass = style(radius.circle, motion.standard("transform"), {
+	position: "absolute",
+	top: "2px",
+	left: "2px",
+	width: switchSize.thumb,
+	height: switchSize.thumb,
+	backgroundColor: "#ffffff",
+	boxShadow: "0 1px 2px rgba(0, 0, 0, 0.16)",
+})
 
 type SwitchProps = {
 	label: string

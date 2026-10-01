@@ -13,17 +13,20 @@ import {
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
 import { defineVars, style, useStyles } from "purse-styles"
 import { LARGE_SCALE } from "../theme/dataScale"
-import { backgroundColor } from "../tokens/background"
+import {
+	backgroundColor,
+	surfaceMixPercent,
+	surfaceWash,
+} from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
-import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
 import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { monospace, text } from "../tokens/text"
+import { CircleX, Minus, Plus } from "../icons"
 import { Kbd } from "./Code"
-import { Icons } from "./Icons"
 
 const inputText = text({ size: "sm", fontWeight: 400, color: "highContrast" })
 const numberFieldDivider = `color-mix(in oklch, ${colors.gray[12]} 5%, ${backgroundColor.element})`
@@ -31,7 +34,6 @@ const numberFieldDivider = `color-mix(in oklch, ${colors.gray[12]} 5%, ${backgro
 const inputClass = style(
 	inputText,
 	focusRing("&:focus-visible", shadowVars.control),
-	motion.standard("background", "border-color"),
 	radius.sm,
 	spacing.padding({ x: 4, y: 2 }),
 	shadow.control,
@@ -211,7 +213,7 @@ export function SearchField(props: SearchFieldProps) {
 					onMouseDown={(event) => event.preventDefault()}
 					onClick={() => state.setValue("")}
 				>
-					<Icons.CircleX />
+					<CircleX />
 				</button>
 			)}
 		</div>
@@ -224,7 +226,6 @@ const numberFieldSize = defineVars({
 
 const numberFieldClass = style(
 	focusRing("&:has(:focus-visible)", shadowVars.control),
-	motion.standard("background", "border-color"),
 	radius.sm,
 	shadow.control,
 	{
@@ -322,10 +323,10 @@ export function NumberField(props: AriaNumberFieldProps) {
 			<input className={inputClassName} ref={ref} {...inputProps} />
 			<div className="number-stepper">
 				<button {...decrementProps} ref={decrementRef} type="button">
-					<Icons.Minus />
+					<Minus />
 				</button>
 				<button {...incrementProps} ref={incrementRef} type="button">
-					<Icons.Plus />
+					<Plus />
 				</button>
 			</div>
 		</div>
@@ -335,7 +336,6 @@ export function NumberField(props: AriaNumberFieldProps) {
 const quietInputClass = style(
 	inputText,
 	focusRing(),
-	motion.standard("background", "border-color"),
 	radius.sm,
 	spacing.padding({ x: 4, y: 2 }),
 	{
@@ -346,7 +346,7 @@ const quietInputClass = style(
 		background: "transparent",
 		border: "none",
 		"&:hover:not(:disabled)": {
-			background: backgroundColor.elementHover,
+			background: surfaceWash(colors.gray[12], surfaceMixPercent.hover),
 		},
 		"&:disabled": {
 			color: colors.gray[8],

@@ -1,18 +1,27 @@
 import React from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
-import { Icons } from "../components/Icons"
 import { Prose } from "../components/Prose"
 import { Tooltip } from "../components/Tooltip"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
+import {
+	Archive,
+	Clock,
+	DotsHorizontal,
+	Envelope,
+	Pin,
+	Search,
+	Star,
+	Trash,
+} from "../icons"
+import { background } from "../tokens/background"
+import { colors } from "../tokens/colors"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 
-import { colors } from "../tokens/colors"
-import { background } from "../maui"
 export function TooltipPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -62,17 +71,17 @@ type ToolbarAction = {
 }
 
 const messageActions: ToolbarAction[] = [
-	{ label: "Star thread", icon: Icons.Star },
-	{ label: "Archive thread", icon: Icons.Archive },
-	{ label: "Delete thread", icon: Icons.Trash },
-	{ label: "Mark unread", icon: Icons.Envelope },
-	{ label: "Snooze thread", icon: Icons.Clock },
+	{ label: "Star thread", icon: Star },
+	{ label: "Archive thread", icon: Archive },
+	{ label: "Delete thread", icon: Trash },
+	{ label: "Mark unread", icon: Envelope },
+	{ label: "Snooze thread", icon: Clock },
 ]
 
 const utilityActions: ToolbarAction[] = [
-	{ label: "Pin thread", icon: Icons.Pin },
-	{ label: "Search in thread", icon: Icons.Search },
-	{ label: "More actions", icon: Icons.DotsHorizontal },
+	{ label: "Pin thread", icon: Pin },
+	{ label: "Search in thread", icon: Search },
+	{ label: "More actions", icon: DotsHorizontal },
 ]
 
 function Toolbar() {

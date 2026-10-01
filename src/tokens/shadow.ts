@@ -16,7 +16,10 @@ const rgb = shadowParams.foregroundRgb
 const blur = shadowParams.blurOpacity
 
 export const shadowVars = defineVars({
-	control: `inset 0 1px #ffffff08, inset 0 0 1px .5px #fff1, 0 1px .5px #00000018, 0 0 3px -1px #000a`,
+	control: {
+		default: `inset 0 1px #fff8, inset 0 0 1px 1px #fff8, 0 .5px 1px #00000018, 0 0 1px #0001, 0 0 4px -1px #0001`,
+		[DARK_THEME]: `inset 0 1px #ffffff08, inset 0 0 1px .5px #fff1, 0 1px .5px #00000018, 0 0 3px -1px #000a`,
+	},
 	subtle: `rgba(${rgb}, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, ${blur}) 0px 1px 1px -0.5px, rgba(0, 0, 0, ${blur}) 0px 3px 3px -1.5px`,
 	medium: `rgba(${rgb}, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, ${blur}) 0px 1px 1px -0.5px, rgba(0, 0, 0, ${blur}) 0px 3px 3px -1.5px, rgba(0, 0, 0, ${blur}) 0px 6px 6px -3px`,
 	strong: `rgba(${rgb}, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, ${blur}) 0px 1px 1px -0.5px, rgba(0, 0, 0, ${blur}) 0px 3px 3px -1.5px, rgba(0, 0, 0, ${blur}) 0px 6px 6px -3px, rgba(0, 0, 0, calc(${blur} * 0.67)) 0px 12px 12px -6px, rgba(0, 0, 0, calc(${blur} * 0.67)) 0px 24px 24px -12px`,

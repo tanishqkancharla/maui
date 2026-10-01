@@ -1,8 +1,5 @@
 import { describe, expect, test } from "vitest"
-import {
-	collectJsxDiagnosticsFromSource,
-	formatTypeErrorBanners,
-} from "./lint"
+import { collectJsxDiagnosticsFromSource, formatTypeErrorBanners } from "./lint"
 
 describe("collectJsxDiagnosticsFromSource", () => {
 	test("accepts a Button palette variantColor", () => {
@@ -186,16 +183,10 @@ describe("JSX editor catalog", () => {
 		expect(
 			flex?.attributes.find((attribute) => attribute.name === "justifyContent")
 				?.values,
-		).toEqual([
-			"start",
-			"center",
-			"end",
-			"between",
-			"around",
-			"evenly",
-		])
+		).toEqual(["start", "center", "end", "between", "around", "evenly"])
 		expect(
-			flex?.attributes.find((attribute) => attribute.name === "background")?.values,
+			flex?.attributes.find((attribute) => attribute.name === "background")
+				?.values,
 		).toEqual([
 			"app",
 			"element",

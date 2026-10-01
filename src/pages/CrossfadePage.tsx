@@ -3,13 +3,13 @@ import { Button } from "../components/Button"
 import { Code } from "../components/Code"
 import { Crossfade, type CrossfadeDirection } from "../components/Crossfade"
 import { CodeBlock } from "../components/CodeBlock"
-import { Icons } from "../components/Icons"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { RadioOption, RadioOptionGroup } from "../components/Radio"
 import { Text } from "../components/Text"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
+import { ChevronLeft, ChevronRight } from "../icons"
 
 type PlaygroundDirection = "none" | CrossfadeDirection
 
@@ -58,14 +58,14 @@ export function CrossfadePage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Crossfade</H2>
 			<P>
-				When <Code>contentKey</Code> changes, the previous view fades out
-				and the next fades in. Omit <Code>direction</Code> for an in-place
-				opacity fade — same position, no slide. Pass{" "}
-				<Code>up</Code>, <Code>down</Code>, <Code>left</Code>, or{" "}
-				<Code>right</Code> to keep the directional crossfade: the previous
-				view exits that way while the next enters from the opposite side.{" "}
-				<Code>contentKey</Code> is required — putting <Code>key</Code> on
-				Crossfade itself remounts the wrapper and skips the exit.
+				When <Code>contentKey</Code> changes, the previous view fades out and
+				the next fades in. Omit <Code>direction</Code> for an in-place opacity
+				fade — same position, no slide. Pass <Code>up</Code>, <Code>down</Code>,{" "}
+				<Code>left</Code>, or <Code>right</Code> to keep the directional
+				crossfade: the previous view exits that way while the next enters from
+				the opposite side. <Code>contentKey</Code> is required — putting{" "}
+				<Code>key</Code> on Crossfade itself remounts the wrapper and skips the
+				exit.
 			</P>
 
 			<H3>Playground</H3>
@@ -96,7 +96,7 @@ export function CrossfadePage() {
 								)
 							}
 						>
-							<Icons.ChevronLeft />
+							<ChevronLeft />
 							Previous
 						</Button>
 						<Button
@@ -106,7 +106,7 @@ export function CrossfadePage() {
 							}
 						>
 							Next
-							<Icons.ChevronRight />
+							<ChevronRight />
 						</Button>
 						{slides.map((item, slideIndex) => (
 							<Button

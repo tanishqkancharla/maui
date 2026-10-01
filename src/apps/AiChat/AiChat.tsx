@@ -3,9 +3,9 @@ import type { Editor as TiptapEditor } from "@tiptap/react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../../components/Button"
 import { MarkdownEditor } from "../../components/MarkdownEditor"
-import { Icons } from "../../components/Icons"
 import { Thinking } from "../../components/Thinking"
 import { AssistantMessage } from "../../patterns/AssistantMessage"
+import { ArrowUp } from "../../icons"
 import { backgroundColor } from "../../tokens/background"
 import { border } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
@@ -105,10 +105,7 @@ function streamAssistantTurn(
 			onDone()
 			return
 		}
-		timeoutId = window.setTimeout(
-			tickText,
-			16 + Math.floor(Math.random() * 28),
-		)
+		timeoutId = window.setTimeout(tickText, 16 + Math.floor(Math.random() * 28))
 	}
 
 	const tickTools = () => {
@@ -313,7 +310,7 @@ export function AiChat() {
 							isDisabled={streaming || !draft.trim()}
 							onClick={send}
 						>
-							<Icons.ArrowUp size="sm" />
+							<ArrowUp size="sm" />
 						</Button>
 					</div>
 				</div>
@@ -398,7 +395,9 @@ const composerShellClass = style(
 	},
 )
 
-const composerActionsClass = style(flex({ alignItems: "center", justifyContent: "end", gap: 3 }))
+const composerActionsClass = style(
+	flex({ alignItems: "center", justifyContent: "end", gap: 3 }),
+)
 
 /** Filled circular send control — icon-only Button without the default shadow. */
 const sendButtonClass = style(radius.circle, {

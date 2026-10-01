@@ -19,7 +19,11 @@ import {
 	type TableProps as AriaTableProps,
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
-import { backgroundColor } from "../tokens/background"
+import {
+	backgroundColor,
+	surfaceMixPercent,
+	surfaceWash,
+} from "../tokens/background"
 import { border, borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
@@ -164,6 +168,14 @@ const tableSelectionCheckboxClass = style(
 			{
 				backgroundColor: colors.accent[9],
 			},
+		"&[data-hovered][data-selected] .checkbox-toggle, &[data-hovered][data-indeterminate] .checkbox-toggle":
+			{
+				backgroundColor: surfaceWash(
+					colors.gray[12],
+					surfaceMixPercent.hover,
+					colors.accent[9],
+				),
+			},
 		"&[data-selected] .checkbox-icon, &[data-indeterminate] .checkbox-icon": {
 			opacity: 1,
 			transform: "scale(1)",
@@ -238,8 +250,10 @@ export function Table(props: TableProps) {
 	)
 }
 
-export interface TableHeaderProps<T>
-	extends Omit<AriaTableHeaderProps<T>, "className"> {}
+export interface TableHeaderProps<T> extends Omit<
+	AriaTableHeaderProps<T>,
+	"className"
+> {}
 
 export function TableHeader<T extends object = object>({
 	children,
@@ -280,8 +294,10 @@ export function TableHead({ align = "start", ...props }: TableHeadProps) {
 	return <AriaColumn {...props} className={className} />
 }
 
-export interface TableBodyProps<T>
-	extends Omit<AriaTableBodyProps<T>, "className"> {}
+export interface TableBodyProps<T> extends Omit<
+	AriaTableBodyProps<T>,
+	"className"
+> {}
 
 export function TableBody<T extends object = object>(props: TableBodyProps<T>) {
 	const className = useStyles(tableBodyClass)
@@ -299,8 +315,10 @@ export function TableBody<T extends object = object>(props: TableBodyProps<T>) {
 	)
 }
 
-export interface TableFooterProps<T>
-	extends Omit<AriaTableFooterProps<T>, "className"> {}
+export interface TableFooterProps<T> extends Omit<
+	AriaTableFooterProps<T>,
+	"className"
+> {}
 
 export function TableFooter<T extends object = object>(
 	props: TableFooterProps<T>,
@@ -310,8 +328,7 @@ export function TableFooter<T extends object = object>(
 	return <AriaTableFooter {...props} className={className} />
 }
 
-export interface TableRowProps<T>
-	extends Omit<AriaRowProps<T>, "className"> {}
+export interface TableRowProps<T> extends Omit<AriaRowProps<T>, "className"> {}
 
 export function TableRow<T extends object = object>({
 	children,

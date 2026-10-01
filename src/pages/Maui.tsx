@@ -1,5 +1,5 @@
 import type React from "react"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useFilter } from "react-aria"
 import {
 	Link as WouterLink,
@@ -13,11 +13,11 @@ import {
 import { defineVars, style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Drawer } from "../components/Drawer"
-import { Icons } from "../components/Icons"
 import { SearchField } from "../components/Input"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
 import { navigationItem } from "../components/navigationItem"
+import { Menu } from "../icons"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
@@ -28,28 +28,30 @@ import { isScalePreference, useScale } from "../theme/ScaleContext"
 import { LARGE_SCALE } from "../theme/dataScale"
 import { galleryCompactMedia } from "./galleryCompact"
 import { AboutPage } from "./AboutPage"
-import { AiChatPage } from "./AiChatPage"
-import { AssistantMessagePage } from "./AssistantMessagePage"
 import { AvatarPage } from "./AvatarPage"
 import { BadgePage } from "./BadgePage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
 import { BordersTokenPage } from "./BordersTokenPage"
 import { ButtonsPage } from "./ButtonsPage"
-import { DrawerPage } from "./DrawerPage"
 import { CalendarPage } from "./CalendarPage"
 import { CodePage } from "./CodePage"
 import { CrossfadePage } from "./CrossfadePage"
 // import { CrossfadeStudioPage } from "./CrossfadeStudioPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
-import { EditorPage } from "./EditorPage"
 import { EmailClientPage } from "./EmailClientPage"
 import { FocusRingTokenPage } from "./FocusRingTokenPage"
 import { FormControlsPage } from "./FormControlsPage"
 import { FuzzyStringPage } from "./FuzzyStringPage"
-import { IconsPage } from "./IconsPage"
 import { InboxPage } from "./InboxPage"
-import { JsxEditorPage } from "./JsxEditorPage"
+import {
+	AiChatPage,
+	AssistantMessagePage,
+	DrawerPage,
+	EditorPage,
+	IconsPage,
+	JsxEditorPage,
+} from "./GalleryDeferredPages"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
 import { LoadingScreenPage } from "./LoadingScreenPage"
@@ -277,7 +279,7 @@ function MauiContent() {
 						aria-label="Open navigation"
 						onPress={() => setNavOpen(true)}
 					>
-						<Icons.Menu size="sm" />
+						<Menu size="sm" />
 					</Button>
 					<H3>Maui</H3>
 				</header>
@@ -297,33 +299,35 @@ function MauiContent() {
 			) : null}
 
 			<div className={contentClassName}>
-				<WouterSwitch>
-					{navItems(navigation).map((item) => (
-						<Route key={item.path} path={item.path}>
-							<item.page />
+				<Suspense fallback={null}>
+					<WouterSwitch>
+						{navItems(navigation).map((item) => (
+							<Route key={item.path} path={item.path}>
+								<item.page />
+							</Route>
+						))}
+
+						<Route path="/patterns/calendar">
+							<Redirect to="/apps/calendar" />
 						</Route>
-					))}
+						<Route path="/components/code-block">
+							<Redirect to="/components/code" />
+						</Route>
+						<Route path="/patterns/editor">
+							<Redirect to="/components/editor" />
+						</Route>
+						<Route path="/patterns/loader">
+							<Redirect to="/components/thinking" />
+						</Route>
+						<Route path="/temp/syntax">
+							<Redirect to="/editor" />
+						</Route>
 
-					<Route path="/patterns/calendar">
-						<Redirect to="/apps/calendar" />
-					</Route>
-					<Route path="/components/code-block">
-						<Redirect to="/components/code" />
-					</Route>
-					<Route path="/patterns/editor">
-						<Redirect to="/components/editor" />
-					</Route>
-					<Route path="/patterns/loader">
-						<Redirect to="/components/thinking" />
-					</Route>
-					<Route path="/temp/syntax">
-						<Redirect to="/editor" />
-					</Route>
-
-					<Route>
-						<Redirect to={defaultPath} />
-					</Route>
-				</WouterSwitch>
+						<Route>
+							<Redirect to={defaultPath} />
+						</Route>
+					</WouterSwitch>
+				</Suspense>
 			</div>
 		</div>
 	)

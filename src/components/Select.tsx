@@ -33,7 +33,6 @@ const selectClass = style({
 const triggerClass = style(
 	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	focusRing("&:focus-visible", shadowVars.control),
-	motion.standard("background", "border-color"),
 	radius.sm,
 	spacing.padding({ x: 4, y: 2 }),
 	shadow.control,
@@ -88,13 +87,19 @@ const chevronClass = style(motion.standard("transform"), {
 	} as CSSProperties),
 })
 
-const supportingTextClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }), {
-	margin: 0,
-})
+const supportingTextClass = style(
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+	{
+		margin: 0,
+	},
+)
 
-const errorClass = style(text({ size: "xs", fontWeight: 400, color: "highContrast" }), {
-	color: "light-dark(#ce2c31, #e5484d)",
-})
+const errorClass = style(
+	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
+	{
+		color: "light-dark(#ce2c31, #e5484d)",
+	},
+)
 
 export interface SelectProps<
 	T,

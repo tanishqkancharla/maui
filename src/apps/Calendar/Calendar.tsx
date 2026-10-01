@@ -10,11 +10,18 @@ import { style, useStyles } from "purse-styles"
 import { Avatar } from "../../components/Avatar"
 import { Button } from "../../components/Button"
 import { Kbd } from "../../components/Code"
-import { Icons } from "../../components/Icons"
 import { SearchField, TextField } from "../../components/Input"
 import { Select, SelectItem } from "../../components/Select"
 import { Tooltip } from "../../components/Tooltip"
 import { FuzzyString } from "../../components/FuzzyString"
+import {
+	ArrowDown,
+	ChevronLeft,
+	ChevronRight,
+	Eye,
+	Plus,
+	Sidebar,
+} from "../../icons"
 import { background, backgroundColor } from "../../tokens/background"
 import { borderColor } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
@@ -238,14 +245,20 @@ export function Calendar({ className }: CalendarProps = {}) {
 	)
 
 	const visibleDays = useMemo(
-		() => Array.from({ length: viewDays }, (_, index) => addDays(selectedDate, index)),
+		() =>
+			Array.from({ length: viewDays }, (_, index) =>
+				addDays(selectedDate, index),
+			),
 		[selectedDate, viewDays],
 	)
 	const visibleKeys = useMemo(
 		() => new Set(visibleDays.map(dateKey)),
 		[visibleDays],
 	)
-	const hiddenSet = useMemo(() => new Set(hiddenCalendarIds), [hiddenCalendarIds])
+	const hiddenSet = useMemo(
+		() => new Set(hiddenCalendarIds),
+		[hiddenCalendarIds],
+	)
 
 	const visibleEvents = useMemo(
 		() =>
@@ -361,7 +374,7 @@ export function Calendar({ className }: CalendarProps = {}) {
 									aria-label="Show sidebar"
 									onClick={() => setSidebarOpen(true)}
 								>
-									<Icons.Sidebar size="sm" />
+									<Sidebar size="sm" />
 								</Button>
 							</Tooltip>
 						)}
@@ -393,7 +406,7 @@ export function Calendar({ className }: CalendarProps = {}) {
 								aria-label="Previous range"
 								onClick={() => shiftRange(-1)}
 							>
-								<Icons.ChevronLeft size="sm" />
+								<ChevronLeft size="sm" />
 							</Button>
 						</Tooltip>
 						<Tooltip content="Next">
@@ -402,7 +415,7 @@ export function Calendar({ className }: CalendarProps = {}) {
 								aria-label="Next range"
 								onClick={() => shiftRange(1)}
 							>
-								<Icons.ChevronRight size="sm" />
+								<ChevronRight size="sm" />
 							</Button>
 						</Tooltip>
 					</div>
@@ -463,7 +476,7 @@ function CalendarSidebar(props: {
 						aria-label="Hide sidebar"
 						onClick={props.onToggleSidebar}
 					>
-						<Icons.Sidebar size="sm" />
+						<Sidebar size="sm" />
 					</Button>
 				</Tooltip>
 				<Tooltip content="New event">
@@ -472,7 +485,7 @@ function CalendarSidebar(props: {
 						aria-label="New event"
 						onClick={props.onCreateEvent}
 					>
-						<Icons.Plus size="sm" />
+						<Plus size="sm" />
 					</Button>
 				</Tooltip>
 			</div>
@@ -512,11 +525,11 @@ function CalendarSidebar(props: {
 
 			<div className={footerClassName}>
 				<Button variant="quiet">
-					<Icons.Plus size="sm" />
+					<Plus size="sm" />
 					Add calendar account
 				</Button>
 				<Button variant="quiet">
-					<Icons.Plus size="sm" />
+					<Plus size="sm" />
 					Add Notion database
 				</Button>
 			</div>
@@ -553,14 +566,14 @@ function MiniCalendar(props: {
 						aria-label={`Previous month, ${heading}`}
 						onClick={() => props.onMonthChange(addMonths(props.month, -1))}
 					>
-						<Icons.ChevronLeft size="sm" />
+						<ChevronLeft size="sm" />
 					</Button>
 					<Button
 						variant="quiet"
 						aria-label={`Next month, ${heading}`}
 						onClick={() => props.onMonthChange(addMonths(props.month, 1))}
 					>
-						<Icons.ChevronRight size="sm" />
+						<ChevronRight size="sm" />
 					</Button>
 				</div>
 			</div>
@@ -634,7 +647,9 @@ function CalendarSourceRow(props: {
 		<li>
 			<div className={rowClassName}>
 				<span className={swatchClassName} aria-hidden="true" />
-				<span className={useStyles(sourceNameClass)}>{props.calendar.name}</span>
+				<span className={useStyles(sourceNameClass)}>
+					{props.calendar.name}
+				</span>
 				<Button
 					variant="quiet"
 					aria-label={
@@ -645,7 +660,7 @@ function CalendarSourceRow(props: {
 					aria-pressed={props.visible}
 					onClick={props.onToggle}
 				>
-					<Icons.Eye size="sm" />
+					<Eye size="sm" />
 				</Button>
 			</div>
 		</li>
@@ -690,7 +705,10 @@ function WeekGrid(props: {
 
 	return (
 		<div className={shellClassName}>
-			<div className={headerClassName} style={{ gridTemplateColumns: gridTemplate }}>
+			<div
+				className={headerClassName}
+				style={{ gridTemplateColumns: gridTemplate }}
+			>
 				<div className={tzHeaderRowClassName}>
 					{props.timeZoneLabels.map((label) => (
 						<span key={label} className={tzHeaderClassName}>
@@ -742,7 +760,9 @@ function WeekGrid(props: {
 							key={dateKey(day)}
 							day={day}
 							isToday={dateKey(day) === props.todayKey}
-							events={timedEvents.filter((event) => event.date === dateKey(day))}
+							events={timedEvents.filter(
+								(event) => event.date === dateKey(day),
+							)}
 							selectedEventId={props.selectedEventId}
 							nowMinutes={props.nowMinutes}
 							onSelectEvent={props.onSelectEvent}
@@ -756,7 +776,10 @@ function WeekGrid(props: {
 }
 
 function DayHeaderCell(props: { day: Date; isToday: boolean }) {
-	const className = useStyles(dayHeaderClass, props.isToday && dayHeaderTodayClass)
+	const className = useStyles(
+		dayHeaderClass,
+		props.isToday && dayHeaderTodayClass,
+	)
 	const labelClassName = useStyles(
 		dayHeaderLabelClass,
 		props.isToday && dayHeaderLabelTodayClass,
@@ -815,7 +838,10 @@ function DayColumn(props: {
 	onSelectEvent: (id: string) => void
 	onCreateEvent: (date: Date, startMinutes: number) => void
 }) {
-	const className = useStyles(dayColumnClass, props.isToday && dayColumnTodayClass)
+	const className = useStyles(
+		dayColumnClass,
+		props.isToday && dayColumnTodayClass,
+	)
 	const nowLineClassName = useStyles(nowLineClass)
 	const nowDotClassName = useStyles(nowDotClass)
 
@@ -909,7 +935,9 @@ function TimedEventBlock(props: {
 				props.onSelect()
 			}}
 		>
-			<span className={useStyles(timedEventTitleClass)}>{props.event.title}</span>
+			<span className={useStyles(timedEventTitleClass)}>
+				{props.event.title}
+			</span>
 			<span className={useStyles(timedEventTimeClass)}>
 				{formatTimeRange(start, end)}
 			</span>
@@ -929,7 +957,11 @@ function DetailsPanel(props: {
 		const query = props.searchQuery.trim()
 		if (!query) return []
 		return props.events
-			.filter((event) => event.kind !== "ooo" && !props.hiddenCalendarIds.has(event.calendarId))
+			.filter(
+				(event) =>
+					event.kind !== "ooo" &&
+					!props.hiddenCalendarIds.has(event.calendarId),
+			)
 			.map((event) => ({
 				event,
 				score: fuzzyMatchScore(query, event.title),
@@ -970,7 +1002,13 @@ function DetailsPanel(props: {
 					{matches.map((item) => (
 						<SearchMatchRow
 							key={item.event.id}
-							title={item.match ? <FuzzyString match={item.match} /> : item.event.title}
+							title={
+								item.match ? (
+									<FuzzyString match={item.match} />
+								) : (
+									item.event.title
+								)
+							}
 							meta={formatEventSummary(item.event)}
 							onSelect={() => props.onSelectEvent(item.event.id)}
 						/>
@@ -984,11 +1022,17 @@ function DetailsPanel(props: {
 					<div className={selectedTimeClassName}>
 						{selected.allDay
 							? "All day"
-							: formatTimeRange(selected.startMinutes ?? 0, selected.endMinutes ?? 0)}
+							: formatTimeRange(
+									selected.startMinutes ?? 0,
+									selected.endMinutes ?? 0,
+								)}
 					</div>
 					{selected.allDay ? null : (
 						<div className={selectedDurationClassName}>
-							{formatDuration(selected.startMinutes ?? 0, selected.endMinutes ?? 0)}
+							{formatDuration(
+								selected.startMinutes ?? 0,
+								selected.endMinutes ?? 0,
+							)}
 						</div>
 					)}
 					{calendar ? (
@@ -999,7 +1043,7 @@ function DetailsPanel(props: {
 					) : null}
 					<Button>
 						Add meeting note
-						<Icons.ArrowDown size="sm" />
+						<ArrowDown size="sm" />
 					</Button>
 				</div>
 			) : (
@@ -1216,7 +1260,14 @@ function zonedTimeToDate(
 	const wanted = Date.UTC(year, month - 1, day, hour, 0, 0)
 	const guess = new Date(wanted)
 	const parts = getZonedParts(guess, timeZone)
-	const asUtc = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, 0, 0)
+	const asUtc = Date.UTC(
+		parts.year,
+		parts.month - 1,
+		parts.day,
+		parts.hour,
+		0,
+		0,
+	)
 	return new Date(guess.getTime() + (wanted - asUtc))
 }
 
@@ -1228,7 +1279,10 @@ function hourOffsetFromPrimary(day: Date, timeZone: string) {
 		12,
 		GRID_TIME_ZONE,
 	)
-	return getZonedParts(instant, timeZone).hour - getZonedParts(instant, GRID_TIME_ZONE).hour
+	return (
+		getZonedParts(instant, timeZone).hour -
+		getZonedParts(instant, GRID_TIME_ZONE).hour
+	)
 }
 
 function formatHourLabel(hour: number, withPeriod: boolean) {
@@ -1241,7 +1295,8 @@ function formatClock(minutes: number, withPeriod: boolean) {
 	const hour = Math.floor(minutes / 60)
 	const minute = minutes % 60
 	const h = hour % 12 === 0 ? 12 : hour % 12
-	const time = minute === 0 ? String(h) : `${h}:${String(minute).padStart(2, "0")}`
+	const time =
+		minute === 0 ? String(h) : `${h}:${String(minute).padStart(2, "0")}`
 	if (!withPeriod) return time
 	return `${time} ${hour >= 12 ? "PM" : "AM"}`
 }
@@ -1365,15 +1420,22 @@ const sidebarClass = style(
 	},
 )
 
-const sidebarToolbarClass = style(flex({ alignItems: "center", justifyContent: "between" }))
+const sidebarToolbarClass = style(
+	flex({ alignItems: "center", justifyContent: "between" }),
+)
 
-const sidebarFooterClass = style(flex({ direction: "column", alignItems: "start", gap: 1 }), {
-	marginTop: "auto",
-})
+const sidebarFooterClass = style(
+	flex({ direction: "column", alignItems: "start", gap: 1 }),
+	{
+		marginTop: "auto",
+	},
+)
 
 const miniCalendarClass = style(flex({ direction: "column", gap: 3 }))
 
-const miniCalendarHeaderClass = style(flex({ alignItems: "center", justifyContent: "end" }))
+const miniCalendarHeaderClass = style(
+	flex({ alignItems: "center", justifyContent: "end" }),
+)
 
 const miniCalendarNavClass = style(flex({ alignItems: "center" }))
 
@@ -1382,11 +1444,14 @@ const miniWeekdayRowClass = style({
 	gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
 })
 
-const miniWeekdayClass = style(text({ size: "2xs", fontWeight: 500, color: "lowContrast" }), {
-	display: "grid",
-	placeItems: "center",
-	height: "20px",
-})
+const miniWeekdayClass = style(
+	text({ size: "2xs", fontWeight: 500, color: "lowContrast" }),
+	{
+		display: "grid",
+		placeItems: "center",
+		height: "20px",
+	},
+)
 
 const miniGridClass = style({
 	display: "grid",
@@ -1425,18 +1490,24 @@ const miniDaySelectedClass = style({
 	backgroundColor: colors.grayAlpha[4],
 })
 
-const miniDayTodayClass = style(text({ size: "xs", fontWeight: 600, color: "onAccent" }), {
-	backgroundColor: colors.accent[9],
-	"&:hover": {
-		backgroundColor: colors.accent[10],
+const miniDayTodayClass = style(
+	text({ size: "xs", fontWeight: 600, color: "onAccent" }),
+	{
+		backgroundColor: colors.accent[9],
+		"&:hover": {
+			backgroundColor: colors.accent[10],
+		},
 	},
-})
+)
 
 const accountListClass = style(flex({ direction: "column", gap: 6 }))
 
 const accountSectionClass = style(flex({ direction: "column", gap: 2 }))
 
-const accountEmailClass = style(text({ size: "xs", fontWeight: 500, color: "lowContrast" }), spacing.padding({ x: 2 }))
+const accountEmailClass = style(
+	text({ size: "xs", fontWeight: 500, color: "lowContrast" }),
+	spacing.padding({ x: 2 }),
+)
 
 const calendarSourceListClass = style(flex({ direction: "column" }), {
 	listStyleType: "none",
@@ -1465,12 +1536,16 @@ const sourceRowHiddenClass = style({
 	},
 })
 
-const sourceNameClass = style(text({ size: "sm", fontWeight: 400, color: "highContrast" }), flexItem({ size: "fill" }), {
-	minWidth: 0,
-	overflow: "hidden",
-	textOverflow: "ellipsis",
-	whiteSpace: "nowrap",
-})
+const sourceNameClass = style(
+	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
+	flexItem({ size: "fill" }),
+	{
+		minWidth: 0,
+		overflow: "hidden",
+		textOverflow: "ellipsis",
+		whiteSpace: "nowrap",
+	},
+)
 
 const mainClass = style(flex({ direction: "column" }), {
 	minWidth: 0,
@@ -1494,12 +1569,15 @@ const mainHeaderEndClass = style(flex({ alignItems: "center", gap: 3 }), {
 	flexShrink: 0,
 })
 
-const monthTitleClass = style(text({ size: "xl", fontWeight: 700, color: "highContrast" }), {
-	margin: 0,
-	overflow: "hidden",
-	textOverflow: "ellipsis",
-	whiteSpace: "nowrap",
-})
+const monthTitleClass = style(
+	text({ size: "xl", fontWeight: 700, color: "highContrast" }),
+	{
+		margin: 0,
+		overflow: "hidden",
+		textOverflow: "ellipsis",
+		whiteSpace: "nowrap",
+	},
+)
 
 const viewSelectWrapClass = style({
 	width: "108px",
@@ -1522,10 +1600,13 @@ const tzHeaderRowClass = style({
 	paddingBottom: spacing.value(2),
 })
 
-const tzHeaderClass = style(text({ size: "2xs", fontWeight: 500, color: "lowContrast" }), {
-	display: "grid",
-	placeItems: "center",
-})
+const tzHeaderClass = style(
+	text({ size: "2xs", fontWeight: 500, color: "lowContrast" }),
+	{
+		display: "grid",
+		placeItems: "center",
+	},
+)
 
 const dayHeaderClass = style(
 	flex({ direction: "column", alignItems: "center" }),
@@ -1536,9 +1617,13 @@ const dayHeaderTodayClass = style({
 	color: colors.accent[11],
 })
 
-const dayHeaderLabelClass = style(text({ size: "2xs", fontWeight: 400, color: "lowContrast" }))
+const dayHeaderLabelClass = style(
+	text({ size: "2xs", fontWeight: 400, color: "lowContrast" }),
+)
 
-const dayHeaderLabelTodayClass = style(text({ size: "2xs", fontWeight: 400, color: "accent" }))
+const dayHeaderLabelTodayClass = style(
+	text({ size: "2xs", fontWeight: 400, color: "accent" }),
+)
 
 const allDayRowClass = style({
 	display: "grid",
@@ -1551,13 +1636,20 @@ const allDayRowClass = style({
 	minHeight: "36px",
 })
 
-const allDayLabelClass = style(text({ size: "2xs", fontWeight: 500, color: "lowContrast" }), spacing.padding({ x: 3, y: 2 }))
+const allDayLabelClass = style(
+	text({ size: "2xs", fontWeight: 500, color: "lowContrast" }),
+	spacing.padding({ x: 3, y: 2 }),
+)
 
-const allDayCellClass = style(flex({ direction: "column", gap: 1 }), spacing.padding({ all: 2 }), {
-	minWidth: 0,
-	overflow: "visible",
-	position: "relative",
-})
+const allDayCellClass = style(
+	flex({ direction: "column", gap: 1 }),
+	spacing.padding({ all: 2 }),
+	{
+		minWidth: 0,
+		overflow: "visible",
+		position: "relative",
+	},
+)
 
 const weekScrollClass = style({
 	minHeight: 0,
@@ -1679,7 +1771,9 @@ const timedEventTitleClass = style({
 	width: "100%",
 })
 
-const timedEventTimeClass = style(text({ size: "2xs", fontWeight: 400, color: "lowContrast" }))
+const timedEventTimeClass = style(
+	text({ size: "2xs", fontWeight: 400, color: "lowContrast" }),
+)
 
 const detailsClass = style(
 	flex({ direction: "column", gap: 8 }),
@@ -1719,31 +1813,52 @@ const searchItemClass = style(
 	},
 )
 
-const searchItemTitleClass = style(text({ size: "sm", fontWeight: 500, color: "highContrast" }))
+const searchItemTitleClass = style(
+	text({ size: "sm", fontWeight: 500, color: "highContrast" }),
+)
 
-const searchItemMetaClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
+const searchItemMetaClass = style(
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+)
 
-const selectedEventClass = style(flex({ direction: "column", alignItems: "start", gap: 3 }))
+const selectedEventClass = style(
+	flex({ direction: "column", alignItems: "start", gap: 3 }),
+)
 
-const selectedTitleClass = style(text({ size: "lg", fontWeight: 600, color: "highContrast" }))
+const selectedTitleClass = style(
+	text({ size: "lg", fontWeight: 600, color: "highContrast" }),
+)
 
-const selectedTimeClass = style(text({ size: "sm", fontWeight: 400, color: "highContrast" }))
+const selectedTimeClass = style(
+	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
+)
 
-const selectedDurationClass = style(text({ size: "xs", fontWeight: 400, color: "lowContrast" }))
+const selectedDurationClass = style(
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+)
 
-const selectedCalendarClass = style(flex({ alignItems: "center", gap: 3 }), text({ size: "sm", fontWeight: 400, color: "lowContrast" }))
+const selectedCalendarClass = style(
+	flex({ alignItems: "center", gap: 3 }),
+	text({ size: "sm", fontWeight: 400, color: "lowContrast" }),
+)
 
-const emptyDetailsClass = style(text({ size: "sm", fontWeight: 400, color: "lowContrast" }), {
-	margin: 0,
-})
+const emptyDetailsClass = style(
+	text({ size: "sm", fontWeight: 400, color: "lowContrast" }),
+	{
+		margin: 0,
+	},
+)
 
 const shortcutsClass = style(flex({ direction: "column", gap: 2 }), {
 	marginTop: "auto",
 })
 
-const shortcutsTitleClass = style(text({ size: "xs", fontWeight: 500, color: "lowContrast" }), {
-	marginBottom: spacing.value(2),
-})
+const shortcutsTitleClass = style(
+	text({ size: "xs", fontWeight: 500, color: "lowContrast" }),
+	{
+		marginBottom: spacing.value(2),
+	},
+)
 
 const shortcutRowClass = style(
 	flex({ alignItems: "center", justifyContent: "between", gap: 4 }),

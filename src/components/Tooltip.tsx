@@ -9,12 +9,12 @@ import {
 } from "react-aria"
 import { TooltipTriggerState, useTooltipTriggerState } from "react-stately"
 import { style, useStyles } from "purse-styles"
+import { background } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
-import { background } from "../maui"
 
 type TooltipPlacement = "top" | "bottom" | "left" | "right"
 

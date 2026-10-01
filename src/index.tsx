@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client"
 import { style, useStyles } from "purse-styles"
 import { MauiProvider } from "./MauiProvider"
 import { Maui } from "./pages/Maui"
-import { HaloPage } from "./pages/HaloPage"
+import { HaloPage } from "./pages/GalleryDeferredPages"
 import { useRoute } from "wouter"
 import { background } from "./tokens/background"
 import { colors } from "./tokens/colors"
@@ -58,7 +58,9 @@ function App() {
 	const [isHalo] = useRoute("/halo")
 	return (
 		<MauiProvider>
-			<AppContent />
+			<Suspense fallback={null}>
+				<AppContent />
+			</Suspense>
 			{import.meta.env.DEV && !isHalo && (
 				<Suspense fallback={null}>
 					<AgentationDev />

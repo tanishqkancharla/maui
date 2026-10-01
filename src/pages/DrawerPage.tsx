@@ -7,12 +7,12 @@ import { Badge } from "../components/Badge"
 import { Button } from "../components/Button"
 import { Code } from "../components/Code"
 import { Drawer } from "../components/Drawer"
-import { Icons } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose, proseContainerStyle } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
+import { Archive, Envelope, Menu, Pin, Search, Star } from "../icons"
 import { Sidebar, SidebarItem, SidebarSection } from "../patterns/Sidebar"
 import { flex } from "../tokens/layout"
 import { backgroundColor } from "../tokens/background"
@@ -75,7 +75,7 @@ export function DrawerPage() {
 						aria-label="Open navigation"
 						onPress={() => setStartOpen(true)}
 					>
-						<Icons.Menu size="sm" />
+						<Menu size="sm" />
 					</Button>
 					<span className={playgroundTitleClassName}>Workspace</span>
 				</div>
@@ -308,14 +308,14 @@ function ExampleSidebar(props: {
 			<SidebarSection label="Workspace">
 				<SidebarItem
 					active={props.selectedItem === "overview"}
-					icon={Icons.Pin}
+					icon={Pin}
 					onClick={() => props.onSelect("overview")}
 				>
 					Overview
 				</SidebarItem>
 				<SidebarItem
 					active={props.selectedItem === "inbox"}
-					icon={Icons.Envelope}
+					icon={Envelope}
 					onClick={() => props.onSelect("inbox")}
 					trailing={<Badge>12</Badge>}
 				>
@@ -323,7 +323,7 @@ function ExampleSidebar(props: {
 				</SidebarItem>
 				<SidebarItem
 					active={props.selectedItem === "search"}
-					icon={Icons.Search}
+					icon={Search}
 					onClick={() => props.onSelect("search")}
 				>
 					Search
@@ -332,14 +332,14 @@ function ExampleSidebar(props: {
 			<SidebarSection label="Operations">
 				<SidebarItem
 					active={props.selectedItem === "deployments"}
-					icon={Icons.Archive}
+					icon={Archive}
 					onClick={() => props.onSelect("deployments")}
 				>
 					Deployments
 				</SidebarItem>
 				<SidebarItem
 					active={props.selectedItem === "analytics"}
-					icon={Icons.Star}
+					icon={Star}
 					onClick={() => props.onSelect("analytics")}
 				>
 					Analytics

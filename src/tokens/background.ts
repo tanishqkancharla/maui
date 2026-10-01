@@ -5,7 +5,7 @@ import { colors } from "./colors"
 
 const appSurface = defineVars({
 	app: {
-		default: "#ffffff",
+		default: colors.gray[1],
 		[DARK_THEME]: colors.gray[1],
 	},
 })
@@ -17,9 +17,9 @@ const elementSurface = defineVars({
 	},
 })
 
-/** Transparent-wash percents (press is 2× hover). */
+/** Shared interactive surface washes. */
 export const surfaceMixPercent = {
-	hover: { light: 6, dark: 9 },
+	hover: 3.5,
 	active: { light: 12, dark: 18 },
 } as const
 
@@ -53,7 +53,11 @@ const themeWash = memoize(
 
 // Craft-style foreground wash over the element's own surface.
 const elementStates = defineVars({
-	elementHover: surfaceWash(colors.gray[12], 3.5, elementSurface.element),
+	elementHover: surfaceWash(
+		colors.gray[12],
+		surfaceMixPercent.hover,
+		elementSurface.element,
+	),
 	elementActive: surfaceWash(colors.gray[12], 7, elementSurface.element),
 })
 
