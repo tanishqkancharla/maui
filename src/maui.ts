@@ -168,7 +168,7 @@ export {
 	Link,
 } from "./components/Typography"
 export { CodeBlock } from "./components/CodeBlock"
-export { Code, Kbd } from "./components/Code"
+export { Code, Kbd, type KbdProps, type KbdVariant } from "./components/Code"
 export {
 	CollectionPopover,
 	type CollectionPopoverProps,

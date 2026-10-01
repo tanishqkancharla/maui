@@ -7,6 +7,12 @@ import { monospace, text } from "../tokens/text"
 
 type CodeProps = React.HTMLAttributes<HTMLElement>
 
+export type KbdVariant = "default" | "quiet"
+
+export type KbdProps = CodeProps & {
+	variant?: KbdVariant
+}
+
 const codeClass = style(
 	monospace,
 	radius.sm,
@@ -36,6 +42,10 @@ const kbdClass = style(
 	},
 )
 
+const quietKbdClass = style(kbdClass, {
+	backgroundColor: "transparent",
+})
+
 export function Code({ className, children, ...props }: CodeProps) {
 	const codeClassName = useStyles(codeClass)
 
@@ -46,8 +56,15 @@ export function Code({ className, children, ...props }: CodeProps) {
 	)
 }
 
-export function Kbd({ className, children, ...props }: CodeProps) {
-	const kbdClassName = useStyles(kbdClass)
+export function Kbd({
+	className,
+	children,
+	variant = "default",
+	...props
+}: KbdProps) {
+	const kbdClassName = useStyles(
+		variant === "quiet" ? quietKbdClass : kbdClass,
+	)
 
 	return (
 		<kbd {...props} className={joinClassNames(kbdClassName, className)}>

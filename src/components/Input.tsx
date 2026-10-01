@@ -21,7 +21,7 @@ import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
 import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
-import { text } from "../tokens/text"
+import { monospace, text } from "../tokens/text"
 import { Kbd } from "./Code"
 import { Icons } from "./Icons"
 
@@ -79,13 +79,16 @@ const inputWithHintClass = style({
 	paddingRight: "28px",
 })
 
-const keyboardHintClass = style({
-	position: "absolute",
-	top: "50%",
-	right: spacing.value(4),
-	transform: "translateY(-50%)",
-	pointerEvents: "none",
-})
+const keyboardHintClass = style(
+	monospace,
+	{
+		position: "absolute",
+		top: "50%",
+		right: spacing.value(4),
+		transform: "translateY(-50%)",
+		pointerEvents: "none",
+	},
+)
 
 function useKeyboardHint() {
 	const [isFocused, setIsFocused] = useState(false)
@@ -101,7 +104,7 @@ function useKeyboardHint() {
 function KeyboardHint(props: { children: string }) {
 	const className = useStyles(keyboardHintClass)
 	return (
-		<Kbd className={className} aria-hidden="true">
+		<Kbd variant="quiet" className={className} aria-hidden="true">
 			{props.children}
 		</Kbd>
 	)
