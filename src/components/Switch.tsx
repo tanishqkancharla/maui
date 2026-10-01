@@ -36,7 +36,7 @@ const switchClass = style(
 	flex({ alignItems: "center", gap: 3 }),
 	focusRing(
 		"& .switch-input:focus-visible + .switch-toggle",
-		shadowVars.subtle,
+		shadowVars.control,
 	),
 	{
 		position: "relative",
@@ -57,7 +57,7 @@ const switchClass = style(
 const switchToggleClass = style(
 	radius.pill,
 	motion.standard("background-color"),
-	shadow.subtle,
+	shadow.control,
 	{
 		position: "relative",
 		flexShrink: 0,

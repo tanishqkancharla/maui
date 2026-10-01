@@ -12,15 +12,17 @@ Patterns, demo apps, and the gallery `Panel` preview frame are not package compo
 
 ## Shadows
 
-Use the three-level elevation scale:
+Use `shadow.control` for interactive control surfaces. It combines two inset
+highlights with a compact outer edge. Use the three-level elevation scale for
+other raised surfaces:
 
-- `shadow.subtle` — controls, cards, and ordinary raised surfaces
+- `shadow.subtle` — cards and ordinary raised surfaces
 - `shadow.medium` — tooltips and larger floating panels
 - `shadow.strong` — dropdowns, popovers, and dominant overlays
 
 All three include a 1px ring. Do not also apply `border()`, `borderColor.outline`, or another ring to the same element.
 
-Buttons and form-control surfaces use `shadow.subtle` by default. For compound controls, apply it once to the outer control boundary instead of to every internal button or segment.
+Buttons and form-control surfaces use `shadow.control` by default. For compound controls, apply it once to the outer control boundary instead of to every internal button or segment.
 
 ## Focus
 

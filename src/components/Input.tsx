@@ -1,8 +1,9 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import {
 	AriaNumberFieldProps,
 	AriaSearchFieldProps,
 	AriaTextFieldOptions,
+	mergeProps,
 	useButton,
 	useLocale,
 	useNumberField,
@@ -21,6 +22,7 @@ import { shadow, shadowVars } from "../tokens/shadow"
 import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
+import { Kbd } from "./Code"
 import { Icons } from "./Icons"
 
 const inputText = text({ size: "sm", fontWeight: 400, color: "highContrast" })
@@ -28,11 +30,11 @@ const numberFieldDivider = `color-mix(in oklch, ${colors.gray[12]} 5%, ${backgro
 
 const inputClass = style(
 	inputText,
-	focusRing("&:focus-visible", shadowVars.subtle),
+	focusRing("&:focus-visible", shadowVars.control),
 	motion.standard("background", "border-color"),
 	radius.sm,
 	spacing.padding({ x: 4, y: 2 }),
-	shadow.subtle,
+	shadow.control,
 	{
 		width: "100%",
 		minWidth: 0,
@@ -48,7 +50,7 @@ const inputClass = style(
 			background: colors.gray[2],
 		},
 		"&[aria-invalid='true']:not(:focus-visible)": {
-			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.subtle}`,
+			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.control}`,
 		},
 		"&::placeholder": {
 			fontStyle: "italic",
@@ -57,13 +59,80 @@ const inputClass = style(
 	},
 )
 
-type InputProps = AriaTextFieldOptions<"input">
+type KeyboardHintProps = {
+	/** A single-character shortcut displayed at the inline end while unfocused. */
+	keyboardHint?: string
+}
 
-export function TextField(props: InputProps) {
-	const ref = useRef(null)
-	const { inputProps } = useTextField({ ...props }, ref)
-	const className = useStyles(inputClass)
-	return <input className={className} ref={ref} {...inputProps} />
+export type TextFieldProps = AriaTextFieldOptions<"input"> & KeyboardHintProps
+export type SearchFieldProps = AriaSearchFieldProps &
+	KeyboardHintProps & {
+		"aria-keyshortcuts"?: string
+	}
+
+const inputFrameClass = style({
+	position: "relative",
+	width: "100%",
+})
+
+const inputWithHintClass = style({
+	paddingRight: "28px",
+})
+
+const keyboardHintClass = style({
+	position: "absolute",
+	top: "50%",
+	right: spacing.value(4),
+	transform: "translateY(-50%)",
+	pointerEvents: "none",
+})
+
+function useKeyboardHint() {
+	const [isFocused, setIsFocused] = useState(false)
+	return {
+		isFocused,
+		focusProps: {
+			onFocus: () => setIsFocused(true),
+			onBlur: () => setIsFocused(false),
+		},
+	}
+}
+
+function KeyboardHint(props: { children: string }) {
+	const className = useStyles(keyboardHintClass)
+	return (
+		<Kbd className={className} aria-hidden="true">
+			{props.children}
+		</Kbd>
+	)
+}
+
+export function TextField(props: TextFieldProps) {
+	const { keyboardHint, ...fieldProps } = props
+	const ref = useRef<HTMLInputElement>(null)
+	const { inputProps } = useTextField(fieldProps, ref)
+	const { isFocused, focusProps } = useKeyboardHint()
+	const frameClassName = useStyles(inputFrameClass)
+	const className = useStyles(
+		inputClass,
+		keyboardHint ? inputWithHintClass : undefined,
+	)
+	const input = (
+		<input
+			className={className}
+			ref={ref}
+			{...mergeProps(inputProps, focusProps)}
+		/>
+	)
+
+	if (!keyboardHint) return input
+
+	return (
+		<div className={frameClassName}>
+			{input}
+			{!isFocused ? <KeyboardHint>{keyboardHint}</KeyboardHint> : null}
+		</div>
+	)
 }
 
 const searchFieldSize = defineVars({
@@ -108,16 +177,30 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 	},
 })
 
-export function SearchField(props: AriaSearchFieldProps) {
+export function SearchField(props: SearchFieldProps) {
+	const {
+		keyboardHint,
+		"aria-keyshortcuts": ariaKeyShortcuts,
+		...fieldProps
+	} = props
 	const ref = useRef<HTMLInputElement>(null)
-	const state = useSearchFieldState(props)
-	const { inputProps } = useSearchField(props, state, ref)
+	const state = useSearchFieldState(fieldProps)
+	const { inputProps } = useSearchField(fieldProps, state, ref)
+	const { isFocused, focusProps } = useKeyboardHint()
 	const inputClassName = useStyles(inputClass)
 	const searchClassName = useStyles(searchFieldClass)
 
 	return (
 		<div className={searchClassName}>
-			<input className={inputClassName} ref={ref} {...inputProps} />
+			<input
+				className={inputClassName}
+				ref={ref}
+				{...mergeProps(inputProps, focusProps)}
+				aria-keyshortcuts={ariaKeyShortcuts}
+			/>
+			{keyboardHint && !isFocused && state.value === "" ? (
+				<KeyboardHint>{keyboardHint}</KeyboardHint>
+			) : null}
 			{state.value !== "" && (
 				<button
 					aria-label="Clear search"
@@ -137,10 +220,10 @@ const numberFieldSize = defineVars({
 })
 
 const numberFieldClass = style(
-	focusRing("&:has(:focus-visible)", shadowVars.subtle),
+	focusRing("&:has(:focus-visible)", shadowVars.control),
 	motion.standard("background", "border-color"),
 	radius.sm,
-	shadow.subtle,
+	shadow.control,
 	{
 		display: "flex",
 		alignItems: "center",
@@ -154,7 +237,7 @@ const numberFieldClass = style(
 			background: colors.gray[2],
 		},
 		"&:has(input[aria-invalid='true']):not(:has(:focus-visible))": {
-			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.subtle}`,
+			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.control}`,
 		},
 		"& .number-stepper": {
 			display: "flex",
@@ -276,10 +359,30 @@ const quietInputClass = style(
 	},
 )
 
-export function QuietTextField(props: InputProps) {
-	const ref = useRef(null)
-	const { inputProps } = useTextField({ ...props }, ref)
-	const className = useStyles(quietInputClass)
+export function QuietTextField(props: TextFieldProps) {
+	const { keyboardHint, ...fieldProps } = props
+	const ref = useRef<HTMLInputElement>(null)
+	const { inputProps } = useTextField(fieldProps, ref)
+	const { isFocused, focusProps } = useKeyboardHint()
+	const frameClassName = useStyles(inputFrameClass)
+	const className = useStyles(
+		quietInputClass,
+		keyboardHint ? inputWithHintClass : undefined,
+	)
+	const input = (
+		<input
+			className={className}
+			ref={ref}
+			{...mergeProps(inputProps, focusProps)}
+		/>
+	)
 
-	return <input className={className} {...inputProps} />
+	if (!keyboardHint) return input
+
+	return (
+		<div className={frameClassName}>
+			{input}
+			{!isFocused ? <KeyboardHint>{keyboardHint}</KeyboardHint> : null}
+		</div>
+	)
 }

@@ -32,11 +32,11 @@ const selectClass = style({
 
 const triggerClass = style(
 	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
-	focusRing("&:focus-visible", shadowVars.subtle),
+	focusRing("&:focus-visible", shadowVars.control),
 	motion.standard("background", "border-color"),
 	radius.sm,
 	spacing.padding({ x: 4, y: 2 }),
-	shadow.subtle,
+	shadow.control,
 
 	{
 		display: "flex",
@@ -58,7 +58,7 @@ const triggerClass = style(
 			background: colors.gray[2],
 		},
 		"&[data-invalid]:not(:focus-visible)": {
-			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.subtle}`,
+			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.control}`,
 		},
 	},
 )

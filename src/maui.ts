@@ -73,6 +73,8 @@ export {
 	SearchField,
 	NumberField,
 	QuietTextField,
+	type TextFieldProps,
+	type SearchFieldProps,
 } from "./components/Input"
 export {
 	Select,

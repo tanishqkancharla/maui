@@ -170,12 +170,14 @@ Controls typically use `sm`. Cards / sidebars use `lg`. Avatars use `circle`.
 ## Shadows and rings
 
 ```ts
-shadow.subtle | shadow.medium | shadow.strong   // style objects
-shadowVars.subtle | .medium | .strong           // raw box-shadow strings
+shadow.control                                  // button/form-control style object
+shadow.subtle | shadow.medium | shadow.strong   // elevation style objects
+shadowVars.control | .subtle | .medium | .strong // raw box-shadow strings
 tintedSubtle(color)                             // subtle ring+blur tinted from a fill
 ```
 
-Every elevation already includes a 1px ring. **Do not also `border()` the same element.**
+`shadow.control` uses inset highlights and a compact outer edge. Every elevation
+already includes a 1px ring. **Do not also `border()` the same element.**
 
 `border(sides, color)`:
 
@@ -184,7 +186,7 @@ Every elevation already includes a 1px ring. **Do not also `border()` the same e
 
 `borderColor.border` / `borderColor.outline` are the raw color strings (hairlines, `borderBottom`).
 
-`focusRing(selector = "&:focus-visible", existingShadow?)` — Radix blue ring. Pass `shadowVars.subtle` as the second argument so a raised control keeps its elevation while focused.
+`focusRing(selector = "&:focus-visible", existingShadow?)` — Radix blue ring. Pass `shadowVars.control` as the second argument so a form control keeps its surface treatment while focused; use the matching elevation variable for other raised surfaces.
 
 `visuallyHidden` — clip an input and keep the styled sibling visible (Checkbox / Switch / Radio).
 

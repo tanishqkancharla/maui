@@ -20,7 +20,7 @@ import {
 import { focusRing } from "../tokens/focusRing"
 import { radius } from "../tokens/radius"
 import { motion } from "../tokens/motion"
-import { shadow, shadowVars, tintedSubtle } from "../tokens/shadow"
+import { shadowVars } from "../tokens/shadow"
 import { controlSize } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
@@ -28,12 +28,14 @@ import { memoize } from "../utils/memoize"
 
 export type ButtonVariant = "default" | "quiet" | "primary"
 
+const buttonShadow = shadowVars.control
+
 const disabledRaised = {
 	cursor: "default",
 	opacity: 1,
 	color: colors.gray[8],
 	backgroundColor: backgroundColor.element,
-	boxShadow: shadowVars.subtle,
+	boxShadow: buttonShadow,
 } as const
 
 const disabledQuiet = {
@@ -46,9 +48,8 @@ const disabledQuiet = {
 
 const buttonBaseClass = style(
 	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
-	focusRing("&:focus-visible", shadowVars.subtle),
+	focusRing("&:focus-visible", buttonShadow),
 	motion.standard("box-shadow", "background-color", "color"),
-	shadow.subtle,
 	spacing.padding({ x: 6, y: 4 }),
 	radius.sm,
 	{
@@ -60,6 +61,7 @@ const buttonBaseClass = style(
 		height: controlSize.height,
 		minWidth: controlSize.minTarget,
 		border: "none",
+		boxShadow: buttonShadow,
 		textOverflow: "ellipsis",
 		overflow: "hidden",
 		whiteSpace: "nowrap",
@@ -180,25 +182,33 @@ function onSolidText(color: string) {
 	return `oklch(from ${color} clamp(0.2, (0.75 - l) * 100, 0.99) 0 0)`
 }
 
+function primaryButtonShadow(color: string) {
+	return `inset 0 1px #ffffff18, inset 0 0 1px .5px #fff2, 0 1px .5px #0003, 0 0 3px -1px color-mix(in oklch, ${color}, black 35%)`
+}
+
 const coloredButtonClass = memoize(
 	(variant: "primary" | "quiet", color: ButtonVariantColor) => {
 		if (isCssColor(color)) {
 			const fill = opaqueColor(color)
 			if (variant === "primary") {
-				const edge = tintedSubtle(fill)
 				const hover = darkerFill(fill)
-				return style(buttonBaseClass, focusRing("&:focus-visible", edge), {
-					color: onSolidText(fill),
-					backgroundColor: fill,
-					boxShadow: edge,
-					"&:hover:not(:disabled)": {
-						backgroundColor: hover,
+				const primaryShadow = primaryButtonShadow(fill)
+				return style(
+					buttonBaseClass,
+					focusRing("&:focus-visible", primaryShadow),
+					{
+						color: onSolidText(fill),
+						backgroundColor: fill,
+						boxShadow: primaryShadow,
+						"&:hover:not(:disabled)": {
+							backgroundColor: hover,
+						},
+						...pressedOrExpanded({
+							backgroundColor: hover,
+						}),
+						"&:disabled": disabledRaised,
 					},
-					...pressedOrExpanded({
-						backgroundColor: hover,
-					}),
-					"&:disabled": disabledRaised,
-				})
+				)
 			}
 
 			return quietClass(fill, darkerFill(fill), fill)
@@ -206,19 +216,23 @@ const coloredButtonClass = memoize(
 
 		const scale = paletteFill(color)
 		if (variant === "primary") {
-			const edge = tintedSubtle(scale[9])
-			return style(buttonBaseClass, focusRing("&:focus-visible", edge), {
-				color: darkTextOnSolid.has(color) ? scale[12] : "white",
-				backgroundColor: scale[9],
-				boxShadow: edge,
-				"&:hover:not(:disabled)": {
-					backgroundColor: scale[10],
+			const primaryShadow = primaryButtonShadow(scale[9])
+			return style(
+				buttonBaseClass,
+				focusRing("&:focus-visible", primaryShadow),
+				{
+					color: darkTextOnSolid.has(color) ? scale[12] : "white",
+					backgroundColor: scale[9],
+					boxShadow: primaryShadow,
+					"&:hover:not(:disabled)": {
+						backgroundColor: scale[10],
+					},
+					...pressedOrExpanded({
+						backgroundColor: scale[10],
+					}),
+					"&:disabled": disabledRaised,
 				},
-				...pressedOrExpanded({
-					backgroundColor: scale[10],
-				}),
-				"&:disabled": disabledRaised,
-			})
+			)
 		}
 
 		return quietClass(scale[11], scale[12], paletteAlpha(color)[9])

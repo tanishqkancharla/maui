@@ -15,6 +15,7 @@ import { colors } from "../tokens/colors"
 import { shadow } from "../tokens/shadow"
 
 const shadowExamples = [
+	{ name: "control", token: shadow.control },
 	{ name: "subtle", token: shadow.subtle },
 	{ name: "medium", token: shadow.medium },
 	{ name: "strong", token: shadow.strong },
@@ -25,7 +26,8 @@ export function ShadowTokenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Shadows</H2>
 			<P>
-				Shadows use Craft&apos;s three-level elevation stack: a
+				Controls use inset highlights with a compact outer edge. Other surfaces
+				use Craft&apos;s three-level elevation stack: a
 				foreground-colored 1px ring plus progressively deeper black blur layers.
 				Blur opacity is 0.06 in light mode and 0.12 in dark mode.
 			</P>
@@ -40,14 +42,21 @@ export function ShadowTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
+							<code>shadow.control</code>
+						</TableCell>
+						<TableCell>
+							<code>shadowVars.control</code>
+						</TableCell>
+						<TableCell>Buttons and form-control surfaces.</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
 							<code>shadow.subtle</code>
 						</TableCell>
 						<TableCell>
 							<code>shadowVars.subtle</code>
 						</TableCell>
-						<TableCell>
-							Controls, cards, and ordinary low-elevation surfaces.
-						</TableCell>
+						<TableCell>Cards and ordinary low-elevation surfaces.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
@@ -74,7 +83,7 @@ export function ShadowTokenPage() {
 			<CodeBlock lang="typescript">{`const control = style(
 	background.element,
 	radius.sm,
-	shadow.subtle,
+	shadow.control,
 )
 
 const popover = style(

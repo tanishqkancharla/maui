@@ -6,10 +6,12 @@ export function AboutPage() {
 		<Prose>
 			<H2>About</H2>
 			<P>
-				Maui is a personal design system developed by{" "}
-				<Link href="https://tanishqkancharla.dev">Tanishq Kancharla</Link>. It
-				is not licensed to be used by any commercial projects except to those
-				granted by him.
+				Maui is an open-source design system. It is developed as part of{" "}
+				<Link href="https://gethalo.dev">Halo</Link>. It is available under the{" "}
+				<Link href="https://github.com/tanishqkancharla/maui/blob/main/LICENSE">
+					MIT License
+				</Link>
+				.
 			</P>
 			<P>For any questions, email tanishqkancharla3@gmail.com.</P>
 		</Prose>

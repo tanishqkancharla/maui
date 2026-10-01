@@ -1,5 +1,6 @@
 import type React from "react"
 import { useEffect, useState } from "react"
+import { useFilter } from "react-aria"
 import {
 	Link as WouterLink,
 	Redirect,
@@ -13,12 +14,15 @@ import { defineVars, style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Drawer } from "../components/Drawer"
 import { Icons } from "../components/Icons"
+import { SearchField } from "../components/Input"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
 import { navigationItem } from "../components/navigationItem"
+import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
+import { text } from "../tokens/text"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
 import { isScalePreference, useScale } from "../theme/ScaleContext"
 import { LARGE_SCALE } from "../theme/dataScale"
@@ -225,7 +229,7 @@ const navigation: NavEntry[] = [
 	},
 ]
 
-const defaultPath = "/tokens/color"
+const defaultPath = "/about"
 
 function useGalleryCompact() {
 	const [compact, setCompact] = useState(() =>
@@ -330,6 +334,7 @@ function isThemePreference(value: unknown): value is ThemePreference {
 }
 
 function MauiNavigation() {
+	const [query, setQuery] = useState("")
 	const navClassName = useStyles(navClass)
 	const navListClassName = useStyles(navListClass)
 	const groupClassName = useStyles(navGroupClass)
@@ -337,8 +342,57 @@ function MauiNavigation() {
 	const brandClassName = useStyles(navBrandClass)
 	const markClassName = useStyles(navMarkClass)
 	const controlClassName = useStyles(navControlClass)
+	const dividerClassName = useStyles(navDividerClass)
+	const emptyClassName = useStyles(navEmptyClass)
 	const { preference, setPreference } = useTheme()
 	const { preference: scale, setPreference: setScale } = useScale()
+	const { contains } = useFilter({ sensitivity: "base" })
+	const normalizedQuery = query.trim()
+	const filteredNavigation = normalizedQuery
+		? navigation.flatMap<NavEntry>((entry) => {
+				if (!isNavGroup(entry)) {
+					return contains(entry.label, normalizedQuery) ? [entry] : []
+				}
+
+				const children = contains(entry.label, normalizedQuery)
+					? entry.children
+					: entry.children.filter((item) =>
+							contains(item.label, normalizedQuery),
+						)
+				return children.length > 0 ? [{ ...entry, children }] : []
+			})
+		: navigation
+
+	useEffect(() => {
+		const onKeyDown = (event: KeyboardEvent) => {
+			if (
+				event.key !== "/" ||
+				event.defaultPrevented ||
+				event.metaKey ||
+				event.ctrlKey ||
+				event.altKey
+			) {
+				return
+			}
+
+			if (
+				event.target instanceof HTMLElement &&
+				(event.target.isContentEditable ||
+					event.target.closest("input, textarea, select"))
+			) {
+				return
+			}
+
+			const search = document.getElementById("gallery-navigation-search")
+			if (search instanceof HTMLInputElement) {
+				event.preventDefault()
+				search.focus()
+			}
+		}
+
+		window.addEventListener("keydown", onKeyDown)
+		return () => window.removeEventListener("keydown", onKeyDown)
+	}, [])
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
@@ -373,9 +427,19 @@ function MauiNavigation() {
 					<SelectItem id="medium">Medium</SelectItem>
 					<SelectItem id="large">Large</SelectItem>
 				</Select>
+				<SearchField
+					id="gallery-navigation-search"
+					aria-label="Search pages"
+					aria-keyshortcuts="/"
+					placeholder="Search pages"
+					keyboardHint="/"
+					value={query}
+					onChange={setQuery}
+				/>
+				<div className={dividerClassName} aria-hidden="true" />
 			</div>
 			<ul className={navListClassName}>
-				{navigation.map((entry) =>
+				{filteredNavigation.map((entry) =>
 					isNavGroup(entry) ? (
 						<li className={groupClassName} key={entry.label}>
 							<Label>{entry.label}</Label>
@@ -389,6 +453,11 @@ function MauiNavigation() {
 						<NavLink key={entry.path} item={entry} />
 					),
 				)}
+				{filteredNavigation.length === 0 ? (
+					<li className={emptyClassName} aria-live="polite">
+						No pages found.
+					</li>
+				) : null}
 			</ul>
 		</nav>
 	)
@@ -473,6 +542,11 @@ const navListClass = style(flex({ direction: "column", gap: 0 }), {
 	margin: 0,
 })
 
+const navEmptyClass = style(
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+	spacing.padding({ x: 4, y: 6 }),
+)
+
 const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	margin: 0,
 	"& > label": {
@@ -486,6 +560,12 @@ const navControlClass = style(flex({ direction: "column", gap: 6 }), {
 	"& > * > span:first-child": {
 		paddingInline: spacing.value(4),
 	},
+})
+
+const navDividerClass = style({
+	height: "1px",
+	marginInline: spacing.value(4),
+	backgroundColor: borderColor.border,
 })
 
 const navChildrenClass = style(flex({ direction: "column" }), {

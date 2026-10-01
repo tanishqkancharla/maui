@@ -29,7 +29,7 @@ const checkboxClass = style(
 	flex({ alignItems: "center", gap: 3 }),
 	focusRing(
 		"& .checkbox-input:focus-visible + .checkbox-toggle",
-		shadowVars.subtle,
+		shadowVars.control,
 	),
 	{
 		position: "relative",
@@ -53,7 +53,7 @@ const checkboxToggleClass = style(
 	flex({ alignItems: "center", justifyContent: "center" }),
 	radius["2xs"],
 	motion.standard("background-color"),
-	shadow.subtle,
+	shadow.control,
 	{
 		pointerEvents: "none",
 		flexShrink: 0,

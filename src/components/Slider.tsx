@@ -25,7 +25,7 @@ const sliderSize = defineVars({
 const sliderClass = style(
 	focusRing(
 		"& .slider-thumb:has(input:focus-visible)",
-		shadowVars.subtle,
+		shadowVars.control,
 	),
 	{
 		width: "240px",
@@ -64,7 +64,7 @@ const sliderClass = style(
 			height: sliderSize.thumb,
 			borderRadius: "100%",
 			background: colors.gray[12],
-			boxShadow: shadowVars.subtle,
+			boxShadow: shadowVars.control,
 			transform: "translateX(-50%)",
 		},
 		"& .slider-thumb[data-dragging='true']": {

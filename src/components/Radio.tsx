@@ -44,7 +44,7 @@ const radioClass = style(
 	flex({ alignItems: "center", gap: 3 }),
 	focusRing(
 		"& .radio-input:focus-visible + .radio-toggle",
-		shadowVars.subtle,
+		shadowVars.control,
 	),
 	{
 		position: "relative",
@@ -64,7 +64,7 @@ const radioClass = style(
 const radioToggleClass = style(
 	radius.circle,
 	motion.standard("background-color"),
-	shadow.subtle,
+	shadow.control,
 	{
 		pointerEvents: "none",
 		position: "relative",
