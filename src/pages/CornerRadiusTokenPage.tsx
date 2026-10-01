@@ -1,3 +1,4 @@
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -45,82 +46,82 @@ export function CornerRadiusTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>radius.none</code>
+							<Code>radius.none</Code>
 						</TableCell>
 						<TableCell>
-							<code>0</code>
+							<Code>0</Code>
 						</TableCell>
 						<TableCell>Joined controls and edge-to-edge elements.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius["2xs"]</code>
+							<Code>radius["2xs"]</Code>
 						</TableCell>
 						<TableCell>
-							<code>2px / 3px</code>
+							<Code>2px / 3px</Code>
 						</TableCell>
 						<TableCell>Checkboxes and small selected indicators.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.xs</code>
+							<Code>radius.xs</Code>
 						</TableCell>
 						<TableCell>
-							<code>3px / 4px</code>
+							<Code>3px / 4px</Code>
 						</TableCell>
 						<TableCell>Color swatches and tiny previews.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.sm</code>
+							<Code>radius.sm</Code>
 						</TableCell>
 						<TableCell>
-							<code>4px / 6px</code>
+							<Code>4px / 6px</Code>
 						</TableCell>
 						<TableCell>Buttons, inputs, and most controls.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.md</code>
+							<Code>radius.md</Code>
 						</TableCell>
 						<TableCell>
-							<code>6px / 8px</code>
+							<Code>6px / 8px</Code>
 						</TableCell>
 						<TableCell>Cards, popovers, dialogs, and examples.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.lg</code>
+							<Code>radius.lg</Code>
 						</TableCell>
 						<TableCell>
-							<code>8px / 12px</code>
+							<Code>8px / 12px</Code>
 						</TableCell>
 						<TableCell>Switch tracks.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.xl</code>
+							<Code>radius.xl</Code>
 						</TableCell>
 						<TableCell>
-							<code>12px / 16px</code>
+							<Code>12px / 16px</Code>
 						</TableCell>
 						<TableCell>App shells and large preview frames.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.pill</code>
+							<Code>radius.pill</Code>
 						</TableCell>
 						<TableCell>
-							<code>999px</code>
+							<Code>999px</Code>
 						</TableCell>
 						<TableCell>Sliders, badges, and pill controls.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius.circle</code>
+							<Code>radius.circle</Code>
 						</TableCell>
 						<TableCell>
-							<code>100%</code>
+							<Code>100%</Code>
 						</TableCell>
 						<TableCell>Radio dots, knobs, and circular icons.</TableCell>
 					</TableRow>

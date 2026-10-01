@@ -1,6 +1,7 @@
 import { useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -30,10 +31,10 @@ export function SpacingTokenPage() {
 					{spacingScale.map((token) => (
 							<TableRow key={token.name}>
 							<TableCell>
-								<code>{token.name}</code>
+								<Code>{token.name}</Code>
 							</TableCell>
 							<TableCell>
-								<code>{token.value}</code>
+								<Code>{token.value}</Code>
 							</TableCell>
 							<TableCell>{token.use}</TableCell>
 						</TableRow>

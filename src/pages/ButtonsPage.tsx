@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Button } from "../components/Button"
+import { Code } from "../components/Code"
 import { Dialog } from "../components/Dialog"
 import { Icons } from "../components/Icons"
 import { Overlay } from "../components/Overlay"
@@ -26,9 +27,9 @@ export function ButtonsPage() {
 
 			<H3>Disabled</H3>
 			<P>
-				<code>isDisabled</code> is React Aria’s disabled prop. It sets the
-				native <code>disabled</code> attribute — there is no parallel{" "}
-				<code>disabled</code> React prop. Hover and press fills do not apply.
+				<Code>isDisabled</Code> is React Aria’s disabled prop. It sets the
+				native <Code>disabled</Code> attribute — there is no parallel{" "}
+				<Code>disabled</Code> React prop. Hover and press fills do not apply.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button isDisabled>Button</Button>
@@ -55,9 +56,9 @@ export function ButtonsPage() {
 
 			<H3>Primary</H3>
 			<P>
-				<code>variant="primary"</code> fills with step 9 of{" "}
-				<code>variantColor</code> (a palette name, default{" "}
-				<code>"accent"</code>). Pass a hex or <code>rgb()</code> string
+				<Code>variant="primary"</Code> fills with step 9 of{" "}
+				<Code>variantColor</Code> (a palette name, default{" "}
+				<Code>"accent"</Code>). Pass a hex or <Code>rgb()</Code> string
 				to use that color as the fill (alpha is dropped). Primary buttons use
 				a stronger inset highlight and a tight edge tinted from the fill.
 			</P>
@@ -108,9 +109,9 @@ export function ButtonsPage() {
 
 			<H3>Quiet</H3>
 			<P>
-				<code>variant="quiet"</code> has no fill. <code>variantColor</code>{" "}
+				<Code>variant="quiet"</Code> has no fill. <Code>variantColor</Code>{" "}
 				tints the label and icon. Hover and press mix{" "}
-				<code>grayAlpha[9]</code> (or that color’s alpha 9) into transparent
+				<Code>grayAlpha[9]</Code> (or that color’s alpha 9) into transparent
 				at 6% light / 9% dark; press is 2×.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>

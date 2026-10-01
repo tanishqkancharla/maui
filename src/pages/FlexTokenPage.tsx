@@ -1,3 +1,4 @@
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -13,18 +14,18 @@ export function FlexTokenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Flex</H2>
 			<P>
-				<code>Flex</code> is a small layout wrapper around the spacing scale.
-				Pass <code>row</code> or <code>column</code>, and use scale steps for{" "}
-				<code>gap</code> and padding (<code>padding</code> / <code>p</code>,{" "}
-				<code>px</code>, <code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
-				<code>pb</code>, <code>pl</code>) (not raw pixels).
+				<Code>Flex</Code> is a small layout wrapper around the spacing scale.
+				Pass <Code>row</Code> or <Code>column</Code>, and use scale steps for{" "}
+				<Code>gap</Code> and padding (<Code>padding</Code> / <Code>p</Code>,{" "}
+				<Code>px</Code>, <Code>py</Code>, <Code>pt</Code>, <Code>pr</Code>,{" "}
+				<Code>pb</Code>, <Code>pl</Code>) (not raw pixels).
 				Optional{" "}
-				<code>justifyContent</code>, <code>background</code>, <code>border</code>,{" "}
-				<code>shadow</code>, and <code>radius</code> turn it into a layout
-				surface. <code>justifyContent</code> uses the same tokens as{" "}
-				<code>flex()</code>. Shadows already include a 1px ring, so{" "}
-				<code>border</code> is ignored when <code>shadow</code> is set. For
-				style-object composition, prefer <code>flex()</code> from layout tokens.
+				<Code>justifyContent</Code>, <Code>background</Code>, <Code>border</Code>,{" "}
+				<Code>shadow</Code>, and <Code>radius</Code> turn it into a layout
+				surface. <Code>justifyContent</Code> uses the same tokens as{" "}
+				<Code>flex()</Code>. Shadows already include a 1px ring, so{" "}
+				<Code>border</Code> is ignored when <Code>shadow</Code> is set. For
+				style-object composition, prefer <Code>flex()</Code> from layout tokens.
 			</P>
 
 			<H3>Values</H3>
@@ -37,28 +38,28 @@ export function FlexTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>row</code>
+							<Code>row</Code>
 						</TableCell>
 						<TableCell>
-							<code>flex-direction: row</code>
+							<Code>flex-direction: row</Code>
 						</TableCell>
 						<TableCell>Horizontal groups and toolbars.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>column</code>
+							<Code>column</Code>
 						</TableCell>
 						<TableCell>
-							<code>flex-direction: column</code>
+							<Code>flex-direction: column</Code>
 						</TableCell>
 						<TableCell>Vertical forms and stacked content.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>gap</code>
+							<Code>gap</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`1
 | 2
 | 3
@@ -67,7 +68,7 @@ export function FlexTokenPage() {
 | 8
 | 12
 | 16`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
 							Space between children from the spacing scale.
@@ -75,67 +76,67 @@ export function FlexTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>alignItems</code>
+							<Code>alignItems</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"start"
 | "center"
 | "end"
 | "stretch"
 | "baseline"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
-							Cross-axis alignment. Same tokens as <code>flex()</code>{" "}
-							<code>alignItems</code>.
+							Cross-axis alignment. Same tokens as <Code>flex()</Code>{" "}
+							<Code>alignItems</Code>.
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>justifyContent</code>
+							<Code>justifyContent</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"start"
 | "center"
 | "end"
 | "between"
 | "around"
 | "evenly"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
-							Main-axis alignment. Same tokens as <code>flex()</code>{" "}
-							<code>justifyContent</code>.
+							Main-axis alignment. Same tokens as <Code>flex()</Code>{" "}
+							<Code>justifyContent</Code>.
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background</code>
+							<Code>background</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"app"
 | "element"
 | "elementHover"
 | "elementActive"
 | "accent"
 | "accentHover"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
-							Surface token from <code>background</code>.
+							Surface token from <Code>background</Code>.
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>padding</code> / <code>p</code>, <code>px</code>,{" "}
-							<code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
-							<code>pb</code>, <code>pl</code>
+							<Code>padding</Code> / <Code>p</Code>, <Code>px</Code>,{" "}
+							<Code>py</Code>, <Code>pt</Code>, <Code>pr</Code>,{" "}
+							<Code>pb</Code>, <Code>pl</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`1
 | 2
 | 3
@@ -144,41 +145,41 @@ export function FlexTokenPage() {
 | 8
 | 12
 | 16`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
-							Padding from the spacing scale. <code>padding</code> is an alias
-							of <code>p</code>. More specific axes win (
-							<code>pt</code> over <code>py</code> over <code>p</code>).
+							Padding from the spacing scale. <Code>padding</Code> is an alias
+							of <Code>p</Code>. More specific axes win (
+							<Code>pt</Code> over <Code>py</Code> over <Code>p</Code>).
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>border</code>
+							<Code>border</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`true
 | "border"
 | "outline"
 | "accent"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
-							1px ring. <code>true</code> is <code>outline</code>. Skipped when{" "}
-							<code>shadow</code> is set.
+							1px ring. <Code>true</Code> is <Code>outline</Code>. Skipped when{" "}
+							<Code>shadow</Code> is set.
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>shadow</code>
+							<Code>shadow</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"subtle"
 | "medium"
 | "strong"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
 							Elevation token. Already includes a 1px ring.
@@ -186,10 +187,10 @@ export function FlexTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>radius</code>
+							<Code>radius</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"none"
 | "2xs"
 | "xs"
@@ -199,7 +200,7 @@ export function FlexTokenPage() {
 | "xl"
 | "pill"
 | "circle"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>Corner radius token.</TableCell>
 					</TableRow>
@@ -338,5 +339,4 @@ const sampleTitleStyle = {
 	marginTop: "20px",
 	marginBottom: "8px",
 } as const
-
 

@@ -1,3 +1,4 @@
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Prose } from "../components/Prose"
 import { Text } from "../components/Text"
@@ -9,18 +10,18 @@ export function LayoutUtilitiesPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Layout utilities</H2>
 			<P>
-				<code>Flex</code> and <code>Gap</code> take spacing scale steps (
-				<code>1</code>–<code>16</code>), not raw pixels. Put inset on{" "}
-				<code>Flex</code> with <code>padding</code> / <code>p</code>,{" "}
-				<code>px</code>, <code>py</code>, <code>pt</code>, <code>pr</code>,{" "}
-				<code>pb</code>, <code>pl</code>.{" "}
-				<code>justifyContent</code> uses the same tokens as <code>flex()</code>{" "}
-				(<code>start</code>, <code>center</code>, <code>end</code>,{" "}
-				<code>between</code>, <code>around</code>, <code>evenly</code>).{" "}
-				<code>background</code> applies a surface token.{" "}
-				<code>Flex</code> also accepts <code>border</code>, <code>shadow</code>,
-				and <code>radius</code> when it should read as a surface. Shadows
-				already include a 1px ring, so do not also set <code>border</code>.
+				<Code>Flex</Code> and <Code>Gap</Code> take spacing scale steps (
+				<Code>1</Code>–<Code>16</Code>), not raw pixels. Put inset on{" "}
+				<Code>Flex</Code> with <Code>padding</Code> / <Code>p</Code>,{" "}
+				<Code>px</Code>, <Code>py</Code>, <Code>pt</Code>, <Code>pr</Code>,{" "}
+				<Code>pb</Code>, <Code>pl</Code>.{" "}
+				<Code>justifyContent</Code> uses the same tokens as <Code>flex()</Code>{" "}
+				(<Code>start</Code>, <Code>center</Code>, <Code>end</Code>,{" "}
+				<Code>between</Code>, <Code>around</Code>, <Code>evenly</Code>).{" "}
+				<Code>background</Code> applies a surface token.{" "}
+				<Code>Flex</Code> also accepts <Code>border</Code>, <Code>shadow</Code>,
+				and <Code>radius</Code> when it should read as a surface. Shadows
+				already include a 1px ring, so do not also set <Code>border</Code>.
 			</P>
 			<Flex column padding={6}>
 				<Flex row alignItems="center" px={4} py={3} border="outline" radius="md">

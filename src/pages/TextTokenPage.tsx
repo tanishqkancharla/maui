@@ -1,6 +1,7 @@
 import { useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -16,10 +17,10 @@ export function TextTokenPage() {
 			<P>
 				The text token combines size, weight, semantic color, and optional
 				monospace / tabular flags into one style object. Use it anywhere text
-				needs a consistent Maui type treatment. In JSX, the <code>Text</code>{" "}
-				component applies the same token through <code>size</code>,{" "}
-				<code>fontWeight</code>, <code>color</code>, <code>monospace</code>,
-				and <code>tabular</code> attributes.
+				needs a consistent Maui type treatment. In JSX, the <Code>Text</Code>{" "}
+				component applies the same token through <Code>size</Code>,{" "}
+				<Code>fontWeight</Code>, <Code>color</Code>, <Code>monospace</Code>,
+				and <Code>tabular</Code> attributes.
 			</P>
 
 			<H3>Values</H3>
@@ -32,31 +33,31 @@ export function TextTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>size</code>
+							<Code>size</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"2xs"
 | "xs"
 | "sm"
 | "md"
 | "lg"
 | "xl"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>T-shirt text size presets.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>fontWeight</code>
+							<Code>fontWeight</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`400
 | 500
 | 600
 | 700`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
 							Regular, medium, semibold, and bold text.
@@ -64,24 +65,24 @@ export function TextTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>color</code>
+							<Code>color</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"lowContrast"
 | "highContrast"
 | "accent"
 | "onAccent"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>Semantic text colors.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>monospace</code>
+							<Code>monospace</Code>
 						</TableCell>
 						<TableCell>
-							<code>font-family + ss05 smart kerning + tabular-nums</code>
+							<Code>font-family + ss05 smart kerning + tabular-nums</Code>
 						</TableCell>
 						<TableCell>
 							Switch to Commit Mono with smart kerning.
@@ -89,10 +90,10 @@ export function TextTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>tabular</code>
+							<Code>tabular</Code>
 						</TableCell>
 						<TableCell>
-							<code>font-variant-numeric: tabular-nums</code>
+							<Code>font-variant-numeric: tabular-nums</Code>
 						</TableCell>
 						<TableCell>
 							Fixed-width digits.
@@ -132,8 +133,8 @@ const display = text({ size: "xl", fontWeight: 400, color: "highContrast" })`}</
 
 			<H4>Tabular</H4>
 			<P>
-				<code>tabular: true</code> sets{" "}
-				<code>font-variant-numeric: tabular-nums</code>. NumberField,
+				<Code>tabular: true</Code> sets{" "}
+				<Code>font-variant-numeric: tabular-nums</Code>. NumberField,
 				TableHead, and TableCell turn this on by default. Body copy and
 				Prose stay off.
 			</P>
@@ -144,8 +145,8 @@ const display = text({ size: "xl", fontWeight: 400, color: "highContrast" })`}</
 
 			<H4>Monospace</H4>
 			<P>
-				<code>monospace: true</code> switches to Commit Mono with tabular
-				numerals and smart kerning (OpenType <code>ss05</code>).
+				<Code>monospace: true</Code> switches to Commit Mono with tabular
+				numerals and smart kerning (OpenType <Code>ss05</Code>).
 			</P>
 			<CodeBlock lang="typescript">{`const codeLabel = text({ size: "lg", fontWeight: 400, color: "highContrast", monospace: true })`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
@@ -183,10 +184,10 @@ function SizeExample(props: { size: TextSize }) {
 
 	return (
 		<div style={{ display: "grid", gap: "6px" }}>
-			<code style={{ color: colors.gray[10] }}>
+			<Code style={{ color: colors.gray[10] }}>
 				{props.size} · {textSizeDetails[props.size].fontSize} /{" "}
 				{textSizeDetails[props.size].lineHeight}
-			</code>
+			</Code>
 			<div className={className}>{sampleParagraph}</div>
 		</div>
 	)

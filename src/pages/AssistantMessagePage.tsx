@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
+import { Code } from "../components/Code"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
@@ -53,9 +54,9 @@ export function AssistantMessagePage() {
 			<H2>Assistant message</H2>
 			<P>
 				Renders assistant markdown with{" "}
-				<code>streamdown</code> — built for incomplete tokens — and Maui prose
+				<Code>streamdown</Code> — built for incomplete tokens — and Maui prose
 				styles so replies match the editor&apos;s reading type. Code fences use
-				Maui&apos;s <code>CodeBlock</code>.
+				Maui&apos;s <Code>CodeBlock</Code>.
 			</P>
 
 			<H3>Static reply</H3>
@@ -66,7 +67,7 @@ export function AssistantMessagePage() {
 			<H3>Mock stream</H3>
 			<P>
 				Replay a canned reply through Streamdown with{" "}
-				<code>isAnimating</code> so unterminated markdown stays shaped while it
+				<Code>isAnimating</Code> so unterminated markdown stays shaped while it
 				arrives.
 			</P>
 			<Panel>

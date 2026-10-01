@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -45,10 +46,10 @@ export function MotionTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>motion.standard(...properties)</code>
+							<Code>motion.standard(...properties)</Code>
 						</TableCell>
 						<TableCell>
-							<code>{`style({ transition: "<property> ${motionDurationMs}ms ${motionEasing}" })`}</code>
+							<Code>{`style({ transition: "<property> ${motionDurationMs}ms ${motionEasing}" })`}</Code>
 						</TableCell>
 						<TableCell>
 							Builds a transition style object from the properties that should
@@ -103,4 +104,3 @@ const animatedCard = style(
 		</Prose>
 	)
 }
-

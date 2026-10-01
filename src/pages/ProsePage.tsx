@@ -1,3 +1,4 @@
+import { Code } from "../components/Code"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import {
@@ -18,7 +19,7 @@ export function ProsePage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Prose</H2>
 			<P>
-				Typography components carry no margin of their own. <code>Prose</code>{" "}
+				Typography components carry no margin of their own. <Code>Prose</Code>{" "}
 				is the wrapper that supplies vertical rhythm between headings,
 				paragraphs, and other block content — spacing is a property of the
 				container, not the elements passing through it.
@@ -71,9 +72,9 @@ export function ProsePage() {
 
 			<H3>Sizes</H3>
 			<P>
-				<code>Prose</code> takes a <code>size</code> prop that sets the reading
+				<Code>Prose</Code> takes a <Code>size</Code> prop that sets the reading
 				type scale for the typography inside it. Paragraph text is a step
-				larger than application text and defaults to <code>md</code>.
+				larger than application text and defaults to <Code>md</Code>.
 			</P>
 			<Panel>
 				<Prose size="sm">

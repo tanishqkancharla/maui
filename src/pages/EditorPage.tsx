@@ -2,6 +2,7 @@ import { style, useStyles } from "purse-styles"
 import { useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import { Button } from "../components/Button"
+import { Code } from "../components/Code"
 import { Editor } from "../components/Editor"
 import { MarkdownEditor } from "../components/MarkdownEditor"
 import { Panel } from "./Panel"
@@ -39,14 +40,14 @@ export function EditorPage() {
 		<Prose className={pageClassName}>
 			<H2>Editor</H2>
 			<P>
-				<code>Editor</code> is a Maui-styled surface for an instance created
-				with TipTap’s <code>useEditor</code>. You own the extensions, content
-				format, events, and commands. Import it from <code>maui/editor</code>.
+				<Code>Editor</Code> is a Maui-styled surface for an instance created
+				with TipTap’s <Code>useEditor</Code>. You own the extensions, content
+				format, events, and commands. Import it from <Code>maui/editor</Code>.
 			</P>
 			<P>
-				<code>MarkdownEditor</code> builds on that surface with StarterKit,
+				<Code>MarkdownEditor</Code> builds on that surface with StarterKit,
 				Markdown, and Placeholder. Import it from{" "}
-				<code>maui/markdown-editor</code>. Both leave padding, elevation, and
+				<Code>maui/markdown-editor</Code>. Both leave padding, elevation, and
 				actions to a wrapper. TipTap is an optional peer dependency; install it
 				when using either editor.
 			</P>
@@ -64,8 +65,8 @@ export function EditorPage() {
 			<H3>Markdown editor</H3>
 			<Panel>
 				<p className={hintClassName}>
-					Try markdown shortcuts: <code>#</code> heading, <code>**</code> bold,{" "}
-					<code>-</code> list, <code>&gt;</code> quote. ⌘/Ctrl+Enter submits in
+					Try markdown shortcuts: <Code>#</Code> heading, <Code>**</Code> bold,{" "}
+					<Code>-</Code> list, <Code>&gt;</Code> quote. ⌘/Ctrl+Enter submits in
 					the chat app.
 				</p>
 				<div className={shellClassName}>

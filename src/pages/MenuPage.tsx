@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Button } from "../components/Button"
+import { Code } from "../components/Code"
 import { Menu, MenuItem, MenuTrigger } from "../components/Menu"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
@@ -14,7 +15,7 @@ export function MenuPage() {
 			<H2>Menu</H2>
 			<P>
 				A triggered collection of actions that opens in a popover. The
-				trigger is a Maui <code>Button</code>.
+				trigger is a Maui <Code>Button</Code>.
 			</P>
 			<H3>Default</H3>
 			<MenuTrigger>

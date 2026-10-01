@@ -1,4 +1,5 @@
 import { style, useStyles } from "purse-styles"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -42,37 +43,37 @@ export function ShadowTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>shadow.control</code>
+							<Code>shadow.control</Code>
 						</TableCell>
 						<TableCell>
-							<code>shadowVars.control</code>
+							<Code>shadowVars.control</Code>
 						</TableCell>
 						<TableCell>Buttons and form-control surfaces.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>shadow.subtle</code>
+							<Code>shadow.subtle</Code>
 						</TableCell>
 						<TableCell>
-							<code>shadowVars.subtle</code>
+							<Code>shadowVars.subtle</Code>
 						</TableCell>
 						<TableCell>Cards and ordinary low-elevation surfaces.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>shadow.medium</code>
+							<Code>shadow.medium</Code>
 						</TableCell>
 						<TableCell>
-							<code>shadowVars.medium</code>
+							<Code>shadowVars.medium</Code>
 						</TableCell>
 						<TableCell>Tooltips and larger floating panels.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>shadow.strong</code>
+							<Code>shadow.strong</Code>
 						</TableCell>
 						<TableCell>
-							<code>shadowVars.strong</code>
+							<Code>shadowVars.strong</Code>
 						</TableCell>
 						<TableCell>Dropdowns, popovers, and dominant overlays.</TableCell>
 					</TableRow>
@@ -129,7 +130,7 @@ function ShadowExample(props: {
 
 	return (
 		<div className={className}>
-			<code>{props.name}</code>
+			<Code>{props.name}</Code>
 		</div>
 	)
 }

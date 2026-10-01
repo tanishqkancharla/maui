@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
+import { Text } from "../components/Text"
 import { H2, H3, H4, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { useTheme } from "../theme/ThemeContext"
@@ -25,10 +27,10 @@ export function ColorTokenPage() {
 		<Prose>
 			<H2>Color Tokens</H2>
 			<P>
-				<code>colors.accent</code> is the brand pair (teal in light, violet in
-				dark). Every Radix palette is also on <code>colors</code> as{" "}
-				<code>colors.blue</code>, <code>colors.red</code>,{" "}
-				<code>colors.blueAlpha</code>, and so on. Semantic roles like text,
+				<Code>colors.accent</Code> is the brand pair (teal in light, violet in
+				dark). Every Radix palette is also on <Code>colors</Code> as{" "}
+				<Code>colors.blue</Code>, <Code>colors.red</Code>,{" "}
+				<Code>colors.blueAlpha</Code>, and so on. Semantic roles like text,
 				background, border, and focus ring should compose these raw values.
 			</P>
 
@@ -75,8 +77,8 @@ export function ColorTokenPage() {
 			<H3>Palettes</H3>
 			<P>
 				Solid and alpha scales for every Radix color.{" "}
-				<code>variantColor="blue"</code> on Button resolves{" "}
-				<code>colors.blue</code>. Hex and <code>rgb()</code> strings are
+				<Code>variantColor="blue"</Code> on Button resolves{" "}
+				<Code>colors.blue</Code>. Hex and <Code>rgb()</Code> strings are
 				used as an opaque fill.
 			</P>
 			<Flex column gap={6}>
@@ -94,7 +96,7 @@ function PaletteStrip(props: { name: (typeof paletteNames)[number] }) {
 
 	return (
 		<div>
-			<code>{props.name}</code>
+			<Code>{props.name}</Code>
 			<ScaleBar scale={solid} />
 			<ScaleBar scale={alpha} />
 		</div>
@@ -138,24 +140,26 @@ function ColorToken(props: {
 		<div
 			style={{
 				display: "grid",
-				gridTemplateColumns: "18px 140px minmax(0, 1fr)",
+				gridTemplateColumns: "32px minmax(0, 1fr)",
 				alignItems: "center",
 				gap: "10px",
 			}}
 		>
 			<div
 				style={{
-					width: "18px",
-					height: "18px",
+					width: "32px",
+					height: "32px",
 					borderRadius: "3px",
 					boxShadow: `0 0 0 1px ${borderColor.outline} inset`,
 					background: value,
 				}}
 			/>
-			<code>{label}</code>
-			<code style={{ color: colors.gray[10], overflowWrap: "anywhere" }}>
-				<ResolvedColorValue cssVar={value} />
-			</code>
+			<div style={{ display: "grid", gap: "2px", justifyItems: "start" }}>
+				<Text monospace>{label}</Text>
+				<Text monospace color="lowContrast" style={{ overflowWrap: "anywhere" }}>
+					<ResolvedColorValue cssVar={value} />
+				</Text>
+			</div>
 		</div>
 	)
 }

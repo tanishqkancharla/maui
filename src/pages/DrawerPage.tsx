@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Badge } from "../components/Badge"
 import { Button } from "../components/Button"
+import { Code } from "../components/Code"
 import { Drawer } from "../components/Drawer"
 import { Icons } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
@@ -55,15 +56,15 @@ export function DrawerPage() {
 			<H2>Drawer</H2>
 			<P>
 				A RAC modal overlay that slides in from a logical edge. It is the mobile
-				shell for nav — not a <code>Sidebar</code> prop and not a retrofit of
-				click-only <code>Overlay</code> / <code>Dialog</code>. Open with a
+				shell for nav — not a <Code>Sidebar</Code> prop and not a retrofit of
+				click-only <Code>Overlay</Code> / <Code>Dialog</Code>. Open with a
 				button. Dismiss by swiping toward the edge, tapping the scrim, or
 				pressing Escape. There is no edge-swipe-to-open.
 			</P>
 
 			<H3>Start</H3>
 			<P>
-				<code>side=&quot;start&quot;</code> (default). Width is 240px, capped at
+				<Code>side=&quot;start&quot;</Code> (default). Width is 240px, capped at
 				85vw. Children are the panel — wrap the existing Sidebar recipe, or any
 				nav.
 			</P>
@@ -93,8 +94,8 @@ export function DrawerPage() {
 
 			<H3>End</H3>
 			<P>
-				<code>side=&quot;end&quot;</code> slides from the inline-end edge (LTR
-				right). <code>useLocale</code> maps the logical side.
+				<Code>side=&quot;end&quot;</Code> slides from the inline-end edge (LTR
+				right). <Code>useLocale</Code> maps the logical side.
 			</P>
 			<Flex row alignItems="center" gap={4}>
 				<Button onPress={() => setEndOpen(true)}>Open end drawer</Button>
@@ -185,12 +186,12 @@ export function DrawerPage() {
   <Sidebar>{/* existing pattern */}</Sidebar>
 </Drawer>`}</CodeBlock>
 			<p className={noteClassName}>
-				Public API is RAC <code>isOpen</code> / <code>defaultOpen</code> /{" "}
-				<code>onOpenChange</code>, <code>side</code>, <code>isDismissable</code>{" "}
+				Public API is RAC <Code>isOpen</Code> / <Code>defaultOpen</Code> /{" "}
+				<Code>onOpenChange</Code>, <Code>side</Code>, <Code>isDismissable</Code>{" "}
 				(default true), and panel children. Gestures, snap points, cookies,
 				breakpoint hooks, and Trigger / Header / Footer / Rail stay out. Reduced
 				motion is opacity-only, matching Crossfade’s{" "}
-				<code>useReducedMotion</code>.
+				<Code>useReducedMotion</Code>.
 			</p>
 		</Prose>
 	)

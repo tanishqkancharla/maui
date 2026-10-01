@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Badge } from "../components/Badge"
+import { Code } from "../components/Code"
 import { Icons } from "../components/Icons"
 import { Panel } from "./Panel"
 import { Prose, proseContainerStyle } from "../components/Prose"
@@ -119,7 +120,7 @@ export function SidebarPage() {
 			<p className={noteClassName}>
 				This intentionally leaves out shadcn&apos;s provider, rail, collapse
 				modes, and trigger. Mobile overlay chrome is{" "}
-				<code>Drawer</code>, a separate barrel component — not a Sidebar API.
+				<Code>Drawer</Code>, a separate barrel component — not a Sidebar API.
 			</p>
 		</Prose>
 	)

@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { LoadingScreen } from "../components/LoadingScreen"
 import { Prose } from "../components/Prose"
@@ -95,10 +96,10 @@ export function LoadingScreenPage() {
 			<H2>Loading screen</H2>
 			<P>
 				Fills whatever width and height it is given, with{" "}
-				<code>radius.lg</code> on the surface. Pass{" "}
-				<code>progressLabel</code> to show a status under a small, accent
+				<Code>radius.lg</Code> on the surface. Pass{" "}
+				<Code>progressLabel</Code> to show a status under a small, accent
 				Thinking indicator. The label is accent, medium weight, with trailing{" "}
-				<code>...</code>. Label changes Crossfade up. With no label at
+				<Code>...</Code>. Label changes Crossfade up. With no label at
 				mount, the indicator waits 2s before fading in.
 			</P>
 

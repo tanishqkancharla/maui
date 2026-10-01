@@ -1,6 +1,7 @@
 import { style, useStyles, type CSSProperties } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -48,9 +49,9 @@ export function BordersTokenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Borders</H2>
 			<P>
-				The <code>border</code> token takes sides and a semantic color. Pass an
+				The <Code>border</Code> token takes sides and a semantic color. Pass an
 				empty sides array for a full border. Border colors are derived from{" "}
-				<code>--foreground</code> at fixed opacities, matching the Craft Agents
+				<Code>--foreground</Code> at fixed opacities, matching the Craft Agents
 				approach.
 			</P>
 
@@ -64,16 +65,16 @@ export function BordersTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>sides</code>
+							<Code>sides</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`[]
 | ("top"
   | "right"
   | "bottom"
   | "left")[]`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
 							Empty applies to all sides. Otherwise only the listed edges.
@@ -81,20 +82,20 @@ export function BordersTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>color</code>
+							<Code>color</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"border"
 | "outline"
 | "accent"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
-							<code>border</code> is <code>borderColor.border</code>{" "}
-							(foreground at 5%), <code>outline</code> is{" "}
-							<code>borderColor.outline</code> (foreground at 10%),{" "}
-							<code>accent</code> is <code>colors.accent[8]</code>.
+							<Code>border</Code> is <Code>borderColor.border</Code>{" "}
+							(foreground at 5%), <Code>outline</Code> is{" "}
+							<Code>borderColor.outline</Code> (foreground at 10%),{" "}
+							<Code>accent</Code> is <Code>colors.accent[8]</Code>.
 						</TableCell>
 					</TableRow>
 				</TableBody>
@@ -110,7 +111,7 @@ export function BordersTokenPage() {
 					{borderExamples.map((example) => (
 						<TableRow key={example.label}>
 							<TableCell>
-								<code>{example.label}</code>
+								<Code>{example.label}</Code>
 							</TableCell>
 							<TableCell>{example.use}</TableCell>
 						</TableRow>

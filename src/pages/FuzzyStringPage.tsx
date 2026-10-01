@@ -2,6 +2,7 @@ import { useStyles } from "purse-styles"
 import { useMemo, useState } from "react"
 import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { FuzzyString } from "../components/FuzzyString"
 import { SearchField } from "../components/Input"
 import { Panel } from "./Panel"
@@ -83,10 +84,10 @@ export function FuzzyStringPage() {
 							return (
 								<TableRow key={`${example.query}-${example.text}`}>
 									<TableCell>
-										<code>{example.query}</code>
+										<Code>{example.query}</Code>
 									</TableCell>
 									<TableCell>
-										<code>{example.text}</code>
+										<Code>{example.text}</Code>
 									</TableCell>
 									<TableCell>
 										{match ? <FuzzyString match={match} /> : "—"}
@@ -151,4 +152,3 @@ export function FuzzyStringPage() {
 		</Prose>
 	)
 }
-

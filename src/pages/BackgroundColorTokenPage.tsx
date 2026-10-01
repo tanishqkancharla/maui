@@ -1,4 +1,5 @@
 import { useStyles } from "purse-styles"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -49,19 +50,19 @@ export function BackgroundColorTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>background.app</code>
+							<Code>background.app</Code>
 						</TableCell>
 						<TableCell>
-							<code>#ffffff</code> / <code>colors.gray[1]</code>
+							<Code>#ffffff</Code> / <Code>colors.gray[1]</Code>
 						</TableCell>
 						<TableCell>App/page background (white in light, gray 1 in dark).</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.element</code>
+							<Code>background.element</Code>
 						</TableCell>
 						<TableCell>
-							<code>#ffffff</code> / <code>colors.gray[2]</code>
+							<Code>#ffffff</Code> / <Code>colors.gray[2]</Code>
 						</TableCell>
 						<TableCell>
 							Inputs and slightly raised controls. Matches app white in
@@ -70,10 +71,10 @@ export function BackgroundColorTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.elementHover</code>
+							<Code>background.elementHover</Code>
 						</TableCell>
 						<TableCell>
-							<code>backgroundColor.elementHover</code>
+							<Code>backgroundColor.elementHover</Code>
 						</TableCell>
 						<TableCell>
 							3.5% gray[12] into the element surface.
@@ -81,10 +82,10 @@ export function BackgroundColorTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.elementActive</code>
+							<Code>background.elementActive</Code>
 						</TableCell>
 						<TableCell>
-							<code>backgroundColor.elementActive</code>
+							<Code>backgroundColor.elementActive</Code>
 						</TableCell>
 						<TableCell>
 							7% gray[12] into the element surface.
@@ -92,10 +93,10 @@ export function BackgroundColorTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.accent</code>
+							<Code>background.accent</Code>
 						</TableCell>
 						<TableCell>
-							<code>colors.accent[9]</code>
+							<Code>colors.accent[9]</Code>
 						</TableCell>
 						<TableCell>
 							Primary fills and selected indicators.
@@ -103,10 +104,10 @@ export function BackgroundColorTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.accentHover</code>
+							<Code>background.accentHover</Code>
 						</TableCell>
 						<TableCell>
-							<code>colors.accent[10]</code>
+							<Code>colors.accent[10]</Code>
 						</TableCell>
 						<TableCell>Hovered solid accent background.</TableCell>
 					</TableRow>
@@ -132,4 +133,3 @@ const primary = style(background.accent, text({ size: "sm", fontWeight: 400, col
 		</Prose>
 	)
 }
-

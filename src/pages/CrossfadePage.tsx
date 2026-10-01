@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Button } from "../components/Button"
+import { Code } from "../components/Code"
 import { Crossfade, type CrossfadeDirection } from "../components/Crossfade"
 import { CodeBlock } from "../components/CodeBlock"
 import { Icons } from "../components/Icons"
@@ -57,13 +58,13 @@ export function CrossfadePage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Crossfade</H2>
 			<P>
-				When <code>contentKey</code> changes, the previous view fades out
-				and the next fades in. Omit <code>direction</code> for an in-place
+				When <Code>contentKey</Code> changes, the previous view fades out
+				and the next fades in. Omit <Code>direction</Code> for an in-place
 				opacity fade — same position, no slide. Pass{" "}
-				<code>up</code>, <code>down</code>, <code>left</code>, or{" "}
-				<code>right</code> to keep the directional crossfade: the previous
+				<Code>up</Code>, <Code>down</Code>, <Code>left</Code>, or{" "}
+				<Code>right</Code> to keep the directional crossfade: the previous
 				view exits that way while the next enters from the opposite side.{" "}
-				<code>contentKey</code> is required — putting <code>key</code> on
+				<Code>contentKey</Code> is required — putting <Code>key</Code> on
 				Crossfade itself remounts the wrapper and skips the exit.
 			</P>
 

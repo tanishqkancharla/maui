@@ -1,6 +1,7 @@
 import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -38,13 +39,13 @@ export function FocusRingTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>focusRing()</code>
+							<Code>focusRing()</Code>
 						</TableCell>
 						<TableCell>
-							<code>
+							<Code>
 								box-shadow: 0 0 0 1px blueAlpha[8], 0 0 6px
 								blueAlpha[5]; position: relative; z-index: 1; outline: none
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
 							The standard focus treatment for every focus-visible control.

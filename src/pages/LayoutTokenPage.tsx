@@ -1,6 +1,7 @@
 import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
@@ -42,19 +43,19 @@ export function LayoutTokenPage() {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>flex(options)</code>
+							<Code>flex(options)</Code>
 						</TableCell>
 						<TableCell>
-							<code>direction, alignItems, justifyContent, gap, wrap</code>
+							<Code>direction, alignItems, justifyContent, gap, wrap</Code>
 						</TableCell>
 						<TableCell>Rows, columns, toolbars, and stacks.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>flexItem(options)</code>
+							<Code>flexItem(options)</Code>
 						</TableCell>
 						<TableCell>
-							<code>size, alignSelf, order</code>
+							<Code>size, alignSelf, order</Code>
 						</TableCell>
 						<TableCell>
 							Child sizing and alignment inside a flex container.
@@ -62,10 +63,10 @@ export function LayoutTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>grid(options)</code>
+							<Code>grid(options)</Code>
 						</TableCell>
 						<TableCell>
-							<code>columns, alignItems, justifyContent, gap</code>
+							<Code>columns, alignItems, justifyContent, gap</Code>
 						</TableCell>
 						<TableCell>
 							Equal columns, responsive grids, and sidebar/content shells.
@@ -73,10 +74,10 @@ export function LayoutTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>gridItem(options)</code>
+							<Code>gridItem(options)</Code>
 						</TableCell>
 						<TableCell>
-							<code>area, span, alignSelf, justifySelf</code>
+							<Code>area, span, alignSelf, justifySelf</Code>
 						</TableCell>
 						<TableCell>
 							Named areas, full-width spans, and child placement.
@@ -145,5 +146,4 @@ const exampleCardStyle = {
 	borderRadius: "6px",
 	padding: "12px",
 } as const
-
 

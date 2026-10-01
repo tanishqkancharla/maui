@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
 import type React from "react"
 import { useStyles } from "purse-styles"
+import { Code } from "../components/Code"
 import { Icons, type IconProps } from "../components/Icons"
 import { CodeBlock } from "../components/CodeBlock"
 import { SearchField } from "../components/Input"
@@ -42,7 +43,7 @@ export function IconsPage() {
 			<H2>Icons</H2>
 			<P>
 				{iconEntries.length} SVG icons. Import a named icon so unused artwork
-				is tree-shaken. <code>Icons.Name</code> is a convenience namespace and
+				is tree-shaken. <Code>Icons.Name</Code> is a convenience namespace and
 				pulls the full set.
 			</P>
 			<CodeBlock lang="tsx">{`import { Search, Plus } from "@tanishqkancharla/maui"
@@ -50,16 +51,16 @@ export function IconsPage() {
 <Search size="sm" />
 <Plus size="md" />`}</CodeBlock>
 			<P>
-				Artwork is 24×24 and uses <code>currentColor</code>. Set{" "}
-				<code>size</code> to the same t-shirt scale as <code>text(...)</code>.
-				Default is <code>sm</code> (16px medium / 20px large).
+				Artwork is 24×24 and uses <Code>currentColor</Code>. Set{" "}
+				<Code>size</Code> to the same t-shirt scale as <Code>text(...)</Code>.
+				Default is <Code>sm</Code> (16px medium / 20px large).
 			</P>
 			<P>
 				A few icon names collide with other Maui exports (
-				<code>Text</code>, <code>Badge</code>, <code>Switch</code>, …). Those
-				are available as <code>TextIcon</code> from the root, as{" "}
-				<code>Icons.Text</code>, or from{" "}
-				<code>@tanishqkancharla/maui/icons</code>.
+				<Code>Text</Code>, <Code>Badge</Code>, <Code>Switch</Code>, …). Those
+				are available as <Code>TextIcon</Code> from the root, as{" "}
+				<Code>Icons.Text</Code>, or from{" "}
+				<Code>@tanishqkancharla/maui/icons</Code>.
 			</P>
 
 			<H3>Sizes</H3>
@@ -80,8 +81,8 @@ export function IconsPage() {
 			<H3>Catalog</H3>
 			<H4>Default preview</H4>
 			<P>
-				Catalog tiles use <code>size="sm"</code> next to{" "}
-				<code>{`text({ size: "sm" })`}</code> labels.
+				Catalog tiles use <Code>size="sm"</Code> next to{" "}
+				<Code>{`text({ size: "sm" })`}</Code> labels.
 			</P>
 			<SearchField
 				aria-label="Filter icons"
@@ -119,10 +120,10 @@ function SizePreview(props: { size: IconSize }) {
 
 	return (
 		<div style={sizeRowStyle}>
-			<code className={metaClassName}>
+			<Code className={metaClassName}>
 				{props.size} · icon {iconSizeDetails[props.size]} · text{" "}
 				{textSizeDetails[props.size]}
-			</code>
+			</Code>
 			<div
 				style={{
 					...sizePreviewStyle,
