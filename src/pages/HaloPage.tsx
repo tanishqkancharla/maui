@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react"
+import type { Editor as TiptapEditor } from "@tiptap/react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Drawer } from "../components/Drawer"
-import { Editor } from "../components/Editor"
+import { MarkdownEditor } from "../components/MarkdownEditor"
 import { Text } from "../components/Text"
 import { Flex, Spacer } from "../components/Utils"
 import {
@@ -57,6 +58,7 @@ export function HaloPage() {
 	const [activeId, setActiveId] = useState(1)
 	const [documentName, setDocumentName] = useState<string | null>(null)
 	const [draft, setDraft] = useState("")
+	const composerRef = useRef<TiptapEditor | null>(null)
 	const [files, setFiles] = useState<string[]>([])
 	const fileInput = useRef<HTMLInputElement>(null)
 	const feed = useRef<HTMLDivElement>(null)
@@ -80,6 +82,11 @@ export function HaloPage() {
 		scrollToReply.current = false
 	}, [active.messages.length, activeId, documentName])
 
+	function clearDraft() {
+		composerRef.current?.commands.clearContent(false)
+		setDraft("")
+	}
+
 	function newSession() {
 		const id = nextId.current++
 		setSessions((current) => [
@@ -88,7 +95,7 @@ export function HaloPage() {
 		])
 		setActiveId(id)
 		setDocumentName(null)
-		setDraft("")
+		clearDraft()
 		setFiles([])
 		setNavOpen(false)
 	}
@@ -116,7 +123,7 @@ export function HaloPage() {
 						},
 			),
 		)
-		setDraft("")
+		clearDraft()
 		setFiles([])
 	}
 
@@ -129,11 +136,11 @@ export function HaloPage() {
 		if (remaining.length) {
 			setSessions(remaining)
 			setActiveId(remaining[remaining.length - 1]!.id)
-			setDraft("")
+			clearDraft()
 			setFiles([])
 		} else {
 			setSessions([{ id: activeId, title: "New session", messages: [] }])
-			setDraft("")
+			clearDraft()
 			setFiles([])
 		}
 	}
@@ -266,7 +273,7 @@ export function HaloPage() {
 									onClick={() => {
 										setActiveId(session.id)
 										setDocumentName(null)
-										setDraft("")
+										clearDraft()
 										setFiles([])
 										setNavOpen(false)
 									}}
@@ -290,9 +297,9 @@ export function HaloPage() {
 
 			{documentName ? (
 				<div className={column} style={{ overflowY: "auto", paddingBlock: 24 }}>
-					<Editor
+					<MarkdownEditor
 						key={documentName}
-						content={documents[documentName]}
+						initialContent={documents[documentName]}
 						editable={false}
 						aria-label={documentName}
 					/>
@@ -374,8 +381,9 @@ export function HaloPage() {
 							<div
 								style={{ maxHeight: "25dvh", overflowY: "auto", minHeight: 52 }}
 							>
-								<Editor
-									content={draft}
+								<MarkdownEditor
+									ref={composerRef}
+									initialContent={draft}
 									onChange={setDraft}
 									onSubmit={send}
 									placeholder="Message Halo"
