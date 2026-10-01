@@ -1,7 +1,8 @@
 import { useRef } from "react"
 import { useCheckbox } from "react-aria"
 import { useToggleState } from "react-stately"
-import { style, useStyles } from "purse-styles"
+import { defineVars, style, useStyles } from "purse-styles"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
@@ -9,6 +10,7 @@ import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
+import { controlSize } from "../tokens/sizing"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { labelText } from "./Typography"
 
@@ -17,6 +19,11 @@ type CheckboxProps = {
 	checked: boolean
 	setChecked: (checked: boolean) => void
 }
+
+const checkboxSize = defineVars({
+	box: { default: "14px", [LARGE_SCALE]: "20px" },
+	checkmark: { default: "10px", [LARGE_SCALE]: "14px" },
+})
 
 const checkboxClass = style(
 	flex({ alignItems: "center", gap: 3 }),
@@ -27,6 +34,8 @@ const checkboxClass = style(
 	{
 		position: "relative",
 		width: "fit-content",
+		minHeight: controlSize.minTarget,
+		minWidth: controlSize.minTarget,
 		"&:hover .checkbox-toggle": {
 			backgroundColor: backgroundColor.elementHover,
 		},
@@ -47,8 +56,9 @@ const checkboxToggleClass = style(
 	shadow.subtle,
 	{
 		pointerEvents: "none",
-		width: "14px",
-		height: "14px",
+		flexShrink: 0,
+		width: checkboxSize.box,
+		height: checkboxSize.box,
 		backgroundColor: backgroundColor.element,
 	},
 )
@@ -56,8 +66,8 @@ const checkboxToggleClass = style(
 const checkboxIconClass = style(
 	motion.standard("opacity", "transform"),
 	{
-		width: "10px",
-		height: "10px",
+		width: checkboxSize.checkmark,
+		height: checkboxSize.checkmark,
 		paddingTop: "0.5px",
 		paddingLeft: "0.5px",
 		fill: colors.gray[3],

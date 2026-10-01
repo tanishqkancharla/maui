@@ -8,6 +8,8 @@ export {
 } from "./theme/ThemeContext"
 export { themeFoucScript } from "./theme/themeFoucScript"
 export { DARK_THEME } from "./theme/dataTheme"
+export { useScale, scaleStorageKey, type ScalePreference, type ResolvedScale } from "./theme/ScaleContext"
+export { LARGE_SCALE } from "./theme/dataScale"
 
 // Tokens
 export { colors, type ColorName, type ColorScale, colorNames, paletteNames } from "./tokens/colors"

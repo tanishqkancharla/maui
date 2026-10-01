@@ -4,6 +4,11 @@ import react from "@vitejs/plugin-react"
 export default defineConfig({
 	root: "src",
 	plugins: [react({})],
+	// Bundle the gallery's large module graph for high-latency orb previews.
+	// This affects development only; production build options stay unchanged.
+	experimental: {
+		bundledDev: !process.env.VITEST,
+	},
 	server: {
 		host: "127.0.0.1",
 		port: 5173,

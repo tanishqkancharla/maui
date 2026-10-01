@@ -1,5 +1,6 @@
 import type React from "react"
-import { style } from "purse-styles"
+import { defineVars, style } from "purse-styles"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
 
@@ -26,39 +27,57 @@ export const monoFontStyle = {
 	MozTabSize: "2",
 } as const satisfies React.CSSProperties
 
+const fontSizes = defineVars({
+	"2xs": { default: "10px", [LARGE_SCALE]: "12px" },
+	xs: { default: "12px", [LARGE_SCALE]: "15px" },
+	sm: { default: "13px", [LARGE_SCALE]: "16px" },
+	md: { default: "14px", [LARGE_SCALE]: "17px" },
+	lg: { default: "16px", [LARGE_SCALE]: "20px" },
+	xl: { default: "22px", [LARGE_SCALE]: "28px" },
+})
+
+const lineHeights = defineVars({
+	"2xs": { default: "14px", [LARGE_SCALE]: "18px" },
+	xs: { default: "18px", [LARGE_SCALE]: "22px" },
+	sm: { default: "20px", [LARGE_SCALE]: "24px" },
+	md: { default: "22px", [LARGE_SCALE]: "26px" },
+	lg: { default: "24px", [LARGE_SCALE]: "30px" },
+	xl: { default: "30px", [LARGE_SCALE]: "36px" },
+})
+
 const textSizeStyles: Record<
 	TextSize,
 	Omit<React.CSSProperties, "color" | "fontWeight">
 > = {
 	"2xs": {
-		fontSize: "10px",
+		fontSize: fontSizes["2xs"],
 		fontFamily,
-		lineHeight: "14px",
+		lineHeight: lineHeights["2xs"],
 	},
 	xs: {
-		fontSize: "12px",
+		fontSize: fontSizes.xs,
 		fontFamily,
-		lineHeight: "18px",
+		lineHeight: lineHeights.xs,
 	},
 	sm: {
-		fontSize: "13px",
+		fontSize: fontSizes.sm,
 		fontFamily,
-		lineHeight: "20px",
+		lineHeight: lineHeights.sm,
 	},
 	md: {
-		fontSize: "14px",
+		fontSize: fontSizes.md,
 		fontFamily,
-		lineHeight: "22px",
+		lineHeight: lineHeights.md,
 	},
 	lg: {
-		fontSize: "16px",
+		fontSize: fontSizes.lg,
 		fontFamily,
-		lineHeight: "24px",
+		lineHeight: lineHeights.lg,
 	},
 	xl: {
-		fontSize: "22px",
+		fontSize: fontSizes.xl,
 		fontFamily,
-		lineHeight: "30px",
+		lineHeight: lineHeights.xl,
 	},
 }
 

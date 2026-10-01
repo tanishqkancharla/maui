@@ -3,14 +3,22 @@ import { useSwitch } from "react-aria"
 import { ToggleState, useToggleState } from "react-stately"
 import { defineVars, style, useStyles } from "purse-styles"
 import { DARK_THEME } from "../theme/dataTheme"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
+import { controlSize } from "../tokens/sizing"
 import { visuallyHidden } from "../tokens/visuallyHidden"
 import { labelText } from "./Typography"
+
+const switchSize = defineVars({
+	width: { default: "24px", [LARGE_SCALE]: "36px" },
+	height: { default: "14px", [LARGE_SCALE]: "22px" },
+	thumb: { default: "10px", [LARGE_SCALE]: "18px" },
+})
 
 /** One step darker than `background.element` (#fff / gray 2). */
 const switchOff = defineVars({
@@ -33,6 +41,7 @@ const switchClass = style(
 	{
 		position: "relative",
 		width: "fit-content",
+		minHeight: controlSize.minTarget,
 		"&:hover .switch-toggle": {
 			backgroundColor: switchOff.trackHover,
 		},
@@ -40,7 +49,7 @@ const switchClass = style(
 			backgroundColor: colors.accent[9],
 		},
 		"& .switch-input:checked + .switch-toggle .switch-thumb": {
-			transform: "translateX(10px)",
+			transform: `translateX(calc(${switchSize.width} - ${switchSize.thumb} - 4px))`,
 		},
 	},
 )
@@ -51,8 +60,9 @@ const switchToggleClass = style(
 	shadow.subtle,
 	{
 		position: "relative",
-		width: "24px",
-		height: "14px",
+		flexShrink: 0,
+		width: switchSize.width,
+		height: switchSize.height,
 		backgroundColor: switchOff.track,
 	},
 )
@@ -64,8 +74,8 @@ const switchThumbClass = style(
 		position: "absolute",
 		top: "2px",
 		left: "2px",
-		width: "10px",
-		height: "10px",
+		width: switchSize.thumb,
+		height: switchSize.thumb,
 		backgroundColor: "#ffffff",
 		boxShadow: "0 1px 2px rgba(0, 0, 0, 0.16)",
 	},

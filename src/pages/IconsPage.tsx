@@ -9,7 +9,7 @@ import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { iconSizeValues, type IconSize } from "../tokens/sizing"
+import { type IconSize } from "../tokens/sizing"
 import { text, type TextSize } from "../tokens/text"
 
 const iconEntries = Object.entries(Icons) as [
@@ -52,7 +52,7 @@ export function IconsPage() {
 			<P>
 				Artwork is 24×24 and uses <code>currentColor</code>. Set{" "}
 				<code>size</code> to the same t-shirt scale as <code>text(...)</code>.
-				Default is <code>sm</code> (16px).
+				Default is <code>sm</code> (16px medium / 20px large).
 			</P>
 			<P>
 				A few icon names collide with other Maui exports (
@@ -65,7 +65,7 @@ export function IconsPage() {
 			<H3>Sizes</H3>
 			<P>
 				Pair each icon size with the matching text size so labels and icons
-				share one scale.
+				share one scale. Dimensions below show medium / large platform scales.
 			</P>
 			<CodeBlock lang="tsx">{`<Search size="sm" />
 <span className={text({ size: "sm", fontWeight: 400, color: "highContrast" })}>Search mail</span>`}</CodeBlock>
@@ -80,7 +80,7 @@ export function IconsPage() {
 			<H3>Catalog</H3>
 			<H4>Default preview</H4>
 			<P>
-				Catalog tiles use <code>size="sm"</code> (16px) next to{" "}
+				Catalog tiles use <code>size="sm"</code> next to{" "}
 				<code>{`text({ size: "sm" })`}</code> labels.
 			</P>
 			<SearchField
@@ -120,7 +120,7 @@ function SizePreview(props: { size: IconSize }) {
 	return (
 		<div style={sizeRowStyle}>
 			<code className={metaClassName}>
-				{props.size} · icon {iconSizeValues[props.size]} · text{" "}
+				{props.size} · icon {iconSizeDetails[props.size]} · text{" "}
 				{textSizeDetails[props.size]}
 			</code>
 			<div
@@ -160,12 +160,21 @@ function CatalogTile(props: {
 }
 
 const textSizeDetails: Record<IconSize, string> = {
-	"2xs": "10px",
-	xs: "12px",
-	sm: "13px",
-	md: "14px",
-	lg: "16px",
-	xl: "22px",
+	"2xs": "10 / 12px",
+	xs: "12 / 15px",
+	sm: "13 / 16px",
+	md: "14 / 17px",
+	lg: "16 / 20px",
+	xl: "22 / 28px",
+}
+
+const iconSizeDetails: Record<IconSize, string> = {
+	"2xs": "12 / 16px",
+	xs: "14 / 18px",
+	sm: "16 / 20px",
+	md: "18 / 24px",
+	lg: "20 / 26px",
+	xl: "24 / 30px",
 }
 
 const sizeRowStyle = {

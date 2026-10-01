@@ -7,6 +7,7 @@ import {
 import { style, useStyles } from "purse-styles"
 import { background, backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
+import { controlSize } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
@@ -27,14 +28,13 @@ export const listBoxItemStyle = style(
 	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	{
 		position: "relative",
+		minHeight: controlSize.minTarget,
+		alignContent: "center",
 		margin: 0,
 		outline: "none",
 		cursor: "default",
 		userSelect: "none",
-		"&:hover": {
-			background: backgroundColor.elementHover,
-		},
-		"&[data-hovered]": {
+		"&:hover, &[data-hovered]": {
 			background: backgroundColor.elementHover,
 		},
 		"&[data-focused]": {

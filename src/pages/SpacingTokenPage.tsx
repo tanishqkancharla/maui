@@ -19,6 +19,7 @@ export function SpacingTokenPage() {
 			</P>
 
 			<H3>Values</H3>
+			<P>Values show medium / large platform scales. Use the Scale picker to preview them.</P>
 			<Table aria-label="Spacing tokens">
 				<TableHeader>
 					<TableHead isRowHeader>Name</TableHead>
@@ -95,42 +96,42 @@ function PaddingExample() {
 const spacingScale = [
 	{
 		name: "spacing.gap[1] / padding({ all: 1 })",
-		value: "2px",
+		value: "2px / 3px",
 		use: "Tiny separation or padding.",
 	},
 	{
 		name: "spacing.gap[2] / padding({ all: 2 })",
-		value: "4px",
+		value: "4px / 5px",
 		use: "Tight separation or padding.",
 	},
 	{
 		name: "spacing.gap[3] / padding({ all: 3 })",
-		value: "6px",
+		value: "6px / 8px",
 		use: "Compact control whitespace.",
 	},
 	{
 		name: "spacing.gap[4] / padding({ all: 4 })",
-		value: "9px",
+		value: "9px / 12px",
 		use: "Default small whitespace.",
 	},
 	{
 		name: "spacing.gap[6] / padding({ all: 6 })",
-		value: "12px",
+		value: "12px / 16px",
 		use: "Default comfortable whitespace.",
 	},
 	{
 		name: "spacing.gap[8] / padding({ all: 8 })",
-		value: "16px",
+		value: "16px / 20px",
 		use: "Related group whitespace.",
 	},
 	{
 		name: "spacing.gap[12] / padding({ all: 12 })",
-		value: "24px",
+		value: "24px / 30px",
 		use: "Panel or section whitespace.",
 	},
 	{
 		name: "spacing.gap[16] / padding({ all: 16 })",
-		value: "32px",
+		value: "32px / 40px",
 		use: "Major region whitespace.",
 	},
 	{
@@ -165,4 +166,3 @@ const demoBlockStyle = {
 	background: colors.accent[9],
 	borderRadius: "4px",
 } as const
-

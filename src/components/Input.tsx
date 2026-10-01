@@ -10,13 +10,15 @@ import {
 	useTextField,
 } from "react-aria"
 import { useNumberFieldState, useSearchFieldState } from "react-stately"
-import { style, useStyles } from "purse-styles"
+import { defineVars, style, useStyles } from "purse-styles"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
+import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { Icons } from "./Icons"
@@ -34,7 +36,7 @@ const inputClass = style(
 	{
 		width: "100%",
 		minWidth: 0,
-		height: "28px",
+		height: controlSize.height,
 		color: colors.gray[12],
 		border: "none",
 		background: backgroundColor.element,
@@ -64,11 +66,17 @@ export function TextField(props: InputProps) {
 	return <input className={className} ref={ref} {...inputProps} />
 }
 
+const searchFieldSize = defineVars({
+	clearSize: { default: "16px", [LARGE_SCALE]: "40px" },
+	clearInset: { default: "6px", [LARGE_SCALE]: "0px" },
+	padding: { default: "30px", [LARGE_SCALE]: "40px" },
+})
+
 const searchFieldClass = style(focusRing("& button:focus-visible"), {
 	position: "relative",
 	width: "100%",
 	"& input": {
-		paddingRight: "30px",
+		paddingRight: searchFieldSize.padding,
 		appearance: "none",
 	},
 	"& input::-webkit-search-cancel-button": {
@@ -77,12 +85,12 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 	"& button": {
 		position: "absolute",
 		top: "50%",
-		right: "6px",
+		right: searchFieldSize.clearInset,
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		width: "16px",
-		height: "16px",
+		width: searchFieldSize.clearSize,
+		height: searchFieldSize.clearSize,
 		transform: "translateY(-50%)",
 		zIndex: 2,
 		border: "none",
@@ -92,8 +100,8 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 		padding: 0,
 	},
 	"& button svg": {
-		width: "16px",
-		height: "16px",
+		width: iconSizeValues.sm,
+		height: iconSizeValues.sm,
 	},
 	"& button:hover": {
 		color: colors.gray[12],
@@ -124,6 +132,10 @@ export function SearchField(props: AriaSearchFieldProps) {
 	)
 }
 
+const numberFieldSize = defineVars({
+	stepperWidth: { default: "24px", [LARGE_SCALE]: "40px" },
+})
+
 const numberFieldClass = style(
 	focusRing("&:has(:focus-visible)", shadowVars.subtle),
 	motion.standard("background", "border-color"),
@@ -133,7 +145,7 @@ const numberFieldClass = style(
 		display: "flex",
 		alignItems: "center",
 		width: "100%",
-		height: "28px",
+		height: controlSize.height,
 		overflow: "hidden",
 		color: colors.gray[12],
 		background: backgroundColor.element,
@@ -152,7 +164,7 @@ const numberFieldClass = style(
 			display: "flex",
 			placeItems: "center",
 			justifyContent: "center",
-			width: "24px",
+			width: numberFieldSize.stepperWidth,
 			border: "none",
 			borderLeft: `1px solid ${numberFieldDivider}`,
 			background: "transparent",
@@ -167,13 +179,10 @@ const numberFieldClass = style(
 			borderBottomRightRadius: "4px",
 		},
 		"& button svg": {
-			width: "14px",
-			height: "14px",
+			width: iconSizeValues.xs,
+			height: iconSizeValues.xs,
 		},
-		"& button:hover:not(:disabled)": {
-			background: backgroundColor.elementHover,
-		},
-		"& button:active:not(:disabled)": {
+		"& button:hover:not(:disabled), & button:active:not(:disabled)": {
 			background: backgroundColor.elementHover,
 		},
 		"& button:disabled": {
@@ -246,7 +255,7 @@ const quietInputClass = style(
 	{
 		width: "100%",
 		minWidth: 0,
-		height: "28px",
+		height: controlSize.height,
 		color: colors.gray[12],
 		background: "transparent",
 		border: "none",

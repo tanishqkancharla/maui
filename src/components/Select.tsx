@@ -16,6 +16,7 @@ import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
+import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { CollectionPopover } from "./CollectionPopover"
@@ -40,16 +41,16 @@ const triggerClass = style(
 	{
 		display: "flex",
 		alignItems: "center",
-		height: "28px",
+		height: controlSize.height,
 		minWidth: 0,
 		color: colors.gray[12],
 		border: "none",
 		textAlign: "left",
 		background: backgroundColor.element,
-		"&:hover": {
+		"&:hover, &[data-pressed]": {
 			background: backgroundColor.elementHover,
 		},
-		"&[data-pressed]": {
+		"&[aria-expanded='true']": {
 			background: backgroundColor.elementHover,
 		},
 		"&[data-disabled]": {
@@ -76,9 +77,9 @@ const valueClass = style({
 
 const chevronClass = style(motion.standard("transform"), {
 	flex: "0 0 auto",
-	width: "14px",
-	height: "14px",
-	marginLeft: "6px",
+	width: iconSizeValues.xs,
+	height: iconSizeValues.xs,
+	marginLeft: spacing.value(3),
 	color: colors.gray[10],
 	...({
 		"[data-open] &": {

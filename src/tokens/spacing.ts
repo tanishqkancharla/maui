@@ -1,16 +1,17 @@
-import { style, type CSSProperties } from "purse-styles"
+import { defineVars, style, type CSSProperties } from "purse-styles"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { memoize } from "../utils/memoize"
 
-const spacingValues = {
-	1: "2px",
-	2: "4px",
-	3: "6px",
-	4: "9px",
-	6: "12px",
-	8: "16px",
-	12: "24px",
-	16: "32px",
-} as const
+const spacingValues = defineVars({
+	1: { default: "2px", [LARGE_SCALE]: "3px" },
+	2: { default: "4px", [LARGE_SCALE]: "5px" },
+	3: { default: "6px", [LARGE_SCALE]: "8px" },
+	4: { default: "9px", [LARGE_SCALE]: "12px" },
+	6: { default: "12px", [LARGE_SCALE]: "16px" },
+	8: { default: "16px", [LARGE_SCALE]: "20px" },
+	12: { default: "24px", [LARGE_SCALE]: "30px" },
+	16: { default: "32px", [LARGE_SCALE]: "40px" },
+})
 
 export type Space = keyof typeof spacingValues
 
@@ -51,8 +52,8 @@ export const spacing = {
 	},
 	padding,
 	/**
-	 * Raw pixel value for a scale step. Only meant for the rare case (like
-	 * `Prose`'s vertical rhythm) where neither gap nor padding applies.
+	 * CSS variable for a scale step (not a numeric pixel value). For cases like
+	 * `Prose`'s vertical rhythm where neither gap nor padding applies.
 	 */
 	value: (step: Space) => spacingValues[step],
 } as const

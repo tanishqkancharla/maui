@@ -6,14 +6,21 @@ import {
 	useSliderThumb,
 } from "react-aria"
 import { useSliderState } from "react-stately"
-import { style, useStyles } from "purse-styles"
+import { defineVars, style, useStyles } from "purse-styles"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { shadowVars } from "../tokens/shadow"
+import { labelText } from "./Typography"
 
 type SliderProps = AriaSliderProps<number> & {
 	label: string
 }
+
+const sliderSize = defineVars({
+	thumb: { default: "12px", [LARGE_SCALE]: "20px" },
+	track: { default: "18px", [LARGE_SCALE]: "40px" },
+})
 
 const sliderClass = style(
 	focusRing(
@@ -28,21 +35,14 @@ const sliderClass = style(
 			justifyContent: "space-between",
 			marginBottom: "10px",
 		},
-		"& label, & output": {
-			color: colors.gray[11],
-			fontSize: "0.75rem",
-			fontFamily: "system-ui, -apple-system",
-			letterSpacing: "0.02em",
-			lineHeight: "16px",
-		},
 		"& .slider-track": {
 			position: "relative",
-			height: "18px",
+			height: sliderSize.track,
 		},
 		"& .slider-track::before": {
 			content: '""',
 			position: "absolute",
-			top: "7px",
+			top: "calc(50% - 2px)",
 			left: 0,
 			right: 0,
 			height: "4px",
@@ -51,7 +51,7 @@ const sliderClass = style(
 		},
 		"& .slider-fill": {
 			position: "absolute",
-			top: "7px",
+			top: "calc(50% - 2px)",
 			left: 0,
 			height: "4px",
 			borderRadius: "999px",
@@ -60,8 +60,8 @@ const sliderClass = style(
 		"& .slider-thumb": {
 			position: "absolute",
 			top: "50%",
-			width: "12px",
-			height: "12px",
+			width: sliderSize.thumb,
+			height: sliderSize.thumb,
 			borderRadius: "100%",
 			background: colors.gray[12],
 			boxShadow: shadowVars.subtle,
@@ -102,13 +102,14 @@ export function Slider(props: SliderProps) {
 		state,
 	)
 	const className = useStyles(sliderClass)
+	const labelClassName = useStyles(labelText)
 	const percent = state.getThumbPercent(0) * 100
 
 	return (
 		<div className={className} {...groupProps}>
 			<div className="slider-label-row">
-				<label {...labelProps}>{props.label}</label>
-				<output {...outputProps}>{state.getThumbValueLabel(0)}</output>
+				<label {...labelProps} className={labelClassName}>{props.label}</label>
+				<output {...outputProps} className={labelClassName}>{state.getThumbValueLabel(0)}</output>
 			</div>
 			<div className="slider-track" ref={trackRef} {...trackProps}>
 				<div className="slider-fill" style={{ width: `${percent}%` }} />

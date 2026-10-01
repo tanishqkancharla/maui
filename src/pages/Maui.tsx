@@ -9,7 +9,7 @@ import {
 	useLocation,
 	useRoute,
 } from "wouter"
-import { style, useStyles } from "purse-styles"
+import { defineVars, style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Drawer } from "../components/Drawer"
 import { Icons } from "../components/Icons"
@@ -20,6 +20,8 @@ import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
+import { isScalePreference, useScale } from "../theme/ScaleContext"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { galleryCompactMedia } from "./galleryCompact"
 import { AboutPage } from "./AboutPage"
 import { AiChatPage } from "./AiChatPage"
@@ -336,6 +338,7 @@ function MauiNavigation() {
 	const markClassName = useStyles(navMarkClass)
 	const controlClassName = useStyles(navControlClass)
 	const { preference, setPreference } = useTheme()
+	const { preference: scale, setPreference: setScale } = useScale()
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
@@ -357,6 +360,18 @@ function MauiNavigation() {
 					<SelectItem id="system">System</SelectItem>
 					<SelectItem id="light">Light</SelectItem>
 					<SelectItem id="dark">Dark</SelectItem>
+				</Select>
+				<Select
+					label="Scale"
+					aria-label="Scale"
+					selectedKey={scale}
+					onSelectionChange={(key) => {
+						if (isScalePreference(key)) setScale(key)
+					}}
+				>
+					<SelectItem id="system">System</SelectItem>
+					<SelectItem id="medium">Medium</SelectItem>
+					<SelectItem id="large">Large</SelectItem>
 				</Select>
 			</div>
 			<ul className={navListClassName}>
@@ -429,15 +444,16 @@ const contentClass = style(spacing.padding({ x: 16 }), {
 	},
 })
 
-const navClass = style(
-	flex({ direction: "column", gap: 8 }),
-	spacing.padding({ all: 2 }),
-	{
-		height: "100%",
-		minHeight: 0,
-		overflowY: "auto",
-	},
-)
+const navInsets = defineVars({
+	padding: { default: "4px", [LARGE_SCALE]: "12px" },
+})
+
+const navClass = style(flex({ direction: "column", gap: 8 }), {
+	padding: navInsets.padding,
+	height: "100%",
+	minHeight: 0,
+	overflowY: "auto",
+})
 
 const navBrandClass = style(flex({ direction: "column", gap: 12 }), {
 	paddingTop: spacing.value(6),
@@ -466,7 +482,7 @@ const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	},
 })
 
-const navControlClass = style({
+const navControlClass = style(flex({ direction: "column", gap: 6 }), {
 	"& > * > span:first-child": {
 		paddingInline: spacing.value(4),
 	},

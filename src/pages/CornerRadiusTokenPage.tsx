@@ -1,13 +1,27 @@
 import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
-import { Table, TableBody, TableCell, TableHead,
-	TableHeader, TableRow } from "../components/Table"
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
 
 import { colors } from "../tokens/colors"
 import { borderColor } from "../tokens/borders"
+import { radius } from "../tokens/radius"
+import { useStyles } from "purse-styles"
 export function CornerRadiusTokenPage() {
+	const tiny = useStyles(radius["2xs"])
+	const small = useStyles(radius.sm)
+	const medium = useStyles(radius.md)
+	const large = useStyles(radius.lg)
+	const extraLarge = useStyles(radius.xl)
+	const pill = useStyles(radius.pill)
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Corner radius</H2>
@@ -15,12 +29,17 @@ export function CornerRadiusTokenPage() {
 				Radius tokens capture component shape. The goal is to avoid scattered
 				literal radii while keeping names tied to real UI roles.
 			</P>
+			<P>
+				Rounded corners increase with the Large platform scale, selected
+				automatically for coarse pointers in System mode. Square, pill, and
+				circular shapes stay unchanged. Examples follow the selected scale.
+			</P>
 
 			<H3>Values</H3>
 			<Table aria-label="Corner radius tokens">
 				<TableHeader>
 					<TableHead isRowHeader>Name</TableHead>
-					<TableHead>Value</TableHead>
+					<TableHead>Medium / Large</TableHead>
 					<TableHead>Use</TableHead>
 				</TableHeader>
 				<TableBody>
@@ -31,27 +50,23 @@ export function CornerRadiusTokenPage() {
 						<TableCell>
 							<code>0</code>
 						</TableCell>
-						<TableCell>
-							Joined controls and edge-to-edge elements.
-						</TableCell>
+						<TableCell>Joined controls and edge-to-edge elements.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
 							<code>radius["2xs"]</code>
 						</TableCell>
 						<TableCell>
-							<code>2px</code>
+							<code>2px / 3px</code>
 						</TableCell>
-						<TableCell>
-							Checkboxes and small selected indicators.
-						</TableCell>
+						<TableCell>Checkboxes and small selected indicators.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
 							<code>radius.xs</code>
 						</TableCell>
 						<TableCell>
-							<code>3px</code>
+							<code>3px / 4px</code>
 						</TableCell>
 						<TableCell>Color swatches and tiny previews.</TableCell>
 					</TableRow>
@@ -60,7 +75,7 @@ export function CornerRadiusTokenPage() {
 							<code>radius.sm</code>
 						</TableCell>
 						<TableCell>
-							<code>4px</code>
+							<code>4px / 6px</code>
 						</TableCell>
 						<TableCell>Buttons, inputs, and most controls.</TableCell>
 					</TableRow>
@@ -69,18 +84,16 @@ export function CornerRadiusTokenPage() {
 							<code>radius.md</code>
 						</TableCell>
 						<TableCell>
-							<code>6px</code>
+							<code>6px / 8px</code>
 						</TableCell>
-						<TableCell>
-							Cards, popovers, dialogs, and examples.
-						</TableCell>
+						<TableCell>Cards, popovers, dialogs, and examples.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
 							<code>radius.lg</code>
 						</TableCell>
 						<TableCell>
-							<code>8px</code>
+							<code>8px / 12px</code>
 						</TableCell>
 						<TableCell>Switch tracks.</TableCell>
 					</TableRow>
@@ -89,11 +102,9 @@ export function CornerRadiusTokenPage() {
 							<code>radius.xl</code>
 						</TableCell>
 						<TableCell>
-							<code>12px</code>
+							<code>12px / 16px</code>
 						</TableCell>
-						<TableCell>
-							App shells and large preview frames.
-						</TableCell>
+						<TableCell>App shells and large preview frames.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
@@ -111,9 +122,7 @@ export function CornerRadiusTokenPage() {
 						<TableCell>
 							<code>100%</code>
 						</TableCell>
-						<TableCell>
-							Radio dots, knobs, and circular icons.
-						</TableCell>
+						<TableCell>Radio dots, knobs, and circular icons.</TableCell>
 					</TableRow>
 				</TableBody>
 			</Table>
@@ -133,55 +142,55 @@ const shell = style(radius.xl)`}</CodeBlock>
 				}}
 			>
 				<div
+					className={tiny}
 					style={{
 						width: "72px",
 						height: "40px",
-						borderRadius: "2px",
 						background: colors.gray[3],
 						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 				<div
+					className={small}
 					style={{
 						width: "72px",
 						height: "40px",
-						borderRadius: "4px",
 						background: colors.gray[3],
 						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 				<div
+					className={medium}
 					style={{
 						width: "72px",
 						height: "40px",
-						borderRadius: "6px",
 						background: colors.gray[3],
 						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 				<div
+					className={large}
 					style={{
 						width: "72px",
 						height: "40px",
-						borderRadius: "8px",
 						background: colors.gray[3],
 						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 				<div
+					className={extraLarge}
 					style={{
 						width: "72px",
 						height: "40px",
-						borderRadius: "12px",
 						background: colors.gray[3],
 						border: `1px solid ${borderColor.outline}`,
 					}}
 				/>
 				<div
+					className={pill}
 					style={{
 						width: "72px",
 						height: "40px",
-						borderRadius: "999px",
 						background: colors.gray[3],
 						border: `1px solid ${borderColor.outline}`,
 					}}
@@ -190,4 +199,3 @@ const shell = style(radius.xl)`}</CodeBlock>
 		</Prose>
 	)
 }
-

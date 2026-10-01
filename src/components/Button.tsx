@@ -18,8 +18,10 @@ import {
 	type ColorScale,
 } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
+import { radius } from "../tokens/radius"
 import { motion } from "../tokens/motion"
 import { shadow, shadowVars, tintedSubtle } from "../tokens/shadow"
+import { controlSize } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
@@ -48,14 +50,15 @@ const buttonBaseClass = style(
 	motion.standard("box-shadow", "background-color", "color"),
 	shadow.subtle,
 	spacing.padding({ x: 6, y: 4 }),
+	radius.sm,
 	{
 		display: "inline-flex",
 		alignItems: "center",
 		justifyContent: "center",
 		gap: spacing.value(2),
-		borderRadius: "4px",
 		width: "fit-content",
-		height: "28px",
+		height: controlSize.height,
+		minWidth: controlSize.minTarget,
 		border: "none",
 		textOverflow: "ellipsis",
 		overflow: "hidden",
@@ -92,8 +95,8 @@ const buttonTextClass = style({
  */
 function pressedOrExpanded(styles: Record<string, string>) {
 	return {
-		"&:active:not(:disabled), &[data-pressed]:not(:disabled), &[aria-expanded='true']:not(:disabled)":
-			styles,
+		"&:active:not(:disabled), &[data-pressed]:not(:disabled)": styles,
+		"&[aria-expanded='true']:not(:disabled)": styles,
 	}
 }
 

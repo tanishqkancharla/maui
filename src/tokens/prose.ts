@@ -1,4 +1,5 @@
-import { style } from "purse-styles"
+import { defineVars, style } from "purse-styles"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
 import { motionEasing, motionStreamDurationMs } from "./motion"
@@ -78,6 +79,13 @@ const metrics: Record<ProseSize, ProseMetric> = {
 	},
 }
 
+// Slightly tighter reading rhythm on the Large platform scale.
+const blockGaps = defineVars({
+	sm: { default: `${metrics.sm.blockGap}px`, [LARGE_SCALE]: "12px" },
+	md: { default: `${metrics.md.blockGap}px`, [LARGE_SCALE]: "16px" },
+	lg: { default: `${metrics.lg.blockGap}px`, [LARGE_SCALE]: "20px" },
+})
+
 // Heading weights follow Tailwind's descending scale, capped at Maui's
 // heaviest weight (700).
 const headingColor = colors.gray[12]
@@ -148,7 +156,7 @@ export const proseRhythm = memoize((size: ProseSize) => {
 
 	return style({
 		"& > * + *": {
-			marginTop: px(m.blockGap),
+			marginTop: blockGaps[size],
 		},
 		// Gap after a heading: hug it to the content that follows.
 		"& > h1 + *": { marginTop: px(m.h1.marginBottom) },
@@ -177,7 +185,7 @@ export const proseHtml = memoize((size: ProseSize) => {
 	return style({
 		display: "flex",
 		flexDirection: "column",
-		gap: px(m.blockGap),
+		gap: blockGaps[size],
 		"& p": {
 			...block(m.paragraph),
 			fontWeight: 400,

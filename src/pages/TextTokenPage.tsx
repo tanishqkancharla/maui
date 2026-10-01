@@ -103,6 +103,7 @@ export function TextTokenPage() {
 
 			<H3>Examples</H3>
 			<H4>Sizes</H4>
+			<P>Preview sizes adapt to the Scale picker. Each pair below shows medium → large.</P>
 			<CodeBlock lang="typescript">{`const tiny = text({ size: "2xs", fontWeight: 400, color: "highContrast" })
 const caption = text({ size: "xs", fontWeight: 400, color: "highContrast" })
 const compact = text({ size: "sm", fontWeight: 400, color: "highContrast" })
@@ -163,12 +164,12 @@ const textSizeDetails: Record<
 		lineHeight: string
 	}
 > = {
-	"2xs": { fontSize: "10px", lineHeight: "14px" },
-	xs: { fontSize: "12px", lineHeight: "18px" },
-	sm: { fontSize: "13px", lineHeight: "20px" },
-	md: { fontSize: "14px", lineHeight: "22px" },
-	lg: { fontSize: "16px", lineHeight: "24px" },
-	xl: { fontSize: "22px", lineHeight: "30px" },
+	"2xs": { fontSize: "10 → 12px", lineHeight: "14 → 18px" },
+	xs: { fontSize: "12 → 15px", lineHeight: "18 → 22px" },
+	sm: { fontSize: "13 → 16px", lineHeight: "20 → 24px" },
+	md: { fontSize: "14 → 17px", lineHeight: "22 → 26px" },
+	lg: { fontSize: "16 → 20px", lineHeight: "24 → 30px" },
+	xl: { fontSize: "22 → 28px", lineHeight: "30 → 36px" },
 }
 
 const sampleParagraph =
@@ -240,4 +241,3 @@ const exampleCardClass = {
 const unionCodeStyle = {
 	whiteSpace: "pre",
 } as const
-

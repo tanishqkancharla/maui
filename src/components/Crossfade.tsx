@@ -8,7 +8,6 @@ import {
 } from "motion/react"
 import { style, useStyles } from "purse-styles"
 import { motionDurationMs } from "../tokens/motion"
-import { spacing } from "../tokens/spacing"
 import { cls } from "../utils/cls"
 
 export type CrossfadeDirection = "up" | "down" | "left" | "right"
@@ -31,7 +30,8 @@ export type CrossfadeProps = {
 	style?: CSSProperties
 }
 
-const OFFSET_PX = Number.parseFloat(spacing.value(6))
+// Animation travel stays fixed across platform scales.
+const OFFSET_PX = 12
 
 const enterTransition: Transition = {
 	type: "spring",
