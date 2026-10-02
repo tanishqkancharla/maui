@@ -113,11 +113,13 @@ text({
 | `lg` | 16px | 24px |
 | `xl` | 22px | 30px |
 
+Sizes step up on the **Large platform scale** (`:root[data-scale="large"]`, driven by `(pointer: coarse)` under the system preference): `md` is 14px/22px on desktop and 17px/26px on coarse pointers. See `useScale` / `ScaleProvider`.
+
 - `lowContrast` → `gray[11]`, `highContrast` → `gray[12]`, `accent` → `accent[11]`, `onAccent` → white.
 - UI sans: `fontFamily` (system ui-sans-serif stack). Mono: Commit Mono with `ss05` smart kerning (`monoFontStyle` / `monospace`).
 - `tabular: true` → `font-variant-numeric: tabular-nums`. NumberField, TableHead, and TableCell turn this on by default. Body copy and Prose stay off.
 - `baseTextStyle` is md / 400 / highContrast — already on `html, body`.
-- Inside `Prose`, `H1`–`H4` / `P` / lists switch to the **prose** scale (`sm` 14px, `md` 16px, `lg` 18px), which is larger and has reading rhythm. Do not put app chrome inside `Prose`.
+- Inside `Prose`, `H1`–`H4` / `P` / lists switch to the **prose** scale (`sm` 14px, `md` 16px, `lg` 18px), which is larger and has reading rhythm. Prose block sizes and line heights also step up ~1.2x on the Large platform scale. Do not put app chrome inside `Prose`.
 
 `proseContainerStyle` is the composable column (`maxWidth: proseMaxWidth`, `"80ch"`). `sizing.contentWidth` is that same style. `sizing.fullWidth` is `width: 100%`.
 
