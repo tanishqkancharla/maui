@@ -15,12 +15,17 @@ import { fontFamily, monoFontStyle } from "./text"
  * (https://github.com/tailwindlabs/tailwindcss-typography): `sm` -> 14px base,
  * `md` -> Tailwind's `base` (16px), `lg` -> 18px. Tailwind's em-relative values
  * are resolved to px here so they compose with Maui's px-based tokens.
+ *
+ * On the Large platform scale (coarse pointers) block font sizes and line
+ * heights step up ~1.2x — the same idea as the `text` tokens — so reading
+ * content grows with the rest of the UI on touch devices. Block gaps tighten
+ * separately (see `blockGaps`).
  */
 export type ProseSize = "sm" | "md" | "lg"
 
 type BlockMetric = {
-	fontSize: number
-	lineHeight: number
+	fontSize: string
+	lineHeight: string
 }
 
 type HeadingMetric = BlockMetric & {
@@ -43,36 +48,102 @@ type ProseMetric = {
 	listNestedGap: number
 }
 
+/** A block size that steps up with the platform data scale. */
+const scaledPx = (normal: number, large: number) =>
+	defineVars({
+		px: { default: `${normal}px`, [LARGE_SCALE]: `${large}px` },
+	}).px
+
 const metrics: Record<ProseSize, ProseMetric> = {
 	sm: {
 		blockGap: 16,
-		paragraph: { fontSize: 14, lineHeight: 24 },
-		h1: { fontSize: 30, lineHeight: 36, marginTop: 32, marginBottom: 24 },
-		h2: { fontSize: 20, lineHeight: 28, marginTop: 32, marginBottom: 16 },
-		h3: { fontSize: 18, lineHeight: 28, marginTop: 28, marginBottom: 8 },
-		h4: { fontSize: 14, lineHeight: 20, marginTop: 20, marginBottom: 8 },
+		paragraph: { fontSize: scaledPx(14, 17), lineHeight: scaledPx(24, 29) },
+		h1: {
+			fontSize: scaledPx(30, 36),
+			lineHeight: scaledPx(36, 43),
+			marginTop: 32,
+			marginBottom: 24,
+		},
+		h2: {
+			fontSize: scaledPx(20, 24),
+			lineHeight: scaledPx(28, 34),
+			marginTop: 32,
+			marginBottom: 16,
+		},
+		h3: {
+			fontSize: scaledPx(18, 22),
+			lineHeight: scaledPx(28, 34),
+			marginTop: 28,
+			marginBottom: 8,
+		},
+		h4: {
+			fontSize: scaledPx(14, 17),
+			lineHeight: scaledPx(20, 24),
+			marginTop: 20,
+			marginBottom: 8,
+		},
 		listPadding: 22,
 		listItemGap: 4,
 		listNestedGap: 8,
 	},
 	md: {
 		blockGap: 20,
-		paragraph: { fontSize: 16, lineHeight: 28 },
-		h1: { fontSize: 36, lineHeight: 40, marginTop: 48, marginBottom: 32 },
-		h2: { fontSize: 24, lineHeight: 32, marginTop: 48, marginBottom: 24 },
-		h3: { fontSize: 20, lineHeight: 32, marginTop: 32, marginBottom: 12 },
-		h4: { fontSize: 16, lineHeight: 24, marginTop: 24, marginBottom: 8 },
+		paragraph: { fontSize: scaledPx(16, 19), lineHeight: scaledPx(28, 34) },
+		h1: {
+			fontSize: scaledPx(36, 43),
+			lineHeight: scaledPx(40, 48),
+			marginTop: 48,
+			marginBottom: 32,
+		},
+		h2: {
+			fontSize: scaledPx(24, 29),
+			lineHeight: scaledPx(32, 38),
+			marginTop: 48,
+			marginBottom: 24,
+		},
+		h3: {
+			fontSize: scaledPx(20, 24),
+			lineHeight: scaledPx(32, 38),
+			marginTop: 32,
+			marginBottom: 12,
+		},
+		h4: {
+			fontSize: scaledPx(16, 19),
+			lineHeight: scaledPx(24, 29),
+			marginTop: 24,
+			marginBottom: 8,
+		},
 		listPadding: 26,
 		listItemGap: 8,
 		listNestedGap: 12,
 	},
 	lg: {
 		blockGap: 24,
-		paragraph: { fontSize: 18, lineHeight: 32 },
-		h1: { fontSize: 48, lineHeight: 48, marginTop: 56, marginBottom: 40 },
-		h2: { fontSize: 30, lineHeight: 40, marginTop: 56, marginBottom: 32 },
-		h3: { fontSize: 24, lineHeight: 36, marginTop: 40, marginBottom: 16 },
-		h4: { fontSize: 18, lineHeight: 28, marginTop: 32, marginBottom: 8 },
+		paragraph: { fontSize: scaledPx(18, 22), lineHeight: scaledPx(32, 38) },
+		h1: {
+			fontSize: scaledPx(48, 58),
+			lineHeight: scaledPx(48, 58),
+			marginTop: 56,
+			marginBottom: 40,
+		},
+		h2: {
+			fontSize: scaledPx(30, 36),
+			lineHeight: scaledPx(40, 48),
+			marginTop: 56,
+			marginBottom: 32,
+		},
+		h3: {
+			fontSize: scaledPx(24, 29),
+			lineHeight: scaledPx(36, 43),
+			marginTop: 40,
+			marginBottom: 16,
+		},
+		h4: {
+			fontSize: scaledPx(18, 22),
+			lineHeight: scaledPx(28, 34),
+			marginTop: 32,
+			marginBottom: 8,
+		},
 		listPadding: 28,
 		listItemGap: 12,
 		listNestedGap: 16,
@@ -95,8 +166,8 @@ const quoteColor = colors.gray[11]
 const px = (value: number) => `${value}px`
 
 const block = (metric: BlockMetric) => ({
-	fontSize: px(metric.fontSize),
-	lineHeight: px(metric.lineHeight),
+	fontSize: metric.fontSize,
+	lineHeight: metric.lineHeight,
 	fontFamily,
 })
 
