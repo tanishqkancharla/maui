@@ -61,9 +61,15 @@ export {
 	useButton,
 	type ButtonCssColor,
 	type ButtonProps,
+	type ButtonSize,
 	type ButtonVariant,
 	type ButtonVariantColor,
 } from "./components/Button"
+export {
+	TabBar,
+	type TabBarItem,
+	type TabBarProps,
+} from "./components/TabBar"
 export { Checkbox } from "./components/Checkbox"
 export { Switch } from "./components/Switch"
 export { Slider } from "./components/Slider"

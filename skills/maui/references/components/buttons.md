@@ -4,7 +4,7 @@ Gallery: `/components/buttons`. Import from `"maui"`. Overlay and Dialog live on
 
 ## `Button`
 
-Styled React Aria `Button` (default `type="button"`). Consumes `ButtonContext`, so it works as a `MenuTrigger`, `Select`, `DialogTrigger`, `ComboBox`, or `DatePicker` child. Height 28px, `shadow.control`, `radius` 4px.
+Styled React Aria `Button` (default `type="button"`). Consumes `ButtonContext`, so it works as a `MenuTrigger`, `Select`, `DialogTrigger`, `ComboBox`, or `DatePicker` child. Default height 28px, `shadow.control`, `radius` 4px.
 
 ```tsx
 <Button>Save</Button>
@@ -12,6 +12,7 @@ Styled React Aria `Button` (default `type="button"`). Consumes `ButtonContext`, 
 <Button variant="quiet" variantColor="accent">Quiet accent</Button>
 <Button variant="primary" variantColor="blue">Create</Button>
 <Button variant="primary" variantColor="#6366f1">Indigo</Button>
+<Button size="sm">Compact</Button>
 <Button isDisabled>Wait</Button>
 <Button aria-label="Search"><Search size="sm" /></Button>
 <Button>
@@ -22,6 +23,7 @@ Styled React Aria `Button` (default `type="button"`). Consumes `ButtonContext`, 
 
 | Prop | Notes |
 | --- | --- |
+| `size` | `"default"` (28px) \| `"sm"` (24px with 10px text and 14px icons). Large/touch scale keeps both at a 40px target |
 | `variant` | `"default"` (raised element) \| `"quiet"` (no shadow, transparent) \| `"primary"` (solid fill) |
 | `variantColor` | Palette name or opaque `#hex` / `rgb(...)`. Primary default is `"accent"`. Quiet ignores color unless set; when set, tints the label with no fill |
 | `isDisabled` | React Aria name. Maps to native `disabled`. **No `disabled` React prop** |

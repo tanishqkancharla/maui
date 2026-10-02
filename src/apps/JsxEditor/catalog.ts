@@ -34,6 +34,7 @@ import {
 	TableRow,
 } from "../../components/Table"
 import { Text } from "../../components/Text"
+import { TabBar } from "../../components/TabBar"
 import { Thinking } from "../../components/Thinking"
 import { Crossfade } from "../../components/Crossfade"
 import { LoadingScreen } from "../../components/LoadingScreen"
@@ -248,6 +249,7 @@ export const catalog: CatalogComponent[] = [
 		info: "Button. default is raised, quiet is borderless, primary fills with accent 9. Works as a MenuTrigger child.",
 		html: true,
 		attributes: [
+			{ name: "size", values: ["default", "sm"] },
 			{ name: "variant", values: ["default", "quiet", "primary"] },
 			{
 				name: "variantColor",
@@ -257,6 +259,18 @@ export const catalog: CatalogComponent[] = [
 			},
 			{ name: "aria-label" },
 			{ name: "isDisabled", boolean: true },
+		],
+	},
+	{
+		name: "TabBar",
+		info: "Controlled workspace tab bar. Selected tab uses the default outlined button; quiet tabs have separators.",
+		html: true,
+		attributes: [
+			{ name: "items", object: true },
+			{ name: "selectedId" },
+			{ name: "aria-label" },
+			{ name: "addLabel" },
+			{ name: "className" },
 		],
 	},
 	{
@@ -534,6 +548,7 @@ export const previewScope: Record<string, unknown> = {
 	TableHeader,
 	TableRow,
 	Text,
+	TabBar,
 	Thinking,
 	Crossfade,
 	LoadingScreen,

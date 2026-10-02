@@ -69,6 +69,7 @@ import { SpacingTokenPage } from "./SpacingTokenPage"
 import { TextPage } from "./TextPage"
 import { TextTokenPage } from "./TextTokenPage"
 import { TablePage } from "./TablePage"
+import { TabBarPage } from "./TabBarPage"
 import { TooltipPage } from "./TooltipPage"
 
 export function Maui() {
@@ -139,6 +140,7 @@ const navigation: NavEntry[] = [
 			{ label: "Avatar", path: "/components/avatar", page: AvatarPage },
 			{ label: "Badge", path: "/components/badge", page: BadgePage },
 			{ label: "Buttons", path: "/components/buttons", page: ButtonsPage },
+			{ label: "Tab bar", path: "/components/tab-bar", page: TabBarPage },
 			{ label: "Drawer", path: "/components/drawer", page: DrawerPage },
 			{
 				label: "Prose",

@@ -25,6 +25,27 @@ export function ButtonsPage() {
 				<Button onClick={() => setOverlayOpen(true)}>Open Overlay</Button>
 			</Flex>
 
+			<H3>Small</H3>
+			<P>
+				<Code>size="sm"</Code> creates a compact button for dense interfaces.
+			</P>
+			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
+				<Button size="sm">Button</Button>
+				<Button size="sm" variant="primary">
+					Save
+				</Button>
+				<Button size="sm" variant="quiet">
+					Quiet
+				</Button>
+				<Button size="sm">
+					<Plus />
+					Create
+				</Button>
+				<Button size="sm" aria-label="Search">
+					<Search />
+				</Button>
+			</Flex>
+
 			<H3>Disabled</H3>
 			<P>
 				<Code>isDisabled</Code> is React Aria’s disabled prop. It sets the

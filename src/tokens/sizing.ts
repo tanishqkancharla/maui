@@ -22,6 +22,7 @@ export const iconSizeValues: Record<IconSize, string> = defineVars({
 /** Shared control height and minimum touch target. */
 export const controlSize = defineVars({
 	height: { default: "28px", [LARGE_SCALE]: "40px" },
+	smHeight: { default: "24px", [LARGE_SCALE]: "40px" },
 	minTarget: { default: "0px", [LARGE_SCALE]: "40px" },
 })
 

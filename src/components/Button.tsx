@@ -16,12 +16,13 @@ import { colors, type ColorName, type ColorScale } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { radius } from "../tokens/radius"
 import { shadowVars } from "../tokens/shadow"
-import { controlSize } from "../tokens/sizing"
+import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
 
 export type ButtonVariant = "default" | "quiet" | "primary"
+export type ButtonSize = "default" | "sm"
 
 const buttonShadow = shadowVars.control
 
@@ -84,6 +85,33 @@ const buttonTextClass = style({
 	textBox: "trim-both cap alphabetic",
 })
 
+const smallButtonClass = style(
+	text({ size: "2xs", fontWeight: 400, color: "highContrast" }),
+	{
+		height: controlSize.smHeight,
+		gap: spacing.value(1),
+		paddingInline: spacing.value(4),
+		paddingBlock: spacing.value(2),
+		"& > svg": {
+			width: iconSizeValues.xs,
+			height: iconSizeValues.xs,
+		},
+		"&:has(> svg)": {
+			paddingBlock: spacing.value(2),
+		},
+		"&:has(> svg:first-child:not(:only-child))": {
+			paddingInlineStart: spacing.value(3),
+		},
+		"&:has(> svg:last-child:not(:only-child))": {
+			paddingInlineEnd: spacing.value(3),
+		},
+		"&:has(> svg:only-child)": {
+			width: controlSize.smHeight,
+			paddingInline: 0,
+		},
+	},
+)
+
 const buttonClass = style(buttonBaseClass, {
 	backgroundColor: backgroundColor.element,
 	"&:hover:not(:disabled)": {
@@ -113,6 +141,13 @@ const quietButtonClass = quietClass(
 	colors.gray[12],
 	colors.grayAlpha[9],
 )
+
+/** Internal style primitives for controls that compose Button visuals. */
+export const buttonStyles = {
+	base: buttonBaseClass,
+	quiet: quietButtonClass,
+	text: buttonTextClass,
+} as const
 
 const darkTextOnSolid: ReadonlySet<ColorName> = new Set([
 	"amber",
@@ -225,6 +260,7 @@ type ButtonData = {
 export type ButtonProps = Omit<RACButtonProps, "children" | "className"> & {
 	children: React.ReactNode
 	className?: string
+	size?: ButtonSize
 	variant?: ButtonVariant
 	variantColor?: ButtonVariantColor
 }
@@ -274,13 +310,17 @@ export const Button = React.forwardRef(function Button(
 		onClick,
 		onFocus,
 		type = "button",
+		size = "default",
 		variant = "default",
 		variantColor,
 		isDisabled,
 		...buttonProps
 	} = props
 	const [, attributes] = useButton({ onClick, onFocus }, forwardedRef)
-	const className = useStyles(buttonVariantClass(variant, variantColor))
+	const className = useStyles(
+		buttonVariantClass(variant, variantColor),
+		size === "sm" && smallButtonClass,
+	)
 	const textClassName = useStyles(buttonTextClass)
 	const mergedClassName = [className, classNameProp].filter(Boolean).join(" ")
 

@@ -349,7 +349,7 @@ const paneClass = style(border([], "outline"), radius.lg, {
 	minHeight: 0,
 	minWidth: 0,
 	overflow: "hidden",
-	backgroundColor: backgroundColor.element,
+	backgroundColor: backgroundColor.app,
 })
 
 const paneHeaderClass = style(

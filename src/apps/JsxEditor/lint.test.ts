@@ -23,6 +23,13 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		expect(diagnostics).toEqual([])
 	})
 
+	test("accepts a small Button", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Button size="sm">Compact</Button>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
+
 	test("accepts a braced string hex variantColor", () => {
 		const diagnostics = collectJsxDiagnosticsFromSource(
 			`<Button variant="primary" variantColor={"#1A73E8"}>Connect</Button>`,
@@ -211,6 +218,12 @@ describe("JSX editor catalog", () => {
 			text?.attributes.find((attribute) => attribute.name === "tabular")
 				?.boolean,
 		).toBe(true)
+	})
+
+	test("catalog exposes TabBar", async () => {
+		const { catalog, previewScope } = await import("./catalog")
+		expect(catalog.some((entry) => entry.name === "TabBar")).toBe(true)
+		expect(previewScope).toHaveProperty("TabBar")
 	})
 
 	test("accepts Crossfade without direction", () => {
