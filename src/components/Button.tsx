@@ -84,26 +84,11 @@ const buttonTextClass = style({
 	textBox: "trim-both cap alphabetic",
 })
 
-/**
- * RAC `data-pressed` is true while the pointer is down. MenuTrigger’s
- * PressResponder also keeps it while the menu is open. `aria-expanded`
- * covers Select / ComboBox / DatePicker / DialogTrigger overlays.
- */
-function pressedOrExpanded(styles: Record<string, string>) {
-	return {
-		"&:active:not(:disabled), &[data-pressed]:not(:disabled)": styles,
-		"&[aria-expanded='true']:not(:disabled)": styles,
-	}
-}
-
 const buttonClass = style(buttonBaseClass, {
 	backgroundColor: backgroundColor.element,
 	"&:hover:not(:disabled)": {
 		backgroundColor: backgroundColor.elementHover,
 	},
-	...pressedOrExpanded({
-		backgroundColor: backgroundColor.elementActive,
-	}),
 })
 
 function paletteAlpha(name: ColorName): ColorScale {
@@ -119,10 +104,6 @@ const quietClass = memoize((color: string, hoverColor: string, wash: string) =>
 			color: hoverColor,
 			backgroundColor: surfaceWash(wash, surfaceMixPercent.hover),
 		},
-		...pressedOrExpanded({
-			color: hoverColor,
-			backgroundColor: surfaceWash(wash, surfaceMixPercent.active),
-		}),
 		"&:disabled": disabledQuiet,
 	}),
 )
@@ -158,7 +139,7 @@ function opaqueColor(color: string) {
 	return `oklch(from ${color} l c h / 1)`
 }
 
-/** Pressed state of a one-off fill: same hue, a step darker. */
+/** Darken a one-off fill while preserving its hue. */
 function darkerFill(color: string) {
 	return `oklch(from ${color} calc(l - 0.04) c h)`
 }
@@ -185,7 +166,6 @@ const coloredButtonClass = memoize(
 					surfaceMixPercent.hover,
 					fill,
 				)
-				const pressed = darkerFill(fill)
 				const primaryShadow = primaryButtonShadow(fill)
 				return style(
 					buttonBaseClass,
@@ -197,9 +177,6 @@ const coloredButtonClass = memoize(
 						"&:hover:not(:disabled)": {
 							backgroundColor: hover,
 						},
-						...pressedOrExpanded({
-							backgroundColor: pressed,
-						}),
 						"&:disabled": disabledRaised,
 					},
 				)
@@ -226,9 +203,6 @@ const coloredButtonClass = memoize(
 					"&:hover:not(:disabled)": {
 						backgroundColor: hover,
 					},
-					...pressedOrExpanded({
-						backgroundColor: scale[10],
-					}),
 					"&:disabled": disabledRaised,
 				},
 			)

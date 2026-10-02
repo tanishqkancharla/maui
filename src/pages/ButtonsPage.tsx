@@ -29,7 +29,7 @@ export function ButtonsPage() {
 			<P>
 				<Code>isDisabled</Code> is React Aria’s disabled prop. It sets the
 				native <Code>disabled</Code> attribute — there is no parallel{" "}
-				<Code>disabled</Code> React prop. Hover and press fills do not apply.
+				<Code>disabled</Code> React prop. The hover fill does not apply.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button isDisabled>Button</Button>
@@ -110,9 +110,9 @@ export function ButtonsPage() {
 			<H3>Quiet</H3>
 			<P>
 				<Code>variant="quiet"</Code> has no fill. <Code>variantColor</Code>{" "}
-				tints the label and icon. Hover and press mix <Code>grayAlpha[9]</Code>{" "}
-				(or that color’s alpha 9) into transparent. Hover uses the shared 3.5%
-				control wash; press remains stronger.
+				tints the label and icon. Hover mixes <Code>grayAlpha[9]</Code> (or
+				that color’s alpha 9) into transparent using the shared 3.5% control
+				wash.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="quiet">Button</Button>
