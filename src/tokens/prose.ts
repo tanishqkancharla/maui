@@ -1,6 +1,7 @@
 import { defineVars, style } from "purse-styles"
 import { LARGE_SCALE } from "../theme/dataScale"
 import { memoize } from "../utils/memoize"
+import { borderColor } from "./borders"
 import { colors } from "./colors"
 import { motionEasing, motionStreamDurationMs } from "./motion"
 import { fontFamily, monoFontStyle } from "./text"
@@ -262,6 +263,9 @@ export const proseHtml = memoize((size: ProseSize) => {
 			fontWeight: 400,
 			color: bodyColor,
 			margin: 0,
+			// Let paragraphs (and images inside them) shrink to the column
+			// instead of forcing it wider than a flex item's min-content.
+			minWidth: 0,
 		},
 		"& h1": {
 			...block(m.h1),
@@ -307,6 +311,7 @@ export const proseHtml = memoize((size: ProseSize) => {
 			color: bodyColor,
 			paddingInlineStart: px(m.listPadding),
 			margin: 0,
+			minWidth: 0,
 			listStyleType: "none",
 		},
 		"& ol": {
@@ -360,6 +365,29 @@ export const proseHtml = memoize((size: ProseSize) => {
 		},
 		"& table": {
 			margin: 0,
+			width: "100%",
+			borderCollapse: "collapse",
+			borderSpacing: 0,
+		},
+		"& th, & td": {
+			...block(m.paragraph),
+			padding: "6px 9px",
+			borderBottom: `1px solid ${borderColor.border}`,
+			fontVariantNumeric: "tabular-nums",
+			textAlign: "left",
+			verticalAlign: "middle",
+		},
+		"& th": {
+			fontWeight: 500,
+			color: colors.gray[11],
+		},
+		"& tr:last-child td": {
+			borderBottom: "none",
+		},
+		"& img": {
+			maxWidth: "100%",
+			height: "auto",
+			borderRadius: "6px",
 		},
 	})
 })

@@ -170,6 +170,12 @@ Here's a concise plan for the **AI streaming** pattern:
 
 > Incomplete fences and emphasis stay readable while tokens arrive.
 
+| Surface | Owner | Notes |
+| --- | --- | --- |
+| Editor | TipTap | markdown shortcuts |
+| Assistant | Streamdown | incomplete tokens |
+| Type | Maui prose | shared reading scale |
+
 \`\`\`ts
 function greet(name: string) {
   return \`Hello, \${name}\`
