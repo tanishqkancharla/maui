@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react"
+import React, { useLayoutEffect, useRef, useState } from "react"
 import { useLocale } from "react-aria"
 import { Button as RACButton } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
@@ -19,6 +19,12 @@ export type TabBarItem = {
 	label: string
 	icon?: React.ReactNode
 	isClosable?: boolean
+	/**
+	 * Make this tab an HTML drag source. Pair with `onItemDragStart` /
+	 * `onItemDragEnd` to wire a drop target (within the bar via `onReorder`,
+	 * or a caller-owned target outside it).
+	 */
+	isDraggable?: boolean
 }
 
 export type TabBarProps = {
@@ -26,6 +32,15 @@ export type TabBarProps = {
 	selectedId: string
 	onSelectionChange: (id: string) => void
 	onClose?: (id: string) => void
+	/**
+	 * Reorder within the bar: called with the dragged tab id and the tab it was
+	 * dropped on. When set, the bar accepts drops on its tabs.
+	 */
+	onReorder?: (activeId: string, overId: string) => void
+	/** Fires on dragstart for a tab with `isDraggable`. Use it to set drag data. */
+	onItemDragStart?: (id: string, event: React.DragEvent<HTMLElement>) => void
+	/** Fires on dragend for a tab with `isDraggable`. */
+	onItemDragEnd?: (id: string, event: React.DragEvent<HTMLElement>) => void
 	onAdd?: () => void
 	addLabel?: string
 	"aria-label": string
@@ -98,6 +113,7 @@ const tabClass = style({
 		{
 			backgroundColor: backgroundColor.elementHover,
 		},
+	"&[data-dragging='true']": { opacity: 0.5 },
 })
 
 const tabButtonClass = style({
@@ -141,7 +157,7 @@ const addButtonClass = style({
 	marginInlineStart: spacing.value(2),
 })
 
-/** `root` on the outer `<div>`; `list` on the `role="toolbar"` row (hides a `> span` separator next to a `> div` tab whose button is RAC `data-hovered` or `aria-pressed`); `tab` on each tab's `<div>` (`data-selected="true"`; reveals a `[data-close-control]` sibling on `:hover` / `data-hovered` — needs TabBar's exact tab markup); `button({ isSelected })` on the tab's RAC `Button`; `label` on its text `<span>`; `close` on the `size="sm" variant="quiet"` close `Button`; `separator` on the `<span>` between tabs; `add` on the trailing add `Button`. */
+/** `root` on the outer `<div>`; `list` on the `role="toolbar"` row (hides a `> span` separator next to a `> div` tab whose button is RAC `data-hovered` or `aria-pressed`); `tab` on each tab's `<div>` (`data-selected="true"`; reveals a `[data-close-control]` sibling on `:hover` / `data-hovered`; dims with `data-dragging="true"` — needs TabBar's exact tab markup); `button({ isSelected })` on the tab's RAC `Button`; `label` on its text `<span>`; `close` on the `size="sm" variant="quiet"` close `Button`; `separator` on the `<span>` between tabs; `add` on the trailing add `Button`. */
 export const tabBarStyles = {
 	root: tabBarClass,
 	list: tabListClass,
@@ -162,6 +178,9 @@ export function TabBar({
 	selectedId,
 	onSelectionChange,
 	onClose,
+	onReorder,
+	onItemDragStart,
+	onItemDragEnd,
 	onAdd,
 	addLabel = "New tab",
 	"aria-label": ariaLabel,
@@ -170,6 +189,8 @@ export function TabBar({
 	const { direction } = useLocale()
 	const buttons = useRef(new Map<string, HTMLButtonElement>())
 	const focusSelectedAfterClose = useRef(false)
+	const draggingIdRef = useRef<string | null>(null)
+	const [draggingId, setDraggingId] = useState<string | null>(null)
 	const tabBarClassName = useStyles(tabBarStyles.root)
 	const tabListClassName = useStyles(tabBarStyles.list)
 	const tabClassName = useStyles(tabBarStyles.tab)
@@ -194,6 +215,64 @@ export function TabBar({
 		if (!onClose) return
 		focusSelectedAfterClose.current = true
 		onClose(id)
+	}
+
+	function isDraggable(item: TabBarItem) {
+		return item.isDraggable ?? onItemDragStart !== undefined
+	}
+
+	function onTabDragStart(
+		item: TabBarItem,
+		event: React.DragEvent<HTMLDivElement>,
+	) {
+		// The close control sits inside the draggable tab; don't drag from it.
+		if (
+			event.target instanceof Element &&
+			event.target.closest("[data-close-control]")
+		) {
+			event.preventDefault()
+			return
+		}
+		draggingIdRef.current = item.id
+		setDraggingId(item.id)
+		event.dataTransfer.effectAllowed = "move"
+		// Firefox aborts a drag when the store is empty; seed a default so
+		// onReorder-only callers work. Consumers can add their own types.
+		event.dataTransfer.setData("text/plain", item.id)
+		onItemDragStart?.(item.id, event)
+	}
+
+	function onTabDragEnd(
+		item: TabBarItem,
+		event: React.DragEvent<HTMLDivElement>,
+	) {
+		draggingIdRef.current = null
+		setDraggingId(null)
+		onItemDragEnd?.(item.id, event)
+	}
+
+	function onTabDragOver(
+		item: TabBarItem,
+		event: React.DragEvent<HTMLDivElement>,
+	) {
+		if (onReorder === undefined) return
+		const active = draggingIdRef.current
+		if (active === null || active === item.id) return
+		event.preventDefault()
+		// The bar handled this drop; don't also run an ancestor drop target.
+		event.stopPropagation()
+		event.dataTransfer.dropEffect = "move"
+	}
+
+	function onTabDrop(item: TabBarItem, event: React.DragEvent<HTMLDivElement>) {
+		if (onReorder === undefined) return
+		const active = draggingIdRef.current
+		if (active === null || active === item.id) return
+		event.preventDefault()
+		event.stopPropagation()
+		draggingIdRef.current = null
+		setDraggingId(null)
+		onReorder(active, item.id)
 	}
 
 	function selectAt(index: number) {
@@ -246,6 +325,12 @@ export function TabBar({
 							<div
 								className={tabClassName}
 								data-selected={selected ? "true" : undefined}
+								data-dragging={draggingId === item.id ? "true" : undefined}
+								draggable={isDraggable(item)}
+								onDragStart={(event) => onTabDragStart(item, event)}
+								onDragEnd={(event) => onTabDragEnd(item, event)}
+								onDragOver={(event) => onTabDragOver(item, event)}
+								onDrop={(event) => onTabDrop(item, event)}
 							>
 								<RACButton
 									ref={(element) => {

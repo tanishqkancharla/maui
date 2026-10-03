@@ -37,3 +37,7 @@ Outside `Prose` they use the app `text` scale (`H1` xl/700, `H2` lg/600, `H3`/`H
   <TextField id="name" aria-label="Name" />
 </Flex>
 ```
+
+## Markdown HTML
+
+`proseHtml` styles raw HTML (Streamdown output, TipTap trees) with the same elements as `Prose`, plus `table`/`th`/`td` (hairline row borders, padding, tabular numerals) and `img` (max-width, rounded). Tables don’t add their own scroll container — wrap wide tables in an `overflow-x: auto` element.
