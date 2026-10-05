@@ -21,9 +21,10 @@ const codeClass = style(
 		backgroundColor: colors.gray[3],
 		color: colors.gray[12],
 		display: "inline",
-		boxDecorationBreak: "clone",
+		boxDecorationBreak: "slice",
 		fontSize: "0.875em",
-		whiteSpace: "nowrap",
+		whiteSpace: "normal",
+		overflowWrap: "anywhere",
 	},
 )
 
