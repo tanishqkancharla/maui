@@ -1,7 +1,12 @@
 import { useState } from "react"
 import { Button } from "../components/Button"
 import { Code } from "../components/Code"
-import { Dialog } from "../components/Dialog"
+import {
+	Dialog,
+	DialogActions,
+	DialogBody,
+	DialogTitle,
+} from "../components/Dialog"
 import { Overlay } from "../components/Overlay"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
@@ -180,13 +185,20 @@ export function ButtonsPage() {
 				</Button>
 			</Flex>
 
-			{dialogOpen && (
-				<Dialog onClickOutside={() => setDialogOpen(false)}>
-					<H3>Dialog</H3>
-					<P>Dialog composes Overlay and FocusScope into a modal surface.</P>
-					<Button onClick={() => setDialogOpen(false)}>Close Dialog</Button>
-				</Dialog>
-			)}
+			<Dialog isOpen={dialogOpen} onOpenChange={setDialogOpen}>
+				<DialogTitle>Save changes?</DialogTitle>
+				<DialogBody>
+					<P>
+						Your updates are ready to save. You can cancel and continue editing.
+					</P>
+				</DialogBody>
+				<DialogActions>
+					<Button slot="close">Cancel</Button>
+					<Button variant="primary" onPress={() => setDialogOpen(false)}>
+						Save
+					</Button>
+				</DialogActions>
+			</Dialog>
 
 			{overlayOpen && (
 				<Overlay onClickOutside={() => setOverlayOpen(false)}>

@@ -11,18 +11,19 @@ Maui is open source under the MIT License and published on npm as `@tanishqkanch
 Halo keeps the short `maui` import alias:
 
 ```sh
-pnpm add maui@npm:@tanishqkancharla/maui@0.0.9
+pnpm add maui@npm:@tanishqkancharla/maui@0.0.9 motion@^13.2.0
 ```
 
 ```json
 {
 	"dependencies": {
-		"maui": "npm:@tanishqkancharla/maui@0.0.9"
+		"maui": "npm:@tanishqkancharla/maui@0.0.9",
+		"motion": "^13.2.0"
 	}
 }
 ```
 
-The published tarball contains compiled `dist/` JavaScript and declarations. Installs do not run a Maui build.
+Motion is a required peer dependency used by Maui components with animated presence and transitions. The published tarball contains compiled `dist/` JavaScript and declarations. Installs do not run a Maui build.
 
 Wrap the app in `MauiProvider`, then import tokens and components:
 

@@ -133,8 +133,8 @@ function verifyPackageJson(extractedRoot) {
 	if (pkg.scripts?.prepare) {
 		throw new Error("Packed package must not run a prepare build on install")
 	}
-	if (!pkg.peerDependencies?.react || !pkg.peerDependencies?.["react-dom"]) {
-		throw new Error("React and react-dom must be peer dependencies")
+	if (!pkg.peerDependencies?.motion || !pkg.peerDependencies?.react || !pkg.peerDependencies?.["react-dom"]) {
+		throw new Error("Motion, React, and react-dom must be peer dependencies")
 	}
 	const sideEffects = pkg.sideEffects
 	if (sideEffects === false) {
@@ -152,6 +152,7 @@ function consumeTarball(tarballPath) {
 				"install",
 				"--ignore-scripts",
 				tarballPath,
+				"motion@13.2.0",
 				"react@19.2.7",
 				"react-dom@19.2.7",
 			],

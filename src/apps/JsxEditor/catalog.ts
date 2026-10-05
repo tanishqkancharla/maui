@@ -4,7 +4,12 @@ import { Button } from "../../components/Button"
 import { Checkbox } from "../../components/Checkbox"
 import { Code, Kbd } from "../../components/Code"
 import { CodeBlock } from "../../components/CodeBlock"
-import { Dialog } from "../../components/Dialog"
+import {
+	Dialog,
+	DialogActions,
+	DialogBody,
+	DialogTitle,
+} from "../../components/Dialog"
 import { Drawer } from "../../components/Drawer"
 import { MarkdownEditor } from "../../components/MarkdownEditor"
 import { FuzzyString } from "../../components/FuzzyString"
@@ -17,6 +22,7 @@ import {
 } from "../../components/Input"
 import { ListBox, ListBoxItem } from "../../components/ListBox"
 import { Menu, MenuItem, MenuTrigger } from "../../components/Menu"
+import { MermaidDiagram } from "../../components/MermaidDiagram"
 import { Overlay } from "../../components/Overlay"
 import { Prose } from "../../components/Prose"
 import { RadioOption, RadioOptionGroup } from "../../components/Radio"
@@ -245,6 +251,15 @@ export const catalog: CatalogComponent[] = [
 		],
 	},
 	{
+		name: "MermaidDiagram",
+		info: "Responsive Mermaid SVG themed with Maui colors. Pass Mermaid syntax in source.",
+		attributes: [
+			{ name: "source", info: "Required Mermaid diagram source" },
+			{ name: "aria-label", info: "Accessible diagram description" },
+			{ name: "className" },
+		],
+	},
+	{
 		name: "Button",
 		info: "Button. default is raised, quiet is borderless, primary fills with accent 9. Works as a MenuTrigger child.",
 		html: true,
@@ -283,6 +298,37 @@ export const catalog: CatalogComponent[] = [
 			{ name: "isDismissable", boolean: true, info: "Default true" },
 			{ name: "aria-label" },
 		],
+	},
+	{
+		name: "Dialog",
+		info: "Accessible outlined modal surface with a 10% scrim and reversible scale/fade motion. Compose DialogTitle, DialogBody, and DialogActions.",
+		attributes: [
+			{ name: "isOpen", boolean: true },
+			{ name: "defaultOpen", boolean: true },
+			{ name: "isDismissable", boolean: true, info: "Default true" },
+			{ name: "isKeyboardDismissDisabled", boolean: true },
+			{ name: "size", values: ["sm", "md", "lg"] },
+			{ name: "role", values: ["dialog", "alertdialog"] },
+			{ name: "aria-label" },
+		],
+	},
+	{
+		name: "DialogTitle",
+		info: "Required accessible dialog title.",
+		html: true,
+		attributes: [],
+	},
+	{
+		name: "DialogBody",
+		info: "Scrollable dialog content region.",
+		html: true,
+		attributes: [],
+	},
+	{
+		name: "DialogActions",
+		info: "End-aligned action row. Put secondary actions before the primary action.",
+		html: true,
+		attributes: [],
 	},
 	{
 		name: "Badge",
@@ -518,6 +564,9 @@ export const previewScope: Record<string, unknown> = {
 	Kbd,
 	CodeBlock,
 	Dialog,
+	DialogActions,
+	DialogBody,
+	DialogTitle,
 	Drawer,
 	FuzzyString,
 	Icons,
@@ -530,6 +579,7 @@ export const previewScope: Record<string, unknown> = {
 	Menu,
 	MenuItem,
 	MenuTrigger,
+	MermaidDiagram,
 	Overlay,
 	MarkdownEditor,
 	Prose,

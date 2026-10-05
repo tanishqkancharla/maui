@@ -38,6 +38,7 @@ export {
 	motionDurationMs,
 	motionEasing,
 	motionStreamDurationMs,
+	overlayMotion,
 } from "./tokens/motion"
 export {
 	iconSizeValues,
@@ -88,7 +89,17 @@ export {
 	type SelectProps,
 	type SelectItemProps,
 } from "./components/Select"
-export { Dialog } from "./components/Dialog"
+export {
+	Dialog,
+	DialogActions,
+	DialogBody,
+	DialogTitle,
+	type DialogActionsProps,
+	type DialogBodyProps,
+	type DialogProps,
+	type DialogSize,
+	type DialogTitleProps,
+} from "./components/Dialog"
 export { Tooltip } from "./components/Tooltip"
 export { Overlay } from "./components/Overlay"
 export {
@@ -175,6 +186,10 @@ export {
 } from "./components/Typography"
 export { CodeBlock } from "./components/CodeBlock"
 export { Code, Kbd, type KbdProps, type KbdVariant } from "./components/Code"
+export {
+	MermaidDiagram,
+	type MermaidDiagramProps,
+} from "./components/MermaidDiagram"
 export {
 	CollectionPopover,
 	type CollectionPopoverProps,

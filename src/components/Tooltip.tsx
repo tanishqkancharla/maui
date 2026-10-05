@@ -1,4 +1,3 @@
-import { animated, useSpring } from "@react-spring/web"
 import React, { useEffect, useRef, useState } from "react"
 import ReactDOM from "react-dom"
 import {
@@ -8,11 +7,13 @@ import {
 	useTooltipTrigger,
 } from "react-aria"
 import { TooltipTriggerState, useTooltipTriggerState } from "react-stately"
+import { useReducedMotion } from "motion/react"
 import { style, useStyles } from "purse-styles"
 import { background } from "../tokens/background"
+import { border } from "../tokens/borders"
 import { colors } from "../tokens/colors"
+import { overlayMotion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
-import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
@@ -34,7 +35,7 @@ export function Tooltip(props: TooltipProps) {
 		content,
 		children,
 		placement = "top",
-		delay = 500,
+		delay = 400,
 		isDisabled,
 	} = props
 
@@ -161,28 +162,16 @@ type TooltipPopupProps = {
 } & React.HTMLAttributes<HTMLElement>
 
 // The tooltip enters from the trigger's side: it starts nudged toward the
-// trigger and scaled down, then settles into its final position. The exit
-// reverses this, collapsing back toward the trigger.
-//
-// Both states MUST use the identical transform function structure
-// (`translate(x, y) scale(s)`). react-spring interpolates transforms by
-// matching numbers positionally between strings, so mismatched structures
-// (e.g. `translateY(...)` vs `translate(...)`) interpolate into garbage.
+// trigger, then settles into its final position. The final exit only fades so
+// dismissals feel faster than entrances.
 const hiddenTransforms: Record<string, string> = {
-	top: "translate(0px, 3px) scale(0.94)",
-	bottom: "translate(0px, -3px) scale(0.94)",
-	left: "translate(3px, 0px) scale(0.94)",
-	right: "translate(-3px, 0px) scale(0.94)",
+	top: "translate(0px, 2px)",
+	bottom: "translate(0px, -2px)",
+	left: "translate(2px, 0px)",
+	right: "translate(-2px, 0px)",
 }
 
-const shownTransform = "translate(0px, 0px) scale(1)"
-
-const transformOrigins: Record<string, string> = {
-	top: "center bottom",
-	bottom: "center top",
-	left: "right center",
-	right: "left center",
-}
+const shownTransform = "translate(0px, 0px)"
 
 function TooltipPopup(props: TooltipPopupProps) {
 	const {
@@ -210,42 +199,60 @@ function TooltipPopup(props: TooltipPopupProps) {
 	const resolvedPlacement = actualPlacement ?? placement
 	const hidden = hiddenTransforms[resolvedPlacement]
 
-	// The spring's onRest closes over props from the render that scheduled the
-	// animation. If the user re-enters mid-exit, react-spring interrupts the
-	// exit and fires onRest — guard against that stale callback unmounting a
-	// tooltip that is now animating back in.
+	// A transition end can arrive after the user re-enters mid-exit. Guard
+	// against that stale event unmounting a tooltip that is visible again.
 	const phaseRef = useRef(phase)
 	phaseRef.current = phase
+	const [visible, setVisible] = useState(!animateIn)
+	const reduceMotion = Boolean(useReducedMotion())
 
-	const springStyle = useSpring({
-		config: { tension: 1200, friction: 60 },
-		from: { opacity: 0, transform: hidden },
-		to:
-			phase === "out"
-				? { opacity: 0, transform: hidden }
-				: { opacity: 1, transform: shownTransform },
-		// A tooltip opened via a "change" appears instantly (no enter animation).
-		immediate: phase === "in" && !animateIn,
-		onRest: (result) => {
-			if (result.finished && phaseRef.current === "out") onExited()
-		},
-	})
+	useEffect(() => {
+		if (phase === "out") {
+			setVisible(false)
+			return
+		}
+		if (!animateIn) {
+			setVisible(true)
+			return
+		}
+		const frame = requestAnimationFrame(() => setVisible(true))
+		return () => cancelAnimationFrame(frame)
+	}, [animateIn, phase])
+
+	const transition =
+		reduceMotion
+			? `opacity ${overlayMotion.reduced.durationMs}ms ${overlayMotion.reduced.easing}`
+			: phase === "out"
+			? `opacity ${overlayMotion.tooltipExit.durationMs}ms ${overlayMotion.tooltipExit.easing}`
+			: ["opacity", "transform"]
+					.map(
+						(property) =>
+							`${property} ${overlayMotion.tooltipEnter.durationMs}ms ${overlayMotion.tooltipEnter.easing}`,
+					)
+					.join(", ")
 
 	const className = useStyles(tooltipClass)
 
 	return ReactDOM.createPortal(
-		<animated.div
+		<div
 			ref={overlayRef}
 			className={className}
 			{...mergeProps(otherProps, tooltipProps)}
 			style={{
 				...overlayProps.style,
-				transformOrigin: transformOrigins[resolvedPlacement],
-				...springStyle,
+				opacity: visible ? 1 : 0,
+				transform:
+					reduceMotion || phase === "out" || visible ? shownTransform : hidden,
+				transition: phase === "in" && !animateIn ? "none" : transition,
+			}}
+			onTransitionEnd={(event) => {
+				if (event.propertyName === "opacity" && phaseRef.current === "out") {
+					onExited()
+				}
 			}}
 		>
 			{children}
-		</animated.div>,
+		</div>,
 		document.body,
 	)
 }
@@ -260,7 +267,7 @@ const tooltipClass = style(
 	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
 	radius.sm,
 	spacing.padding({ x: 3, y: 2 }),
-	shadow.medium,
+	border([], "outline"),
 	background.element,
 	{
 		zIndex: 1000,

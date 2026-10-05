@@ -8,7 +8,7 @@ import { CodeBlock } from "../components/CodeBlock"
 import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
-import { motion, motionDurationMs, motionEasing } from "../tokens/motion"
+import { motion, motionDurationMs, motionEasing, overlayMotion } from "../tokens/motion"
 import { shadowVars } from "../tokens/shadow"
 
 import { colors } from "../tokens/colors"
@@ -31,9 +31,9 @@ export function MotionTokenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Motion</H2>
 			<P>
-				Motion tokens keep interactive feedback consistent. Right now the system
-				is mostly fast hover/focus transitions; reduced-motion behavior can come
-				later.
+				Motion tokens keep control feedback and transient overlays consistent.
+				Controls stay fast; overlays enter gently, dismiss faster, and reduce to
+				opacity-only motion when requested.
 			</P>
 
 			<H3>Values</H3>
@@ -56,6 +56,17 @@ export function MotionTokenPage() {
 							animate.
 						</TableCell>
 					</TableRow>
+					{overlayRecipes.map((recipe) => (
+						<TableRow key={recipe.name}>
+							<TableCell>
+								<Code>{recipe.name}</Code>
+							</TableCell>
+							<TableCell>
+								<Code>{`${recipe.durationMs}ms ${recipe.easing}`}</Code>
+							</TableCell>
+							<TableCell>{recipe.use}</TableCell>
+						</TableRow>
+					))}
 				</TableBody>
 			</Table>
 
@@ -104,3 +115,36 @@ const animatedCard = style(
 		</Prose>
 	)
 }
+
+const overlayRecipes = [
+	{
+		name: "overlayMotion.tooltipEnter",
+		...overlayMotion.tooltipEnter,
+		use: "Tooltip opacity and 2px directional travel.",
+	},
+	{
+		name: "overlayMotion.tooltipExit",
+		...overlayMotion.tooltipExit,
+		use: "Tooltip opacity-only dismissal.",
+	},
+	{
+		name: "overlayMotion.dialogEnter",
+		...overlayMotion.dialogEnter,
+		use: "Dialog opacity and 0.98 → 1 scale.",
+	},
+	{
+		name: "overlayMotion.dialogExit",
+		...overlayMotion.dialogExit,
+		use: "Dialog reverse scale and fade.",
+	},
+	{
+		name: "overlayMotion.backdrop",
+		...overlayMotion.backdrop,
+		use: "Backdrop opacity.",
+	},
+	{
+		name: "overlayMotion.reduced",
+		...overlayMotion.reduced,
+		use: "Opacity-only reduced motion.",
+	},
+] as const

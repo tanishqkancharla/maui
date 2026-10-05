@@ -39,6 +39,7 @@ import { CrossfadePage } from "./CrossfadePage"
 // import { CrossfadeStudioPage } from "./CrossfadeStudioPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
+import { DialogPage } from "./DialogPage"
 import { EmailClientPage } from "./EmailClientPage"
 import { FocusRingTokenPage } from "./FocusRingTokenPage"
 import { FormControlsPage } from "./FormControlsPage"
@@ -58,6 +59,7 @@ import { LoadingScreenPage } from "./LoadingScreenPage"
 import { ListBoxPage } from "./ListBoxPage"
 import { ThinkingPage } from "./ThinkingPage"
 import { MenuPage } from "./MenuPage"
+import { MermaidDiagramPage } from "./MermaidDiagramPage"
 import { MessageListPage } from "./MessageListPage"
 import { MotionTokenPage } from "./MotionTokenPage"
 import { ProsePage } from "./ProsePage"
@@ -140,6 +142,7 @@ const navigation: NavEntry[] = [
 			{ label: "Avatar", path: "/components/avatar", page: AvatarPage },
 			{ label: "Badge", path: "/components/badge", page: BadgePage },
 			{ label: "Buttons", path: "/components/buttons", page: ButtonsPage },
+			{ label: "Dialog", path: "/components/dialog", page: DialogPage },
 			{ label: "Tab bar", path: "/components/tab-bar", page: TabBarPage },
 			{ label: "Drawer", path: "/components/drawer", page: DrawerPage },
 			{
@@ -189,6 +192,11 @@ const navigation: NavEntry[] = [
 				label: "FuzzyString",
 				path: "/components/fuzzy-string",
 				page: FuzzyStringPage,
+			},
+			{
+				label: "Mermaid diagram",
+				path: "/components/mermaid-diagram",
+				page: MermaidDiagramPage,
 			},
 			{ label: "Icons", path: "/components/icons", page: IconsPage },
 			{
