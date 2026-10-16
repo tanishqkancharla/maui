@@ -13,13 +13,14 @@ type AvatarProps = {
 
 export function Avatar({ name, size = "sm", className }: AvatarProps) {
 	const avatarClassName = useStyles(avatarClass(name, size))
+	const initialsClassName = useStyles(initialsClass)
 
 	return (
 		<span
 			className={joinClassNames(avatarClassName, className)}
 			aria-hidden="true"
 		>
-			{initials(name)}
+			<span className={initialsClassName}>{initials(name)}</span>
 		</span>
 	)
 }
@@ -100,6 +101,14 @@ const avatarClass = memoize((seed: string, size: TextSize) => {
 		backgroundColor: palette.background,
 		color: palette.color,
 	})
+})
+
+// The grid centers the line box, which includes the font's descent, so
+// capitals rode high. Trimming to cap height centers the letters themselves.
+// text-box applies to block containers, not to the grid itself.
+const initialsClass = style({
+	display: "block",
+	textBox: "trim-both cap alphabetic",
 })
 
 function joinClassNames(...classNames: Array<string | undefined>) {
