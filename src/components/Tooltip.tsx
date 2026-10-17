@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import ReactDOM from "react-dom"
 import {
 	mergeProps,
+	mergeRefs,
 	useOverlayPosition,
 	useTooltip,
 	useTooltipTrigger,
@@ -22,8 +23,11 @@ type TooltipPlacement = "top" | "bottom" | "left" | "right"
 type TooltipProps = {
 	/** The content shown inside the tooltip. */
 	content: React.ReactNode
-	/** The trigger element. Must contain something focusable (e.g. a button). */
-	children: React.ReactNode
+	/**
+	 * The trigger: one focusable element, such as a Button, that forwards its
+	 * ref and passes event handlers and ARIA props to the DOM.
+	 */
+	children: React.ReactElement
 	placement?: TooltipPlacement
 	/** Warmup delay in ms before the tooltip shows on hover. */
 	delay?: number
@@ -40,21 +44,30 @@ export function Tooltip(props: TooltipProps) {
 	} = props
 
 	const state = useTooltipTriggerState({ delay, isDisabled })
-	const triggerRef = useRef<HTMLSpanElement>(null)
+	const triggerRef = useRef<HTMLElement>(null)
 	const { triggerProps, tooltipProps } = useTooltipTrigger(
 		{ delay, isDisabled },
 		state,
 		triggerRef,
 	)
 
-	const triggerClassName = useStyles(triggerClass)
 	const transition = useTooltipTransition(state.isOpen)
+
+	// The trigger props go on the focusable element itself, as react-aria's
+	// FocusableProvider does. On a wrapper, focus never opened the tooltip
+	// (react-aria ignores focus on descendants) and aria-describedby missed
+	// the focused element.
+	const child = React.Children.only(children) as React.ReactElement<
+		Record<string, unknown> & { ref?: React.Ref<HTMLElement> }
+	>
+	const trigger = React.cloneElement(child, {
+		...mergeProps(child.props, triggerProps),
+		ref: mergeRefs(child.props.ref, triggerRef),
+	})
 
 	return (
 		<>
-			<span ref={triggerRef} className={triggerClassName} {...triggerProps}>
-				{children}
-			</span>
+			{trigger}
 			{transition.render && (
 				<TooltipPopup
 					state={state}
@@ -256,12 +269,6 @@ function TooltipPopup(props: TooltipPopupProps) {
 		document.body,
 	)
 }
-
-// The wrapper makes the trigger hoverable/focusable as a unit without
-// affecting layout of the child.
-const triggerClass = style({
-	display: "inline-block",
-})
 
 const tooltipClass = style(
 	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
