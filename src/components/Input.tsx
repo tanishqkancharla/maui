@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useRef, useState, type Ref } from "react"
 import {
 	AriaNumberFieldProps,
 	AriaSearchFieldProps,
@@ -7,6 +7,7 @@ import {
 	useButton,
 	useLocale,
 	useNumberField,
+	useObjectRef,
 	useSearchField,
 	useTextField,
 } from "react-aria"
@@ -61,12 +62,38 @@ const inputClass = style(
 	},
 )
 
+const smallInputClass = style(spacing.padding({ x: 3 }), {
+	height: controlSize.smHeight,
+	paddingBlock: 0,
+})
+
+const fieldClass = style({
+	display: "flex",
+	flexDirection: "column",
+	gap: spacing.value(2),
+	width: "100%",
+	minWidth: 0,
+})
+
+const errorClass = style(
+	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
+	{
+		color: "light-dark(#ce2c31, #e5484d)",
+	},
+)
+
 type KeyboardHintProps = {
 	/** A single-character shortcut displayed at the inline end while unfocused. */
 	keyboardHint?: string
 }
 
-export type TextFieldProps = AriaTextFieldOptions<"input"> & KeyboardHintProps
+type BaseTextFieldProps = AriaTextFieldOptions<"input"> & KeyboardHintProps
+export type TextFieldSize = "default" | "sm"
+export type TextFieldProps = BaseTextFieldProps & {
+	/** `sm` matches `Button size="sm"` for dense rows such as tree items. */
+	size?: TextFieldSize
+	ref?: Ref<HTMLInputElement>
+}
 export type SearchFieldProps = AriaSearchFieldProps &
 	KeyboardHintProps & {
 		"aria-keyshortcuts"?: string
@@ -113,15 +140,37 @@ function KeyboardHint(props: { children: string }) {
 }
 
 export function TextField(props: TextFieldProps) {
-	const { keyboardHint, ...fieldProps } = props
-	const ref = useRef<HTMLInputElement>(null)
-	const { inputProps } = useTextField(fieldProps, ref)
+	const {
+		keyboardHint,
+		size = "default",
+		ref: forwardedRef,
+		...fieldProps
+	} = props
+	const ref = useObjectRef(forwardedRef)
+	const {
+		inputProps,
+		errorMessageProps,
+		isInvalid,
+		validationErrors,
+		validationDetails,
+	} = useTextField(fieldProps, ref)
 	const { isFocused, focusProps } = useKeyboardHint()
 	const frameClassName = useStyles(inputFrameClass)
+	const fieldClassName = useStyles(fieldClass)
+	const errorClassName = useStyles(errorClass)
 	const className = useStyles(
 		inputClass,
+		size === "sm" && smallInputClass,
 		keyboardHint ? inputWithHintClass : undefined,
 	)
+	const errorMessage =
+		typeof fieldProps.errorMessage === "function"
+			? fieldProps.errorMessage({
+					isInvalid,
+					validationErrors,
+					validationDetails,
+				})
+			: fieldProps.errorMessage
 	const input = (
 		<input
 			className={className}
@@ -129,14 +178,29 @@ export function TextField(props: TextFieldProps) {
 			{...mergeProps(inputProps, focusProps)}
 		/>
 	)
-
-	if (!keyboardHint) return input
-
-	return (
+	const control = keyboardHint ? (
 		<div className={frameClassName}>
 			{input}
 			{!isFocused ? <KeyboardHint>{keyboardHint}</KeyboardHint> : null}
 		</div>
+	) : (
+		input
+	)
+
+	const showError = isInvalid && errorMessage != null && errorMessage !== ""
+
+	// Keep one wrapper in every state so the input is not remounted, and does
+	// not lose focus, when the error appears or disappears while typing. Spans
+	// keep the field valid inside a <label>.
+	return (
+		<span className={fieldClassName}>
+			{control}
+			{showError ? (
+				<span {...errorMessageProps} className={errorClassName}>
+					{errorMessage}
+				</span>
+			) : null}
+		</span>
 	)
 }
 
@@ -362,7 +426,7 @@ const quietInputClass = style(
 	},
 )
 
-export function QuietTextField(props: TextFieldProps) {
+export function QuietTextField(props: BaseTextFieldProps) {
 	const { keyboardHint, ...fieldProps } = props
 	const ref = useRef<HTMLInputElement>(null)
 	const { inputProps } = useTextField(fieldProps, ref)

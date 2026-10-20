@@ -41,6 +41,7 @@ export {
 	overlayMotion,
 } from "./tokens/motion"
 export {
+	controlSize,
 	iconSizeValues,
 	sizingTokens as sizing,
 	type IconSize,
@@ -82,6 +83,7 @@ export {
 	NumberField,
 	QuietTextField,
 	type TextFieldProps,
+	type TextFieldSize,
 	type SearchFieldProps,
 } from "./components/Input"
 export {

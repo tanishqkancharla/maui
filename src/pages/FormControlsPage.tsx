@@ -17,6 +17,7 @@ export function FormControlsPage() {
 	const [switchState, setSwitchState] = useState(false)
 	const [checkboxState, setCheckboxState] = useState(false)
 	const [textValue, setTextValue] = useState("")
+	const [smallTextValue, setSmallTextValue] = useState("notes/plan.md")
 	const [searchValue, setSearchValue] = useState("")
 	const [numberValue, setNumberValue] = useState(3)
 	const [radioValue, setRadioValue] = useState("one")
@@ -35,6 +36,17 @@ export function FormControlsPage() {
 						placeholder="TextField"
 						value={textValue}
 						onChange={setTextValue}
+					/>
+				</Flex>
+				<Flex column gap={3} style={{ maxWidth: "240px" }}>
+					<Label htmlFor="small-text-field">Small text field with error</Label>
+					<TextField
+						id="small-text-field"
+						size="sm"
+						value={smallTextValue}
+						onChange={setSmallTextValue}
+						isInvalid={smallTextValue.includes("/")}
+						errorMessage="Use a name without slashes."
 					/>
 				</Flex>
 				<Flex column gap={3} style={{ maxWidth: "240px" }}>
