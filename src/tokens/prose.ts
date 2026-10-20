@@ -45,7 +45,6 @@ type ProseMetric = {
 	h4: HeadingMetric
 	listPadding: number
 	listItemGap: number
-	listNestedGap: number
 }
 
 /** A block size that steps up with the platform data scale. */
@@ -84,7 +83,6 @@ const metrics: Record<ProseSize, ProseMetric> = {
 		},
 		listPadding: 22,
 		listItemGap: 4,
-		listNestedGap: 8,
 	},
 	md: {
 		blockGap: 20,
@@ -115,7 +113,6 @@ const metrics: Record<ProseSize, ProseMetric> = {
 		},
 		listPadding: 26,
 		listItemGap: 8,
-		listNestedGap: 12,
 	},
 	lg: {
 		blockGap: 24,
@@ -146,7 +143,6 @@ const metrics: Record<ProseSize, ProseMetric> = {
 		},
 		listPadding: 28,
 		listItemGap: 12,
-		listNestedGap: 16,
 	},
 }
 
@@ -200,11 +196,9 @@ export const prose = memoize((size: ProseSize) => {
 			fontWeight: 400,
 			color: bodyColor,
 			paddingInlineStart: px(m.listPadding),
-			"& > li + li": {
+			// One gap between items at any depth, including through wrappers.
+			"& li + li, & li ul, & li ol": {
 				marginTop: px(m.listItemGap),
-			},
-			"& li > ul, & li > ol": {
-				marginTop: px(m.listNestedGap),
 			},
 		}),
 	}
@@ -336,11 +330,9 @@ export const proseHtml = memoize((size: ProseSize) => {
 			paddingRight: "0.4em",
 			boxSizing: "border-box",
 		},
-		"& ul > li + li, & ol > li + li": {
+		// One gap between items at any depth, including through editor node views.
+		"& li + li, & li ul, & li ol": {
 			marginTop: px(m.listItemGap),
-		},
-		"& li > ul, & li > ol": {
-			marginTop: px(m.listNestedGap),
 		},
 		"& strong": { fontWeight: 600 },
 		"& em": { fontStyle: "italic" },
