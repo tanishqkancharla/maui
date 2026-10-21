@@ -98,8 +98,8 @@ export function LoadingScreenPage() {
 				Fills whatever width and height it is given, with{" "}
 				<Code>radius.lg</Code> on the surface. Pass{" "}
 				<Code>progressLabel</Code> to show a status under a small, accent
-				Thinking indicator. The label is accent, medium weight, with trailing{" "}
-				<Code>...</Code>. Label changes Crossfade up. With no label at
+				Thinking indicator. The label is accent, medium weight, and keeps the
+				punctuation you provide. Label changes Crossfade up. With no label at
 				mount, the indicator waits 2s before fading in.
 			</P>
 

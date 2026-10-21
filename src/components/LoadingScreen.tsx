@@ -26,10 +26,6 @@ function resolvedLabel(progressLabel: string | undefined) {
 	return trimmed ? trimmed : undefined
 }
 
-function progressText(label: string) {
-	return label.endsWith("...") || label.endsWith("…") ? label : `${label}...`
-}
-
 /**
  * Full-size loading state. A `progressLabel` on the first render fades the
  * Thinking indicator and label in together. Without a label, the indicator
@@ -123,7 +119,7 @@ export function LoadingScreen({
 											contentKey={label}
 										>
 											<Text size="sm" fontWeight={500} color="accent">
-												{progressText(label)}
+												{label}
 											</Text>
 										</Crossfade>
 									</div>
@@ -165,7 +161,7 @@ const labelSlotClass = style({
 })
 
 const labelClass = style({
-	paddingTop: spacing.value(8),
+	paddingTop: spacing.value(12),
 	textAlign: "center",
 	maxWidth: "36ch",
 })
