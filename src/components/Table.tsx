@@ -33,7 +33,6 @@ import { shadow, shadowVars } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
-import { partRule, partSelector } from "../utils/partSelector"
 
 export type TableAlign = "start" | "center" | "end"
 
@@ -166,22 +165,9 @@ const selectionCheck = style({
 	transform: "scale(0)",
 })
 
-const selectedFill = { backgroundColor: colors.accent[9] }
-const selectedHoverFill = {
-	backgroundColor: surfaceWash(
-		colors.gray[12],
-		surfaceMixPercent.hover,
-		colors.accent[9],
-	),
-}
-const shownCheck = { opacity: 1, transform: "scale(1)" }
-
 const selectionCheckbox = style(
 	flex({ alignItems: "center", justifyContent: "center" }),
-	focusRing(
-		`&[data-focus-visible] ${partSelector(selectionBox)}`,
-		shadowVars.control,
-	),
+	focusRing(`&[data-focus-visible] ${selectionBox}`, shadowVars.control),
 	{
 		position: "relative",
 		width: "fit-content",
@@ -197,20 +183,27 @@ const selectionCheckbox = style(
 			whiteSpace: "nowrap",
 			border: 0,
 		},
+		[`&[data-hovered] ${selectionBox}`]: {
+			backgroundColor: backgroundColor.elementHover,
+		},
+		[`&[data-selected] ${selectionBox}, &[data-indeterminate] ${selectionBox}`]:
+			{
+				backgroundColor: colors.accent[9],
+			},
+		[`&[data-hovered][data-selected] ${selectionBox}, &[data-hovered][data-indeterminate] ${selectionBox}`]:
+			{
+				backgroundColor: surfaceWash(
+					colors.gray[12],
+					surfaceMixPercent.hover,
+					colors.accent[9],
+				),
+			},
+		[`&[data-selected] ${selectionCheck}, &[data-indeterminate] ${selectionCheck}`]:
+			{
+				opacity: 1,
+				transform: "scale(1)",
+			},
 	},
-	partRule("[data-hovered]", selectionBox, {
-		backgroundColor: backgroundColor.elementHover,
-	}),
-	partRule("[data-selected]", selectionBox, selectedFill),
-	partRule("[data-indeterminate]", selectionBox, selectedFill),
-	partRule("[data-hovered][data-selected]", selectionBox, selectedHoverFill),
-	partRule(
-		"[data-hovered][data-indeterminate]",
-		selectionBox,
-		selectedHoverFill,
-	),
-	partRule("[data-selected]", selectionCheck, shownCheck),
-	partRule("[data-indeterminate]", selectionCheck, shownCheck),
 )
 
 function useMultipleSelectionCheckboxes() {

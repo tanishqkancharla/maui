@@ -1,4 +1,4 @@
-import { style, useStyles, type CSSProperties } from "purse-styles"
+import { style, useStyles } from "purse-styles"
 import { Table, TableBody, TableCell, TableHead,
 	TableHeader, TableRow } from "../components/Table"
 import { Code } from "../components/Code"
@@ -175,7 +175,7 @@ function BorderExample(props: {
 							`border${capitalize(side)}Width`,
 							props.edgeWidth,
 						]),
-					) as unknown as CSSProperties,
+					),
 				)
 			: undefined,
 		radius.md,

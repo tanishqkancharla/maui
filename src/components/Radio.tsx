@@ -16,7 +16,6 @@ import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
-import { partRule, partSelector } from "../utils/partSelector"
 import { labelText, P } from "./Typography"
 
 type RadioOptionGroupProps = Omit<
@@ -47,30 +46,27 @@ const dot = style(radius.circle, motion.standard("transform"), {
 
 const root = style(
 	flex({ alignItems: "center", gap: 3 }),
-	focusRing(
-		`&[data-focus-visible] ${partSelector(circle)}`,
-		shadowVars.control,
-	),
+	focusRing(`&[data-focus-visible] ${circle}`, shadowVars.control),
 	{
 		position: "relative",
 		width: "fit-content",
+		[`&[data-hovered] ${circle}`]: {
+			backgroundColor: backgroundColor.elementHover,
+		},
+		[`&[data-selected] ${circle}`]: {
+			backgroundColor: colors.accent[9],
+		},
+		[`&[data-selected][data-hovered] ${circle}`]: {
+			backgroundColor: surfaceWash(
+				colors.gray[12],
+				surfaceMixPercent.hover,
+				colors.accent[9],
+			),
+		},
+		[`&[data-selected] ${dot}`]: {
+			transform: "scale(1)",
+		},
 	},
-	partRule("[data-hovered]", circle, {
-		backgroundColor: backgroundColor.elementHover,
-	}),
-	partRule("[data-selected]", circle, {
-		backgroundColor: colors.accent[9],
-	}),
-	partRule("[data-selected][data-hovered]", circle, {
-		backgroundColor: surfaceWash(
-			colors.gray[12],
-			surfaceMixPercent.hover,
-			colors.accent[9],
-		),
-	}),
-	partRule("[data-selected]", dot, {
-		transform: "scale(1)",
-	}),
 )
 
 const group = style(flex({ direction: "column", gap: 3 }))

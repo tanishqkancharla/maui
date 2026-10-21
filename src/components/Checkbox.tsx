@@ -13,7 +13,6 @@ import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
 import { controlSize } from "../tokens/sizing"
-import { partRule, partSelector } from "../utils/partSelector"
 import { labelText } from "./Typography"
 
 type CheckboxProps = {
@@ -52,30 +51,30 @@ const check = style(motion.standard("opacity", "transform"), {
 
 const root = style(
 	flex({ alignItems: "center", gap: 3 }),
-	focusRing(`&[data-focus-visible] ${partSelector(box)}`, shadowVars.control),
+	focusRing(`&[data-focus-visible] ${box}`, shadowVars.control),
 	{
 		position: "relative",
 		width: "fit-content",
 		minHeight: controlSize.minTarget,
 		minWidth: controlSize.minTarget,
+		[`&[data-hovered] ${box}`]: {
+			backgroundColor: backgroundColor.elementHover,
+		},
+		[`&[data-selected] ${box}`]: {
+			backgroundColor: colors.accent[9],
+		},
+		[`&[data-selected][data-hovered] ${box}`]: {
+			backgroundColor: surfaceWash(
+				colors.gray[12],
+				surfaceMixPercent.hover,
+				colors.accent[9],
+			),
+		},
+		[`&[data-selected] ${check}`]: {
+			opacity: 1,
+			transform: "scale(1)",
+		},
 	},
-	partRule("[data-hovered]", box, {
-		backgroundColor: backgroundColor.elementHover,
-	}),
-	partRule("[data-selected]", box, {
-		backgroundColor: colors.accent[9],
-	}),
-	partRule("[data-selected][data-hovered]", box, {
-		backgroundColor: surfaceWash(
-			colors.gray[12],
-			surfaceMixPercent.hover,
-			colors.accent[9],
-		),
-	}),
-	partRule("[data-selected]", check, {
-		opacity: 1,
-		transform: "scale(1)",
-	}),
 )
 
 /** Checkbox parts: `root` RAC `Checkbox` (`[data-hovered]`, `[data-selected]`, `[data-focus-visible]`; restyles `box` and `check` by their own classes), `box` the box span, `check` the checkmark svg, `label` the label text span. */

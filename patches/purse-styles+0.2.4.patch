@@ -1,0 +1,74 @@
+diff --git a/node_modules/purse-styles/dist/index.js b/node_modules/purse-styles/dist/index.js
+index 2e4898e..84db05a 100644
+--- a/node_modules/purse-styles/dist/index.js
++++ b/node_modules/purse-styles/dist/index.js
+@@ -602,16 +602,23 @@ function style(...styleElementsOrCSS) {
+     }
+   }
+   const cssProperties = mergeCSSProperties(...cssPropertyGroups);
+-  const owned = compileCSS(cssProperties);
+   const composedClassNames = composed.map((composed2) => composed2.className);
+-  const className = clsx(...composedClassNames, owned?.className);
++  const owned = compileCSS(cssProperties) ?? {
++    styleRules: [],
++    className: hashObject({ composed: composedClassNames })
++  };
++  const className = clsx(...composedClassNames, owned.className);
+   return {
+     __style__,
+     composed,
+     className,
+-    owned
++    owned,
++    toString: ownClassSelector
+   };
+ }
++function ownClassSelector() {
++  return `.${this.owned.className}`;
++}
+ function useInjectGlobalStyles(selector, cssProperties, deps) {
+   const styleApi = useRequiredContext(PurseContext);
+   useLayoutEffect(() => {
+diff --git a/node_modules/purse-styles/dist/purse.d.ts b/node_modules/purse-styles/dist/purse.d.ts
+index 9df6120..7b2daae 100644
+--- a/node_modules/purse-styles/dist/purse.d.ts
++++ b/node_modules/purse-styles/dist/purse.d.ts
+@@ -7,10 +7,17 @@ type CustomProperties = {
+ };
+ type Declarations = BaseCSSProperties & CustomProperties;
+ type NestedRuleKey = `&${CSS.SimplePseudos}` | `${CSS.AtRules}${string}` | `.${string}` | `&${string}`;
++/**
++ * Value under a pattern key (`--*` custom property or nested rule). Both share
++ * one value type because TypeScript widens computed keys such as
++ * `` [`&[data-selected] ${part}`] `` to `string`, and a `string` key must fit
++ * every pattern signature at once.
++ */
++type PatternValue = Declarations | string | number | undefined;
+ export type CSSProperties = {
+     [Key in keyof BaseCSSProperties]?: BaseCSSProperties[Key];
+-} & CustomProperties & {
+-    [Key in NestedRuleKey]?: Declarations;
++} & {
++    [Key in `--${string}` | NestedRuleKey]?: PatternValue;
+ };
+ export type StyleApi = {
+     addStyleElement: (styleElement: StyleElement) => Destructor;
+@@ -21,11 +28,17 @@ type StyleRule = string;
+ export type StyleElement = {
+     __style__: typeof __style__;
+     composed: StyleElement[];
+-    owned?: {
++    /** This style's own class. Present even when it only composes other styles. */
++    owned: {
+         styleRules: StyleRule[];
+         className: string;
+     };
+     className: string;
++    /**
++     * The own class as a selector, so a style interpolates into nested rules:
++     * `` [`&[data-selected] ${part}`]: { … } ``.
++     */
++    toString(): string;
+ };
+ export type InMemoryStyleApi = {
+     styleRulesRef: {

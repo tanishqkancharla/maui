@@ -10,7 +10,6 @@ import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
 import { controlSize } from "../tokens/sizing"
-import { partRule, partSelector } from "../utils/partSelector"
 import { labelText } from "./Typography"
 
 const switchSize = defineVars({
@@ -58,24 +57,24 @@ const thumb = style(radius.circle, motion.standard("transform"), {
 
 const root = style(
 	flex({ alignItems: "center", gap: 3 }),
-	focusRing(`&[data-focus-visible] ${partSelector(track)}`, shadowVars.control),
+	focusRing(`&[data-focus-visible] ${track}`, shadowVars.control),
 	{
 		position: "relative",
 		width: "fit-content",
 		minHeight: controlSize.minTarget,
+		[`&[data-hovered] ${track}`]: {
+			backgroundColor: switchOffHover,
+		},
+		[`&[data-selected] ${track}`]: {
+			backgroundColor: colors.accent[9],
+		},
+		[`&[data-selected][data-hovered] ${track}`]: {
+			backgroundColor: switchOnHover,
+		},
+		[`&[data-selected] ${thumb}`]: {
+			transform: `translateX(calc(${switchSize.width} - ${switchSize.thumb} - 4px))`,
+		},
 	},
-	partRule("[data-hovered]", track, {
-		backgroundColor: switchOffHover,
-	}),
-	partRule("[data-selected]", track, {
-		backgroundColor: colors.accent[9],
-	}),
-	partRule("[data-selected][data-hovered]", track, {
-		backgroundColor: switchOnHover,
-	}),
-	partRule("[data-selected]", thumb, {
-		transform: `translateX(calc(${switchSize.width} - ${switchSize.thumb} - 4px))`,
-	}),
 )
 
 type SwitchProps = {
