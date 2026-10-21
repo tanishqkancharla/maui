@@ -78,12 +78,15 @@ const root = style(
 	}),
 )
 
+/** Checkbox parts: `root` RAC `Checkbox` (`[data-hovered]`, `[data-selected]`, `[data-focus-visible]`; restyles `box` and `check` by their own classes), `box` the box span, `check` the checkmark svg, `label` the label text span. */
+export const checkboxStyles = { root, box, check, label: labelText } as const
+
 export function Checkbox(props: CheckboxProps) {
 	const { label, checked, setChecked } = props
-	const className = useStyles(root)
-	const boxClassName = useStyles(box)
-	const checkClassName = useStyles(check)
-	const labelClassName = useStyles(labelText)
+	const className = useStyles(checkboxStyles.root)
+	const boxClassName = useStyles(checkboxStyles.box)
+	const checkClassName = useStyles(checkboxStyles.check)
+	const labelClassName = useStyles(checkboxStyles.label)
 
 	return (
 		<RACCheckbox

@@ -78,3 +78,17 @@ keyboard dismissal when a response is required. Actions are composed rather than
 passed as callback props so forms, loading states, links, and custom controls work.
 
 Edge-anchored mobile nav is [`Drawer`](drawer.md), not this Dialog and not Overlay.
+
+## Styles
+
+**Button** — `buttonStyles`
+- `root({ variant, size, variantColor })` — RAC `Button` or native `<button>`; same defaults as `Button`. Native `:hover`, `:focus-visible`, `:disabled`; icons must be direct `> svg` children.
+- `label` — `<span>` around each text run inside the button (cap-height trim).
+
+**Dialog** — `dialogStyles`
+- `overlay` — RAC `ModalOverlay`.
+- `modal({ size })` — RAC `Modal`; `size` is `"sm"` (default) | `"md"` | `"lg"`.
+- `dialog` — RAC `Dialog`.
+- `title` — RAC `Heading slot="title"`.
+- `body` — scrollable `div` inside the dialog.
+- `actions` — button row `div` inside the dialog.

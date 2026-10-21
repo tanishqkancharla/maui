@@ -142,12 +142,12 @@ const quietButtonClass = quietClass(
 	colors.grayAlpha[9],
 )
 
-/** Internal style primitives for controls that compose Button visuals. */
-export const buttonStyles = {
-	base: buttonBaseClass,
-	quiet: quietButtonClass,
-	text: buttonTextClass,
-} as const
+/**
+ * @internal Shared shell under every Button variant (no fill, no hover).
+ * Only for Maui controls that layer their own fill on top (TabBar's selected
+ * tab); use `buttonStyles.root` everywhere else.
+ */
+export const buttonBaseStyle = buttonBaseClass
 
 const darkTextOnSolid: ReadonlySet<ColorName> = new Set([
 	"amber",
@@ -300,6 +300,22 @@ export function useButton(
 	]
 }
 
+/** `root` goes on the RAC `Button` (native `:hover` / `:focus-visible` / `:disabled`; icons are direct `> svg` children); `label` goes on a `<span>` wrapping each text run. */
+export const buttonStyles = {
+	root: memoize(
+		({
+			variant = "default",
+			size = "default",
+			variantColor,
+		}: Pick<ButtonProps, "variant" | "size" | "variantColor"> = {}) =>
+			style(
+				buttonVariantClass(variant, variantColor),
+				size === "sm" && smallButtonClass,
+			),
+	),
+	label: buttonTextClass,
+} as const
+
 export const Button = React.forwardRef(function Button(
 	props: ButtonProps,
 	forwardedRef: React.ForwardedRef<HTMLButtonElement>,
@@ -318,10 +334,9 @@ export const Button = React.forwardRef(function Button(
 	} = props
 	const [, attributes] = useButton({ onClick, onFocus }, forwardedRef)
 	const className = useStyles(
-		buttonVariantClass(variant, variantColor),
-		size === "sm" && smallButtonClass,
+		buttonStyles.root({ variant, size, variantColor }),
 	)
-	const textClassName = useStyles(buttonTextClass)
+	const textClassName = useStyles(buttonStyles.label)
 	const mergedClassName = [className, classNameProp].filter(Boolean).join(" ")
 
 	return (

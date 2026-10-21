@@ -39,9 +39,15 @@ const codeClass = style({
 	font: "inherit",
 })
 
+/** `root` on the `<pre>` (or on a wrapper around Shiki's HTML; restyles its `.shiki` descendants, no state); `code` on the `<code>` inside a plain, unhighlighted `<pre>`. */
+export const codeBlockStyles = {
+	root: codeBlockClass,
+	code: codeClass,
+} as const
+
 export function CodeBlock(props: { children: string; lang: string }) {
-	const className = useStyles(codeBlockClass)
-	const codeClassName = useStyles(codeClass)
+	const className = useStyles(codeBlockStyles.root)
+	const codeClassName = useStyles(codeBlockStyles.code)
 	const [html, setHtml] = useState<string | null>(null)
 	const { resolvedTheme } = useTheme()
 

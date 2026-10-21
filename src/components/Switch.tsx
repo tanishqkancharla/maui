@@ -84,12 +84,15 @@ type SwitchProps = {
 	onChange: (selected: boolean) => void
 }
 
+/** Switch parts: `root` RAC `Switch` (`[data-hovered]`, `[data-selected]`, `[data-focus-visible]`; restyles `track` and `thumb` by their own classes), `track` the track span, `thumb` the knob span inside the track, `label` the label text span. */
+export const switchStyles = { root, track, thumb, label: labelText } as const
+
 export function Switch(props: SwitchProps) {
 	const { selected, onChange, label } = props
-	const className = useStyles(root)
-	const trackClassName = useStyles(track)
-	const thumbClassName = useStyles(thumb)
-	const labelClassName = useStyles(labelText)
+	const className = useStyles(switchStyles.root)
+	const trackClassName = useStyles(switchStyles.track)
+	const thumbClassName = useStyles(switchStyles.thumb)
+	const labelClassName = useStyles(switchStyles.label)
 
 	return (
 		<RACSwitch className={className} isSelected={selected} onChange={onChange}>

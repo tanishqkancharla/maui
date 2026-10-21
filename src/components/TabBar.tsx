@@ -10,7 +10,8 @@ import {
 import { colors } from "../tokens/colors"
 import { controlSize } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
-import { Button, buttonStyles } from "./Button"
+import { memoize } from "../utils/memoize"
+import { Button, buttonBaseStyle, buttonStyles } from "./Button"
 import { Icons } from "./Icons"
 
 export type TabBarItem = {
@@ -140,6 +141,22 @@ const addButtonClass = style({
 	marginInlineStart: spacing.value(2),
 })
 
+/** `root` on the outer `<div>`; `list` on the `role="toolbar"` row (hides a `> span` separator next to a `> div` tab whose button is RAC `data-hovered` or `aria-pressed`); `tab` on each tab's `<div>` (`data-selected="true"`; reveals a `[data-close-control]` sibling on `:hover` / `data-hovered` — needs TabBar's exact tab markup); `button({ isSelected })` on the tab's RAC `Button`; `label` on its text `<span>`; `close` on the `size="sm" variant="quiet"` close `Button`; `separator` on the `<span>` between tabs; `add` on the trailing add `Button`. */
+export const tabBarStyles = {
+	root: tabBarClass,
+	list: tabListClass,
+	tab: tabClass,
+	button: memoize(({ isSelected = false }: { isSelected?: boolean } = {}) =>
+		isSelected
+			? style(buttonBaseStyle, selectedTabButtonClass, tabButtonClass)
+			: style(buttonStyles.root({ variant: "quiet" }), tabButtonClass),
+	),
+	label: buttonStyles.label,
+	close: closeButtonClass,
+	separator: separatorClass,
+	add: addButtonClass,
+} as const
+
 export function TabBar({
 	items,
 	selectedId,
@@ -153,22 +170,19 @@ export function TabBar({
 	const { direction } = useLocale()
 	const buttons = useRef(new Map<string, HTMLButtonElement>())
 	const focusSelectedAfterClose = useRef(false)
-	const tabBarClassName = useStyles(tabBarClass)
-	const tabListClassName = useStyles(tabListClass)
-	const tabClassName = useStyles(tabClass)
+	const tabBarClassName = useStyles(tabBarStyles.root)
+	const tabListClassName = useStyles(tabBarStyles.list)
+	const tabClassName = useStyles(tabBarStyles.tab)
 	const selectedTabButtonClassName = useStyles(
-		buttonStyles.base,
-		selectedTabButtonClass,
-		tabButtonClass,
+		tabBarStyles.button({ isSelected: true }),
 	)
 	const quietTabButtonClassName = useStyles(
-		buttonStyles.quiet,
-		tabButtonClass,
+		tabBarStyles.button({ isSelected: false }),
 	)
-	const tabTextClassName = useStyles(buttonStyles.text)
-	const closeButtonClassName = useStyles(closeButtonClass)
-	const separatorClassName = useStyles(separatorClass)
-	const addButtonClassName = useStyles(addButtonClass)
+	const tabTextClassName = useStyles(tabBarStyles.label)
+	const closeButtonClassName = useStyles(tabBarStyles.close)
+	const separatorClassName = useStyles(tabBarStyles.separator)
+	const addButtonClassName = useStyles(tabBarStyles.add)
 
 	useLayoutEffect(() => {
 		if (!focusSelectedAfterClose.current) return

@@ -70,14 +70,24 @@ const thumb = style(focusRing("&[data-focus-visible]", shadowVars.control), {
 	},
 })
 
+/** Slider parts: `root` RAC `Slider`, `header` div holding the label and output, `label` RAC `Label` and RAC `SliderOutput`, `track` RAC `SliderTrack` (draws the rail in `::before`), `fill` a div in the track whose inline `width` you set from `state.getThumbPercent(0)`, `thumb` RAC `SliderThumb` (`[data-focus-visible]`, `[data-dragging]`). */
+export const sliderStyles = {
+	root,
+	header,
+	label: labelText,
+	track,
+	fill,
+	thumb,
+} as const
+
 export function Slider(props: SliderProps) {
 	const { label, ...sliderProps } = props
-	const className = useStyles(root)
-	const headerClassName = useStyles(header)
-	const labelClassName = useStyles(labelText)
-	const trackClassName = useStyles(track)
-	const fillClassName = useStyles(fill)
-	const thumbClassName = useStyles(thumb)
+	const className = useStyles(sliderStyles.root)
+	const headerClassName = useStyles(sliderStyles.header)
+	const labelClassName = useStyles(sliderStyles.label)
+	const trackClassName = useStyles(sliderStyles.track)
+	const fillClassName = useStyles(sliderStyles.fill)
+	const thumbClassName = useStyles(sliderStyles.thumb)
 
 	return (
 		<RACSlider {...sliderProps} className={className}>

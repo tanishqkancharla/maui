@@ -33,26 +33,27 @@ import { shadow, shadowVars } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
+import { partRule, partSelector } from "../utils/partSelector"
 
 export type TableAlign = "start" | "center" | "end"
 
-const tableContainerClass = style({
+const root = style({
 	width: "100%",
 	overflowX: "auto",
 })
 
-const tableClass = style(focusRing("&[data-focus-visible]"), {
+const table = style(focusRing("&[data-focus-visible]"), {
 	borderCollapse: "collapse",
 	borderSpacing: 0,
 	width: "100%",
 	outline: "none",
 })
 
-const tableHeaderClass = style({
+const header = style({
 	outline: "none",
 })
 
-const tableHeadClass = memoize((align: TableAlign = "start") =>
+const head = memoize(({ align = "start" }: { align?: TableAlign } = {}) =>
 	style(
 		text({ size: "xs", fontWeight: 500, color: "lowContrast", tabular: true }),
 		spacing.padding({ x: 4, y: 3 }),
@@ -68,7 +69,7 @@ const tableHeadClass = memoize((align: TableAlign = "start") =>
 	),
 )
 
-const tableBodyClass = style({
+const body = style({
 	outline: "none",
 	"& tr:last-child td": {
 		borderBottom: "none",
@@ -78,7 +79,7 @@ const tableBodyClass = style({
 	},
 })
 
-const tableFooterClass = style(
+const footer = style(
 	text({ size: "sm", fontWeight: 500, color: "highContrast" }),
 	{
 		backgroundColor: colors.gray[2],
@@ -96,7 +97,7 @@ const tableFooterClass = style(
 	},
 )
 
-const tableRowClass = style({
+const row = style({
 	outline: "none",
 	cursor: "default",
 	"&[data-selection-mode][data-hovered] td": {
@@ -110,7 +111,7 @@ const tableRowClass = style({
 	},
 })
 
-const tableCellClass = memoize((align: TableAlign = "start") =>
+const cell = memoize(({ align = "start" }: { align?: TableAlign } = {}) =>
 	style(
 		text({ size: "sm", fontWeight: 400, color: "highContrast", tabular: true }),
 		spacing.padding({ x: 4, y: 3 }),
@@ -127,7 +128,7 @@ const tableCellClass = memoize((align: TableAlign = "start") =>
 	),
 )
 
-const tableCaptionClass = style(
+const caption = style(
 	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
 	{
 		margin: 0,
@@ -135,7 +136,7 @@ const tableCaptionClass = style(
 	},
 )
 
-const emptyStateClass = style(
+const empty = style(
 	text({ size: "sm", fontWeight: 400, color: "lowContrast" }),
 	spacing.padding({ x: 4, y: 8 }),
 	{
@@ -143,9 +144,44 @@ const emptyStateClass = style(
 	},
 )
 
-const tableSelectionCheckboxClass = style(
+const selectionBox = style(
 	flex({ alignItems: "center", justifyContent: "center" }),
-	focusRing("&[data-focus-visible] .checkbox-toggle", shadowVars.control),
+	radius["2xs"],
+	shadow.control,
+	{
+		pointerEvents: "none",
+		width: "14px",
+		height: "14px",
+		backgroundColor: backgroundColor.element,
+	},
+)
+
+const selectionCheck = style({
+	width: "10px",
+	height: "10px",
+	paddingTop: "0.5px",
+	paddingLeft: "0.5px",
+	fill: colors.gray[3],
+	opacity: 0,
+	transform: "scale(0)",
+})
+
+const selectedFill = { backgroundColor: colors.accent[9] }
+const selectedHoverFill = {
+	backgroundColor: surfaceWash(
+		colors.gray[12],
+		surfaceMixPercent.hover,
+		colors.accent[9],
+	),
+}
+const shownCheck = { opacity: 1, transform: "scale(1)" }
+
+const selectionCheckbox = style(
+	flex({ alignItems: "center", justifyContent: "center" }),
+	focusRing(
+		`&[data-focus-visible] ${partSelector(selectionBox)}`,
+		shadowVars.control,
+	),
 	{
 		position: "relative",
 		width: "fit-content",
@@ -161,49 +197,21 @@ const tableSelectionCheckboxClass = style(
 			whiteSpace: "nowrap",
 			border: 0,
 		},
-		"&[data-hovered] .checkbox-toggle": {
-			backgroundColor: backgroundColor.elementHover,
-		},
-		"&[data-selected] .checkbox-toggle, &[data-indeterminate] .checkbox-toggle":
-			{
-				backgroundColor: colors.accent[9],
-			},
-		"&[data-hovered][data-selected] .checkbox-toggle, &[data-hovered][data-indeterminate] .checkbox-toggle":
-			{
-				backgroundColor: surfaceWash(
-					colors.gray[12],
-					surfaceMixPercent.hover,
-					colors.accent[9],
-				),
-			},
-		"&[data-selected] .checkbox-icon, &[data-indeterminate] .checkbox-icon": {
-			opacity: 1,
-			transform: "scale(1)",
-		},
 	},
+	partRule("[data-hovered]", selectionBox, {
+		backgroundColor: backgroundColor.elementHover,
+	}),
+	partRule("[data-selected]", selectionBox, selectedFill),
+	partRule("[data-indeterminate]", selectionBox, selectedFill),
+	partRule("[data-hovered][data-selected]", selectionBox, selectedHoverFill),
+	partRule(
+		"[data-hovered][data-indeterminate]",
+		selectionBox,
+		selectedHoverFill,
+	),
+	partRule("[data-selected]", selectionCheck, shownCheck),
+	partRule("[data-indeterminate]", selectionCheck, shownCheck),
 )
-
-const tableSelectionToggleClass = style(
-	flex({ alignItems: "center", justifyContent: "center" }),
-	radius["2xs"],
-	shadow.control,
-	{
-		pointerEvents: "none",
-		width: "14px",
-		height: "14px",
-		backgroundColor: backgroundColor.element,
-	},
-)
-
-const tableSelectionIconClass = style({
-	width: "10px",
-	height: "10px",
-	paddingTop: "0.5px",
-	paddingLeft: "0.5px",
-	fill: colors.gray[3],
-	opacity: 0,
-	transform: "scale(0)",
-})
 
 function useMultipleSelectionCheckboxes() {
 	const { selectionMode, selectionBehavior } = useTableOptions()
@@ -211,18 +219,18 @@ function useMultipleSelectionCheckboxes() {
 }
 
 function TableSelectionCheckbox() {
-	const className = useStyles(tableSelectionCheckboxClass)
-	const toggleClassName = useStyles(tableSelectionToggleClass)
-	const iconClassName = useStyles(tableSelectionIconClass)
+	const className = useStyles(tableStyles.selectionCheckbox)
+	const toggleClassName = useStyles(tableStyles.selectionBox)
+	const iconClassName = useStyles(tableStyles.selectionCheck)
 
 	return (
 		<AriaCheckbox slot="selection" className={className}>
 			{({ isIndeterminate }) => (
-				<span className={`${toggleClassName} checkbox-toggle`}>
+				<span className={toggleClassName}>
 					<svg
 						focusable="false"
 						aria-hidden="true"
-						className={`${iconClassName} checkbox-icon`}
+						className={iconClassName}
 						viewBox="0 0 11 11"
 					>
 						{isIndeterminate ? (
@@ -237,11 +245,28 @@ function TableSelectionCheckbox() {
 	)
 }
 
+/** Table parts: `root` wrapper div, `table` RAC `Table`, `header` RAC `TableHeader`, `head` RAC `Column`, `body` RAC `TableBody` (`[data-empty]`), `footer` RAC `TableFooter`, `row` RAC `Row` (`[data-selection-mode]` + `[data-hovered]`/`[data-selected]`, `[data-disabled]`), `cell` RAC `Cell`, `caption` div after the table, `empty` the `renderEmptyState` element; `head`/`cell`/`table` key off `[data-focus-visible]`. `selectionCheckbox` goes on RAC `Checkbox slot="selection"` (`[data-hovered]`/`[data-selected]`/`[data-indeterminate]`/`[data-focus-visible]`) and restyles `selectionBox` (span) and `selectionCheck` (svg) by their own classes. */
+export const tableStyles = {
+	root,
+	table,
+	header,
+	head,
+	body,
+	footer,
+	row,
+	cell,
+	caption,
+	empty,
+	selectionCheckbox,
+	selectionBox,
+	selectionCheck,
+} as const
+
 export interface TableProps extends Omit<AriaTableProps, "className"> {}
 
 export function Table(props: TableProps) {
-	const containerClassName = useStyles(tableContainerClass)
-	const className = useStyles(tableClass)
+	const containerClassName = useStyles(tableStyles.root)
+	const className = useStyles(tableStyles.table)
 
 	return (
 		<div className={containerClassName}>
@@ -260,7 +285,7 @@ export function TableHeader<T extends object = object>({
 	columns,
 	...props
 }: TableHeaderProps<T>) {
-	const className = useStyles(tableHeaderClass)
+	const className = useStyles(tableStyles.header)
 	const showSelectionCheckboxes = useMultipleSelectionCheckboxes()
 
 	return (
@@ -289,7 +314,7 @@ export interface TableHeadProps extends Omit<AriaColumnProps, "className"> {
 }
 
 export function TableHead({ align = "start", ...props }: TableHeadProps) {
-	const className = useStyles(tableHeadClass(align))
+	const className = useStyles(tableStyles.head({ align }))
 
 	return <AriaColumn {...props} className={className} />
 }
@@ -300,8 +325,8 @@ export interface TableBodyProps<T> extends Omit<
 > {}
 
 export function TableBody<T extends object = object>(props: TableBodyProps<T>) {
-	const className = useStyles(tableBodyClass)
-	const emptyClassName = useStyles(emptyStateClass)
+	const className = useStyles(tableStyles.body)
+	const emptyClassName = useStyles(tableStyles.empty)
 
 	return (
 		<AriaTableBody
@@ -323,7 +348,7 @@ export interface TableFooterProps<T> extends Omit<
 export function TableFooter<T extends object = object>(
 	props: TableFooterProps<T>,
 ) {
-	const className = useStyles(tableFooterClass)
+	const className = useStyles(tableStyles.footer)
 
 	return <AriaTableFooter {...props} className={className} />
 }
@@ -335,7 +360,7 @@ export function TableRow<T extends object = object>({
 	columns,
 	...props
 }: TableRowProps<T>) {
-	const className = useStyles(tableRowClass)
+	const className = useStyles(tableStyles.row)
 	const showSelectionCheckboxes = useMultipleSelectionCheckboxes()
 
 	return (
@@ -359,13 +384,13 @@ export interface TableCellProps extends Omit<AriaCellProps, "className"> {
 }
 
 export function TableCell({ align = "start", ...props }: TableCellProps) {
-	const className = useStyles(tableCellClass(align))
+	const className = useStyles(tableStyles.cell({ align }))
 
 	return <AriaCell {...props} className={className} />
 }
 
 export function TableCaption(props: { children: ReactNode }) {
-	const className = useStyles(tableCaptionClass)
+	const className = useStyles(tableStyles.caption)
 
 	return <div className={className}>{props.children}</div>
 }

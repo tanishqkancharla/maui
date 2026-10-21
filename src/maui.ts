@@ -56,11 +56,12 @@ export {
 export { visuallyHidden } from "./tokens/visuallyHidden"
 
 // Components
-export { Avatar } from "./components/Avatar"
-export { Badge } from "./components/Badge"
+export { Avatar, avatarStyles } from "./components/Avatar"
+export { Badge, badgeStyles } from "./components/Badge"
 export { LogoIcon, type LogoIconProps } from "./components/LogoIcon"
 export {
 	Button,
+	buttonStyles,
 	useButton,
 	type ButtonCssColor,
 	type ButtonProps,
@@ -70,18 +71,23 @@ export {
 } from "./components/Button"
 export {
 	TabBar,
+	tabBarStyles,
 	type TabBarItem,
 	type TabBarProps,
 } from "./components/TabBar"
-export { Checkbox } from "./components/Checkbox"
-export { Switch } from "./components/Switch"
-export { Slider } from "./components/Slider"
-export { RadioOptionGroup, RadioOption } from "./components/Radio"
+export { Checkbox, checkboxStyles } from "./components/Checkbox"
+export { Switch, switchStyles } from "./components/Switch"
+export { Slider, sliderStyles } from "./components/Slider"
+export { RadioOptionGroup, RadioOption, radioStyles } from "./components/Radio"
 export {
 	TextField,
 	SearchField,
 	NumberField,
 	QuietTextField,
+	textFieldStyles,
+	searchFieldStyles,
+	numberFieldStyles,
+	quietTextFieldStyles,
 	type TextFieldProps,
 	type TextFieldSize,
 	type SearchFieldProps,
@@ -89,6 +95,7 @@ export {
 export {
 	Select,
 	SelectItem,
+	selectStyles,
 	type SelectProps,
 	type SelectItemProps,
 } from "./components/Select"
@@ -97,16 +104,18 @@ export {
 	DialogActions,
 	DialogBody,
 	DialogTitle,
+	dialogStyles,
 	type DialogActionsProps,
 	type DialogBodyProps,
 	type DialogProps,
 	type DialogSize,
 	type DialogTitleProps,
 } from "./components/Dialog"
-export { Tooltip } from "./components/Tooltip"
+export { Tooltip, tooltipStyles } from "./components/Tooltip"
 export { Overlay } from "./components/Overlay"
 export {
 	Drawer,
+	drawerStyles,
 	type DrawerProps,
 	type DrawerSide,
 } from "./components/Drawer"
@@ -119,6 +128,7 @@ export {
 	TableRow,
 	TableCell,
 	TableCaption,
+	tableStyles,
 	type TableAlign,
 	type TableProps,
 	type TableHeaderProps,
@@ -148,6 +158,7 @@ export * from "./icons/root"
 export {
 	ListBox,
 	ListBoxItem,
+	listBoxStyles,
 	type ListBoxProps,
 	type ListBoxItemProps,
 } from "./components/ListBox"
@@ -155,6 +166,7 @@ export {
 	MenuTrigger,
 	Menu,
 	MenuItem,
+	menuStyles,
 	type MenuTriggerProps,
 	type MenuProps,
 	type MenuItemProps,
@@ -187,14 +199,15 @@ export {
 	Li,
 	Link,
 } from "./components/Typography"
-export { CodeBlock } from "./components/CodeBlock"
-export { Code, Kbd, type KbdProps, type KbdVariant } from "./components/Code"
+export { CodeBlock, codeBlockStyles } from "./components/CodeBlock"
+export { Code, codeStyles, Kbd, kbdStyles, type KbdProps, type KbdVariant } from "./components/Code"
 export {
 	MermaidDiagram,
 	type MermaidDiagramProps,
 } from "./components/MermaidDiagram"
 export {
 	CollectionPopover,
+	collectionPopoverStyles,
 	type CollectionPopoverProps,
 } from "./components/CollectionPopover"
 export { navigationItem } from "./components/navigationItem"

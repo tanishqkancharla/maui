@@ -27,21 +27,6 @@ type RadioOptionGroupProps = Omit<
 	children: React.ReactNode
 }
 
-const group = style(flex({ direction: "column", gap: 3 }))
-
-export function RadioOptionGroup(props: RadioOptionGroupProps) {
-	const { label, children, ...radioGroupProps } = props
-	const className = useStyles(group)
-	const labelClassName = useStyles(labelText)
-
-	return (
-		<RACRadioGroup {...radioGroupProps} className={className}>
-			<RACLabel className={labelClassName}>{label}</RACLabel>
-			{children}
-		</RACRadioGroup>
-	)
-}
-
 const circle = style(radius.circle, shadow.control, {
 	pointerEvents: "none",
 	position: "relative",
@@ -60,7 +45,7 @@ const dot = style(radius.circle, motion.standard("transform"), {
 	transform: "scale(0)",
 })
 
-const radio = style(
+const root = style(
 	flex({ alignItems: "center", gap: 3 }),
 	focusRing(
 		`&[data-focus-visible] ${partSelector(circle)}`,
@@ -88,15 +73,39 @@ const radio = style(
 	}),
 )
 
+const group = style(flex({ direction: "column", gap: 3 }))
+
+/** Radio parts: `group` RAC `RadioGroup`, `groupLabel` RAC `Label` inside it, `root` RAC `Radio` (`[data-hovered]`, `[data-selected]`, `[data-focus-visible]`; restyles `circle` and `dot` by their own classes), `circle` the circle span, `dot` the inner dot span. */
+export const radioStyles = {
+	group,
+	groupLabel: labelText,
+	root,
+	circle,
+	dot,
+} as const
+
+export function RadioOptionGroup(props: RadioOptionGroupProps) {
+	const { label, children, ...radioGroupProps } = props
+	const className = useStyles(radioStyles.group)
+	const labelClassName = useStyles(radioStyles.groupLabel)
+
+	return (
+		<RACRadioGroup {...radioGroupProps} className={className}>
+			<RACLabel className={labelClassName}>{label}</RACLabel>
+			{children}
+		</RACRadioGroup>
+	)
+}
+
 type RadioOptionProps = {
 	value: string
 	children: React.ReactNode
 }
 
 export function RadioOption(props: RadioOptionProps) {
-	const className = useStyles(radio)
-	const circleClassName = useStyles(circle)
-	const dotClassName = useStyles(dot)
+	const className = useStyles(radioStyles.root)
+	const circleClassName = useStyles(radioStyles.circle)
+	const dotClassName = useStyles(radioStyles.dot)
 
 	return (
 		<RACRadio value={props.value} className={className}>
