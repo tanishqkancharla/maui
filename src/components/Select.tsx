@@ -23,14 +23,14 @@ import { CollectionPopover } from "./CollectionPopover"
 import { ListBox, ListBoxItem, type ListBoxItemProps } from "./ListBox"
 import { labelText } from "./Typography"
 
-const selectClass = style({
+const root = style({
 	display: "flex",
 	flexDirection: "column",
 	gap: spacing.value(3),
 	width: "100%",
 })
 
-const triggerClass = style(
+const trigger = style(
 	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	focusRing("&:focus-visible", shadowVars.control),
 	radius.sm,
@@ -62,7 +62,7 @@ const triggerClass = style(
 	},
 )
 
-const valueClass = style({
+const value = style({
 	flex: "1 1 auto",
 	minWidth: 0,
 	overflow: "hidden",
@@ -74,7 +74,7 @@ const valueClass = style({
 	},
 })
 
-const chevronClass = style(motion.standard("transform"), {
+const chevron = style(motion.standard("transform"), {
 	flex: "0 0 auto",
 	width: iconSizeValues.xs,
 	height: iconSizeValues.xs,
@@ -87,14 +87,14 @@ const chevronClass = style(motion.standard("transform"), {
 	} as CSSProperties),
 })
 
-const supportingTextClass = style(
+const descriptionText = style(
 	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
 	{
 		margin: 0,
 	},
 )
 
-const errorClass = style(
+const error = style(
 	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
 	{
 		color: "light-dark(#ce2c31, #e5484d)",
@@ -112,6 +112,17 @@ export interface SelectProps<
 	children: React.ReactNode | ((item: T) => React.ReactNode)
 }
 
+/** `root` on RAC `Select`; `label` on RAC `Label`; `trigger` on RAC `Button` (`data-pressed`, `aria-expanded`, `data-disabled`, `data-invalid`, `:focus-visible`); `value` on RAC `SelectValue` (`data-placeholder`); `chevron` on an icon inside the trigger (rotates under the `[data-open]` Select root); `description` on RAC `Text slot="description"`; `error` on RAC `FieldError`. */
+export const selectStyles = {
+	root,
+	label: labelText,
+	trigger,
+	value,
+	chevron,
+	description: descriptionText,
+	error,
+} as const
+
 export function Select<T, M extends "single" | "multiple" = "single">({
 	label,
 	description,
@@ -120,13 +131,13 @@ export function Select<T, M extends "single" | "multiple" = "single">({
 	children,
 	...props
 }: SelectProps<T, M>) {
-	const className = useStyles(selectClass)
-	const labelClassName = useStyles(labelText)
-	const triggerClassName = useStyles(triggerClass)
-	const valueClassName = useStyles(valueClass)
-	const chevronClassName = useStyles(chevronClass)
-	const supportingTextClassName = useStyles(supportingTextClass)
-	const errorClassName = useStyles(errorClass)
+	const className = useStyles(selectStyles.root)
+	const labelClassName = useStyles(selectStyles.label)
+	const triggerClassName = useStyles(selectStyles.trigger)
+	const valueClassName = useStyles(selectStyles.value)
+	const chevronClassName = useStyles(selectStyles.chevron)
+	const supportingTextClassName = useStyles(selectStyles.description)
+	const errorClassName = useStyles(selectStyles.error)
 
 	return (
 		<AriaSelect {...props} className={className}>

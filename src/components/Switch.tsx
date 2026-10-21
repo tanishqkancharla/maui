@@ -1,6 +1,4 @@
-import { useRef } from "react"
-import { useSwitch } from "react-aria"
-import { ToggleState, useToggleState } from "react-stately"
+import { Switch as RACSwitch } from "react-aria-components"
 import { defineVars, style, useStyles } from "purse-styles"
 import { DARK_THEME } from "../theme/dataTheme"
 import { LARGE_SCALE } from "../theme/dataScale"
@@ -12,7 +10,6 @@ import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
 import { controlSize } from "../tokens/sizing"
-import { visuallyHidden } from "../tokens/visuallyHidden"
 import { labelText } from "./Typography"
 
 const switchSize = defineVars({
@@ -40,32 +37,7 @@ const switchOnHover = surfaceWash(
 	colors.accent[9],
 )
 
-const switchClass = style(
-	flex({ alignItems: "center", gap: 3 }),
-	focusRing(
-		"& .switch-input:focus-visible + .switch-toggle",
-		shadowVars.control,
-	),
-	{
-		position: "relative",
-		width: "fit-content",
-		minHeight: controlSize.minTarget,
-		"&:hover .switch-toggle": {
-			backgroundColor: switchOffHover,
-		},
-		"& .switch-input:checked + .switch-toggle": {
-			backgroundColor: colors.accent[9],
-		},
-		"&:hover .switch-input:checked + .switch-toggle": {
-			backgroundColor: switchOnHover,
-		},
-		"& .switch-input:checked + .switch-toggle .switch-thumb": {
-			transform: `translateX(calc(${switchSize.width} - ${switchSize.thumb} - 4px))`,
-		},
-	},
-)
-
-const switchToggleClass = style(radius.pill, shadow.control, {
+const track = style(radius.pill, shadow.control, {
 	position: "relative",
 	flexShrink: 0,
 	width: switchSize.width,
@@ -73,7 +45,7 @@ const switchToggleClass = style(radius.pill, shadow.control, {
 	backgroundColor: switchOff.track,
 })
 
-const switchThumbClass = style(radius.circle, motion.standard("transform"), {
+const thumb = style(radius.circle, motion.standard("transform"), {
 	position: "absolute",
 	top: "2px",
 	left: "2px",
@@ -83,35 +55,50 @@ const switchThumbClass = style(radius.circle, motion.standard("transform"), {
 	boxShadow: "0 1px 2px rgba(0, 0, 0, 0.16)",
 })
 
+const root = style(
+	flex({ alignItems: "center", gap: 3 }),
+	focusRing(`&[data-focus-visible] ${track}`, shadowVars.control),
+	{
+		position: "relative",
+		width: "fit-content",
+		minHeight: controlSize.minTarget,
+		[`&[data-hovered] ${track}`]: {
+			backgroundColor: switchOffHover,
+		},
+		[`&[data-selected] ${track}`]: {
+			backgroundColor: colors.accent[9],
+		},
+		[`&[data-selected][data-hovered] ${track}`]: {
+			backgroundColor: switchOnHover,
+		},
+		[`&[data-selected] ${thumb}`]: {
+			transform: `translateX(calc(${switchSize.width} - ${switchSize.thumb} - 4px))`,
+		},
+	},
+)
+
 type SwitchProps = {
 	label: string
 	selected: boolean
 	onChange: (selected: boolean) => void
 }
 
+/** Switch parts: `root` RAC `Switch` (`[data-hovered]`, `[data-selected]`, `[data-focus-visible]`; restyles `track` and `thumb` by their own classes), `track` the track span, `thumb` the knob span inside the track, `label` the label text span. */
+export const switchStyles = { root, track, thumb, label: labelText } as const
+
 export function Switch(props: SwitchProps) {
 	const { selected, onChange, label } = props
-	const state: ToggleState = useToggleState({ isSelected: selected, onChange })
-	const ref = useRef(null)
-
-	const { inputProps } = useSwitch({ "aria-label": label }, state, ref)
-	const className = useStyles(switchClass)
-	const inputClassName = useStyles(visuallyHidden)
-	const toggleClassName = useStyles(switchToggleClass)
-	const thumbClassName = useStyles(switchThumbClass)
-	const labelClassName = useStyles(labelText)
+	const className = useStyles(switchStyles.root)
+	const trackClassName = useStyles(switchStyles.track)
+	const thumbClassName = useStyles(switchStyles.thumb)
+	const labelClassName = useStyles(switchStyles.label)
 
 	return (
-		<label className={className}>
-			<input
-				{...inputProps}
-				className={`${inputClassName} switch-input`}
-				ref={ref}
-			/>
-			<span className={`${toggleClassName} switch-toggle`}>
-				<span className={`${thumbClassName} switch-thumb`} />
+		<RACSwitch className={className} isSelected={selected} onChange={onChange}>
+			<span className={trackClassName}>
+				<span className={thumbClassName} />
 			</span>
 			<span className={labelClassName}>{label}</span>
-		</label>
+		</RACSwitch>
 	)
 }

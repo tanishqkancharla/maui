@@ -24,6 +24,7 @@ import { radius } from "../tokens/radius"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { cls } from "../utils/cls"
+import { memoize } from "../utils/memoize"
 
 export type DialogSize = "sm" | "md" | "lg"
 
@@ -66,7 +67,7 @@ const reducedMotionTransition: Transition = {
 	ease: "easeInOut",
 }
 
-const overlayClass = style({
+const overlay = style({
 	position: "fixed",
 	inset: 0,
 	zIndex: 1200,
@@ -80,32 +81,27 @@ const overlayClass = style({
 	overscrollBehavior: "contain",
 })
 
-const surfaceClass = style(
-	background.element,
-	border([], "outline"),
-	radius.lg,
-	{
-		width: "min(440px, calc(100vw - 32px))",
-		maxWidth: "100%",
-		maxHeight: "calc(100dvh - 32px)",
-		display: "flex",
-		flexDirection: "column",
-		boxSizing: "border-box",
-		padding: spacing.value(12),
-		overflow: "hidden",
-		outline: "none",
-		transformOrigin: "center",
-		willChange: "opacity, transform",
-	},
-)
+const modalBase = style(background.element, border([], "outline"), radius.lg, {
+	width: "min(440px, calc(100vw - 32px))",
+	maxWidth: "100%",
+	maxHeight: "calc(100dvh - 32px)",
+	display: "flex",
+	flexDirection: "column",
+	boxSizing: "border-box",
+	padding: spacing.value(12),
+	overflow: "hidden",
+	outline: "none",
+	transformOrigin: "center",
+	willChange: "opacity, transform",
+})
 
-const surfaceSizeClasses = {
+const modalSizes = {
 	sm: style({ width: "min(440px, calc(100vw - 32px))" }),
 	md: style({ width: "min(640px, calc(100vw - 32px))" }),
 	lg: style({ width: "min(960px, calc(100vw - 32px))" }),
 } satisfies Record<DialogSize, ReturnType<typeof style>>
 
-const dialogClass = style({
+const dialog = style({
 	minWidth: 0,
 	minHeight: 0,
 	display: "flex",
@@ -114,23 +110,37 @@ const dialogClass = style({
 	outline: "none",
 })
 
-const titleClass = style(text({ size: "lg", fontWeight: 600 }), {
+const title = style(text({ size: "lg", fontWeight: 600 }), {
 	margin: 0,
 })
 
-const bodyClass = style({
+const body = style({
 	minWidth: 0,
 	minHeight: 0,
 	overflowY: "auto",
 })
 
-const actionsClass = style({
+const actions = style({
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "flex-end",
 	flexWrap: "wrap",
 	gap: spacing.value(4),
 })
+
+const modal = memoize(({ size = "sm" }: { size?: DialogSize } = {}) =>
+	style(modalBase, modalSizes[size]),
+)
+
+/** Dialog parts: `overlay` RAC `ModalOverlay`, `modal({ size })` RAC `Modal`, `dialog` RAC `Dialog`, `title` RAC `Heading slot="title"`, `body` and `actions` plain divs inside the dialog; no state attributes (enter/exit motion is JS, not CSS). */
+export const dialogStyles = {
+	overlay,
+	modal,
+	dialog,
+	title,
+	body,
+	actions,
+} as const
 
 export function Dialog({
 	children,
@@ -149,9 +159,9 @@ export function Dialog({
 	const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
 	const isOpen = isControlled ? isOpenProp : uncontrolledOpen
 	const reduceMotion = Boolean(useReducedMotion())
-	const overlayClassName = useStyles(overlayClass)
-	const surfaceClassName = useStyles(surfaceClass, surfaceSizeClasses[size])
-	const dialogClassName = useStyles(dialogClass)
+	const overlayClassName = useStyles(dialogStyles.overlay)
+	const surfaceClassName = useStyles(dialogStyles.modal({ size }))
+	const dialogClassName = useStyles(dialogStyles.dialog)
 	const setOpen = useCallback(
 		(next: boolean) => {
 			if (!isControlled) {
@@ -213,7 +223,7 @@ export type DialogTitleProps = Omit<
 >
 
 export function DialogTitle({ className, ...props }: DialogTitleProps) {
-	const titleClassName = useStyles(titleClass)
+	const titleClassName = useStyles(dialogStyles.title)
 	return (
 		<Heading
 			{...props}
@@ -226,13 +236,13 @@ export function DialogTitle({ className, ...props }: DialogTitleProps) {
 export type DialogBodyProps = ComponentPropsWithoutRef<"div">
 
 export function DialogBody({ className, ...props }: DialogBodyProps) {
-	const bodyClassName = useStyles(bodyClass)
+	const bodyClassName = useStyles(dialogStyles.body)
 	return <div {...props} className={cls(bodyClassName, className)} />
 }
 
 export type DialogActionsProps = ComponentPropsWithoutRef<"div">
 
 export function DialogActions({ className, ...props }: DialogActionsProps) {
-	const actionsClassName = useStyles(actionsClass)
+	const actionsClassName = useStyles(dialogStyles.actions)
 	return <div {...props} className={cls(actionsClassName, className)} />
 }

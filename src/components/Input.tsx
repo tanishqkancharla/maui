@@ -27,6 +27,7 @@ import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { monospace, text } from "../tokens/text"
 import { CircleX, Minus, Plus } from "../icons"
+import { memoize } from "../utils/memoize"
 import { Kbd } from "./Code"
 
 const inputText = text({ size: "sm", fontWeight: 400, color: "highContrast" })
@@ -131,13 +132,32 @@ function useKeyboardHint() {
 }
 
 function KeyboardHint(props: { children: string }) {
-	const className = useStyles(keyboardHintClass)
+	const className = useStyles(textFieldStyles.keyboardHint)
 	return (
 		<Kbd variant="quiet" className={className} aria-hidden="true">
 			{props.children}
 		</Kbd>
 	)
 }
+
+/** `root` on the field wrapper; `input` on RAC `Input` (`:hover`, `:disabled`, `aria-invalid`, `:focus-visible`, `::placeholder`); `frame` wraps the input when a keyboard hint is shown; `keyboardHint` on a Maui `Kbd variant="quiet"` inside `frame`; `error` on RAC `FieldError`. */
+export const textFieldStyles = {
+	root: fieldClass,
+	input: memoize(
+		({
+			size = "default",
+			keyboardHint,
+		}: Pick<TextFieldProps, "size" | "keyboardHint"> = {}) =>
+			style(
+				inputClass,
+				size === "sm" && smallInputClass,
+				keyboardHint ? inputWithHintClass : undefined,
+			),
+	),
+	frame: inputFrameClass,
+	keyboardHint: keyboardHintClass,
+	error: errorClass,
+} as const
 
 export function TextField(props: TextFieldProps) {
 	const {
@@ -155,14 +175,10 @@ export function TextField(props: TextFieldProps) {
 		validationDetails,
 	} = useTextField(fieldProps, ref)
 	const { isFocused, focusProps } = useKeyboardHint()
-	const frameClassName = useStyles(inputFrameClass)
-	const fieldClassName = useStyles(fieldClass)
-	const errorClassName = useStyles(errorClass)
-	const className = useStyles(
-		inputClass,
-		size === "sm" && smallInputClass,
-		keyboardHint ? inputWithHintClass : undefined,
-	)
+	const frameClassName = useStyles(textFieldStyles.frame)
+	const fieldClassName = useStyles(textFieldStyles.root)
+	const errorClassName = useStyles(textFieldStyles.error)
+	const className = useStyles(textFieldStyles.input({ size, keyboardHint }))
 	const errorMessage =
 		typeof fieldProps.errorMessage === "function"
 			? fieldProps.errorMessage({
@@ -246,6 +262,13 @@ const searchFieldClass = style(focusRing("& button:focus-visible"), {
 	},
 })
 
+/** `root` on a wrapper around the input and clear button; it styles its descendant `input` and `button` (the clear button), so it needs that markup; `input` on RAC `Input` (same states as `textFieldStyles.input`); `keyboardHint` on a Maui `Kbd variant="quiet"` inside `root`. */
+export const searchFieldStyles = {
+	root: searchFieldClass,
+	input: inputClass,
+	keyboardHint: keyboardHintClass,
+} as const
+
 export function SearchField(props: SearchFieldProps) {
 	const {
 		keyboardHint,
@@ -256,8 +279,8 @@ export function SearchField(props: SearchFieldProps) {
 	const state = useSearchFieldState(fieldProps)
 	const { inputProps } = useSearchField(fieldProps, state, ref)
 	const { isFocused, focusProps } = useKeyboardHint()
-	const inputClassName = useStyles(inputClass)
-	const searchClassName = useStyles(searchFieldClass)
+	const inputClassName = useStyles(searchFieldStyles.input)
+	const searchClassName = useStyles(searchFieldStyles.root)
 
 	return (
 		<div className={searchClassName}>
@@ -363,6 +386,12 @@ const numberInputClass = style(
 	},
 )
 
+/** `root` on RAC `Group`; keys off `:has(:focus-visible)`, `:has(input:disabled)`, `:has(input[aria-invalid='true'])` and styles descendant `button`s inside a `.number-stepper` wrapper, so it needs that markup; `input` on RAC `Input` (`:hover`, `:disabled`, `::placeholder`). */
+export const numberFieldStyles = {
+	root: numberFieldClass,
+	input: numberInputClass,
+} as const
+
 export function NumberField(props: AriaNumberFieldProps) {
 	const ref = useRef<HTMLInputElement>(null)
 	const incrementRef = useRef<HTMLButtonElement>(null)
@@ -379,8 +408,8 @@ export function NumberField(props: AriaNumberFieldProps) {
 		decrementButtonProps,
 		decrementRef,
 	)
-	const inputClassName = useStyles(numberInputClass)
-	const numberClassName = useStyles(numberFieldClass)
+	const inputClassName = useStyles(numberFieldStyles.input)
+	const numberClassName = useStyles(numberFieldStyles.root)
 
 	return (
 		<div className={numberClassName} {...groupProps}>
@@ -426,16 +455,23 @@ const quietInputClass = style(
 	},
 )
 
+/** `input` on RAC `Input` (`:hover`, `:disabled`, `aria-invalid`, `:focus-visible`, `::placeholder`) and is the root when there is no keyboard hint; `frame` wraps the input when a keyboard hint is shown; `keyboardHint` on a Maui `Kbd variant="quiet"` inside `frame`. */
+export const quietTextFieldStyles = {
+	input: memoize(
+		({ keyboardHint }: Pick<BaseTextFieldProps, "keyboardHint"> = {}) =>
+			style(quietInputClass, keyboardHint ? inputWithHintClass : undefined),
+	),
+	frame: inputFrameClass,
+	keyboardHint: keyboardHintClass,
+} as const
+
 export function QuietTextField(props: BaseTextFieldProps) {
 	const { keyboardHint, ...fieldProps } = props
 	const ref = useRef<HTMLInputElement>(null)
 	const { inputProps } = useTextField(fieldProps, ref)
 	const { isFocused, focusProps } = useKeyboardHint()
-	const frameClassName = useStyles(inputFrameClass)
-	const className = useStyles(
-		quietInputClass,
-		keyboardHint ? inputWithHintClass : undefined,
-	)
+	const frameClassName = useStyles(quietTextFieldStyles.frame)
+	const className = useStyles(quietTextFieldStyles.input({ keyboardHint }))
 	const input = (
 		<input
 			className={className}

@@ -10,13 +10,13 @@ import {
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
 import { CollectionPopover } from "./CollectionPopover"
-import { listBoxItemStyle, listBoxStyle } from "./ListBox"
+import { listBoxStyles } from "./ListBox"
 
-const menuStyle = style(listBoxStyle, {
+const root = style(listBoxStyles.root, {
 	minWidth: "140px",
 })
 
-const menuItemStyle = style(listBoxItemStyle, {
+const item = style(listBoxStyles.item, {
 	"&[data-has-submenu]": {
 		paddingRight: "28px",
 	},
@@ -47,10 +47,13 @@ export function MenuTrigger({
 	)
 }
 
+/** `root` goes on RAC `Menu`; `item` goes on RAC `MenuItem` and keys off `data-hovered`, `data-focused`, `data-selected`, `data-disabled`, `data-has-submenu`. */
+export const menuStyles = { root, item } as const
+
 export interface MenuProps<T> extends Omit<AriaMenuProps<T>, "className"> {}
 
 export function Menu<T>(props: MenuProps<T>) {
-	const className = useStyles(menuStyle)
+	const className = useStyles(menuStyles.root)
 
 	return <AriaMenu {...props} className={className} />
 }
@@ -59,7 +62,7 @@ export interface MenuItemProps<T = object>
 	extends Omit<AriaMenuItemProps<T>, "className"> {}
 
 export function MenuItem<T extends object = object>(props: MenuItemProps<T>) {
-	const className = useStyles(menuItemStyle)
+	const className = useStyles(menuStyles.item)
 	const textValue =
 		props.textValue ??
 		(typeof props.children === "string" ? props.children : undefined)

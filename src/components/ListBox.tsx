@@ -11,7 +11,7 @@ import { controlSize } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
-export const listBoxStyle = style(background.element, {
+const root = style(background.element, {
 	margin: 0,
 	padding: 0,
 	listStyleType: "none",
@@ -23,7 +23,7 @@ export const listBoxStyle = style(background.element, {
 	outline: "none",
 })
 
-export const listBoxItemStyle = style(
+const item = style(
 	spacing.padding({ x: 4, y: 2 }),
 	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	{
@@ -57,11 +57,14 @@ export const listBoxItemStyle = style(
 	},
 )
 
+/** `root` goes on RAC `ListBox`; `item` goes on RAC `ListBoxItem` and keys off `data-hovered`, `data-focused`, `data-selected` (trailing ✓), `data-disabled`. */
+export const listBoxStyles = { root, item } as const
+
 export interface ListBoxProps<T>
 	extends Omit<AriaListBoxProps<T>, "className"> {}
 
 export function ListBox<T>(props: ListBoxProps<T>) {
-	const className = useStyles(listBoxStyle)
+	const className = useStyles(listBoxStyles.root)
 
 	return <AriaListBox {...props} className={className} />
 }
@@ -72,7 +75,7 @@ export interface ListBoxItemProps<T = object>
 export function ListBoxItem<T extends object = object>(
 	props: ListBoxItemProps<T>,
 ) {
-	const className = useStyles(listBoxItemStyle)
+	const className = useStyles(listBoxStyles.item)
 	const textValue =
 		props.textValue ??
 		(typeof props.children === "string" ? props.children : undefined)

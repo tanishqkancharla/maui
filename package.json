@@ -129,7 +129,7 @@
 		"inline-style-prefixer": "^7.0.1",
 		"lodash": "^4.18.1",
 		"prettier": "^3.9.6",
-		"purse-styles": "^0.2.4",
+		"purse-styles": "^0.2.6",
 		"react": "^19.0.0",
 		"react-aria": "^3.49.0",
 		"react-aria-components": "^1.19.0",

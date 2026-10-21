@@ -34,6 +34,21 @@ type TooltipProps = {
 	isDisabled?: boolean
 }
 
+const tooltipClass = style(
+	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
+	radius.sm,
+	spacing.padding({ x: 3, y: 2 }),
+	border([], "outline"),
+	background.element,
+	{
+		zIndex: 1000,
+		maxWidth: "240px",
+	},
+)
+
+/** `root` on the positioned popup `<div>` that carries `role="tooltip"` (no state; enter/exit motion is inline style). */
+export const tooltipStyles = { root: tooltipClass } as const
+
 export function Tooltip(props: TooltipProps) {
 	const {
 		content,
@@ -244,7 +259,7 @@ function TooltipPopup(props: TooltipPopupProps) {
 					)
 					.join(", ")
 
-	const className = useStyles(tooltipClass)
+	const className = useStyles(tooltipStyles.root)
 
 	return ReactDOM.createPortal(
 		<div
@@ -269,15 +284,3 @@ function TooltipPopup(props: TooltipPopupProps) {
 		document.body,
 	)
 }
-
-const tooltipClass = style(
-	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
-	radius.sm,
-	spacing.padding({ x: 3, y: 2 }),
-	border([], "outline"),
-	background.element,
-	{
-		zIndex: 1000,
-		maxWidth: "240px",
-	},
-)

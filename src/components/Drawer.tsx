@@ -84,6 +84,82 @@ function measurePanelWidth() {
 	return Math.min(PANEL_WIDTH_PX, (window.innerWidth * PANEL_MAX_VW) / 100)
 }
 
+const overlay = style({
+	position: "fixed",
+	inset: 0,
+	zIndex: 1100,
+	overflow: "hidden",
+	overscrollBehavior: "none",
+})
+
+const reducedMotionScrim = style({
+	backgroundColor: `rgb(0 0 0 / ${SCRIM_ALPHA})`,
+})
+
+const modal = style({
+	position: "absolute",
+	top: 0,
+	bottom: 0,
+	width: `min(${PANEL_WIDTH_PX}px, ${PANEL_MAX_VW}vw)`,
+	maxWidth: `${PANEL_MAX_VW}vw`,
+	height: "100%",
+	margin: 0,
+	outline: "none",
+	overflow: "visible",
+	background: "transparent",
+	boxShadow: "none",
+	"&[data-side='start']": {
+		insetInlineStart: 0,
+	},
+	"&[data-side='end']": {
+		insetInlineEnd: 0,
+	},
+})
+
+const panel = style(background.element, {
+	width: "100%",
+	height: "100%",
+	display: "flex",
+	flexDirection: "column",
+	overflow: "hidden",
+	borderRadius: 0,
+	willChange: "transform",
+	touchAction: "pan-y",
+	userSelect: "none",
+	boxShadow: `0 0 0 1px ${borderColor.outline}`,
+	"& [role='dialog'] > nav": {
+		width: "100%",
+		minWidth: 0,
+		height: "auto",
+		minHeight: "100%",
+		overflow: "visible",
+		boxShadow: "none",
+		borderRadius: 0,
+		backgroundColor: "transparent",
+	},
+})
+
+const dialog = style({
+	height: "100%",
+	minHeight: 0,
+	overflowY: "auto",
+	overscrollBehavior: "contain",
+	touchAction: "pan-y",
+	outline: "none",
+	display: "flex",
+	flexDirection: "column",
+})
+
+/** Drawer parts: `overlay` RAC `ModalOverlay` (scrim color is animated inline; add `reducedMotionScrim` with it under reduced motion), `modal` RAC `Modal` (keys off `[data-side='start'|'end']`, which RAC does not set: pass `data-side` yourself), `panel` the sliding element inside the modal (restyles a `nav` that is a direct child of `[role='dialog']`), `dialog` RAC `Dialog`, `title` visually hidden RAC `Heading slot="title"`. */
+export const drawerStyles = {
+	overlay,
+	reducedMotionScrim,
+	modal,
+	panel,
+	dialog,
+	title: visuallyHidden,
+} as const
+
 export function Drawer({
 	children,
 	isOpen: isOpenProp,
@@ -147,13 +223,13 @@ function DrawerLayer({
 	const { direction } = useLocale()
 	const reduceMotion = Boolean(useReducedMotion())
 	const overlayClassName = useStyles(
-		overlayClass,
-		...(reduceMotion ? [overlayReducedScrimClass] : []),
+		drawerStyles.overlay,
+		...(reduceMotion ? [drawerStyles.reducedMotionScrim] : []),
 	)
-	const shellClassName = useStyles(shellClass)
-	const panelClassName = useStyles(panelClass)
-	const dialogClassName = useStyles(dialogClass)
-	const titleClassName = useStyles(visuallyHidden)
+	const shellClassName = useStyles(drawerStyles.modal)
+	const panelClassName = useStyles(drawerStyles.panel)
+	const dialogClassName = useStyles(drawerStyles.dialog)
+	const titleClassName = useStyles(drawerStyles.title)
 	const closing = useRef(false)
 	const panelRef = useRef<HTMLDivElement | null>(null)
 	const suppressClick = useRef(false)
@@ -413,69 +489,3 @@ function DrawerLayer({
 		</MotionModalOverlay>
 	)
 }
-
-const overlayClass = style({
-	position: "fixed",
-	inset: 0,
-	zIndex: 1100,
-	overflow: "hidden",
-	overscrollBehavior: "none",
-})
-
-const overlayReducedScrimClass = style({
-	backgroundColor: `rgb(0 0 0 / ${SCRIM_ALPHA})`,
-})
-
-const shellClass = style({
-	position: "absolute",
-	top: 0,
-	bottom: 0,
-	width: `min(${PANEL_WIDTH_PX}px, ${PANEL_MAX_VW}vw)`,
-	maxWidth: `${PANEL_MAX_VW}vw`,
-	height: "100%",
-	margin: 0,
-	outline: "none",
-	overflow: "visible",
-	background: "transparent",
-	boxShadow: "none",
-	"&[data-side='start']": {
-		insetInlineStart: 0,
-	},
-	"&[data-side='end']": {
-		insetInlineEnd: 0,
-	},
-})
-
-const panelClass = style(background.element, {
-	width: "100%",
-	height: "100%",
-	display: "flex",
-	flexDirection: "column",
-	overflow: "hidden",
-	borderRadius: 0,
-	willChange: "transform",
-	touchAction: "pan-y",
-	userSelect: "none",
-	boxShadow: `0 0 0 1px ${borderColor.outline}`,
-	"& [role='dialog'] > nav": {
-		width: "100%",
-		minWidth: 0,
-		height: "auto",
-		minHeight: "100%",
-		overflow: "visible",
-		boxShadow: "none",
-		borderRadius: 0,
-		backgroundColor: "transparent",
-	},
-})
-
-const dialogClass = style({
-	height: "100%",
-	minHeight: 0,
-	overflowY: "auto",
-	overscrollBehavior: "contain",
-	touchAction: "pan-y",
-	outline: "none",
-	display: "flex",
-	flexDirection: "column",
-})
