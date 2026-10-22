@@ -64,6 +64,12 @@ const head = memoize(({ align = "start" }: { align?: TableAlign } = {}) =>
 			whiteSpace: "nowrap",
 			outline: "none",
 			fontWeight: 500,
+			"&:first-child": {
+				paddingLeft: 0,
+			},
+			"&:last-child": {
+				paddingRight: 0,
+			},
 		},
 	),
 )
@@ -120,6 +126,12 @@ const cell = memoize(({ align = "start" }: { align?: TableAlign } = {}) =>
 			textAlign: align,
 			verticalAlign: "middle",
 			outline: "none",
+			"&:first-child": {
+				paddingLeft: 0,
+			},
+			"&:last-child": {
+				paddingRight: 0,
+			},
 			'&[role="rowheader"]': {
 				fontWeight: 500,
 			},
