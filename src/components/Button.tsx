@@ -31,6 +31,7 @@ const disabledRaised = {
 	opacity: 1,
 	color: colors.gray[8],
 	backgroundColor: backgroundColor.element,
+	backgroundImage: "none",
 	boxShadow: buttonShadow,
 } as const
 
@@ -187,34 +188,48 @@ function onSolidText(color: string) {
 	return `oklch(from ${color} clamp(0.2, (0.75 - l) * 100, 0.99) 0 0)`
 }
 
-function primaryButtonShadow(color: string) {
-	return `inset 0 1px #ffffff18, inset 0 0 1px .5px #fff2, 0 1px .5px #0003, 0 0 3px -1px color-mix(in oklch, ${color}, black 35%)`
+/** Darker shade of a fill (OKLCH lightness offset) at an alpha. */
+function fillShade(color: string, lightnessOffset: number, alpha = 1) {
+	return `oklch(from ${color} calc(l - ${lightnessOffset}) c h / ${alpha})`
 }
+
+/** Fill-tinted edge and lift; no neutral gray, so the shadow matches any fill. */
+function primaryButtonShadow(color: string) {
+	return `inset 0 1px #ffffff18, inset 0 0 1px .5px #fff2, 0 0 0 .5px ${fillShade(color, 0.1)}, 0 1px 2px ${fillShade(color, 0, 0.35)}, 0 3px 8px -3px ${fillShade(color, 0, 0.6)}`
+}
+
+/**
+ * Diagonal from a slightly darker, more saturated, warmer-rotated fill to the
+ * fill. The offsets are the OKLCH delta between Campsite's #FB432C → #FF591E.
+ */
+function primaryButtonGradient(color: string) {
+	return `linear-gradient(to top left, oklch(from ${color} calc(l - 0.027) calc(c * 1.05) calc(h - 6.8)), ${color})`
+}
+
+/** Hover lightens the top of the gradient instead of replacing the fill. */
+const primaryHoverSheen = `linear-gradient(to bottom, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0))`
+
+const primaryClass = memoize((fill: string, textColor: string) => {
+	const primaryShadow = primaryButtonShadow(fill)
+	const gradient = primaryButtonGradient(fill)
+	return style(buttonBaseClass, focusRing("&:focus-visible", primaryShadow), {
+		color: textColor,
+		backgroundColor: fill,
+		backgroundImage: gradient,
+		boxShadow: primaryShadow,
+		"&:hover:not(:disabled)": {
+			backgroundImage: `${primaryHoverSheen}, ${gradient}`,
+		},
+		"&:disabled": disabledRaised,
+	})
+})
 
 const coloredButtonClass = memoize(
 	(variant: "primary" | "quiet", color: ButtonVariantColor) => {
 		if (isCssColor(color)) {
 			const fill = opaqueColor(color)
 			if (variant === "primary") {
-				const hover = surfaceWash(
-					colors.gray[12],
-					surfaceMixPercent.hover,
-					fill,
-				)
-				const primaryShadow = primaryButtonShadow(fill)
-				return style(
-					buttonBaseClass,
-					focusRing("&:focus-visible", primaryShadow),
-					{
-						color: onSolidText(fill),
-						backgroundColor: fill,
-						boxShadow: primaryShadow,
-						"&:hover:not(:disabled)": {
-							backgroundColor: hover,
-						},
-						"&:disabled": disabledRaised,
-					},
-				)
+				return primaryClass(fill, onSolidText(fill))
 			}
 
 			return quietClass(fill, darkerFill(fill), fill)
@@ -222,24 +237,9 @@ const coloredButtonClass = memoize(
 
 		const scale = paletteFill(color)
 		if (variant === "primary") {
-			const primaryShadow = primaryButtonShadow(scale[9])
-			const hover = surfaceWash(
-				colors.gray[12],
-				surfaceMixPercent.hover,
+			return primaryClass(
 				scale[9],
-			)
-			return style(
-				buttonBaseClass,
-				focusRing("&:focus-visible", primaryShadow),
-				{
-					color: darkTextOnSolid.has(color) ? scale[12] : "white",
-					backgroundColor: scale[9],
-					boxShadow: primaryShadow,
-					"&:hover:not(:disabled)": {
-						backgroundColor: hover,
-					},
-					"&:disabled": disabledRaised,
-				},
+				darkTextOnSolid.has(color) ? scale[12] : "white",
 			)
 		}
 

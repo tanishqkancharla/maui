@@ -85,8 +85,9 @@ export function ButtonsPage() {
 				<Code>variant="primary"</Code> fills with step 9 of{" "}
 				<Code>variantColor</Code> (a palette name, default <Code>"accent"</Code>
 				). Pass a hex or <Code>rgb()</Code> string to use that color as the fill
-				(alpha is dropped). Primary buttons use a stronger inset highlight and a
-				tight edge tinted from the fill.
+				(alpha is dropped). The fill is a subtle diagonal gradient from a
+				slightly darker, warmer shade of that color, and the edge and lift
+				shadows are tinted from it. Hover adds a white sheen at the top.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="primary">Save</Button>
