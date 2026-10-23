@@ -44,7 +44,7 @@ const disabledQuiet = {
 } as const
 
 const buttonBaseClass = style(
-	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
+	text({ size: "xs", fontWeight: 500, color: "highContrast" }),
 	focusRing("&:focus-visible", buttonShadow),
 	spacing.padding({ x: 6, y: 4 }),
 	radius.sm,
@@ -87,7 +87,7 @@ const buttonTextClass = style({
 })
 
 const smallButtonClass = style(
-	text({ size: "2xs", fontWeight: 400, color: "highContrast" }),
+	text({ size: "2xs", fontWeight: 500, color: "highContrast" }),
 	{
 		height: controlSize.smHeight,
 		gap: spacing.value(1),
@@ -193,9 +193,9 @@ function fillShade(color: string, lightnessOffset: number, alpha = 1) {
 	return `oklch(from ${color} calc(l - ${lightnessOffset}) c h / ${alpha})`
 }
 
-/** Fill-tinted edge and lift; no neutral gray, so the shadow matches any fill. */
-function primaryButtonShadow(color: string) {
-	return `inset 0 1px #ffffff18, inset 0 0 1px .5px #fff2, 0 0 0 .5px ${fillShade(color, 0.1)}, 0 1px 2px ${fillShade(color, 0, 0.35)}, 0 3px 8px -3px ${fillShade(color, 0, 0.6)}`
+/** Dark-only top highlight, a fill-tinted lift (half strength in dark mode), and an edge painted beneath the lift: the fill's alpha step 6 in light mode, a near-black tint of the fill in dark mode. */
+function primaryButtonShadow(color: string, lightEdge: string) {
+	return `inset 0 .5px light-dark(transparent, rgb(255 255 255 / 0.15)), 0 1px 2px light-dark(${fillShade(color, 0, 0.35)}, ${fillShade(color, 0, 0.18)}), 0 3px 8px -3px light-dark(${fillShade(color, 0, 0.6)}, ${fillShade(color, 0, 0.3)}), 0 0 0 .5px light-dark(${lightEdge}, oklch(from ${color} 0.18 calc(c * 0.5) h))`
 }
 
 /**
@@ -209,27 +209,30 @@ function primaryButtonGradient(color: string) {
 /** Hover lightens the top of the gradient instead of replacing the fill. */
 const primaryHoverSheen = `linear-gradient(to bottom, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0))`
 
-const primaryClass = memoize((fill: string, textColor: string) => {
-	const primaryShadow = primaryButtonShadow(fill)
-	const gradient = primaryButtonGradient(fill)
-	return style(buttonBaseClass, focusRing("&:focus-visible", primaryShadow), {
-		color: textColor,
-		backgroundColor: fill,
-		backgroundImage: gradient,
-		boxShadow: primaryShadow,
-		"&:hover:not(:disabled)": {
-			backgroundImage: `${primaryHoverSheen}, ${gradient}`,
-		},
-		"&:disabled": disabledRaised,
-	})
-})
+const primaryClass = memoize(
+	(fill: string, textColor: string, lightEdge: string) => {
+		const primaryShadow = primaryButtonShadow(fill, lightEdge)
+		const gradient = primaryButtonGradient(fill)
+		return style(buttonBaseClass, focusRing("&:focus-visible", primaryShadow), {
+			color: textColor,
+			backgroundColor: fill,
+			backgroundImage: gradient,
+			boxShadow: primaryShadow,
+			"&:hover:not(:disabled)": {
+				backgroundImage: `${primaryHoverSheen}, ${gradient}`,
+			},
+			"&:disabled": disabledRaised,
+		})
+	},
+)
 
 const coloredButtonClass = memoize(
 	(variant: "primary" | "quiet", color: ButtonVariantColor) => {
 		if (isCssColor(color)) {
 			const fill = opaqueColor(color)
 			if (variant === "primary") {
-				return primaryClass(fill, onSolidText(fill))
+				// No alpha scale for a custom fill; approximate step A6 with the fill at 35%.
+				return primaryClass(fill, onSolidText(fill), fillShade(fill, 0, 0.35))
 			}
 
 			return quietClass(fill, darkerFill(fill), fill)
@@ -240,6 +243,7 @@ const coloredButtonClass = memoize(
 			return primaryClass(
 				scale[9],
 				darkTextOnSolid.has(color) ? scale[12] : "white",
+				paletteAlpha(color)[6],
 			)
 		}
 

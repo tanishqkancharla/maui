@@ -27,7 +27,8 @@ export function ShadowTokenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Shadows</H2>
 			<P>
-				Controls use inset highlights with a compact outer edge. Other surfaces
+				Controls use a small drop over a 0.5px edge: gray A6 in light mode,
+				near-black in dark mode, plus a top highlight in dark mode. Other surfaces
 				use Craft&apos;s three-level elevation stack: a
 				foreground-colored 1px ring plus progressively deeper black blur layers.
 				Blur opacity is 0.06 in light mode and 0.12 in dark mode.

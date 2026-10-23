@@ -86,8 +86,11 @@ export function ButtonsPage() {
 				<Code>variantColor</Code> (a palette name, default <Code>"accent"</Code>
 				). Pass a hex or <Code>rgb()</Code> string to use that color as the fill
 				(alpha is dropped). The fill is a subtle diagonal gradient from a
-				slightly darker, warmer shade of that color, and the edge and lift
-				shadows are tinted from it. Hover adds a white sheen at the top.
+				slightly darker, warmer shade of that color, and the lift shadow is
+				tinted from it; the lift is half as strong in dark mode. The 0.5px edge
+				is alpha step 6 of that color in light mode and a near-black tint of the
+				fill in dark mode. Dark mode adds a 0.5px white top highlight (15% on
+				primary, 9% on default buttons). Hover adds a white sheen at the top.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="primary">Save</Button>

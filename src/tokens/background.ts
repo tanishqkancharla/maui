@@ -13,7 +13,7 @@ const appSurface = defineVars({
 const elementSurface = defineVars({
 	element: {
 		default: "#ffffff",
-		[DARK_THEME]: colors.gray[2],
+		[DARK_THEME]: colors.gray[3],
 	},
 })
 
