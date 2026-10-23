@@ -1,6 +1,5 @@
 import type React from "react"
 import { Suspense, useEffect, useState } from "react"
-import { useFilter } from "react-aria"
 import {
 	Link as WouterLink,
 	Redirect,
@@ -13,6 +12,7 @@ import {
 import { defineVars, style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
 import { Drawer } from "../components/Drawer"
+import { FuzzyString } from "../components/FuzzyString"
 import { SearchField } from "../components/Input"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
@@ -26,6 +26,7 @@ import { text } from "../tokens/text"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
 import { isScalePreference, useScale } from "../theme/ScaleContext"
 import { LARGE_SCALE } from "../theme/dataScale"
+import { fuzzyMatch } from "../utils/fuzzyMatch"
 import { galleryCompactMedia } from "./galleryCompact"
 import { ReadmePage } from "./ReadmePage"
 import { ActivityIndicatorPage } from "./ActivityIndicatorPage"
@@ -369,19 +370,18 @@ function MauiNavigation() {
 	const emptyClassName = useStyles(navEmptyClass)
 	const { preference, setPreference } = useTheme()
 	const { preference: scale, setPreference: setScale } = useScale()
-	const { contains } = useFilter({ sensitivity: "base" })
 	const normalizedQuery = query.trim()
+	const matches = (label: string) =>
+		fuzzyMatch(normalizedQuery, label) !== undefined
 	const filteredNavigation = normalizedQuery
 		? navigation.flatMap<NavEntry>((entry) => {
 				if (!isNavGroup(entry)) {
-					return contains(entry.label, normalizedQuery) ? [entry] : []
+					return matches(entry.label) ? [entry] : []
 				}
 
-				const children = contains(entry.label, normalizedQuery)
+				const children = matches(entry.label)
 					? entry.children
-					: entry.children.filter((item) =>
-							contains(item.label, normalizedQuery),
-						)
+					: entry.children.filter((item) => matches(item.label))
 				return children.length > 0 ? [{ ...entry, children }] : []
 			})
 		: navigation
@@ -465,15 +465,21 @@ function MauiNavigation() {
 				{filteredNavigation.map((entry) =>
 					isNavGroup(entry) ? (
 						<li className={groupClassName} key={entry.label}>
-							<Label>{entry.label}</Label>
+							<Label>
+								<HighlightedLabel label={entry.label} query={normalizedQuery} />
+							</Label>
 							<ul className={childrenClassName}>
 								{entry.children.map((item) => (
-									<NavLink key={item.path} item={item} />
+									<NavLink
+										key={item.path}
+										item={item}
+										query={normalizedQuery}
+									/>
 								))}
 							</ul>
 						</li>
 					) : (
-						<NavLink key={entry.path} item={entry} />
+						<NavLink key={entry.path} item={entry} query={normalizedQuery} />
 					),
 				)}
 				{filteredNavigation.length === 0 ? (
@@ -486,7 +492,12 @@ function MauiNavigation() {
 	)
 }
 
-function NavLink(props: { item: NavItem }) {
+function HighlightedLabel(props: { label: string; query: string }) {
+	const match = props.query ? fuzzyMatch(props.query, props.label) : undefined
+	return match ? <FuzzyString match={match} /> : props.label
+}
+
+function NavLink(props: { item: NavItem; query: string }) {
 	const className = useStyles(navLinkClass)
 	const [selected] = useRoute(props.item.path)
 
@@ -497,7 +508,7 @@ function NavLink(props: { item: NavItem }) {
 				href={props.item.path}
 				aria-current={selected ? "page" : undefined}
 			>
-				{props.item.label}
+				<HighlightedLabel label={props.item.label} query={props.query} />
 			</WouterLink>
 		</li>
 	)
