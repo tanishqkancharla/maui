@@ -98,7 +98,7 @@ export function LoadingScreenPage() {
 				Fills whatever width and height it is given, with{" "}
 				<Code>radius.lg</Code> on the surface. Pass{" "}
 				<Code>progressLabel</Code> to show a status under a small, accent
-				Thinking indicator. The label is accent, medium weight, and keeps the
+				activity indicator. The label is accent, medium weight, and keeps the
 				punctuation you provide. Label changes Crossfade up. With no label at
 				mount, the indicator waits 2s before fading in.
 			</P>
@@ -136,7 +136,7 @@ export function LoadingScreenPage() {
 
 			<H3>No label — wait 2 seconds</H3>
 			<P>
-				Mounts empty. After 2 seconds the Thinking indicator fades in,
+				Mounts empty. After 2 seconds the activity indicator fades in,
 				centered, with no label.
 			</P>
 			<Flex column gap={4}>

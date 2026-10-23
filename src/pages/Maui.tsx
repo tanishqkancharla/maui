@@ -28,6 +28,7 @@ import { isScalePreference, useScale } from "../theme/ScaleContext"
 import { LARGE_SCALE } from "../theme/dataScale"
 import { galleryCompactMedia } from "./galleryCompact"
 import { ReadmePage } from "./ReadmePage"
+import { ActivityIndicatorPage } from "./ActivityIndicatorPage"
 import { AvatarPage } from "./AvatarPage"
 import { BadgePage } from "./BadgePage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
@@ -152,6 +153,11 @@ const navigation: NavEntry[] = [
 			},
 			{ label: "Editor", path: "/components/editor", page: EditorPage },
 			{ label: "Thinking", path: "/components/thinking", page: ThinkingPage },
+			{
+				label: "Activity indicator",
+				path: "/components/activity-indicator",
+				page: ActivityIndicatorPage,
+			},
 			{
 				label: "Crossfade",
 				path: "/components/crossfade",

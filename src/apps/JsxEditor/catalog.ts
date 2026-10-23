@@ -42,6 +42,7 @@ import {
 import { Text } from "../../components/Text"
 import { TabBar } from "../../components/TabBar"
 import { Thinking } from "../../components/Thinking"
+import { ActivityIndicator } from "../../components/ActivityIndicator"
 import { Crossfade } from "../../components/Crossfade"
 import { LoadingScreen } from "../../components/LoadingScreen"
 import { Tooltip } from "../../components/Tooltip"
@@ -530,6 +531,16 @@ export const catalog: CatalogComponent[] = [
 		],
 	},
 	{
+		name: "ActivityIndicator",
+		info: "iOS-style spinner. Eight spokes with a fading tail rotate in 45° steps. Accent by default.",
+		attributes: [
+			{ name: "size", info: "CSS length, default 1em" },
+			{ name: "variant", values: ["accent", "primary", "muted"] },
+			{ name: "aria-label", info: "Default Loading" },
+			{ name: "className" },
+		],
+	},
+	{
 		name: "Crossfade",
 		info: "When contentKey changes, fades previous children out and the next in. Omit direction for an in-place opacity fade. Pass up, down, left, or right to slide. contentKey is required.",
 		attributes: [
@@ -544,11 +555,11 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "LoadingScreen",
-		info: "Full-size loading state. Optional progressLabel is shown in accent, medium weight, with trailing .... Small accent Thinking. Delays 2s when no label at start; label changes Crossfade up.",
+		info: "Full-size loading state. Optional progressLabel is shown in accent, medium weight, with trailing .... Accent ActivityIndicator. Delays 2s when no label at start; label changes Crossfade up.",
 		attributes: [
 			{
 				name: "progressLabel",
-				info: "Optional status under the Thinking indicator",
+				info: "Optional status under the activity indicator",
 			},
 			{ name: "className" },
 		],
@@ -600,6 +611,7 @@ export const previewScope: Record<string, unknown> = {
 	Text,
 	TabBar,
 	Thinking,
+	ActivityIndicator,
 	Crossfade,
 	LoadingScreen,
 	Tooltip,

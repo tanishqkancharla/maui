@@ -140,6 +140,11 @@ export {
 } from "./components/Table"
 export { Prose, useProseSize, proseContainerStyle, proseMaxWidth } from "./components/Prose"
 export {
+	ActivityIndicator,
+	type ActivityIndicatorProps,
+	type ActivityIndicatorVariant,
+} from "./components/ActivityIndicator"
+export {
 	Thinking,
 	type ThinkingProps,
 	type ThinkingVariant,

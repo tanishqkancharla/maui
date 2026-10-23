@@ -10,9 +10,9 @@ import { radius } from "../tokens/radius"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { cls } from "../utils/cls"
+import { ActivityIndicator } from "./ActivityIndicator"
 import { Crossfade } from "./Crossfade"
 import { Text } from "./Text"
-import { Thinking } from "./Thinking"
 
 const INDICATOR_DELAY_MS = 2000
 
@@ -28,7 +28,7 @@ function resolvedLabel(progressLabel: string | undefined) {
 
 /**
  * Full-size loading state. A `progressLabel` on the first render fades the
- * Thinking indicator and label in together. Without a label, the indicator
+ * activity indicator and label in together. Without a label, the indicator
  * waits 2s before fading in; a label that arrives later animates in and
  * shifts the indicator so the pair stays centered.
  */
@@ -87,9 +87,8 @@ export function LoadingScreen({
 						animate={{ opacity: 1 }}
 						transition={transition}
 					>
-						<Thinking
-							variant="accent"
-							size="0.8em"
+						<ActivityIndicator
+							size="1.25em"
 							aria-label={label ?? "Loading"}
 						/>
 						<AnimatePresence initial={false}>
