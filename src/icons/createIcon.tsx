@@ -11,20 +11,19 @@ export function createIcon(
 	displayName: string,
 	Svg: React.ComponentType<React.SVGProps<SVGSVGElement>>,
 ) {
-	function Icon({
-		size = "sm",
-		width,
-		height,
-		style,
-		...props
-	}: IconProps) {
+	function Icon({ size = "sm", width, height, style, ...props }: IconProps) {
 		const box = iconSizeValues[size]
 		return (
 			<Svg
 				{...props}
-				width={width ?? box}
-				height={height ?? box}
-				style={{ flexShrink: 0, ...style }}
+				width={width}
+				height={height}
+				style={{
+					width: width ?? box,
+					height: height ?? box,
+					flexShrink: 0,
+					...style,
+				}}
 			/>
 		)
 	}
