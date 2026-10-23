@@ -17,7 +17,7 @@ import {
 	ModalOverlay,
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
-import { background } from "../tokens/background"
+import { colors } from "../tokens/colors"
 import { border } from "../tokens/borders"
 import { overlayMotion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
@@ -81,7 +81,8 @@ const overlay = style({
 	overscrollBehavior: "contain",
 })
 
-const modalBase = style(background.element, border([], "outline"), radius.lg, {
+const modalBase = style(border([], "outline"), radius.lg, {
+	backgroundColor: colors.gray[2],
 	width: "min(440px, calc(100vw - 32px))",
 	maxWidth: "100%",
 	maxHeight: "calc(100dvh - 32px)",
