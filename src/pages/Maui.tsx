@@ -27,7 +27,7 @@ import { type ThemePreference, useTheme } from "../theme/ThemeContext"
 import { isScalePreference, useScale } from "../theme/ScaleContext"
 import { LARGE_SCALE } from "../theme/dataScale"
 import { galleryCompactMedia } from "./galleryCompact"
-import { AboutPage } from "./AboutPage"
+import { ReadmePage } from "./ReadmePage"
 import { AvatarPage } from "./AvatarPage"
 import { BadgePage } from "./BadgePage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
@@ -106,7 +106,7 @@ function navItems(entries: NavEntry[]): NavItem[] {
 }
 
 const navigation: NavEntry[] = [
-	{ label: "About", path: "/about", page: AboutPage },
+	{ label: "README", path: "/readme", page: ReadmePage },
 	{ label: "Editor", path: "/editor", page: JsxEditorPage },
 	{
 		label: "Tokens",
@@ -241,7 +241,7 @@ const navigation: NavEntry[] = [
 	},
 ]
 
-const defaultPath = "/about"
+const defaultPath = "/readme"
 
 function useGalleryCompact() {
 	const [compact, setCompact] = useState(() =>
@@ -317,6 +317,9 @@ function MauiContent() {
 							</Route>
 						))}
 
+						<Route path="/about">
+							<Redirect to="/readme" />
+						</Route>
 						<Route path="/patterns/calendar">
 							<Redirect to="/apps/calendar" />
 						</Route>
