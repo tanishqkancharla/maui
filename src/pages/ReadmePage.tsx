@@ -6,7 +6,7 @@ import { H2, H3, Li, Link, P, Ul } from "../components/Typography"
 export function ReadmePage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
-			<H2>Maui</H2>
+			<H2>README</H2>
 			<P>
 				Maui is an open-source, TypeScript-first design system styled with{" "}
 				<Link href="https://www.npmjs.com/package/purse-styles">
