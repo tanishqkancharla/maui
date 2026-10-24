@@ -40,13 +40,17 @@ const dot = style(radius.circle, motion.standard("transform"), {
 	left: "4px",
 	width: "6px",
 	height: "6px",
-	backgroundColor: colors.gray[3],
+	backgroundColor: "white",
 	transform: "scale(0)",
 })
 
 const root = style(
 	flex({ alignItems: "center", gap: 3 }),
 	focusRing(`&[data-focus-visible] ${circle}`, shadowVars.control),
+	focusRing(
+		`&[data-selected][data-focus-visible] ${circle}`,
+		shadowVars.selectedControl,
+	),
 	{
 		position: "relative",
 		width: "fit-content",
@@ -55,6 +59,7 @@ const root = style(
 		},
 		[`&[data-selected] ${circle}`]: {
 			backgroundColor: colors.accent[9],
+			boxShadow: shadowVars.selectedControl,
 		},
 		[`&[data-selected][data-hovered] ${circle}`]: {
 			backgroundColor: surfaceWash(

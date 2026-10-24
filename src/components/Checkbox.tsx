@@ -44,7 +44,7 @@ const check = style(motion.standard("opacity", "transform"), {
 	height: checkboxSize.checkmark,
 	paddingTop: "0.5px",
 	paddingLeft: "0.5px",
-	fill: colors.gray[3],
+	fill: "white",
 	opacity: 0,
 	transform: "scale(0)",
 })
@@ -52,6 +52,10 @@ const check = style(motion.standard("opacity", "transform"), {
 const root = style(
 	flex({ alignItems: "center", gap: 3 }),
 	focusRing(`&[data-focus-visible] ${box}`, shadowVars.control),
+	focusRing(
+		`&[data-selected][data-focus-visible] ${box}`,
+		shadowVars.selectedControl,
+	),
 	{
 		position: "relative",
 		width: "fit-content",
@@ -62,6 +66,7 @@ const root = style(
 		},
 		[`&[data-selected] ${box}`]: {
 			backgroundColor: colors.accent[9],
+			boxShadow: shadowVars.selectedControl,
 		},
 		[`&[data-selected][data-hovered] ${box}`]: {
 			backgroundColor: surfaceWash(

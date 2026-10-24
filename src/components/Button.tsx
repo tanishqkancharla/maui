@@ -15,7 +15,7 @@ import {
 import { colors, type ColorName, type ColorScale } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { radius } from "../tokens/radius"
-import { shadowVars } from "../tokens/shadow"
+import { shadowVars, tintedControl } from "../tokens/shadow"
 import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
@@ -193,11 +193,6 @@ function fillShade(color: string, lightnessOffset: number, alpha = 1) {
 	return `oklch(from ${color} calc(l - ${lightnessOffset}) c h / ${alpha})`
 }
 
-/** Dark-only top highlight, a fill-tinted lift (half strength in dark mode), and an edge painted beneath the lift: the fill's alpha step 6 in light mode, a near-black tint of the fill in dark mode. */
-function primaryButtonShadow(color: string, lightEdge: string) {
-	return `inset 0 .5px light-dark(transparent, rgb(255 255 255 / 0.15)), 0 1px 2px light-dark(${fillShade(color, 0, 0.35)}, ${fillShade(color, 0, 0.18)}), 0 3px 8px -3px light-dark(${fillShade(color, 0, 0.6)}, ${fillShade(color, 0, 0.3)}), 0 0 0 .5px light-dark(${lightEdge}, oklch(from ${color} 0.18 calc(c * 0.5) h))`
-}
-
 /**
  * Diagonal from a slightly darker, more saturated, warmer-rotated fill to the
  * fill. The offsets are the OKLCH delta between Campsite's #FB432C → #FF591E.
@@ -211,7 +206,7 @@ const primaryHoverSheen = `linear-gradient(to bottom, rgb(255 255 255 / 0.12), r
 
 const primaryClass = memoize(
 	(fill: string, textColor: string, lightEdge: string) => {
-		const primaryShadow = primaryButtonShadow(fill, lightEdge)
+		const primaryShadow = tintedControl(fill, lightEdge)
 		const gradient = primaryButtonGradient(fill)
 		return style(buttonBaseClass, focusRing("&:focus-visible", primaryShadow), {
 			color: textColor,

@@ -58,6 +58,10 @@ const thumb = style(radius.circle, motion.standard("transform"), {
 const root = style(
 	flex({ alignItems: "center", gap: 3 }),
 	focusRing(`&[data-focus-visible] ${track}`, shadowVars.control),
+	focusRing(
+		`&[data-selected][data-focus-visible] ${track}`,
+		shadowVars.selectedControl,
+	),
 	{
 		position: "relative",
 		width: "fit-content",
@@ -67,6 +71,7 @@ const root = style(
 		},
 		[`&[data-selected] ${track}`]: {
 			backgroundColor: colors.accent[9],
+			boxShadow: shadowVars.selectedControl,
 		},
 		[`&[data-selected][data-hovered] ${track}`]: {
 			backgroundColor: switchOnHover,
