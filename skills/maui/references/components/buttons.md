@@ -14,6 +14,7 @@ Styled React Aria `Button` (default `type="button"`). Consumes `ButtonContext`, 
 <Button variant="primary" variantColor="#6366f1">Indigo</Button>
 <Button size="sm">Compact</Button>
 <Button isDisabled>Wait</Button>
+<Button isPending={isSaving} pendingLabel="Saving…">Save</Button>
 <Button aria-label="Search"><Search size="sm" /></Button>
 <Button>
   <Plus size="sm" />
@@ -27,6 +28,8 @@ Styled React Aria `Button` (default `type="button"`). Consumes `ButtonContext`, 
 | `variant` | `"default"` (raised element) \| `"quiet"` (no shadow, transparent) \| `"primary"` (solid fill) |
 | `variantColor` | Palette name or opaque `#hex` / `rgb(...)`. Primary default is `"accent"`. Quiet ignores color unless set; when set, tints the label with no fill |
 | `isDisabled` | React Aria name. Maps to native `disabled`. **No `disabled` React prop** |
+| `isPending` | Shows a current-color indicator beside visible content: `xs` (14px) by default, `2xs` (12px) for small buttons, with equal leading/top/bottom insets. Crossfades content and resizes over 150ms in both directions; reduced motion switches instantly. Blocks activation immediately and suppresses hover fill, retaining focusability and variant color. Controlled by the caller, not by returned promises |
+| `pendingLabel` | Optional visible string replacing children while pending (e.g. `"Saving…"`). Omit to keep children; provide it to replace an icon with progress text |
 | `onClick` | Still supported. React Aria also exposes `onPress` |
 | `children` | Text is wrapped for cap-height trim; SVG icons sit beside text. Icon-only needs `aria-label` |
 

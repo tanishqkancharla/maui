@@ -1,10 +1,19 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useLayoutEffect, useState } from "react"
+import {
+	AnimatePresence,
+	motion,
+	useIsPresent,
+	useReducedMotion,
+	type Transition,
+} from "motion/react"
 import { useId, useObjectRef } from "react-aria"
 import {
 	Button as RACButton,
+	ProgressBar,
 	type ButtonProps as RACButtonProps,
 } from "react-aria-components"
 import { style, useStyles } from "purse-styles"
+import { ActivityIndicator } from "./ActivityIndicator"
 import { useFocus } from "../hooks/useFocus"
 import { useRefCurrent } from "../hooks/useRefCurrent"
 import {
@@ -25,6 +34,8 @@ export type ButtonVariant = "default" | "quiet" | "primary"
 export type ButtonSize = "default" | "sm"
 
 const buttonShadow = shadowVars.control
+
+const pendingTransition = { duration: 0.15, ease: "easeInOut" } as const
 
 const disabledRaised = {
 	cursor: "default",
@@ -61,20 +72,29 @@ const buttonBaseClass = style(
 		textOverflow: "ellipsis",
 		overflow: "hidden",
 		whiteSpace: "nowrap",
-		"& > svg": {
+		transition: `padding-inline-start ${pendingTransition.duration}s ease-in-out`,
+		"@media (prefers-reduced-motion: reduce)": {
+			transition: "none",
+		},
+		"& > svg, & [data-button-content] > svg": {
 			flexShrink: 0,
 		},
-		"&:has(> svg)": {
+		"&:has(> svg), &:has([data-button-content] > svg)": {
 			paddingBlock: spacing.value(3),
 		},
-		"&:has(> svg:first-child:not(:only-child))": {
-			paddingInlineStart: spacing.value(4),
-		},
-		"&:has(> svg:last-child:not(:only-child))": {
-			paddingInlineEnd: spacing.value(4),
-		},
-		"&:has(> svg:only-child)": {
+		"&:has(> svg:first-child:not(:only-child)), &:has([data-button-content] > svg:first-child:not(:only-child))":
+			{
+				paddingInlineStart: spacing.value(4),
+			},
+		"&:has(> svg:last-child:not(:only-child)), &:has([data-button-content] > svg:last-child:not(:only-child))":
+			{
+				paddingInlineEnd: spacing.value(4),
+			},
+		"&:has(> svg:only-child), &:has([data-button-content] > svg:only-child)": {
 			paddingInline: spacing.value(3),
+		},
+		"&[data-pending]": {
+			paddingInlineStart: `calc((${controlSize.height} - ${iconSizeValues.xs}) / 2)`,
 		},
 		"&:disabled": disabledRaised,
 	},
@@ -86,6 +106,34 @@ const buttonTextClass = style({
 	textBox: "trim-both cap alphabetic",
 })
 
+const pendingIndicatorClass = style({
+	display: "inline-flex",
+	flexShrink: 0,
+	"& > span": { display: "inline-flex" },
+})
+
+const contentRootClass = style({
+	position: "relative",
+	display: "inline-flex",
+	alignItems: "center",
+	justifyContent: "center",
+	gap: "inherit",
+	minWidth: 0,
+})
+
+const contentLayerClass = style({
+	display: "inline-flex",
+	alignItems: "center",
+	gap: "inherit",
+	flexShrink: 0,
+	"&[inert]": {
+		position: "absolute",
+		insetBlock: 0,
+		insetInlineStart: 0,
+		width: "max-content",
+	},
+})
+
 const smallButtonClass = style(
 	text({ size: "2xs", fontWeight: 500, color: "highContrast" }),
 	{
@@ -93,29 +141,34 @@ const smallButtonClass = style(
 		gap: spacing.value(1),
 		paddingInline: spacing.value(4),
 		paddingBlock: spacing.value(2),
-		"& > svg": {
+		"& > svg, & [data-button-content] > svg": {
 			width: iconSizeValues.xs,
 			height: iconSizeValues.xs,
 		},
-		"&:has(> svg)": {
+		"&:has(> svg), &:has([data-button-content] > svg)": {
 			paddingBlock: spacing.value(2),
 		},
-		"&:has(> svg:first-child:not(:only-child))": {
-			paddingInlineStart: spacing.value(3),
-		},
-		"&:has(> svg:last-child:not(:only-child))": {
-			paddingInlineEnd: spacing.value(3),
-		},
-		"&:has(> svg:only-child)": {
+		"&:has(> svg:first-child:not(:only-child)), &:has([data-button-content] > svg:first-child:not(:only-child))":
+			{
+				paddingInlineStart: spacing.value(3),
+			},
+		"&:has(> svg:last-child:not(:only-child)), &:has([data-button-content] > svg:last-child:not(:only-child))":
+			{
+				paddingInlineEnd: spacing.value(3),
+			},
+		"&:has(> svg:only-child), &:has([data-button-content] > svg:only-child)": {
 			width: controlSize.smHeight,
 			paddingInline: 0,
+		},
+		"&[data-pending]": {
+			paddingInlineStart: `calc((${controlSize.smHeight} - ${iconSizeValues["2xs"]}) / 2)`,
 		},
 	},
 )
 
 const buttonClass = style(buttonBaseClass, {
 	backgroundColor: backgroundColor.element,
-	"&:hover:not(:disabled)": {
+	"&:hover:not(:disabled):not([data-pending])": {
 		backgroundColor: backgroundColor.elementHover,
 	},
 })
@@ -129,7 +182,7 @@ const quietClass = memoize((color: string, hoverColor: string, wash: string) =>
 		color,
 		backgroundColor: "transparent",
 		boxShadow: "none",
-		"&:hover:not(:disabled)": {
+		"&:hover:not(:disabled):not([data-pending])": {
 			color: hoverColor,
 			backgroundColor: surfaceWash(wash, surfaceMixPercent.hover),
 		},
@@ -213,7 +266,7 @@ const primaryClass = memoize(
 			backgroundColor: fill,
 			backgroundImage: gradient,
 			boxShadow: primaryShadow,
-			"&:hover:not(:disabled)": {
+			"&:hover:not(:disabled):not([data-pending])": {
 				backgroundImage: `${primaryHoverSheen}, ${gradient}`,
 			},
 			"&:disabled": disabledRaised,
@@ -262,6 +315,8 @@ export type ButtonProps = Omit<RACButtonProps, "children" | "className"> & {
 	size?: ButtonSize
 	variant?: ButtonVariant
 	variantColor?: ButtonVariantColor
+	/** Visible text beside the indicator while pending. Defaults to children. */
+	pendingLabel?: string
 }
 
 export function useButton(
@@ -329,6 +384,7 @@ export const Button = React.forwardRef(function Button(
 		variant = "default",
 		variantColor,
 		isDisabled,
+		pendingLabel,
 		...buttonProps
 	} = props
 	const [, attributes] = useButton({ onClick, onFocus }, forwardedRef)
@@ -336,6 +392,7 @@ export const Button = React.forwardRef(function Button(
 		buttonStyles.root({ variant, size, variantColor }),
 	)
 	const textClassName = useStyles(buttonStyles.label)
+	const indicatorClassName = useStyles(pendingIndicatorClass)
 	const mergedClassName = [className, classNameProp].filter(Boolean).join(" ")
 
 	return (
@@ -348,10 +405,103 @@ export const Button = React.forwardRef(function Button(
 			onClick={attributes.onClick}
 			onFocus={attributes.onFocus}
 		>
-			{renderButtonChildren(children, textClassName)}
+			{({ isPending }) => (
+				<ButtonContents isPending={isPending}>
+					{isPending && (
+						<ProgressBar
+							isIndeterminate
+							aria-label="Pending"
+							className={indicatorClassName}
+						>
+							<span aria-hidden="true">
+								<ActivityIndicator
+									variant="primary"
+									size={size === "sm" ? "2xs" : "xs"}
+								/>
+							</span>
+						</ProgressBar>
+					)}
+					{renderButtonChildren(
+						isPending ? (pendingLabel ?? children) : children,
+						textClassName,
+					)}
+				</ButtonContents>
+			)}
 		</RACButton>
 	)
 })
+
+function ButtonContents({
+	isPending,
+	children,
+}: {
+	isPending: boolean
+	children: React.ReactNode
+}) {
+	const [width, setWidth] = useState<number>()
+	const reduceMotion = useReducedMotion()
+	const className = useStyles(contentRootClass)
+	const transition = reduceMotion ? { duration: 0 } : pendingTransition
+
+	return (
+		<motion.span
+			className={className}
+			initial={false}
+			animate={{ width: width ?? "auto" }}
+			transition={transition}
+		>
+			<AnimatePresence initial={false}>
+				<ButtonContentLayer
+					key={isPending ? "pending" : "ready"}
+					onResize={setWidth}
+					transition={transition}
+				>
+					{children}
+				</ButtonContentLayer>
+			</AnimatePresence>
+		</motion.span>
+	)
+}
+
+function ButtonContentLayer({
+	children,
+	onResize,
+	transition,
+}: {
+	children: React.ReactNode
+	onResize: (width: number) => void
+	transition: Transition
+}) {
+	const ref = React.useRef<HTMLSpanElement>(null)
+	const isPresent = useIsPresent()
+	const className = useStyles(contentLayerClass)
+
+	useLayoutEffect(() => {
+		const node = ref.current
+		if (!node || !isPresent) return
+		const measure = () => onResize(node.getBoundingClientRect().width)
+		measure()
+		const observer = new ResizeObserver(measure)
+		observer.observe(node)
+		return () => observer.disconnect()
+	}, [isPresent, onResize, ref])
+
+	return (
+		<motion.span
+			ref={ref}
+			className={className}
+			data-button-content={isPresent ? "" : undefined}
+			aria-hidden={!isPresent || undefined}
+			inert={!isPresent || undefined}
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+			transition={transition}
+		>
+			{children}
+		</motion.span>
+	)
+}
 
 function buttonVariantClass(
 	variant: ButtonVariant,

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../components/Button"
 import { Code } from "../components/Code"
 import {
@@ -9,6 +9,7 @@ import {
 } from "../components/Dialog"
 import { Overlay } from "../components/Overlay"
 import { Prose } from "../components/Prose"
+import { Text } from "../components/Text"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
 import { Archive, DotsHorizontal, Plus, Search } from "../icons"
@@ -19,6 +20,17 @@ import { borderColor } from "../tokens/borders"
 export function ButtonsPage() {
 	const [dialogOpen, setDialogOpen] = useState(false)
 	const [overlayOpen, setOverlayOpen] = useState(false)
+	const [isSaving, setIsSaving] = useState(false)
+	const [saveCount, setSaveCount] = useState(0)
+
+	useEffect(() => {
+		if (!isSaving) return
+		const timeout = setTimeout(() => {
+			setIsSaving(false)
+			setSaveCount((count) => count + 1)
+		}, 2000)
+		return () => clearTimeout(timeout)
+	}, [isSaving])
 
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
@@ -78,6 +90,52 @@ export function ButtonsPage() {
 				<Button isDisabled aria-label="Search">
 					<Search />
 				</Button>
+			</Flex>
+
+			<H3>Pending</H3>
+			<P>
+				<Code>isPending</Code> shows an activity indicator beside the label,
+				keeps the button’s color and focus, and prevents repeat activation. Use{" "}
+				<Code>pendingLabel</Code> for visible progress text; otherwise the
+				original children stay visible.
+			</P>
+			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
+				<Button isPending>Submitting</Button>
+				<Button variant="primary" isPending pendingLabel="Saving…">
+					Save
+				</Button>
+				<Button variant="quiet" isPending pendingLabel="Syncing…">
+					Sync
+				</Button>
+				<Button
+					variant="primary"
+					variantColor="blue"
+					isPending
+					pendingLabel="Uploading…"
+				>
+					Upload
+				</Button>
+				<Button size="sm" isPending pendingLabel="Creating…">
+					<Plus />
+					Create
+				</Button>
+			</Flex>
+			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
+				<Button
+					variant="primary"
+					isPending={isSaving}
+					pendingLabel="Saving changes…"
+					onPress={() => setIsSaving(true)}
+				>
+					Save changes
+				</Button>
+				<Text size="sm" color="lowContrast" role="status">
+					{isSaving
+						? "Saving for two seconds…"
+						: saveCount > 0
+							? `Saved ${saveCount} ${saveCount === 1 ? "time" : "times"}. Try again.`
+							: "Click to try the pending state."}
+				</Text>
 			</Flex>
 
 			<H3>Primary</H3>
@@ -140,9 +198,8 @@ export function ButtonsPage() {
 			<H3>Quiet</H3>
 			<P>
 				<Code>variant="quiet"</Code> has no fill. <Code>variantColor</Code>{" "}
-				tints the label and icon. Hover mixes <Code>grayAlpha[9]</Code> (or
-				that color’s alpha 9) into transparent using the shared 3.5% control
-				wash.
+				tints the label and icon. Hover mixes <Code>grayAlpha[9]</Code> (or that
+				color’s alpha 9) into transparent using the shared 3.5% control wash.
 			</P>
 			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
 				<Button variant="quiet">Button</Button>

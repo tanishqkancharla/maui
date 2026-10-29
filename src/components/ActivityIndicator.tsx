@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react"
 import { style, useStyles } from "purse-styles"
 import { colors } from "../tokens/colors"
+import { iconSizeValues, type IconSize } from "../tokens/sizing"
 import { cls } from "../utils/cls"
 
 // Geometry is in a 24×24 viewBox. Spokes end this far from the center.
@@ -27,7 +28,8 @@ const spokes = Array.from({ length: SPOKE_COUNT }, (_, index) => {
 export type ActivityIndicatorVariant = "primary" | "accent" | "muted"
 
 export type ActivityIndicatorProps = {
-	size?: string
+	/** Icon t-shirt size, or a custom CSS length. Defaults to 1em. */
+	size?: IconSize | (string & {})
 	variant?: ActivityIndicatorVariant
 	className?: string
 	"aria-label"?: string
@@ -46,6 +48,9 @@ export function ActivityIndicator({
 }: ActivityIndicatorProps) {
 	const svgRef = useRef<SVGSVGElement>(null)
 	const rootClassName = useStyles(rootClass, variantStyles[variant])
+	const dimension = Object.hasOwn(iconSizeValues, size)
+		? iconSizeValues[size as IconSize]
+		: size
 
 	useEffect(() => {
 		const animation = svgRef.current?.animate(
@@ -64,7 +69,7 @@ export function ActivityIndicator({
 			role="status"
 			aria-label={ariaLabel}
 			className={cls(rootClassName, className)}
-			style={{ width: size, height: size }}
+			style={{ width: dimension, height: dimension }}
 		>
 			<svg
 				ref={svgRef}
