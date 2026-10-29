@@ -1,4 +1,4 @@
-name: Publish npm
+name: Stage npm release
 
 on:
   push:
@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   publish:
-    name: Publish @tanishqkancharla/maui
+    name: Stage @tanishqkancharla/maui for approval
     runs-on: ubuntu-latest
     timeout-minutes: 15
     if: >
@@ -36,13 +36,6 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
-
-      - name: Use latest main for branch releases
-        if: github.ref_type == 'branch'
-        run: |
-          git fetch origin main --tags --force
-          git checkout main
-          git pull --ff-only origin main
 
       - name: Skip if this commit is already released
         if: github.ref_type != 'tag'
@@ -66,11 +59,11 @@ jobs:
 
       - name: Install dependencies
         if: steps.skip.outputs.skip != 'true'
-        run: npm install
+        run: npm ci
 
-      - name: Update npm
+      - name: Install npm with staged publishing support
         if: steps.skip.outputs.skip != 'true'
-        run: npm install --global npm@latest
+        run: npm install --global npm@12.2.1
 
       - name: Resolve release version
         if: steps.skip.outputs.skip != 'true'
@@ -125,17 +118,23 @@ jobs:
             git add package.json package-lock.json
             git commit -m "Release v${VERSION}"
           fi
-          git pull --rebase origin main
+          # Fail if main advanced instead of tagging code we did not build.
           git tag "v${VERSION}"
           git push origin HEAD:main
           git push origin "v${VERSION}"
 
-      - name: Publish to npm
+      - name: Stage verified tarball on npm
         if: steps.skip.outputs.skip != 'true'
         run: |
           VERSION="$(node -p "require('./package.json').version")"
           if npm view "@tanishqkancharla/maui@$VERSION" version >/dev/null 2>&1; then
             echo "@tanishqkancharla/maui@$VERSION is already published"
           else
-            npm publish --access public --provenance
+            npm stage publish "./tanishqkancharla-maui-${VERSION}.tgz" --ignore-scripts --access public --provenance
+            {
+              echo "## Awaiting npm approval"
+              echo "Staged @tanishqkancharla/maui@${VERSION}; it is not public yet."
+              echo "Review it in npm's Staged Packages tab and approve with 2FA to publish."
+              echo "Git tags reserve versions, including versions still awaiting approval."
+            } >> "$GITHUB_STEP_SUMMARY"
           fi

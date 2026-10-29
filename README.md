@@ -63,7 +63,21 @@ Vite serves the gallery at [http://localhost:5173/](http://localhost:5173/).
 
 The default package export is compiled `dist/` JavaScript and declarations. TypeScript source remains available through the `source` export condition and `maui/src`. Patterns, demo apps, and the gallery `Panel` preview frame are reference implementations, not package components.
 
-Pushes to `main` publish a new patch of `@tanishqkancharla/maui` to npm (tag `vX.Y.Z`, provenance). Add `[skip release]` to the merge commit message to skip. Manual `git tag vX.Y.Z && git push origin vX.Y.Z` still publishes when the tag matches `package.json`. The gallery deploys to [maui.tanishqkancharla.dev](https://maui.tanishqkancharla.dev) through Vercel on `main`.
+Push directly to `main`; PRs are not required. Each push prepares the next version of `@tanishqkancharla/maui`, creates a `vX.Y.Z` tag, and stages the verified tarball on npm with provenance. **Staging does not make the version public.** Add `[skip release]` to the push's head commit message to skip staging. Manual `vX.Y.Z` tag pushes also stage a release when the tag matches `package.json`.
+
+To publish, review the version in npm's **Staged Packages** tab and approve it with 2FA. With npm 11.15.0 or newer, you can also use `npm stage list @tanishqkancharla/maui`, `npm stage view <stage-id>`, `npm stage download <stage-id>`, and `npm stage approve <stage-id>`. Approve versions in increasing order so an older approval does not move `latest` backward. Git tags reserve version numbers even while approval is pending or after a staged version is rejected; the next branch release uses a new version. A failed staging upload can be retried by manually running the workflow against its existing `vX.Y.Z` tag.
+
+### Required npm security settings
+
+In the package's npm settings:
+
+1. Configure the GitHub trusted publisher for `tanishqkancharla/maui`, workflow filename `publish.yml`, with **stage-only** permission. Do not allow direct `npm publish` or dist-tag management. Audit all trusted publisher entries, not just this workflow's entry. If npm requires replacing an existing connection, copy its repository/workflow details, replace it with a stage-only connection, and complete the first staged upload within two days before the new connection expires.
+2. Set **Publishing access** to **Require two-factor authentication and disallow bypass 2fa tokens (recommended)**. Revoke unused automation tokens.
+3. Keep 2FA enabled on maintainer accounts. CI must never approve its own staged release.
+
+These npm-side restrictions are essential: changing the workflow command alone does not prevent a modified workflow from attempting a direct publish. See npm's [staged publishing](https://docs.npmjs.com/staged-publishing) and [trusted publisher](https://docs.npmjs.com/trusted-publishers) documentation.
+
+`npm run release` also stages rather than publishing directly and requires npm 11.15.0 or newer. The gallery still deploys independently to [maui.tanishqkancharla.dev](https://maui.tanishqkancharla.dev) through Vercel on `main`; npm approval does not gate that deployment.
 
 Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
 

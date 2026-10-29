@@ -74,7 +74,7 @@
 		"test": "vitest",
 		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs",
 		"mcp:agentation": "node .cursor/agentation-mcp.mjs",
-		"release": "npm publish --access public --provenance"
+		"release": "npm stage publish --access public --provenance"
 	},
 	"author": "Tanishq Kancharla",
 	"license": "MIT",

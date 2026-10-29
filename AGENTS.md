@@ -15,14 +15,15 @@ Standard commands (see `package.json` `scripts`):
 - Type-check: `npm run typecheck` is one-shot (`tsc --noEmit`). `npm run tsc` is watch mode.
 - Package check: `npm run verify-package` is a pack-and-inspect publish smoke test of the real npm tarball (required files, case-sensitive relative imports, package.json exports, no prepare-on-install, fresh consumer resolve/esbuild). Not a product or public-API check — what is/isn’t exported lives on the `maui.ts` barrel. Do not denylist components or encode gallery policy in this script.
 - Tests: `npm test` (Vitest). Editor lint coverage lives in `src/apps/JsxEditor/lint.test.ts`.
-- Releases publish `@tanishqkancharla/maui` to public npm. Every push to `main` cuts the next patch, tags `vX.Y.Z`, and publishes. Put `[skip release]` in the merge commit message to skip. Manual `v*` tags still publish.
+- Releases stage `@tanishqkancharla/maui` on npm for maintainer approval. Direct pushes to `main` are supported; no PR is required. Each push cuts the next version, tags `vX.Y.Z`, and stages the verified tarball. Put `[skip release]` in the push's head commit message to skip. Manual `v*` tags also stage, never publish directly.
 
 ### Versioning
 
-1. Merge to `main` (or push a `vX.Y.Z` tag that matches `package.json`).
-2. `.github/workflows/publish.yml` typechecks, builds, verifies the tarball, tags if needed, and runs `npm publish --access public --provenance`.
-3. If `package.json` is not already a git tag or npm version, that version is published as-is. Otherwise the workflow patch-bumps and commits `Release vX.Y.Z`.
-4. Point consuming apps (Halo, etc.) at the new npm version. The gallery at maui.tanishqkancharla.dev deploys separately through Vercel’s Git integration on `main`.
+1. Push to `main` (or push a `vX.Y.Z` tag that matches `package.json`).
+2. `.github/workflows/publish.yml` typechecks, builds, verifies the tarball, tags if needed, and runs `npm stage publish` on that tarball with provenance. `npm run release` also stages. Staged publishing requires npm 11.15.0 or newer.
+3. If `package.json` is not already a git tag or npm version, that version is staged as-is. Otherwise the workflow patch-bumps and commits `Release vX.Y.Z`. Tags reserve versions while approval is pending or after rejection. Retry a failed upload by manually running the workflow against its existing release tag.
+4. A maintainer reviews and approves the staged package with 2FA on npm before it becomes public. Never automate approval. npm trusted publishers must be stage-only (no direct publish or dist-tag permission), and package publishing access must require 2FA and disallow bypass-2FA tokens; see README for setup.
+5. Point consuming apps (Halo, etc.) at the approved npm version. The gallery at maui.tanishqkancharla.dev deploys separately through Vercel’s Git integration on `main`, without waiting for npm approval.
 
 Non-obvious notes:
 
