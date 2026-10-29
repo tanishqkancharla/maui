@@ -58,6 +58,13 @@ export { visuallyHidden } from "./tokens/visuallyHidden"
 // Components
 export { Avatar, avatarStyles } from "./components/Avatar"
 export { Badge, badgeStyles } from "./components/Badge"
+export {
+	Banner,
+	bannerStyles,
+	type BannerProps,
+	type BannerTone,
+	type BannerLayout,
+} from "./components/Banner"
 export { LogoIcon, type LogoIconProps } from "./components/LogoIcon"
 export {
 	Button,

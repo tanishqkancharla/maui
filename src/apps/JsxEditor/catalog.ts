@@ -1,5 +1,6 @@
 import { Avatar } from "../../components/Avatar"
 import { Badge } from "../../components/Badge"
+import { Banner } from "../../components/Banner"
 import { Button } from "../../components/Button"
 import { Checkbox } from "../../components/Checkbox"
 import { Code, Kbd } from "../../components/Code"
@@ -338,6 +339,21 @@ export const catalog: CatalogComponent[] = [
 		attributes: [],
 	},
 	{
+		name: "Banner",
+		info: "Persistent in-flow message. Inline or stacked actions; caller owns dismissal. Icons match the first line height.",
+		html: true,
+		attributes: [
+			{ name: "tone", values: ["neutral", "info", "success", "warning", "danger"] },
+			{ name: "layout", values: ["inline", "stacked"] },
+			{ name: "title" },
+			{ name: "icon" },
+			{ name: "actions" },
+			{ name: "onDismiss" },
+			{ name: "dismissLabel" },
+			{ name: "role", values: ["status", "alert"] },
+		],
+	},
+	{
 		name: "Avatar",
 		info: "Initials avatar from a name.",
 		attributes: [
@@ -569,6 +585,7 @@ export const catalog: CatalogComponent[] = [
 export const previewScope: Record<string, unknown> = {
 	Avatar,
 	Badge,
+	Banner,
 	Button,
 	Checkbox,
 	Code,

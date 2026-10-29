@@ -32,6 +32,7 @@ import { ReadmePage } from "./ReadmePage"
 import { ActivityIndicatorPage } from "./ActivityIndicatorPage"
 import { AvatarPage } from "./AvatarPage"
 import { BadgePage } from "./BadgePage"
+import { BannerPage } from "./BannerPage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
 import { BordersTokenPage } from "./BordersTokenPage"
 import { ButtonsPage } from "./ButtonsPage"
@@ -143,6 +144,7 @@ const navigation: NavEntry[] = [
 		children: [
 			{ label: "Avatar", path: "/components/avatar", page: AvatarPage },
 			{ label: "Badge", path: "/components/badge", page: BadgePage },
+			{ label: "Banner", path: "/components/banner", page: BannerPage },
 			{ label: "Buttons", path: "/components/buttons", page: ButtonsPage },
 			{ label: "Dialog", path: "/components/dialog", page: DialogPage },
 			{ label: "Tab bar", path: "/components/tab-bar", page: TabBarPage },
