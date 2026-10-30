@@ -41,6 +41,8 @@ function App() {
 
 Put the exported `themeFoucScript` in a classic inline `<script>` in `<head>` so `data-theme` is correct on first paint.
 
+`CodeBlock` uses Shiki's JavaScript regex engine with Maui themes and lazy-loaded languages. No highlighting configuration is required.
+
 ## Develop
 
 ```bash

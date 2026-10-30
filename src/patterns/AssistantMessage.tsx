@@ -6,7 +6,6 @@ import {
 	defaultRehypePlugins,
 	useIsCodeFenceIncomplete,
 } from "streamdown"
-import { code } from "@streamdown/code"
 import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
 import { proseContainerStyle } from "../components/Prose"
@@ -143,7 +142,6 @@ export function AssistantMessage({
 			<Streamdown
 				className={streamdownClassName}
 				components={streamdownComponents}
-				plugins={{ code }}
 				rehypePlugins={rehypePlugins}
 				// `animated` must stay stably enabled; only `isAnimating` toggles.
 				// Flipping `animated`/`mode` with the stream resets stagger state and

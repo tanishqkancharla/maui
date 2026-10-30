@@ -47,8 +47,5 @@ export default defineConfig(({ command, mode }) => {
 			outDir: "../website",
 			emptyOutDir: true,
 		},
-		optimizeDeps: {
-			exclude: ["shiki", "shiki/wasm"],
-		},
 	}
 })

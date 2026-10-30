@@ -28,7 +28,7 @@ Standard commands (see `package.json` `scripts`):
 Non-obvious notes:
 
 - `vite.config.ts` enables `server.watch.usePolling` because native file-watching misses changes in this environment; HMR relies on polling.
-- Vite dep-optimization excludes `shiki`/`shiki/wasm` (WASM syntax highlighter); the production build emits a large `wasm` chunk and a >500 kB chunk-size warning, which is expected.
+- Syntax highlighting uses Shiki's JavaScript regex engine with six lazy-loaded languages and the Maui theme. Assistant messages reuse `CodeBlock`, without a separate Streamdown code plugin. The production build's >500 kB chunk-size warning is expected.
 
 ### Libretto Browser Tools MCP
 

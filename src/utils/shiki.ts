@@ -1,5 +1,5 @@
 import { createHighlighterCore } from "shiki/core"
-import { createOnigurumaEngine } from "shiki/engine/oniguruma"
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript"
 import type { HighlighterCore } from "shiki"
 import type { ResolvedTheme } from "../theme/ThemeContext"
 import { mauiShikiThemeDark, mauiShikiThemeLight } from "./mauiShikiTheme"
@@ -44,7 +44,7 @@ function getHighlighter() {
 				import("@shikijs/langs/json"),
 				import("@shikijs/langs/bash"),
 			],
-			engine: createOnigurumaEngine(import("shiki/wasm")),
+			engine: createJavaScriptRegexEngine(),
 		})
 	}
 
