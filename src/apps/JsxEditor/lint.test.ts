@@ -168,6 +168,20 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		)
 		expect(diagnostics).toEqual([])
 	})
+
+	test("accepts context menus with a Pressable custom target", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<MenuTrigger trigger="contextMenu">
+				<Pressable>
+					<div role="button" tabIndex={0}>Report.pdf</div>
+				</Pressable>
+				<Menu aria-label="File actions">
+					<MenuItem id="rename">Rename</MenuItem>
+				</Menu>
+			</MenuTrigger>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
 })
 
 describe("JSX editor catalog", () => {

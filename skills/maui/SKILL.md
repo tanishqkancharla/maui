@@ -16,6 +16,10 @@ Use Maui components. When one can't do what you need, build from the matching `r
 | --------------------------------------------- | --------------------------------- |
 | Tokens, `purse-styles`, motion, layout, theme | [tokens.md](references/tokens.md) |
 
+## Interactions
+
+- [Pressable](references/interactions/pressable.md) — custom press handling and trigger targets.
+
 ## Components
 
 | Page             | Reference                                                                                    |
@@ -37,7 +41,7 @@ Use Maui components. When one can't do what you need, build from the matching `r
 | Select           | [select.md](references/components/select.md)                                                 |
 | List box         | [list-box.md](references/components/list-box.md)                                             |
 | Table            | [table.md](references/components/table.md)                                                   |
-| Menu             | [menu.md](references/components/menu.md)                                                     |
+| Menu / context menu | [menu.md](references/components/menu.md)                                                  |
 | Tooltip          | [tooltip.md](references/components/tooltip.md)                                               |
 | Layout utilities | [layout-utilities.md](references/components/layout-utilities.md)                             |
 | FuzzyString      | [fuzzy-string.md](references/components/fuzzy-string.md)                                     |

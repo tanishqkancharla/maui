@@ -1,3 +1,4 @@
+import { Pressable } from "react-aria-components"
 import { Avatar } from "../../components/Avatar"
 import { Badge } from "../../components/Badge"
 import { Banner } from "../../components/Banner"
@@ -441,8 +442,9 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "MenuTrigger",
-		info: "Exactly two children: a Maui Button trigger, then Menu. The trigger stays selected while open.",
+		info: "Exactly two children: a Maui Button or Pressable custom trigger, then Menu. Use trigger=\"contextMenu\" for right-click actions.",
 		attributes: [
+			{ name: "trigger", values: ["press", "longPress", "contextMenu"] },
 			{
 				name: "placement",
 				values: [
@@ -457,6 +459,11 @@ export const catalog: CatalogComponent[] = [
 				],
 			},
 		],
+	},
+	{
+		name: "Pressable",
+		info: "React Aria behavior for one custom interactive child. Adds no DOM wrapper or styling; the child must forward props and ref.",
+		attributes: [{ name: "isDisabled", boolean: true }],
 	},
 	{
 		name: "Menu",
@@ -607,6 +614,7 @@ export const previewScope: Record<string, unknown> = {
 	Menu,
 	MenuItem,
 	MenuTrigger,
+	Pressable,
 	MermaidDiagram,
 	Overlay,
 	MarkdownEditor,

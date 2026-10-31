@@ -174,6 +174,7 @@ export {
 	type ListBoxProps,
 	type ListBoxItemProps,
 } from "./components/ListBox"
+export { Pressable } from "react-aria-components"
 export {
 	MenuTrigger,
 	Menu,
