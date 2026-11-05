@@ -93,5 +93,5 @@ Edge-anchored mobile nav is [`Drawer`](drawer.md), not this Dialog and not Overl
 - `modal({ size })` — RAC `Modal`; `size` is `"sm"` (default) | `"md"` | `"lg"`.
 - `dialog` — RAC `Dialog`.
 - `title` — RAC `Heading slot="title"`.
-- `body` — scrollable `div` inside the dialog.
+- `body` — scrollable `div` inside the dialog. A 6px inset, offset by a negative margin, keeps full-width field rings and focus glows unclipped.
 - `actions` — button row `div` inside the dialog.

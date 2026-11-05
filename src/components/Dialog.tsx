@@ -115,10 +115,14 @@ const title = style(text({ size: "lg", fontWeight: 600 }), {
 	margin: 0,
 })
 
+// A scrolling box clips on both axes. The inset, offset by a negative margin,
+// keeps the rings and focus glow of full-width fields visible without moving them.
 const body = style({
 	minWidth: 0,
 	minHeight: 0,
 	overflowY: "auto",
+	margin: `calc(-1 * ${spacing.value(3)})`,
+	padding: spacing.value(3),
 })
 
 const actions = style({
