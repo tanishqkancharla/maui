@@ -46,7 +46,7 @@ const trigger = style(
 		border: "none",
 		textAlign: "left",
 		background: backgroundColor.element,
-		"&:hover, &[data-pressed]": {
+		"&[data-pressed]": {
 			background: backgroundColor.elementHover,
 		},
 		"&[aria-expanded='true']": {

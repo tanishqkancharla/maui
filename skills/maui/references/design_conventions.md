@@ -47,6 +47,18 @@ Buttons and form-control surfaces use `shadow.control` by default. For compound 
 
 `focusRing()` applies a theme-aware Radix blue shadow with a `blueAlpha[8]` hard edge and `blueAlpha[5]` glow. Do not add a competing outline or box shadow for keyboard focus.
 
+**Control safe area.** Input and form-control shadows paint outside the component's layout box; reserve room for the resting, hovered, and keyboard-focused states, even when hover does not change the background. The focus treatment includes a 1px ring and a 6px blur. Use `spacing.padding(4)` (9px) as a practical safe inset between controls and clipping edges, and leave gaps between neighboring controls. Keep overflow visible on immediate wrappers; when a panel, rounded container, or scroll viewport must clip, put the safe inset inside that clipping boundary, not outside it as margin. Check the first and last controls at scroll edges, including checkbox, radio, switch, and slider focus states. Do not remove shadows or focus rings to fit a tight layout.
+
+```tsx
+// Keep the control's visual overflow inside the scrolling boundary.
+<div style={{ overflow: "auto" }}>
+  <Flex column padding={4} gap={4}>
+    <TextField aria-label="Name" />
+    <Select aria-label="Plan">{/* options */}</Select>
+  </Flex>
+</div>
+```
+
 ## Layout utilities
 
 `Flex` and `Gap` take spacing scale steps (`1 | 2 | 3 | 4 | 6 | 8 | 12 | 16`), not raw pixels. For example, `<Flex row gap={4} padding={4}>` has a 9px gap and 9px inset.

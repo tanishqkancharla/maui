@@ -63,7 +63,7 @@ const thumb = style(focusRing("&[data-focus-visible]", shadowVars.control), {
 	width: sliderSize.thumb,
 	height: sliderSize.thumb,
 	borderRadius: "100%",
-	background: colors.gray[12],
+	background: "#ffffff",
 	boxShadow: shadowVars.control,
 	"&[data-dragging]": {
 		background: colors.accent[11],

@@ -46,9 +46,6 @@ const inputClass = style(
 		color: colors.gray[12],
 		border: "none",
 		background: backgroundColor.element,
-		"&:hover:not(:disabled)": {
-			background: backgroundColor.elementHover,
-		},
 		"&:disabled": {
 			color: colors.gray[8],
 			background: colors.gray[2],
@@ -376,9 +373,6 @@ const numberInputClass = style(
 		border: "none",
 		outline: "none",
 		background: "transparent",
-		"&:hover:not(:disabled)": {
-			background: backgroundColor.elementHover,
-		},
 		"&::placeholder": {
 			fontStyle: "italic",
 			color: colors.gray[8],
