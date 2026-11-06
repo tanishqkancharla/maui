@@ -35,7 +35,7 @@ export function ButtonsPage() {
 	return (
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Buttons</H2>
-			<H3>Text</H3>
+			<H3>Default</H3>
 			<Flex row alignItems="center" gap={4}>
 				<Button>Button</Button>
 				<Button onClick={() => setDialogOpen(true)}>Open Dialog</Button>
@@ -218,6 +218,35 @@ export function ButtonsPage() {
 				</Button>
 				<Button variant="quiet" variantColor="#6366f1">
 					Quiet #6366f1
+				</Button>
+			</Flex>
+
+			<H3>Text</H3>
+			<P>
+				<Code>variant="text"</Code> shows only the label and icon, with no
+				padding, background, or shadow. Hover changes only their color. Use{" "}
+				<Code>variantColor</Code> to tint them.
+			</P>
+			<Flex row alignItems="center" gap={4} style={{ flexWrap: "wrap" }}>
+				<Button variant="text">Text button</Button>
+				<Button variant="text" variantColor="blue">
+					<Plus />
+					Create
+				</Button>
+				<Button variant="text" aria-label="More text actions">
+					<DotsHorizontal />
+				</Button>
+				<Button variant="text" variantColor="#6366f1">
+					Custom color
+				</Button>
+				<Button variant="text" size="sm">
+					Small text
+				</Button>
+				<Button variant="text" isDisabled>
+					Disabled text
+				</Button>
+				<Button variant="text" isPending>
+					Pending text
 				</Button>
 			</Flex>
 

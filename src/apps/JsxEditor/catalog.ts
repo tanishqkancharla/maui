@@ -264,11 +264,11 @@ export const catalog: CatalogComponent[] = [
 	},
 	{
 		name: "Button",
-		info: "Button. default is raised, quiet is borderless, primary fills with accent 9. Works as a MenuTrigger child.",
+		info: "Button. default is raised, quiet adds a hover wash, text changes only color on hover, primary fills with accent 9. Works as a MenuTrigger child.",
 		html: true,
 		attributes: [
 			{ name: "size", values: ["default", "sm"] },
-			{ name: "variant", values: ["default", "quiet", "primary"] },
+			{ name: "variant", values: ["default", "quiet", "primary", "text"] },
 			{
 				name: "variantColor",
 				info: "Palette name (colors[name], primary step 9) or an opaque hex / rgb() fill. Quiet stays transparent; color tints the label. Hover mixes Alpha[9] at 6%/9%.",

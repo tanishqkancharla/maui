@@ -30,7 +30,7 @@ import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { memoize } from "../utils/memoize"
 
-export type ButtonVariant = "default" | "quiet" | "primary"
+export type ButtonVariant = "default" | "quiet" | "primary" | "text"
 export type ButtonSize = "default" | "sm"
 
 const buttonShadow = shadowVars.control
@@ -173,18 +173,27 @@ const buttonClass = style(buttonBaseClass, {
 	},
 })
 
+const textButtonSpacingClass = style({
+	"&, &:has(> svg), &:has([data-button-content] > svg), &:has(> svg:first-child:not(:only-child)), &:has([data-button-content] > svg:first-child:not(:only-child)), &:has(> svg:last-child:not(:only-child)), &:has([data-button-content] > svg:last-child:not(:only-child)), &:has(> svg:only-child), &:has([data-button-content] > svg:only-child), &[data-pending]":
+		{
+			padding: 0,
+		},
+})
+
 function paletteAlpha(name: ColorName): ColorScale {
 	return colors[`${name}Alpha`]
 }
 
-const quietClass = memoize((color: string, hoverColor: string, wash: string) =>
+const quietClass = memoize((color: string, hoverColor: string, wash?: string) =>
 	style(buttonBaseClass, focusRing("&:focus-visible"), {
 		color,
 		backgroundColor: "transparent",
 		boxShadow: "none",
 		"&:hover:not(:disabled):not([data-pending])": {
 			color: hoverColor,
-			backgroundColor: surfaceWash(wash, surfaceMixPercent.hover),
+			backgroundColor: wash
+				? surfaceWash(wash, surfaceMixPercent.hover)
+				: "transparent",
 		},
 		"&:disabled": disabledQuiet,
 	}),
@@ -275,7 +284,7 @@ const primaryClass = memoize(
 )
 
 const coloredButtonClass = memoize(
-	(variant: "primary" | "quiet", color: ButtonVariantColor) => {
+	(variant: "primary" | "quiet" | "text", color: ButtonVariantColor) => {
 		if (isCssColor(color)) {
 			const fill = opaqueColor(color)
 			if (variant === "primary") {
@@ -283,7 +292,11 @@ const coloredButtonClass = memoize(
 				return primaryClass(fill, onSolidText(fill), fillShade(fill, 0, 0.35))
 			}
 
-			return quietClass(fill, darkerFill(fill), fill)
+			return quietClass(
+				fill,
+				darkerFill(fill),
+				variant === "quiet" ? fill : undefined,
+			)
 		}
 
 		const scale = paletteFill(color)
@@ -295,7 +308,11 @@ const coloredButtonClass = memoize(
 			)
 		}
 
-		return quietClass(scale[11], scale[12], paletteAlpha(color)[9])
+		return quietClass(
+			scale[11],
+			scale[12],
+			variant === "quiet" ? paletteAlpha(color)[9] : undefined,
+		)
 	},
 )
 
@@ -365,6 +382,7 @@ export const buttonStyles = {
 			style(
 				buttonVariantClass(variant, variantColor),
 				size === "sm" && smallButtonClass,
+				variant === "text" && textButtonSpacingClass,
 			),
 	),
 	label: buttonTextClass,
@@ -509,6 +527,9 @@ function buttonVariantClass(
 ) {
 	if (variant === "primary") {
 		return coloredButtonClass("primary", variantColor ?? "accent")
+	}
+	if (variant === "text") {
+		return coloredButtonClass("text", variantColor ?? "gray")
 	}
 	if (variant === "quiet" && variantColor) {
 		return coloredButtonClass("quiet", variantColor)

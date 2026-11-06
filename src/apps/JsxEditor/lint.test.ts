@@ -23,6 +23,13 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		expect(diagnostics).toEqual([])
 	})
 
+	test("accepts a text Button", () => {
+		const diagnostics = collectJsxDiagnosticsFromSource(
+			`<Button variant="text" variantColor="blue">Connect</Button>`,
+		)
+		expect(diagnostics).toEqual([])
+	})
+
 	test("accepts a small Button", () => {
 		const diagnostics = collectJsxDiagnosticsFromSource(
 			`<Button size="sm">Compact</Button>`,
@@ -54,7 +61,7 @@ describe("collectJsxDiagnosticsFromSource", () => {
 		)
 		expect(diagnostics).toHaveLength(1)
 		expect(diagnostics[0]?.message).toBe(
-			`Type '"solid"' is not assignable to type '"default" | "quiet" | "primary"'.`,
+			`Type '"solid"' is not assignable to type '"default" | "quiet" | "primary" | "text"'.`,
 		)
 	})
 
@@ -66,9 +73,9 @@ describe("collectJsxDiagnosticsFromSource", () => {
 			</Flex>`,
 		)
 		expect(formatTypeErrorBanners(diagnostics)).toEqual([
-			`Line 2: Type '"solid"' is not assignable to type '"default" | "quiet" | "primary"'.`,
+			`Line 2: Type '"solid"' is not assignable to type '"default" | "quiet" | "primary" | "text"'.`,
 			`Line 2: Property 'disabled' does not exist on Button.`,
-			`Line 3: Type '"ghost"' is not assignable to type '"default" | "quiet" | "primary"'.`,
+			`Line 3: Type '"ghost"' is not assignable to type '"default" | "quiet" | "primary" | "text"'.`,
 		])
 	})
 
