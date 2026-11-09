@@ -1,7 +1,7 @@
 import { EditorContent, type EditorContentProps } from "@tiptap/react"
 import { style, useStyles } from "purse-styles"
 import { colors } from "../tokens/colors"
-import { proseHtml, type ProseSize } from "../tokens/prose"
+import { proseHtml, proseRhythm, type ProseSize } from "../tokens/prose"
 import { cls } from "../utils/cls"
 
 export type EditorProps = Omit<EditorContentProps, "size"> & {
@@ -15,7 +15,11 @@ export type EditorProps = Omit<EditorContentProps, "size"> & {
  * through TipTap's editorProps.attributes.
  */
 export function Editor({ size = "md", className, ...props }: EditorProps) {
-	const surfaceClassName = useStyles(editorClass, proseHtml(size))
+	const surfaceClassName = useStyles(
+		editorClass,
+		proseHtml(size),
+		proseRhythm(size, "& > .ProseMirror"),
+	)
 	return (
 		<EditorContent
 			{...props}
@@ -33,7 +37,7 @@ const editorClass = style({
 		// proseHtml styles descendants; its block rhythm belongs on the document.
 		display: "flex",
 		flexDirection: "column",
-		gap: "inherit",
+		gap: 0,
 	},
 	"& .ProseMirror p.is-editor-empty:first-child::before": {
 		color: colors.gray[9],
