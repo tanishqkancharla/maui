@@ -1463,7 +1463,7 @@ const miniDayClass = style(
 	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
 	radius.circle,
 	focusRing(),
-	motion.standard("background-color", "color"),
+	motion.standard("color"),
 	{
 		display: "grid",
 		placeItems: "center",
