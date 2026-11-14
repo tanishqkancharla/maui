@@ -303,7 +303,7 @@ const coloredButtonClass = memoize(
 		if (variant === "primary") {
 			return primaryClass(
 				scale[9],
-				darkTextOnSolid.has(color) ? scale[12] : "white",
+				darkTextOnSolid.has(color) ? onSolidText(scale[9]) : "white",
 				paletteAlpha(color)[6],
 			)
 		}

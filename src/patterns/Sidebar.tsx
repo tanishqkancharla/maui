@@ -142,7 +142,7 @@ const itemClass = style(navigationItem, focusRing("&:focus-visible"), {
 	backgroundColor: "transparent",
 	color: colors.gray[12],
 	"&[aria-current='page']": {
-		color: colors.accent[9],
+		color: colors.accent[11],
 		fontWeight: 500,
 		backgroundColor: "transparent",
 	},

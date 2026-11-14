@@ -41,8 +41,11 @@ const item = style(
 			background: backgroundColor.elementHover,
 		},
 		"&[data-selected]": {
-			color: colors.accent[9],
+			color: colors.accent[11],
 			fontWeight: 500,
+		},
+		"&[data-selected]:not([data-disabled]):is(:hover, [data-hovered], [data-focused])": {
+			color: colors.accent[12],
 		},
 		"&[data-selected]::after": {
 			content: '"✓"',

@@ -18,8 +18,11 @@ export const navigationItem = style(
 			background: backgroundColor.elementHover,
 		},
 		"&[aria-current='page']": {
-			color: colors.accent[9],
+			color: colors.accent[11],
 			fontWeight: 500,
+		},
+		"&[aria-current='page']:hover": {
+			color: colors.accent[12],
 		},
 	},
 )

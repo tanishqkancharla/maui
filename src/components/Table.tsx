@@ -111,7 +111,7 @@ const row = style({
 	"&[data-selection-mode][data-selected] td": {
 		backgroundColor: colors.accent[3],
 	},
-	"&[data-disabled]": {
+	"&[data-disabled] td": {
 		color: colors.gray[8],
 	},
 })
@@ -172,7 +172,7 @@ const selectionCheck = style({
 	height: "10px",
 	paddingTop: "0.5px",
 	paddingLeft: "0.5px",
-	fill: colors.gray[3],
+	fill: "white",
 	opacity: 0,
 	transform: "scale(0)",
 })
@@ -180,6 +180,10 @@ const selectionCheck = style({
 const selectionCheckbox = style(
 	flex({ alignItems: "center", justifyContent: "center" }),
 	focusRing(`&[data-focus-visible] ${selectionBox}`, shadowVars.control),
+	focusRing(
+		`&[data-selected][data-focus-visible] ${selectionBox}, &[data-indeterminate][data-focus-visible] ${selectionBox}`,
+		shadowVars.selectedControl,
+	),
 	{
 		position: "relative",
 		width: "fit-content",
@@ -201,6 +205,7 @@ const selectionCheckbox = style(
 		[`&[data-selected] ${selectionBox}, &[data-indeterminate] ${selectionBox}`]:
 			{
 				backgroundColor: colors.accent[9],
+				boxShadow: shadowVars.selectedControl,
 			},
 		[`&[data-hovered][data-selected] ${selectionBox}, &[data-hovered][data-indeterminate] ${selectionBox}`]:
 			{
