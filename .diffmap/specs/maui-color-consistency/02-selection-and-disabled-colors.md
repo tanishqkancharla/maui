@@ -27,7 +27,7 @@ Look for stronger selected text, white Table marks, muted disabled cells, and da
 
 ## Selected labels, including the hover edge case
 
-[[53bae1a:src/components/ListBox.tsx]] owns the shared ListBox/Menu styles. [[53bae1a:src/components/navigationItem.ts]] owns the shared current-page label, and [[53bae1a:src/patterns/Sidebar.tsx]] updates its label override without changing the icon's accent[9] treatment.
+[[85a1580:src/components/ListBox.tsx]] owns the shared ListBox/Menu styles. [[85a1580:src/components/navigationItem.ts]] owns the shared current-page label, and [[85a1580:src/patterns/Sidebar.tsx]] updates its label override without changing the icon's accent[9] treatment.
 
 The initial step-11-only fix measured 4.22:1 on the light hover wash, below the resting pair's 4.56:1. Selected hovered/focused labels therefore use step 12. Disabled selected items are excluded so real pointer hover cannot override their disabled foreground.
 
@@ -49,7 +49,7 @@ The navigation helper uses the same resting/hovered relationship. Sidebar keeps 
 
 ## Bright palette foregrounds
 
-[[53bae1a:src/components/Button.tsx]] already derives a foreground from custom fill lightness. The five bright palette names now use that same helper instead of their theme-aware step 12. Other palettes, custom fills, gradients, shadows, and disabled behavior are unchanged.
+[[85a1580:src/components/Button.tsx]] already derives a foreground from custom fill lightness. The five bright palette names now use that same helper instead of their theme-aware step 12. Other palettes, custom fills, gradients, shadows, and disabled behavior are unchanged.
 
 ```diff
 --- a/src/components/Button.tsx
@@ -70,7 +70,7 @@ All five bright fills resolve to the same near-black foreground in both themes. 
 
 ## Table state ownership
 
-[[53bae1a:src/components/Table.tsx]] now targets disabled cells instead of assigning a row color that TableCell overrides:
+[[85a1580:src/components/Table.tsx]] now targets disabled cells instead of assigning a row color that TableCell overrides:
 
 ```diff
 --- a/src/components/Table.tsx
@@ -132,7 +132,7 @@ The existing white-on-light Accent and Blue primary treatments still measured 3.
 [Phase 3](03-interaction-colors.md) remains the separate Calendar hover-motion fix. Nothing in this phase has been pushed, published, or deployed.
 
 ```changes
-53bae1a
+85a1580
 src/components/ListBox.tsx
 src/components/navigationItem.ts
 src/patterns/Sidebar.tsx

@@ -1,0 +1,206 @@
+{
+  "light": [
+    {
+      "rest": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(32, 32, 32)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Wednesday, August 12",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "hover": {
+        "background": "oklch(0.973518 0.00004848 none)",
+        "color": "rgb(32, 32, 32)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Wednesday, August 12",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "events": []
+    },
+    {
+      "rest": {
+        "background": "rgba(0, 0, 0, 0.09)",
+        "color": "rgb(32, 32, 32)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Tuesday, August 25",
+        "pressed": "true",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "hover": {
+        "background": "oklch(0.973518 0.00004848 none)",
+        "color": "rgb(32, 32, 32)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Tuesday, August 25",
+        "pressed": "true",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "events": []
+    },
+    {
+      "rest": {
+        "background": "rgb(18, 165, 148)",
+        "color": "rgb(255, 255, 255)",
+        "current": "date",
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Wednesday, August 26",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "hover": {
+        "background": "rgb(13, 155, 138)",
+        "color": "rgb(255, 255, 255)",
+        "current": "date",
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Wednesday, August 26",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "events": []
+    },
+    {
+      "rest": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(187, 187, 187)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Monday, July 27",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "hover": {
+        "background": "oklch(0.973518 0.00004848 none)",
+        "color": "rgb(187, 187, 187)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Monday, July 27",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "events": []
+    }
+  ],
+  "dark": [
+    {
+      "rest": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(238, 238, 238)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Wednesday, August 12",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "hover": {
+        "background": "oklch(0.276363 0.0000137913 none)",
+        "color": "rgb(238, 238, 238)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Wednesday, August 12",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "events": []
+    },
+    {
+      "rest": {
+        "background": "rgba(255, 255, 255, 0.106)",
+        "color": "rgb(238, 238, 238)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Tuesday, August 25",
+        "pressed": "true",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "hover": {
+        "background": "oklch(0.276363 0.0000137913 none)",
+        "color": "rgb(238, 238, 238)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Tuesday, August 25",
+        "pressed": "true",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "events": []
+    },
+    {
+      "rest": {
+        "background": "rgb(110, 86, 207)",
+        "color": "rgb(255, 255, 255)",
+        "current": "date",
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Wednesday, August 26",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "hover": {
+        "background": "rgb(125, 102, 217)",
+        "color": "rgb(255, 255, 255)",
+        "current": "date",
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Wednesday, August 26",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "events": []
+    },
+    {
+      "rest": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(96, 96, 96)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Monday, July 27",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "hover": {
+        "background": "oklch(0.276363 0.0000137913 none)",
+        "color": "rgb(96, 96, 96)",
+        "current": null,
+        "duration": "0.08s",
+        "focused": false,
+        "label": "Monday, July 27",
+        "pressed": "false",
+        "shadow": "none",
+        "transition": "color"
+      },
+      "events": []
+    }
+  ]
+}

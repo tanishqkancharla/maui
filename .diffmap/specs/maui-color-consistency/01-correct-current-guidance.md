@@ -28,7 +28,7 @@ Token identifiers such as `accent[11]` and spacing steps such as `padding={4}` a
 
 ## Source lookup becomes normal
 
-[[724642d:skills/maui/references/design_conventions.md]] now asks agents to inspect the installed package's source for tactical questions, following components into tokens as needed. Source ships under `node_modules/maui/src/` with the documented npm alias, or `node_modules/@tanishqkancharla/maui/src/` without it. It establishes current behavior, not a guarantee of contrast or design intent.
+[[1402a41:skills/maui/references/design_conventions.md]] now asks agents to inspect the installed package's source for tactical questions, following components into tokens as needed. Source ships under `node_modules/maui/src/` with the documented npm alias, or `node_modules/@tanishqkancharla/maui/src/` without it. It establishes current behavior, not a guarantee of contrast or design intent.
 
 The composition rule now states the inheritance boundary explicitly:
 
@@ -42,7 +42,7 @@ The composition rule now states the inheritance boundary explicitly:
 
 ## Color guidance that earns its place
 
-[[724642d:skills/maui/references/tokens.md]] keeps a compact scale-role guide, qualifies it as a starting point rather than a contrast guarantee, and distinguishes brand, semantic status, and decorative identity. It explains backdrop dependence and keeps Avatar foreground/background tokens paired. `onAccent` is explicitly white, not adaptive.
+[[1402a41:skills/maui/references/tokens.md]] keeps a compact scale-role guide, qualifies it as a starting point rather than a contrast guarantee, and distinguishes brand, semantic status, and decorative identity. It explains backdrop dependence and keeps Avatar foreground/background tokens paired. `onAccent` is explicitly white, not adaptive.
 
 Exact percentages became role-bearing comments:
 
@@ -56,7 +56,7 @@ Exact percentages became role-bearing comments:
 +backgroundColor.elementActive  // active element surface
 ```
 
-[[724642d:skills/maui/references/components/buttons.md]] now explains variant intent and directs exact treatment to installed `src/components/Button.tsx`. The primary-gradient arithmetic, shadow formula, palette-specific foreground recipe, and stale open-state promise are gone. Caller-owned pending behavior remains. [[724642d:skills/maui/references/components/menu.md]] removes the parallel open-fill claim without changing menu interaction guidance.
+[[1402a41:skills/maui/references/components/buttons.md]] now explains variant intent and directs exact treatment to installed `src/components/Button.tsx`. The primary-gradient arithmetic, shadow formula, palette-specific foreground recipe, and stale open-state promise are gone. Caller-owned pending behavior remains. [[1402a41:skills/maui/references/components/menu.md]] removes the parallel open-fill claim without changing menu interaction guidance.
 
 The shadow conventions retain control/elevation choices, compound boundaries, focus overflow, and avoiding doubled rings. They no longer prescribe Tooltip elevation or reconstruct inset highlights. Tokens link to that shared rule rather than duplicating it. Runtime shadows and Button state behavior are unchanged.
 
@@ -106,7 +106,7 @@ Tooltip and open Menu captures show why stale implementation prose was deleted: 
 No fresh-agent evaluation was run. An optional evaluation could compare old/new guidance on custom selected UI, Button label composition, and tactical source lookup, with a stock-component negative control. It requires separate approval; this phase does not claim measured agent improvement or accessibility certification.
 
 ```changes
-724642d
+1402a41
 skills/maui/references/design_conventions.md
 skills/maui/references/tokens.md
 skills/maui/references/components/buttons.md
