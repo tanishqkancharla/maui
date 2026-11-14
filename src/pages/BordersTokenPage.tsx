@@ -36,11 +36,11 @@ const borderExamples = [
 		use: "Pane headers and horizontal section breaks.",
 	},
 	{
-		label: 'border(["left"], "accent") + borderLeftWidth',
+		label: "Clipped left accent",
 		sides: ["left"] as BorderSide[],
 		color: "accent" as const,
 		edgeWidth: "2px",
-		use: "Blockquotes and left-edge emphasis bars.",
+		use: "Decorative emphasis on rounded surfaces.",
 	},
 ] as const
 
@@ -119,17 +119,46 @@ export function BordersTokenPage() {
 				</TableBody>
 			</Table>
 
-			<CodeBlock lang="typescript">{`const panel = style(
+			<CodeBlock lang="tsx">{`const panel = style(
 	background.element,
 	border([], "outline"),
 	radius.md,
 )
 
-const blockquote = style(
-	border(["left"], "accent"),
-	{ borderLeftWidth: "2px" },
-	spacing.padding({ left: 12 }),
-)`}</CodeBlock>
+const accentedSurface = style(
+	radius.md,
+	{
+		position: "relative",
+		overflow: "hidden",
+		padding: "16px",
+		backgroundColor: colors.gray[2],
+	},
+)
+const strip = style({
+	position: "absolute",
+	insetBlock: 0,
+	left: 0,
+	width: "2px",
+	backgroundColor: colors.accent[8],
+	pointerEvents: "none",
+})
+
+function DecoratedSurface() {
+	const surfaceClass = useStyles(accentedSurface)
+	const stripClass = useStyles(strip)
+	return (
+		<div className={surfaceClass}>
+			<div aria-hidden="true" className={stripClass} />
+			<Text>Surface content</Text>
+		</div>
+	)
+}`}</CodeBlock>
+			<P>
+				For left-edge emphasis, clip a full-height rectangular accent inside
+				the rounded container instead of using a left border. The container
+				keeps its rounding without curling the accent inward. This is a
+				composition recipe, not a change to existing component borders.
+			</P>
 
 			<Panel style={{ marginTop: "16px" }}>
 				<div
@@ -166,20 +195,13 @@ function BorderExample(props: {
 	color: BorderColor
 	edgeWidth?: string
 }) {
+	const leftAccent = props.sides.length === 1 && props.sides[0] === "left"
 	const className = useStyles(
-		border(props.sides, props.color),
-		props.edgeWidth
-			? style(
-					Object.fromEntries(
-						props.sides.map((side) => [
-							`border${capitalize(side)}Width`,
-							props.edgeWidth,
-						]),
-					),
-				)
-			: undefined,
+		!leftAccent && border(props.sides, props.color),
 		radius.md,
 		style({
+			position: "relative",
+			overflow: "hidden",
 			background: colors.gray[2],
 			padding: "16px",
 			textAlign: "center",
@@ -190,13 +212,24 @@ function BorderExample(props: {
 
 	return (
 		<div>
-			<div className={className}>{props.label}</div>
+			<div className={className}>
+				{leftAccent && (
+					<div
+						aria-hidden="true"
+						style={{
+							position: "absolute",
+							insetBlock: 0,
+							left: 0,
+							width: props.edgeWidth ?? "1px",
+							backgroundColor: colors.accent[8],
+							pointerEvents: "none",
+						}}
+					/>
+				)}
+				{props.label}
+			</div>
 		</div>
 	)
-}
-
-function capitalize(value: string) {
-	return `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`
 }
 
 function SingleEdgeExample() {

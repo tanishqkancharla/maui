@@ -29,6 +29,37 @@ State styles key off React Aria attributes (`data-hovered`, `data-selected`, `da
 - Simple apps default to a prose column: `style(proseContainerStyle, { width: "100%", marginInline: "auto" })`. `sizing.contentWidth` is that same style. Use it for single-column tools, settings, forms, and reading layouts. Multi-pane or full-bleed apps such as inboxes, calendars, and IDEs are exceptions.
 - Design an intentional empty composition for every list, inbox, search result, or collection. Include copy and, when useful, an action. Do not leave a blank panel.
 
+## Decorative edge strips
+
+When a rounded surface uses a colored edge for emphasis, use a full-height rectangular strip inside a `position: relative; overflow: hidden` container. Keep the radius on the container, not the strip: a CSS left border follows the corners and curls inward. This is a composition recipe for custom UI, not a new component or a change to existing component borders. Keep using `border()` for outlines and dividers.
+
+```tsx
+const surface = style(radius.md, spacing.padding({ all: 6 }), {
+	position: "relative",
+	overflow: "hidden",
+	backgroundColor: colors.orange[3],
+})
+const strip = style({
+	position: "absolute",
+	insetBlock: 0,
+	left: 0,
+	width: "3px",
+	backgroundColor: colors.orange[9],
+	pointerEvents: "none",
+})
+
+function DecoratedSurface() {
+	const surfaceClass = useStyles(surface)
+	const stripClass = useStyles(strip)
+	return (
+		<div className={surfaceClass}>
+			<div aria-hidden="true" className={stripClass} />
+			<Text>Surface content</Text>
+		</div>
+	)
+}
+```
+
 ## Shadows
 
 Use `shadow.control` for interactive control surfaces. It combines two inset
