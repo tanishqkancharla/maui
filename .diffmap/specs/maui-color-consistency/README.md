@@ -11,25 +11,27 @@ Published npm version 0.0.70 includes components, tokens, patterns, apps, and th
 ## Phases
 
 1. ✅ [Slim the skill and establish source lookup](01-correct-current-guidance.md): implemented in `724642d`. Removed incidental recipes, replaced source-as-fallback guidance, and retained useful token patterns, design choices, composition hazards, caller responsibilities, and package boundaries.
-2. [Repair selection and foreground colors](02-selection-and-disabled-colors.md): fix readable selected labels, Table checkbox/disabled states, and bright-palette foreground pairings. These are code repairs, not reasons to add a color manual.
+2. ✅ [Repair selection and foreground colors](02-selection-and-disabled-colors.md): implemented in `53bae1a`. Selected labels, Table checked/mixed/disabled states, and bright-palette foregrounds are repaired, with actual before/after captures and browser checks.
 3. [Honor instant-hover intent](03-interaction-colors.md): remove Calendar's hover-fill animation. Keep the design rule in the skill; leave the transition implementation in source.
 
 The former fourth phase, an expanded color-role manual, is folded into Phase 1 as a small set of retained composition rules. Its proposed per-component surface, palette, alpha, and disabled-state explanations are dropped.
 
-Phase 1 is implemented and committed locally; Phases 2 and 3 remain planned. No component behavior has changed. Each phase can be reviewed independently; nothing has been pushed or deployed.
+Phases 1 and 2 are implemented and committed locally; Phase 3 remains planned. Each phase can be reviewed independently; nothing has been pushed or deployed.
 
 ## Visual review
 
-These screenshots support code and composition decisions. They are not content to copy into the skill. Each selection image contains **Current implementation** on the left and a **Proposed CSS preview** on the right; the right column uses scratch-only style overrides, not product fixes.
+These screenshots show the actual Phase 2 source changes, not the earlier CSS simulations. They support code decisions; they are not content to copy into the skill.
 
 :::gallery side-by-side
-![Light: current versus proposed selection colors](media/selection/light.png)
-![Dark: current versus proposed selection colors](media/selection/dark.png)
+![Light before](media/selection/before-light.png)
+![Light after](media/selection/after-light.png)
+![Dark before](media/selection/before-dark.png)
+![Dark after](media/selection/after-dark.png)
 :::
 
-[Phase 1](01-correct-current-guidance.md#composition-hazards-stay) retains the Text-child comparison because it shows a composition trap; its current-state specimens explain why tactical details belong in source. [Phase 2](02-selection-and-disabled-colors.md#proposed-diff-excerpts) pairs the code repair proposals with color comparisons. [Phase 3](03-interaction-colors.md#calendar-specimen-and-motion-comparison) retains Calendar screenshots and current/proposed hover recordings.
+[Phase 1](01-correct-current-guidance.md#composition-hazards-stay) retains its original Text-child comparison as evidence of a composition trap. [Phase 2](02-selection-and-disabled-colors.md#selected-labels-including-the-hover-edge-case) explains the implemented color decisions, close-up focus/Menu states, actual interaction recordings, and validation limits. [Phase 3](03-interaction-colors.md#calendar-specimen-and-motion-comparison) retains Calendar screenshots and current/proposed hover recordings.
 
-Dark Amber and Sky specimens show a further foreground-pairing issue. It remains an explicit Phase 2 code concern, not an instruction to memorize palette-specific foregrounds.
+Phase 1's original dark Amber and Sky specimens show the foreground-pairing issue that Phase 2 repaired. They are historical captures, not the current bright-palette behavior.
 
 ## Audit disposition
 

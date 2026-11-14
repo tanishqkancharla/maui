@@ -69,7 +69,7 @@ These are existing supported compositions, not a new API:
 <Button variant="primary"><Text>Save</Text></Button> // sets its own text color
 ```
 
-Both columns below render existing components. The left uses a Text child; the right uses a plain label. **Dark Amber remains low contrast even with correct composition**: that is a [Phase 2](02-selection-and-disabled-colors.md) implementation problem, not a reason to prescribe another palette-specific number in the skill.
+Both columns below render existing components. The left uses a Text child; the right uses a plain label. **At capture time, dark Amber remained low contrast even with correct composition.** [Phase 2](02-selection-and-disabled-colors.md) has now repaired that implementation problem; it did not require another palette-specific number in the skill.
 
 :::gallery side-by-side
 ![Light: Text child versus component-managed label](media/composition/light.png)
