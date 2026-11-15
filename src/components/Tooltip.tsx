@@ -162,6 +162,19 @@ function useTooltipTransition(isOpen: boolean) {
 		}
 	}, [isOpen])
 
+	// Closing before the first frame can skip transitionend entirely.
+	useEffect(() => {
+		if (phase !== "out" || isOpen) return
+		const timeout = setTimeout(
+			() => setRender(false),
+			Math.max(
+				overlayMotion.tooltipExit.durationMs,
+				overlayMotion.reduced.durationMs,
+			),
+		)
+		return () => clearTimeout(timeout)
+	}, [isOpen, phase])
+
 	useEffect(() => {
 		return () => {
 			if (isHeld.current) {
