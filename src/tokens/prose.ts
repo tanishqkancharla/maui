@@ -170,11 +170,9 @@ export const prose = memoize((size: ProseSize) => {
 		h2: style(block(m.h2), { fontWeight: 700, color: headingColor }),
 		h3: style(block(m.h3), { fontWeight: 600, color: headingColor }),
 		h4: style(block(m.h4), { fontWeight: 600, color: headingColor }),
-		// Inline elements inherit their size from the surrounding block; these
-		// values only matter when a link or list sits on its own. Links pick up
-		// Tailwind's medium weight + underline treatment.
-		link: style(block(m.paragraph), {
-			fontWeight: 500,
+		// Links inherit typography from their immediate parent, even inside prose.
+		link: style({
+			font: "inherit",
 			color: headingColor,
 			textDecoration: "underline",
 		}),

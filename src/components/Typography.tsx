@@ -147,7 +147,7 @@ export function Li(props: { children: React.ReactNode }) {
 	return <li className={className}>{props.children}</li>
 }
 
-const appLinkClass = text({ size: "md", fontWeight: 400, color: "highContrast" })
+const appLinkClass = style({ font: "inherit", color: colors.gray[12] })
 
 export function Link(props: { children: string; href: string }) {
 	const proseSize = useProseSize()
