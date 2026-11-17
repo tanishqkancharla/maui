@@ -201,8 +201,6 @@ const assistantMessageClass = style(proseContainerStyle, {
 
 // Drop Streamdown's Tailwind `space-y-*` dependency; Maui `proseHtml` owns gaps.
 const streamdownRootClass = style({
-	display: "flex",
-	flexDirection: "column",
 	whiteSpace: "normal",
 	// Whitespace-only Streamdown blocks can show up as empty nodes; don't let
 	// them create extra flex gaps.

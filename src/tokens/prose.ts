@@ -21,8 +21,9 @@ import { fontFamily, monoFontStyle } from "./text"
  *
  * On the Large platform scale (coarse pointers) block font sizes and line
  * heights step up ~1.2x — the same idea as the `text` tokens — and the spacing
- * steps behind every gap step up with them, so reading content grows with the
- * rest of the UI on touch devices.
+ * steps behind heading, figure, and rule gaps step up with them, so reading
+ * content grows with the rest of the UI on touch devices. The paragraph gap
+ * stays a fixed 10px at every size and on both scales.
  */
 export type ProseSize = "sm" | "md" | "lg"
 
@@ -45,8 +46,6 @@ type ProseMetric = {
 	h2: HeadingMetric
 	h3: HeadingMetric
 	h4: HeadingMetric
-	/** Default gap between blocks: paragraphs, lists, quotes. */
-	blockGap: string
 	/** Gap on both sides of code blocks and tables. */
 	figureGap: string
 	/** Gap on both sides of a horizontal rule. */
@@ -66,6 +65,9 @@ const space = (step: Space, ...more: Space[]) =>
 	more.length === 0
 		? spacing.value(step)
 		: `calc(${[step, ...more].map((s) => spacing.value(s)).join(" + ")})`
+
+/** Default gap between blocks (paragraphs, lists, quotes) at every size. */
+const blockGap = "10px"
 
 const metrics: Record<ProseSize, ProseMetric> = {
 	sm: {
@@ -94,7 +96,6 @@ const metrics: Record<ProseSize, ProseMetric> = {
 			marginTop: space(8),
 			marginBottom: space(4),
 		},
-		blockGap: space(6),
 		figureGap: space(8),
 		ruleGap: space(12, 8),
 		listPadding: 20,
@@ -126,7 +127,6 @@ const metrics: Record<ProseSize, ProseMetric> = {
 			marginTop: space(12),
 			marginBottom: space(4),
 		},
-		blockGap: space(8),
 		figureGap: space(12),
 		ruleGap: space(16, 8),
 		listPadding: 24,
@@ -158,7 +158,6 @@ const metrics: Record<ProseSize, ProseMetric> = {
 			marginTop: space(16),
 			marginBottom: space(4),
 		},
-		blockGap: space(12),
 		figureGap: space(16),
 		ruleGap: space(16, 12),
 		listPadding: 26,
@@ -226,7 +225,9 @@ const figure =
 const notHeading = ":not(h1):not(h2):not(h3):not(h4)"
 
 /**
- * Vertical rhythm for the `Prose` container at a given size. Uses a
+ * The one definition of prose block spacing. `Prose` applies it directly and
+ * `proseHtml` composes it, so React typography, Markdown replies, and the
+ * TipTap editor all space blocks the same way at a given size. Uses a
  * margin-top-only model (the gap between two blocks is the second block's
  * top margin), so there are no collapsing margins to reason about. Heading
  * `marginBottom` becomes the "hug" gap after a heading; heading `marginTop`
@@ -238,7 +239,7 @@ export const proseRhythm = memoize((size: ProseSize, selector = "&") => {
 
 	return style({
 		[`${selector} > * + *`]: {
-			marginTop: m.blockGap,
+			marginTop: blockGap,
 		},
 		[`${selector} > * + ${figure}, ${selector} > ${figure} + *`]: {
 			marginTop: m.figureGap,
@@ -264,19 +265,21 @@ const blockMarginReset: string =
 	":where(&) :where(p, h1, h2, h3, h4, blockquote, ul, ol, pre, .maui-code-block, hr, table)"
 
 /**
- * Element styles + vertical rhythm for HTML rendered outside React typography
- * components (TipTap's ProseMirror tree, Streamdown markdown output).
+ * Element styles + vertical rhythm for plain HTML that no React typography
+ * component renders: Markdown from `AssistantMessage` (Streamdown) and the
+ * TipTap document in `Editor`. Apply it to the element that wraps the HTML.
  *
- * Direct children follow the same `proseRhythm` as the `Prose` container, so
- * Markdown headings open sections the way React typography does. The flex
- * column keeps margins from collapsing.
+ * `root` selects the element whose direct children are the blocks: `&` when
+ * they sit right inside the styled element, `& > .ProseMirror` for TipTap.
+ * Those blocks get the same `proseRhythm` as the `Prose` container, so every
+ * prose surface shares one spacing definition. The flex column keeps margins
+ * from collapsing.
  */
-export const proseHtml = memoize((size: ProseSize) => {
+export const proseHtml = memoize((size: ProseSize, root: string = "&") => {
 	const m = metrics[size]
+	const column = { display: "flex", flexDirection: "column" } as const
 
-	return style(proseRhythm(size), {
-		display: "flex",
-		flexDirection: "column",
+	return style(proseRhythm(size, root), root === "&" ? column : { [root]: column }, {
 		// Zero specificity so `proseRhythm` margins always win.
 		[blockMarginReset]: { margin: 0 },
 		"& p": {
