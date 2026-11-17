@@ -12,9 +12,7 @@ Use Maui components. When one can't do what you need, build from the matching `r
 
 ## Foundation
 
-| Need                                          | Reference                         |
-| --------------------------------------------- | --------------------------------- |
-| Tokens, `purse-styles`, motion, layout, theme | [tokens.md](references/tokens.md) |
+- [Tokens](references/tokens.md) — `purse-styles`, motion, layout, theme.
 
 ## Interactions
 
@@ -22,45 +20,39 @@ Use Maui components. When one can't do what you need, build from the matching `r
 
 ## Components
 
-| Page             | Reference                                                                                    |
-| ---------------- | -------------------------------------------------------------------------------------------- |
-| Avatar           | [avatar.md](references/components/avatar.md)                                                 |
-| Badge            | [badge.md](references/components/badge.md)                                                   |
-| Banner           | [banner.md](references/components/banner.md)                                                 |
-| Buttons          | [buttons.md](references/components/buttons.md) (`Button`, `Overlay`, `Dialog`)               |
-| Tab bar          | [tab-bar.md](references/components/tab-bar.md)                                               |
-| Drawer           | [drawer.md](references/components/drawer.md)                                                 |
-| Prose            | [prose.md](references/components/prose.md) (`Prose`, `H1`–`H4`, `P`, lists, `Label`, `Link`) |
-| Editor / MarkdownEditor | [editor.md](references/components/editor.md) (optional TipTap peers; separate imports) |
-| Thinking         | [thinking.md](references/components/thinking.md)                                             |
-| Activity indicator | [activity-indicator.md](references/components/activity-indicator.md)                     |
-| Crossfade        | [crossfade.md](references/components/crossfade.md)                                           |
-| Loading screen   | [loading-screen.md](references/components/loading-screen.md)                                 |
-| Text             | [text.md](references/components/text.md)                                                     |
-| Form controls    | [form-controls.md](references/components/form-controls.md)                                   |
-| Select           | [select.md](references/components/select.md)                                                 |
-| List box         | [list-box.md](references/components/list-box.md)                                             |
-| Table            | [table.md](references/components/table.md)                                                   |
-| Menu / context menu | [menu.md](references/components/menu.md)                                                  |
-| Tooltip          | [tooltip.md](references/components/tooltip.md)                                               |
-| Layout utilities | [layout-utilities.md](references/components/layout-utilities.md)                             |
-| FuzzyString      | [fuzzy-string.md](references/components/fuzzy-string.md)                                     |
-| Icons            | [icons.md](references/components/icons.md)                                                   |
-| Code             | [code.md](references/components/code.md)                                                     |
+- [Avatar](references/components/avatar.md)
+- [Badge](references/components/badge.md)
+- [Banner](references/components/banner.md)
+- [Buttons](references/components/buttons.md) — `Button`, `Overlay`, `Dialog`.
+- [Tab bar](references/components/tab-bar.md)
+- [Drawer](references/components/drawer.md)
+- [Prose](references/components/prose.md) — `Prose`, `H1`–`H4`, `P`, lists, `Label`, `Link`.
+- [Editor / MarkdownEditor](references/components/editor.md) — optional TipTap peers; separate imports.
+- [Thinking](references/components/thinking.md)
+- [Activity indicator](references/components/activity-indicator.md)
+- [Crossfade](references/components/crossfade.md)
+- [Loading screen](references/components/loading-screen.md)
+- [Text](references/components/text.md)
+- [Form controls](references/components/form-controls.md)
+- [Select](references/components/select.md)
+- [List box](references/components/list-box.md)
+- [Table](references/components/table.md)
+- [Menu / context menu](references/components/menu.md)
+- [Tooltip](references/components/tooltip.md)
+- [Layout utilities](references/components/layout-utilities.md)
+- [FuzzyString](references/components/fuzzy-string.md)
+- [Icons](references/components/icons.md)
+- [Code](references/components/code.md)
 
 ## Patterns
 
-| Page              | Role                                                               | Reference                                                        |
-| ----------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| Inbox             | Mail thread list with unread dot, hover actions, selection         | [inbox.md](references/patterns/inbox.md)                         |
-| Message list      | Thread of raised message cards (avatar + Prose body)               | [message-list.md](references/patterns/message-list.md)           |
-| Assistant message | Streaming markdown reply (Streamdown + Maui prose + CodeBlock)     | [assistant-message.md](references/patterns/assistant-message.md) |
-| Sidebar           | 240px nav: sections, active item, optional icon and trailing badge | [sidebar.md](references/patterns/sidebar.md)                     |
+- [Inbox](references/patterns/inbox.md) — mail thread list with unread dot, hover actions, selection.
+- [Message list](references/patterns/message-list.md) — thread of raised message cards (avatar + Prose body).
+- [Assistant message](references/patterns/assistant-message.md) — streaming markdown reply (Streamdown + Maui prose + CodeBlock).
+- [Sidebar](references/patterns/sidebar.md) — 240px nav: sections, active item, optional icon and trailing badge.
 
 ## Apps
 
-| Page         | Role                                                       | Reference                                          |
-| ------------ | ---------------------------------------------------------- | -------------------------------------------------- |
-| Calendar     | Three-pane schedule (mini month, week grid, event details) | [calendar.md](references/apps/calendar.md)         |
-| Email client | Two-pane inbox + reading pane                              | [email-client.md](references/apps/email-client.md) |
-| AI chat      | Mock streaming chat (MarkdownEditor + AssistantMessage + Thinking) | [ai-chat.md](references/apps/ai-chat.md)           |
+- [Calendar](references/apps/calendar.md) — three-pane schedule (mini month, week grid, event details).
+- [Email client](references/apps/email-client.md) — two-pane inbox + reading pane.
+- [AI chat](references/apps/ai-chat.md) — mock streaming chat (MarkdownEditor + AssistantMessage + Thinking).
