@@ -6,7 +6,7 @@ Markdown that Maui renders, such as an assistant reply, puts the same 10px above
 
 Maui renders long-form text in three places, and they disagree on spacing:
 
-- **`Prose`** (React typography components) already uses Tailwind's heading margins, written as raw px in `[[9fd4fd8:src/tokens/prose.ts#L70-L167]]`.
+- **`Prose`** (React typography components) already uses Tailwind's heading margins, written as raw px in [[9fd4fd8:src/tokens/prose.ts#L70-L167]].
 - **`Editor`** (TipTap) gets the same margins, because it applies `proseRhythm` to its document.
 - **`AssistantMessage`** (Streamdown Markdown) only uses `proseHtml`. That sets `margin: 0` on every heading and stacks all blocks with a flat 10px `gap`. An `h2` sits as close to the paragraph above it as two paragraphs sit to each other.
 
@@ -164,8 +164,8 @@ return style({
 ## References
 
 - Tailwind Typography v0.5.20, `src/styles.js` (`sm`, `base`, `lg`, and `DEFAULT` table margins)
-- `[[9fd4fd8:src/tokens/prose.ts]]`, `[[src/tokens/spacing.ts]]`, `[[src/patterns/AssistantMessage.tsx#AssistantMessage]]`, `[[src/components/Editor.tsx#Editor]]`
-- Specimen: `[[b725513:src/pages/AssistantMessagePage.tsx]]`
+- [[9fd4fd8:src/tokens/prose.ts]], [[src/tokens/spacing.ts]], [[src/patterns/AssistantMessage.tsx#AssistantMessage]], [[src/components/Editor.tsx#Editor]]
+- Specimen: [[b725513:src/pages/AssistantMessagePage.tsx]]
 
 ```changes
 992466f..9fd4fd8
