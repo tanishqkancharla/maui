@@ -26,6 +26,45 @@ export function sum(a: number, b: number) {
 \`\`\`
 `
 
+const longFormSample = `# Migrating the inbox
+
+The inbox now reads from the shared store instead of its own cache. This note covers what moved, what to check, and what is left.
+
+## What changed
+
+Threads, labels, and drafts load through one subscription. Opening a thread no longer refetches it, and switching folders keeps scroll position.
+
+- Thread list reads from \`store.threads\`
+- Label counts update without a refresh
+- Drafts save on every keystroke
+
+### Reading a thread
+
+A thread view subscribes to its messages by id:
+
+\`\`\`ts
+const messages = useQuery(store, (tx) => tx.scan({ prefix: ["thread", id] }))
+\`\`\`
+
+#### Edge cases
+
+Deleted messages stay in the tuple store until the next sync, so filter them out before rendering.
+
+1. Filter tombstoned rows
+2. Sort by \`sentAt\`
+3. Group consecutive messages from one sender
+
+## Rollout
+
+| Stage | Audience | Status |
+| --- | --- | --- |
+| Internal | Maui team | Done |
+| Beta | Opt-in users | In progress |
+| General | Everyone | Planned |
+
+Ship behind the \`sharedStore\` flag and remove the old cache once the beta is clean.
+`
+
 export function AssistantMessagePage() {
 	const pageClassName = useStyles(pageClass)
 	const actionsClassName = useStyles(actionsClass)
@@ -84,6 +123,15 @@ export function AssistantMessagePage() {
 				) : (
 					<P>Press replay to stream a sample reply.</P>
 				)}
+			</Panel>
+
+			<H3>Long-form reply</H3>
+			<P>
+				Every heading level with paragraphs, lists, code, and a table, to check
+				the vertical rhythm between blocks.
+			</P>
+			<Panel data-testid="long-form-reply">
+				<AssistantMessage>{longFormSample}</AssistantMessage>
 			</Panel>
 		</Prose>
 	)
