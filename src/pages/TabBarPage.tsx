@@ -12,30 +12,35 @@ const initialTabs: TabBarItem[] = [
 		label: "Changes",
 		icon: <Icons.FileText />,
 		isClosable: true,
+		isDraggable: true,
 	},
 	{
 		id: "pr-339",
 		label: "PR #339",
 		icon: <Icons.GitPullRequest />,
 		isClosable: true,
+		isDraggable: true,
 	},
 	{
 		id: "desktop",
 		label: "Desktop",
 		icon: <Icons.World />,
 		isClosable: true,
+		isDraggable: true,
 	},
 	{
 		id: "pr-34",
 		label: "PR #34",
 		icon: <Icons.GitPullRequest />,
 		isClosable: true,
+		isDraggable: true,
 	},
 	{
 		id: "github",
 		label: "Use sandbox",
 		icon: <Icons.Github />,
 		isClosable: true,
+		isDraggable: true,
 	},
 ]
 
@@ -59,9 +64,23 @@ export function TabBarPage() {
 		const id = `new-${nextTabId.current++}`
 		setTabs((current) => [
 			...current,
-			{ id, label: "New session", isClosable: true },
+			{ id, label: "New session", isClosable: true, isDraggable: true },
 		])
 		setSelectedId(id)
+	}
+
+	function reorder(activeId: string, overId: string) {
+		setTabs((current) => {
+			const from = current.findIndex((tab) => tab.id === activeId)
+			const to = current.findIndex((tab) => tab.id === overId)
+			const moved = current[from]
+			if (from < 0 || to < 0 || from === to || moved === undefined)
+				return current
+			const next = current.slice()
+			next.splice(from, 1)
+			next.splice(to, 0, moved)
+			return next
+		})
 	}
 
 	return (
@@ -70,8 +89,8 @@ export function TabBarPage() {
 			<P>
 				A horizontally scrollable workspace tab bar. The selected tab uses the
 				default outlined <Code>Button</Code> treatment; quiet tabs are separated
-				by hairlines. Arrow keys, Home, and End move selection. Delete or
-				Backspace closes a selected closable tab.
+				by hairlines. Drag a tab to reorder it. Arrow keys, Home, and End move
+				selection. Delete or Backspace closes a selected closable tab.
 			</P>
 			<Panel style={{ padding: 0, overflow: "hidden" }}>
 				<TabBar
@@ -80,6 +99,7 @@ export function TabBarPage() {
 					selectedId={selectedId}
 					onSelectionChange={setSelectedId}
 					onClose={closeTab}
+					onReorder={reorder}
 					onAdd={addTab}
 					addLabel="New session"
 				/>
