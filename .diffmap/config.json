@@ -1,0 +1,9 @@
+{
+	"previews": {
+		"local": "http://127.0.0.1:5175/previews.html",
+		"preview": "https://maui-git-{branch}-tanishqs-projects-17bca255.vercel.app/previews.html"
+	},
+	"flows": {
+		"viewport": { "width": 900, "height": 1400 }
+	}
+}
