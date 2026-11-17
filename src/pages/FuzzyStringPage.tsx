@@ -1,9 +1,11 @@
 import { useStyles } from "purse-styles"
 import { useMemo, useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { FuzzyString } from "../components/FuzzyString"
 import { SearchField } from "../components/Input"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { text } from "../tokens/text"
@@ -42,7 +44,7 @@ const searchableItems = [
 
 export function FuzzyStringPage() {
 	const [query, setQuery] = useState("em")
-	const resultTextClass = useStyles(text("md", 400, "highContrast"))
+	const resultTextClass = useStyles(text({ size: "md", fontWeight: 400, color: "highContrast" }))
 
 	const filteredItems = useMemo(() => {
 		if (!query) {
@@ -70,24 +72,22 @@ export function FuzzyStringPage() {
 
 			<H3>Examples</H3>
 			<Panel>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableHeaderCell>Query</TableHeaderCell>
-							<TableHeaderCell>Text</TableHeaderCell>
-							<TableHeaderCell>Result</TableHeaderCell>
-						</TableRow>
-					</TableHead>
+				<Table aria-label="FuzzyString examples">
+					<TableHeader>
+						<TableHead isRowHeader>Query</TableHead>
+						<TableHead>Text</TableHead>
+						<TableHead>Result</TableHead>
+					</TableHeader>
 					<TableBody>
 						{staticExamples.map((example) => {
 							const match = fuzzyMatch(example.query, example.text)
 							return (
 								<TableRow key={`${example.query}-${example.text}`}>
 									<TableCell>
-										<code>{example.query}</code>
+										<Code>{example.query}</Code>
 									</TableCell>
 									<TableCell>
-										<code>{example.text}</code>
+										<Code>{example.text}</Code>
 									</TableCell>
 									<TableCell>
 										{match ? <FuzzyString match={match} /> : "—"}
@@ -152,4 +152,3 @@ export function FuzzyStringPage() {
 		</Prose>
 	)
 }
-

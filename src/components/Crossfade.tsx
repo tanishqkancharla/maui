@@ -1,0 +1,138 @@
+import { type CSSProperties, type Key, type ReactNode } from "react"
+import {
+	AnimatePresence,
+	motion,
+	useReducedMotion,
+	type Transition,
+	type Variants,
+} from "motion/react"
+import { style, useStyles } from "purse-styles"
+import { motionDurationMs } from "../tokens/motion"
+import { cls } from "../utils/cls"
+
+export type CrossfadeDirection = "up" | "down" | "left" | "right"
+
+export type CrossfadeProps = {
+	children: ReactNode
+	/**
+	 * Axis the outgoing view travels along as it fades out. Incoming view
+	 * enters from the opposite side. Omit for an in-place opacity fade at
+	 * the same position.
+	 */
+	direction?: CrossfadeDirection
+	/**
+	 * Identity of the current view. When this changes, the previous children
+	 * fade out, then the new children fade in. Do not put `key` on
+	 * `Crossfade` itself, which remounts the wrapper and skips the exit.
+	 */
+	contentKey: Key
+	className?: string
+	style?: CSSProperties
+}
+
+// Animation travel stays fixed across platform scales.
+const OFFSET_PX = 12
+
+const enterTransition: Transition = {
+	type: "spring",
+	visualDuration: 0.3,
+	bounce: 0.2,
+}
+
+const exitTransition: Transition = {
+	duration: motionDurationMs / 1000,
+	ease: [0.42, 0, 0.58, 1],
+}
+
+function shift(
+	direction: CrossfadeDirection,
+	sign: 1 | -1,
+): { x: number; y: number } {
+	const distance = OFFSET_PX * sign
+	switch (direction) {
+		case "up":
+			return { x: 0, y: -distance }
+		case "down":
+			return { x: 0, y: distance }
+		case "left":
+			return { x: -distance, y: 0 }
+		case "right":
+			return { x: distance, y: 0 }
+	}
+}
+
+const travelVariants: Variants = {
+	initial: (direction: CrossfadeDirection) => ({
+		opacity: 0,
+		...shift(direction, -1),
+	}),
+	animate: {
+		opacity: 1,
+		x: 0,
+		y: 0,
+	},
+	exit: (direction: CrossfadeDirection) => ({
+		opacity: 0,
+		...shift(direction, 1),
+		transition: exitTransition,
+	}),
+}
+
+const fadeVariants: Variants = {
+	initial: { opacity: 0, x: 0, y: 0 },
+	animate: { opacity: 1, x: 0, y: 0 },
+	exit: { opacity: 0, x: 0, y: 0, transition: exitTransition },
+}
+
+/**
+ * When `contentKey` changes, fade the previous view out and the next in.
+ * Omit `direction` for an in-place opacity fade. Pass a direction to slide
+ * the outgoing view that way and enter the replacement from the opposite side.
+ */
+export function Crossfade({
+	children,
+	direction,
+	contentKey,
+	className,
+	style: styleProp,
+}: CrossfadeProps) {
+	const reduceMotion = useReducedMotion()
+	const rootClassName = useStyles(rootClass)
+	const layerClassName = useStyles(layerClass)
+	const slide = Boolean(direction) && !reduceMotion
+	const variants = slide ? travelVariants : fadeVariants
+
+	return (
+		<div
+			className={cls(rootClassName, className)}
+			style={styleProp}
+			data-direction={direction}
+		>
+			<AnimatePresence mode="sync" initial={false} custom={direction}>
+				<motion.div
+					key={contentKey}
+					className={layerClassName}
+					custom={direction}
+					variants={variants}
+					initial="initial"
+					animate="animate"
+					exit="exit"
+					transition={enterTransition}
+				>
+					{children}
+				</motion.div>
+			</AnimatePresence>
+		</div>
+	)
+}
+
+const rootClass = style({
+	position: "relative",
+	display: "grid",
+	overflow: "hidden",
+})
+
+const layerClass = style({
+	gridArea: "1 / 1",
+	minWidth: 0,
+})

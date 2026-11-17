@@ -1,7 +1,11 @@
 tmp/
 /dist
 /website
+/website-review
 /node_modules
+/src/node_modules
+/*.tgz
+/.amp/portals/*
 
 .DS_Store
 .vercel

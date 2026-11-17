@@ -4,12 +4,11 @@ import { highlightCode, isSupportedCodeLang } from "../utils/shiki"
 import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { shadow } from "../tokens/shadow"
-import { monospace, text } from "../tokens/text"
+import { text } from "../tokens/text"
 import { useTheme } from "../theme/ThemeContext"
 
 const codeBlockClass = style(
-	text("xs", 400, "highContrast"),
-	monospace,
+	text({ size: "xs", fontWeight: 400, color: "highContrast", monospace: true }),
 	shadow.subtle,
 	{
 		backgroundColor: backgroundColor.app,
@@ -40,9 +39,15 @@ const codeClass = style({
 	font: "inherit",
 })
 
+/** `root` on the `<pre>` (or on a wrapper around Shiki's HTML; restyles its `.shiki` descendants, no state); `code` on the `<code>` inside a plain, unhighlighted `<pre>`. */
+export const codeBlockStyles = {
+	root: codeBlockClass,
+	code: codeClass,
+} as const
+
 export function CodeBlock(props: { children: string; lang: string }) {
-	const className = useStyles(codeBlockClass)
-	const codeClassName = useStyles(codeClass)
+	const className = useStyles(codeBlockStyles.root)
+	const codeClassName = useStyles(codeBlockStyles.code)
 	const [html, setHtml] = useState<string | null>(null)
 	const { resolvedTheme } = useTheme()
 

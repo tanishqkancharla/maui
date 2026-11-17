@@ -1,126 +1,111 @@
-import { useMemo, useRef } from "react"
 import {
-	AriaSliderProps,
-	useLocale,
-	useSlider,
-	useSliderThumb,
-} from "react-aria"
-import { useSliderState } from "react-stately"
-import { style, useStyles } from "purse-styles"
+	Label as RACLabel,
+	Slider as RACSlider,
+	SliderOutput,
+	SliderThumb,
+	SliderTrack,
+	type SliderProps as RACSliderProps,
+} from "react-aria-components"
+import { defineVars, style, useStyles } from "purse-styles"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { shadowVars } from "../tokens/shadow"
+import { labelText } from "./Typography"
 
-type SliderProps = AriaSliderProps<number> & {
+type SliderProps = Omit<
+	RACSliderProps<number>,
+	"children" | "className" | "style"
+> & {
 	label: string
 }
 
-const sliderClass = style(
-	focusRing(
-		"& .slider-thumb:has(input:focus-visible)",
-		shadowVars.subtle,
-	),
-	{
-		width: "240px",
-		"& .slider-label-row": {
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "space-between",
-			marginBottom: "10px",
-		},
-		"& label, & output": {
-			color: colors.gray[11],
-			fontSize: "0.75rem",
-			fontFamily: "system-ui, -apple-system",
-			letterSpacing: "0.02em",
-			lineHeight: "16px",
-		},
-		"& .slider-track": {
-			position: "relative",
-			height: "18px",
-		},
-		"& .slider-track::before": {
-			content: '""',
-			position: "absolute",
-			top: "7px",
-			left: 0,
-			right: 0,
-			height: "4px",
-			borderRadius: "999px",
-			background: colors.gray[6],
-		},
-		"& .slider-fill": {
-			position: "absolute",
-			top: "7px",
-			left: 0,
-			height: "4px",
-			borderRadius: "999px",
-			background: colors.accent[10],
-		},
-		"& .slider-thumb": {
-			position: "absolute",
-			top: "50%",
-			width: "12px",
-			height: "12px",
-			borderRadius: "100%",
-			background: colors.gray[12],
-			boxShadow: shadowVars.subtle,
-			transform: "translateX(-50%)",
-		},
-		"& .slider-thumb[data-dragging='true']": {
-			background: colors.accent[11],
-		},
-		"& input": {
-			position: "absolute",
-			width: "100%",
-			height: "100%",
-			top: 0,
-			left: 0,
-			opacity: 0.0001,
-			pointerEvents: "none",
-		},
+const sliderSize = defineVars({
+	thumb: { default: "12px", [LARGE_SCALE]: "20px" },
+	track: { default: "18px", [LARGE_SCALE]: "40px" },
+})
+
+const root = style({ width: "240px" })
+
+const header = style({
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "space-between",
+	marginBottom: "10px",
+})
+
+const track = style({
+	position: "relative",
+	height: sliderSize.track,
+	"&::before": {
+		content: '""',
+		position: "absolute",
+		top: "calc(50% - 2px)",
+		left: 0,
+		right: 0,
+		height: "4px",
+		borderRadius: "999px",
+		background: colors.gray[6],
 	},
-)
+})
+
+const fill = style({
+	position: "absolute",
+	top: "calc(50% - 2px)",
+	left: 0,
+	height: "4px",
+	borderRadius: "999px",
+	background: colors.accent[10],
+})
+
+const thumb = style(focusRing("&[data-focus-visible]", shadowVars.control), {
+	top: "50%",
+	width: sliderSize.thumb,
+	height: sliderSize.thumb,
+	borderRadius: "100%",
+	background: "#ffffff",
+	boxShadow: shadowVars.control,
+	"&[data-dragging]": {
+		background: colors.accent[11],
+	},
+})
+
+/** Slider parts: `root` RAC `Slider`, `header` div holding the label and output, `label` RAC `Label` and RAC `SliderOutput`, `track` RAC `SliderTrack` (draws the rail in `::before`), `fill` a div in the track whose inline `width` you set from `state.getThumbPercent(0)`, `thumb` RAC `SliderThumb` (`[data-focus-visible]`, `[data-dragging]`). */
+export const sliderStyles = {
+	root,
+	header,
+	label: labelText,
+	track,
+	fill,
+	thumb,
+} as const
 
 export function Slider(props: SliderProps) {
-	const trackRef = useRef<HTMLDivElement>(null)
-	const inputRef = useRef<HTMLInputElement>(null)
-	const { locale } = useLocale()
-	const numberFormatter = useMemo(() => new Intl.NumberFormat(locale), [locale])
-	const state = useSliderState({ ...props, numberFormatter })
-	const { groupProps, labelProps, trackProps, outputProps } = useSlider(
-		props,
-		state,
-		trackRef,
-	)
-	const { thumbProps, inputProps, isDragging } = useSliderThumb(
-		{
-			index: 0,
-			trackRef,
-			inputRef,
-		},
-		state,
-	)
-	const className = useStyles(sliderClass)
-	const percent = state.getThumbPercent(0) * 100
+	const { label, ...sliderProps } = props
+	const className = useStyles(sliderStyles.root)
+	const headerClassName = useStyles(sliderStyles.header)
+	const labelClassName = useStyles(sliderStyles.label)
+	const trackClassName = useStyles(sliderStyles.track)
+	const fillClassName = useStyles(sliderStyles.fill)
+	const thumbClassName = useStyles(sliderStyles.thumb)
 
 	return (
-		<div className={className} {...groupProps}>
-			<div className="slider-label-row">
-				<label {...labelProps}>{props.label}</label>
-				<output {...outputProps}>{state.getThumbValueLabel(0)}</output>
+		<RACSlider {...sliderProps} className={className}>
+			<div className={headerClassName}>
+				<RACLabel className={labelClassName}>{label}</RACLabel>
+				<SliderOutput className={labelClassName} />
 			</div>
-			<div className="slider-track" ref={trackRef} {...trackProps}>
-				<div className="slider-fill" style={{ width: `${percent}%` }} />
-				<div
-					className="slider-thumb"
-					data-dragging={isDragging}
-					style={{ left: `${percent}%` }}
-					{...thumbProps}
-				>
-					<input ref={inputRef} {...inputProps} />
-				</div>
-			</div>
-		</div>
+			<SliderTrack className={trackClassName}>
+				{({ state }) => (
+					<>
+						<div
+							className={fillClassName}
+							style={{ width: `${state.getThumbPercent(0) * 100}%` }}
+						/>
+						<SliderThumb className={thumbClassName} />
+					</>
+				)}
+			</SliderTrack>
+		</RACSlider>
 	)
 }

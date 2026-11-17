@@ -1,5 +1,5 @@
 import { style, useStyles } from "purse-styles"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { Thinking } from "../components/Thinking"
 import { H2, H3, P } from "../components/Typography"
@@ -60,11 +60,11 @@ const pageClass = style({
 	paddingBottom: "32px",
 })
 
-const rowClass = style(flex({ align: "center", gap: 6 }))
+const rowClass = style(flex({ alignItems: "center", gap: 6 }))
 
 const columnClass = style(flex({ direction: "column", gap: 6 }))
 
-const inlineExampleClass = style(text("md", 400, "highContrast"), {
+const inlineExampleClass = style(text({ size: "md", fontWeight: 400, color: "highContrast" }), {
 	display: "flex",
 	alignItems: "center",
 	gap: "6px",

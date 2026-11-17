@@ -1,5 +1,6 @@
 import { Avatar } from "../components/Avatar"
-import { Panel } from "../components/Panel"
+import { Code } from "../components/Code"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Flex } from "../components/Utils"
@@ -15,7 +16,7 @@ export function AvatarPage() {
 			<H2>Avatar</H2>
 			<P>
 				Avatars derive initials and a stable color from a person&apos;s name. The
-				default size is <code>sm</code>.
+				default size is <Code>sm</Code>.
 			</P>
 
 			<H3>Sizes</H3>
@@ -30,7 +31,7 @@ export function AvatarPage() {
 							style={{ color: colors.gray[11] }}
 						>
 							<Avatar name="Maya Chen" size={size} />
-							<code>{size}</code>
+							<Code>{size}</Code>
 						</Flex>
 					))}
 				</Flex>

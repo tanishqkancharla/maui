@@ -56,10 +56,12 @@ type ParsedShortcut = {
 
 function parseShortcut(shortcut: string): ParsedShortcut {
 	const keys = shortcut.split("-")
-
-	const key = keys.filter(
+	const key = keys.find(
 		(value) => value !== "Meta" && value !== "Shift" && value !== "Alt"
-	)[0]
+	)
+	if (key === undefined) {
+		throw new Error(`Shortcut ${shortcut} is missing a key`)
+	}
 
 	return {
 		metaKey: keys.includes("Meta"),

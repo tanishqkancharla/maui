@@ -7,7 +7,7 @@ import { text } from "../tokens/text"
 
 export const navigationItem = style(
 	spacing.padding({ x: 4, y: 2 }),
-	text("sm", 400, "highContrast"),
+	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
 	radius.sm,
 	{
 		margin: 0,
@@ -18,8 +18,11 @@ export const navigationItem = style(
 			background: backgroundColor.elementHover,
 		},
 		"&[aria-current='page']": {
-			color: colors.accent[9],
+			color: colors.accent[11],
 			fontWeight: 500,
+		},
+		"&[aria-current='page']:hover": {
+			color: colors.accent[12],
 		},
 	},
 )

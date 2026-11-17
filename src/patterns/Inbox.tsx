@@ -1,7 +1,8 @@
 import type React from "react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../components/Button"
-import { Icons } from "../components/Icons"
+import { Archive, Clock, Envelope, Star, Trash } from "../icons"
+import { backgroundColor } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { flex, flexItem } from "../tokens/layout"
 import { radius } from "../tokens/radius"
@@ -187,19 +188,19 @@ function ThreadHoverActions(props: { className: string }) {
 	return (
 		<div className={props.className}>
 			<ThreadAction label="Star thread">
-				<Icons.Star />
+				<Star size="md" />
 			</ThreadAction>
 			<ThreadAction label="Archive thread">
-				<Icons.Archive />
+				<Archive size="md" />
 			</ThreadAction>
 			<ThreadAction label="Delete thread">
-				<Icons.Trash />
+				<Trash size="md" />
 			</ThreadAction>
 			<ThreadAction label="Mark unread">
-				<Icons.Envelope />
+				<Envelope size="md" />
 			</ThreadAction>
 			<ThreadAction label="Snooze thread">
-				<Icons.Clock />
+				<Clock size="md" />
 			</ThreadAction>
 		</div>
 	)
@@ -243,11 +244,11 @@ const threadListClass = style(flex({ direction: "column" }), {
 })
 
 const threadRowSelectedClass = style({
-	backgroundColor: colors.grayAlpha[3],
+	backgroundColor: backgroundColor.elementActive,
 })
 
 const threadRowClass = style(
-	text("md", 400, "lowContrast"),
+	text({ size: "md", fontWeight: 400, color: "lowContrast" }),
 	spacing.padding({ x: 3 }),
 	radius.md,
 	{
@@ -258,7 +259,7 @@ const threadRowClass = style(
 		minHeight: "40px",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: colors.grayAlpha[2],
+			backgroundColor: backgroundColor.elementHover,
 		},
 		"&:hover .email-thread-row-toolbar": {
 			opacity: 1,
@@ -272,8 +273,8 @@ const threadRowClass = style(
 )
 
 const threadSenderClass = style(
-	text("md", 400, "highContrast"),
-	flex({ align: "center", gap: 3 }),
+	text({ size: "md", fontWeight: 400, color: "highContrast" }),
+	flex({ alignItems: "center", gap: 3 }),
 	{
 		minWidth: 0,
 	},
@@ -313,33 +314,33 @@ const threadSubjectBaseClass = style(truncate, {
 
 const threadSubjectClass = style(
 	threadSubjectBaseClass,
-	text("md", 400, "highContrast"),
+	text({ size: "md", fontWeight: 400, color: "highContrast" }),
 )
 
 const threadSnippetClass = style(
 	truncate,
 	flexItem({ size: "fill" }),
-	text("md", 400, "lowContrast"),
+	text({ size: "md", fontWeight: 400, color: "lowContrast" }),
 	{
 		minWidth: 0,
 	},
 )
 
-const threadTimeClass = style(text("md", 400, "lowContrast"), {
+const threadTimeClass = style(text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
 	justifySelf: "end",
 })
 
 const threadToolbarClass = style(
 	shadow.subtle,
 	radius.sm,
-	flex({ align: "center", gap: 1 }),
+	flex({ alignItems: "center", gap: 1 }),
 	spacing.padding({ all: 1 }),
 	{
 		position: "absolute",
 		top: "50%",
 		right: "6px",
 		zIndex: 1,
-		background: "white",
+		background: backgroundColor.element,
 		opacity: 0,
 		pointerEvents: "none",
 		transform: "translateY(-50%)",
@@ -436,7 +437,7 @@ const compactRowClass = style(
 		position: "relative",
 		userSelect: "none",
 		"&:hover": {
-			backgroundColor: colors.grayAlpha[2],
+			backgroundColor: backgroundColor.elementHover,
 		},
 		"&:hover .email-thread-row-toolbar": {
 			opacity: 1,
@@ -455,22 +456,22 @@ const compactBodyClass = style(flexItem({ size: "fill" }), {
 	minWidth: 0,
 })
 
-const compactHeaderClass = flex({ align: "center", justify: "between", gap: 6 })
+const compactHeaderClass = flex({ alignItems: "center", justifyContent: "between", gap: 6 })
 
 const compactSenderClass = style(
 	truncate,
 	flexItem({ size: "fill" }),
-	text("md", 400, "highContrast"),
+	text({ size: "md", fontWeight: 400, color: "highContrast" }),
 	{
 		minWidth: 0,
 	},
 )
 
-const compactTimeClass = style(text("md", 400, "lowContrast"), {
+const compactTimeClass = style(text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
 	flexShrink: 0,
 })
 
-const compactSnippetClass = style(truncate, text("md", 400, "lowContrast"), {
+const compactSnippetClass = style(truncate, text({ size: "md", fontWeight: 400, color: "lowContrast" }), {
 	display: "-webkit-box",
 	WebkitLineClamp: 2,
 	WebkitBoxOrient: "vertical",

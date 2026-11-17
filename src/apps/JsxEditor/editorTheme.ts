@@ -25,6 +25,7 @@ export function createCodeMirrorTheme(
 				".cm-scroller": {
 					fontFamily: chrome.monoFontFamily,
 					fontVariantNumeric: "tabular-nums",
+					fontFeatureSettings: chrome.monoFontFeatureSettings,
 					fontWeight: "400",
 					lineHeight: "20px",
 					overflow: "auto",
@@ -72,6 +73,7 @@ export function createCodeMirrorTheme(
 				},
 				".cm-tooltip-autocomplete ul li": {
 					fontFamily: chrome.monoFontFamily,
+					fontFeatureSettings: chrome.monoFontFeatureSettings,
 					fontSize: "12px",
 					fontWeight: "400",
 				},
@@ -81,6 +83,7 @@ export function createCodeMirrorTheme(
 				},
 				".cm-completionInfo": {
 					fontFamily: chrome.monoFontFamily,
+					fontFeatureSettings: chrome.monoFontFeatureSettings,
 					fontSize: "12px",
 					fontWeight: "400",
 					color: chrome.gray11,

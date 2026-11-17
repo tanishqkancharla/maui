@@ -1,8 +1,17 @@
 import { javascript } from "@codemirror/lang-javascript"
 import type { EditorView } from "@codemirror/view"
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { debounce } from "lodash"
+import {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+	useState,
+	type ReactNode,
+} from "react"
 import CodeMirror from "@uiw/react-codemirror"
-import type { DesignSystemApi } from "./DesignSystemApi"
+import type { DesignSystemApi, ThemePreference } from "./DesignSystemApi"
 import { createAutocomplete } from "./completions"
 import { createCodeMirrorTheme } from "./editorTheme"
 import { editorKeymap } from "./keymaps"
@@ -16,6 +25,12 @@ import {
 	createJsxLinter,
 } from "./lint"
 import { prettifyJsx, printWidthFromEditor } from "./prettify"
+import {
+	decodeEditorUrlState,
+	editorUrlDebounceMs,
+	readEditorUrlState,
+	writeEditorUrlState,
+} from "./urlState"
 
 function readStoredSource(storageKey: string, fallback: string): string {
 	try {
@@ -57,7 +72,7 @@ function editorLayoutCss(api: DesignSystemApi) {
 	min-height: 0;
 	min-width: 0;
 	overflow: hidden;
-	background-color: ${chrome.elementBackground};
+	background-color: ${chrome.appBackground};
 	border: 1px solid ${chrome.outline};
 	border-radius: ${chrome.radiusLg};
 }
@@ -103,7 +118,12 @@ function editorLayoutCss(api: DesignSystemApi) {
 	opacity: 0.5;
 }
 .jsx-editor-error {
+	display: flex;
+	flex-direction: column;
+	gap: ${chrome.space2};
 	flex-shrink: 0;
+	max-height: 40%;
+	overflow: auto;
 	padding: ${chrome.space3} ${chrome.space4};
 	border-bottom: 1px solid ${chrome.red6};
 	background-color: ${chrome.red3};
@@ -113,17 +133,31 @@ function editorLayoutCss(api: DesignSystemApi) {
 	line-height: 18px;
 	font-weight: 400;
 	color: ${chrome.red11};
+	white-space: pre-wrap;
 }
 `
 }
 
+function readInitialSource(designSystem: DesignSystemApi): string {
+	if (designSystem.urlStatePath !== undefined) {
+		const fromHash = readEditorUrlState()
+		if (fromHash) {
+			return fromHash.source
+		}
+	}
+	return readStoredSource(designSystem.storageKey, designSystem.defaultSource)
+}
+
 export function JsxEditor(props: { designSystem: DesignSystemApi }) {
 	const { designSystem } = props
-	const [source, setSource] = useState(() =>
-		readStoredSource(designSystem.storageKey, designSystem.defaultSource),
-	)
+	const { urlStatePath } = designSystem
+	const preference = designSystem.themePreference?.value
+	const setPreference = designSystem.themePreference?.set
+	const [source, setSource] = useState(() => readInitialSource(designSystem))
 	const sourceRef = useRef(source)
 	sourceRef.current = source
+	const preferenceRef = useRef(preference)
+	preferenceRef.current = preference
 	const editorViewRef = useRef<EditorView | null>(null)
 
 	const [runtimeError, setRuntimeError] = useState<Error | null>(null)
@@ -136,6 +170,77 @@ export function JsxEditor(props: { designSystem: DesignSystemApi }) {
 			// Ignore quota / private-mode failures.
 		}
 	}, [designSystem.storageKey, source])
+
+	useLayoutEffect(() => {
+		if (urlStatePath === undefined || !setPreference) return
+		const fromHash = readEditorUrlState()
+		if (fromHash?.theme) {
+			setPreference(fromHash.theme)
+		}
+	}, [setPreference, urlStatePath])
+
+	const writeUrl = useMemo(
+		() =>
+			debounce(
+				(path: string, nextSource: string, nextTheme?: ThemePreference) => {
+					writeEditorUrlState(path, { source: nextSource, theme: nextTheme })
+				},
+				editorUrlDebounceMs,
+			),
+		[],
+	)
+
+	useEffect(() => {
+		if (urlStatePath === undefined) return
+		writeUrl(urlStatePath, source, preference)
+	}, [preference, source, urlStatePath, writeUrl])
+
+	useEffect(() => {
+		return () => {
+			writeUrl.flush()
+			writeUrl.cancel()
+		}
+	}, [writeUrl])
+
+	useEffect(() => {
+		if (urlStatePath === undefined) return
+		const path = urlStatePath
+
+		function syncFromHash() {
+			const parsed = decodeEditorUrlState(window.location.hash)
+			if (!parsed) {
+				return
+			}
+			if (parsed.source !== sourceRef.current) {
+				setSource(parsed.source)
+			}
+			if (parsed.theme && parsed.theme !== preferenceRef.current) {
+				setPreference?.(parsed.theme)
+			}
+		}
+
+		function restoreHashIfCleared() {
+			if (window.location.pathname !== path) {
+				return
+			}
+			if (window.location.hash) {
+				return
+			}
+			writeEditorUrlState(path, {
+				source: sourceRef.current,
+				theme: preferenceRef.current,
+			})
+		}
+
+		window.addEventListener("hashchange", syncFromHash)
+		window.addEventListener("pushState", restoreHashIfCleared)
+		window.addEventListener("popstate", restoreHashIfCleared)
+		return () => {
+			window.removeEventListener("hashchange", syncFromHash)
+			window.removeEventListener("pushState", restoreHashIfCleared)
+			window.removeEventListener("popstate", restoreHashIfCleared)
+		}
+	}, [setPreference, urlStatePath])
 
 	const compiled = useMemo(
 		() => evaluateJsx(source, designSystem.previewScope),
@@ -159,22 +264,32 @@ export function JsxEditor(props: { designSystem: DesignSystemApi }) {
 		() => collectJsxDiagnosticsFromSource(source, designSystem.catalog),
 		[source, designSystem.catalog],
 	)
-	const bannerError = useMemo(() => {
+	const bannerLines = useMemo(() => {
 		if (!compiled.ok) {
-			return formatErrorBanner(
-				compiled.error,
-				lineFromCompileError(compiled.error),
-			)
+			return [
+				{
+					key: "compile",
+					text: formatErrorBanner(
+						compiled.error,
+						lineFromCompileError(compiled.error),
+					),
+				},
+			]
 		}
 		if (runtimeError) {
-			return formatErrorBanner(runtimeError.message)
+			return [
+				{
+					key: "runtime",
+					text: formatErrorBanner(runtimeError.message),
+				},
+			]
 		}
-		if (typeErrors[0]) {
-			return formatErrorBanner(typeErrors[0].message, typeErrors[0].line)
-		}
-		return null
+		return typeErrors.map((error) => ({
+			key: `${error.from}:${error.to}`,
+			text: formatErrorBanner(error.message, error.line),
+		}))
 	}, [compiled, runtimeError, typeErrors])
-	const outdated = Boolean(bannerError) || liveSource !== source
+	const outdated = bannerLines.length > 0 || liveSource !== source
 
 	const formatSource = useCallback(async () => {
 		const view = editorViewRef.current
@@ -262,9 +377,13 @@ export function JsxEditor(props: { designSystem: DesignSystemApi }) {
 					<div className="jsx-editor-pane-header">
 						<Chrome.HeaderLabel>Preview</Chrome.HeaderLabel>
 					</div>
-					{bannerError && (
+					{bannerLines.length > 0 && (
 						<div className="jsx-editor-error" role="status">
-							<span className="jsx-editor-error-text">{bannerError}</span>
+							{bannerLines.map((line) => (
+								<div key={line.key} className="jsx-editor-error-text">
+									{line.text}
+								</div>
+							))}
 						</div>
 					)}
 					<div

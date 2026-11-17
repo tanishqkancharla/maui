@@ -43,6 +43,7 @@ export function exampleDesignSystem(
 		resolvedTheme: "light",
 		syntax: lightSyntax,
 		chrome: {
+			appBackground: "#fcfcfc",
 			elementBackground: "#ffffff",
 			outline: "rgba(0, 0, 0, 0.1)",
 			gray4: "#e0e0e0",
@@ -62,8 +63,10 @@ export function exampleDesignSystem(
 			shadowMedium: "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.06) 0px 6px 6px -3px",
 			monoFontFamily:
 				'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+			monoFontFeatureSettings: "normal",
 			uiFontFamily:
 				'ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+			space2: "4px",
 			space3: "6px",
 			space4: "9px",
 			space8: "16px",

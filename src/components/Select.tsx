@@ -16,40 +16,40 @@ import { focusRing } from "../tokens/focusRing"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
+import { controlSize, iconSizeValues } from "../tokens/sizing"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 import { CollectionPopover } from "./CollectionPopover"
 import { ListBox, ListBoxItem, type ListBoxItemProps } from "./ListBox"
 import { labelText } from "./Typography"
 
-const selectClass = style({
+const root = style({
 	display: "flex",
 	flexDirection: "column",
 	gap: spacing.value(3),
 	width: "100%",
 })
 
-const triggerClass = style(
-	text("sm", 400, "highContrast"),
-	focusRing("&:focus-visible", shadowVars.subtle),
-	motion.standard("background", "border-color"),
+const trigger = style(
+	text({ size: "sm", fontWeight: 400, color: "highContrast" }),
+	focusRing("&:focus-visible", shadowVars.control),
 	radius.sm,
 	spacing.padding({ x: 4, y: 2 }),
-	shadow.subtle,
+	shadow.control,
 
 	{
 		display: "flex",
 		alignItems: "center",
-		height: "28px",
+		height: controlSize.height,
 		minWidth: 0,
 		color: colors.gray[12],
 		border: "none",
 		textAlign: "left",
 		background: backgroundColor.element,
-		"&:hover": {
+		"&[data-pressed]": {
 			background: backgroundColor.elementHover,
 		},
-		"&[data-pressed]": {
+		"&[aria-expanded='true']": {
 			background: backgroundColor.elementHover,
 		},
 		"&[data-disabled]": {
@@ -57,12 +57,12 @@ const triggerClass = style(
 			background: colors.gray[2],
 		},
 		"&[data-invalid]:not(:focus-visible)": {
-			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.subtle}`,
+			boxShadow: `0 0 0 1px light-dark(#ce2c31, #e5484d), ${shadowVars.control}`,
 		},
 	},
 )
 
-const valueClass = style({
+const value = style({
 	flex: "1 1 auto",
 	minWidth: 0,
 	overflow: "hidden",
@@ -74,11 +74,11 @@ const valueClass = style({
 	},
 })
 
-const chevronClass = style(motion.standard("transform"), {
+const chevron = style(motion.standard("transform"), {
 	flex: "0 0 auto",
-	width: "14px",
-	height: "14px",
-	marginLeft: "6px",
+	width: iconSizeValues.xs,
+	height: iconSizeValues.xs,
+	marginLeft: spacing.value(3),
 	color: colors.gray[10],
 	...({
 		"[data-open] &": {
@@ -87,13 +87,19 @@ const chevronClass = style(motion.standard("transform"), {
 	} as CSSProperties),
 })
 
-const supportingTextClass = style(text("xs", 400, "lowContrast"), {
-	margin: 0,
-})
+const descriptionText = style(
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+	{
+		margin: 0,
+	},
+)
 
-const errorClass = style(text("xs", 400, "highContrast"), {
-	color: "light-dark(#ce2c31, #e5484d)",
-})
+const error = style(
+	text({ size: "xs", fontWeight: 400, color: "highContrast" }),
+	{
+		color: "light-dark(#ce2c31, #e5484d)",
+	},
+)
 
 export interface SelectProps<
 	T,
@@ -106,6 +112,17 @@ export interface SelectProps<
 	children: React.ReactNode | ((item: T) => React.ReactNode)
 }
 
+/** `root` on RAC `Select`; `label` on RAC `Label`; `trigger` on RAC `Button` (`data-pressed`, `aria-expanded`, `data-disabled`, `data-invalid`, `:focus-visible`); `value` on RAC `SelectValue` (`data-placeholder`); `chevron` on an icon inside the trigger (rotates under the `[data-open]` Select root); `description` on RAC `Text slot="description"`; `error` on RAC `FieldError`. */
+export const selectStyles = {
+	root,
+	label: labelText,
+	trigger,
+	value,
+	chevron,
+	description: descriptionText,
+	error,
+} as const
+
 export function Select<T, M extends "single" | "multiple" = "single">({
 	label,
 	description,
@@ -114,13 +131,13 @@ export function Select<T, M extends "single" | "multiple" = "single">({
 	children,
 	...props
 }: SelectProps<T, M>) {
-	const className = useStyles(selectClass)
-	const labelClassName = useStyles(labelText)
-	const triggerClassName = useStyles(triggerClass)
-	const valueClassName = useStyles(valueClass)
-	const chevronClassName = useStyles(chevronClass)
-	const supportingTextClassName = useStyles(supportingTextClass)
-	const errorClassName = useStyles(errorClass)
+	const className = useStyles(selectStyles.root)
+	const labelClassName = useStyles(selectStyles.label)
+	const triggerClassName = useStyles(selectStyles.trigger)
+	const valueClassName = useStyles(selectStyles.value)
+	const chevronClassName = useStyles(selectStyles.chevron)
+	const supportingTextClassName = useStyles(selectStyles.description)
+	const errorClassName = useStyles(selectStyles.error)
 
 	return (
 		<AriaSelect {...props} className={className}>

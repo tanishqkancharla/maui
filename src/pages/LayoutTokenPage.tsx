@@ -1,14 +1,16 @@
 import { style, useStyles } from "purse-styles"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { flex, flexItem, grid, gridItem } from "../tokens/layout"
 
 import { colors } from "../tokens/colors"
 import { borderColor } from "../tokens/borders"
-const flexExampleClass = style(flex({ align: "center", gap: 4 }))
+const flexExampleClass = style(flex({ alignItems: "center", gap: 4 }))
 const flexFillItemClass = style(flexItem({ size: "fill" }))
 const gridExampleClass = style(grid({ columns: "sidebarContent", gap: 8 }))
 const gridSidebarClass = style(gridItem({ area: "sidebar" }))
@@ -32,30 +34,28 @@ export function LayoutTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Arguments</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Layout tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Arguments</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>flex(options)</code>
+							<Code>flex(options)</Code>
 						</TableCell>
 						<TableCell>
-							<code>direction, align, justify, gap, wrap</code>
+							<Code>direction, alignItems, justifyContent, gap, wrap</Code>
 						</TableCell>
 						<TableCell>Rows, columns, toolbars, and stacks.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>flexItem(options)</code>
+							<Code>flexItem(options)</Code>
 						</TableCell>
 						<TableCell>
-							<code>size, align, order</code>
+							<Code>size, alignSelf, order</Code>
 						</TableCell>
 						<TableCell>
 							Child sizing and alignment inside a flex container.
@@ -63,10 +63,10 @@ export function LayoutTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>grid(options)</code>
+							<Code>grid(options)</Code>
 						</TableCell>
 						<TableCell>
-							<code>columns, align, justify, gap</code>
+							<Code>columns, alignItems, justifyContent, gap</Code>
 						</TableCell>
 						<TableCell>
 							Equal columns, responsive grids, and sidebar/content shells.
@@ -74,10 +74,10 @@ export function LayoutTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>gridItem(options)</code>
+							<Code>gridItem(options)</Code>
 						</TableCell>
 						<TableCell>
-							<code>area, span, align, justify</code>
+							<Code>area, span, alignSelf, justifySelf</Code>
 						</TableCell>
 						<TableCell>
 							Named areas, full-width spans, and child placement.
@@ -88,7 +88,7 @@ export function LayoutTokenPage() {
 
 			<H3>Examples</H3>
 			<H4>Flex container and item</H4>
-			<CodeBlock lang="typescript">{`const toolbar = style(flex({ align: "center", gap: 4 }))
+			<CodeBlock lang="typescript">{`const toolbar = style(flex({ alignItems: "center", gap: 4 }))
 const flexibleItem = style(flexItem({ size: "fill" }))`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
 				<div style={exampleCardStyle}>
@@ -146,5 +146,4 @@ const exampleCardStyle = {
 	borderRadius: "6px",
 	padding: "12px",
 } as const
-
 

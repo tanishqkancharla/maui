@@ -1,4 +1,4 @@
-import { defineVars, style, type CSSProperties } from "purse-styles"
+import { defineVars, style } from "purse-styles"
 import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
 
@@ -24,10 +24,10 @@ export const border = memoize((sides: BorderSide[], color: BorderColor) => {
 		: style(
 				Object.fromEntries(
 					sides.map((side) => [`border${capitalize(side)}`, borderValue]),
-				) as unknown as CSSProperties,
+				),
 			)
 })
 
 function capitalize(value: string) {
-	return `${value[0].toUpperCase()}${value.slice(1)}`
+	return `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`
 }

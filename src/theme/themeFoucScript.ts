@@ -26,4 +26,15 @@ export const themeFoucScript = `(function () {
 
 	document.documentElement.dataset.theme = theme
 	document.documentElement.style.colorScheme = theme
+
+	var scale = "system"
+	try {
+		var storedScale = window.localStorage.getItem("maui-scale")
+		if (storedScale === "system" || storedScale === "medium" || storedScale === "large") {
+			scale = storedScale
+		}
+	} catch {}
+	document.documentElement.dataset.scale = scale === "system"
+		? window.matchMedia("(pointer: coarse)").matches ? "large" : "medium"
+		: scale
 })()`

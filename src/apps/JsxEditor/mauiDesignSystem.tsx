@@ -14,7 +14,7 @@ import { borderColor } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
 import { shadowVars } from "../../tokens/shadow"
 import { spacing } from "../../tokens/spacing"
-import { fontFamily, monoFontFamily } from "../../tokens/text"
+import { fontFamily, monoFontFamily, monoFontStyle } from "../../tokens/text"
 import { UIDatabaseProvider } from "../../UIDatabase/UIDatabase"
 import { mauiSyntaxColors } from "../../utils/mauiShikiTheme"
 import type { DesignSystemApi } from "./DesignSystemApi"
@@ -51,6 +51,7 @@ export function useMauiDesignSystem(): DesignSystemApi {
 			resolvedTheme: theme.resolvedTheme,
 			syntax: dark ? mauiSyntaxColors.dark : mauiSyntaxColors.light,
 			chrome: {
+				appBackground: backgroundColor.app,
 				elementBackground: backgroundColor.element,
 				outline: borderColor.outline,
 				gray4: colors.gray[4],
@@ -69,7 +70,9 @@ export function useMauiDesignSystem(): DesignSystemApi {
 				radiusLg: "8px",
 				shadowMedium: shadowVars.medium,
 				monoFontFamily,
+				monoFontFeatureSettings: monoFontStyle.fontFeatureSettings,
 				uiFontFamily: fontFamily,
+				space2: spacing.value(2),
 				space3: spacing.value(3),
 				space4: spacing.value(4),
 				space8: spacing.value(8),
@@ -92,6 +95,11 @@ export function useMauiDesignSystem(): DesignSystemApi {
 					{children}
 				</IsolatedPreviewProviders>
 			),
+			themePreference: {
+				value: theme.preference,
+				set: theme.setPreference,
+			},
+			urlStatePath: "/editor",
 		}),
 		[dark, theme],
 	)

@@ -6,7 +6,7 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../components/Table"
 import { H2, H3, H4, Link, P } from "../components/Typography"
@@ -17,11 +17,10 @@ import { mauiThemeTokens } from "../utils/mauiShikiTheme"
 
 const typescriptExample = `import { style } from "purse-styles"
 import { border } from "../tokens/borders"
-import { text, monospace } from "../tokens/text"
+import { text } from "../tokens/text"
 
 const panel = style(
-	text("sm", 400, "highContrast"),
-	monospace,
+	text({ size: "sm", fontWeight: 400, color: "highContrast", monospace: true }),
 	border([], "outline"),
 )`
 
@@ -60,14 +59,15 @@ export function CodePage() {
 			<P>
 				<Code>Code</Code> is one type size smaller than surrounding text.
 				Import <Code>style</Code> from purse-styles, then compose{" "}
-				<Code>text("sm", 400, "highContrast")</Code> with layout tokens.
+				<Code>{`text({ size: "sm", fontWeight: 400, color: "highContrast" })`}</Code> with layout tokens.
 			</P>
 			<CodeBlock lang="tsx">{`<Code>background.element</Code>`}</CodeBlock>
 
 			<H3>Keyboard</H3>
 			<P>
-				<Code>Kbd</Code> uses <Code>text("xs", 400, "lowContrast")</Code> and{" "}
-				<Code>3px</Code> inline padding.
+				<Code>Kbd</Code> uses{" "}
+				<Code>{`text({ size: "xs", fontWeight: 400, color: "lowContrast" })`}</Code>{" "}
+				and <Code>3px</Code> inline padding.
 			</P>
 			<Flex row alignItems="center" gap={4}>
 				<Kbd>⌘</Kbd>
@@ -111,26 +111,24 @@ export function CodePage() {
 				strings use blue in light and green in dark.
 			</P>
 
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Role</TableHeaderCell>
-						<TableHeaderCell>Sublime scope</TableHeaderCell>
-						<TableHeaderCell>Color</TableHeaderCell>
-						<TableHeaderCell>Sample</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Maui Shiki theme tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Role</TableHead>
+					<TableHead>Sublime scope</TableHead>
+					<TableHead>Color</TableHead>
+					<TableHead>Sample</TableHead>
+				</TableHeader>
 				<TableBody>
 					{themeTokens.map((token) => (
 						<TableRow key={token.role}>
-							<TableCell align="middle">{token.role}</TableCell>
-							<TableCell align="middle">
+							<TableCell>{token.role}</TableCell>
+							<TableCell>
 								<Code>{token.sublime}</Code>
 							</TableCell>
-							<TableCell align="middle">
+							<TableCell>
 								<Code>{token.color}</Code>
 							</TableCell>
-							<TableCell align="middle">
+							<TableCell>
 								<span
 									style={{
 										color: token.color,

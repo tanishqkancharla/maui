@@ -1,45 +1,68 @@
 import type React from "react"
+import { Suspense, useEffect, useState } from "react"
 import {
 	Link as WouterLink,
 	Redirect,
 	Route,
 	Router,
 	Switch as WouterSwitch,
+	useLocation,
 	useRoute,
 } from "wouter"
-import { style, useStyles } from "purse-styles"
+import { defineVars, style, useStyles } from "purse-styles"
+import { Button } from "../components/Button"
+import { Drawer } from "../components/Drawer"
+import { FuzzyString } from "../components/FuzzyString"
+import { SearchField } from "../components/Input"
 import { Select, SelectItem } from "../components/Select"
 import { H3, Label } from "../components/Typography"
 import { navigationItem } from "../components/navigationItem"
+import { Menu } from "../icons"
+import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
 import { flex, grid } from "../tokens/layout"
 import { spacing } from "../tokens/spacing"
+import { text } from "../tokens/text"
 import { type ThemePreference, useTheme } from "../theme/ThemeContext"
-import { AboutPage } from "./AboutPage"
-import { AiChatPage } from "./AiChatPage"
-import { AssistantMessagePage } from "./AssistantMessagePage"
+import { isScalePreference, useScale } from "../theme/ScaleContext"
+import { LARGE_SCALE } from "../theme/dataScale"
+import { fuzzyMatch } from "../utils/fuzzyMatch"
+import { galleryCompactMedia } from "./galleryCompact"
+import { ReadmePage } from "./ReadmePage"
+import { ActivityIndicatorPage } from "./ActivityIndicatorPage"
 import { AvatarPage } from "./AvatarPage"
 import { BadgePage } from "./BadgePage"
+import { BannerPage } from "./BannerPage"
 import { BackgroundColorTokenPage } from "./BackgroundColorTokenPage"
 import { BordersTokenPage } from "./BordersTokenPage"
 import { ButtonsPage } from "./ButtonsPage"
 import { CalendarPage } from "./CalendarPage"
 import { CodePage } from "./CodePage"
+import { CrossfadePage } from "./CrossfadePage"
+// import { CrossfadeStudioPage } from "./CrossfadeStudioPage"
 import { ColorTokenPage } from "./ColorTokenPage"
 import { CornerRadiusTokenPage } from "./CornerRadiusTokenPage"
-import { EditorPage } from "./EditorPage"
+import { DialogPage } from "./DialogPage"
 import { EmailClientPage } from "./EmailClientPage"
 import { FocusRingTokenPage } from "./FocusRingTokenPage"
 import { FormControlsPage } from "./FormControlsPage"
 import { FuzzyStringPage } from "./FuzzyStringPage"
-import { IconsPage } from "./IconsPage"
 import { InboxPage } from "./InboxPage"
-import { JsxEditorPage } from "./JsxEditorPage"
+import {
+	AiChatPage,
+	AssistantMessagePage,
+	DrawerPage,
+	EditorPage,
+	IconsPage,
+	JsxEditorPage,
+} from "./GalleryDeferredPages"
 import { LayoutTokenPage } from "./LayoutTokenPage"
 import { LayoutUtilitiesPage } from "./LayoutUtilitiesPage"
+import { LoadingScreenPage } from "./LoadingScreenPage"
 import { ListBoxPage } from "./ListBoxPage"
 import { ThinkingPage } from "./ThinkingPage"
 import { MenuPage } from "./MenuPage"
+import { MermaidDiagramPage } from "./MermaidDiagramPage"
 import { MessageListPage } from "./MessageListPage"
 import { MotionTokenPage } from "./MotionTokenPage"
 import { ProsePage } from "./ProsePage"
@@ -50,6 +73,8 @@ import { SelectPage } from "./SelectPage"
 import { SpacingTokenPage } from "./SpacingTokenPage"
 import { TextPage } from "./TextPage"
 import { TextTokenPage } from "./TextTokenPage"
+import { TablePage } from "./TablePage"
+import { TabBarPage } from "./TabBarPage"
 import { TooltipPage } from "./TooltipPage"
 
 export function Maui() {
@@ -84,7 +109,7 @@ function navItems(entries: NavEntry[]): NavItem[] {
 }
 
 const navigation: NavEntry[] = [
-	{ label: "About", path: "/about", page: AboutPage },
+	{ label: "README", path: "/readme", page: ReadmePage },
 	{ label: "Editor", path: "/editor", page: JsxEditorPage },
 	{
 		label: "Tokens",
@@ -119,7 +144,11 @@ const navigation: NavEntry[] = [
 		children: [
 			{ label: "Avatar", path: "/components/avatar", page: AvatarPage },
 			{ label: "Badge", path: "/components/badge", page: BadgePage },
+			{ label: "Banner", path: "/components/banner", page: BannerPage },
 			{ label: "Buttons", path: "/components/buttons", page: ButtonsPage },
+			{ label: "Dialog", path: "/components/dialog", page: DialogPage },
+			{ label: "Tab bar", path: "/components/tab-bar", page: TabBarPage },
+			{ label: "Drawer", path: "/components/drawer", page: DrawerPage },
 			{
 				label: "Prose",
 				path: "/components/prose",
@@ -127,6 +156,27 @@ const navigation: NavEntry[] = [
 			},
 			{ label: "Editor", path: "/components/editor", page: EditorPage },
 			{ label: "Thinking", path: "/components/thinking", page: ThinkingPage },
+			{
+				label: "Activity indicator",
+				path: "/components/activity-indicator",
+				page: ActivityIndicatorPage,
+			},
+			{
+				label: "Crossfade",
+				path: "/components/crossfade",
+				page: CrossfadePage,
+			},
+			// Dialkit studio — uncomment with CrossfadeStudioPage import to revive.
+			// {
+			// 	label: "Crossfade studio",
+			// 	path: "/studio/crossfade",
+			// 	page: CrossfadeStudioPage,
+			// },
+			{
+				label: "Loading screen",
+				path: "/components/loading-screen",
+				page: LoadingScreenPage,
+			},
 			{ label: "Text", path: "/components/text", page: TextPage },
 			{
 				label: "Form controls",
@@ -139,6 +189,7 @@ const navigation: NavEntry[] = [
 				path: "/components/list-box",
 				page: ListBoxPage,
 			},
+			{ label: "Table", path: "/components/table", page: TablePage },
 			{ label: "Menu", path: "/components/menu", page: MenuPage },
 			{ label: "Tooltip", path: "/components/tooltip", page: TooltipPage },
 			{
@@ -150,6 +201,11 @@ const navigation: NavEntry[] = [
 				label: "FuzzyString",
 				path: "/components/fuzzy-string",
 				page: FuzzyStringPage,
+			},
+			{
+				label: "Mermaid diagram",
+				path: "/components/mermaid-diagram",
+				page: MermaidDiagramPage,
 			},
 			{ label: "Icons", path: "/components/icons", page: IconsPage },
 			{
@@ -194,44 +250,106 @@ const navigation: NavEntry[] = [
 	},
 ]
 
-const defaultPath = "/tokens/color"
+const defaultPath = "/readme"
+
+function useGalleryCompact() {
+	const [compact, setCompact] = useState(() =>
+		typeof window === "undefined"
+			? false
+			: window.matchMedia(galleryCompactMedia).matches,
+	)
+
+	useEffect(() => {
+		const media = window.matchMedia(galleryCompactMedia)
+		const onChange = () => setCompact(media.matches)
+		media.addEventListener("change", onChange)
+		return () => media.removeEventListener("change", onChange)
+	}, [])
+
+	return compact
+}
 
 function MauiContent() {
-	const shellClassName = useStyles(mauiShellClass)
+	const isCompact = useGalleryCompact()
+	const [navOpen, setNavOpen] = useState(false)
+	const [location] = useLocation()
+	const shellClassName = useStyles(
+		isCompact ? compactShellClass : mauiShellClass,
+	)
 	const contentClassName = useStyles(contentClass)
+	const compactHeaderClassName = useStyles(compactHeaderClass)
+
+	useEffect(() => {
+		setNavOpen(false)
+	}, [location])
+
+	useEffect(() => {
+		if (!isCompact) {
+			setNavOpen(false)
+		}
+	}, [isCompact])
 
 	return (
 		<div className={shellClassName}>
-			<MauiNavigation />
+			{isCompact ? (
+				<header className={compactHeaderClassName}>
+					<Button
+						variant="quiet"
+						aria-label="Open navigation"
+						onPress={() => setNavOpen(true)}
+					>
+						<Menu size="sm" />
+					</Button>
+					<H3>Maui</H3>
+				</header>
+			) : (
+				<MauiNavigation />
+			)}
+
+			{isCompact ? (
+				<Drawer
+					isOpen={navOpen}
+					onOpenChange={setNavOpen}
+					side="start"
+					aria-label="Navigation"
+				>
+					<MauiNavigation />
+				</Drawer>
+			) : null}
 
 			<div className={contentClassName}>
-				<WouterSwitch>
-					{navItems(navigation).map((item) => (
-						<Route key={item.path} path={item.path}>
-							<item.page />
+				<Suspense fallback={null}>
+					<WouterSwitch>
+						{navItems(navigation).map((item) => (
+							<Route key={item.path} path={item.path}>
+								<item.page />
+							</Route>
+						))}
+
+						<Route path="/about">
+							<Redirect to="/readme" />
 						</Route>
-					))}
+						<Route path="/patterns/calendar">
+							<Redirect to="/apps/calendar" />
+						</Route>
+						<Route path="/components/code-block">
+							<Redirect to="/components/code" />
+						</Route>
+						<Route path="/patterns/editor">
+							<Redirect to="/components/editor" />
+						</Route>
+						<Route path="/patterns/loader">
+							<Redirect to="/components/thinking" />
+						</Route>
+						<Route path="/temp/syntax">
+							<Redirect to="/editor" />
+						</Route>
 
-					<Route path="/patterns/calendar">
-						<Redirect to="/apps/calendar" />
-					</Route>
-					<Route path="/components/code-block">
-						<Redirect to="/components/code" />
-					</Route>
-					<Route path="/patterns/editor">
-						<Redirect to="/components/editor" />
-					</Route>
-					<Route path="/patterns/loader">
-						<Redirect to="/components/thinking" />
-					</Route>
-					<Route path="/temp/syntax">
-						<Redirect to="/editor" />
-					</Route>
-
-					<Route>
-						<Redirect to={defaultPath} />
-					</Route>
-				</WouterSwitch>
+						<Route>
+							<Redirect to={defaultPath} />
+						</Route>
+					</WouterSwitch>
+				</Suspense>
 			</div>
 		</div>
 	)
@@ -242,6 +360,7 @@ function isThemePreference(value: unknown): value is ThemePreference {
 }
 
 function MauiNavigation() {
+	const [query, setQuery] = useState("")
 	const navClassName = useStyles(navClass)
 	const navListClassName = useStyles(navListClass)
 	const groupClassName = useStyles(navGroupClass)
@@ -249,7 +368,56 @@ function MauiNavigation() {
 	const brandClassName = useStyles(navBrandClass)
 	const markClassName = useStyles(navMarkClass)
 	const controlClassName = useStyles(navControlClass)
+	const dividerClassName = useStyles(navDividerClass)
+	const emptyClassName = useStyles(navEmptyClass)
 	const { preference, setPreference } = useTheme()
+	const { preference: scale, setPreference: setScale } = useScale()
+	const normalizedQuery = query.trim()
+	const matches = (label: string) =>
+		fuzzyMatch(normalizedQuery, label) !== undefined
+	const filteredNavigation = normalizedQuery
+		? navigation.flatMap<NavEntry>((entry) => {
+				if (!isNavGroup(entry)) {
+					return matches(entry.label) ? [entry] : []
+				}
+
+				const children = matches(entry.label)
+					? entry.children
+					: entry.children.filter((item) => matches(item.label))
+				return children.length > 0 ? [{ ...entry, children }] : []
+			})
+		: navigation
+
+	useEffect(() => {
+		const onKeyDown = (event: KeyboardEvent) => {
+			if (
+				event.key !== "/" ||
+				event.defaultPrevented ||
+				event.metaKey ||
+				event.ctrlKey ||
+				event.altKey
+			) {
+				return
+			}
+
+			if (
+				event.target instanceof HTMLElement &&
+				(event.target.isContentEditable ||
+					event.target.closest("input, textarea, select"))
+			) {
+				return
+			}
+
+			const search = document.getElementById("gallery-navigation-search")
+			if (search instanceof HTMLInputElement) {
+				event.preventDefault()
+				search.focus()
+			}
+		}
+
+		window.addEventListener("keydown", onKeyDown)
+		return () => window.removeEventListener("keydown", onKeyDown)
+	}, [])
 
 	return (
 		<nav className={navClassName} aria-label="Maui sections">
@@ -272,28 +440,66 @@ function MauiNavigation() {
 					<SelectItem id="light">Light</SelectItem>
 					<SelectItem id="dark">Dark</SelectItem>
 				</Select>
+				<Select
+					label="Scale"
+					aria-label="Scale"
+					selectedKey={scale}
+					onSelectionChange={(key) => {
+						if (isScalePreference(key)) setScale(key)
+					}}
+				>
+					<SelectItem id="system">System</SelectItem>
+					<SelectItem id="medium">Medium</SelectItem>
+					<SelectItem id="large">Large</SelectItem>
+				</Select>
+				<SearchField
+					id="gallery-navigation-search"
+					aria-label="Search pages"
+					aria-keyshortcuts="/"
+					placeholder="Search pages"
+					keyboardHint="/"
+					value={query}
+					onChange={setQuery}
+				/>
+				<div className={dividerClassName} aria-hidden="true" />
 			</div>
 			<ul className={navListClassName}>
-				{navigation.map((entry) =>
+				{filteredNavigation.map((entry) =>
 					isNavGroup(entry) ? (
 						<li className={groupClassName} key={entry.label}>
-							<Label>{entry.label}</Label>
+							<Label>
+								<HighlightedLabel label={entry.label} query={normalizedQuery} />
+							</Label>
 							<ul className={childrenClassName}>
 								{entry.children.map((item) => (
-									<NavLink key={item.path} item={item} />
+									<NavLink
+										key={item.path}
+										item={item}
+										query={normalizedQuery}
+									/>
 								))}
 							</ul>
 						</li>
 					) : (
-						<NavLink key={entry.path} item={entry} />
+						<NavLink key={entry.path} item={entry} query={normalizedQuery} />
 					),
 				)}
+				{filteredNavigation.length === 0 ? (
+					<li className={emptyClassName} aria-live="polite">
+						No pages found.
+					</li>
+				) : null}
 			</ul>
 		</nav>
 	)
 }
 
-function NavLink(props: { item: NavItem }) {
+function HighlightedLabel(props: { label: string; query: string }) {
+	const match = props.query ? fuzzyMatch(props.query, props.label) : undefined
+	return match ? <FuzzyString match={match} /> : props.label
+}
+
+function NavLink(props: { item: NavItem; query: string }) {
 	const className = useStyles(navLinkClass)
 	const [selected] = useRoute(props.item.path)
 
@@ -304,17 +510,32 @@ function NavLink(props: { item: NavItem }) {
 				href={props.item.path}
 				aria-current={selected ? "page" : undefined}
 			>
-				{props.item.label}
+				<HighlightedLabel label={props.item.label} query={props.query} />
 			</WouterLink>
 		</li>
 	)
 }
 
 const mauiShellClass = style(
-	grid({ columns: "sidebarContent", align: "start" }),
+	grid({ columns: "sidebarContent", alignItems: "start" }),
 	{
 		height: "100%",
 		minHeight: 0,
+	},
+)
+
+const compactShellClass = style(flex({ direction: "column" }), {
+	height: "100%",
+	minHeight: 0,
+})
+
+const compactHeaderClass = style(
+	flex({ direction: "row", alignItems: "center", gap: 2 }),
+	{
+		flexShrink: 0,
+		minHeight: "36px",
+		paddingInline: spacing.value(2),
+		paddingBlock: spacing.value(1),
 	},
 )
 
@@ -322,17 +543,22 @@ const contentClass = style(spacing.padding({ x: 16 }), {
 	height: "100%",
 	minHeight: 0,
 	overflowY: "auto",
+	flex: 1,
+	[`@media ${galleryCompactMedia}`]: {
+		paddingInline: spacing.value(4),
+	},
 })
 
-const navClass = style(
-	flex({ direction: "column", gap: 8 }),
-	spacing.padding({ all: 2 }),
-	{
-		height: "100%",
-		minHeight: 0,
-		overflowY: "auto",
-	},
-)
+const navInsets = defineVars({
+	padding: { default: "4px", [LARGE_SCALE]: "12px" },
+})
+
+const navClass = style(flex({ direction: "column", gap: 8 }), {
+	padding: navInsets.padding,
+	height: "100%",
+	minHeight: 0,
+	overflowY: "auto",
+})
 
 const navBrandClass = style(flex({ direction: "column", gap: 12 }), {
 	paddingTop: spacing.value(6),
@@ -352,6 +578,11 @@ const navListClass = style(flex({ direction: "column", gap: 0 }), {
 	margin: 0,
 })
 
+const navEmptyClass = style(
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+	spacing.padding({ x: 4, y: 6 }),
+)
+
 const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	margin: 0,
 	"& > label": {
@@ -361,10 +592,16 @@ const navGroupClass = style(flex({ direction: "column", gap: 2 }), {
 	},
 })
 
-const navControlClass = style({
+const navControlClass = style(flex({ direction: "column", gap: 6 }), {
 	"& > * > span:first-child": {
 		paddingInline: spacing.value(4),
 	},
+})
+
+const navDividerClass = style({
+	height: "1px",
+	marginInline: spacing.value(4),
+	backgroundColor: borderColor.border,
 })
 
 const navChildrenClass = style(flex({ direction: "column" }), {

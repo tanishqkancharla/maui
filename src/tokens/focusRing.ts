@@ -1,4 +1,4 @@
-import { defineVars, style, type CSSProperties } from "purse-styles"
+import { defineVars, style } from "purse-styles"
 import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
 
@@ -13,11 +13,11 @@ export const focusRing = memoize(
 		style({
 			[selector]: {
 				outline: "none",
-				position: "relative",
+				position: "relative" as const,
 				zIndex: 1,
 				boxShadow: existingShadow
 					? `${focusShadow}, ${existingShadow}`
 					: focusShadow,
 			},
-		} as unknown as CSSProperties),
+		}),
 )

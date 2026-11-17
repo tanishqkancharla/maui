@@ -1,7 +1,9 @@
-import { style, useStyles, type CSSProperties } from "purse-styles"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { style, useStyles } from "purse-styles"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { border, type BorderColor, type BorderSide } from "../tokens/borders"
@@ -34,11 +36,11 @@ const borderExamples = [
 		use: "Pane headers and horizontal section breaks.",
 	},
 	{
-		label: 'border(["left"], "accent") + borderLeftWidth',
+		label: "Clipped left accent",
 		sides: ["left"] as BorderSide[],
 		color: "accent" as const,
 		edgeWidth: "2px",
-		use: "Blockquotes and left-edge emphasis bars.",
+		use: "Decorative emphasis on rounded surfaces.",
 	},
 ] as const
 
@@ -47,34 +49,32 @@ export function BordersTokenPage() {
 		<Prose style={{ marginBottom: "32px" }}>
 			<H2>Borders</H2>
 			<P>
-				The <code>border</code> token takes sides and a semantic color. Pass an
+				The <Code>border</Code> token takes sides and a semantic color. Pass an
 				empty sides array for a full border. Border colors are derived from{" "}
-				<code>--foreground</code> at fixed opacities, matching the Craft Agents
+				<Code>--foreground</Code> at fixed opacities, matching the Craft Agents
 				approach.
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Input</TableHeaderCell>
-						<TableHeaderCell>Values</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Border token values">
+				<TableHeader>
+					<TableHead isRowHeader>Input</TableHead>
+					<TableHead>Values</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>sides</code>
+							<Code>sides</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`[]
 | ("top"
   | "right"
   | "bottom"
   | "left")[]`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
 							Empty applies to all sides. Otherwise only the listed edges.
@@ -82,38 +82,36 @@ export function BordersTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>color</code>
+							<Code>color</Code>
 						</TableCell>
 						<TableCell>
-							<code style={unionCodeStyle}>
+							<Code style={unionCodeStyle}>
 								{`"border"
 | "outline"
 | "accent"`}
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
-							<code>border</code> is <code>borderColor.border</code>{" "}
-							(foreground at 5%), <code>outline</code> is{" "}
-							<code>borderColor.outline</code> (foreground at 10%),{" "}
-							<code>accent</code> is <code>colors.accent[8]</code>.
+							<Code>border</Code> is <Code>borderColor.border</Code>{" "}
+							(foreground at 5%), <Code>outline</Code> is{" "}
+							<Code>borderColor.outline</Code> (foreground at 10%),{" "}
+							<Code>accent</Code> is <Code>colors.accent[8]</Code>.
 						</TableCell>
 					</TableRow>
 				</TableBody>
 			</Table>
 
 			<H3>Examples</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Call</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Border token examples">
+				<TableHeader>
+					<TableHead isRowHeader>Call</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					{borderExamples.map((example) => (
 						<TableRow key={example.label}>
 							<TableCell>
-								<code>{example.label}</code>
+								<Code>{example.label}</Code>
 							</TableCell>
 							<TableCell>{example.use}</TableCell>
 						</TableRow>
@@ -121,17 +119,46 @@ export function BordersTokenPage() {
 				</TableBody>
 			</Table>
 
-			<CodeBlock lang="typescript">{`const panel = style(
+			<CodeBlock lang="tsx">{`const panel = style(
 	background.element,
 	border([], "outline"),
 	radius.md,
 )
 
-const blockquote = style(
-	border(["left"], "accent"),
-	{ borderLeftWidth: "2px" },
-	spacing.padding({ left: 12 }),
-)`}</CodeBlock>
+const accentedSurface = style(
+	radius.md,
+	{
+		position: "relative",
+		overflow: "hidden",
+		padding: "16px",
+		backgroundColor: colors.gray[2],
+	},
+)
+const strip = style({
+	position: "absolute",
+	insetBlock: 0,
+	left: 0,
+	width: "2px",
+	backgroundColor: colors.accent[8],
+	pointerEvents: "none",
+})
+
+function DecoratedSurface() {
+	const surfaceClass = useStyles(accentedSurface)
+	const stripClass = useStyles(strip)
+	return (
+		<div className={surfaceClass}>
+			<div aria-hidden="true" className={stripClass} />
+			<Text>Surface content</Text>
+		</div>
+	)
+}`}</CodeBlock>
+			<P>
+				For left-edge emphasis, clip a full-height rectangular accent inside
+				the rounded container instead of using a left border. The container
+				keeps its rounding without curling the accent inward. This is a
+				composition recipe, not a change to existing component borders.
+			</P>
 
 			<Panel style={{ marginTop: "16px" }}>
 				<div
@@ -168,20 +195,13 @@ function BorderExample(props: {
 	color: BorderColor
 	edgeWidth?: string
 }) {
+	const leftAccent = props.sides.length === 1 && props.sides[0] === "left"
 	const className = useStyles(
-		border(props.sides, props.color),
-		props.edgeWidth
-			? style(
-					Object.fromEntries(
-						props.sides.map((side) => [
-							`border${capitalize(side)}Width`,
-							props.edgeWidth,
-						]),
-					) as unknown as CSSProperties,
-				)
-			: undefined,
+		!leftAccent && border(props.sides, props.color),
 		radius.md,
 		style({
+			position: "relative",
+			overflow: "hidden",
 			background: colors.gray[2],
 			padding: "16px",
 			textAlign: "center",
@@ -192,13 +212,24 @@ function BorderExample(props: {
 
 	return (
 		<div>
-			<div className={className}>{props.label}</div>
+			<div className={className}>
+				{leftAccent && (
+					<div
+						aria-hidden="true"
+						style={{
+							position: "absolute",
+							insetBlock: 0,
+							left: 0,
+							width: props.edgeWidth ?? "1px",
+							backgroundColor: colors.accent[8],
+							pointerEvents: "none",
+						}}
+					/>
+				)}
+				{props.label}
+			</div>
 		</div>
 	)
-}
-
-function capitalize(value: string) {
-	return `${value[0].toUpperCase()}${value.slice(1)}`
 }
 
 function SingleEdgeExample() {

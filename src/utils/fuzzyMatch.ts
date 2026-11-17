@@ -30,9 +30,15 @@ function fuzzyMatchHelper(
 		return [];
 	}
 
+	const textChar = text[ti];
+	const queryChar = query[qi];
+	if (textChar === undefined || queryChar === undefined) {
+		return undefined;
+	}
+
 	// Greedily match this character.
-	if (eq(text[ti], query[qi])) {
-		const item = { match: text[ti] };
+	if (eq(textChar, queryChar)) {
+		const item = { match: textChar };
 		const rest = fuzzyMatchHelper(query, text, qi + 1, ti + 1);
 		if (rest) {
 			// Its possible that greedy matching doesn't work.
@@ -41,9 +47,9 @@ function fuzzyMatchHelper(
 		}
 	}
 
-	if (!/\w/.test(text[ti])) {
+	if (!/\w/.test(textChar)) {
 		// If this is a symbol, then skip.
-		const item = { skip: text[ti] };
+		const item = { skip: textChar };
 		const rest = fuzzyMatchHelper(query, text, qi, ti + 1);
 		if (rest) {
 			return [item, ...rest];
@@ -51,12 +57,14 @@ function fuzzyMatchHelper(
 	}
 
 	// Skip the rest of the word as well.
-	const skip: FuzzyMatch = [];
-	let i = ti;
-	skip.push({ skip: text[i] });
-	i++;
-	while (i < text.length && /\w/.test(text[i])) {
-		skip.push({ skip: text[i] });
+	const skip: FuzzyMatch = [{ skip: textChar }];
+	let i = ti + 1;
+	while (i < text.length) {
+		const nextChar = text[i];
+		if (nextChar === undefined || !/\w/.test(nextChar)) {
+			break;
+		}
+		skip.push({ skip: nextChar });
 		i++;
 	}
 
@@ -92,32 +100,22 @@ export function fuzzyMatch(query: string, text: string) {
 }
 
 function reduceMatches(items: FuzzyMatch): FuzzyMatch {
-	// Accumulate the results.
-	const [first, ...rest] = items;
-	return rest.reduce(
-		(prev, next) => {
-			// Reduce together consecutive matches/skips.
-			const last = prev[prev.length - 1];
-			if ("match" in last) {
-				if ("match" in next) {
-					return [
-						...prev.slice(0, prev.length - 1),
-						{ match: last.match + next.match },
-					];
-				} else {
-					return [...prev, next];
-				}
-			} else {
-				if ("skip" in next) {
-					return [
-						...prev.slice(0, prev.length - 1),
-						{ skip: last.skip + next.skip },
-					];
-				} else {
-					return [...prev, next];
-				}
-			}
-		},
-		[first]
-	);
+	const reduced: FuzzyMatch = [];
+	for (const item of items) {
+		const last = reduced[reduced.length - 1];
+		if (last !== undefined && "match" in last && "match" in item) {
+			reduced[reduced.length - 1] = {
+				match: last.match + item.match,
+			};
+			continue;
+		}
+		if (last !== undefined && "skip" in last && "skip" in item) {
+			reduced[reduced.length - 1] = {
+				skip: last.skip + item.skip,
+			};
+			continue;
+		}
+		reduced.push(item);
+	}
+	return reduced;
 }

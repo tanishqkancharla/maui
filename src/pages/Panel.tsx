@@ -1,3 +1,4 @@
+/** Gallery-only preview frame. Not a `"maui"` package component. */
 import type React from "react"
 import { style, useStyles } from "purse-styles"
 import { border } from "../tokens/borders"
@@ -10,7 +11,7 @@ type PanelProps = React.ComponentPropsWithoutRef<"div">
 const panelClass = style(
 	spacing.padding({ all: 16 }),
 	border([], "outline"),
-	radius.lg,
+	radius.xl,
 	{
 		backgroundColor: colors.gray[1],
 		backgroundImage: `radial-gradient(${colors.grayAlpha[3]} 1px, transparent 1px)`,

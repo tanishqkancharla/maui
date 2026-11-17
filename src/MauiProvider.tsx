@@ -1,8 +1,10 @@
+/// <reference path="./css-modules.d.ts" />
 import "@fontsource/commit-mono/400.css"
 import "@fontsource/commit-mono/400-italic.css"
 import type { ReactNode } from "react"
 import { PurseProvider, useInjectGlobalStyles } from "purse-styles"
 import { ThemeProvider } from "./theme/ThemeContext"
+import { ScaleProvider } from "./theme/ScaleContext"
 import { UIDatabaseProvider } from "./UIDatabase/UIDatabase"
 import { backgroundColor } from "./tokens/background"
 import { baseTextStyle } from "./tokens/text"
@@ -29,6 +31,7 @@ function MauiGlobalStyles() {
 		{
 			WebkitTextSizeAdjust: "100%",
 			textSizeAdjust: "100%",
+			WebkitTapHighlightColor: "transparent",
 		},
 		[],
 	)
@@ -76,10 +79,12 @@ function MauiGlobalStyles() {
 export function MauiProvider(props: { children: ReactNode }) {
 	return (
 		<ThemeProvider>
-			<PurseProvider>
-				<MauiGlobalStyles />
-				<UIDatabaseProvider>{props.children}</UIDatabaseProvider>
-			</PurseProvider>
+			<ScaleProvider>
+				<PurseProvider>
+					<MauiGlobalStyles />
+					<UIDatabaseProvider>{props.children}</UIDatabaseProvider>
+				</PurseProvider>
+			</ScaleProvider>
 		</ThemeProvider>
 	)
 }

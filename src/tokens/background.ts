@@ -1,10 +1,11 @@
 import { defineVars, style } from "purse-styles"
 import { DARK_THEME } from "../theme/dataTheme"
+import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
 
 const appSurface = defineVars({
 	app: {
-		default: "#ffffff",
+		default: colors.gray[1],
 		[DARK_THEME]: colors.gray[1],
 	},
 })
@@ -12,28 +13,52 @@ const appSurface = defineVars({
 const elementSurface = defineVars({
 	element: {
 		default: "#ffffff",
-		[DARK_THEME]: colors.gray[2],
+		[DARK_THEME]: colors.gray[3],
 	},
 })
 
-/** Foreground wash percents used by element hover/active and tinted quiet buttons. */
+/** Shared interactive surface washes. */
 export const surfaceMixPercent = {
 	hover: 3.5,
-	active: 7,
+	active: { light: 12, dark: 18 },
 } as const
 
+type MixPercent = number | { readonly light: number; readonly dark: number }
+
+/** `color-mix` of a foreground into `base` (transparent by default). */
 export function surfaceWash(
 	foreground: string,
-	percent: number,
-	base: string = elementSurface.element,
-) {
+	percent: MixPercent,
+	base: string = "transparent",
+): string {
+	if (typeof percent !== "number") {
+		return themeWash(foreground, percent, base)
+	}
 	return `color-mix(in oklch, ${foreground} ${percent}%, ${base})`
 }
 
+const themeWash = memoize(
+	(
+		foreground: string,
+		percent: { readonly light: number; readonly dark: number },
+		base: string,
+	): string =>
+		defineVars({
+			wash: {
+				default: surfaceWash(foreground, percent.light, base),
+				[DARK_THEME]: surfaceWash(foreground, percent.dark, base),
+			},
+		}).wash,
+)
+
 // Craft-style foreground wash over the element's own surface.
 const elementStates = defineVars({
-	elementHover: surfaceWash(colors.gray[12], surfaceMixPercent.hover),
-	elementActive: surfaceWash(colors.gray[12], surfaceMixPercent.active),
+	elementHover: surfaceWash(
+		colors.gray[12],
+		surfaceMixPercent.hover,
+		elementSurface.element,
+	),
+	elementActive: surfaceWash(colors.gray[12], 7, elementSurface.element),
 })
 
 export const backgroundColor = {

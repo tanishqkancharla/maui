@@ -1,8 +1,9 @@
 import { style, useStyles } from "purse-styles"
 import React from "react"
+import { background } from "../tokens/background"
 import { border, type BorderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
-import { flex } from "../tokens/layout"
+import { flex, type AlignItems, type JustifyContent } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { spacing, type Space } from "../tokens/spacing"
@@ -10,30 +11,9 @@ import { spacing, type Space } from "../tokens/spacing"
 export type FlexShadow = keyof typeof shadow
 export type FlexRadius = keyof typeof radius
 export type FlexBorder = true | BorderColor
-
-type PaddingProps = {
-	top?: Space
-	left?: Space
-	right?: Space
-	bottom?: Space
-	x?: Space
-	y?: Space
-	xy?: Space
-	children?: React.ReactNode
-}
-
-export function Padding(props: PaddingProps) {
-	const className = useStyles(
-		spacing.padding({
-			top: props.top ?? props.y ?? props.xy,
-			bottom: props.bottom ?? props.y ?? props.xy,
-			left: props.left ?? props.x ?? props.xy,
-			right: props.right ?? props.x ?? props.xy,
-		}),
-	)
-
-	return <div className={className}>{props.children}</div>
-}
+export type FlexAlignItems = AlignItems
+export type FlexJustifyContent = JustifyContent
+export type FlexBackground = keyof typeof background
 
 type FlexProps = {
 	gap?: Space
@@ -41,10 +21,14 @@ type FlexProps = {
 	px?: Space
 	py?: Space
 	pt?: Space
+	pr?: Space
 	pb?: Space
+	pl?: Space
 	padding?: Space
 	children?: React.ReactNode
-	alignItems?: React.CSSProperties["alignItems"]
+	alignItems?: AlignItems
+	justifyContent?: JustifyContent
+	background?: FlexBackground
 	style?: React.CSSProperties
 	border?: FlexBorder
 	shadow?: FlexShadow
@@ -70,9 +54,13 @@ export function Flex(props: FlexProps) {
 		px,
 		py,
 		pt,
+		pr,
 		pb,
+		pl,
 		padding,
 		alignItems,
+		justifyContent,
+		background: backgroundProp,
 		border: borderProp,
 		shadow: shadowProp,
 		radius: radiusProp,
@@ -87,12 +75,16 @@ export function Flex(props: FlexProps) {
 		flex({
 			direction: column ? "column" : "row",
 			gap,
+			alignItems,
+			justifyContent,
 		}),
 		p === undefined &&
 			px === undefined &&
 			py === undefined &&
 			pt === undefined &&
+			pr === undefined &&
 			pb === undefined &&
+			pl === undefined &&
 			padding === undefined
 			? undefined
 			: spacing.padding({
@@ -100,9 +92,11 @@ export function Flex(props: FlexProps) {
 					x: px,
 					y: py,
 					top: pt,
+					right: pr,
 					bottom: pb,
+					left: pl,
 				}),
-		alignItems === undefined ? undefined : style({ alignItems }),
+		backgroundProp ? background[backgroundProp] : undefined,
 		shadowProp ? shadow[shadowProp] : undefined,
 		resolvedBorder ? border([], resolvedBorder) : undefined,
 		radiusProp ? radius[radiusProp] : undefined,

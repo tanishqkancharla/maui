@@ -1,6 +1,6 @@
 {
 	"name": "@tanishqkancharla/maui",
-	"version": "0.0.4",
+	"version": "0.0.74",
 	"description": "Maui design system",
 	"type": "module",
 	"main": "./dist/maui.js",
@@ -13,15 +13,35 @@
 		"LICENSE",
 		"NOTICE"
 	],
-	"sideEffects": false,
+	"sideEffects": [
+		"**/*.css",
+		"./dist/MauiProvider.js",
+		"./src/MauiProvider.tsx"
+	],
 	"exports": {
 		".": {
+			"source": "./src/maui.ts",
 			"types": "./dist/maui.d.ts",
-			"import": "./dist/maui.js"
+			"import": "./dist/maui.js",
+			"default": "./dist/maui.js"
 		},
 		"./icons": {
+			"source": "./src/icons/index.ts",
 			"types": "./dist/icons/index.d.ts",
-			"import": "./dist/icons/index.js"
+			"import": "./dist/icons/index.js",
+			"default": "./dist/icons/index.js"
+		},
+		"./editor": {
+			"source": "./src/components/Editor.tsx",
+			"types": "./dist/components/Editor.d.ts",
+			"import": "./dist/components/Editor.js",
+			"default": "./dist/components/Editor.js"
+		},
+		"./markdown-editor": {
+			"source": "./src/components/MarkdownEditor.tsx",
+			"types": "./dist/components/MarkdownEditor.d.ts",
+			"import": "./dist/components/MarkdownEditor.js",
+			"default": "./dist/components/MarkdownEditor.js"
 		},
 		"./src": "./src/maui.ts",
 		"./src/*": "./src/*",
@@ -30,7 +50,8 @@
 		"./package.json": "./package.json"
 	},
 	"publishConfig": {
-		"access": "restricted"
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
 	},
 	"repository": {
 		"type": "git",
@@ -38,78 +59,120 @@
 	},
 	"scripts": {
 		"tsc": "tsc --noEmit --watch",
+		"typecheck": "tsc --noEmit",
 		"clear": "mkdir -p dist && rm -rf dist/*",
 		"dev": "vite",
 		"build": "npm run og && vite build",
+		"build:review": "vite build --mode review --outDir ../website-review",
 		"build:lib": "tsc -p tsconfig.lib.json",
+		"prepack": "npm run build:lib",
+		"verify-package": "node scripts/verify-package.mjs",
 		"og": "node scripts/generate-og-image.mjs",
-		"prepare": "npm run build:lib",
 		"serve": "vite preview",
+		"serve:review": "serve -s website-review",
 		"deploy": "npx vercel deploy",
 		"test": "vitest",
 		"mcp:browser": "node .cursor/libretto-browser-mcp.mjs",
 		"mcp:agentation": "node .cursor/agentation-mcp.mjs",
-		"release": "echo 'Do not publish Maui to public npm. Tag a git revision for first-party consumers.' && exit 1"
+		"release": "npm stage publish --access public --provenance"
 	},
 	"author": "Tanishq Kancharla",
-	"license": "PolyForm-Noncommercial-1.0.0",
+	"license": "MIT",
 	"devDependencies": {
-		"@modelcontextprotocol/sdk": "^1.30.0",
+		"@base-ui/react": "^1.9.0",
+		"@modelcontextprotocol/sdk": "^1.32.2",
 		"@resvg/resvg-js": "^2.6.2",
-		"@types/dedent": "^0.7.2",
-		"@types/lodash": "^4.17.24",
-		"@types/node": "^25.9.2",
-		"@types/react": "^19.2.17",
-		"@types/react-dom": "^19.2.3",
-		"@vitejs/plugin-react": "^6.0.2",
-		"agentation": "^3.0.2",
-		"agentation-mcp": "^1.2.0",
-		"esbuild": "^0.28.0",
+		"@silk-hq/components": "^0.10.1",
+		"@tiptap/core": "^3.32.1",
+		"@tiptap/extension-placeholder": "^3.32.1",
+		"@tiptap/markdown": "^3.32.1",
+		"@tiptap/pm": "^3.32.1",
+		"@tiptap/react": "^3.32.1",
+		"@tiptap/starter-kit": "^3.32.1",
+		"@types/lodash": "^4.17.27",
+		"@types/node": "^26.6.6",
+		"@types/react": "^19.3.0",
+		"@types/react-dom": "^19.3.0",
+		"@vitejs/plugin-react": "^6.1.2",
+		"agentation": "^3.1.2",
+		"agentation-mcp": "^1.3.2",
+		"dialkit": "^2.1.0",
+		"esbuild": "^0.28.2",
 		"libretto-browser-tools": "^0.1.2",
+		"motion": "^14.8.0",
 		"process": "^0.11.10",
-		"satori": "^0.29.0",
+		"satori": "^0.63.2",
 		"serve": "^14.2.6",
-		"tsx": "^4.22.4",
-		"typescript": "^6.0.3",
-		"vercel": "^54.10.3",
-		"vite": "^8.0.16",
-		"vitest": "^4.1.8"
+		"tsx": "^4.23.15",
+		"typescript": "^7.0.2",
+		"vite": "^8.3.5",
+		"vitest": "^5.0.5"
 	},
 	"dependencies": {
-		"@codemirror/autocomplete": "^6.20.3",
-		"@codemirror/commands": "^6.11.0",
+		"@codemirror/autocomplete": "^6.20.4",
+		"@codemirror/commands": "^6.11.1",
 		"@codemirror/lang-javascript": "^6.2.5",
-		"@codemirror/language": "^6.12.4",
+		"@codemirror/language": "^6.13.1",
 		"@codemirror/lint": "^6.9.7",
-		"@codemirror/state": "^6.7.1",
-		"@codemirror/view": "^6.43.9",
+		"@codemirror/state": "^6.7.6",
+		"@codemirror/view": "^6.43.15",
 		"@fontsource/commit-mono": "^5.3.0",
-		"@lezer/highlight": "^1.2.3",
+		"@lezer/highlight": "^1.2.5",
 		"@radix-ui/colors": "^3.0.0",
-		"@react-spring/web": "^10.1.0",
-		"@streamdown/code": "^1.1.1",
+		"@types/inline-style-prefixer": "^5.0.3",
+		"@uiw/react-codemirror": "^4.25.12",
+		"beautiful-mermaid": "^1.1.3",
+		"dedent": "^1.7.2",
+		"inline-style-prefixer": "^7.0.1",
+		"lodash": "^4.18.1",
+		"prettier": "^3.9.10",
+		"purse-styles": "^0.2.6",
+		"react": "^19.0.0",
+		"react-aria": "^3.53.1",
+		"react-aria-components": "^1.22.1",
+		"react-dom": "^19.0.0",
+		"react-stately": "^3.51.0",
+		"shiki": "^4.5.0",
+		"streamdown": "^2.7.1",
+		"sucrase": "^3.35.1",
+		"tuple-database": "^2.2.4",
+		"use-state-dispatch": "^0.6.0",
+		"wouter": "^3.13.0"
+	},
+	"peerDependencies": {
+		"@tiptap/core": "^3.29.2",
 		"@tiptap/extension-placeholder": "^3.29.2",
 		"@tiptap/markdown": "^3.29.2",
 		"@tiptap/pm": "^3.29.2",
 		"@tiptap/react": "^3.29.2",
 		"@tiptap/starter-kit": "^3.29.2",
-		"@types/inline-style-prefixer": "^5.0.3",
-		"@uiw/react-codemirror": "^4.25.11",
-		"dedent": "^1.7.2",
-		"inline-style-prefixer": "^7.0.1",
-		"lodash": "^4.18.1",
-		"prettier": "^3.9.6",
-		"purse-styles": "^0.2.1",
-		"react": "^19.2.7",
-		"react-aria": "^3.49.0",
-		"react-aria-components": "^1.19.0",
-		"react-dom": "^19.2.7",
-		"react-stately": "^3.47.0",
-		"shiki": "^4.3.0",
-		"streamdown": "^2.5.0",
-		"sucrase": "^3.35.1",
-		"tuple-database": "^2.2.4",
-		"use-state-dispatch": "^0.6.0",
-		"wouter": "^3.10.0"
+		"motion": "^13.2.0 || ^14.0.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
+	},
+	"peerDependenciesMeta": {
+		"@tiptap/core": {
+			"optional": true
+		},
+		"@tiptap/extension-placeholder": {
+			"optional": true
+		},
+		"@tiptap/markdown": {
+			"optional": true
+		},
+		"@tiptap/pm": {
+			"optional": true
+		},
+		"@tiptap/react": {
+			"optional": true
+		},
+		"@tiptap/starter-kit": {
+			"optional": true
+		}
+	},
+	"overrides": {
+		"compression": "^1.8.2",
+		"fflate": "^0.8.3",
+		"uuid": "^11.1.1"
 	}
 }

@@ -10,23 +10,25 @@ Standard commands (see `package.json` `scripts`):
 
 - Dev server: `npm run dev` → Vite serves at `http://localhost:5173/` (Vite `root` is `src/`).
 - Website build: `npm run build` → static output to `website/` (gallery entry; not part of the npm package).
-- Library build: `npm run build:lib` → ESM + declarations to `dist/` (`maui.js`, `maui.d.ts`, and compiled modules). Also runs via `prepare` on install.
+- Library build: `npm run build:lib` → ESM + declarations to `dist/` (`maui.js`, `maui.d.ts`, and compiled modules). `dist/` is generated and gitignored.
 - Preview built website: `npm run serve`.
-- Type-check: `npm run tsc` runs `tsc --noEmit --watch` (watch mode). For a one-shot check use `npx tsc --noEmit`.
-- Tests: `npm test` (Vitest). Note: there are currently **no test files**, so Vitest exits with code 1 and "No test files found" — this is expected, not a failure.
-- Do **not** publish to public npm. `npm run release` is disabled. First-party apps install from GitHub (`maui@github:tanishqkancharla/maui#vX.Y.Z`). Cut a version by tagging git after merge, then pin that tag in consumers.
+- Type-check: `npm run typecheck` is one-shot (`tsc --noEmit`). `npm run tsc` is watch mode.
+- Package check: `npm run verify-package` is a pack-and-inspect publish smoke test of the real npm tarball (required files, case-sensitive relative imports, package.json exports, no prepare-on-install, fresh consumer resolve/esbuild). Not a product or public-API check — what is/isn’t exported lives on the `maui.ts` barrel. Do not denylist components or encode gallery policy in this script.
+- Tests: `npm test` (Vitest). Editor lint coverage lives in `src/apps/JsxEditor/lint.test.ts`.
+- Releases stage `@tanishqkancharla/maui` on npm for maintainer approval. Direct pushes to `main` are supported; no PR is required. Each push cuts the next version, tags `vX.Y.Z`, and stages the verified tarball. Put `[skip release]` in the push's head commit message to skip. Manual `v*` tags also stage, never publish directly.
 
-### First-party versioning (not npm)
+### Versioning
 
-1. Bump `version` in `package.json` and `package-lock.json` if you want the package metadata to match the tag.
-2. Merge to `main`.
-3. Tag: `git tag v0.0.4 && git push origin v0.0.4`.
-4. Point consuming apps (Halo, etc.) at that tag. Do not run `npm publish`. The old GitHub Release → npm Trusted Publishing workflow was removed.
+1. Push to `main` (or push a `vX.Y.Z` tag that matches `package.json`).
+2. `.github/workflows/publish.yml` typechecks, builds, verifies the tarball, tags if needed, and runs `npm stage publish` on that tarball with provenance. `npm run release` also stages. Staged publishing requires npm 11.15.0 or newer.
+3. If `package.json` is not already a git tag or npm version, that version is staged as-is. Otherwise the workflow patch-bumps and commits `Release vX.Y.Z`. Tags reserve versions while approval is pending or after rejection. Retry a failed upload by manually running the workflow against its existing release tag.
+4. A maintainer reviews and approves the staged package with 2FA on npm before it becomes public. Never automate approval. npm trusted publishers must be stage-only (no direct publish or dist-tag permission), and package publishing access must require 2FA and disallow bypass-2FA tokens; see README for setup.
+5. Point consuming apps (Halo, etc.) at the approved npm version. The gallery at maui.tanishqkancharla.dev deploys separately through Vercel’s Git integration on `main`, without waiting for npm approval.
 
 Non-obvious notes:
 
 - `vite.config.ts` enables `server.watch.usePolling` because native file-watching misses changes in this environment; HMR relies on polling.
-- Vite dep-optimization excludes `shiki`/`shiki/wasm` (WASM syntax highlighter); the production build emits a large `wasm` chunk and a >500 kB chunk-size warning, which is expected.
+- Syntax highlighting uses Shiki's JavaScript regex engine with six lazy-loaded languages and the Maui theme. Assistant messages reuse `CodeBlock`, without a separate Streamdown code plugin. The production build's >500 kB chunk-size warning is expected.
 
 ### Libretto Browser Tools MCP
 

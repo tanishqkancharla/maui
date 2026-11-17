@@ -22,6 +22,9 @@ const WIDTH = 1200
 const HEIGHT = 630
 const FAVICON_SIZE = 32
 const APPLE_TOUCH_SIZE = 180
+// 32×32 viewBox radius. Sized for a 16px tab slot (diameter ≈ 10 CSS px),
+// not 40% of the previous r=6.4 mark — that rasterized to a ~4px speck.
+const FAVICON_DOT_RADIUS = 10
 
 // Match Maui light / dark tokens (Radix teal → violet accent, gray scale).
 const themes = {
@@ -102,11 +105,12 @@ function layout(theme) {
 }
 
 function renderDotPng(accent, size, { background } = {}) {
+	const radius = (FAVICON_DOT_RADIUS / FAVICON_SIZE) * size
 	const bg =
 		background != null
 			? `<rect width="${size}" height="${size}" fill="${background}"/>`
 			: ""
-	const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${bg}<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="${accent}"/></svg>`
+	const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${bg}<circle cx="${size / 2}" cy="${size / 2}" r="${radius}" fill="${accent}"/></svg>`
 	return new Resvg(svg, {
 		fitTo: { mode: "width", value: size },
 		background: background ?? "rgba(0,0,0,0)",

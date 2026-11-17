@@ -1,7 +1,6 @@
 import { useStyles } from "purse-styles"
 import type React from "react"
 import {
-	monospace as monospaceClass,
 	text,
 	type TextColor,
 	type TextSize,
@@ -17,23 +16,24 @@ export type TextProps = Omit<
 	fontWeight?: TextWeight
 	color?: TextColor
 	monospace?: boolean
+	tabular?: boolean
 }
 
 // Inline text primitive: a span whose type treatment is set with the same
-// size / weight / color axes as `text(...)`, plus an optional monospace stack.
+// size / weight / color / monospace / tabular axes as `text(...)`.
 // Defaults match `baseTextStyle` (md / 400 / highContrast).
 export function Text({
 	size = "md",
 	fontWeight = 400,
 	color = "highContrast",
 	monospace,
+	tabular,
 	className,
 	children,
 	...props
 }: TextProps) {
 	const textClassName = useStyles(
-		text(size, fontWeight, color),
-		monospace ? monospaceClass : undefined,
+		text({ size, fontWeight, color, monospace, tabular }),
 	)
 
 	return (

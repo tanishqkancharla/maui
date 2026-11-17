@@ -1,13 +1,13 @@
 import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import {
 	Table,
 	TableBody,
 	TableCell,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../components/Table"
 import { Text } from "../components/Text"
@@ -22,19 +22,18 @@ export function TextPage() {
 			<H2>Text</H2>
 			<P>
 				<Code>Text</Code> is a <Code>span</Code> whose type styles are set as
-				attributes. It applies the <Code>text(size, fontWeight, color)</Code>{" "}
+				attributes. It applies the{" "}
+				<Code>{`text({ size, fontWeight, color, monospace, tabular })`}</Code>{" "}
 				token — the same scale documented on the Text token page.
 			</P>
 
 			<H3>Attributes</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Attribute</TableHeaderCell>
-						<TableHeaderCell>Values</TableHeaderCell>
-						<TableHeaderCell>Default</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Text attributes">
+				<TableHeader>
+					<TableHead isRowHeader>Attribute</TableHead>
+					<TableHead>Values</TableHead>
+					<TableHead>Default</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>
@@ -76,6 +75,17 @@ export function TextPage() {
 					<TableRow>
 						<TableCell>
 							<Code>monospace</Code>
+						</TableCell>
+						<TableCell>
+							<Code>boolean</Code>
+						</TableCell>
+						<TableCell>
+							<Code>false</Code>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<Code>tabular</Code>
 						</TableCell>
 						<TableCell>
 							<Code>boolean</Code>
@@ -140,20 +150,53 @@ export function TextPage() {
 				</Flex>
 			</Panel>
 
+			<H4>Tabular</H4>
+			<P>
+				<Code>tabular</Code> sets{" "}
+				<Code>font-variant-numeric: tabular-nums</Code> so digits keep a
+				fixed advance. NumberField, TableHead, and TableCell turn this on by
+				default. Body copy and Prose stay off.
+			</P>
+			<CodeBlock lang="tsx">{`<Text tabular>111,111.00</Text>
+<Text tabular>888,888.00</Text>`}</CodeBlock>
+			<Panel style={{ marginTop: "16px" }}>
+				<Flex row gap={8}>
+					<Flex column gap={1}>
+						<Text size="xs" color="lowContrast">
+							proportional
+						</Text>
+						<Text>111,111.00</Text>
+						<Text>888,888.00</Text>
+					</Flex>
+					<Flex column gap={1}>
+						<Text size="xs" color="lowContrast">
+							tabular
+						</Text>
+						<Text tabular>111,111.00</Text>
+						<Text tabular>888,888.00</Text>
+					</Flex>
+				</Flex>
+			</Panel>
+
 			<H4>Monospace</H4>
 			<P>
 				<Code>monospace</Code> switches to{" "}
 				<Link href="https://commitmono.com/">Commit Mono</Link> with tabular
-				numerals, the same as composing <Code>text(...)</Code> with{" "}
-				<Code>monospace</Code>.
+				numerals and smart kerning (OpenType <Code>ss05</Code>), the same as{" "}
+				<Code>{`text({ …, monospace: true })`}</Code>.
 			</P>
-			<CodeBlock lang="tsx">{`<Text size="xs" monospace>
-	const greeting = "hello"
+			<CodeBlock lang="tsx">{`<Text size="lg" monospace>
+	Commit Mono: Normal programming typeface
 </Text>`}</CodeBlock>
 			<Panel style={{ marginTop: "16px" }}>
-				<Text size="xs" monospace>
-					const greeting = "hello"
-				</Text>
+				<Flex column gap={4}>
+					<Text size="lg" monospace>
+						Commit Mono: Normal programming typeface
+					</Text>
+					<Text size="xs" monospace>
+						const greeting = "hello"
+					</Text>
+				</Flex>
 			</Panel>
 
 			<H4>Inline</H4>

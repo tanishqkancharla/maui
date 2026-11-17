@@ -1,7 +1,9 @@
 import { style, useStyles } from "purse-styles"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { focusRing } from "../tokens/focusRing"
@@ -28,24 +30,22 @@ export function FocusRingTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Value</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Focus ring tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Value</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>focusRing()</code>
+							<Code>focusRing()</Code>
 						</TableCell>
 						<TableCell>
-							<code>
+							<Code>
 								box-shadow: 0 0 0 1px blueAlpha[8], 0 0 6px
 								blueAlpha[5]; position: relative; z-index: 1; outline: none
-							</code>
+							</Code>
 						</TableCell>
 						<TableCell>
 							The standard focus treatment for every focus-visible control.

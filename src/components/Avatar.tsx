@@ -11,19 +11,6 @@ type AvatarProps = {
 	className?: string
 }
 
-export function Avatar({ name, size = "sm", className }: AvatarProps) {
-	const avatarClassName = useStyles(avatarClass(name, size))
-
-	return (
-		<span
-			className={joinClassNames(avatarClassName, className)}
-			aria-hidden="true"
-		>
-			{initials(name)}
-		</span>
-	)
-}
-
 const avatarPalette = [
 	{ background: colors.accent[4], color: colors.accent[11] },
 	{
@@ -78,10 +65,18 @@ function avatarColorIndex(seed: string) {
 	return Math.abs(hash) % avatarPalette.length
 }
 
-const avatarClass = memoize((seed: string, size: TextSize) => {
-	const palette = avatarPalette[avatarColorIndex(seed)]
+function avatarPaletteForSeed(seed: string) {
+	const index = avatarColorIndex(seed)
+	if (index === 0) return avatarPalette[0]
+	if (index === 1) return avatarPalette[1]
+	if (index === 2) return avatarPalette[2]
+	return avatarPalette[3]
+}
 
-	return style(text("2xs", 600, "highContrast"), radius.circle, {
+const avatarClass = memoize((seed: string, size: TextSize) => {
+	const palette = avatarPaletteForSeed(seed)
+
+	return style(text({ size: "2xs", fontWeight: 600, color: "highContrast" }), radius.circle, {
 		display: "grid",
 		placeItems: "center",
 		flexShrink: 0,
@@ -93,6 +88,36 @@ const avatarClass = memoize((seed: string, size: TextSize) => {
 		color: palette.color,
 	})
 })
+
+// The grid centers the line box, which includes the font's descent, so
+// capitals rode high. Trimming to cap height centers the letters themselves.
+// text-box applies to block containers, not to the grid itself.
+const initialsClass = style({
+	display: "block",
+	textBox: "trim-both cap alphabetic",
+})
+
+/** `root` on the outer `<span>` (circle; colors seeded from `name`, dimensions from `size`, no state); `initials` on the inner `<span>` holding the letters. */
+export const avatarStyles = {
+	root: memoize(({ name, size = "sm" }: { name: string; size?: TextSize }) =>
+		avatarClass(name, size),
+	),
+	initials: initialsClass,
+} as const
+
+export function Avatar({ name, size = "sm", className }: AvatarProps) {
+	const avatarClassName = useStyles(avatarStyles.root({ name, size }))
+	const initialsClassName = useStyles(avatarStyles.initials)
+
+	return (
+		<span
+			className={joinClassNames(avatarClassName, className)}
+			aria-hidden="true"
+		>
+			<span className={initialsClassName}>{initials(name)}</span>
+		</span>
+	)
+}
 
 function joinClassNames(...classNames: Array<string | undefined>) {
 	return classNames.filter(Boolean).join(" ")

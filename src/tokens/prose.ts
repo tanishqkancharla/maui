@@ -1,8 +1,9 @@
-import { style } from "purse-styles"
+import { defineVars, style } from "purse-styles"
+import { LARGE_SCALE } from "../theme/dataScale"
 import { memoize } from "../utils/memoize"
 import { colors } from "./colors"
 import { motionEasing, motionStreamDurationMs } from "./motion"
-import { fontFamily, monoFontFamily } from "./text"
+import { fontFamily, monoFontStyle } from "./text"
 
 /**
  * Long-form/reading type scale. Distinct from the `text` token group (which
@@ -10,16 +11,21 @@ import { fontFamily, monoFontFamily } from "./text"
  * rhythm tuned for sustained reading. The `Prose` container picks a size and
  * typography components inside it opt into the matching prose treatment.
  *
- * Sizes and spacing are ported from the Tailwind Typography plugin
+ * Type sizes and heading spacing are ported from the Tailwind Typography plugin
  * (https://github.com/tailwindlabs/tailwindcss-typography): `sm` -> 14px base,
  * `md` -> Tailwind's `base` (16px), `lg` -> 18px. Tailwind's em-relative values
  * are resolved to px here so they compose with Maui's px-based tokens.
+ *
+ * On the Large platform scale (coarse pointers) block font sizes and line
+ * heights step up ~1.2x — the same idea as the `text` tokens — so reading
+ * content grows with the rest of the UI on touch devices. Paragraph gaps stay
+ * at 10px on both scales.
  */
 export type ProseSize = "sm" | "md" | "lg"
 
 type BlockMetric = {
-	fontSize: number
-	lineHeight: number
+	fontSize: string
+	lineHeight: string
 }
 
 type HeadingMetric = BlockMetric & {
@@ -31,7 +37,6 @@ type HeadingMetric = BlockMetric & {
 }
 
 type ProseMetric = {
-	blockGap: number
 	paragraph: BlockMetric
 	h1: HeadingMetric
 	h2: HeadingMetric
@@ -39,44 +44,105 @@ type ProseMetric = {
 	h4: HeadingMetric
 	listPadding: number
 	listItemGap: number
-	listNestedGap: number
 }
+
+/** A block size that steps up with the platform data scale. */
+const scaledPx = (normal: number, large: number) =>
+	defineVars({
+		px: { default: `${normal}px`, [LARGE_SCALE]: `${large}px` },
+	}).px
 
 const metrics: Record<ProseSize, ProseMetric> = {
 	sm: {
-		blockGap: 16,
-		paragraph: { fontSize: 14, lineHeight: 24 },
-		h1: { fontSize: 30, lineHeight: 36, marginTop: 32, marginBottom: 24 },
-		h2: { fontSize: 20, lineHeight: 28, marginTop: 32, marginBottom: 16 },
-		h3: { fontSize: 18, lineHeight: 28, marginTop: 28, marginBottom: 8 },
-		h4: { fontSize: 14, lineHeight: 20, marginTop: 20, marginBottom: 8 },
-		listPadding: 22,
+		paragraph: { fontSize: scaledPx(14, 17), lineHeight: scaledPx(24, 29) },
+		h1: {
+			fontSize: scaledPx(30, 36),
+			lineHeight: scaledPx(36, 43),
+			marginTop: 32,
+			marginBottom: 24,
+		},
+		h2: {
+			fontSize: scaledPx(20, 24),
+			lineHeight: scaledPx(28, 34),
+			marginTop: 32,
+			marginBottom: 16,
+		},
+		h3: {
+			fontSize: scaledPx(18, 22),
+			lineHeight: scaledPx(28, 34),
+			marginTop: 28,
+			marginBottom: 8,
+		},
+		h4: {
+			fontSize: scaledPx(14, 17),
+			lineHeight: scaledPx(20, 24),
+			marginTop: 20,
+			marginBottom: 8,
+		},
+		listPadding: 20,
 		listItemGap: 4,
-		listNestedGap: 8,
 	},
 	md: {
-		blockGap: 20,
-		paragraph: { fontSize: 16, lineHeight: 28 },
-		h1: { fontSize: 36, lineHeight: 40, marginTop: 48, marginBottom: 32 },
-		h2: { fontSize: 24, lineHeight: 32, marginTop: 48, marginBottom: 24 },
-		h3: { fontSize: 20, lineHeight: 32, marginTop: 32, marginBottom: 12 },
-		h4: { fontSize: 16, lineHeight: 24, marginTop: 24, marginBottom: 8 },
-		listPadding: 26,
+		paragraph: { fontSize: scaledPx(16, 19), lineHeight: scaledPx(28, 34) },
+		h1: {
+			fontSize: scaledPx(36, 43),
+			lineHeight: scaledPx(40, 48),
+			marginTop: 48,
+			marginBottom: 32,
+		},
+		h2: {
+			fontSize: scaledPx(24, 29),
+			lineHeight: scaledPx(32, 38),
+			marginTop: 48,
+			marginBottom: 24,
+		},
+		h3: {
+			fontSize: scaledPx(20, 24),
+			lineHeight: scaledPx(32, 38),
+			marginTop: 32,
+			marginBottom: 12,
+		},
+		h4: {
+			fontSize: scaledPx(16, 19),
+			lineHeight: scaledPx(24, 29),
+			marginTop: 24,
+			marginBottom: 8,
+		},
+		listPadding: 24,
 		listItemGap: 8,
-		listNestedGap: 12,
 	},
 	lg: {
-		blockGap: 24,
-		paragraph: { fontSize: 18, lineHeight: 32 },
-		h1: { fontSize: 48, lineHeight: 48, marginTop: 56, marginBottom: 40 },
-		h2: { fontSize: 30, lineHeight: 40, marginTop: 56, marginBottom: 32 },
-		h3: { fontSize: 24, lineHeight: 36, marginTop: 40, marginBottom: 16 },
-		h4: { fontSize: 18, lineHeight: 28, marginTop: 32, marginBottom: 8 },
-		listPadding: 28,
+		paragraph: { fontSize: scaledPx(18, 22), lineHeight: scaledPx(32, 38) },
+		h1: {
+			fontSize: scaledPx(48, 58),
+			lineHeight: scaledPx(48, 58),
+			marginTop: 56,
+			marginBottom: 40,
+		},
+		h2: {
+			fontSize: scaledPx(30, 36),
+			lineHeight: scaledPx(40, 48),
+			marginTop: 56,
+			marginBottom: 32,
+		},
+		h3: {
+			fontSize: scaledPx(24, 29),
+			lineHeight: scaledPx(36, 43),
+			marginTop: 40,
+			marginBottom: 16,
+		},
+		h4: {
+			fontSize: scaledPx(18, 22),
+			lineHeight: scaledPx(28, 34),
+			marginTop: 32,
+			marginBottom: 8,
+		},
+		listPadding: 26,
 		listItemGap: 12,
-		listNestedGap: 16,
 	},
 }
+
+const blockGap = "10px"
 
 // Heading weights follow Tailwind's descending scale, capped at Maui's
 // heaviest weight (700).
@@ -87,8 +153,8 @@ const quoteColor = colors.gray[11]
 const px = (value: number) => `${value}px`
 
 const block = (metric: BlockMetric) => ({
-	fontSize: px(metric.fontSize),
-	lineHeight: px(metric.lineHeight),
+	fontSize: metric.fontSize,
+	lineHeight: metric.lineHeight,
 	fontFamily,
 })
 
@@ -104,11 +170,9 @@ export const prose = memoize((size: ProseSize) => {
 		h2: style(block(m.h2), { fontWeight: 700, color: headingColor }),
 		h3: style(block(m.h3), { fontWeight: 600, color: headingColor }),
 		h4: style(block(m.h4), { fontWeight: 600, color: headingColor }),
-		// Inline elements inherit their size from the surrounding block; these
-		// values only matter when a link or list sits on its own. Links pick up
-		// Tailwind's medium weight + underline treatment.
-		link: style(block(m.paragraph), {
-			fontWeight: 500,
+		// Links inherit typography from their immediate parent, even inside prose.
+		link: style({
+			font: "inherit",
 			color: headingColor,
 			textDecoration: "underline",
 		}),
@@ -121,11 +185,9 @@ export const prose = memoize((size: ProseSize) => {
 			fontWeight: 400,
 			color: bodyColor,
 			paddingInlineStart: px(m.listPadding),
-			"& > li + li": {
+			// One gap between items at any depth, including through wrappers.
+			"& li + li, & li ul, & li ol": {
 				marginTop: px(m.listItemGap),
-			},
-			"& li > ul, & li > ol": {
-				marginTop: px(m.listNestedGap),
 			},
 		}),
 	}
@@ -143,24 +205,24 @@ const notHeading = ":not(h1):not(h2):not(h3):not(h4)"
  * `marginBottom` becomes the "hug" gap after a heading; heading `marginTop`
  * becomes the larger break before it.
  */
-export const proseRhythm = memoize((size: ProseSize) => {
+export const proseRhythm = memoize((size: ProseSize, selector = "&") => {
 	const m = metrics[size]
 
 	return style({
-		"& > * + *": {
-			marginTop: px(m.blockGap),
+		[`${selector} > * + *`]: {
+			marginTop: blockGap,
 		},
 		// Gap after a heading: hug it to the content that follows.
-		"& > h1 + *": { marginTop: px(m.h1.marginBottom) },
-		"& > h2 + *": { marginTop: px(m.h2.marginBottom) },
-		"& > h3 + *": { marginTop: px(m.h3.marginBottom) },
-		"& > h4 + *": { marginTop: px(m.h4.marginBottom) },
+		[`${selector} > h1 + *`]: { marginTop: px(m.h1.marginBottom) },
+		[`${selector} > h2 + *`]: { marginTop: px(m.h2.marginBottom) },
+		[`${selector} > h3 + *`]: { marginTop: px(m.h3.marginBottom) },
+		[`${selector} > h4 + *`]: { marginTop: px(m.h4.marginBottom) },
 		// Break before a heading (only when it opens a new section, i.e. it
 		// isn't already hugging a preceding heading).
-		[`& > ${notHeading} + h1`]: { marginTop: px(m.h1.marginTop) },
-		[`& > ${notHeading} + h2`]: { marginTop: px(m.h2.marginTop) },
-		[`& > ${notHeading} + h3`]: { marginTop: px(m.h3.marginTop) },
-		[`& > ${notHeading} + h4`]: { marginTop: px(m.h4.marginTop) },
+		[`${selector} > ${notHeading} + h1`]: { marginTop: px(m.h1.marginTop) },
+		[`${selector} > ${notHeading} + h2`]: { marginTop: px(m.h2.marginTop) },
+		[`${selector} > ${notHeading} + h3`]: { marginTop: px(m.h3.marginTop) },
+		[`${selector} > ${notHeading} + h4`]: { marginTop: px(m.h4.marginTop) },
 	})
 })
 
@@ -177,7 +239,7 @@ export const proseHtml = memoize((size: ProseSize) => {
 	return style({
 		display: "flex",
 		flexDirection: "column",
-		gap: px(m.blockGap),
+		gap: blockGap,
 		"& p": {
 			...block(m.paragraph),
 			fontWeight: 400,
@@ -257,16 +319,14 @@ export const proseHtml = memoize((size: ProseSize) => {
 			paddingRight: "0.4em",
 			boxSizing: "border-box",
 		},
-		"& ul > li + li, & ol > li + li": {
+		// One gap between items at any depth, including through editor node views.
+		"& li + li, & li ul, & li ol": {
 			marginTop: px(m.listItemGap),
-		},
-		"& li > ul, & li > ol": {
-			marginTop: px(m.listNestedGap),
 		},
 		"& strong": { fontWeight: 600 },
 		"& em": { fontStyle: "italic" },
 		"& code": {
-			fontFamily: monoFontFamily,
+			...monoFontStyle,
 			fontSize: "0.875em",
 		},
 		"& pre, & .maui-code-block": {

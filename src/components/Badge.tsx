@@ -5,16 +5,6 @@ import { radius } from "../tokens/radius"
 
 type BadgeProps = React.HTMLAttributes<HTMLSpanElement>
 
-export function Badge({ className, children, ...props }: BadgeProps) {
-	const badgeClassName = useStyles(badgeClass)
-
-	return (
-		<span {...props} className={joinClassNames(badgeClassName, className)}>
-			{children}
-		</span>
-	)
-}
-
 const badgeClass = style(radius.pill, {
 	display: "inline-flex",
 	alignItems: "center",
@@ -32,6 +22,19 @@ const badgeClass = style(radius.pill, {
 	lineHeight: "16px",
 	whiteSpace: "nowrap",
 })
+
+/** `root` is the pill; put it on any inline element (no state). */
+export const badgeStyles = { root: badgeClass } as const
+
+export function Badge({ className, children, ...props }: BadgeProps) {
+	const badgeClassName = useStyles(badgeStyles.root)
+
+	return (
+		<span {...props} className={joinClassNames(badgeClassName, className)}>
+			{children}
+		</span>
+	)
+}
 
 function joinClassNames(...classNames: Array<string | undefined>) {
 	return classNames.filter(Boolean).join(" ")

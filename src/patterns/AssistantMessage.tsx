@@ -6,10 +6,9 @@ import {
 	defaultRehypePlugins,
 	useIsCodeFenceIncomplete,
 } from "streamdown"
-import { code } from "@streamdown/code"
 import { style, useStyles } from "purse-styles"
 import { CodeBlock } from "../components/CodeBlock"
-import { proseMaxWidth } from "../components/Prose"
+import { proseContainerStyle } from "../components/Prose"
 import { backgroundColor } from "../tokens/background"
 import { motionEasing, motionStreamDurationMs } from "../tokens/motion"
 import { proseHtml, proseStreamingMarkers, type ProseSize } from "../tokens/prose"
@@ -143,7 +142,6 @@ export function AssistantMessage({
 			<Streamdown
 				className={streamdownClassName}
 				components={streamdownComponents}
-				plugins={{ code }}
 				rehypePlugins={rehypePlugins}
 				// `animated` must stay stably enabled; only `isAnimating` toggles.
 				// Flipping `animated`/`mode` with the stream resets stagger state and
@@ -191,8 +189,7 @@ const streamdownAnimate = {
 	stagger: 16,
 }
 
-const assistantMessageClass = style({
-	maxWidth: proseMaxWidth,
+const assistantMessageClass = style(proseContainerStyle, {
 	minWidth: 0,
 })
 

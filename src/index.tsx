@@ -3,8 +3,11 @@ import ReactDOM from "react-dom/client"
 import { style, useStyles } from "purse-styles"
 import { MauiProvider } from "./MauiProvider"
 import { Maui } from "./pages/Maui"
+import { HaloPage } from "./pages/GalleryDeferredPages"
+import { useRoute } from "wouter"
 import { background } from "./tokens/background"
 import { colors } from "./tokens/colors"
+import { galleryCompactMedia } from "./pages/galleryCompact"
 
 const AgentationDev = import.meta.env.DEV
 	? lazy(() =>
@@ -34,10 +37,15 @@ const appStyles = style(background.app, {
 	maxWidth: "1280px",
 	color: colors.gray[12],
 	overflow: "hidden",
+	[`@media ${galleryCompactMedia}`]: {
+		padding: "12px",
+	},
 })
 
 function AppContent() {
 	const className = useStyles(appStyles)
+	const [isHalo] = useRoute("/halo")
+	if (isHalo) return <HaloPage />
 
 	return (
 		<main className={className}>
@@ -47,10 +55,13 @@ function AppContent() {
 }
 
 function App() {
+	const [isHalo] = useRoute("/halo")
 	return (
 		<MauiProvider>
-			<AppContent />
-			{import.meta.env.DEV && (
+			<Suspense fallback={null}>
+				<AppContent />
+			</Suspense>
+			{import.meta.env.DEV && !isHalo && (
 				<Suspense fallback={null}>
 					<AgentationDev />
 				</Suspense>

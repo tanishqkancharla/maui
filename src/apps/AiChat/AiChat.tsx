@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react"
+import type { Editor as TiptapEditor } from "@tiptap/react"
 import { style, useStyles } from "purse-styles"
 import { Button } from "../../components/Button"
-import { Editor } from "../../components/Editor"
-import { Icons } from "../../components/Icons"
+import { MarkdownEditor } from "../../components/MarkdownEditor"
 import { Thinking } from "../../components/Thinking"
 import { AssistantMessage } from "../../patterns/AssistantMessage"
+import { ArrowUp } from "../../icons"
 import { backgroundColor } from "../../tokens/background"
 import { border } from "../../tokens/borders"
 import { colors } from "../../tokens/colors"
@@ -104,10 +105,7 @@ function streamAssistantTurn(
 			onDone()
 			return
 		}
-		timeoutId = window.setTimeout(
-			tickText,
-			16 + Math.floor(Math.random() * 28),
-		)
+		timeoutId = window.setTimeout(tickText, 16 + Math.floor(Math.random() * 28))
 	}
 
 	const tickTools = () => {
@@ -146,6 +144,7 @@ export function AiChat() {
 		{ id: "welcome", role: "assistant", content: welcomeMarkdown },
 	])
 	const [draft, setDraft] = useState("")
+	const composerRef = useRef<TiptapEditor | null>(null)
 	const [streaming, setStreaming] = useState(false)
 	const cancelStreamRef = useRef<(() => void) | null>(null)
 	const feedRef = useRef<HTMLDivElement>(null)
@@ -186,6 +185,7 @@ export function AiChat() {
 		const fullReply = replyFor(prompt)
 		const plannedTools = toolCallsFor(prompt)
 
+		composerRef.current?.commands.clearContent(false)
 		setDraft("")
 		setStreaming(true)
 		setMessages((prev) => [
@@ -294,8 +294,8 @@ export function AiChat() {
 
 			<div className={composerClassName}>
 				<div className={composerShellClassName}>
-					<Editor
-						content={draft}
+					<MarkdownEditor
+						ref={composerRef}
 						onChange={setDraft}
 						onSubmit={send}
 						editable={!streaming}
@@ -307,10 +307,10 @@ export function AiChat() {
 						<Button
 							aria-label={streaming ? "Streaming" : "Send"}
 							className={sendButtonClassName}
-							disabled={streaming || !draft.trim()}
+							isDisabled={streaming || !draft.trim()}
 							onClick={send}
 						>
-							<Icons.ArrowUp size="sm" />
+							<ArrowUp size="sm" />
 						</Button>
 					</div>
 				</div>
@@ -362,7 +362,7 @@ const toolCallClass = style(prose("sm").paragraph, {
 
 const toolShellClass = style(monospace)
 
-const userRowClass = style(flex({ justify: "end" }), {
+const userRowClass = style(flex({ justifyContent: "end" }), {
 	minWidth: 0,
 	alignSelf: "stretch",
 })
@@ -395,7 +395,9 @@ const composerShellClass = style(
 	},
 )
 
-const composerActionsClass = style(flex({ align: "center", justify: "end", gap: 3 }))
+const composerActionsClass = style(
+	flex({ alignItems: "center", justifyContent: "end", gap: 3 }),
+)
 
 /** Filled circular send control — icon-only Button without the default shadow. */
 const sendButtonClass = style(radius.circle, {
@@ -412,6 +414,6 @@ const sendButtonClass = style(radius.circle, {
 })
 
 const thinkingClass = style(
-	text("xs", 400, "lowContrast"),
-	flex({ align: "center", gap: 4 }),
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+	flex({ alignItems: "center", gap: 4 }),
 )

@@ -8,7 +8,7 @@ import { radius } from "../tokens/radius"
 import { shadow } from "../tokens/shadow"
 import { spacing } from "../tokens/spacing"
 
-const collectionPopoverStyle = style(
+const root = style(
 	radius.sm,
 	shadow.strong,
 	spacing.padding({ y: 1 }),
@@ -20,6 +20,9 @@ const collectionPopoverStyle = style(
 	},
 )
 
+/** `root` goes on RAC `Popover`; sizes from RAC's `--trigger-width` variable. */
+export const collectionPopoverStyles = { root } as const
+
 export interface CollectionPopoverProps
 	extends Omit<PopoverProps, "className"> {}
 
@@ -28,7 +31,7 @@ export function CollectionPopover({
 	offset = 6,
 	...props
 }: CollectionPopoverProps) {
-	const className = useStyles(collectionPopoverStyle)
+	const className = useStyles(collectionPopoverStyles.root)
 
 	return (
 		<Popover

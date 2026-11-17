@@ -6,6 +6,8 @@ export type AttributeCompletion = {
 	values?: string[]
 	boolean?: boolean
 	object?: boolean
+	/** Palette `values` plus opaque hex / `rgb()` fills, matching ButtonVariantColor. */
+	cssColor?: boolean
 }
 
 export type CatalogComponent = {
@@ -38,6 +40,7 @@ export type SyntaxColors = {
 
 /** Raw CSS values used by the editor chrome and CodeMirror theme. */
 export type EditorChromeTokens = {
+	appBackground: string
 	elementBackground: string
 	outline: string
 	gray4: string
@@ -56,11 +59,16 @@ export type EditorChromeTokens = {
 	radiusLg: string
 	shadowMedium: string
 	monoFontFamily: string
+	/** e.g. `"ss05" 1`; use `"normal"` when the font needs none. */
+	monoFontFeatureSettings: string
 	uiFontFamily: string
+	space2: string
 	space3: string
 	space4: string
 	space8: string
 }
+
+export type ThemePreference = "system" | "light" | "dark"
 
 export type DesignSystemChrome = {
 	HeaderLabel: (props: { children?: ReactNode }) => ReactNode
@@ -85,4 +93,14 @@ export type DesignSystemApi = {
 	chrome: EditorChromeTokens
 	Chrome: DesignSystemChrome
 	PreviewProviders: (props: { children?: ReactNode }) => ReactNode
+	/** Lets shared links carry and restore the viewer's theme choice. */
+	themePreference?: {
+		value: ThemePreference
+		set: (preference: ThemePreference) => void
+	}
+	/**
+	 * Mirror `{ source, theme }` into the URL hash while `location.pathname`
+	 * equals this path. Omit to keep editor state out of the URL.
+	 */
+	urlStatePath?: string
 }

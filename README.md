@@ -4,52 +4,26 @@ TypeScript-first design system styled with [`purse-styles`](https://www.npmjs.co
 
 **Gallery:** [maui.tanishqkancharla.dev](https://maui.tanishqkancharla.dev)
 
-Maui is not a public npm library. First-party and granted projects install it from GitHub (see [Install](#install)).
+Maui is open source under the MIT License and published on npm as `@tanishqkancharla/maui`.
 
 ## Install
 
-Only software Tanishq Kancharla personally creates, or a project listed in [`NOTICE`](./NOTICE), should depend on Maui. Taking the package off public npm does not hide a public GitHub repo: anyone can still `pnpm add github:tanishqkancharla/maui`. For real access control, make this repo **private** and give each consuming project’s contributors **read** access here (not write, and not “Maui contributor”).
-
-### GitHub git dependency (simplest)
-
-Works with a public or private repo. Halo already aliases the package as `maui`:
+Halo keeps the short `maui` import alias:
 
 ```sh
-pnpm add maui@github:tanishqkancharla/maui#v0.0.2
+pnpm add maui@npm:@tanishqkancharla/maui@0.0.9 motion@^13.2.0
 ```
 
 ```json
 {
 	"dependencies": {
-		"maui": "github:tanishqkancharla/maui#v0.0.2"
+		"maui": "npm:@tanishqkancharla/maui@0.0.9",
+		"motion": "^13.2.0"
 	}
 }
 ```
 
-Pin a tag or SHA, not `main`. `prepare` runs `build:lib` on install so `dist/` does not need to be committed. Private-repo CI needs a GitHub token that can read this repo (`contents: read`).
-
-Contributors clone Halo as usual. If Maui is private, they must be a read collaborator on this repo (or on a GitHub team that can read it) so `pnpm install` can fetch the git dependency with their existing GitHub credentials.
-
-### GitHub Packages (closest to npm)
-
-If you want semver installs without a public registry, publish `@tanishqkancharla/maui` to GitHub Packages and keep Halo’s existing alias:
-
-```json
-{
-	"dependencies": {
-		"maui": "npm:@tanishqkancharla/maui@0.0.2"
-	}
-}
-```
-
-In the consuming repo’s `.npmrc` (token stays in the user env or CI secret, never committed):
-
-```ini
-@tanishqkancharla:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-Same access model: repo/package read for Halo contributors, not write on Maui.
+Motion is a required peer dependency used by Maui components with animated presence and transitions. The published tarball contains compiled `dist/` JavaScript and declarations. Installs do not run a Maui build.
 
 Wrap the app in `MauiProvider`, then import tokens and components:
 
@@ -67,6 +41,8 @@ function App() {
 
 Put the exported `themeFoucScript` in a classic inline `<script>` in `<head>` so `data-theme` is correct on first paint.
 
+`CodeBlock` uses Shiki's JavaScript regex engine with Maui themes and lazy-loaded languages. No highlighting configuration is required.
+
 ## Develop
 
 ```bash
@@ -80,26 +56,33 @@ Vite serves the gallery at [http://localhost:5173/](http://localhost:5173/).
 | --- | --- |
 | `npm run dev` | Gallery dev server |
 | `npm run build` | Static gallery → `website/` |
-| `npm run build:lib` | Package ESM + types → `dist/` |
+| `npm run build:lib` | Compile package ESM + types → `dist/` (generated, not committed) |
+| `npm run typecheck` | One-shot TypeScript check |
+| `npm run verify-package` | Pack-and-inspect publish smoke test of the real tarball (not a public-API check) |
 | `npm run serve` | Preview the gallery build |
-| `npx tsc --noEmit` | Type-check |
 
 ## Package
 
-The barrel exports the provider, theme, tokens, and components. Patterns and demo apps in this repo are reference implementations, not part of the package barrel. This repo no longer publishes to public npm (`publish.yml` is removed; `npm run release` exits). Older public npm versions of `@tanishqkancharla/maui` may still exist until they are deprecated or made private from an npm login.
+The default package export is compiled `dist/` JavaScript and declarations. TypeScript source remains available through the `source` export condition and `maui/src`. Patterns, demo apps, and the gallery `Panel` preview frame are reference implementations, not package components.
+
+Push directly to `main`; PRs are not required. Each push prepares the next version of `@tanishqkancharla/maui`, creates a `vX.Y.Z` tag, and stages the verified tarball on npm with provenance. **Staging does not make the version public.** Add `[skip release]` to the push's head commit message to skip staging. Manual `vX.Y.Z` tag pushes also stage a release when the tag matches `package.json`.
+
+To publish, review the version in npm's **Staged Packages** tab and approve it with 2FA. With npm 11.15.0 or newer, you can also use `npm stage list @tanishqkancharla/maui`, `npm stage view <stage-id>`, `npm stage download <stage-id>`, and `npm stage approve <stage-id>`. Approve versions in increasing order so an older approval does not move `latest` backward. Git tags reserve version numbers even while approval is pending or after a staged version is rejected; the next branch release uses a new version. A failed staging upload can be retried by manually running the workflow against its existing `vX.Y.Z` tag.
+
+### Required npm security settings
+
+In the package's npm settings:
+
+1. Configure the GitHub trusted publisher for `tanishqkancharla/maui`, workflow filename `publish.yml`, with **stage-only** permission. Do not allow direct `npm publish` or dist-tag management. Audit all trusted publisher entries, not just this workflow's entry. If npm requires replacing an existing connection, copy its repository/workflow details, replace it with a stage-only connection, and complete the first staged upload within two days before the new connection expires.
+2. Set **Publishing access** to **Require two-factor authentication and disallow bypass 2fa tokens (recommended)**. Revoke unused automation tokens.
+3. Keep 2FA enabled on maintainer accounts. CI must never approve its own staged release.
+
+These npm-side restrictions are essential: changing the workflow command alone does not prevent a modified workflow from attempting a direct publish. See npm's [staged publishing](https://docs.npmjs.com/staged-publishing) and [trusted publisher](https://docs.npmjs.com/trusted-publishers) documentation.
+
+`npm run release` also stages rather than publishing directly and requires npm 11.15.0 or newer. The gallery still deploys independently to [maui.tanishqkancharla.dev](https://maui.tanishqkancharla.dev) through Vercel on `main`; npm approval does not gate that deployment.
 
 Agent conventions for consuming Maui: [`skills/maui`](./skills/maui/SKILL.md).
 
-## Remaining private-rollout tasks
-
-Cloud agents cannot change GitHub visibility, npm, Halo, or Vercel. On your local computer (browser + terminal, logged in as you), run [`.cursor/private-rollout-agent-tasks.md`](./.cursor/private-rollout-agent-tasks.md) in order.
-
 ## License
 
-Maui is **source-available, not open source.** The code is public so you can read it and run the gallery; it is not licensed for other people to use in commercial products or as their design system.
-
-The [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) covers personal, educational, and other noncommercial use. See [`LICENSE`](./LICENSE) and [`NOTICE`](./NOTICE).
-
-**First-party and granted projects are exceptions.** Any software Tanishq Kancharla personally creates — including [Halo](https://github.com/tanishqkancharla/halo-v2) — may depend on, bundle, and distribute Maui, including commercially. The same grant can be given to other projects by listing them in [`NOTICE`](./NOTICE) or in a separate writing. That does not make Maui MIT, and it does not let someone lift Maui out of a granted project into another product.
-
-This is not an open-contribution project. Please do not open pull requests; see [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+Maui is available under the [MIT License](./LICENSE).

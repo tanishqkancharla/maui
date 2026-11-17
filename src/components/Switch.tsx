@@ -1,62 +1,84 @@
-import { useRef } from "react"
-import { useSwitch } from "react-aria"
-import { ToggleState, useToggleState } from "react-stately"
-import { style, useStyles } from "purse-styles"
+import { Switch as RACSwitch } from "react-aria-components"
+import { defineVars, style, useStyles } from "purse-styles"
+import { DARK_THEME } from "../theme/dataTheme"
+import { LARGE_SCALE } from "../theme/dataScale"
+import { surfaceMixPercent, surfaceWash } from "../tokens/background"
 import { colors } from "../tokens/colors"
 import { focusRing } from "../tokens/focusRing"
 import { flex } from "../tokens/layout"
 import { motion } from "../tokens/motion"
 import { radius } from "../tokens/radius"
 import { shadow, shadowVars } from "../tokens/shadow"
-import { visuallyHidden } from "../tokens/visuallyHidden"
+import { controlSize } from "../tokens/sizing"
 import { labelText } from "./Typography"
 
-const switchClass = style(
-	flex({ align: "center", gap: 3 }),
+const switchSize = defineVars({
+	width: { default: "24px", [LARGE_SCALE]: "36px" },
+	height: { default: "14px", [LARGE_SCALE]: "22px" },
+	thumb: { default: "10px", [LARGE_SCALE]: "18px" },
+})
+
+/** One step darker than `background.element` (#fff / gray 2). */
+const switchOff = defineVars({
+	track: {
+		default: colors.gray[2],
+		[DARK_THEME]: colors.gray[1],
+	},
+})
+
+const switchOffHover = surfaceWash(
+	colors.gray[12],
+	surfaceMixPercent.hover,
+	switchOff.track,
+)
+const switchOnHover = surfaceWash(
+	colors.gray[12],
+	surfaceMixPercent.hover,
+	colors.accent[9],
+)
+
+const track = style(radius.pill, shadow.control, {
+	position: "relative",
+	flexShrink: 0,
+	width: switchSize.width,
+	height: switchSize.height,
+	backgroundColor: switchOff.track,
+})
+
+const thumb = style(radius.circle, motion.standard("transform"), {
+	position: "absolute",
+	top: "2px",
+	left: "2px",
+	width: switchSize.thumb,
+	height: switchSize.thumb,
+	backgroundColor: "#ffffff",
+	boxShadow: "0 1px 2px rgba(0, 0, 0, 0.16)",
+})
+
+const root = style(
+	flex({ alignItems: "center", gap: 3 }),
+	focusRing(`&[data-focus-visible] ${track}`, shadowVars.control),
 	focusRing(
-		"& .switch-input:focus-visible + .switch-toggle",
-		shadowVars.subtle,
+		`&[data-selected][data-focus-visible] ${track}`,
+		shadowVars.selectedControl,
 	),
 	{
 		position: "relative",
 		width: "fit-content",
-		"&:hover .switch-thumb": {
-			backgroundColor: colors.gray[2],
+		minHeight: controlSize.minTarget,
+		[`&[data-hovered] ${track}`]: {
+			backgroundColor: switchOffHover,
 		},
-		"&:hover .switch-toggle": {
-			backgroundColor: colors.gray[8],
-		},
-		"& .switch-input:checked + .switch-toggle": {
+		[`&[data-selected] ${track}`]: {
 			backgroundColor: colors.accent[9],
+			boxShadow: shadowVars.selectedControl,
 		},
-		"& .switch-input:checked + .switch-toggle .switch-thumb": {
-			transform: "translateX(10px)",
+		[`&[data-selected][data-hovered] ${track}`]: {
+			backgroundColor: switchOnHover,
 		},
-	},
-)
-
-const switchToggleClass = style(
-	radius.pill,
-	motion.standard("background-color"),
-	shadow.subtle,
-	{
-		position: "relative",
-		width: "24px",
-		height: "14px",
-		backgroundColor: colors.gray[7],
-	},
-)
-
-const switchThumbClass = style(
-	radius.circle,
-	motion.standard("background-color", "transform"),
-	{
-		position: "absolute",
-		top: "2px",
-		left: "2px",
-		width: "10px",
-		height: "10px",
-		backgroundColor: colors.gray[1],
+		[`&[data-selected] ${thumb}`]: {
+			transform: `translateX(calc(${switchSize.width} - ${switchSize.thumb} - 4px))`,
+		},
 	},
 )
 
@@ -66,29 +88,22 @@ type SwitchProps = {
 	onChange: (selected: boolean) => void
 }
 
+/** Switch parts: `root` RAC `Switch` (`[data-hovered]`, `[data-selected]`, `[data-focus-visible]`; restyles `track` and `thumb` by their own classes), `track` the track span, `thumb` the knob span inside the track, `label` the label text span. */
+export const switchStyles = { root, track, thumb, label: labelText } as const
+
 export function Switch(props: SwitchProps) {
 	const { selected, onChange, label } = props
-	const state: ToggleState = useToggleState({ isSelected: selected, onChange })
-	const ref = useRef(null)
-
-	const { inputProps } = useSwitch({ "aria-label": label }, state, ref)
-	const className = useStyles(switchClass)
-	const inputClassName = useStyles(visuallyHidden)
-	const toggleClassName = useStyles(switchToggleClass)
-	const thumbClassName = useStyles(switchThumbClass)
-	const labelClassName = useStyles(labelText)
+	const className = useStyles(switchStyles.root)
+	const trackClassName = useStyles(switchStyles.track)
+	const thumbClassName = useStyles(switchStyles.thumb)
+	const labelClassName = useStyles(switchStyles.label)
 
 	return (
-		<label className={className}>
-			<input
-				{...inputProps}
-				className={`${inputClassName} switch-input`}
-				ref={ref}
-			/>
-			<span className={`${toggleClassName} switch-toggle`}>
-				<span className={`${thumbClassName} switch-thumb`} />
+		<RACSwitch className={className} isSelected={selected} onChange={onChange}>
+			<span className={trackClassName}>
+				<span className={thumbClassName} />
 			</span>
 			<span className={labelClassName}>{label}</span>
-		</label>
+		</RACSwitch>
 	)
 }

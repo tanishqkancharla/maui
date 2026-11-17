@@ -1,8 +1,10 @@
 import { useStyles } from "purse-styles"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
+import { Panel } from "./Panel"
 import { Prose } from "../components/Prose"
-import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../components/Table"
+import { Table, TableBody, TableCell, TableHead,
+	TableHeader, TableRow } from "../components/Table"
 import { H2, H3, P } from "../components/Typography"
 import { background } from "../tokens/background"
 import { border } from "../tokens/borders"
@@ -25,7 +27,7 @@ export function BackgroundColorTokenPage() {
 	const accentClassName = useStyles(
 		background.accent,
 		radius.md,
-		text("sm", 400, "onAccent"),
+		text({ size: "sm", fontWeight: 400, color: "onAccent" }),
 		{ padding: "12px" },
 	)
 
@@ -39,42 +41,40 @@ export function BackgroundColorTokenPage() {
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Value</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Background color tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Value</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>background.app</code>
+							<Code>background.app</Code>
 						</TableCell>
 						<TableCell>
-							<code>#ffffff</code> / <code>colors.gray[1]</code>
+							<Code>#ffffff</Code> / <Code>colors.gray[1]</Code>
 						</TableCell>
 						<TableCell>App/page background (white in light, gray 1 in dark).</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.element</code>
+							<Code>background.element</Code>
 						</TableCell>
 						<TableCell>
-							<code>#ffffff</code> / <code>colors.gray[2]</code>
+							<Code>#ffffff</Code> / <Code>colors.gray[3]</Code>
 						</TableCell>
 						<TableCell>
 							Inputs and slightly raised controls. Matches app white in
-							light; one step lighter than the canvas in dark.
+							light; two steps lighter than the canvas in dark.
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.elementHover</code>
+							<Code>background.elementHover</Code>
 						</TableCell>
 						<TableCell>
-							<code>backgroundColor.elementHover</code>
+							<Code>backgroundColor.elementHover</Code>
 						</TableCell>
 						<TableCell>
 							3.5% gray[12] into the element surface.
@@ -82,10 +82,10 @@ export function BackgroundColorTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.elementActive</code>
+							<Code>background.elementActive</Code>
 						</TableCell>
 						<TableCell>
-							<code>backgroundColor.elementActive</code>
+							<Code>backgroundColor.elementActive</Code>
 						</TableCell>
 						<TableCell>
 							7% gray[12] into the element surface.
@@ -93,10 +93,10 @@ export function BackgroundColorTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.accent</code>
+							<Code>background.accent</Code>
 						</TableCell>
 						<TableCell>
-							<code>colors.accent[9]</code>
+							<Code>colors.accent[9]</Code>
 						</TableCell>
 						<TableCell>
 							Primary fills and selected indicators.
@@ -104,10 +104,10 @@ export function BackgroundColorTokenPage() {
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>background.accentHover</code>
+							<Code>background.accentHover</Code>
 						</TableCell>
 						<TableCell>
-							<code>colors.accent[10]</code>
+							<Code>colors.accent[10]</Code>
 						</TableCell>
 						<TableCell>Hovered solid accent background.</TableCell>
 					</TableRow>
@@ -116,7 +116,7 @@ export function BackgroundColorTokenPage() {
 
 			<H3>Example</H3>
 			<CodeBlock lang="typescript">{`const panel = style(background.element, border([], "outline"), radius.md)
-const primary = style(background.accent, text("sm", 400, "onAccent"))`}</CodeBlock>
+const primary = style(background.accent, text({ size: "sm", fontWeight: 400, color: "onAccent" }))`}</CodeBlock>
 
 			<Panel
 				style={{
@@ -133,4 +133,3 @@ const primary = style(background.accent, text("sm", 400, "onAccent"))`}</CodeBlo
 		</Prose>
 	)
 }
-

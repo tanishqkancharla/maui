@@ -1,17 +1,28 @@
 import { useState } from "react"
 import { style, useStyles } from "purse-styles"
 import { Badge } from "../components/Badge"
-import { Icons } from "../components/Icons"
-import { Panel } from "../components/Panel"
-import { Prose } from "../components/Prose"
+import { Code } from "../components/Code"
+import { Panel } from "./Panel"
+import { Prose, proseContainerStyle } from "../components/Prose"
 import { H2, H3, P } from "../components/Typography"
 import { Sidebar, SidebarItem, SidebarSection } from "../patterns/Sidebar"
+import {
+	Archive,
+	ArrowDown,
+	Clock,
+	DotsHorizontal,
+	Envelope,
+	Pin,
+	Search,
+	Star,
+} from "../icons"
 import { flex } from "../tokens/layout"
 import { radius } from "../tokens/radius"
 import { spacing } from "../tokens/spacing"
 import { text } from "../tokens/text"
 
 import { colors } from "../tokens/colors"
+
 export function SidebarPage() {
 	const [selectedItem, setSelectedItem] = useState("overview")
 	const pageClassName = useStyles(pageClass)
@@ -28,9 +39,8 @@ export function SidebarPage() {
 		<Prose className={pageClassName}>
 			<H2>Sidebar</H2>
 			<P>
-				A static desktop sidebar pattern for app navigation. It keeps the
-				public API to a side panel, labeled sections, and active navigation
-				items.
+				A static desktop sidebar pattern for app navigation. It keeps the public
+				API to a side panel, labeled sections, and active navigation items.
 			</P>
 
 			<H3>Example</H3>
@@ -47,14 +57,14 @@ export function SidebarPage() {
 					<SidebarSection label="Workspace">
 						<SidebarItem
 							active={selectedItem === "overview"}
-							icon={Icons.Pin}
+							icon={Pin}
 							onClick={() => setSelectedItem("overview")}
 						>
 							Overview
 						</SidebarItem>
 						<SidebarItem
 							active={selectedItem === "inbox"}
-							icon={Icons.Envelope}
+							icon={Envelope}
 							onClick={() => setSelectedItem("inbox")}
 							trailing={<Badge>12</Badge>}
 						>
@@ -62,7 +72,7 @@ export function SidebarPage() {
 						</SidebarItem>
 						<SidebarItem
 							active={selectedItem === "search"}
-							icon={Icons.Search}
+							icon={Search}
 							onClick={() => setSelectedItem("search")}
 						>
 							Search
@@ -72,7 +82,7 @@ export function SidebarPage() {
 					<SidebarSection label="Operations">
 						<SidebarItem
 							active={selectedItem === "deployments"}
-							icon={Icons.Archive}
+							icon={Archive}
 							onClick={() => setSelectedItem("deployments")}
 							trailing={<Badge>3</Badge>}
 						>
@@ -80,14 +90,14 @@ export function SidebarPage() {
 						</SidebarItem>
 						<SidebarItem
 							active={selectedItem === "analytics"}
-							icon={Icons.Star}
+							icon={Star}
 							onClick={() => setSelectedItem("analytics")}
 						>
 							Analytics
 						</SidebarItem>
 						<SidebarItem
 							active={selectedItem === "audit-log"}
-							icon={Icons.Clock}
+							icon={Clock}
 							onClick={() => setSelectedItem("audit-log")}
 						>
 							Audit log
@@ -97,14 +107,14 @@ export function SidebarPage() {
 					<SidebarSection label="Account">
 						<SidebarItem
 							active={selectedItem === "settings"}
-							icon={Icons.DotsHorizontal}
+							icon={DotsHorizontal}
 							onClick={() => setSelectedItem("settings")}
 						>
 							Settings
 						</SidebarItem>
 						<SidebarItem
 							active={selectedItem === "team-members"}
-							icon={Icons.ArrowDown}
+							icon={ArrowDown}
 							onClick={() => setSelectedItem("team-members")}
 						>
 							Team members
@@ -112,13 +122,16 @@ export function SidebarPage() {
 					</SidebarSection>
 				</Sidebar>
 
-				<main className={exampleContentClassName} aria-label="Example content area" />
+				<main
+					className={exampleContentClassName}
+					aria-label="Example content area"
+				/>
 			</Panel>
 
 			<p className={noteClassName}>
-				This intentionally leaves out shadcn's provider, mobile sheet, rail,
-				collapse modes, and trigger. Those can be added later if Maui needs
-				stateful sidebar behavior.
+				This intentionally leaves out shadcn&apos;s provider, rail, collapse
+				modes, and trigger. Mobile overlay chrome is <Code>Drawer</Code>, a
+				separate barrel component — not a Sidebar API.
 			</p>
 		</Prose>
 	)
@@ -129,23 +142,19 @@ const pageClass = style({
 	paddingBottom: "32px",
 })
 
-const shellClass = style(
-	radius.lg,
-	{
-		display: "grid",
-		gridTemplateColumns: "240px minmax(0, 1fr)",
-		gap: "24px",
-		minHeight: "520px",
-	}
-)
+const shellClass = style(radius.lg, {
+	display: "grid",
+	gridTemplateColumns: "240px minmax(0, 1fr)",
+	minHeight: "520px",
+})
 
-const sidebarBrandClass = style(
-	flex({ align: "center", gap: 4 }),
-	spacing.padding({ x: 3, y: 2 }),
-)
+const sidebarBrandClass = style(flex({ alignItems: "center", gap: 3 }), {
+	paddingTop: spacing.value(6),
+	paddingInline: spacing.value(4),
+})
 
 const brandMarkClass = style(
-	text("sm", 600, "onAccent"),
+	text({ size: "sm", fontWeight: 600, color: "onAccent" }),
 	radius.md,
 	{
 		display: "grid",
@@ -153,26 +162,32 @@ const brandMarkClass = style(
 		width: "28px",
 		height: "28px",
 		backgroundColor: colors.accent[9],
-	}
+	},
 )
 
 const brandTextClass = style({
 	minWidth: 0,
 })
 
-const brandTitleClass = style(text("sm", 600, "highContrast"), {
-	overflow: "hidden",
-	textOverflow: "ellipsis",
-	whiteSpace: "nowrap",
-})
+const brandTitleClass = style(
+	text({ size: "sm", fontWeight: 600, color: "highContrast" }),
+	{
+		overflow: "hidden",
+		textOverflow: "ellipsis",
+		whiteSpace: "nowrap",
+	},
+)
 
-const brandSubtitleClass = style(text("xs", 400, "lowContrast"))
+const brandSubtitleClass = style(
+	text({ size: "xs", fontWeight: 400, color: "lowContrast" }),
+)
 
 const exampleContentClass = style({
 	minWidth: 0,
 	minHeight: "100%",
 })
 
-const noteClass = style(text("md", 400, "lowContrast"), {
-	maxWidth: "72ch",
-})
+const noteClass = style(
+	text({ size: "md", fontWeight: 400, color: "lowContrast" }),
+	proseContainerStyle,
+)

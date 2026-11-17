@@ -1,12 +1,20 @@
+import { Pressable } from "react-aria-components"
 import type { AttributeCompletion, CatalogComponent } from "./DesignSystemApi"
 import { Avatar } from "../../components/Avatar"
 import { Badge } from "../../components/Badge"
+import { Banner } from "../../components/Banner"
 import { Button } from "../../components/Button"
 import { Checkbox } from "../../components/Checkbox"
 import { Code, Kbd } from "../../components/Code"
 import { CodeBlock } from "../../components/CodeBlock"
-import { Dialog } from "../../components/Dialog"
-import { Editor } from "../../components/Editor"
+import {
+	Dialog,
+	DialogActions,
+	DialogBody,
+	DialogTitle,
+} from "../../components/Dialog"
+import { Drawer } from "../../components/Drawer"
+import { MarkdownEditor } from "../../components/MarkdownEditor"
 import { FuzzyString } from "../../components/FuzzyString"
 import { Icons } from "../../components/Icons"
 import {
@@ -17,8 +25,8 @@ import {
 } from "../../components/Input"
 import { ListBox, ListBoxItem } from "../../components/ListBox"
 import { Menu, MenuItem, MenuTrigger } from "../../components/Menu"
+import { MermaidDiagram } from "../../components/MermaidDiagram"
 import { Overlay } from "../../components/Overlay"
-import { Panel } from "../../components/Panel"
 import { Prose } from "../../components/Prose"
 import { RadioOption, RadioOptionGroup } from "../../components/Radio"
 import { Select, SelectItem } from "../../components/Select"
@@ -27,13 +35,19 @@ import { Switch } from "../../components/Switch"
 import {
 	Table,
 	TableBody,
+	TableCaption,
 	TableCell,
+	TableFooter,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../../components/Table"
 import { Text } from "../../components/Text"
+import { TabBar } from "../../components/TabBar"
 import { Thinking } from "../../components/Thinking"
+import { ActivityIndicator } from "../../components/ActivityIndicator"
+import { Crossfade } from "../../components/Crossfade"
+import { LoadingScreen } from "../../components/LoadingScreen"
 import { Tooltip } from "../../components/Tooltip"
 import {
 	Blockquote,
@@ -48,8 +62,8 @@ import {
 	P,
 	Ul,
 } from "../../components/Typography"
-import { Divider, Flex, Gap, Padding, Spacer } from "../../components/Utils"
-import { backgroundColor } from "../../tokens/background"
+import { Divider, Flex, Gap, Spacer } from "../../components/Utils"
+import { background, backgroundColor } from "../../tokens/background"
 import { borderColor } from "../../tokens/borders"
 import { colors, colorNames } from "../../tokens/colors"
 import { radius } from "../../tokens/radius"
@@ -62,23 +76,38 @@ const textSizes = ["2xs", "xs", "sm", "md", "lg", "xl"]
 const textWeights = ["400", "500", "600", "700"]
 const textColors = ["lowContrast", "highContrast", "accent", "onAccent"]
 const alignItems = ["start", "center", "end", "stretch", "baseline"]
+const justifyValues = ["start", "center", "end", "between", "around", "evenly"]
+const backgroundValues = Object.keys(background)
 
 export const iconNames = Object.keys(Icons)
 
 export const catalog: CatalogComponent[] = [
 	{
 		name: "Flex",
-		info: "Row or column flex layout. gap and p/px/py/pt/pb are spacing steps, not pixels.",
+		info: "Row or column flex layout. gap and padding/p/px/py/pt/pr/pb/pl are spacing steps, not pixels.",
 		attributes: [
 			{ name: "row", boolean: true, info: "Horizontal direction" },
 			{ name: "column", boolean: true, info: "Vertical direction" },
 			{ name: "gap", values: spaceValues, info: "Spacing scale step" },
+			{ name: "padding", values: spaceValues, info: "Padding on all sides (alias of p)" },
 			{ name: "p", values: spaceValues, info: "Padding on all sides" },
 			{ name: "px", values: spaceValues, info: "Horizontal padding" },
 			{ name: "py", values: spaceValues, info: "Vertical padding" },
 			{ name: "pt", values: spaceValues, info: "Padding top" },
+			{ name: "pr", values: spaceValues, info: "Padding right" },
 			{ name: "pb", values: spaceValues, info: "Padding bottom" },
-			{ name: "alignItems", values: alignItems },
+			{ name: "pl", values: spaceValues, info: "Padding left" },
+			{ name: "alignItems", values: alignItems, info: "Cross-axis alignment. Same tokens as flex()." },
+			{
+				name: "justifyContent",
+				values: justifyValues,
+				info: "Main-axis alignment. Same tokens as flex().",
+			},
+			{
+				name: "background",
+				values: backgroundValues,
+				info: "Surface token (app, element, accent, …).",
+			},
 			{
 				name: "border",
 				values: ["border", "outline", "accent"],
@@ -91,26 +120,13 @@ export const catalog: CatalogComponent[] = [
 			},
 			{
 				name: "radius",
-				values: ["none", "2xs", "xs", "sm", "md", "lg", "pill", "circle"],
+				values: ["none", "2xs", "xs", "sm", "md", "lg", "xl", "pill", "circle"],
 			},
 			{
 				name: "style",
 				object: true,
 				info: "React style object, e.g. {{ color: 'red' }}",
 			},
-		],
-	},
-	{
-		name: "Padding",
-		info: "Padding box using the spacing scale.",
-		attributes: [
-			{ name: "xy", values: spaceValues },
-			{ name: "x", values: spaceValues },
-			{ name: "y", values: spaceValues },
-			{ name: "top", values: spaceValues },
-			{ name: "right", values: spaceValues },
-			{ name: "bottom", values: spaceValues },
-			{ name: "left", values: spaceValues },
 		],
 	},
 	{
@@ -140,6 +156,7 @@ export const catalog: CatalogComponent[] = [
 			{ name: "fontWeight", values: textWeights },
 			{ name: "color", values: textColors },
 			{ name: "monospace", boolean: true },
+			{ name: "tabular", boolean: true },
 		],
 	},
 	{
@@ -222,25 +239,105 @@ export const catalog: CatalogComponent[] = [
 		],
 	},
 	{
+		name: "MermaidDiagram",
+		info: "Responsive Mermaid SVG themed with Maui colors. Pass Mermaid syntax in source.",
+		attributes: [
+			{ name: "source", info: "Required Mermaid diagram source" },
+			{ name: "aria-label", info: "Accessible diagram description" },
+			{ name: "className" },
+		],
+	},
+	{
 		name: "Button",
-		info: "Button. default is raised, quiet is borderless, primary fills with accent 9.",
+		info: "Button. default is raised, quiet adds a hover wash, text changes only color on hover, primary fills with accent 9. Works as a MenuTrigger child.",
 		html: true,
 		attributes: [
-			{ name: "variant", values: ["default", "quiet", "primary"] },
+			{ name: "size", values: ["default", "sm"] },
+			{ name: "variant", values: ["default", "quiet", "primary", "text"] },
 			{
 				name: "variantColor",
-				info: "Palette name (colors[name], primary step 9) or an opaque hex / rgb() fill. Quiet uses a 3.5% wash.",
+				info: "Palette name (colors[name], primary step 9) or an opaque hex / rgb() fill. Quiet stays transparent; color tints the label. Hover mixes Alpha[9] at 6%/9%.",
 				values: [...colorNames],
+				cssColor: true,
 			},
 			{ name: "aria-label" },
-			{ name: "disabled", boolean: true },
+			{ name: "isDisabled", boolean: true },
 		],
+	},
+	{
+		name: "TabBar",
+		info: "Controlled workspace tab bar. Selected tab uses the default outlined button; quiet tabs have separators.",
+		html: true,
+		attributes: [
+			{ name: "items", object: true },
+			{ name: "selectedId" },
+			{ name: "aria-label" },
+			{ name: "addLabel" },
+			{ name: "className" },
+		],
+	},
+	{
+		name: "Drawer",
+		info: "Start/end edge modal overlay. RAC isOpen / onOpenChange. Swipe toward the edge, tap scrim, or Escape to dismiss. Not a Sidebar prop.",
+		attributes: [
+			{ name: "isOpen", boolean: true },
+			{ name: "defaultOpen", boolean: true },
+			{ name: "side", values: ["start", "end"] },
+			{ name: "isDismissable", boolean: true, info: "Default true" },
+			{ name: "aria-label" },
+		],
+	},
+	{
+		name: "Dialog",
+		info: "Accessible outlined modal surface with a 10% scrim and reversible scale/fade motion. Compose DialogTitle, DialogBody, and DialogActions.",
+		attributes: [
+			{ name: "isOpen", boolean: true },
+			{ name: "defaultOpen", boolean: true },
+			{ name: "isDismissable", boolean: true, info: "Default true" },
+			{ name: "isKeyboardDismissDisabled", boolean: true },
+			{ name: "size", values: ["sm", "md", "lg"] },
+			{ name: "role", values: ["dialog", "alertdialog"] },
+			{ name: "aria-label" },
+		],
+	},
+	{
+		name: "DialogTitle",
+		info: "Required accessible dialog title.",
+		html: true,
+		attributes: [],
+	},
+	{
+		name: "DialogBody",
+		info: "Scrollable dialog content region.",
+		html: true,
+		attributes: [],
+	},
+	{
+		name: "DialogActions",
+		info: "End-aligned action row. Put secondary actions before the primary action.",
+		html: true,
+		attributes: [],
 	},
 	{
 		name: "Badge",
 		info: "Compact count or status label.",
 		html: true,
 		attributes: [],
+	},
+	{
+		name: "Banner",
+		info: "Persistent in-flow message. Inline or stacked actions; caller owns dismissal. Icons match the first line height.",
+		html: true,
+		attributes: [
+			{ name: "tone", values: ["neutral", "info", "success", "warning", "danger"] },
+			{ name: "layout", values: ["inline", "stacked"] },
+			{ name: "title" },
+			{ name: "icon" },
+			{ name: "actions" },
+			{ name: "onDismiss" },
+			{ name: "dismissLabel" },
+			{ name: "role", values: ["status", "alert"] },
+		],
 	},
 	{
 		name: "Avatar",
@@ -250,11 +347,6 @@ export const catalog: CatalogComponent[] = [
 			{ name: "size", values: textSizes },
 			{ name: "className" },
 		],
-	},
-	{
-		name: "Panel",
-		info: "Raised preview surface.",
-		attributes: [],
 	},
 	{
 		name: "Icons",
@@ -334,6 +426,88 @@ export const catalog: CatalogComponent[] = [
 		attributes: [{ name: "id" }],
 	},
 	{
+		name: "MenuTrigger",
+		info: "Exactly two children: a Maui Button or Pressable custom trigger, then Menu. Use trigger=\"contextMenu\" for right-click actions.",
+		attributes: [
+			{ name: "trigger", values: ["press", "longPress", "contextMenu"] },
+			{
+				name: "placement",
+				values: [
+					"bottom",
+					"bottom start",
+					"bottom end",
+					"top",
+					"top start",
+					"top end",
+					"left",
+					"right",
+				],
+			},
+		],
+	},
+	{
+		name: "Pressable",
+		info: "React Aria behavior for one custom interactive child. Adds no DOM wrapper or styling; the child must forward props and ref.",
+		attributes: [{ name: "isDisabled", boolean: true }],
+	},
+	{
+		name: "Menu",
+		info: "Popover collection of actions. Second child of MenuTrigger.",
+		attributes: [],
+	},
+	{
+		name: "MenuItem",
+		info: "One action in a Menu. id is the onAction key.",
+		attributes: [{ name: "id" }],
+	},
+	{
+		name: "Table",
+		info: "Accessible data table. Pair with TableHeader, TableHead, TableBody, TableRow, and TableCell.",
+		attributes: [{ name: "aria-label" }],
+	},
+	{
+		name: "TableHeader",
+		info: "Table column header row. Contains TableHead columns directly, not TableRow.",
+		attributes: [],
+	},
+	{
+		name: "TableHead",
+		info: "Column header. First identifying column should set isRowHeader. align is start, center, or end.",
+		attributes: [
+			{ name: "isRowHeader", boolean: true },
+			{ name: "align", values: ["start", "center", "end"] },
+			{ name: "id" },
+		],
+	},
+	{
+		name: "TableBody",
+		info: "Table rows. Renders an empty state when there are no rows.",
+		attributes: [],
+	},
+	{
+		name: "TableRow",
+		info: "Table row.",
+		attributes: [{ name: "id" }],
+	},
+	{
+		name: "TableCell",
+		info: "Table cell. align is start, center, or end.",
+		attributes: [
+			{ name: "align", values: ["start", "center", "end"] },
+			{ name: "colSpan" },
+		],
+	},
+	{
+		name: "TableFooter",
+		info: "Summary row group below the body.",
+		attributes: [],
+	},
+	{
+		name: "TableCaption",
+		info: "Caption below the table. Place after Table, often inside a figure.",
+		attributes: [],
+	},
+	{
 		name: "Tooltip",
 		info: "Hover tooltip.",
 		attributes: [{ name: "label" }],
@@ -344,10 +518,10 @@ export const catalog: CatalogComponent[] = [
 		attributes: [],
 	},
 	{
-		name: "Editor",
+		name: "MarkdownEditor",
 		info: "TipTap markdown surface. No chrome — wrap it for padding, elevation, and actions.",
 		attributes: [
-			{ name: "content", info: "Markdown string" },
+			{ name: "initialContent", info: "Initial Markdown; later changes are ignored" },
 			{ name: "placeholder" },
 			{ name: "size", values: ["sm", "md", "lg"] },
 			{ name: "editable", boolean: true },
@@ -364,17 +538,56 @@ export const catalog: CatalogComponent[] = [
 			{ name: "className" },
 		],
 	},
+	{
+		name: "ActivityIndicator",
+		info: "iOS-style spinner. Eight spokes with a fading tail rotate in 45° steps. Accent by default.",
+		attributes: [
+			{ name: "size", info: "CSS length, default 1em" },
+			{ name: "variant", values: ["accent", "primary", "muted"] },
+			{ name: "aria-label", info: "Default Loading" },
+			{ name: "className" },
+		],
+	},
+	{
+		name: "Crossfade",
+		info: "When contentKey changes, fades previous children out and the next in. Omit direction for an in-place opacity fade. Pass up, down, left, or right to slide. contentKey is required.",
+		attributes: [
+			{
+				name: "direction",
+				info: "Optional. Omit for in-place opacity fade. When set, outgoing view travels this way.",
+				values: ["up", "down", "left", "right"],
+			},
+			{ name: "contentKey", info: "Required identity of the current view" },
+			{ name: "className" },
+		],
+	},
+	{
+		name: "LoadingScreen",
+		info: "Full-size loading state. Optional progressLabel is shown in accent, medium weight, with trailing .... Accent ActivityIndicator. Delays 2s when no label at start; label changes Crossfade up.",
+		attributes: [
+			{
+				name: "progressLabel",
+				info: "Optional status under the activity indicator",
+			},
+			{ name: "className" },
+		],
+	},
 ]
 
 export const previewScope: Record<string, unknown> = {
 	Avatar,
 	Badge,
+	Banner,
 	Button,
 	Checkbox,
 	Code,
 	Kbd,
 	CodeBlock,
 	Dialog,
+	DialogActions,
+	DialogBody,
+	DialogTitle,
+	Drawer,
 	FuzzyString,
 	Icons,
 	NumberField,
@@ -386,9 +599,10 @@ export const previewScope: Record<string, unknown> = {
 	Menu,
 	MenuItem,
 	MenuTrigger,
+	Pressable,
+	MermaidDiagram,
 	Overlay,
-	Panel,
-	Editor,
+	MarkdownEditor,
 	Prose,
 	RadioOption,
 	RadioOptionGroup,
@@ -398,12 +612,18 @@ export const previewScope: Record<string, unknown> = {
 	Switch,
 	Table,
 	TableBody,
+	TableCaption,
 	TableCell,
+	TableFooter,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 	Text,
+	TabBar,
 	Thinking,
+	ActivityIndicator,
+	Crossfade,
+	LoadingScreen,
 	Tooltip,
 	Blockquote,
 	H1,
@@ -419,7 +639,6 @@ export const previewScope: Record<string, unknown> = {
 	Divider,
 	Flex,
 	Gap,
-	Padding,
 	Spacer,
 	colors,
 	backgroundColor,
@@ -429,13 +648,23 @@ export const previewScope: Record<string, unknown> = {
 }
 
 export const defaultJsx = `<Flex column gap={6}>
-  <Flex row gap={4} alignItems="center">
-    <Avatar name="Ada Lovelace" size="md" />
-    <Flex column gap={1}>
-      <Text size="lg" fontWeight={600}>Ada Lovelace</Text>
-      <Text size="sm" color="lowContrast">Mathematician</Text>
+  <Flex
+    row
+    gap={4}
+    alignItems="center"
+    justifyContent="between"
+    p={4}
+    background="element"
+    radius="lg"
+    shadow="subtle"
+  >
+    <Flex row gap={4} alignItems="center">
+      <Avatar name="Ada Lovelace" size="md" />
+      <Flex column gap={1}>
+        <Text size="lg" fontWeight={600}>Ada Lovelace</Text>
+        <Text size="sm" color="lowContrast">Mathematician</Text>
+      </Flex>
     </Flex>
-    <Spacer />
     <Badge>Active</Badge>
   </Flex>
   <Text color="lowContrast">
@@ -447,6 +676,17 @@ export const defaultJsx = `<Flex column gap={6}>
       Create
     </Button>
     <Button variant="quiet">Cancel</Button>
+    <MenuTrigger>
+      <Button variant="quiet" aria-label="Actions">
+        <Icons.DotsHorizontal />
+      </Button>
+      <Menu>
+        <MenuItem id="rename">Rename</MenuItem>
+        <MenuItem id="duplicate">Duplicate</MenuItem>
+        <MenuItem id="archive">Archive</MenuItem>
+        <MenuItem id="delete">Delete</MenuItem>
+      </Menu>
+    </MenuTrigger>
   </Flex>
 </Flex>
 `

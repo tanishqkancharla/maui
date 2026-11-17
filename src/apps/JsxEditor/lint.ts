@@ -3,7 +3,7 @@ import { syntaxTree } from "@codemirror/language"
 import { linter, type Diagnostic } from "@codemirror/lint"
 import { EditorState } from "@codemirror/state"
 import type { EditorView } from "@codemirror/view"
-import type { CatalogComponent } from "./DesignSystemApi"
+import type { AttributeCompletion, CatalogComponent } from "./DesignSystemApi"
 
 const reactAttrs = new Set(["key", "ref", "children"])
 
@@ -67,6 +67,19 @@ function quoteUnion(values: string[]): string {
 		.join(" | ")
 }
 
+function expectedType(attribute: AttributeCompletion): string {
+	const values = attribute.values ?? []
+	const union = quoteUnion(values)
+	if (attribute.cssColor) {
+		return `${union} | \`#\${string}\` | \`rgb(\${string}\``
+	}
+	return union
+}
+
+function isCssColor(value: string): boolean {
+	return value.startsWith("#") || value.startsWith("rgb")
+}
+
 function tagNameFromOpen(
 	state: EditorState,
 	from: number,
@@ -79,16 +92,17 @@ function tagNameFromOpen(
 
 function unwrapValue(raw: string): string {
 	const trimmed = raw.trim()
+	const inner =
+		trimmed.startsWith("{") && trimmed.endsWith("}")
+			? trimmed.slice(1, -1).trim()
+			: trimmed
 	if (
-		(trimmed.startsWith('"') && trimmed.endsWith('"')) ||
-		(trimmed.startsWith("'") && trimmed.endsWith("'"))
+		(inner.startsWith('"') && inner.endsWith('"')) ||
+		(inner.startsWith("'") && inner.endsWith("'"))
 	) {
-		return trimmed.slice(1, -1)
+		return inner.slice(1, -1)
 	}
-	if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
-		return trimmed.slice(1, -1).trim()
-	}
-	return trimmed
+	return inner
 }
 
 export type JsxDiagnostic = Diagnostic & { line: number }
@@ -112,6 +126,10 @@ function diagnostic(
 export function formatErrorBanner(message: string, line?: number): string {
 	const cleaned = message.replace(/\s*\(\d+:\d+\)\s*$/, "").trim()
 	return line ? `Line ${line}: ${cleaned}` : cleaned
+}
+
+export function formatTypeErrorBanners(errors: JsxDiagnostic[]): string[] {
+	return errors.map((error) => formatErrorBanner(error.message, error.line))
 }
 
 export function lineFromCompileError(message: string): number | undefined {
@@ -177,7 +195,7 @@ export function collectJsxDiagnostics(
 						state,
 						nameNode.from,
 						nameNode.to,
-						`Type 'true' is not assignable to type '${quoteUnion(known.values)}'.`,
+						`Type 'true' is not assignable to type '${expectedType(known)}'.`,
 					),
 				)
 				return
@@ -187,13 +205,14 @@ export function collectJsxDiagnostics(
 			const value = unwrapValue(raw)
 			if (value.length === 0) return
 			if (known.values.includes(value)) return
+			if (known.cssColor && isCssColor(value)) return
 
 			diagnostics.push(
 				diagnostic(
 					state,
 					valueNode.from,
 					valueNode.to,
-					`Type '${/^-?\d+$/.test(value) ? value : `"${value}"`}' is not assignable to type '${quoteUnion(known.values)}'.`,
+					`Type '${/^-?\d+$/.test(value) ? value : `"${value}"`}' is not assignable to type '${expectedType(known)}'.`,
 				),
 			)
 		})

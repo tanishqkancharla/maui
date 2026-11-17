@@ -4,12 +4,13 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
-	TableHeaderCell,
+	TableHeader,
 	TableRow,
 } from "../components/Table"
+import { Code } from "../components/Code"
 import { CodeBlock } from "../components/CodeBlock"
-import { Panel } from "../components/Panel"
-import { Prose } from "../components/Prose"
+import { Panel } from "./Panel"
+import { Prose, proseMaxWidth } from "../components/Prose"
 import { H2, H3, H4, P } from "../components/Typography"
 import { borderColor } from "../tokens/borders"
 import { colors } from "../tokens/colors"
@@ -21,35 +22,33 @@ export function SizingTokenPage() {
 			<H2>Sizing</H2>
 			<P>
 				Sizing tokens cover full-width layout and readable content width. Icon
-				box sizes live on the icon itself: <code>{`<Icons.Search size="sm" />`}</code>
+				box sizes live on the icon itself: <Code>{`<Icons.Search size="sm" />`}</Code>
 				.
 			</P>
 
 			<H3>Values</H3>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableHeaderCell>Name</TableHeaderCell>
-						<TableHeaderCell>Value</TableHeaderCell>
-						<TableHeaderCell>Use</TableHeaderCell>
-					</TableRow>
-				</TableHead>
+			<Table aria-label="Sizing tokens">
+				<TableHeader>
+					<TableHead isRowHeader>Name</TableHead>
+					<TableHead>Value</TableHead>
+					<TableHead>Use</TableHead>
+				</TableHeader>
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							<code>sizing.fullWidth</code>
+							<Code>sizing.fullWidth</Code>
 						</TableCell>
 						<TableCell>
-							<code>width: 100%</code>
+							<Code>width: 100%</Code>
 						</TableCell>
 						<TableCell>Fill the available container width.</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>
-							<code>sizing.contentWidth</code>
+							<Code>sizing.contentWidth</Code>
 						</TableCell>
 						<TableCell>
-							<code>max-width: 72ch</code>
+							<Code>max-width: {proseMaxWidth}</Code>
 						</TableCell>
 						<TableCell>Readable prose and content measure.</TableCell>
 					</TableRow>

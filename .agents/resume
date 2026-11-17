@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# This client-only project has no services, authentication, or runtime state to restore.
+:
