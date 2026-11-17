@@ -1,13 +1,9 @@
 import React from "react"
 import { transform } from "sucrase"
-import { previewScope } from "./catalog"
 
 export type EvaluateResult =
 	| { ok: true; element: React.ReactNode }
 	| { ok: false; error: string }
-
-const scopeNames = Object.keys(previewScope)
-const scopeValues = Object.values(previewScope)
 
 function cssNameToReact(name: string): string {
 	if (name.startsWith("--")) return name
@@ -64,11 +60,17 @@ function sanitizePreviewNode(node: React.ReactNode): React.ReactNode {
 	return changed ? React.cloneElement(node, next) : node
 }
 
-export function evaluateJsx(source: string): EvaluateResult {
+export function evaluateJsx(
+	source: string,
+	previewScope: Record<string, unknown>,
+): EvaluateResult {
 	const trimmed = source.trim()
 	if (trimmed.length === 0) {
 		return { ok: true, element: null }
 	}
+
+	const scopeNames = Object.keys(previewScope)
+	const scopeValues = Object.values(previewScope)
 
 	try {
 		const wrapped = `const __el = (<React.Fragment>\n${trimmed}\n</React.Fragment>);`

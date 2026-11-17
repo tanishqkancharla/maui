@@ -1,5 +1,13 @@
 import { describe, expect, test } from "vitest"
-import { collectJsxDiagnosticsFromSource, formatTypeErrorBanners } from "./lint"
+import { catalog } from "./catalog"
+import {
+	collectJsxDiagnosticsFromSource as collectFromSource,
+	formatTypeErrorBanners,
+} from "./lint"
+
+function collectJsxDiagnosticsFromSource(source: string) {
+	return collectFromSource(source, catalog)
+}
 
 describe("collectJsxDiagnosticsFromSource", () => {
 	test("accepts a Button palette variantColor", () => {

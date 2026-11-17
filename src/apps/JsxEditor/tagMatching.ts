@@ -103,7 +103,6 @@ const jsxTagMatching = ViewPlugin.fromClass(
 	{ decorations: (plugin) => plugin.decorations },
 )
 
-export const mauiBracketMatching = [
-	bracketMatching({ renderMatch }),
-	jsxTagMatching,
-]
+export function createJsxTagMatching() {
+	return [bracketMatching({ renderMatch }), jsxTagMatching]
+}

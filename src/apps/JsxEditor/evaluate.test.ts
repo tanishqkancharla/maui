@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest"
+import { previewScope } from "./catalog"
 import { evaluateJsx } from "./evaluate"
 
 describe("evaluateJsx", () => {
@@ -7,7 +8,7 @@ describe("evaluateJsx", () => {
 			evaluateJsx(`<Flex row alignItems="center" justifyContent="between" background="element" p={4} radius="lg">
   <Text>Left</Text>
   <Text>Right</Text>
-</Flex>`)
+</Flex>`, previewScope)
 		expect(result.ok).toBe(true)
 	})
 
@@ -16,7 +17,7 @@ describe("evaluateJsx", () => {
 			const result =
 				evaluateJsx(`<Banner layout="${layout}" tone="warning" title="Connection interrupted" actions={<Button>Reconnect</Button>}>
   Changes are saved on this device.
-</Banner>`)
+</Banner>`, previewScope)
 			expect(result.ok).toBe(true)
 		}
 	})

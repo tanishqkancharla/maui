@@ -1,4 +1,5 @@
 import { Pressable } from "react-aria-components"
+import type { AttributeCompletion, CatalogComponent } from "./DesignSystemApi"
 import { Avatar } from "../../components/Avatar"
 import { Badge } from "../../components/Badge"
 import { Banner } from "../../components/Banner"
@@ -68,23 +69,7 @@ import { colors, colorNames } from "../../tokens/colors"
 import { radius } from "../../tokens/radius"
 import { spacing } from "../../tokens/spacing"
 
-export type AttributeCompletion = {
-	name: string
-	info?: string
-	values?: string[]
-	boolean?: boolean
-	object?: boolean
-	/** Palette `values` plus opaque hex / `rgb()` fills, matching ButtonVariantColor. */
-	cssColor?: boolean
-}
-
-export type CatalogComponent = {
-	name: string
-	info: string
-	attributes: AttributeCompletion[]
-	html?: boolean
-	svg?: boolean
-}
+export type { AttributeCompletion, CatalogComponent }
 
 const spaceValues = ["1", "2", "3", "4", "6", "8", "12", "16"]
 const textSizes = ["2xs", "xs", "sm", "md", "lg", "xl"]

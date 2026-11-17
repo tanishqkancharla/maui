@@ -1,18 +1,17 @@
-import type { ThemePreference } from "../../theme/ThemeContext"
+import type { ThemePreference } from "./DesignSystemApi"
 
 /**
  * Shareable JSX editor state, stored in the URL hash as URL-safe base64 JSON.
  * Matches the Craft mermaid-editor pattern: `{ source, theme }`.
  *
  * URL-safe base64 is required so the fragment never starts with `#/`, which
- * the gallery treats as a legacy hash route (`src/index.tsx`).
+ * the Maui gallery treats as a legacy hash route.
  */
 export type EditorUrlState = {
 	source: string
 	theme?: ThemePreference
 }
 
-export const editorPath = "/editor"
 export const editorUrlDebounceMs = 300
 
 const themePreferences = new Set<ThemePreference>(["system", "light", "dark"])
@@ -87,8 +86,8 @@ export function readEditorUrlState(): EditorUrlState | null {
 	return decodeEditorUrlState(window.location.hash)
 }
 
-export function writeEditorUrlState(state: EditorUrlState) {
-	if (window.location.pathname !== editorPath) {
+export function writeEditorUrlState(path: string, state: EditorUrlState) {
+	if (window.location.pathname !== path) {
 		return
 	}
 

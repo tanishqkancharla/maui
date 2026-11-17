@@ -1,5 +1,6 @@
 import { style, useStyles } from "purse-styles"
 import { JsxEditor } from "../apps/JsxEditor/JsxEditor"
+import { useMauiDesignSystem } from "../apps/JsxEditor/mauiDesignSystem"
 import { Kbd } from "../components/Code"
 import { Text } from "../components/Text"
 import { flex } from "../tokens/layout"
@@ -8,6 +9,7 @@ import { spacing } from "../tokens/spacing"
 export function JsxEditorPage() {
 	const className = useStyles(pageClass)
 	const hintClassName = useStyles(hintClass)
+	const designSystem = useMauiDesignSystem()
 
 	return (
 		<div className={className}>
@@ -17,7 +19,7 @@ export function JsxEditorPage() {
 					autocomplete. Press <Kbd>⌘</Kbd> <Kbd>S</Kbd> to format.
 				</Text>
 			</div>
-			<JsxEditor />
+			<JsxEditor designSystem={designSystem} />
 		</div>
 	)
 }

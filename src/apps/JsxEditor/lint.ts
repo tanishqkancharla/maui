@@ -3,8 +3,7 @@ import { syntaxTree } from "@codemirror/language"
 import { linter, type Diagnostic } from "@codemirror/lint"
 import { EditorState } from "@codemirror/state"
 import type { EditorView } from "@codemirror/view"
-import { isCssColor } from "../../components/Button"
-import { catalog, type AttributeCompletion, type CatalogComponent } from "./catalog"
+import type { AttributeCompletion, CatalogComponent } from "./DesignSystemApi"
 
 const reactAttrs = new Set(["key", "ref", "children"])
 
@@ -46,15 +45,15 @@ const svgAttrs = new Set([
 	"aria-label",
 ])
 
-function catalogItem(tagName: string): CatalogComponent | undefined {
+function catalogItem(
+	catalog: CatalogComponent[],
+	tagName: string,
+): CatalogComponent | undefined {
 	const name = tagName.startsWith("Icons.") ? "Icons" : tagName
 	return catalog.find((entry) => entry.name === name)
 }
 
-function isPassthroughName(
-	item: CatalogComponent,
-	name: string,
-): boolean {
+function isPassthroughName(item: CatalogComponent, name: string): boolean {
 	if (reactAttrs.has(name)) return true
 	if (/^(aria-|data-|on)[A-Za-z]/.test(name)) return true
 	if (item.html && htmlAttrs.has(name)) return true
@@ -63,7 +62,9 @@ function isPassthroughName(
 }
 
 function quoteUnion(values: string[]): string {
-	return values.map((value) => (/^-?\d+$/.test(value) ? value : `"${value}"`)).join(" | ")
+	return values
+		.map((value) => (/^-?\d+$/.test(value) ? value : `"${value}"`))
+		.join(" | ")
 }
 
 function expectedType(attribute: AttributeCompletion): string {
@@ -75,7 +76,15 @@ function expectedType(attribute: AttributeCompletion): string {
 	return union
 }
 
-function tagNameFromOpen(state: EditorState, from: number, to: number): string | null {
+function isCssColor(value: string): boolean {
+	return value.startsWith("#") || value.startsWith("rgb")
+}
+
+function tagNameFromOpen(
+	state: EditorState,
+	from: number,
+	to: number,
+): string | null {
 	const text = state.sliceDoc(from, to)
 	const match = /^<\/?([A-Za-z][\w.]*)/.exec(text)
 	return match?.[1] ?? null
@@ -108,7 +117,7 @@ function diagnostic(
 		from,
 		to,
 		severity: "error",
-		source: "maui",
+		source: "jsx-editor",
 		message,
 		line: state.doc.lineAt(from).number,
 	}
@@ -129,7 +138,10 @@ export function lineFromCompileError(message: string): number | undefined {
 	return Math.max(1, Number(match[1]) - 1)
 }
 
-export function collectJsxDiagnostics(state: EditorState): JsxDiagnostic[] {
+export function collectJsxDiagnostics(
+	state: EditorState,
+	catalog: CatalogComponent[],
+): JsxDiagnostic[] {
 	const diagnostics: JsxDiagnostic[] = []
 
 	syntaxTree(state)
@@ -149,7 +161,7 @@ export function collectJsxDiagnostics(state: EditorState): JsxDiagnostic[] {
 			const tagName = tagNameFromOpen(state, tag.from, tag.to)
 			if (!tagName || tagName === tagName.toLowerCase()) return
 
-			const item = catalogItem(tagName)
+			const item = catalogItem(catalog, tagName)
 			if (!item) return
 
 			const nameNode =
@@ -175,7 +187,8 @@ export function collectJsxDiagnostics(state: EditorState): JsxDiagnostic[] {
 			if (!known?.values || known.values.length === 0) return
 
 			const valueNode =
-				node.node.getChild("JSXAttributeValue") ?? node.node.getChild("JSXEscape")
+				node.node.getChild("JSXAttributeValue") ??
+				node.node.getChild("JSXEscape")
 			if (!valueNode) {
 				diagnostics.push(
 					diagnostic(
@@ -207,16 +220,21 @@ export function collectJsxDiagnostics(state: EditorState): JsxDiagnostic[] {
 	return diagnostics
 }
 
-export function collectJsxDiagnosticsFromSource(source: string): JsxDiagnostic[] {
+export function collectJsxDiagnosticsFromSource(
+	source: string,
+	catalog: CatalogComponent[],
+): JsxDiagnostic[] {
 	const state = EditorState.create({
 		doc: source,
 		extensions: [javascript({ jsx: true, typescript: true })],
 	})
-	return collectJsxDiagnostics(state)
+	return collectJsxDiagnostics(state, catalog)
 }
 
-export function lintJsx(view: EditorView): Diagnostic[] {
-	return collectJsxDiagnostics(view.state)
+export function createJsxLinter(catalog: CatalogComponent[]) {
+	return linter(
+		(view: EditorView): Diagnostic[] =>
+			collectJsxDiagnostics(view.state, catalog),
+		{ delay: 150 },
+	)
 }
-
-export const mauiJsxLinter = linter(lintJsx, { delay: 150 })

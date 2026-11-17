@@ -1,12 +1,5 @@
-import { PurseProvider } from "purse-styles"
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, type ReactNode } from "react"
 import { createRoot, type Root } from "react-dom/client"
-import { UIDatabaseProvider } from "../../UIDatabase/UIDatabase"
-import {
-	ThemeContext,
-	useTheme,
-	type ThemeContextValue,
-} from "../../theme/ThemeContext"
 import {
 	beginPreviewErrorGuard,
 	dismissDevOverlays,
@@ -67,33 +60,20 @@ class PreviewErrorBoundary extends React.Component<
 	}
 }
 
-function IsolatedPreviewProviders(props: {
-	theme: ThemeContextValue
-	children: React.ReactNode
-}) {
-	return (
-		<ThemeContext.Provider value={props.theme}>
-			<PurseProvider>
-				<UIDatabaseProvider>{props.children}</UIDatabaseProvider>
-			</PurseProvider>
-		</ThemeContext.Provider>
-	)
-}
-
 export function PreviewIsland(props: {
 	className?: string
 	resetKey: string
 	fallback: React.ReactNode
 	onError: (error: Error | null) => void
 	onReady: () => void
+	Providers: (props: { children?: ReactNode }) => ReactNode
 	children: React.ReactNode
 }) {
-	const theme = useTheme()
 	const hostRef = useRef<HTMLDivElement>(null)
 	const rootRef = useRef<Root | null>(null)
 	const recoveringRef = useRef(false)
-	const latestRef = useRef({ props, theme })
-	latestRef.current = { props, theme }
+	const latestRef = useRef(props)
+	latestRef.current = props
 
 	useEffect(() => {
 		const host = hostRef.current
@@ -104,18 +84,19 @@ export function PreviewIsland(props: {
 			const root = rootRef.current
 			const latest = latestRef.current
 			if (!root) return
+			const Providers = latest.Providers
 			beginPreviewErrorGuard()
 			root.render(
-				<IsolatedPreviewProviders theme={latest.theme}>
+				<Providers>
 					<PreviewErrorBoundary
-						resetKey={latest.props.resetKey}
-						fallback={latest.props.fallback}
-						onError={latest.props.onError}
-						onReady={latest.props.onReady}
+						resetKey={latest.resetKey}
+						fallback={latest.fallback}
+						onError={latest.onError}
+						onReady={latest.onReady}
 					>
 						{node}
 					</PreviewErrorBoundary>
-				</IsolatedPreviewProviders>,
+				</Providers>,
 			)
 			endPreviewErrorGuardSoon()
 		}
@@ -129,18 +110,18 @@ export function PreviewIsland(props: {
 			}
 			rootRef.current = createRoot(mountNode, {
 				onUncaughtError(error) {
-					latestRef.current.props.onError(toPreviewError(error))
+					latestRef.current.onError(toPreviewError(error))
 					dismissDevOverlays()
 					if (recoveringRef.current) return
 					recoveringRef.current = true
 					requestAnimationFrame(() => {
 						remount()
-						renderNode(latestRef.current.props.fallback)
+						renderNode(latestRef.current.fallback)
 						recoveringRef.current = false
 					})
 				},
 				onCaughtError(error) {
-					latestRef.current.props.onError(toPreviewError(error))
+					latestRef.current.onError(toPreviewError(error))
 					dismissDevOverlays()
 				},
 				onRecoverableError() {
@@ -150,7 +131,7 @@ export function PreviewIsland(props: {
 		}
 
 		remount()
-		renderNode(latestRef.current.props.children)
+		renderNode(latestRef.current.children)
 
 		return () => {
 			try {
@@ -165,9 +146,10 @@ export function PreviewIsland(props: {
 	useEffect(() => {
 		const root = rootRef.current
 		if (!root) return
+		const Providers = props.Providers
 		beginPreviewErrorGuard()
 		root.render(
-			<IsolatedPreviewProviders theme={theme}>
+			<Providers>
 				<PreviewErrorBoundary
 					resetKey={props.resetKey}
 					fallback={props.fallback}
@@ -176,16 +158,16 @@ export function PreviewIsland(props: {
 				>
 					{props.children}
 				</PreviewErrorBoundary>
-			</IsolatedPreviewProviders>,
+			</Providers>,
 		)
 		endPreviewErrorGuardSoon()
 	}, [
+		props.Providers,
 		props.children,
 		props.fallback,
 		props.onError,
 		props.onReady,
 		props.resetKey,
-		theme,
 	])
 
 	return <div ref={hostRef} className={props.className} />

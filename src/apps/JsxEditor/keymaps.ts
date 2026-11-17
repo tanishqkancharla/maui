@@ -6,7 +6,7 @@ import { deleteLine } from "@codemirror/commands"
 import { Prec } from "@codemirror/state"
 import { keymap } from "@codemirror/view"
 
-export const mauiEditorKeymap = Prec.highest(
+export const editorKeymap = Prec.highest(
 	keymap.of([
 		{ key: "Ctrl-n", run: moveCompletionSelection(true) },
 		{ key: "Ctrl-p", run: moveCompletionSelection(false) },
