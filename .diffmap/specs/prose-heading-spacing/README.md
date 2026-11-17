@@ -1,6 +1,6 @@
 # Prose heading spacing modeled on Tailwind Typography
 
-Markdown that Maui renders, such as an assistant reply, puts the same 10px above a heading as above any paragraph, so sections run together. This proposal gives every prose surface the vertical rhythm of Tailwind Typography's `prose` classes, expressed in Maui spacing tokens. It is implemented in [PR #67](https://github.com/tanishqkancharla/maui/pull/67) for your review. Nothing is merged.
+Markdown that Maui renders, such as an assistant reply, puts the same 10px above a heading as above any paragraph, so sections run together. This proposal gives every prose surface the vertical rhythm of Tailwind Typography's `prose` classes, expressed in Maui spacing tokens. It is implemented in [PR #79](https://github.com/tanishqkancharla/maui/pull/79) for your review. Nothing is merged.
 
 ## Problem
 
