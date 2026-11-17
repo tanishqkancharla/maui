@@ -22,6 +22,7 @@ files=(
 	prettify.ts
 	previewOverlay.ts
 	tagMatching.ts
+	urlState.ts
 	README.md
 )
 

@@ -28,6 +28,8 @@ export function App() {
 | `resolvedTheme` / `syntax` / `chrome` | CodeMirror theme + pane CSS |
 | `Chrome` | Header label and Format control (use your DS buttons) |
 | `PreviewProviders` | Wrap the isolated preview React root (theme, style runtime, focus DB) |
+| `urlStatePath` (optional) | Mirror `{ source, theme }` into the URL hash on this path for shareable links |
+| `themePreference` (optional) | Read and restore the theme choice carried by a shared link |
 
 Maui adapter sketch:
 
@@ -37,4 +39,4 @@ Maui adapter sketch:
 
 ## Peers
 
-`react`, `react-dom`, `@uiw/react-codemirror`, `@codemirror/*`, `@lezer/highlight`, `sucrase`, `prettier`.
+`react`, `react-dom`, `@uiw/react-codemirror`, `@codemirror/*`, `@lezer/highlight`, `sucrase`, `prettier`, `lodash`.
