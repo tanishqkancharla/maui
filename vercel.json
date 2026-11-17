@@ -4,5 +4,16 @@
 	"buildCommand": "npm run build",
 	"outputDirectory": "website",
 	"cleanUrls": true,
+	"headers": [
+		{
+			"source": "/previews(.*)",
+			"headers": [
+				{
+					"key": "Content-Security-Policy",
+					"value": "frame-ancestors 'self' http://127.0.0.1:* http://localhost:* https://www.diffmap.dev"
+				}
+			]
+		}
+	],
 	"rewrites": [{ "source": "/(.*)", "destination": "/index" }]
 }

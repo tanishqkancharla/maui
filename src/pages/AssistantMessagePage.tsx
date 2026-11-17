@@ -10,6 +10,7 @@ import {
 	AssistantMessageDemo,
 } from "../patterns/AssistantMessage"
 import { flex } from "../tokens/layout"
+import { proseSpacingSample } from "./ProseSpacingPlayground"
 
 const streamingSample = `## Streaming demo
 
@@ -84,6 +85,15 @@ export function AssistantMessagePage() {
 				) : (
 					<P>Press replay to stream a sample reply.</P>
 				)}
+			</Panel>
+
+			<H3>Long-form reply</H3>
+			<P>
+				Every heading level with paragraphs, lists, code, and a table, to check
+				the vertical rhythm between blocks.
+			</P>
+			<Panel data-testid="long-form-reply">
+				<AssistantMessage>{proseSpacingSample}</AssistantMessage>
 			</Panel>
 		</Prose>
 	)

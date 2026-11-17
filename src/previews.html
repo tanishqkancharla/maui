@@ -1,0 +1,25 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<title>Maui previews</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="robots" content="noindex" />
+		<script>
+			document.documentElement.dataset.theme = window.matchMedia(
+				"(prefers-color-scheme: dark)",
+			).matches
+				? "dark"
+				: "light"
+			document.documentElement.style.colorScheme =
+				document.documentElement.dataset.theme
+			document.documentElement.dataset.scale = "medium"
+		</script>
+		<script src="./previews.tsx" type="module" defer></script>
+	</head>
+
+	<body>
+		<div id="root"></div>
+	</body>
+</html>
