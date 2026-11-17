@@ -9,7 +9,7 @@ The [cover](README.md) states the problem. This page shows where each pixel of e
 - **Cap box** (cap height down to baseline): what the eye centers on.
 - The three centers differ by font. Descender and accent space make the content area lopsided around the caps.
 
-Live, in your browser's font: gray = line box, blue = content area, red outline = cap box.
+Live in the local viewer, in your browser's font: gray = line box, blue = content area, red outline = cap box.
 
 ```html
 <style>
@@ -26,6 +26,10 @@ Live, in your browser's font: gray = line box, blue = content area, red outline 
   <div class="ita-anat-key">dashed = line box center<br>left: content area (blue)<br>right: cap box (red), via <code>text-box</code></div>
 </div>
 ```
+
+The hosted viewer can't run the live demo. Captured in Chromium with Noto Sans:
+
+![Line box, content area and cap box](media/why-its-hard/live-anatomy.png)
 
 ## Cause 1: boxes taller than one line (the big one)
 

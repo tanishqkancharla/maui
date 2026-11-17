@@ -2,7 +2,8 @@
 
 [Why it's hard](01-why-its-hard.md) named the causes: boxes taller than a line, font metrics, and approximate icon tricks. This page shows how other systems handle each one.
 
-- **Live demos** render in your browser's font. The red line marks the middle of the capitals; it needs CSS `text-box`, so it's off in browsers without it.
+- **Live demos** run in the local viewer (`npx product-doc serve`) in your browser's font. diffmap.dev shows a Chromium capture instead.
+- The red line marks the middle of the capitals. It needs CSS `text-box`, so it's off in browsers without it.
 - Snippets are trimmed to the alignment part.
 
 ## At a glance
@@ -82,6 +83,10 @@ Live: a centered row (today's default) vs cap-centered text + a `1lh` icon box (
 </div>
 ```
 
+The hosted viewer can't run the live demo. Captured in Chromium with Noto Sans:
+
+![Centered row vs 1lh box + capCenter](media/other-design-systems/text-box-demo.png)
+
 ```css
 .text {
   @supports (text-box: trim-both cap alphabetic) {
@@ -128,6 +133,10 @@ Live, with two lines:
 </div>
 ```
 
+The hosted viewer can't run the live demo. Captured in Chromium with Noto Sans:
+
+![items-center + 28px button vs items-start + 1lh button](media/other-design-systems/tailwind-demo.png)
+
 ## Adobe Spectrum: offset tokens
 
 - Each control publishes how far its text and icon sit from its top edge, per size.
@@ -166,6 +175,10 @@ Live, with two lines:
   <div class="ita-va-row"><span class="ita-va-cap">H</span>Press <svg style="vertical-align:calc((1cap - 1em) / 2)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="7.25"/></svg> to record <code>(1cap − 1em) / 2 (proposed)</code></div>
 </div>
 ```
+
+The hosted viewer can't run the live demo. Captured in Chromium with Noto Sans:
+
+![baseline, middle, text-bottom, and the proposed cap-center vertical-align](media/other-design-systems/vertical-align-demo.png)
 
 ## Atlassian and Polaris: box conventions
 
