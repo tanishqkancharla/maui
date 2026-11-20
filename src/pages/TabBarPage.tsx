@@ -36,9 +36,8 @@ const initialTabs: TabBarItem[] = [
 		isDraggable: true,
 	},
 	{
-		id: "github",
+		id: "sandbox",
 		label: "Use sandbox",
-		icon: <Icons.Github />,
 		isClosable: true,
 		isDraggable: true,
 	},

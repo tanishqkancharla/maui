@@ -38,6 +38,16 @@ Use primary for an emphasized action, default for a raised neutral control, quie
 
 Prefer plain labels (optionally alongside icons) so Button controls their foreground; see the [composition rule](../design_conventions.md#composition).
 
+Custom SVGs work as children too. Keep the SVG beside the label (without a wrapping element) so Button's icon spacing applies; see [brand icon guidance](icons.md) for sign-in buttons.
+
+```tsx
+// BrandSvg is a local component rendering an SVG obtained from SVGL.
+<Button onPress={signIn}>
+  <BrandSvg width={16} height={16} aria-hidden="true" focusable="false" />
+  Continue with Google
+</Button>
+```
+
 The text variant removes horizontal spacing and surface chrome while keeping the control height and focus ring. Use it when an action should align directly with surrounding text; hover changes the foreground, not the fill.
 
 `useButton(props)` is exported for custom focus-tracked buttons; prefer `Button`.
